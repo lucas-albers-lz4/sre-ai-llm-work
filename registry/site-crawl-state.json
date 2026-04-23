@@ -166,48 +166,70 @@
         "filed_at": "2026-04-22T06:37:39.817412+00:00"
       },
       "https://github.github.com/gh-aw/patterns/research-plan-assign-ops": {
-        "status": "pending",
-        "screened_at": "2026-04-14T08:08:07.240726+00:00"
+        "status": "filed",
+        "screened_at": "2026-04-14T08:08:07.240726+00:00",
+        "issue": 351,
+        "filed_at": "2026-04-23T06:37:16.435476+00:00"
       },
       "https://github.github.com/gh-aw/patterns/side-repo-ops": {
-        "status": "pending",
-        "screened_at": "2026-04-14T08:08:07.240727+00:00"
+        "status": "filed",
+        "screened_at": "2026-04-14T08:08:07.240727+00:00",
+        "issue": 352,
+        "filed_at": "2026-04-23T06:37:18.818075+00:00"
       },
       "https://github.github.com/gh-aw/patterns/spec-ops": {
-        "status": "pending",
-        "screened_at": "2026-04-14T08:08:07.240729+00:00"
+        "status": "filed",
+        "screened_at": "2026-04-14T08:08:07.240729+00:00",
+        "issue": 353,
+        "filed_at": "2026-04-23T06:37:20.809514+00:00"
       },
       "https://github.github.com/gh-aw/patterns/task-ops": {
-        "status": "pending",
-        "screened_at": "2026-04-14T08:08:07.240730+00:00"
+        "status": "filed",
+        "screened_at": "2026-04-14T08:08:07.240730+00:00",
+        "issue": 354,
+        "filed_at": "2026-04-23T06:37:22.738669+00:00"
       },
       "https://github.github.com/gh-aw/patterns/trial-ops": {
-        "status": "pending",
-        "screened_at": "2026-04-14T08:08:07.240732+00:00"
+        "status": "filed",
+        "screened_at": "2026-04-14T08:08:07.240732+00:00",
+        "issue": 355,
+        "filed_at": "2026-04-23T06:37:24.374293+00:00"
       },
       "https://github.github.com/gh-aw/patterns/workqueue-ops": {
-        "status": "pending",
-        "screened_at": "2026-04-14T08:08:07.240733+00:00"
+        "status": "filed",
+        "screened_at": "2026-04-14T08:08:07.240733+00:00",
+        "issue": 356,
+        "filed_at": "2026-04-23T06:37:26.121660+00:00"
       },
       "https://github.github.com/gh-aw/reference/assign-to-copilot": {
-        "status": "pending",
-        "screened_at": "2026-04-14T08:08:07.240735+00:00"
+        "status": "filed",
+        "screened_at": "2026-04-14T08:08:07.240735+00:00",
+        "issue": 357,
+        "filed_at": "2026-04-23T06:37:27.927434+00:00"
       },
       "https://github.github.com/gh-aw/reference/auth": {
-        "status": "pending",
-        "screened_at": "2026-04-14T08:08:07.240736+00:00"
+        "status": "filed",
+        "screened_at": "2026-04-14T08:08:07.240736+00:00",
+        "issue": 358,
+        "filed_at": "2026-04-23T06:37:29.716455+00:00"
       },
       "https://github.github.com/gh-aw/reference/auth-projects": {
-        "status": "pending",
-        "screened_at": "2026-04-14T08:08:07.240737+00:00"
+        "status": "filed",
+        "screened_at": "2026-04-14T08:08:07.240737+00:00",
+        "issue": 359,
+        "filed_at": "2026-04-23T06:37:31.490640+00:00"
       },
       "https://github.github.com/gh-aw/reference/cache-memory": {
-        "status": "pending",
-        "screened_at": "2026-04-14T08:08:07.240739+00:00"
+        "status": "filed",
+        "screened_at": "2026-04-14T08:08:07.240739+00:00",
+        "issue": 360,
+        "filed_at": "2026-04-23T06:37:33.193933+00:00"
       },
       "https://github.github.com/gh-aw/reference/checkout": {
-        "status": "pending",
-        "screened_at": "2026-04-14T08:08:07.240740+00:00"
+        "status": "filed",
+        "screened_at": "2026-04-14T08:08:07.240740+00:00",
+        "issue": 361,
+        "filed_at": "2026-04-23T06:37:34.892770+00:00"
       },
       "https://github.github.com/gh-aw/reference/command-triggers": {
         "status": "pending",
@@ -430,6 +452,6 @@
         "screened_at": "2026-04-22T06:37:17.023732+00:00"
       }
     },
-    "last_scan": "2026-04-22T06:37:17.023751+00:00"
+    "last_scan": "2026-04-23T06:37:15.280728+00:00"
   }
 }
