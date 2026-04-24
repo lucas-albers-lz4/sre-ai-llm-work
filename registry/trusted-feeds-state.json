@@ -14,11 +14,14 @@
         "https://simonwillison.net/2026/Apr/14/cybersecurity-proof-of-work/#atom-everything",
         "https://simonwillison.net/2026/Apr/14/replace-token-based-csrf/#atom-everything",
         "https://simonwillison.net/2026/Apr/14/trusted-access-openai/#atom-everything",
+        "https://simonwillison.net/2026/Apr/15/datasette-export-database/#atom-everything",
         "https://simonwillison.net/2026/Apr/15/datasette-ports/#atom-everything",
         "https://simonwillison.net/2026/Apr/15/gemini-31-flash-tts/#atom-everything",
         "https://simonwillison.net/2026/Apr/15/gemini-flash-tts/#atom-everything",
         "https://simonwillison.net/2026/Apr/15/juicy-main/#atom-everything",
         "https://simonwillison.net/2026/Apr/15/kyle-kingsbury/#atom-everything",
+        "https://simonwillison.net/2026/Apr/16/datasette-io-preview/#atom-everything",
+        "https://simonwillison.net/2026/Apr/16/qwen-beats-opus/#atom-everything",
         "https://simonwillison.net/2026/Apr/2/gemma-4/#atom-everything",
         "https://simonwillison.net/2026/Apr/2/lennys-podcast/#atom-everything",
         "https://simonwillison.net/2026/Apr/2/llm-gemini/#atom-everything",
@@ -51,7 +54,7 @@
         "https://simonwillison.net/2026/Apr/9/asgi-gzip/#atom-everything",
         "https://simonwillison.net/2026/Apr/9/github-repo-size/#atom-everything"
       ],
-      "last_scan": "2026-04-23T06:35:22.738994+00:00"
+      "last_scan": "2026-04-24T06:36:27.516116+00:00"
     },
     "armin-ronacher": {
       "seen": [
@@ -64,10 +67,11 @@
         "https://lucumr.pocoo.org/2026/3/20/some-things-just-take-time/",
         "https://lucumr.pocoo.org/2026/3/5/theseus/",
         "https://lucumr.pocoo.org/2026/4/11/the-center-has-a-bias/",
+        "https://lucumr.pocoo.org/2026/4/23/equity-for-europeans/",
         "https://lucumr.pocoo.org/2026/4/4/absurd-in-production/",
         "https://lucumr.pocoo.org/2026/4/8/mario-and-earendil/"
       ],
-      "last_scan": "2026-04-23T06:35:24.832699+00:00"
+      "last_scan": "2026-04-24T06:36:30.519662+00:00"
     },
     "github-changelog": {
       "seen": [
@@ -104,7 +108,7 @@
         "69d7c7e5f4b5380001c805e3",
         "69da3347f4b5380001c807c4"
       ],
-      "last_scan": "2026-04-23T06:35:31.801312+00:00"
+      "last_scan": "2026-04-24T06:36:38.317363+00:00"
     },
     "github-copilot": {
       "seen": [
@@ -126,9 +130,12 @@
         "https://github.blog/changelog/2026-04-20-c-code-intelligence-for-github-copilot-cli-in-public-preview",
         "https://github.blog/changelog/2026-04-20-changes-to-github-copilot-plans-for-individuals",
         "https://github.blog/changelog/2026-04-22-bring-your-own-language-model-key-in-vs-code-now-available",
-        "https://github.blog/changelog/2026-04-22-copilot-code-review-user-counts-now-aggregate-in-usage-metrics-api"
+        "https://github.blog/changelog/2026-04-22-copilot-code-review-user-counts-now-aggregate-in-usage-metrics-api",
+        "https://github.blog/changelog/2026-04-22-github-copilot-for-jira-our-latest-enhancements",
+        "https://github.blog/changelog/2026-04-22-pausing-new-self-serve-signups-for-github-copilot-business",
+        "https://github.blog/changelog/2026-04-22-upcoming-change-to-copilot-usage-metrics-report-download-urls"
       ],
-      "last_scan": "2026-04-23T06:35:29.513005+00:00"
+      "last_scan": "2026-04-24T06:36:35.833660+00:00"
     },
     "anthropic-engineering": {
       "seen": [
@@ -154,7 +161,7 @@
         "https://www.anthropic.com/engineering/swe-bench-sonnet",
         "https://www.anthropic.com/engineering/writing-tools-for-agents"
       ],
-      "last_scan": "2026-04-23T06:35:33.829381+00:00"
+      "last_scan": "2026-04-24T06:36:40.345022+00:00"
     },
     "claude-blog": {
       "seen": [
@@ -196,6 +203,7 @@
         "https://claude.com/blog/claude-for-chrome",
         "https://claude.com/blog/claude-for-enterprise",
         "https://claude.com/blog/claude-managed-agents",
+        "https://claude.com/blog/claude-managed-agents-memory",
         "https://claude.com/blog/claude-now-available-in-microsoft-365-copilot",
         "https://claude.com/blog/claude-on-google-cloud-fedramp-high",
         "https://claude.com/blog/claude-platform-compliance-api",
@@ -206,6 +214,7 @@
         "https://claude.com/blog/common-workflow-patterns-for-ai-agents-and-when-to-use-them",
         "https://claude.com/blog/complete-guide-to-building-skills-for-claude",
         "https://claude.com/blog/connectors-directory",
+        "https://claude.com/blog/connectors-for-everyday-life",
         "https://claude.com/blog/context-management",
         "https://claude.com/blog/contribution-metrics",
         "https://claude.com/blog/cowork-for-enterprise",
@@ -243,6 +252,7 @@
         "https://claude.com/blog/making-claude-a-better-electrical-engineer",
         "https://claude.com/blog/max-plan",
         "https://claude.com/blog/meet-the-winners-of-our-built-with-opus-4-6-claude-code-hackathon",
+        "https://claude.com/blog/memory",
         "https://claude.com/blog/message-batches-api",
         "https://claude.com/blog/multi-agent-coordination-patterns",
         "https://claude.com/blog/optimize-code-performance-quickly",
@@ -277,7 +287,7 @@
         "https://claude.com/blog/workspaces",
         "https://claude.com/blog/your-thinking-partner"
       ],
-      "last_scan": "2026-04-23T06:35:37.351725+00:00"
+      "last_scan": "2026-04-24T06:36:44.442329+00:00"
     },
     "cursor-blog": {
       "seen": [
@@ -306,7 +316,7 @@
         "https://cursor.com/blog/third-era",
         "https://cursor.com/blog/warp-decode"
       ],
-      "last_scan": "2026-04-23T06:35:40.475665+00:00"
+      "last_scan": "2026-04-24T06:36:46.618192+00:00"
     },
     "the-batch": {
       "seen": [
@@ -677,7 +687,7 @@
         "https://www.deeplearning.ai/the-batch/issue-xv/",
         "https://www.deeplearning.ai/the-batch/issue-xvi/"
       ],
-      "last_scan": "2026-04-23T06:35:42.579590+00:00"
+      "last_scan": "2026-04-24T06:36:48.797743+00:00"
     },
     "github-agentic-workflows": {
       "seen": [
@@ -703,8 +713,8 @@
         "https://github.github.com/gh-aw/blog/2026-04-13-weekly-update/",
         "https://github.github.com/gh-aw/blog/2026-04-20-weekly-update/"
       ],
-      "last_scan": "2026-04-23T06:35:44.708248+00:00"
+      "last_scan": "2026-04-24T06:36:51.009805+00:00"
     }
   },
-  "last_scan": "2026-04-23T06:35:44.708261+00:00"
+  "last_scan": "2026-04-24T06:36:51.009817+00:00"
 }
