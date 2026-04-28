@@ -34,6 +34,9 @@
         "https://simonwillison.net/2026/Apr/2/march-newsletter/#atom-everything",
         "https://simonwillison.net/2026/Apr/20/claude-token-counts/#atom-everything",
         "https://simonwillison.net/2026/Apr/20/datasette-sql/#atom-everything",
+        "https://simonwillison.net/2026/Apr/20/llm-openrouter/#atom-everything",
+        "https://simonwillison.net/2026/Apr/21/andreas-pahlsson-notini/#atom-everything",
+        "https://simonwillison.net/2026/Apr/21/scosman/#atom-everything",
         "https://simonwillison.net/2026/Apr/3/cognitive-cost/#atom-everything",
         "https://simonwillison.net/2026/Apr/3/daniel-stenberg/#atom-everything",
         "https://simonwillison.net/2026/Apr/3/greg-kroah-hartman/#atom-everything",
@@ -63,7 +66,7 @@
         "https://simonwillison.net/2026/Apr/9/github-repo-size/#atom-everything",
         "https://simonwillison.net/guides/agentic-engineering-patterns/adding-a-new-content-type/#atom-everything"
       ],
-      "last_scan": "2026-04-27T06:49:44.537764+00:00"
+      "last_scan": "2026-04-28T06:51:40.058755+00:00"
     },
     "armin-ronacher": {
       "seen": [
@@ -80,7 +83,7 @@
         "https://lucumr.pocoo.org/2026/4/4/absurd-in-production/",
         "https://lucumr.pocoo.org/2026/4/8/mario-and-earendil/"
       ],
-      "last_scan": "2026-04-27T06:49:46.763597+00:00"
+      "last_scan": "2026-04-28T06:51:42.200022+00:00"
     },
     "github-changelog": {
       "seen": [
@@ -117,7 +120,7 @@
         "69d7c7e5f4b5380001c805e3",
         "69da3347f4b5380001c807c4"
       ],
-      "last_scan": "2026-04-27T06:49:52.603563+00:00"
+      "last_scan": "2026-04-28T06:51:49.421668+00:00"
     },
     "github-copilot": {
       "seen": [
@@ -146,12 +149,15 @@
         "https://github.blog/changelog/2026-04-22-pausing-new-self-serve-signups-for-github-copilot-business",
         "https://github.blog/changelog/2026-04-22-upcoming-change-to-copilot-usage-metrics-report-download-urls",
         "https://github.blog/changelog/2026-04-23-copilot-cloud-agent-fields-added-to-usage-metrics",
+        "https://github.blog/changelog/2026-04-23-copilot-student-gpt-5-3-codex-removal-from-model-picker",
         "https://github.blog/changelog/2026-04-23-inline-agent-mode-in-preview-and-more-in-github-copilot-for-jetbrains-ides",
         "https://github.blog/changelog/2026-04-23-see-and-manage-agent-sessions-from-issues-and-projects",
         "https://github.blog/changelog/2026-04-24-gpt-5-5-is-generally-available-for-github-copilot",
-        "https://github.blog/changelog/2026-04-24-notice-about-upcoming-new-format-for-github-app-installation-tokens"
+        "https://github.blog/changelog/2026-04-24-notice-about-upcoming-new-format-for-github-app-installation-tokens",
+        "https://github.blog/changelog/2026-04-27-copilot-cloud-agent-starts-20-faster-with-actions-custom-images",
+        "https://github.blog/changelog/2026-04-27-github-copilot-code-review-will-start-consuming-github-actions-minutes-on-june-1-2026"
       ],
-      "last_scan": "2026-04-27T06:49:50.018040+00:00"
+      "last_scan": "2026-04-28T06:51:47.077106+00:00"
     },
     "anthropic-engineering": {
       "seen": [
@@ -180,7 +186,7 @@
         "https://www.anthropic.com/engineering/swe-bench-sonnet",
         "https://www.anthropic.com/engineering/writing-tools-for-agents"
       ],
-      "last_scan": "2026-04-27T06:49:54.718437+00:00"
+      "last_scan": "2026-04-28T06:51:51.452208+00:00"
     },
     "claude-blog": {
       "seen": [
@@ -306,7 +312,7 @@
         "https://claude.com/blog/workspaces",
         "https://claude.com/blog/your-thinking-partner"
       ],
-      "last_scan": "2026-04-27T06:49:56.829615+00:00"
+      "last_scan": "2026-04-28T06:51:53.483436+00:00"
     },
     "cursor-blog": {
       "seen": [
@@ -335,7 +341,7 @@
         "https://cursor.com/blog/third-era",
         "https://cursor.com/blog/warp-decode"
       ],
-      "last_scan": "2026-04-27T06:49:58.961794+00:00"
+      "last_scan": "2026-04-28T06:51:55.619159+00:00"
     },
     "the-batch": {
       "seen": [
@@ -707,7 +713,7 @@
         "https://www.deeplearning.ai/the-batch/issue-xv/",
         "https://www.deeplearning.ai/the-batch/issue-xvi/"
       ],
-      "last_scan": "2026-04-27T06:50:01.224992+00:00"
+      "last_scan": "2026-04-28T06:51:57.659422+00:00"
     },
     "github-agentic-workflows": {
       "seen": [
@@ -731,10 +737,11 @@
         "https://github.github.com/gh-aw/blog/2026-03-30-weekly-update/",
         "https://github.github.com/gh-aw/blog/2026-04-06-weekly-update/",
         "https://github.github.com/gh-aw/blog/2026-04-13-weekly-update/",
-        "https://github.github.com/gh-aw/blog/2026-04-20-weekly-update/"
+        "https://github.github.com/gh-aw/blog/2026-04-20-weekly-update/",
+        "https://github.github.com/gh-aw/blog/2026-04-27-weekly-update/"
       ],
-      "last_scan": "2026-04-27T06:50:03.431497+00:00"
+      "last_scan": "2026-04-28T06:52:00.832073+00:00"
     }
   },
-  "last_scan": "2026-04-27T06:50:03.431516+00:00"
+  "last_scan": "2026-04-28T06:52:00.832097+00:00"
 }
