@@ -634,8 +634,26 @@
         "screened_at": "2026-04-30T06:51:16.515022+00:00",
         "issue": 468,
         "filed_at": "2026-04-30T06:51:17.720746+00:00"
+      },
+      "https://github.github.com/gh-aw/guides/organization-practices": {
+        "status": "filed",
+        "screened_at": "2026-05-01T06:54:05.866327+00:00",
+        "issue": 480,
+        "filed_at": "2026-05-01T06:54:07.258500+00:00"
+      },
+      "https://github.github.com/gh-aw/guides/organization-practices/safe-rollout": {
+        "status": "filed",
+        "screened_at": "2026-05-01T06:54:05.866345+00:00",
+        "issue": 481,
+        "filed_at": "2026-05-01T06:54:08.937826+00:00"
+      },
+      "https://github.github.com/gh-aw/guides/organization-practices/sharing-workflows": {
+        "status": "filed",
+        "screened_at": "2026-05-01T06:54:05.866348+00:00",
+        "issue": 482,
+        "filed_at": "2026-05-01T06:54:10.616663+00:00"
       }
     },
-    "last_scan": "2026-04-30T06:51:16.515038+00:00"
+    "last_scan": "2026-05-01T06:54:05.866350+00:00"
   }
 }
