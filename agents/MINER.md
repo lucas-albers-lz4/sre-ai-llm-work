@@ -97,6 +97,34 @@ the editorial constitution — surfacing disagreement openly is the entire
 point of CONTRADICTIONS.md. Filing one is a feature, not a failure of
 extraction.
 
+### 4b. Verify every cross-reference before writing it
+
+Cross-reference citations are the most common Assayer rejection reason.
+Past source-note PRs have invented claim numbers and fabricated quoted
+passages that don't appear in the cited source note. Don't.
+
+For every `Claim N` you cite from another source note:
+
+1. Re-read the cited source note. Locate the `### Claim:` heading
+   numbered N (claims are numbered top-to-bottom in the note, starting
+   at 1; if the note doesn't number them explicitly, count them in
+   document order).
+2. Confirm that claim's content matches what you're citing it for. If
+   the number doesn't line up, find the correct number — do not guess
+   or approximate.
+3. If you want to quote a passage from the cited note, copy it verbatim
+   from that note into your draft. Do NOT reconstruct, paraphrase, or
+   summarize and present it as a quote. The Assayer spot-checks quotes
+   against the source notes, and a fabricated quote will fail the PR.
+4. If the material you want to cite lives in the cited note's "Concrete
+   Artifacts" section, frontmatter, or any non-numbered section, cite
+   by section name (e.g., "Concrete Artifacts → Maintenance Configuration
+   section"), not by a fictional claim number. `Claim N` citations must
+   resolve to a real numbered claim.
+
+This verification is mandatory before opening the PR. Skipping it is
+the single largest cause of source-note PR rejections.
+
 ### 5. Identify guide impact
 
 Be specific: "Chapter 02 currently recommends X (citing source-note-A).
