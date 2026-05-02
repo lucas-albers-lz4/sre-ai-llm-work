@@ -274,5 +274,6 @@ CHEATSHEET_EOF
 
           claude -p "$(cat /tmp/smith-rework-prompt.txt)" \
             --model opus \
+            --append-system-prompt "$(cat agents/SMITH.md)" \
             --max-turns 30 \
             --allowedTools "Bash(*)" "Read" "Write" "Edit" "Glob" "Grep" "WebFetch"

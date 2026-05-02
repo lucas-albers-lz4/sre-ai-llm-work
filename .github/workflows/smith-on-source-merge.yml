@@ -405,6 +405,7 @@ jobs:
 
           claude -p "$(cat /tmp/smith-prompt.txt)" \
             --model opus \
+            --append-system-prompt "$(cat agents/SMITH.md)" \
             --max-turns 60 \
             --allowedTools "Bash(*)" "Read" "Write" "Edit" "Glob" "Grep" "WebFetch"
 
