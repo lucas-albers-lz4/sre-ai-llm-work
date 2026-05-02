@@ -99,6 +99,7 @@ jobs:
 
             Then exit.
           claude_args: |
+            --model sonnet
             --max-turns 25
             --allowedTools "Bash(*)" "Read" "Glob" "Grep" "WebFetch"
 
@@ -272,5 +273,6 @@ CHEATSHEET_EOF
           REWORK_EOF
 
           claude -p "$(cat /tmp/smith-rework-prompt.txt)" \
+            --model opus \
             --max-turns 30 \
             --allowedTools "Bash(*)" "Read" "Write" "Edit" "Glob" "Grep" "WebFetch"

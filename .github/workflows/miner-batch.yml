@@ -247,6 +247,7 @@ jobs:
                   --remove-label "mining-queued"
               Exit WITHOUT opening a PR.
           claude_args: |
+            --model sonnet
             --max-turns 60
             --allowedTools "Bash(*)" "Read" "Write" "Edit" "Glob" "Grep" "WebFetch"
 

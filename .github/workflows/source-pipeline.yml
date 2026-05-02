@@ -275,6 +275,7 @@ jobs:
             output is labels + a comment + (for rejections and repo triages)
             issue closure + (for feed-candidates) a PR adding the feed.
           claude_args: |
+            --model haiku
             --max-turns 25
             --allowedTools "Bash(*)" "Read" "Edit" "Glob" "Grep"
 

@@ -404,6 +404,7 @@ jobs:
           PROMPT_EOF
 
           claude -p "$(cat /tmp/smith-prompt.txt)" \
+            --model opus \
             --max-turns 60 \
             --allowedTools "Bash(*)" "Read" "Write" "Edit" "Glob" "Grep" "WebFetch"
 

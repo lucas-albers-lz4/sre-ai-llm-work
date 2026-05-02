@@ -229,6 +229,7 @@ jobs:
           PROMPT_EOF
 
           claude -p "$(cat /tmp/smith-prompt.txt)" \
+            --model opus \
             --max-turns 30 \
             --allowedTools "Bash(*)" "Read" "Edit" "Glob" "Grep" "WebFetch"
 
@@ -284,6 +285,7 @@ jobs:
           PROMPT_EOF
 
           claude -p "$(cat /tmp/smith-prompt.txt)" \
+            --model opus \
             --max-turns 60 \
             --allowedTools "Bash(*)" "Read" "Write" "Edit" "Glob" "Grep" "WebFetch"
 

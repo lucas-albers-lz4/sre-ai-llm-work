@@ -108,6 +108,7 @@ jobs:
             Do NOT edit any files in the repository. Your only outputs are
             the issue comment and the label.
           claude_args: |
+            --model sonnet
             --max-turns 25
             --allowedTools "Bash(*)" "Read" "Glob" "Grep"
 
@@ -251,5 +252,6 @@ jobs:
             - Match the exact format and style of the existing C-001/C-002/
               C-003 entries. Do not invent new fields or change the layout.
           claude_args: |
+            --model haiku
             --max-turns 30
             --allowedTools "Bash(*)" "Read" "Write" "Edit" "Glob" "Grep"
