@@ -652,8 +652,18 @@
         "screened_at": "2026-05-01T06:54:05.866348+00:00",
         "issue": 482,
         "filed_at": "2026-05-01T06:54:10.616663+00:00"
+      },
+      "https://github.github.com/gh-aw/guides/custom-otlp-attributes": {
+        "status": "rejected",
+        "screened_at": "2026-05-02T06:38:51.114005+00:00"
+      },
+      "https://github.github.com/gh-aw/patterns/expert-ops": {
+        "status": "filed",
+        "screened_at": "2026-05-02T06:38:51.114021+00:00",
+        "issue": 499,
+        "filed_at": "2026-05-02T06:38:52.563976+00:00"
       }
     },
-    "last_scan": "2026-05-01T06:54:05.866350+00:00"
+    "last_scan": "2026-05-02T06:38:51.114025+00:00"
   }
 }
