@@ -111,6 +111,16 @@ jobs:
           git config user.name  "hitchhiker-miner[bot]"
           git config user.email "hitchhiker-miner@users.noreply.github.com"
 
+      - name: Load Miner role into APPEND_SYSTEM_PROMPT
+        # Cache the role definition in the system-prompt prefix so it
+        # hits the prompt cache across runs (5-min TTL window).
+        run: |
+          {
+            echo 'APPEND_SYSTEM_PROMPT<<APPEND_EOF'
+            cat agents/MINER.md
+            echo 'APPEND_EOF'
+          } >> "$GITHUB_ENV"
+
       - name: Run Miner extraction for issue #${{ matrix.issue }}
         uses: anthropics/claude-code-action@v1
         env:
