@@ -131,19 +131,22 @@ jobs:
 
           # Append a command cheatsheet on non-approve verdicts so the
           # maintainer doesn't have to remember the rework triggers.
+          # Use echo statements (not a heredoc) — a column-1 "---" inside
+          # a YAML block scalar is parsed as a YAML document separator
+          # and breaks the workflow at startup.
           if ! grep -Eq '^\*\*Verdict\*\*:[[:space:]]*APPROVE' /tmp/assayer-review.md; then
-            cat >> /tmp/assayer-review.md <<'CHEATSHEET_EOF'
-
----
-
-<details><summary><b>Maintainer commands</b> — comment one of these to act on this review</summary>
-
-- `/rework` — Smith reads all human comments on this PR and pushes incremental fixes to the branch. Add specific guidance in the same comment (the workflow filters out bot comments, so the Assayer review above is not visible to the Smith — paste the issues you want addressed).
-- `/rebase` — Smith resets the branch to current `main` and re-synthesizes from the original source notes plus your feedback. Use when the PR has merge conflicts or the guide has diverged.
-
-Either command also clears the `rework-attempted` label so one more automated rework cycle can run after this one.
-</details>
-CHEATSHEET_EOF
+            {
+              echo ""
+              echo "----"
+              echo ""
+              echo "<details><summary><b>Maintainer commands</b> — comment one of these to act on this review</summary>"
+              echo ""
+              echo "- \`/rework\` — Smith reads all human comments on this PR and pushes incremental fixes to the branch. Add specific guidance in the same comment (the workflow filters out bot comments, so the Assayer review above is not visible to the Smith — paste the issues you want addressed)."
+              echo "- \`/rebase\` — Smith resets the branch to current \`main\` and re-synthesizes from the original source notes plus your feedback. Use when the PR has merge conflicts or the guide has diverged."
+              echo ""
+              echo "Either command also clears the \`rework-attempted\` label so one more automated rework cycle can run after this one."
+              echo "</details>"
+            } >> /tmp/assayer-review.md
           fi
 
           gh pr comment "$PR_NUMBER" --body-file /tmp/assayer-review.md
