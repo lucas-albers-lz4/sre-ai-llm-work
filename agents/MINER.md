@@ -38,6 +38,38 @@ For every interesting claim in the source, extract it as a structured entry:
 Do NOT paraphrase the source into generic bullets. Extract the *specific*
 claims with their *specific* evidence.
 
+### 2a. Quote verbatim — do not paraphrase
+
+The `Quote` field in each Claim must be a verbatim copy of text from the
+source page. The Assayer spot-checks quotes against the source URL, and
+a paraphrased or reconstructed quote will fail the PR — even when the
+paraphrase is faithful in meaning.
+
+For every `Quote` you write (and any other quoted passage anywhere in
+the source note):
+
+1. Open the source URL and locate the exact passage you intend to cite.
+2. Copy it character-for-character. Do not "tighten" it, do not insert
+   words for clarity, do not change punctuation.
+3. If the source's wording is too long or contains noise (footnote
+   markers, formatting), quote only the contiguous fragment that
+   carries the meaning. Do NOT splice two non-adjacent sentences into
+   a single quoted passage — the result reads like a single sentence
+   from the source but is not.
+4. If the meaning you want to convey is your synthesis across multiple
+   source sentences, put it in `Our assessment` instead of `Quote`.
+   `Our assessment` is for your interpretation; `Quote` is for the
+   source's own words only.
+5. If no exact quote captures the claim, set
+   `Quote: (no direct quote; see paraphrase in Our assessment)`
+   rather than fabricating one. A missing quote is fine; an invented
+   one fails the PR.
+
+This rule applies to every quoted string in the note — claim quotes,
+section intros, `Source Context` excerpts, code-block attributions.
+Anything inside double quotes attributed to the source must appear in
+the source character-for-character.
+
 ### 3. Extract concrete artifacts
 
 If the source contains any of these, extract them verbatim:
