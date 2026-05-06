@@ -668,8 +668,12 @@
         "screened_at": "2026-05-03T06:50:42.226951+00:00",
         "issue": 522,
         "filed_at": "2026-05-03T06:50:43.201223+00:00"
+      },
+      "https://github.github.com/gh-aw/reference/model-tables": {
+        "status": "rejected",
+        "screened_at": "2026-05-06T06:53:51.852253+00:00"
       }
     },
-    "last_scan": "2026-05-05T06:45:11.379737+00:00"
+    "last_scan": "2026-05-06T06:53:51.852269+00:00"
   }
 }
