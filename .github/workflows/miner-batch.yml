@@ -52,7 +52,16 @@ jobs:
         id: query
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BATCH_SIZE: '3'
+          # BATCH_SIZE was 3, but GitHub appears to silently drop the
+          # pull_request workflow dispatch on the 3rd PR opened by the
+          # same user in close succession (suspected abuse-detection
+          # rate limit). Today's run on 2026-05-09 confirmed: PRs #591
+          # and #592 fired Assayer cleanly; #593 (3rd in batch) had zero
+          # workflow runs ever, despite multiple synchronize / closed /
+          # reopened events that should have re-dispatched. Dropping to 2
+          # gives full reliability at the cost of needing more cron
+          # cycles or workflow_dispatch fires to drain a large queue.
+          BATCH_SIZE: '2'
         run: |
           # Find open issues labeled mining-queued but NOT mining-complete
           # or miner-blocked. Sort oldest-first, take at most BATCH_SIZE.
