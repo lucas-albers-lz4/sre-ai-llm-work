@@ -153,12 +153,11 @@ jobs:
 
       - name: Resolve contradiction and open PR
         uses: anthropics/claude-code-action@v1
-        env:
-          # PROJECT_PAT so gh pr create inside the prompt produces a PR
-          # that triggers the Assayer. Same reason as the checkout swap
-          # above and as miner-batch.yml.
-          GH_TOKEN: ${{ secrets.PROJECT_PAT }}
         with:
+          # Top-level github_token input (NOT just an env: GH_TOKEN) is
+          # required to override the action's app-installation token.
+          # See miner-batch.yml's Miner step for the full explanation.
+          github_token: ${{ secrets.PROJECT_PAT }}
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           prompt: |
             You are the Assayer agent for the hitchhiker-guide repo,

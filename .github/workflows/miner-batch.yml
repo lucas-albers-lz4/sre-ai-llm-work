@@ -130,12 +130,15 @@ jobs:
 
       - name: Run Miner extraction for issue #${{ matrix.issue }}
         uses: anthropics/claude-code-action@v1
-        env:
-          # PROJECT_PAT (not GITHUB_TOKEN) so the gh pr create call inside
-          # the Miner prompt creates a PR that triggers the Assayer
-          # workflow. Same reason as the checkout token swap above.
-          GH_TOKEN: ${{ secrets.PROJECT_PAT }}
         with:
+          # Top-level github_token input (NOT just an env: GH_TOKEN) is
+          # required to override the action's internal app installation
+          # token. Without this the action calls /installation/token and
+          # exports GH_TOKEN as the Claude App's token, overwriting any
+          # env-level value we set. The resulting gh pr create runs as
+          # the App and the PR doesn't trigger downstream workflows.
+          # See action.yml: inputs.github_token → env.OVERRIDE_GITHUB_TOKEN.
+          github_token: ${{ secrets.PROJECT_PAT }}
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           show_full_output: true
           # The issue number and repo slug are GitHub-controlled and safe
