@@ -407,6 +407,7 @@ jobs:
             --model opus \
             --append-system-prompt "$(cat agents/SMITH.md)" \
             --max-turns 60 \
+            --output-format stream-json --verbose \
             --allowedTools "Bash(*)" "Read" "Write" "Edit" "Glob" "Grep" "WebFetch"
 
       - name: Enforce per-chapter source cap

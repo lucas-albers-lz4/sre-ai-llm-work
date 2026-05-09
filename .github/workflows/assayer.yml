@@ -289,4 +289,5 @@ jobs:
             --model opus \
             --append-system-prompt "$(cat agents/SMITH.md)" \
             --max-turns 30 \
+            --output-format stream-json --verbose \
             --allowedTools "Bash(*)" "Read" "Write" "Edit" "Glob" "Grep" "WebFetch"

@@ -159,6 +159,12 @@ jobs:
       id-token: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          # PROJECT_PAT so when the Prospector creates a feed-candidate
+          # PR (gh pr create --label feed-candidate, in the prompt below),
+          # the resulting push triggers the Assayer. Pushes/PRs created
+          # with GITHUB_TOKEN do not trigger downstream workflows.
+          token: ${{ secrets.PROJECT_PAT }}
 
       - name: Ensure required labels exist
         env:
@@ -188,8 +194,9 @@ jobs:
       - name: Run Prospector triage
         uses: anthropics/claude-code-action@v1
         env:
-          # gh CLI needs GH_TOKEN to read issue + write labels/comments.
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # PROJECT_PAT so gh pr create (for feed-candidate PRs) triggers
+          # the Assayer workflow. Same reason as miner-batch.yml.
+          GH_TOKEN: ${{ secrets.PROJECT_PAT }}
         with:
           show_full_output: true
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
