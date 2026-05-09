@@ -103,7 +103,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          # Use PROJECT_PAT so subsequent git push (and gh pr create below)
+          # are authenticated as a user, not the GitHub Actions bot. PRs
+          # created or pushed with GITHUB_TOKEN do not trigger downstream
+          # workflows (per GitHub's "preventing recursive workflows" rule),
+          # which has been silently leaving Miner PRs without an Assayer
+          # check ever firing. See assayer.yml's rework step for the same
+          # pattern.
+          token: ${{ secrets.PROJECT_PAT }}
           fetch-depth: 0
 
       - name: Configure git identity for Miner commits
@@ -124,7 +131,10 @@ jobs:
       - name: Run Miner extraction for issue #${{ matrix.issue }}
         uses: anthropics/claude-code-action@v1
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # PROJECT_PAT (not GITHUB_TOKEN) so the gh pr create call inside
+          # the Miner prompt creates a PR that triggers the Assayer
+          # workflow. Same reason as the checkout token swap above.
+          GH_TOKEN: ${{ secrets.PROJECT_PAT }}
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           show_full_output: true
