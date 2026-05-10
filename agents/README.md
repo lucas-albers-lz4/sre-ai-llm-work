@@ -64,11 +64,86 @@ notes but the Assayer reviews them. The Smith writes guide chapters but
 the Assayer reviews those too. This separation is what prevents the
 "same LLM talking to itself" problem that plagued the original approach.
 
-## Current Status: Manual Orchestration
+## How agents run (automation status)
 
-The agents are currently run manually (human triggers Claude Code with
-the agent definition as context). See [VALIDATION.md](../VALIDATION.md)
-for the manual validation protocol.
+All agents run as GitHub Actions workflows. There is no manual orchestration
+in steady state — a human files an issue or comments `/rework` and the
+pipeline does the rest.
 
-Automation via GitHub Actions will be enabled after the manual validation
-proves the agents produce deep, useful output.
+### Trigger and model per workflow
+
+| Workflow file | Agent | Trigger | Model | Notes |
+|---------------|-------|---------|-------|-------|
+| `daily-scan.yml` | Site/feed scanners | Daily cron 06:00 UTC + workflow_dispatch | Haiku (site crawl synthesis) | Uses `PROJECT_PAT` so the issues it files trigger downstream `source-pipeline.yml` |
+| `source-pipeline.yml` (pre-screen job) | Pre-screen | `issues:[opened, labeled]` with `new-source` / `source-submission` / `new-repo` / `new-failure` | Haiku | ~$0.01/issue. Rejects obvious bad submissions (no URL, paywall, marketing, dupes) before the Prospector |
+| `source-pipeline.yml` (prospector job) | Prospector | After pre-screen passes (job dependency) | Haiku | Triages into `triaged:text` / `triaged:repo` / `triaged:failure` / `feed-candidate` / `rejected`. Applies `mining-queued` for text and failure triages. Opens a feed-candidate PR if the source is a feed |
+| `miner-batch.yml` | Miner | Hourly cron at `:17` + workflow_dispatch | Sonnet | Picks 2 oldest priority-sorted (high → medium → unset → low) `mining-queued` issues. Branch is `miner/issue-N-r<run_id>` (the `-rXXX` suffix avoids per-branch dispatch suppression on retries) |
+| `assayer.yml` | Assayer review | `pull_request:[opened, synchronize, reopened, labeled]` with `source-note` / `guide-update` / `feed-candidate` | Sonnet | Auto-merges `source-note` PRs on APPROVE. On REQUEST CHANGES for `guide-update` PRs, runs the auto-rework Smith one time (gated by `rework-attempted` label) |
+| `assayer.yml` (auto-rework Smith step) | Smith | Inside Assayer when guide-update PR fails review and `rework-attempted` is absent | Opus | Pushes a fix commit to the PR branch using `PROJECT_PAT` so the resulting `synchronize` event re-triggers Assayer |
+| `smith-on-source-merge.yml` | Smith | `push` to `main` affecting `source-notes/**.md` | Opus | Diff-aware synthesis. Opens a fresh `smith/source-merge-<run_id>` branch + `guide-update` PR if any chapter material changes |
+| `smith-rework.yml` | Smith | `issue_comment` or `pull_request_review` containing `/rework` or `/rebase` on a `guide-update` PR (owner/collaborator/member only) | Opus | `/rework` = incremental fix on the existing branch. `/rebase` = reset branch to `main` and re-synthesize from scratch. Either resets the `rework-attempted` label so the auto-cycle can run one more time |
+| `contradiction-resolver.yml` (assess job) | Assayer (contradiction mode) | `issues:[labeled]` with `contradiction` | Sonnet | Reads both source notes, weighs evidence, posts the proposed verdict comment with structured fields. Adds `assessment-complete` label |
+| `contradiction-resolver.yml` (resolve job) | Assayer (commit phase) | `issues:[labeled]` with `resolution-approved` (added by a human after reviewing the assessment) | Haiku | Mechanical edit to `CONTRADICTIONS.md`. Opens a `guide-update` PR for the entry |
+| `scribe.yml` | Scribe | `issues:[labeled]` with `sticky-notes` | Haiku | Parses the issue into structured `sticky-notes/chNN-*.md` entries. Inline prompt — no agent definition file |
+| `gardener.yml` | Gardener | Weekly cron Sun 09:00 UTC + workflow_dispatch | Python (no LLM) | Tags source notes with `last_checked > 90 days` as stale; demotes confidence grades in chapters that cite them; opens a `guide-update` PR labeled `gardener` if anything changes |
+
+### Prompt caching
+
+Every action-based and CLI-based Claude invocation pulls its agent role
+file (`agents/<ROLE>.md`) into the cacheable system-prompt prefix via
+either `--append-system-prompt` (CLI) or the `APPEND_SYSTEM_PROMPT` env
+var (action). Recent measured cache hit rates: ~85-95% on action-based
+workflows; CLI workflows now emit `--output-format stream-json` so the
+same telemetry is visible.
+
+### Token authentication
+
+PRs and pushes that need to trigger downstream workflows use
+`PROJECT_PAT` (a personal access token), not `GITHUB_TOKEN`. PRs and
+pushes created with `GITHUB_TOKEN` or with the action's default app
+installation token do not trigger downstream workflows by GitHub
+design. Workflows that create PRs (miner-batch, source-pipeline
+prospector, contradiction-resolver resolve, gardener,
+smith-on-source-merge, smith-rework, assayer auto-rework, daily-scan)
+all pass `PROJECT_PAT` either as the action's `with: github_token:`
+input or as the `actions/checkout@v4` token (so subsequent `git push`
+inherits the credential).
+
+## Failure modes and self-healing
+
+The pipeline is designed to recover from transient failures without
+human intervention. The recovery mechanism for each common failure:
+
+| Failure | Recovery |
+|---------|----------|
+| Miner run fails (Anthropic stream timeout, network blip, etc.) | Issue keeps `mining-queued`, doesn't get `mining-complete`. Next hourly cron picks it up automatically |
+| Pre-screen rejects a real source by mistake | Issue is closed with `rejected` label. A human can reopen and remove `rejected` to re-run, or file a fresh issue |
+| Prospector triages incorrectly | Human can swap labels (`triaged:repo` → `triaged:text`, etc.) — the Miner picks up `triaged:text` + `mining-queued` automatically |
+| Miner-produced source-note PR fails Assayer review | No automated rework path for source-note PRs. The PR sits open until a human closes it (which loses the work). Default action: close the PR, requeue the source issue (`mining-queued`, remove `mining-complete`); the next batch re-mines on a fresh `-r<run_id>` branch |
+| Smith-produced guide-update PR fails Assayer review (first time) | Auto-rework Smith fires inside the Assayer workflow once, addressing the feedback. Gated by the `rework-attempted` label so it can't loop |
+| Smith-produced guide-update PR fails again after auto-rework | Sits waiting for human to comment `/rework <specific guidance>` or `/rebase`. Either resets the `rework-attempted` label so the auto-cycle gets one more chance |
+| `/rework` comment is the only human comment (feedback file ends up empty) | smith-rework.yml falls back to using the trigger-comment body (with the slash-command line stripped) as guidance, so guidance the user wrote alongside `/rework` isn't lost |
+| Smith makes hallucinated citations or fabricated quotes | Assayer rejects on Accuracy or Cross-references. `/rework` cycle can usually fix; `agents/SMITH.md` §3a forbids fabrication explicitly |
+| Miner makes hallucinated cross-references | Same — `agents/MINER.md` §4b/§2a require verbatim verification of every cited claim and quote |
+| Workflow YAML is broken by an edit | Workflow runs fail at startup. Other workflows continue normally. Diagnose with `gh run view --log-failed` and push a fix |
+| Cron schedule miss after a `cron:` change | First tick after the change can be skipped (GitHub propagation delay). Subsequent ticks fire normally. Manual `workflow_dispatch` covers the gap |
+| GitHub silently drops `pull_request` workflow events on a recreated branch | Rare per-branch dispatch suppression. Mitigation in place: every Miner attempt uses a fresh `miner/issue-N-r<run_id>` branch so the suppression state can't carry over. If it still happens, label the source issue `miner-blocked` and move on |
+| Same Miner run produces 3+ PRs in tight succession | `BATCH_SIZE` is set to 2 in `miner-batch.yml` because GitHub abuse-detection silently drops the 3rd `pull_request` event from the same user in a short window. If a manual workflow_dispatch produces a stuck PR, recycle via close + requeue |
+| Miner can't load the source URL | Marks the issue `miner-blocked` and exits without opening a PR. Human can fix the URL and re-queue, or close the issue |
+
+## When humans need to step in
+
+Most of the pipeline is autonomous. Human action is required for:
+
+| Phase | Human action |
+|-------|--------------|
+| **Source filing** | File `[source]` issues from blog posts / docs / discussions / failure reports. Or trust the daily scanner to discover them via feeds and site crawls |
+| **Repo discovery** | Repo Scout is event-driven; human files `[source]` issues with the repo URL, Prospector triages them as `triaged:repo` |
+| **Sticky-note authoring** | File a `sticky-notes` issue when an editorial directive should constrain Smith synthesis going forward (e.g., "always include a failure case in §tooling"). The Scribe parses it into `sticky-notes/chNN-*.md` |
+| **Contradiction resolution** | When a `contradiction` issue gets `assessment-complete`, the Assayer's proposed verdict appears as a comment. A human reviews, optionally corrects with a comment, and adds `resolution-approved` to fire the resolve job |
+| **Guide-update PR merging** | `auto-merge` only fires for `source-note` PRs (single-file additions). All `guide-update` PRs (Smith batch, Smith rework, Gardener, contradiction-resolver) require a human merge — usually after Assayer APPROVE |
+| **Persistent Assayer rejections on a Smith PR** | If `auto-rework` and one round of human `/rework` both fail to address feedback, judgment-call: comment `/rebase` for fresh synthesis, or close the PR and re-trigger Smith via a forced empty commit on `main` |
+| **Persistent Miner failures on the same source** | If a source issue cycles through 2-3 stuck PRs (e.g., dead-branch state, persistent cross-ref hallucination on a hard-to-cite source), label the issue `miner-blocked` and move on. Loss is acceptable |
+| **Backlog drain** | The hourly Miner cron drains 48 issues/day. If the queue exceeds ~80 issues, dispatch extra batches via `gh workflow run miner-batch.yml` to keep latency reasonable |
+| **Workflow YAML changes** | Rare — only when adding a new agent, changing triggers, or fixing a bug uncovered by a new failure mode |
+| **Re-triage of an old backlog** | If issues were filed before automation was complete and never triaged, toggle the `source-submission` label off and on each one (with ~30s spacing to avoid rate limits) to re-fire `source-pipeline.yml` |
