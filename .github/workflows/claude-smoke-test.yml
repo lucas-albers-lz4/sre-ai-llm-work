@@ -24,7 +24,10 @@ jobs:
       - name: Run Claude Code with a trivial prompt
         uses: anthropics/claude-code-action@v1
         with:
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          # Smoke-testing OAuth-based billing (Claude Pro/Max subscription)
+          # instead of pay-per-token Anthropic API. If this run succeeds,
+          # we'll migrate the rest of the workflows the same way.
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           prompt: |
             Print exactly one line: "hitchhiker smoke test ok".
             Do not edit any files. Do not run any tools beyond what
