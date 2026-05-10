@@ -69,7 +69,9 @@ jobs:
           BATCH_SIZE: '2'
         run: |
           # Find open issues labeled mining-queued but NOT mining-complete
-          # or miner-blocked. Sort oldest-first, take at most BATCH_SIZE.
+          # or miner-blocked. Sort by priority band first (high → medium →
+          # unset → low), then by createdAt within each band so older
+          # issues drain first at equal priority.
           QUEUED=$(gh issue list \
             --repo "${{ github.repository }}" \
             --label "mining-queued" \
@@ -81,9 +83,15 @@ jobs:
                 select(.labels | map(.name) |
                   (contains([\"mining-complete\"]) or
                    contains([\"miner-blocked\"])) | not
-                )
+                ) |
+                . + {prio:
+                  (if .labels | map(.name) | index(\"priority:high\")   then 0
+                   elif .labels | map(.name) | index(\"priority:medium\") then 1
+                   elif .labels | map(.name) | index(\"priority:low\")    then 3
+                   else 2 end)
+                }
               ]
-              | sort_by(.createdAt)
+              | sort_by([.prio, .createdAt])
               | .[0:${BATCH_SIZE}]
               | [.[].number]
             ")
