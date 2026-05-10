@@ -62,7 +62,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           show_full_output: true
           prompt: |
             You are a fast, cheap pre-screening filter for the hitchhiker-guide
@@ -199,7 +199,7 @@ jobs:
           # See miner-batch.yml's Miner step for the full explanation.
           github_token: ${{ secrets.PROJECT_PAT }}
           show_full_output: true
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           # The issue number and repo slug are GitHub-controlled integers /
           # identifiers, so they are safe to interpolate directly. The issue
           # title and body are NOT interpolated here — Prospector reads them

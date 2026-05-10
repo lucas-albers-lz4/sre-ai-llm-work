@@ -161,7 +161,7 @@ jobs:
           # the App and the PR doesn't trigger downstream workflows.
           # See action.yml: inputs.github_token → env.OVERRIDE_GITHUB_TOKEN.
           github_token: ${{ secrets.PROJECT_PAT }}
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           show_full_output: true
           # The issue number and repo slug are GitHub-controlled and safe
           # to interpolate. The issue title and body (which contain the

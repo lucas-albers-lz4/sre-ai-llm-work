@@ -205,7 +205,7 @@ jobs:
       - name: Run Smith (rework mode)
         if: steps.cmd.outputs.mode == 'rework'
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cat > /tmp/smith-prompt.txt <<'PROMPT_EOF'
@@ -265,7 +265,7 @@ jobs:
       - name: Run Smith (rebase mode)
         if: steps.cmd.outputs.mode == 'rebase'
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cat > /tmp/smith-prompt.txt <<'PROMPT_EOF'
