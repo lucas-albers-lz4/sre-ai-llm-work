@@ -226,12 +226,12 @@ jobs:
 
             ## 4. Open the PR
 
-            Branch name: `miner/issue-${{ matrix.issue }}`
+            Branch name: `miner/issue-${{ matrix.issue }}-r${{ github.run_id }}`
 
-              git checkout -b miner/issue-${{ matrix.issue }}
+              git checkout -b miner/issue-${{ matrix.issue }}-r${{ github.run_id }}
               git add source-notes/ registry/ 2>/dev/null || git add source-notes/
               git commit -m "source: <slug> (#${{ matrix.issue }})"
-              git push -u origin miner/issue-${{ matrix.issue }}
+              git push -u origin miner/issue-${{ matrix.issue }}-r${{ github.run_id }}
 
             Then open the PR. Write the body to a file first to avoid
             shell quoting issues:
@@ -248,7 +248,7 @@ jobs:
               gh pr create \
                 --repo ${{ github.repository }} \
                 --base main \
-                --head miner/issue-${{ matrix.issue }} \
+                --head miner/issue-${{ matrix.issue }}-r${{ github.run_id }} \
                 --title "source: <slug> (#${{ matrix.issue }})" \
                 --body-file /tmp/miner-pr-body.md \
                 --label source-note
