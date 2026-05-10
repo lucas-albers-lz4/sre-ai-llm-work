@@ -14,7 +14,12 @@ name: Batch Miner
 
 on:
   schedule:
-    - cron: '17 */8 * * *'  # Every 8 hours at :17 (offset from top-of-hour load)
+    # Hourly at :17 (offset from top-of-hour load). Bumped from every-8h
+    # on 2026-05-10 to drain a 100+ issue triage backlog faster. With
+    # BATCH_SIZE=2 this caps Miner capacity at 48 issues/day; once the
+    # queue is empty, cron runs exit immediately at the preflight step
+    # (no Claude invocation, no tokens spent).
+    - cron: '17 * * * *'
   workflow_dispatch:        # Manual trigger for testing / one-off runs
 
 permissions:
