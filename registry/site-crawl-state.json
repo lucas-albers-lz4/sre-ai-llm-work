@@ -688,8 +688,116 @@
       "https://github.github.com/gh-aw/reference/aw-yml-package-manifest": {
         "status": "rejected",
         "screened_at": "2026-05-15T07:05:04.219349+00:00"
+      },
+      "https://github.github.com/gh-aw/experimental/awf-reflect": {
+        "status": "filed",
+        "screened_at": "2026-05-16T06:46:36.791432+00:00",
+        "issue": 763,
+        "filed_at": "2026-05-16T06:46:37.608613+00:00"
+      },
+      "https://github.github.com/gh-aw/experimental/correction-ops": {
+        "status": "filed",
+        "screened_at": "2026-05-16T06:46:36.791451+00:00",
+        "issue": 764,
+        "filed_at": "2026-05-16T06:46:39.214141+00:00"
+      },
+      "https://github.github.com/gh-aw/experimental/monitoring-with-projects": {
+        "status": "filed",
+        "screened_at": "2026-05-16T06:46:36.791454+00:00",
+        "issue": 765,
+        "filed_at": "2026-05-16T06:46:41.034170+00:00"
+      },
+      "https://github.github.com/gh-aw/experimental/trial-ops": {
+        "status": "filed",
+        "screened_at": "2026-05-16T06:46:36.791457+00:00",
+        "issue": 766,
+        "filed_at": "2026-05-16T06:46:42.636453+00:00"
+      },
+      "https://github.github.com/gh-aw/guides/memory-ops": {
+        "status": "filed",
+        "screened_at": "2026-05-16T06:46:36.791459+00:00",
+        "issue": 767,
+        "filed_at": "2026-05-16T06:46:44.228803+00:00"
+      },
+      "https://github.github.com/gh-aw/patterns/deterministic-ops": {
+        "status": "filed",
+        "screened_at": "2026-05-16T06:46:36.791461+00:00",
+        "issue": 768,
+        "filed_at": "2026-05-16T06:46:45.857137+00:00"
+      },
+      "https://github.github.com/gh-aw/patterns/monitor-ops": {
+        "status": "filed",
+        "screened_at": "2026-05-16T06:46:36.791462+00:00",
+        "issue": 769,
+        "filed_at": "2026-05-16T06:46:47.858498+00:00"
+      },
+      "https://github.github.com/gh-aw/practices/experiments": {
+        "status": "filed",
+        "screened_at": "2026-05-16T06:46:36.791464+00:00",
+        "issue": 770,
+        "filed_at": "2026-05-16T06:46:49.540865+00:00"
+      },
+      "https://github.github.com/gh-aw/practices/maintaining-repos": {
+        "status": "filed",
+        "screened_at": "2026-05-16T06:46:36.791466+00:00",
+        "issue": 771,
+        "filed_at": "2026-05-16T06:46:51.214475+00:00"
+      },
+      "https://github.github.com/gh-aw/practices/organization-practices": {
+        "status": "filed",
+        "screened_at": "2026-05-16T06:46:36.791467+00:00",
+        "issue": 772,
+        "filed_at": "2026-05-16T06:46:52.843575+00:00"
+      },
+      "https://github.github.com/gh-aw/practices/safe-rollout": {
+        "status": "filed",
+        "screened_at": "2026-05-16T06:46:36.791469+00:00",
+        "issue": 773,
+        "filed_at": "2026-05-16T06:46:54.411064+00:00"
+      },
+      "https://github.github.com/gh-aw/practices/sharing-workflows": {
+        "status": "filed",
+        "screened_at": "2026-05-16T06:46:36.791471+00:00",
+        "issue": 774,
+        "filed_at": "2026-05-16T06:46:56.408015+00:00"
+      },
+      "https://github.github.com/gh-aw/reference/enterprise-configuration": {
+        "status": "rejected",
+        "screened_at": "2026-05-16T06:46:36.791473+00:00"
+      },
+      "https://github.github.com/gh-aw/reference/ephemerals": {
+        "status": "rejected",
+        "screened_at": "2026-05-16T06:46:36.791474+00:00"
+      },
+      "https://github.github.com/gh-aw/reference/forecast-specification": {
+        "status": "rejected",
+        "screened_at": "2026-05-16T06:46:36.791476+00:00"
+      },
+      "https://github.github.com/gh-aw/reference/model-alias-specification": {
+        "status": "rejected",
+        "screened_at": "2026-05-16T06:46:36.791477+00:00"
+      },
+      "https://github.github.com/gh-aw/reference/open-telemetry": {
+        "status": "pending",
+        "screened_at": "2026-05-16T06:46:36.791479+00:00"
+      },
+      "https://github.github.com/gh-aw/reference/repository-package-manifest-specification": {
+        "status": "rejected",
+        "screened_at": "2026-05-16T06:46:36.791481+00:00"
+      },
+      "https://github.github.com/gh-aw/reference/serena": {
+        "status": "rejected",
+        "screened_at": "2026-05-16T06:46:36.791483+00:00"
+      },
+      "https://github.github.com/gh-aw/reference/web-search": {
+        "status": "rejected",
+        "screened_at": "2026-05-16T06:46:36.791484+00:00"
+      },
+      "https://github.github.com/gh-aw/practices/experiments-specification": {
+        "status": "pending",
+        "screened_at": "2026-05-16T06:46:36.791486+00:00"
       }
     },
-    "last_scan": "2026-05-15T07:05:04.219367+00:00"
+    "last_scan": "2026-05-16T06:46:36.791488+00:00"
   }
 }
