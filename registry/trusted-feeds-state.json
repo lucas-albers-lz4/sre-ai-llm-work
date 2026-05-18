@@ -100,6 +100,9 @@
         "https://simonwillison.net/2026/Apr/9/asgi-gzip/#atom-everything",
         "https://simonwillison.net/2026/Apr/9/github-repo-size/#atom-everything",
         "https://simonwillison.net/2026/May/1/inat-sightings/#atom-everything",
+        "https://simonwillison.net/2026/May/10/andrew-quinn/#atom-everything",
+        "https://simonwillison.net/2026/May/10/new-york-times-editors-note/#atom-everything",
+        "https://simonwillison.net/2026/May/11/learning-on-the-shop-floor/#atom-everything",
         "https://simonwillison.net/2026/May/2/sightings/#atom-everything",
         "https://simonwillison.net/2026/May/3/anthropic/#atom-everything",
         "https://simonwillison.net/2026/May/4/andy-masley/#atom-everything",
@@ -123,7 +126,7 @@
         "https://simonwillison.net/2026/May/9/luke-curley/#atom-everything",
         "https://simonwillison.net/guides/agentic-engineering-patterns/adding-a-new-content-type/#atom-everything"
       ],
-      "last_scan": "2026-05-17T06:55:13.453855+00:00"
+      "last_scan": "2026-05-18T07:18:19.191827+00:00"
     },
     "armin-ronacher": {
       "seen": [
@@ -143,7 +146,7 @@
         "https://lucumr.pocoo.org/2026/5/4/content-for-contents-sake/",
         "https://lucumr.pocoo.org/2026/5/8/local-models/"
       ],
-      "last_scan": "2026-05-17T06:55:15.579409+00:00"
+      "last_scan": "2026-05-18T07:18:21.368639+00:00"
     },
     "github-changelog": {
       "seen": [
@@ -180,7 +183,7 @@
         "69d7c7e5f4b5380001c805e3",
         "69da3347f4b5380001c807c4"
       ],
-      "last_scan": "2026-05-17T06:55:20.903208+00:00"
+      "last_scan": "2026-05-18T07:18:26.678752+00:00"
     },
     "github-copilot": {
       "seen": [
@@ -234,9 +237,10 @@
         "https://github.blog/changelog/2026-05-14-copilot-cloud-agent-supports-auto-model-selection",
         "https://github.blog/changelog/2026-05-14-team-level-copilot-usage-metrics-now-available-via-api",
         "https://github.blog/changelog/2026-05-15-copilot-memory-supports-user-preferences-for-pro-pro-users",
-        "https://github.blog/changelog/2026-05-15-grok-code-fast-1-deprecated"
+        "https://github.blog/changelog/2026-05-15-grok-code-fast-1-deprecated",
+        "https://github.blog/changelog/2026-05-17-gpt-5-3-codex-is-now-the-base-model-for-copilot-business-and-enterprise"
       ],
-      "last_scan": "2026-05-17T06:55:18.661444+00:00"
+      "last_scan": "2026-05-18T07:18:24.378776+00:00"
     },
     "anthropic-engineering": {
       "seen": [
@@ -265,7 +269,7 @@
         "https://www.anthropic.com/engineering/swe-bench-sonnet",
         "https://www.anthropic.com/engineering/writing-tools-for-agents"
       ],
-      "last_scan": "2026-05-17T06:55:22.964006+00:00"
+      "last_scan": "2026-05-18T07:18:28.714072+00:00"
     },
     "claude-blog": {
       "seen": [
@@ -412,7 +416,7 @@
         "https://claude.com/blog/workspaces",
         "https://claude.com/blog/your-thinking-partner"
       ],
-      "last_scan": "2026-05-17T06:55:25.032145+00:00"
+      "last_scan": "2026-05-18T07:18:30.743598+00:00"
     },
     "cursor-blog": {
       "seen": [
@@ -447,7 +451,7 @@
         "https://cursor.com/blog/typescript-sdk",
         "https://cursor.com/blog/warp-decode"
       ],
-      "last_scan": "2026-05-17T06:55:27.101458+00:00"
+      "last_scan": "2026-05-18T07:18:32.771480+00:00"
     },
     "the-batch": {
       "seen": [
@@ -1190,7 +1194,7 @@
         "https://www.deeplearning.ai/the-batch/issue-xvi",
         "https://www.deeplearning.ai/the-batch/issue-xvi/"
       ],
-      "last_scan": "2026-05-17T06:55:29.201320+00:00"
+      "last_scan": "2026-05-18T07:18:34.873766+00:00"
     },
     "github-agentic-workflows": {
       "seen": [
@@ -1220,8 +1224,8 @@
         "https://github.github.com/gh-aw/blog/2026-05-11-weekly-update/",
         "https://github.github.com/gh-aw/blog/2026-05-15-agent-of-the-day/"
       ],
-      "last_scan": "2026-05-17T06:55:31.400687+00:00"
+      "last_scan": "2026-05-18T07:18:36.998428+00:00"
     }
   },
-  "last_scan": "2026-05-17T06:55:31.400847+00:00"
+  "last_scan": "2026-05-18T07:18:36.998538+00:00"
 }
