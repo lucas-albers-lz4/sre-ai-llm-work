@@ -806,8 +806,14 @@
         "screened_at": "2026-05-18T07:20:14.472456+00:00",
         "issue": 798,
         "filed_at": "2026-05-18T07:20:16.530032+00:00"
+      },
+      "https://github.github.com/gh-aw/experimental/opentelemetry": {
+        "status": "filed",
+        "screened_at": "2026-05-20T07:10:49.859077+00:00",
+        "issue": 822,
+        "filed_at": "2026-05-20T07:10:51.457062+00:00"
       }
     },
-    "last_scan": "2026-05-19T07:10:57.639741+00:00"
+    "last_scan": "2026-05-20T07:10:49.859095+00:00"
   }
 }
