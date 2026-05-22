@@ -111,7 +111,10 @@
         "https://simonwillison.net/2026/May/12/llm/#atom-everything",
         "https://simonwillison.net/2026/May/12/mitchell-hashimoto/#atom-everything",
         "https://simonwillison.net/2026/May/12/mo-bitar/#atom-everything",
+        "https://simonwillison.net/2026/May/13/boris-mann/#atom-everything",
         "https://simonwillison.net/2026/May/13/csp-allow/#atom-everything",
+        "https://simonwillison.net/2026/May/13/welcome-to-the-datasette-blog/#atom-everything",
+        "https://simonwillison.net/2026/May/14/datasette-ip-rate-limit/#atom-everything",
         "https://simonwillison.net/2026/May/2/sightings/#atom-everything",
         "https://simonwillison.net/2026/May/3/anthropic/#atom-everything",
         "https://simonwillison.net/2026/May/4/andy-masley/#atom-everything",
@@ -135,7 +138,7 @@
         "https://simonwillison.net/2026/May/9/luke-curley/#atom-everything",
         "https://simonwillison.net/guides/agentic-engineering-patterns/adding-a-new-content-type/#atom-everything"
       ],
-      "last_scan": "2026-05-21T07:13:19.838115+00:00"
+      "last_scan": "2026-05-22T07:08:56.127758+00:00"
     },
     "armin-ronacher": {
       "seen": [
@@ -155,7 +158,7 @@
         "https://lucumr.pocoo.org/2026/5/4/content-for-contents-sake/",
         "https://lucumr.pocoo.org/2026/5/8/local-models/"
       ],
-      "last_scan": "2026-05-21T07:13:22.109821+00:00"
+      "last_scan": "2026-05-22T07:08:58.300250+00:00"
     },
     "github-changelog": {
       "seen": [
@@ -192,7 +195,7 @@
         "69d7c7e5f4b5380001c805e3",
         "69da3347f4b5380001c807c4"
       ],
-      "last_scan": "2026-05-21T07:13:29.367500+00:00"
+      "last_scan": "2026-05-22T07:09:06.760155+00:00"
     },
     "github-copilot": {
       "seen": [
@@ -256,9 +259,12 @@
         "https://github.blog/changelog/2026-05-18-one-click-fixes-for-failing-actions-with-copilot-cloud-agent",
         "https://github.blog/changelog/2026-05-19-easily-apply-copilot-code-review-feedback-with-copilot-cloud-agent",
         "https://github.blog/changelog/2026-05-19-gemini-3-5-flash-is-generally-available-for-github-copilot",
-        "https://github.blog/changelog/2026-05-20-semantic-issue-search-in-copilot-chat"
+        "https://github.blog/changelog/2026-05-20-auto-model-selection-now-routes-based-on-your-task-in-vs-code",
+        "https://github.blog/changelog/2026-05-20-copilot-usage-metrics-reports-now-use-github-owned-download-urls",
+        "https://github.blog/changelog/2026-05-20-semantic-issue-search-in-copilot-chat",
+        "https://github.blog/changelog/2026-05-20-updates-to-available-models-in-copilot-on-web"
       ],
-      "last_scan": "2026-05-21T07:13:27.113919+00:00"
+      "last_scan": "2026-05-22T07:09:04.262896+00:00"
     },
     "anthropic-engineering": {
       "seen": [
@@ -287,7 +293,7 @@
         "https://www.anthropic.com/engineering/swe-bench-sonnet",
         "https://www.anthropic.com/engineering/writing-tools-for-agents"
       ],
-      "last_scan": "2026-05-21T07:13:31.409157+00:00"
+      "last_scan": "2026-05-22T07:09:08.822918+00:00"
     },
     "claude-blog": {
       "seen": [
@@ -349,6 +355,7 @@
         "https://claude.com/blog/collaborate-with-claude-across-excel-powerpoint-word-and-outlook",
         "https://claude.com/blog/common-workflow-patterns-for-ai-agents-and-when-to-use-them",
         "https://claude.com/blog/complete-guide-to-building-skills-for-claude",
+        "https://claude.com/blog/compliance-api-security-partners",
         "https://claude.com/blog/connectors-directory",
         "https://claude.com/blog/connectors-for-everyday-life",
         "https://claude.com/blog/context-management",
@@ -380,6 +387,7 @@
         "https://claude.com/blog/how-enterprises-are-building-ai-agents-in-2026",
         "https://claude.com/blog/how-kepler-built-verifiable-ai-for-financial-services-with-claude",
         "https://claude.com/blog/how-leading-retailers-are-turning-ai-pilots-into-enterprise-wide-transformation",
+        "https://claude.com/blog/how-our-partners-are-putting-opus-to-work-for-cybersecurity",
         "https://claude.com/blog/how-to-configure-hooks",
         "https://claude.com/blog/how-to-create-skills-key-steps-limitations-and-examples",
         "https://claude.com/blog/improved-web-search-with-dynamic-filtering",
@@ -437,7 +445,7 @@
         "https://claude.com/blog/workspaces",
         "https://claude.com/blog/your-thinking-partner"
       ],
-      "last_scan": "2026-05-21T07:13:34.207929+00:00"
+      "last_scan": "2026-05-22T07:09:13.108124+00:00"
     },
     "cursor-blog": {
       "seen": [
@@ -449,6 +457,7 @@
         "https://cursor.com/blog/bugbot-learning",
         "https://cursor.com/blog/canvas",
         "https://cursor.com/blog/cloud-agent-development-environments",
+        "https://cursor.com/blog/cloud-agent-lessons",
         "https://cursor.com/blog/composer-2",
         "https://cursor.com/blog/composer-2-5",
         "https://cursor.com/blog/composer-2-technical-report",
@@ -473,7 +482,7 @@
         "https://cursor.com/blog/typescript-sdk",
         "https://cursor.com/blog/warp-decode"
       ],
-      "last_scan": "2026-05-21T07:13:36.249451+00:00"
+      "last_scan": "2026-05-22T07:09:16.274852+00:00"
     },
     "the-batch": {
       "seen": [
@@ -1216,7 +1225,7 @@
         "https://www.deeplearning.ai/the-batch/issue-xvi",
         "https://www.deeplearning.ai/the-batch/issue-xvi/"
       ],
-      "last_scan": "2026-05-21T07:13:38.347022+00:00"
+      "last_scan": "2026-05-22T07:09:18.353329+00:00"
     },
     "github-agentic-workflows": {
       "seen": [
@@ -1247,8 +1256,8 @@
         "https://github.github.com/gh-aw/blog/2026-05-15-agent-of-the-day/",
         "https://github.github.com/gh-aw/blog/2026-05-20-agent-of-the-day/"
       ],
-      "last_scan": "2026-05-21T07:13:41.742643+00:00"
+      "last_scan": "2026-05-22T07:09:20.516270+00:00"
     }
   },
-  "last_scan": "2026-05-21T07:13:41.742802+00:00"
+  "last_scan": "2026-05-22T07:09:20.516371+00:00"
 }
