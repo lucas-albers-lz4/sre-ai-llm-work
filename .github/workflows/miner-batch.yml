@@ -296,6 +296,33 @@ jobs:
             --max-turns 60
             --allowedTools "Bash(*)" "Read" "Write" "Edit" "Glob" "Grep" "WebFetch"
 
+      - name: Dispatch Assayer (bypass pull_request rate limit)
+        # The Miner just created a PR via gh pr create. The resulting
+        # pull_request:opened event normally triggers assayer.yml, but
+        # GitHub silently rate-limits pull_request webhook delivery for
+        # the same user/PAT — ~35% of events were getting dropped in
+        # steady state, especially the 2nd+ PR in a batch (47% stuck
+        # rate observed). Explicitly dispatch Assayer via the workflow
+        # API instead, which is not subject to webhook rate-limiting.
+        # The pull_request trigger is still kept as a belt-and-suspenders
+        # path; assayer.yml concurrency-cancels duplicates.
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.PROJECT_PAT }}
+          BRANCH: miner/issue-${{ matrix.issue }}-r${{ github.run_id }}
+        run: |
+          # Find the PR the Miner just opened. If it didn't open one
+          # (e.g. miner-blocked), exit cleanly.
+          PR_NUM=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number // empty')
+          if [ -z "$PR_NUM" ]; then
+            echo "No PR found for branch $BRANCH — Miner may have exited via miner-blocked."
+            exit 0
+          fi
+          echo "Dispatching Assayer for PR #$PR_NUM (branch $BRANCH)"
+          gh workflow run assayer.yml \
+            --repo "${{ github.repository }}" \
+            --field pr_number="$PR_NUM"
+
       - name: Update project board (assayer pending)
         if: always()
         env:

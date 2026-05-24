@@ -320,6 +320,19 @@ jobs:
             --output-format stream-json --verbose \
             --allowedTools "Bash(*)" "Read" "Write" "Edit" "Glob" "Grep" "WebFetch"
 
+      - name: Dispatch Assayer (bypass pull_request rate limit)
+        # Smith just pushed fix commits. The push would normally trigger
+        # assayer.yml via pull_request:synchronize, but GitHub silently
+        # rate-limits synchronize event delivery. Dispatch explicitly.
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.PROJECT_PAT }}
+        run: |
+          echo "Dispatching Assayer for PR #${{ steps.pr.outputs.pr_number }}"
+          gh workflow run assayer.yml \
+            --repo "${{ github.repository }}" \
+            --field pr_number="${{ steps.pr.outputs.pr_number }}"
+
       - name: Notify success
         if: success()
         env:

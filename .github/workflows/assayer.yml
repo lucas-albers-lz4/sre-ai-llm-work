@@ -4,15 +4,35 @@ name: Assayer (PR Quality Gate)
 # standards in agents/ASSAYER.md. Posts a review comment with the verdict
 # and pass/fails the check based on whether the Assayer approved.
 #
+# Triggered two ways:
+#
+#   1. pull_request events (opened/synchronize/reopened/labeled) — for
+#      PRs created or pushed by humans or via GITHUB_TOKEN paths that
+#      reliably trigger workflows.
+#
+#   2. workflow_dispatch with a pr_number input — invoked explicitly
+#      by the Miner / Smith / etc. after they create or push to a PR.
+#      This is the primary path for bot-created PRs because GitHub
+#      silently rate-limits pull_request webhook delivery when many
+#      events come from the same user/PAT in close succession (we hit
+#      this constantly in steady state; ~35% stuck rate, observed
+#      directly: pos-2-of-2 PRs in a batch stuck 47% of the time,
+#      and synchronize events from empty-commit pushes were also
+#      dropped). Explicit workflow_dispatch is not subject to webhook
+#      rate-limiting.
+#
 # Branch protection should require the "assayer" check to pass before
 # merging any PR with the source-note, guide-update, or feed-candidate label.
-#
-# Part of Pipeline 1 (Living Guide Automation, hi-4yk). Depends on the
-# Claude Code action wired up by hi-4yk.1.
 
 on:
   pull_request:
     types: [opened, synchronize, reopened, labeled]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'PR number to review'
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -20,30 +40,86 @@ permissions:
   issues: write                # auto-merge closes linked source issues
   checks: write
   id-token: write              # required by anthropics/claude-code-action OIDC auth
+  actions: write               # auto-rework Smith dispatches Assayer for the next round
 
 concurrency:
-  group: assayer-pr-${{ github.event.pull_request.number }}
+  group: assayer-pr-${{ github.event.pull_request.number || inputs.pr_number }}
   cancel-in-progress: true
 
 jobs:
+  prepare:
+    # Fetch PR data once via API and expose as job outputs. This lets
+    # the downstream review job work the same way whether the trigger
+    # was a pull_request event or an explicit workflow_dispatch.
+    runs-on: ubuntu-latest
+    outputs:
+      pr_number: ${{ steps.pr.outputs.pr_number }}
+      head_sha: ${{ steps.pr.outputs.head_sha }}
+      head_ref: ${{ steps.pr.outputs.head_ref }}
+      base_ref: ${{ steps.pr.outputs.base_ref }}
+      labels: ${{ steps.pr.outputs.labels }}
+      should_run: ${{ steps.pr.outputs.should_run }}
+    steps:
+      - name: Resolve PR data
+        id: pr
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            PR_NUM="${{ inputs.pr_number }}"
+          else
+            PR_NUM="${{ github.event.pull_request.number }}"
+          fi
+
+          if [[ -z "$PR_NUM" ]]; then
+            echo "No PR number to resolve."
+            echo "should_run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          DATA=$(gh api "repos/${{ github.repository }}/pulls/$PR_NUM")
+          HEAD_SHA=$(echo "$DATA" | jq -r .head.sha)
+          HEAD_REF=$(echo "$DATA" | jq -r .head.ref)
+          BASE_REF=$(echo "$DATA" | jq -r .base.ref)
+          LABELS=$(echo "$DATA" | jq -c '[.labels[].name]')
+          STATE=$(echo "$DATA" | jq -r .state)
+
+          if [[ "$STATE" != "open" ]]; then
+            echo "PR #$PR_NUM is $STATE, skipping."
+            echo "should_run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # Only review PRs that carry one of the labels we gate on.
+          SHOULD_RUN=false
+          if echo "$LABELS" | jq -e 'any(.[]; . == "source-note" or . == "guide-update" or . == "feed-candidate")' >/dev/null; then
+            SHOULD_RUN=true
+          fi
+
+          echo "Resolved PR #$PR_NUM head=$HEAD_REF@${HEAD_SHA:0:8} base=$BASE_REF state=$STATE should_run=$SHOULD_RUN"
+          echo "Labels: $LABELS"
+
+          echo "pr_number=$PR_NUM" >> "$GITHUB_OUTPUT"
+          echo "head_sha=$HEAD_SHA" >> "$GITHUB_OUTPUT"
+          echo "head_ref=$HEAD_REF" >> "$GITHUB_OUTPUT"
+          echo "base_ref=$BASE_REF" >> "$GITHUB_OUTPUT"
+          echo "labels=$LABELS" >> "$GITHUB_OUTPUT"
+          echo "should_run=$SHOULD_RUN" >> "$GITHUB_OUTPUT"
+
   assayer:
-    # Only review PRs that carry source-note or guide-update.
-    # When neither label is present the job is skipped (no check posted).
-    if: |
-      contains(github.event.pull_request.labels.*.name, 'source-note') ||
-      contains(github.event.pull_request.labels.*.name, 'guide-update') ||
-      contains(github.event.pull_request.labels.*.name, 'feed-candidate')
+    needs: prepare
+    if: needs.prepare.outputs.should_run == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.sha }}
+          ref: ${{ needs.prepare.outputs.head_sha }}
 
       - name: Compute PR diff against base
         run: |
-          git fetch origin "${{ github.event.pull_request.base.ref }}"
-          git diff "origin/${{ github.event.pull_request.base.ref }}...HEAD" > /tmp/pr.diff
+          git fetch origin "${{ needs.prepare.outputs.base_ref }}"
+          git diff "origin/${{ needs.prepare.outputs.base_ref }}...HEAD" > /tmp/pr.diff
           echo "Diff size: $(wc -l < /tmp/pr.diff) lines"
 
       - name: Load Assayer role into APPEND_SYSTEM_PROMPT
@@ -67,7 +143,7 @@ jobs:
             review standards, and required output format.
 
             The pull request diff is at /tmp/pr.diff. The PR labels are:
-            ${{ toJSON(github.event.pull_request.labels.*.name) }}
+            ${{ needs.prepare.outputs.labels }}
 
             Pick the review standards that apply:
             - source-note label     → "Review Standards for Source Note PRs"
@@ -81,11 +157,11 @@ jobs:
 
             Before reviewing, check for human reviewer comments on this PR:
 
-              gh api "repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments" \
+              gh api "repos/${{ github.repository }}/issues/${{ needs.prepare.outputs.pr_number }}/comments" \
                 --paginate --jq '.[] | select(.user.type != "Bot") | "[\(.user.login) \(.created_at)]: \(.body)"'
-              gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/comments" \
+              gh api "repos/${{ github.repository }}/pulls/${{ needs.prepare.outputs.pr_number }}/comments" \
                 --paginate --jq '.[] | select(.user.type != "Bot") | "[\(.user.login) on \(.path):\(.line // "?")]: \(.body)"'
-              gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews" \
+              gh api "repos/${{ github.repository }}/pulls/${{ needs.prepare.outputs.pr_number }}/reviews" \
                 --paginate --jq '.[] | select(.user.type != "Bot") | select(.body != null and .body != "") | "[\(.user.login) review \(.state)]: \(.body)"'
 
             If human reviewers have left feedback, treat their comments
@@ -116,7 +192,7 @@ jobs:
       - name: Post review and set check verdict
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_NUMBER: ${{ needs.prepare.outputs.pr_number }}
         run: |
           if [ ! -s /tmp/assayer-review.md ]; then
             echo "Assayer did not produce a review file. Failing check."
@@ -164,11 +240,11 @@ jobs:
         if: success()
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-          PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
+          PR_NUMBER: ${{ needs.prepare.outputs.pr_number }}
+          PR_HEAD_REF: ${{ needs.prepare.outputs.head_ref }}
         run: |
           # Only auto-merge source-note PRs, not guide-update or feed-candidate
-          LABELS='${{ toJSON(github.event.pull_request.labels.*.name) }}'
+          LABELS='${{ needs.prepare.outputs.labels }}'
           if ! echo "$LABELS" | jq -e 'index("source-note")' > /dev/null 2>&1; then
             echo "Not a source-note PR; skipping auto-merge."
             exit 0
@@ -178,10 +254,10 @@ jobs:
             exit 0
           fi
 
-          # Extract issue number from branch name (miner/issue-NN)
-          # Branch is miner/issue-N or miner/issue-N-r<run_id> (the -r
-          # suffix was added to avoid GitHub's per-branch workflow-event
-          # suppression that hits recreated branches; see miner-batch.yml).
+          # Extract issue number from branch name (miner/issue-N or
+          # miner/issue-N-r<run_id> — the -r suffix was added to avoid
+          # GitHub's per-branch workflow-event suppression that hits
+          # recreated branches; see miner-batch.yml).
           ISSUE_NUMBER=$(echo "$PR_HEAD_REF" | sed -n 's|^miner/issue-\([0-9]\+\)\(-r[0-9]\+\)\?$|\1|p')
 
           echo "Auto-merging source-note PR #$PR_NUMBER (assayer approved)"
@@ -201,11 +277,8 @@ jobs:
         if: always()
         env:
           GH_TOKEN: ${{ secrets.PROJECT_PAT }}
-          PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
+          PR_HEAD_REF: ${{ needs.prepare.outputs.head_ref }}
         run: |
-          # Branch is miner/issue-N or miner/issue-N-r<run_id> (the -r
-          # suffix was added to avoid GitHub's per-branch workflow-event
-          # suppression that hits recreated branches; see miner-batch.yml).
           ISSUE_NUMBER=$(echo "$PR_HEAD_REF" | sed -n 's|^miner/issue-\([0-9]\+\)\(-r[0-9]\+\)\?$|\1|p')
 
           if [ -f /tmp/assayer-review.md ] && \
@@ -217,7 +290,7 @@ jobs:
 
           # Update the PR in the project
           .github/scripts/update-project-field.sh \
-            "${{ github.event.pull_request.number }}" \
+            "${{ needs.prepare.outputs.pr_number }}" \
             "PVTSSF_lAHOABIwvc4BUXvuzhBgWzI" \
             "$OPTION_ID" \
             pr
@@ -230,21 +303,24 @@ jobs:
               "$OPTION_ID"
           fi
 
-      # Rework must be the LAST step — its push triggers a new assayer run
-      # via the concurrency group. Nothing should follow it.
+      # Rework must be the LAST step. It pushes a fix commit and then
+      # explicitly dispatches Assayer for the next round (push synchronize
+      # events are rate-limited and unreliable; see workflow header).
       - name: Smith rework (one iteration)
         if: |
           failure() &&
-          contains(github.event.pull_request.labels.*.name, 'guide-update') &&
-          !contains(github.event.pull_request.labels.*.name, 'rework-attempted')
+          contains(fromJSON(needs.prepare.outputs.labels), 'guide-update') &&
+          !contains(fromJSON(needs.prepare.outputs.labels), 'rework-attempted')
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PROJECT_PAT: ${{ secrets.PROJECT_PAT }}
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_NUMBER: ${{ needs.prepare.outputs.pr_number }}
+          PR_HEAD_REF: ${{ needs.prepare.outputs.head_ref }}
         run: |
-          # Use PAT for git push so the synchronize event triggers a re-run
-          # (pushes with GITHUB_TOKEN don't trigger workflows by design)
+          # Use PAT for git push (the user identity matters; we don't
+          # rely on the resulting synchronize event because it's rate-
+          # limited — we explicitly dispatch Assayer after the push).
           if [ -n "$PROJECT_PAT" ]; then
             git remote set-url origin \
               "https://x-access-token:${PROJECT_PAT}@github.com/${{ github.repository }}.git"
@@ -265,7 +341,7 @@ jobs:
           git config user.email "hitchhiker-smith@users.noreply.github.com"
 
           # Checkout the PR branch (not detached HEAD)
-          git checkout "${{ github.event.pull_request.head.ref }}"
+          git checkout "$PR_HEAD_REF"
 
           # Install Claude Code CLI
           npm install -g @anthropic-ai/claude-code
@@ -297,3 +373,12 @@ jobs:
             --max-turns 30 \
             --output-format stream-json --verbose \
             --allowedTools "Bash(*)" "Read" "Write" "Edit" "Glob" "Grep" "WebFetch"
+
+          # Explicitly dispatch Assayer for the next review round.
+          # The git push above would normally trigger a synchronize event,
+          # but GitHub silently rate-limits those (~35% of events dropped
+          # in steady state). workflow_dispatch via API bypasses this.
+          echo "Dispatching Assayer for the post-rework review"
+          gh workflow run assayer.yml \
+            --repo "${{ github.repository }}" \
+            --field pr_number="$PR_NUMBER"
