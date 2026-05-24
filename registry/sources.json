@@ -1,5 +1,18 @@
 {
   "sources": {
+    "docs-ghaw-cache-memory-reference": {
+      "slug": "docs-ghaw-cache-memory-reference",
+      "title": "GitHub Agentic Workflows: Cache Memory Reference",
+      "source_url": "https://github.github.com/gh-aw/reference/cache-memory",
+      "source_type": "docs",
+      "author": "GitHub Agentic Workflows team (official reference documentation)",
+      "date_published": null,
+      "date_extracted": "2026-05-24",
+      "issue": "#360",
+      "file": "source-notes/docs-ghaw-cache-memory-reference.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-anthropic-opus46-hackathon-winners": {
       "slug": "blog-anthropic-opus46-hackathon-winners",
       "title": "Meet the winners of our Built with Opus 4.6 Claude Code hackathon",
