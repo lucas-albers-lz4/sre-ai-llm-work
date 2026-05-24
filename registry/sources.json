@@ -1,5 +1,18 @@
 {
   "sources": {
+    "blog-langchain-harness-memory": {
+      "slug": "blog-langchain-harness-memory",
+      "title": "Your harness, your memory",
+      "source_url": "https://www.langchain.com/blog/your-harness-your-memory",
+      "source_type": "blog-post",
+      "author": "Harrison Chase",
+      "date_published": "2026-04-11",
+      "date_extracted": "2026-05-24",
+      "issue": "#134",
+      "file": "source-notes/blog-langchain-harness-memory.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-simonwillison-datasette-blog-codex-session": {
       "slug": "blog-simonwillison-datasette-blog-codex-session",
       "title": "Welcome to the Datasette blog",
