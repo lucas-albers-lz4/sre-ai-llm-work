@@ -118,6 +118,9 @@
         "https://simonwillison.net/2026/May/14/datasette-ip-rate-limit/#atom-everything",
         "https://simonwillison.net/2026/May/14/mitchell-hashimoto/#atom-everything",
         "https://simonwillison.net/2026/May/14/not-so-locked-in/#atom-everything",
+        "https://simonwillison.net/2026/May/15/datasette-agent/#atom-everything",
+        "https://simonwillison.net/2026/May/15/datasette-llm-limits/#atom-everything",
+        "https://simonwillison.net/2026/May/15/qr-code-generator/#atom-everything",
         "https://simonwillison.net/2026/May/2/sightings/#atom-everything",
         "https://simonwillison.net/2026/May/3/anthropic/#atom-everything",
         "https://simonwillison.net/2026/May/4/andy-masley/#atom-everything",
@@ -141,7 +144,7 @@
         "https://simonwillison.net/2026/May/9/luke-curley/#atom-everything",
         "https://simonwillison.net/guides/agentic-engineering-patterns/adding-a-new-content-type/#atom-everything"
       ],
-      "last_scan": "2026-05-23T06:52:14.488646+00:00"
+      "last_scan": "2026-05-24T07:03:15.635825+00:00"
     },
     "armin-ronacher": {
       "seen": [
@@ -161,7 +164,7 @@
         "https://lucumr.pocoo.org/2026/5/4/content-for-contents-sake/",
         "https://lucumr.pocoo.org/2026/5/8/local-models/"
       ],
-      "last_scan": "2026-05-23T06:52:16.583958+00:00"
+      "last_scan": "2026-05-24T07:03:17.767618+00:00"
     },
     "github-changelog": {
       "seen": [
@@ -198,7 +201,7 @@
         "69d7c7e5f4b5380001c805e3",
         "69da3347f4b5380001c807c4"
       ],
-      "last_scan": "2026-05-23T06:52:22.255012+00:00"
+      "last_scan": "2026-05-24T07:03:22.383395+00:00"
     },
     "github-copilot": {
       "seen": [
@@ -268,7 +271,7 @@
         "https://github.blog/changelog/2026-05-20-semantic-issue-search-in-copilot-chat",
         "https://github.blog/changelog/2026-05-20-updates-to-available-models-in-copilot-on-web"
       ],
-      "last_scan": "2026-05-23T06:52:19.843770+00:00"
+      "last_scan": "2026-05-24T07:03:20.029794+00:00"
     },
     "anthropic-engineering": {
       "seen": [
@@ -297,7 +300,7 @@
         "https://www.anthropic.com/engineering/swe-bench-sonnet",
         "https://www.anthropic.com/engineering/writing-tools-for-agents"
       ],
-      "last_scan": "2026-05-23T06:52:24.373496+00:00"
+      "last_scan": "2026-05-24T07:03:24.411547+00:00"
     },
     "claude-blog": {
       "seen": [
@@ -450,7 +453,7 @@
         "https://claude.com/blog/workspaces",
         "https://claude.com/blog/your-thinking-partner"
       ],
-      "last_scan": "2026-05-23T06:52:27.387330+00:00"
+      "last_scan": "2026-05-24T07:03:26.435077+00:00"
     },
     "cursor-blog": {
       "seen": [
@@ -488,7 +491,7 @@
         "https://cursor.com/blog/typescript-sdk",
         "https://cursor.com/blog/warp-decode"
       ],
-      "last_scan": "2026-05-23T06:52:30.377835+00:00"
+      "last_scan": "2026-05-24T07:03:28.457252+00:00"
     },
     "the-batch": {
       "seen": [
@@ -1232,7 +1235,7 @@
         "https://www.deeplearning.ai/the-batch/issue-xvi",
         "https://www.deeplearning.ai/the-batch/issue-xvi/"
       ],
-      "last_scan": "2026-05-23T06:52:33.566013+00:00"
+      "last_scan": "2026-05-24T07:03:30.613603+00:00"
     },
     "github-agentic-workflows": {
       "seen": [
@@ -1263,8 +1266,8 @@
         "https://github.github.com/gh-aw/blog/2026-05-15-agent-of-the-day/",
         "https://github.github.com/gh-aw/blog/2026-05-20-agent-of-the-day/"
       ],
-      "last_scan": "2026-05-23T06:52:35.735092+00:00"
+      "last_scan": "2026-05-24T07:03:32.767209+00:00"
     }
   },
-  "last_scan": "2026-05-23T06:52:35.735204+00:00"
+  "last_scan": "2026-05-24T07:03:32.767346+00:00"
 }
