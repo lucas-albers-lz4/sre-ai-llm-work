@@ -825,6 +825,33 @@ or treat every user-submitted field as untrusted and apply explicit format
 gates.
 [source: docs-ghaw-chatops, Claim 7] [settled]
 
+### Secrets in agent memory stores
+
+Prompt injection is the input-side risk for an automated workflow; the
+output side is what the agent *persists*. GitHub Agentic Workflows memory
+stores carry the same security boundary as the repository itself — Repo
+Memory is a Git branch, and Cache Memory has no access controls beyond
+repository permissions — so anyone who can read the repo can read everything
+the agent wrote there:
+
+> "Memory stores are visible to anyone with repository access. Never store
+> credentials, API tokens, PII, or secrets — only aggregate statistics and
+> anonymized data."
+> [source: docs-ghaw-memory-ops, Claim 11] [settled]
+
+The failure mode is silent accumulation: an agent that summarizes privileged
+data (internal API responses, user records, infrastructure detail) into its
+memory store leaks it to every collaborator — and on a public repository,
+memory is effectively public.
+[source: docs-ghaw-memory-ops, Claim 11] [settled]
+
+**Rule**: Treat every gh-aw memory store as world-readable within your
+repository's access scope. Persist only aggregate statistics and anonymized
+summaries — never credentials, tokens, PII, or secrets. Where memory content
+derives from user-submitted input, sanitize it before storage — the same
+untrusted-input boundary as §Prompt injection in workflow inputs.
+[source: docs-ghaw-memory-ops, Claim 11] [settled]
+
 ---
 
 ## Security Threat Model for AI-Native Teams
@@ -1125,6 +1152,7 @@ blog-thebatch-gpt55-hallucination-kimi-k26 (Claim 3),
 discussion-hn-airun-executable-markdown (Claim 7),
 discussion-hn-autofix-hybrid-review (Claims 1, 2, 3, 8),
 docs-ghaw-chatops (Claims 5, 6, 7),
+docs-ghaw-memory-ops (Claim 11),
 failure-alex000kim-claudecode-source-leak (Lesson 4),
 failure-claudemd-ignored-compaction,
 failure-hooks-enforcement-2k,
@@ -1137,4 +1165,4 @@ practitioner-supabase-supabase-js,
 practitioner-mikelane-pytest-test-categories,
 practitioner-dadlerj-tin*
 
-*Last updated: 2026-05-14*
+*Last updated: 2026-05-24*

@@ -727,6 +727,41 @@ compensate for limitations the new model no longer has.
 
 ---
 
+## The Harness Shrinks as the Model Grows
+
+The "see like an agent" rule above prescribes auditing the harness at each
+model upgrade for scaffolding the new model has outgrown. Cursor's
+production cloud-agent team arrived at the same discipline independently and
+frames it as a standing question rather than a one-time pass: "Building a
+cloud agent harness means constantly reevaluating how much behavior is
+deterministic and how much gets handed to the agent."
+[source: blog-cursor-cloud-agent-lessons, Claim 9] [emerging]
+
+That audit has two outputs, not one. The first — delete scaffolding built
+for a limitation the model no longer has — is the seeing-like-an-agent case
+[source: blog-anthropic-seeing-like-an-agent, Claim 7] [settled]. The
+second is to *expose* logic the harness used to hardcode, as a tool the
+agent now drives. Cursor's multi-repo handling is the concrete before/after:
+
+> "A year ago, multi-repo setups required hardcoded harness behavior. Now,
+> we can give the agent the repo layout, expose tools for branches and PRs,
+> and let it decide how to do the work."
+> [source: blog-cursor-cloud-agent-lessons, Claim 10] [anecdotal]
+
+The harness does not disappear as models improve — its contents migrate. In
+Cursor's words, "The harness isn't going away so much as what it contains is
+changing."
+[source: blog-cursor-cloud-agent-lessons, Claim 9] [emerging]
+
+**Rule**: At each model upgrade, run the harness audit for both outcomes —
+delete scaffolding the model has outgrown, and convert hardcoded harness
+logic into agent-controlled tools. The two-output framing is corroborated
+by Anthropic and Cursor; the specific multi-repo migration is Cursor's own
+and may not transfer verbatim to your harness.
+[source: blog-cursor-cloud-agent-lessons, Claim 9] [emerging]
+
+---
+
 ## Hooks — Silent Behavior Injection
 
 Hooks run automatically at lifecycle events without the agent's awareness.
@@ -1431,6 +1466,7 @@ blog-addyosmani-code-agent-orchestra (Claims 4, 7, 11; Linked Sources 1, 4),
 blog-anthropic-multi-agent-coordination-patterns (Claims 1-3, 5-7, 12, 13),
 blog-anthropic-seeing-like-an-agent (Claims 1-5, 7, 12),
 blog-ccunpacked-claude-code-architecture (Claim 14),
+blog-cursor-cloud-agent-lessons (Claims 9, 10),
 blog-simonwillison-codex-base-instructions (Claim 6),
 discussion-hn-ttal-multiagent-factory (Claims 2, 8, 9),
 failure-alex000kim-claudecode-source-leak (Lesson 1),
@@ -1446,4 +1482,4 @@ practitioner-supabase-supabase-js,
 practitioner-dadlerj-tin,
 practitioner-mikelane-pytest-test-categories*
 
-*Last updated: 2026-05-09*
+*Last updated: 2026-05-24*
