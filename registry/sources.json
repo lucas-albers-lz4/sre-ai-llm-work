@@ -1405,6 +1405,19 @@
       "file": "source-notes/docs-ghaw-github-tools.md",
       "confidence_overall": "emerging",
       "status": "current"
+    },
+    "blog-cursor-typescript-sdk": {
+      "slug": "blog-cursor-typescript-sdk",
+      "title": "Build programmatic agents with the Cursor SDK",
+      "source_url": "https://cursor.com/blog/typescript-sdk",
+      "source_type": "blog-post",
+      "author": "Roshan Sadanani (Cursor)",
+      "date_published": "2026-04-29",
+      "date_extracted": "2026-05-25",
+      "issue": "#467",
+      "file": "source-notes/blog-cursor-typescript-sdk.md",
+      "confidence_overall": "emerging",
+      "status": "current"
     }
   },
   "docs-ghaw-frontmatter-full-reference": {
