@@ -2074,5 +2074,18 @@
     "file": "source-notes/docs-ghaw-engines-reference.md",
     "confidence_overall": "emerging",
     "status": "current"
+  },
+  "docs-github-copilot-org-targeted-model-rules": {
+    "slug": "docs-github-copilot-org-targeted-model-rules",
+    "title": "Target Copilot models to organizations with model rules",
+    "source_url": "https://github.blog/changelog/2026-05-26-target-copilot-models-to-organizations-with-model-rules",
+    "source_type": "docs",
+    "author": "GitHub (official changelog)",
+    "date_published": "2026-05-26",
+    "date_extracted": "2026-05-27",
+    "issue": "#957",
+    "file": "source-notes/docs-github-copilot-org-targeted-model-rules.md",
+    "confidence_overall": "settled",
+    "status": "current"
   }
 }
