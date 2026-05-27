@@ -1,5 +1,18 @@
 {
   "sources": {
+    "blog-cursor-faire-cloud-agents": {
+      "slug": "blog-cursor-faire-cloud-agents",
+      "title": "Faire doubles PR throughput with Cursor Cloud Agents",
+      "source_url": "https://cursor.com/blog/faire",
+      "source_type": "blog-post",
+      "author": "Cursor Team (vendor case study; named practitioners: Luke Bjerring, Blair McAlpine — Faire)",
+      "date_published": "2026-05-26",
+      "date_extracted": "2026-05-27",
+      "issue": "#961",
+      "file": "source-notes/blog-cursor-faire-cloud-agents.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-ghaw-cross-repository-reference": {
       "slug": "docs-ghaw-cross-repository-reference",
       "title": "GitHub Agentic Workflows: Cross-Repository Operations Reference",
