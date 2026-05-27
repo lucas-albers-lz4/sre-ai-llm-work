@@ -2100,5 +2100,18 @@
     "file": "source-notes/blog-ronacher-clanker-terminology.md",
     "confidence_overall": "anecdotal",
     "status": "current"
+  },
+  "docs-github-copilot-memory-deletion-scope-cli": {
+    "slug": "docs-github-copilot-memory-deletion-scope-cli",
+    "title": "Copilot Memory has more controls for deletion, scope, and the Copilot CLI",
+    "source_url": "https://github.blog/changelog/2026-05-26-copilot-memory-has-more-controls-for-deletion-scope-and-the-copilot-cli",
+    "source_type": "docs",
+    "author": "GitHub (official changelog)",
+    "date_published": "2026-05-26",
+    "date_extracted": "2026-05-27",
+    "issue": "#958",
+    "file": "source-notes/docs-github-copilot-memory-deletion-scope-cli.md",
+    "confidence_overall": "emerging",
+    "status": "current"
   }
 }
