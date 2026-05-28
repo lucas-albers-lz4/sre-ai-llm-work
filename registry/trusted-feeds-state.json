@@ -128,7 +128,10 @@
         "https://simonwillison.net/2026/May/17/gds-weighs-in/#atom-everything",
         "https://simonwillison.net/2026/May/18/sighting-362781627/#atom-everything",
         "https://simonwillison.net/2026/May/19/5-minute-llms/#atom-everything",
+        "https://simonwillison.net/2026/May/19/datasette-llm-accountant/#atom-everything",
         "https://simonwillison.net/2026/May/19/datasette-llm/#atom-everything",
+        "https://simonwillison.net/2026/May/19/gemini-35-flash/#atom-everything",
+        "https://simonwillison.net/2026/May/19/llm-gemini-2/#atom-everything",
         "https://simonwillison.net/2026/May/19/llm-gemini/#atom-everything",
         "https://simonwillison.net/2026/May/2/sightings/#atom-everything",
         "https://simonwillison.net/2026/May/3/anthropic/#atom-everything",
@@ -153,7 +156,7 @@
         "https://simonwillison.net/2026/May/9/luke-curley/#atom-everything",
         "https://simonwillison.net/guides/agentic-engineering-patterns/adding-a-new-content-type/#atom-everything"
       ],
-      "last_scan": "2026-05-27T07:22:21.735765+00:00"
+      "last_scan": "2026-05-28T07:15:26.250189+00:00"
     },
     "armin-ronacher": {
       "seen": [
@@ -175,7 +178,7 @@
         "https://lucumr.pocoo.org/2026/5/4/content-for-contents-sake/",
         "https://lucumr.pocoo.org/2026/5/8/local-models/"
       ],
-      "last_scan": "2026-05-27T07:22:24.899698+00:00"
+      "last_scan": "2026-05-28T07:15:28.463598+00:00"
     },
     "github-changelog": {
       "seen": [
@@ -212,7 +215,7 @@
         "69d7c7e5f4b5380001c805e3",
         "69da3347f4b5380001c807c4"
       ],
-      "last_scan": "2026-05-27T07:22:31.460178+00:00"
+      "last_scan": "2026-05-28T07:15:32.992433+00:00"
     },
     "github-copilot": {
       "seen": [
@@ -284,7 +287,7 @@
         "https://github.blog/changelog/2026-05-26-copilot-memory-has-more-controls-for-deletion-scope-and-the-copilot-cli",
         "https://github.blog/changelog/2026-05-26-target-copilot-models-to-organizations-with-model-rules"
       ],
-      "last_scan": "2026-05-27T07:22:29.194790+00:00"
+      "last_scan": "2026-05-28T07:15:30.531927+00:00"
     },
     "anthropic-engineering": {
       "seen": [
@@ -314,7 +317,7 @@
         "https://www.anthropic.com/engineering/swe-bench-sonnet",
         "https://www.anthropic.com/engineering/writing-tools-for-agents"
       ],
-      "last_scan": "2026-05-27T07:22:34.274735+00:00"
+      "last_scan": "2026-05-28T07:15:35.042301+00:00"
     },
     "claude-blog": {
       "seen": [
@@ -407,6 +410,7 @@
         "https://claude.com/blog/how-anthropics-finance-team-uses-claude-to-shape-the-narrative-behind-the-numbers",
         "https://claude.com/blog/how-brex-improves-code-quality-and-productivity-with-claude-code",
         "https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start",
+        "https://claude.com/blog/how-coderabbit-used-claude-to-build-an-agent-orchestration-system",
         "https://claude.com/blog/how-enterprises-are-building-ai-agents-in-2026",
         "https://claude.com/blog/how-kepler-built-verifiable-ai-for-financial-services-with-claude",
         "https://claude.com/blog/how-leading-retailers-are-turning-ai-pilots-into-enterprise-wide-transformation",
@@ -462,13 +466,15 @@
         "https://claude.com/blog/using-claude-code-session-management-and-1m-context",
         "https://claude.com/blog/using-claude-code-the-unreasonable-effectiveness-of-html",
         "https://claude.com/blog/using-claude-md-files",
+        "https://claude.com/blog/using-llms-to-secure-source-code",
         "https://claude.com/blog/web-search",
         "https://claude.com/blog/web-search-api",
         "https://claude.com/blog/what-is-model-context-protocol",
         "https://claude.com/blog/workspaces",
-        "https://claude.com/blog/your-thinking-partner"
+        "https://claude.com/blog/your-thinking-partner",
+        "https://claude.com/blog/zero-trust-for-ai-agents"
       ],
-      "last_scan": "2026-05-27T07:22:37.262695+00:00"
+      "last_scan": "2026-05-28T07:15:40.962385+00:00"
     },
     "cursor-blog": {
       "seen": [
@@ -507,7 +513,7 @@
         "https://cursor.com/blog/typescript-sdk",
         "https://cursor.com/blog/warp-decode"
       ],
-      "last_scan": "2026-05-27T07:22:40.340047+00:00"
+      "last_scan": "2026-05-28T07:15:43.102904+00:00"
     },
     "the-batch": {
       "seen": [
@@ -1251,7 +1257,7 @@
         "https://www.deeplearning.ai/the-batch/issue-xvi",
         "https://www.deeplearning.ai/the-batch/issue-xvi/"
       ],
-      "last_scan": "2026-05-27T07:22:42.489676+00:00"
+      "last_scan": "2026-05-28T07:15:45.255920+00:00"
     },
     "github-agentic-workflows": {
       "seen": [
@@ -1283,10 +1289,11 @@
         "https://github.github.com/gh-aw/blog/2026-05-20-agent-of-the-day/",
         "https://github.github.com/gh-aw/blog/2026-05-25-agent-of-the-day/",
         "https://github.github.com/gh-aw/blog/2026-05-25-weekly-update/",
-        "https://github.github.com/gh-aw/blog/2026-05-26-agent-of-the-day/"
+        "https://github.github.com/gh-aw/blog/2026-05-26-agent-of-the-day/",
+        "https://github.github.com/gh-aw/blog/2026-05-27-agent-of-the-day/"
       ],
-      "last_scan": "2026-05-27T07:22:45.666744+00:00"
+      "last_scan": "2026-05-28T07:15:48.888876+00:00"
     }
   },
-  "last_scan": "2026-05-27T07:22:45.666767+00:00"
+  "last_scan": "2026-05-28T07:15:48.888897+00:00"
 }
