@@ -1,5 +1,18 @@
 {
   "sources": {
+    "blog-anthropic-coderabbit-agent-orchestration": {
+      "slug": "blog-anthropic-coderabbit-agent-orchestration",
+      "title": "How CodeRabbit used Claude to build an agent orchestration system",
+      "source_url": "https://claude.com/blog/how-coderabbit-used-claude-to-build-an-agent-orchestration-system",
+      "source_type": "blog-post",
+      "author": "Anthropic (featuring David Loker, VP of AI at CodeRabbit)",
+      "date_published": "2026-05-27",
+      "date_extracted": "2026-05-28",
+      "issue": "#975",
+      "file": "source-notes/blog-anthropic-coderabbit-agent-orchestration.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-simonwillison-gemini35-flash-pricing": {
       "slug": "blog-simonwillison-gemini35-flash-pricing",
       "title": "Gemini 3.5 Flash: more expensive, but Google plan to use it for everything",
