@@ -888,8 +888,20 @@
         "screened_at": "2026-05-23T06:54:21.289993+00:00",
         "issue": 880,
         "filed_at": "2026-05-23T06:54:30.124842+00:00"
+      },
+      "https://github.github.com/gh-aw/reference/measuring-impact": {
+        "status": "filed",
+        "screened_at": "2026-05-29T07:17:58.343942+00:00",
+        "issue": 990,
+        "filed_at": "2026-05-29T07:17:59.632761+00:00"
+      },
+      "https://github.github.com/gh-aw/reference/outcomes": {
+        "status": "filed",
+        "screened_at": "2026-05-29T07:17:58.343960+00:00",
+        "issue": 991,
+        "filed_at": "2026-05-29T07:18:01.760616+00:00"
       }
     },
-    "last_scan": "2026-05-28T07:17:50.546354+00:00"
+    "last_scan": "2026-05-29T07:17:58.343963+00:00"
   }
 }
