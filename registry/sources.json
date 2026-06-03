@@ -1,5 +1,18 @@
 {
   "sources": {
+    "docs-github-copilot-jetbrains-cli-enhancements-june2026": {
+      "slug": "docs-github-copilot-jetbrains-cli-enhancements-june2026",
+      "title": "Introducing Copilot CLI and agentic capabilities enhancements in JetBrains IDEs",
+      "source_url": "https://github.blog/changelog/2026-06-02-introducing-copilot-cli-and-agentic-capabilities-enhancements-in-jetbrains-ides",
+      "source_type": "docs",
+      "author": "GitHub (official changelog)",
+      "date_published": "2026-06-02",
+      "date_extracted": "2026-06-03",
+      "issue": "#1036",
+      "file": "source-notes/docs-github-copilot-jetbrains-cli-enhancements-june2026.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-simonwillison-encyclical-on-ai": {
       "slug": "blog-simonwillison-encyclical-on-ai",
       "title": "Notes on Pope Leo XIV's encyclical on AI",
