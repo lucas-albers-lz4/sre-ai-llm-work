@@ -900,8 +900,60 @@
         "screened_at": "2026-05-29T07:17:58.343960+00:00",
         "issue": 991,
         "filed_at": "2026-05-29T07:18:01.760616+00:00"
+      },
+      "https://github.github.com/gh-aw/reference/copilot-cloud-agent": {
+        "status": "filed",
+        "screened_at": "2026-06-06T07:03:39.806138+00:00",
+        "issue": 1082,
+        "filed_at": "2026-06-06T07:03:41.284412+00:00"
+      },
+      "https://github.github.com/gh-aw/specs/ai-credits-specification": {
+        "status": "rejected",
+        "screened_at": "2026-06-06T07:03:39.806156+00:00"
+      },
+      "https://github.github.com/gh-aw/specs/copilot-sdk-driver-specification": {
+        "status": "filed",
+        "screened_at": "2026-06-06T07:03:39.806159+00:00",
+        "issue": 1083,
+        "filed_at": "2026-06-06T07:03:43.143193+00:00"
+      },
+      "https://github.github.com/gh-aw/specs/effective-tokens-specification": {
+        "status": "rejected",
+        "screened_at": "2026-06-06T07:03:39.806161+00:00"
+      },
+      "https://github.github.com/gh-aw/specs/forecast-specification": {
+        "status": "rejected",
+        "screened_at": "2026-06-06T07:03:39.806162+00:00"
+      },
+      "https://github.github.com/gh-aw/specs/frontmatter-hash-specification": {
+        "status": "rejected",
+        "screened_at": "2026-06-06T07:03:39.806164+00:00"
+      },
+      "https://github.github.com/gh-aw/specs/fuzzy-schedule-specification": {
+        "status": "rejected",
+        "screened_at": "2026-06-06T07:03:39.806166+00:00"
+      },
+      "https://github.github.com/gh-aw/specs/mcp-scripts-specification": {
+        "status": "filed",
+        "screened_at": "2026-06-06T07:03:39.806168+00:00",
+        "issue": 1084,
+        "filed_at": "2026-06-06T07:03:45.068598+00:00"
+      },
+      "https://github.github.com/gh-aw/specs/model-alias-specification": {
+        "status": "rejected",
+        "screened_at": "2026-06-06T07:03:39.806170+00:00"
+      },
+      "https://github.github.com/gh-aw/specs/repository-package-manifest-specification": {
+        "status": "rejected",
+        "screened_at": "2026-06-06T07:03:39.806172+00:00"
+      },
+      "https://github.github.com/gh-aw/specs/safe-outputs-specification": {
+        "status": "filed",
+        "screened_at": "2026-06-06T07:03:39.806173+00:00",
+        "issue": 1085,
+        "filed_at": "2026-06-06T07:03:46.985968+00:00"
       }
     },
-    "last_scan": "2026-06-05T07:27:15.631721+00:00"
+    "last_scan": "2026-06-06T07:03:39.806175+00:00"
   }
 }
