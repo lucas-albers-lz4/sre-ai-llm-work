@@ -1,5 +1,18 @@
 {
   "sources": {
+    "docs-ghaw-copilot-sdk-driver-specification": {
+      "slug": "docs-ghaw-copilot-sdk-driver-specification",
+      "title": "GitHub Agentic Workflows: Copilot SDK Driver Specification (v1.0.2)",
+      "source_url": "https://github.github.com/gh-aw/specs/copilot-sdk-driver-specification",
+      "source_type": "docs",
+      "author": "GitHub Agentic Workflows team (GitHub Next / Microsoft Research)",
+      "date_published": null,
+      "date_extracted": "2026-06-06",
+      "issue": "#1083",
+      "file": "source-notes/docs-ghaw-copilot-sdk-driver-specification.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-simonwillison-sqlite-agents-md": {
       "slug": "blog-simonwillison-sqlite-agents-md",
       "title": "sqlite AGENTS.md",
