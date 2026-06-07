@@ -1,5 +1,18 @@
 {
   "sources": {
+    "blog-simonwillison-anthropic-47b-revenue": {
+      "slug": "blog-simonwillison-anthropic-47b-revenue",
+      "title": "Anthropic's run-rate revenue hits $47 billion",
+      "source_url": "https://simonwillison.net/2026/May/29/anthropic/",
+      "source_type": "blog-post",
+      "author": "Simon Willison",
+      "date_published": "2026-05-29",
+      "date_extracted": "2026-06-07",
+      "issue": "#1097",
+      "file": "source-notes/blog-simonwillison-anthropic-47b-revenue.md",
+      "confidence_overall": "anecdotal",
+      "status": "current"
+    },
     "blog-ronacher-communities-of-not": {
       "slug": "blog-ronacher-communities-of-not",
       "title": "Communities of Not",
