@@ -956,8 +956,14 @@
       "https://github.github.com/gh-aw/specs/bash-command-parser-specification": {
         "status": "rejected",
         "screened_at": "2026-06-07T07:22:21.652229+00:00"
+      },
+      "https://github.github.com/gh-aw/experimental/safe-outputs-samples": {
+        "status": "filed",
+        "screened_at": "2026-06-08T07:38:20.188269+00:00",
+        "issue": 1114,
+        "filed_at": "2026-06-08T07:38:21.223110+00:00"
       }
     },
-    "last_scan": "2026-06-07T07:22:21.652397+00:00"
+    "last_scan": "2026-06-08T07:38:20.188284+00:00"
   }
 }
