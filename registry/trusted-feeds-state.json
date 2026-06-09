@@ -166,8 +166,11 @@
         "https://simonwillison.net/2026/May/29/datasette/#atom-everything",
         "https://simonwillison.net/2026/May/3/anthropic/#atom-everything",
         "https://simonwillison.net/2026/May/30/daniel-jalkut/#atom-everything",
+        "https://simonwillison.net/2026/May/30/how-we-contain-claude/#atom-everything",
         "https://simonwillison.net/2026/May/30/pyodide-asgi-browser/#atom-everything",
         "https://simonwillison.net/2026/May/30/retiring-from-tech-to-live-offline/#atom-everything",
+        "https://simonwillison.net/2026/May/31/anthropic-run-rate/#atom-everything",
+        "https://simonwillison.net/2026/May/31/the-solution-might-be-cancelling-my-ai-subscription/#atom-everything",
         "https://simonwillison.net/2026/May/4/andy-masley/#atom-everything",
         "https://simonwillison.net/2026/May/4/april-newsletter/#atom-everything",
         "https://simonwillison.net/2026/May/4/granite-41-3b-svg-pelican-gallery/#atom-everything",
@@ -189,7 +192,7 @@
         "https://simonwillison.net/2026/May/9/luke-curley/#atom-everything",
         "https://simonwillison.net/guides/agentic-engineering-patterns/adding-a-new-content-type/#atom-everything"
       ],
-      "last_scan": "2026-06-08T07:36:30.537493+00:00"
+      "last_scan": "2026-06-09T07:10:00.548510+00:00"
     },
     "armin-ronacher": {
       "seen": [
@@ -212,7 +215,7 @@
         "https://lucumr.pocoo.org/2026/5/8/local-models/",
         "https://lucumr.pocoo.org/2026/6/6/communities-of-not/"
       ],
-      "last_scan": "2026-06-08T07:36:32.877418+00:00"
+      "last_scan": "2026-06-09T07:10:02.749263+00:00"
     },
     "github-changelog": {
       "seen": [
@@ -249,7 +252,7 @@
         "69d7c7e5f4b5380001c805e3",
         "69da3347f4b5380001c807c4"
       ],
-      "last_scan": "2026-06-08T07:36:39.595974+00:00"
+      "last_scan": "2026-06-09T07:10:07.460355+00:00"
     },
     "github-copilot": {
       "seen": [
@@ -343,7 +346,7 @@
         "https://github.blog/changelog/2026-07-01-github-copilot-code-review-for-azure-repos-is-now-in-technical-preview",
         "https://github.blog/changelog/2026-07-01-shape-copilot-code-review-around-your-team"
       ],
-      "last_scan": "2026-06-08T07:36:37.314343+00:00"
+      "last_scan": "2026-06-09T07:10:05.082546+00:00"
     },
     "anthropic-engineering": {
       "seen": [
@@ -373,7 +376,7 @@
         "https://www.anthropic.com/engineering/swe-bench-sonnet",
         "https://www.anthropic.com/engineering/writing-tools-for-agents"
       ],
-      "last_scan": "2026-06-08T07:36:41.656474+00:00"
+      "last_scan": "2026-06-09T07:10:09.491776+00:00"
     },
     "claude-blog": {
       "seen": [
@@ -420,6 +423,7 @@
         "https://claude.com/blog/claude-excel-powerpoint-updates",
         "https://claude.com/blog/claude-for-chrome",
         "https://claude.com/blog/claude-for-enterprise",
+        "https://claude.com/blog/claude-for-foundation-models",
         "https://claude.com/blog/claude-for-the-legal-industry",
         "https://claude.com/blog/claude-managed-agents",
         "https://claude.com/blog/claude-managed-agents-memory",
@@ -498,6 +502,7 @@
         "https://claude.com/blog/multi-agent-coordination-patterns",
         "https://claude.com/blog/new-guide-deploying-claude-across-the-enterprise-with-claude-cowork",
         "https://claude.com/blog/new-in-claude-managed-agents",
+        "https://claude.com/blog/observability-for-developers-building-connectors",
         "https://claude.com/blog/onboarding-claude-code-like-a-new-developer-lessons-from-17-years-of-development",
         "https://claude.com/blog/optimize-code-performance-quickly",
         "https://claude.com/blog/opus-4-6-finance",
@@ -538,7 +543,7 @@
         "https://claude.com/blog/your-thinking-partner",
         "https://claude.com/blog/zero-trust-for-ai-agents"
       ],
-      "last_scan": "2026-06-08T07:36:43.684187+00:00"
+      "last_scan": "2026-06-09T07:10:13.721711+00:00"
     },
     "cursor-blog": {
       "seen": [
@@ -580,7 +585,7 @@
         "https://cursor.com/blog/typescript-sdk",
         "https://cursor.com/blog/warp-decode"
       ],
-      "last_scan": "2026-06-08T07:36:45.711621+00:00"
+      "last_scan": "2026-06-09T07:10:15.879570+00:00"
     },
     "the-batch": {
       "seen": [
@@ -1325,7 +1330,7 @@
         "https://www.deeplearning.ai/the-batch/issue-xvi",
         "https://www.deeplearning.ai/the-batch/issue-xvi/"
       ],
-      "last_scan": "2026-06-08T07:36:47.772975+00:00"
+      "last_scan": "2026-06-09T07:10:17.921276+00:00"
     },
     "github-agentic-workflows": {
       "seen": [
@@ -1367,8 +1372,8 @@
         "https://github.github.com/gh-aw/blog/2026-06-02-agent-of-the-day/",
         "https://github.github.com/gh-aw/blog/2026-06-08-migrating-from-effective-tokens-to-ai-credits/"
       ],
-      "last_scan": "2026-06-08T07:36:50.605926+00:00"
+      "last_scan": "2026-06-09T07:10:20.062358+00:00"
     }
   },
-  "last_scan": "2026-06-08T07:36:50.605946+00:00"
+  "last_scan": "2026-06-09T07:10:20.062374+00:00"
 }
