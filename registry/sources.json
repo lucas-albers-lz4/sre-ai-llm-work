@@ -2685,5 +2685,18 @@
     "file": "source-notes/blog-anthropic-connector-observability.md",
     "confidence_overall": "settled",
     "status": "current"
+  },
+  "docs-github-copilot-security-validation-third-party-agents": {
+    "slug": "docs-github-copilot-security-validation-third-party-agents",
+    "title": "Security Validation for Third-Party Coding Agents",
+    "source_url": "https://github.blog/changelog/2026-06-09-security-validation-for-third-party-coding-agents",
+    "source_type": "docs",
+    "author": "GitHub (official changelog)",
+    "date_published": "2026-06-09",
+    "date_extracted": "2026-06-10",
+    "issue": "#1132",
+    "file": "source-notes/docs-github-copilot-security-validation-third-party-agents.md",
+    "confidence_overall": "settled",
+    "status": "current"
   }
 }
