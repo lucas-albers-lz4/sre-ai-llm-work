@@ -78,6 +78,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "blog-ronacher-gaslighting-openness": {
+      "slug": "blog-ronacher-gaslighting-openness",
+      "title": "Gaslighting Openness",
+      "source_url": "https://lucumr.pocoo.org/2026/6/10/gaslighting/",
+      "source_type": "blog-post",
+      "author": "Armin Ronacher",
+      "date_published": "2026-06-10",
+      "date_extracted": "2026-06-11",
+      "issue": "#1143",
+      "file": "source-notes/blog-ronacher-gaslighting-openness.md",
+      "confidence_overall": "anecdotal",
+      "status": "current"
+    },
     "blog-ronacher-communities-of-not": {
       "slug": "blog-ronacher-communities-of-not",
       "title": "Communities of Not",
