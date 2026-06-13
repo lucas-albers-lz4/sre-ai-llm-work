@@ -1,5 +1,18 @@
 {
   "sources": {
+    "blog-simonwillison-charity-majors-enthusiast-skeptic": {
+      "slug": "blog-simonwillison-charity-majors-enthusiast-skeptic",
+      "title": "AI enthusiasts are in a race against time, AI skeptics are in a race against entropy",
+      "source_url": "https://simonwillison.net/2026/Jun/4/ai-enthusiasts-ai-skeptics/",
+      "source_type": "blog-post",
+      "author": "Charity Majors (excerpted by Simon Willison)",
+      "date_published": "2026-06-04",
+      "date_extracted": "2026-06-13",
+      "issue": "#1167",
+      "file": "source-notes/blog-simonwillison-charity-majors-enthusiast-skeptic.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-github-copilot-aw-github-token-auth": {
       "slug": "docs-github-copilot-aw-github-token-auth",
       "title": "Agentic workflows no longer need a personal access token",
