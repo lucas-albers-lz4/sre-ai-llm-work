@@ -2854,5 +2854,18 @@
     "file": "source-notes/blog-cursor-agent-autonomy-auto-review.md",
     "confidence_overall": "emerging",
     "status": "current"
+  },
+  "blog-anthropic-opus47-hackathon-winners": {
+    "slug": "blog-anthropic-opus47-hackathon-winners",
+    "title": "Meet the winners of the Built with Opus 4.7 Claude Code hackathon",
+    "source_url": "https://claude.com/blog/meet-the-winners-of-built-with-opus-4-7-claude-code-hackathon",
+    "source_type": "blog-post",
+    "author": "Anthropic (Claude team)",
+    "date_published": "2026-06-15",
+    "date_extracted": "2026-06-16",
+    "issue": "#1190",
+    "file": "source-notes/blog-anthropic-opus47-hackathon-winners.md",
+    "confidence_overall": "emerging",
+    "status": "current"
   }
 }
