@@ -1,5 +1,18 @@
 {
   "sources": {
+    "docs-github-copilot-usage-metrics-server-side-telemetry": {
+      "slug": "docs-github-copilot-usage-metrics-server-side-telemetry",
+      "title": "Copilot usage metrics now include more of your active users",
+      "source_url": "https://github.blog/changelog/2026-06-15-copilot-usage-metrics-now-include-more-of-your-active-users",
+      "source_type": "docs",
+      "author": "GitHub (official changelog)",
+      "date_published": "2026-06-15",
+      "date_extracted": "2026-06-16",
+      "issue": "#1189",
+      "file": "source-notes/docs-github-copilot-usage-metrics-server-side-telemetry.md",
+      "confidence_overall": "settled",
+      "status": "current"
+    },
     "blog-cursor-wayfair-ml-cost-reduction": {
       "slug": "blog-cursor-wayfair-ml-cost-reduction",
       "title": "How Wayfair cut ML model costs by 90% (twice!) with Cursor",
