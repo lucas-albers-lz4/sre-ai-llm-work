@@ -101,6 +101,8 @@
         "https://simonwillison.net/2026/Apr/9/github-repo-size/#atom-everything",
         "https://simonwillison.net/2026/Jun/1/hackers-simply-asked-meta-ai/#atom-everything",
         "https://simonwillison.net/2026/Jun/1/may-newsletter/#atom-everything",
+        "https://simonwillison.net/2026/Jun/10/if-claude-fable-stops-helping-you/#atom-everything",
+        "https://simonwillison.net/2026/Jun/10/jeremy-howard/#atom-everything",
         "https://simonwillison.net/2026/Jun/2/datasette-agent-micropython/#atom-everything",
         "https://simonwillison.net/2026/Jun/2/micropython-wasm-2/#atom-everything",
         "https://simonwillison.net/2026/Jun/2/micropython-wasm/#atom-everything",
@@ -118,6 +120,7 @@
         "https://simonwillison.net/2026/Jun/8/wwdc/#atom-everything",
         "https://simonwillison.net/2026/Jun/9/agentsview-custom-model-price/#atom-everything",
         "https://simonwillison.net/2026/Jun/9/andrej-karpathy/#atom-everything",
+        "https://simonwillison.net/2026/Jun/9/claude-fable-5/#atom-everything",
         "https://simonwillison.net/2026/Jun/9/llm/#atom-everything",
         "https://simonwillison.net/2026/May/1/inat-sightings/#atom-everything",
         "https://simonwillison.net/2026/May/10/andrew-quinn/#atom-everything",
@@ -213,7 +216,7 @@
         "https://simonwillison.net/2026/May/9/luke-curley/#atom-everything",
         "https://simonwillison.net/guides/agentic-engineering-patterns/adding-a-new-content-type/#atom-everything"
       ],
-      "last_scan": "2026-06-16T07:52:37.500859+00:00"
+      "last_scan": "2026-06-17T07:44:48.795808+00:00"
     },
     "armin-ronacher": {
       "seen": [
@@ -238,7 +241,7 @@
         "https://lucumr.pocoo.org/2026/6/13/americans-only/",
         "https://lucumr.pocoo.org/2026/6/6/communities-of-not/"
       ],
-      "last_scan": "2026-06-16T07:52:39.784695+00:00"
+      "last_scan": "2026-06-17T07:44:51.088212+00:00"
     },
     "github-changelog": {
       "seen": [
@@ -275,7 +278,7 @@
         "69d7c7e5f4b5380001c805e3",
         "69da3347f4b5380001c807c4"
       ],
-      "last_scan": "2026-06-16T07:52:45.691170+00:00"
+      "last_scan": "2026-06-17T07:44:55.525715+00:00"
     },
     "github-copilot": {
       "seen": [
@@ -378,7 +381,7 @@
         "https://github.blog/changelog/2026-07-01-github-copilot-code-review-for-azure-repos-is-now-in-technical-preview",
         "https://github.blog/changelog/2026-07-01-shape-copilot-code-review-around-your-team"
       ],
-      "last_scan": "2026-06-16T07:52:43.135298+00:00"
+      "last_scan": "2026-06-17T07:44:53.150546+00:00"
     },
     "anthropic-engineering": {
       "seen": [
@@ -408,7 +411,7 @@
         "https://www.anthropic.com/engineering/swe-bench-sonnet",
         "https://www.anthropic.com/engineering/writing-tools-for-agents"
       ],
-      "last_scan": "2026-06-16T07:52:47.769551+00:00"
+      "last_scan": "2026-06-17T07:44:57.555831+00:00"
     },
     "claude-blog": {
       "seen": [
@@ -578,7 +581,7 @@
         "https://claude.com/blog/your-thinking-partner",
         "https://claude.com/blog/zero-trust-for-ai-agents"
       ],
-      "last_scan": "2026-06-16T07:52:51.030658+00:00"
+      "last_scan": "2026-06-17T07:44:59.685301+00:00"
     },
     "cursor-blog": {
       "seen": [
@@ -623,7 +626,7 @@
         "https://cursor.com/blog/warp-decode",
         "https://cursor.com/blog/wayfair"
       ],
-      "last_scan": "2026-06-16T07:52:54.058327+00:00"
+      "last_scan": "2026-06-17T07:45:01.814041+00:00"
     },
     "the-batch": {
       "seen": [
@@ -1368,7 +1371,7 @@
         "https://www.deeplearning.ai/the-batch/issue-xvi",
         "https://www.deeplearning.ai/the-batch/issue-xvi/"
       ],
-      "last_scan": "2026-06-16T07:52:56.190376+00:00"
+      "last_scan": "2026-06-17T07:45:04.001258+00:00"
     },
     "github-agentic-workflows": {
       "seen": [
@@ -1411,8 +1414,8 @@
         "https://github.github.com/gh-aw/blog/2026-06-08-migrating-from-effective-tokens-to-ai-credits/",
         "https://github.github.com/gh-aw/blog/2026-06-15-weekly-update/"
       ],
-      "last_scan": "2026-06-16T07:52:58.386152+00:00"
+      "last_scan": "2026-06-17T07:45:06.046542+00:00"
     }
   },
-  "last_scan": "2026-06-16T07:52:58.386168+00:00"
+  "last_scan": "2026-06-17T07:45:06.046557+00:00"
 }
