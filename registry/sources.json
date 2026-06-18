@@ -1,5 +1,18 @@
 {
   "sources": {
+    "blog-anthropic-opus48-buildday-winners": {
+      "slug": "blog-anthropic-opus48-buildday-winners",
+      "title": "Meet the winners of our Claude Opus 4.8 Build Day hackathon",
+      "source_url": "https://claude.com/blog/meet-the-winners-of-our-claude-opus-4-8-build-day-hackathon",
+      "source_type": "blog-post",
+      "author": "Anthropic (Claude team)",
+      "date_published": "2026-06-17",
+      "date_extracted": "2026-06-18",
+      "issue": "#1208",
+      "file": "source-notes/blog-anthropic-opus48-buildday-winners.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-simonwillison-claude-fable-5": {
       "slug": "blog-simonwillison-claude-fable-5",
       "title": "Initial impressions of Claude Fable 5",
