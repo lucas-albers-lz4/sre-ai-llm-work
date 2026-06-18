@@ -968,8 +968,12 @@
         "screened_at": "2026-06-10T07:26:35.516835+00:00",
         "issue": 1135,
         "filed_at": "2026-06-10T07:26:36.475769+00:00"
+      },
+      "https://github.github.com/gh-aw/reference/billing": {
+        "status": "rejected",
+        "screened_at": "2026-06-18T07:37:36.520445+00:00"
       }
     },
-    "last_scan": "2026-06-17T07:45:56.243999+00:00"
+    "last_scan": "2026-06-18T07:37:36.520461+00:00"
   }
 }
