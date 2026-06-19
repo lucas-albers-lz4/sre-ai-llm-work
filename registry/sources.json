@@ -1,5 +1,18 @@
 {
   "sources": {
+    "docs-github-copilot-chat-auto-model-selection": {
+      "slug": "docs-github-copilot-chat-auto-model-selection",
+      "title": "Auto mode in Copilot Chat available for all users",
+      "source_url": "https://github.blog/changelog/2026-06-17-auto-mode-in-copilot-chat-available-for-all-users",
+      "source_type": "docs",
+      "author": "GitHub (official changelog)",
+      "date_published": "2026-06-17",
+      "date_extracted": "2026-06-19",
+      "issue": "#1218",
+      "file": "source-notes/docs-github-copilot-chat-auto-model-selection.md",
+      "confidence_overall": "settled",
+      "status": "current"
+    },
     "blog-anthropic-steering-claude-code-mechanisms": {
       "slug": "blog-anthropic-steering-claude-code-mechanisms",
       "title": "Steering Claude Code: CLAUDE.md files, skills, hooks, rules, subagents and more",
