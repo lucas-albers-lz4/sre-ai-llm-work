@@ -2640,6 +2640,19 @@
       "file": "source-notes/blog-simonwillison-charity-majors-enthusiast-skeptic.md",
       "confidence_overall": "emerging",
       "status": "current"
+    },
+    "blog-simonwillison-openai-lockdown-mode": {
+      "slug": "blog-simonwillison-openai-lockdown-mode",
+      "title": "OpenAI Help: Lockdown Mode",
+      "source_url": "https://simonwillison.net/2026/Jun/5/openai-help-lockdown-mode/",
+      "source_type": "blog-post",
+      "author": "Simon Willison (link-blog post analyzing OpenAI's Lockdown Mode documentation)",
+      "date_published": "2026-06-05",
+      "date_extracted": "2026-06-14",
+      "issue": "#1174",
+      "file": "source-notes/blog-simonwillison-openai-lockdown-mode.md",
+      "confidence_overall": "settled",
+      "status": "current"
     }
   },
   "docs-ghaw-frontmatter-full-reference": {
