@@ -2588,6 +2588,19 @@
       "file": "source-notes/blog-ghaw-ai-credits-migration.md",
       "confidence_overall": "settled",
       "status": "current"
+    },
+    "blog-anthropic-claude-foundation-models-apple": {
+      "slug": "blog-anthropic-claude-foundation-models-apple",
+      "title": "Building intelligent apps for Apple platforms with Claude in the Foundation Models framework",
+      "source_url": "https://claude.com/blog/claude-for-foundation-models",
+      "source_type": "blog-post",
+      "author": "Anthropic (product announcement, no individual byline)",
+      "date_published": "2026-06-08",
+      "date_extracted": "2026-06-09",
+      "issue": "#1123",
+      "file": "source-notes/blog-anthropic-claude-foundation-models-apple.md",
+      "confidence_overall": "emerging",
+      "status": "current"
     }
   },
   "docs-ghaw-frontmatter-full-reference": {
