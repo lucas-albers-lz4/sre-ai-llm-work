@@ -626,10 +626,11 @@ blog-thebatch-gpt55-hallucination-kimi-k26, Claim 4] [emerging]
 
 ## Code Review When AI Wrote It
 
-Three independent sources -- a peer-reviewed paper, a vendor analytics report,
-and an executive interview -- agree that **code review is the new
-bottleneck.** This is the strongest convergence in our corpus on any
-operational claim about team adoption.
+Four independent sources -- a peer-reviewed paper, a vendor analytics report,
+an executive interview, and the engineering director of the team that builds
+Claude Code -- agree that **code review is the new bottleneck.** This is the
+strongest convergence in our corpus on any operational claim about team
+adoption.
 
 **Source 1 (peer-reviewed)**: Miller et al. find a persistent 41.6% increase
 in cognitive complexity post-Cursor adoption, alongside a 30.3% increase in
@@ -646,7 +647,14 @@ review as a "big bottleneck" caused by increased AI-generated code volume,
 while insisting it remains mandatory.
 [source: blog-bvp-shopify-ai-playbook, Claim 4] [emerging]
 
-Three sources, three methodologies, one conclusion. AI adoption simultaneously
+**Source 4 (first-party tool builder)**: Fiona Fung, Director of Engineering
+for Claude Code at Anthropic, reports that on the team that builds the tool,
+"writing code, writing tests, and refactoring rarely slows us down anymore" --
+but "Verification, code review, and security took their place" as the
+bottlenecks.
+[source: blog-anthropic-ai-native-engineering-org, Claim 1] [emerging]
+
+Four sources, four vantage points, one conclusion. AI adoption simultaneously
 makes a team faster at producing PRs and slower at completing the workflow
 that surrounds PRs, and unless you measure both, you will miss half the
 picture.
@@ -715,6 +723,22 @@ review faster: better tooling, better assignment, better diff visualization.
 Shopify explicitly does not relax the "human review remains mandatory"
 constraint to clear the backlog.
 [source: blog-bvp-shopify-ai-playbook, Claim 4] [emerging]
+
+**Split the review by what each reviewer is good at.** On Anthropic's own
+Claude Code team, the division is explicit: Claude "handles all the style and
+linting, PR feedback requests, catching bugs and fixing them before a full
+commit, and adding tests," while human review concentrates on the judgment that
+cannot be mechanized -- "legal review," "trust boundaries and security-sensitive
+code," and "product sense and taste." This is not less human review; it is human
+attention reallocated to where it is irreducible.
+[source: blog-anthropic-ai-native-engineering-org, Claim 6] [emerging]
+
+That split is time-stamped to current model capability, not permanent. Fung is
+explicit that "the right balance of trust vs. verify will keep changing as the
+models improve. What you need humans for today might look different with the
+next model." Re-draw the Claude-handles / human-handles line on a regular
+cadence rather than treating any current division as settled.
+[source: blog-anthropic-ai-native-engineering-org, Claim 7] [anecdotal]
 
 ### Anti-pattern: trust the merge gate to catch quality
 
@@ -1361,6 +1385,7 @@ in early 2026.
 survey-pragmaticengineer-ai-tooling-2026 (Claims 1-6),
 research-anthropic-ai-transforming-work (Claims 1-8),
 paper-miller-speed-cost-quality (Claims 1-6),
+blog-anthropic-ai-native-engineering-org (Claims 1, 6, 7),
 blog-anthropic-carta-healthcare-context-engineering (Claim 7),
 blog-bvp-shopify-ai-playbook (Claims 1-9),
 blog-cursor-better-models-ambitious-work (Claims 2, 3, 4),
@@ -1380,4 +1405,4 @@ practitioner-mikelane-pytest-test-categories,
 failure-claudemd-ignored-compaction,
 failure-hooks-enforcement-2k*
 
-*Last updated: 2026-05-10*
+*Last updated: 2026-06-04*
