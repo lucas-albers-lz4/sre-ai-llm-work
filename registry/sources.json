@@ -2601,6 +2601,19 @@
       "file": "source-notes/blog-anthropic-claude-foundation-models-apple.md",
       "confidence_overall": "emerging",
       "status": "current"
+    },
+    "blog-anthropic-managed-agents-scheduled-vaults": {
+      "slug": "blog-anthropic-managed-agents-scheduled-vaults",
+      "title": "New in Claude Managed Agents: run agents on a schedule and store environment variables in vaults",
+      "source_url": "https://claude.com/blog/whats-new-in-claude-managed-agents",
+      "source_type": "blog-post",
+      "author": "Anthropic (product announcement)",
+      "date_published": "2026-06-09",
+      "date_extracted": "2026-06-10",
+      "issue": "#1134",
+      "file": "source-notes/blog-anthropic-managed-agents-scheduled-vaults.md",
+      "confidence_overall": "anecdotal",
+      "status": "current"
     }
   },
   "docs-ghaw-frontmatter-full-reference": {
