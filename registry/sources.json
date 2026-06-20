@@ -2419,6 +2419,19 @@
       "file": "source-notes/blog-cursor-faire-cloud-agents.md",
       "confidence_overall": "emerging",
       "status": "current"
+    },
+    "blog-simonwillison-5minute-llms": {
+      "slug": "blog-simonwillison-5minute-llms",
+      "title": "The last six months in LLMs in five minutes",
+      "source_url": "https://simonwillison.net/2026/May/19/5-minute-llms/",
+      "source_type": "blog-post",
+      "author": "Simon Willison",
+      "date_published": "2026-05-19",
+      "date_extracted": "2026-05-27",
+      "issue": "#953",
+      "file": "source-notes/blog-simonwillison-5minute-llms.md",
+      "confidence_overall": "emerging",
+      "status": "current"
     }
   },
   "docs-ghaw-frontmatter-full-reference": {
