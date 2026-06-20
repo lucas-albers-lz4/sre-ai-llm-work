@@ -2705,6 +2705,19 @@
       "file": "source-notes/blog-simonwillison-datasette-agent-askuser.md",
       "confidence_overall": "emerging",
       "status": "current"
+    },
+    "blog-anthropic-claude-code-artifacts": {
+      "slug": "blog-anthropic-claude-code-artifacts",
+      "title": "Claude Code now supports artifacts",
+      "source_url": "https://claude.com/blog/artifacts-in-claude-code",
+      "source_type": "blog-post",
+      "author": "Anthropic",
+      "date_published": "2026-06-18",
+      "date_extracted": "2026-06-19",
+      "issue": "#1221",
+      "file": "source-notes/blog-anthropic-claude-code-artifacts.md",
+      "confidence_overall": "emerging",
+      "status": "current"
     }
   },
   "docs-ghaw-frontmatter-full-reference": {
