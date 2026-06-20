@@ -2692,6 +2692,19 @@
       "file": "source-notes/blog-anthropic-opus48-buildday-winners.md",
       "confidence_overall": "emerging",
       "status": "current"
+    },
+    "blog-simonwillison-datasette-agent-askuser": {
+      "slug": "blog-simonwillison-datasette-agent-askuser",
+      "title": "datasette-agent 0.2a0",
+      "source_url": "https://simonwillison.net/2026/Jun/10/datasette-agent/",
+      "source_type": "blog-post",
+      "author": "Simon Willison",
+      "date_published": "2026-06-10",
+      "date_extracted": "2026-06-18",
+      "issue": "#1203",
+      "file": "source-notes/blog-simonwillison-datasette-agent-askuser.md",
+      "confidence_overall": "emerging",
+      "status": "current"
     }
   },
   "docs-ghaw-frontmatter-full-reference": {
