@@ -76,7 +76,7 @@ issue: "#1134"
 
 - **Evidence**: Named customer testimonial from Catherine Jue, Co-founder & CEO, KERNEL.
 - **Confidence**: anecdotal (single customer; no detail on database type, query patterns, or access frequency)
-- **Quote**: "Our agent now connects directly to databases where we track usage and customer conversations."
+- **Quote**: "Our agent now connects directly to the databases where we track usage and customer conversations."
 - **Our assessment**: This use case (database access via CLI authentication) validates the vault mechanism for a data-access pattern distinct from API or browser integration. The "directly to databases" claim implies a CLI-based database client (e.g., psql, a cloud database CLI, or a custom wrapper) authenticated via vault credentials. This pattern addresses the monitoring and analytics use case where an agent needs to query operational databases without storing database credentials in the agent's execution environment. The combination of agent + vault credentials + database CLI is a complete pattern for database-read workflows.
 
 ### Claim 9: Milana uses environment variable vaults to invoke private APIs through a CLI without exposing credentials
