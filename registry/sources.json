@@ -2341,6 +2341,19 @@
       "file": "source-notes/blog-cursor-typescript-sdk.md",
       "confidence_overall": "emerging",
       "status": "current"
+    },
+    "blog-simonwillison-kyle-kingsbury": {
+      "slug": "blog-simonwillison-kyle-kingsbury",
+      "title": "Quoting Kyle Kingsbury: Meat Shields and New ML Boundary Roles",
+      "source_url": "https://simonwillison.net/2026/Apr/15/kyle-kingsbury/",
+      "source_type": "blog-post",
+      "author": "Kyle Kingsbury (quoted by Simon Willison)",
+      "date_published": "2026-04-15",
+      "date_extracted": "2026-05-25",
+      "issue": "#342",
+      "file": "source-notes/blog-simonwillison-kyle-kingsbury.md",
+      "confidence_overall": "emerging",
+      "status": "current"
     }
   },
   "docs-ghaw-frontmatter-full-reference": {
