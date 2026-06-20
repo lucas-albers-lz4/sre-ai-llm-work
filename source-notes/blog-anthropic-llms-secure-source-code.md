@@ -356,7 +356,7 @@ Six-Step Vulnerability Research Loop
 ```
 Naive parallelization (WRONG):
   N parallel discovery agents → same codebase → converge on same shallow bugs
-  "We initially tried to just horizontally scale and sent more agents,
+  "We initially tried to just horizontally scale and send more agents,
    but saw limiting returns."
 
 Correct parallelization (TWO-PASS):
