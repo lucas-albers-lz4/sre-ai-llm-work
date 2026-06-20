@@ -2458,6 +2458,19 @@
       "file": "source-notes/blog-anthropic-coderabbit-agent-orchestration.md",
       "confidence_overall": "emerging",
       "status": "current"
+    },
+    "blog-simonwillison-llm-gemini-032": {
+      "slug": "blog-simonwillison-llm-gemini-032",
+      "title": "llm-gemini 0.32",
+      "source_url": "https://simonwillison.net/2026/May/19/llm-gemini-2/",
+      "source_type": "blog-post",
+      "author": "Simon Willison",
+      "date_published": "2026-05-19",
+      "date_extracted": "2026-05-28",
+      "issue": "#973",
+      "file": "source-notes/blog-simonwillison-llm-gemini-032.md",
+      "confidence_overall": "anecdotal",
+      "status": "current"
     }
   },
   "docs-ghaw-frontmatter-full-reference": {
