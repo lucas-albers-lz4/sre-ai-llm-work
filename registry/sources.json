@@ -2380,6 +2380,19 @@
       "file": "source-notes/docs-ghaw-audit-reference.md",
       "confidence_overall": "emerging",
       "status": "current"
+    },
+    "blog-ghaw-weekly-2026-05-25": {
+      "slug": "blog-ghaw-weekly-2026-05-25",
+      "title": "Weekly Update \u2013 May 25, 2026 (GitHub Agentic Workflows)",
+      "source_url": "https://github.github.com/gh-aw/blog/2026-05-25-weekly-update/",
+      "source_type": "blog-post",
+      "author": "GitHub Agentic Workflows team (gh-aw)",
+      "date_published": "2026-05-25",
+      "date_extracted": "2026-05-26",
+      "issue": "#912",
+      "file": "source-notes/blog-ghaw-weekly-2026-05-25.md",
+      "confidence_overall": "emerging",
+      "status": "current"
     }
   },
   "docs-ghaw-frontmatter-full-reference": {
