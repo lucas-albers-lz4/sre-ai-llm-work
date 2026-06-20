@@ -2263,6 +2263,19 @@
       "file": "source-notes/blog-langchain-harness-memory.md",
       "confidence_overall": "emerging",
       "status": "current"
+    },
+    "docs-ghaw-cache-memory-reference": {
+      "slug": "docs-ghaw-cache-memory-reference",
+      "title": "GitHub Agentic Workflows: Cache Memory Reference",
+      "source_url": "https://github.github.com/gh-aw/reference/cache-memory",
+      "source_type": "docs",
+      "author": "GitHub Agentic Workflows team (official reference documentation)",
+      "date_published": null,
+      "date_extracted": "2026-05-24",
+      "issue": "#360",
+      "file": "source-notes/docs-ghaw-cache-memory-reference.md",
+      "confidence_overall": "emerging",
+      "status": "current"
     }
   },
   "docs-ghaw-frontmatter-full-reference": {
