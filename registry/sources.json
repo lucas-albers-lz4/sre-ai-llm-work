@@ -2432,6 +2432,19 @@
       "file": "source-notes/blog-simonwillison-5minute-llms.md",
       "confidence_overall": "emerging",
       "status": "current"
+    },
+    "blog-anthropic-llms-secure-source-code": {
+      "slug": "blog-anthropic-llms-secure-source-code",
+      "title": "Using LLMs to Secure Source Code",
+      "source_url": "https://claude.com/blog/using-llms-to-secure-source-code",
+      "source_type": "blog-post",
+      "author": "Eugene Yan and Henna Dattani (Anthropic)",
+      "date_published": "2026-05-27",
+      "date_extracted": "2026-05-28",
+      "issue": "#974",
+      "file": "source-notes/blog-anthropic-llms-secure-source-code.md",
+      "confidence_overall": "emerging",
+      "status": "current"
     }
   },
   "docs-ghaw-frontmatter-full-reference": {
