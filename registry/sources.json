@@ -2406,6 +2406,19 @@
       "file": "source-notes/blog-ghaw-agent-of-the-day-2026-05-25.md",
       "confidence_overall": "emerging",
       "status": "current"
+    },
+    "blog-cursor-faire-cloud-agents": {
+      "slug": "blog-cursor-faire-cloud-agents",
+      "title": "Faire doubles PR throughput with Cursor Cloud Agents",
+      "source_url": "https://cursor.com/blog/faire",
+      "source_type": "blog-post",
+      "author": "Cursor Team (vendor case study; named practitioners: Luke Bjerring, Blair McAlpine \u2014 Faire)",
+      "date_published": "2026-05-26",
+      "date_extracted": "2026-05-27",
+      "issue": "#961",
+      "file": "source-notes/blog-cursor-faire-cloud-agents.md",
+      "confidence_overall": "emerging",
+      "status": "current"
     }
   },
   "docs-ghaw-frontmatter-full-reference": {
