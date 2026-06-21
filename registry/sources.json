@@ -2625,6 +2625,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "blog-simonwillison-sqlite-column-provenance": {
+      "slug": "blog-simonwillison-sqlite-column-provenance",
+      "title": "Mapping SQLite result columns back to their source `table.column`",
+      "source_url": "https://simonwillison.net/2026/Jun/13/sqlite-column-provenance/",
+      "source_type": "blog-post",
+      "author": "Simon Willison",
+      "date_published": "2026-06-13",
+      "date_extracted": "2026-06-21",
+      "issue": "#1247",
+      "file": "source-notes/blog-simonwillison-sqlite-column-provenance.md",
+      "confidence_overall": "settled",
+      "status": "current"
+    },
     "blog-simonwillison-steve-yegge": {
       "slug": "blog-simonwillison-steve-yegge",
       "title": "Steve Yegge",
@@ -2701,6 +2714,19 @@
       "issue": "#187",
       "file": "source-notes/blog-simonwillison-voice-mode-weaker.md",
       "confidence_overall": "anecdotal",
+      "status": "current"
+    },
+    "blog-simonwillison-wasm-wheels-pypi": {
+      "slug": "blog-simonwillison-wasm-wheels-pypi",
+      "title": "Publishing WASM wheels to PyPI for use with Pyodide",
+      "source_url": "https://simonwillison.net/2026/Jun/13/publishing-wasm-wheels/",
+      "source_type": "blog-post",
+      "author": "Simon Willison",
+      "date_published": "2026-06-13",
+      "date_extracted": "2026-06-21",
+      "issue": "#1249",
+      "file": "source-notes/blog-simonwillison-wasm-wheels-pypi.md",
+      "confidence_overall": "emerging",
       "status": "current"
     },
     "blog-simonwillison-xai-anthropic-datacenter": {
@@ -4751,6 +4777,19 @@
       "date_extracted": "2026-05-30",
       "issue": "#1001",
       "file": "source-notes/docs-github-copilot-usage-metrics-adoption-cohorts.md",
+      "confidence_overall": "settled",
+      "status": "current"
+    },
+    "docs-github-copilot-usage-metrics-ai-credits-per-user": {
+      "slug": "docs-github-copilot-usage-metrics-ai-credits-per-user",
+      "title": "AI credits consumed per user now in the Copilot usage metrics API",
+      "source_url": "https://github.blog/changelog/2026-06-19-ai-credits-consumed-per-user-now-in-the-copilot-usage-metrics-api",
+      "source_type": "docs",
+      "author": "GitHub",
+      "date_published": "2026-06-19",
+      "date_extracted": "2026-06-21",
+      "issue": "#1251",
+      "file": "source-notes/docs-github-copilot-usage-metrics-ai-credits-per-user.md",
       "confidence_overall": "settled",
       "status": "current"
     },
