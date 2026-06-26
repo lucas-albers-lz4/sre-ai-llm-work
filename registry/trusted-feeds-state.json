@@ -127,6 +127,9 @@
         "https://simonwillison.net/2026/Jun/16/fable-5-export-controls/#atom-everything",
         "https://simonwillison.net/2026/Jun/16/georgi-gerganov/#atom-everything",
         "https://simonwillison.net/2026/Jun/16/matteo-wong-the-atlantic/#atom-everything",
+        "https://simonwillison.net/2026/Jun/17/charity-majors/#atom-everything",
+        "https://simonwillison.net/2026/Jun/17/click-to-play-component/#atom-everything",
+        "https://simonwillison.net/2026/Jun/17/netnewswire-status/#atom-everything",
         "https://simonwillison.net/2026/Jun/2/datasette-agent-micropython/#atom-everything",
         "https://simonwillison.net/2026/Jun/2/micropython-wasm-2/#atom-everything",
         "https://simonwillison.net/2026/Jun/2/micropython-wasm/#atom-everything",
@@ -240,7 +243,7 @@
         "https://simonwillison.net/2026/May/9/luke-curley/#atom-everything",
         "https://simonwillison.net/guides/agentic-engineering-patterns/adding-a-new-content-type/#atom-everything"
       ],
-      "last_scan": "2026-06-25T07:07:47.324046+00:00"
+      "last_scan": "2026-06-26T07:14:04.490229+00:00"
     },
     "armin-ronacher": {
       "seen": [
@@ -266,7 +269,7 @@
         "https://lucumr.pocoo.org/2026/6/23/the-coming-loop/",
         "https://lucumr.pocoo.org/2026/6/6/communities-of-not/"
       ],
-      "last_scan": "2026-06-25T07:07:49.541801+00:00"
+      "last_scan": "2026-06-26T07:14:06.678183+00:00"
     },
     "github-changelog": {
       "seen": [
@@ -303,7 +306,7 @@
         "69d7c7e5f4b5380001c805e3",
         "69da3347f4b5380001c807c4"
       ],
-      "last_scan": "2026-06-25T07:07:55.898007+00:00"
+      "last_scan": "2026-06-26T07:14:14.893048+00:00"
     },
     "github-copilot": {
       "seen": [
@@ -413,6 +416,9 @@
         "https://github.blog/changelog/2026-06-23-copilot-cli-new-terminal-interface-is-generally-available",
         "https://github.blog/changelog/2026-06-23-github-copilot-app-support-for-byok",
         "https://github.blog/changelog/2026-06-24-changes-to-model-selection-for-free-and-student-plans",
+        "https://github.blog/changelog/2026-06-24-github-copilot-for-jira-is-now-generally-available",
+        "https://github.blog/changelog/2026-06-25-copilot-code-review-analysis-depth-and-efficiency-updates",
+        "https://github.blog/changelog/2026-06-25-enterprise-managed-settings-now-support-strictknownmarketplaces-in-vs-code-and-the-cli",
         "https://github.blog/changelog/2026-06-29-github-copilot-in-eclipse-byok-skills-and-chat-updates",
         "https://github.blog/changelog/2026-07-01-copilot-cli-improved-ui-rubber-duck-prompt-scheduling-and-voice-input",
         "https://github.blog/changelog/2026-07-01-copilot-sdk-is-now-generally-available",
@@ -421,7 +427,7 @@
         "https://github.blog/changelog/2026-07-01-github-copilot-code-review-for-azure-repos-is-now-in-technical-preview",
         "https://github.blog/changelog/2026-07-01-shape-copilot-code-review-around-your-team"
       ],
-      "last_scan": "2026-06-25T07:07:53.495985+00:00"
+      "last_scan": "2026-06-26T07:14:12.507191+00:00"
     },
     "anthropic-engineering": {
       "seen": [
@@ -451,7 +457,7 @@
         "https://www.anthropic.com/engineering/swe-bench-sonnet",
         "https://www.anthropic.com/engineering/writing-tools-for-agents"
       ],
-      "last_scan": "2026-06-25T07:07:57.929703+00:00"
+      "last_scan": "2026-06-26T07:14:17.035216+00:00"
     },
     "claude-blog": {
       "seen": [
@@ -630,7 +636,7 @@
         "https://claude.com/blog/your-thinking-partner",
         "https://claude.com/blog/zero-trust-for-ai-agents"
       ],
-      "last_scan": "2026-06-25T07:08:01.109816+00:00"
+      "last_scan": "2026-06-26T07:14:19.202046+00:00"
     },
     "cursor-blog": {
       "seen": [
@@ -666,6 +672,7 @@
         "https://cursor.com/blog/paypal",
         "https://cursor.com/blog/planetscale",
         "https://cursor.com/blog/real-time-rl-for-composer",
+        "https://cursor.com/blog/reward-hacking-coding-benchmarks",
         "https://cursor.com/blog/salesforce",
         "https://cursor.com/blog/security-agents",
         "https://cursor.com/blog/self-hosted-cloud-agents",
@@ -677,7 +684,7 @@
         "https://cursor.com/blog/warp-decode",
         "https://cursor.com/blog/wayfair"
       ],
-      "last_scan": "2026-06-25T07:08:04.246930+00:00"
+      "last_scan": "2026-06-26T07:14:22.506271+00:00"
     },
     "the-batch": {
       "seen": [
@@ -1422,7 +1429,7 @@
         "https://www.deeplearning.ai/the-batch/issue-xvi",
         "https://www.deeplearning.ai/the-batch/issue-xvi/"
       ],
-      "last_scan": "2026-06-25T07:08:06.390384+00:00"
+      "last_scan": "2026-06-26T07:14:24.650783+00:00"
     },
     "github-agentic-workflows": {
       "seen": [
@@ -1466,8 +1473,8 @@
         "https://github.github.com/gh-aw/blog/2026-06-15-weekly-update/",
         "https://github.github.com/gh-aw/blog/2026-06-22-weekly-update/"
       ],
-      "last_scan": "2026-06-25T07:08:08.536886+00:00"
+      "last_scan": "2026-06-26T07:14:26.804341+00:00"
     }
   },
-  "last_scan": "2026-06-25T07:08:08.536899+00:00"
+  "last_scan": "2026-06-26T07:14:26.804355+00:00"
 }
