@@ -978,8 +978,12 @@
         "screened_at": "2026-06-21T07:35:57.812707+00:00",
         "issue": 1252,
         "filed_at": "2026-06-21T07:35:59.236530+00:00"
+      },
+      "https://github.github.com/gh-aw/guides/governance": {
+        "status": "rejected",
+        "screened_at": "2026-06-27T07:02:37.370799+00:00"
       }
     },
-    "last_scan": "2026-06-26T07:15:17.336604+00:00"
+    "last_scan": "2026-06-27T07:02:37.370814+00:00"
   }
 }
