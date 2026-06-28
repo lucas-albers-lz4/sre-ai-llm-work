@@ -133,12 +133,15 @@
         "https://simonwillison.net/2026/Jun/17/netnewswire-status/#atom-everything",
         "https://simonwillison.net/2026/Jun/18/datasette-acl/#atom-everything",
         "https://simonwillison.net/2026/Jun/18/datasette-apps/#atom-everything",
+        "https://simonwillison.net/2026/Jun/19/sean-lynch/#atom-everything",
         "https://simonwillison.net/2026/Jun/2/datasette-agent-micropython/#atom-everything",
         "https://simonwillison.net/2026/Jun/2/micropython-wasm-2/#atom-everything",
         "https://simonwillison.net/2026/Jun/2/micropython-wasm/#atom-everything",
         "https://simonwillison.net/2026/Jun/2/microsofts-new-models/#atom-everything",
         "https://simonwillison.net/2026/Jun/2/pasted-file-editor/#atom-everything",
         "https://simonwillison.net/2026/Jun/2/sighting-367841339/#atom-everything",
+        "https://simonwillison.net/2026/Jun/21/sqlite-utils/#atom-everything",
+        "https://simonwillison.net/2026/Jun/21/temporary-cloudflare-accounts/#atom-everything",
         "https://simonwillison.net/2026/Jun/3/uber-caps-usage/#atom-everything",
         "https://simonwillison.net/2026/Jun/4/a-slightly-different-version/#atom-everything",
         "https://simonwillison.net/2026/Jun/4/ai-enthusiasts-ai-skeptics/#atom-everything",
@@ -246,7 +249,7 @@
         "https://simonwillison.net/2026/May/9/luke-curley/#atom-everything",
         "https://simonwillison.net/guides/agentic-engineering-patterns/adding-a-new-content-type/#atom-everything"
       ],
-      "last_scan": "2026-06-27T07:01:28.436866+00:00"
+      "last_scan": "2026-06-28T07:18:02.311599+00:00"
     },
     "armin-ronacher": {
       "seen": [
@@ -272,7 +275,7 @@
         "https://lucumr.pocoo.org/2026/6/23/the-coming-loop/",
         "https://lucumr.pocoo.org/2026/6/6/communities-of-not/"
       ],
-      "last_scan": "2026-06-27T07:01:30.593052+00:00"
+      "last_scan": "2026-06-28T07:18:04.481417+00:00"
     },
     "github-changelog": {
       "seen": [
@@ -309,7 +312,7 @@
         "69d7c7e5f4b5380001c805e3",
         "69da3347f4b5380001c807c4"
       ],
-      "last_scan": "2026-06-27T07:01:36.427805+00:00"
+      "last_scan": "2026-06-28T07:18:09.321655+00:00"
     },
     "github-copilot": {
       "seen": [
@@ -432,7 +435,7 @@
         "https://github.blog/changelog/2026-07-01-github-copilot-code-review-for-azure-repos-is-now-in-technical-preview",
         "https://github.blog/changelog/2026-07-01-shape-copilot-code-review-around-your-team"
       ],
-      "last_scan": "2026-06-27T07:01:34.069268+00:00"
+      "last_scan": "2026-06-28T07:18:06.934248+00:00"
     },
     "anthropic-engineering": {
       "seen": [
@@ -462,7 +465,7 @@
         "https://www.anthropic.com/engineering/swe-bench-sonnet",
         "https://www.anthropic.com/engineering/writing-tools-for-agents"
       ],
-      "last_scan": "2026-06-27T07:01:38.458050+00:00"
+      "last_scan": "2026-06-28T07:18:11.351413+00:00"
     },
     "claude-blog": {
       "seen": [
@@ -641,7 +644,7 @@
         "https://claude.com/blog/your-thinking-partner",
         "https://claude.com/blog/zero-trust-for-ai-agents"
       ],
-      "last_scan": "2026-06-27T07:01:40.487180+00:00"
+      "last_scan": "2026-06-28T07:18:13.473934+00:00"
     },
     "cursor-blog": {
       "seen": [
@@ -689,7 +692,7 @@
         "https://cursor.com/blog/warp-decode",
         "https://cursor.com/blog/wayfair"
       ],
-      "last_scan": "2026-06-27T07:01:42.517751+00:00"
+      "last_scan": "2026-06-28T07:18:15.502333+00:00"
     },
     "the-batch": {
       "seen": [
@@ -1434,7 +1437,7 @@
         "https://www.deeplearning.ai/the-batch/issue-xvi",
         "https://www.deeplearning.ai/the-batch/issue-xvi/"
       ],
-      "last_scan": "2026-06-27T07:01:44.602464+00:00"
+      "last_scan": "2026-06-28T07:18:17.661971+00:00"
     },
     "github-agentic-workflows": {
       "seen": [
@@ -1479,8 +1482,8 @@
         "https://github.github.com/gh-aw/blog/2026-06-22-weekly-update/",
         "https://github.github.com/gh-aw/blog/2026-06-26-custom-linters-sergo-linter-miner-and-lintmonster/"
       ],
-      "last_scan": "2026-06-27T07:01:47.497308+00:00"
+      "last_scan": "2026-06-28T07:18:19.890203+00:00"
     }
   },
-  "last_scan": "2026-06-27T07:01:47.497329+00:00"
+  "last_scan": "2026-06-28T07:18:19.890217+00:00"
 }
