@@ -1,3 +1,226 @@
 {
-  "items": []
+  "items": [
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-06-30T04:36:54.299949+00:00",
+      "payload": {
+        "feed": {
+          "id": "kent-beck",
+          "url": "https://newsletter.kentbeck.com/feed",
+          "source_type": "blog-post",
+          "description": "Kent Beck \u2014 TDD/XP creator on AI-augmented coding, design, and trust",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://newsletter.kentbeck.com/p/trust-factory",
+          "title": "Trust Factory",
+          "url": "https://newsletter.kentbeck.com/p/trust-factory",
+          "published": "Tue, 02 Jun 2026 13:33:57 GMT"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-06-30T04:36:54.300214+00:00",
+      "payload": {
+        "feed": {
+          "id": "kent-beck",
+          "url": "https://newsletter.kentbeck.com/feed",
+          "source_type": "blog-post",
+          "description": "Kent Beck \u2014 TDD/XP creator on AI-augmented coding, design, and trust",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://newsletter.kentbeck.com/p/you-dont-get-to-create-anything-6cb",
+          "title": "You Don't Get to Create Anything",
+          "url": "https://newsletter.kentbeck.com/p/you-dont-get-to-create-anything-6cb",
+          "published": "Wed, 03 Jun 2026 14:05:11 GMT"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-06-30T04:36:56.480216+00:00",
+      "payload": {
+        "feed": {
+          "id": "geoffrey-huntley",
+          "url": "https://ghuntley.com/rss/",
+          "source_type": "blog-post",
+          "description": "Geoffrey Huntley \u2014 deep agentic coding technique (Ralph loops, spec-driven autonomy)",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "6a3ed2a7c2c506000126383b",
+          "title": "A couple of months ago in Miami, I sat down and dumped my brains. Here's the interview...",
+          "url": "https://ghuntley.com/miami/",
+          "published": "Fri, 26 Jun 2026 21:01:22 GMT"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-06-30T04:36:58.682547+00:00",
+      "payload": {
+        "feed": {
+          "id": "hamel-husain",
+          "url": "https://hamel.dev/index.xml",
+          "source_type": "blog-post",
+          "description": "Hamel Husain \u2014 applied AI engineering, LLM evals and verification",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://hamel.dev/blog/posts/eval-smell/",
+          "title": "\u201cIt\u2019s Hard to Eval\u201d Is a Product Smell",
+          "url": "https://hamel.dev/blog/posts/eval-smell/",
+          "published": "Mon, 29 Jun 2026 07:00:00 GMT"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-06-30T04:37:00.973935+00:00",
+      "payload": {
+        "feed": {
+          "id": "thoughtworks",
+          "url": "https://www.thoughtworks.com/rss/insights.xml",
+          "source_type": "blog-post",
+          "description": "Thoughtworks Insights \u2014 AI-native engineering building blocks, agentic SDLC, vendor-neutral",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://www.thoughtworks.com/insights/articles/power-of-transaction-foundation-models-building-the-unified-intelligence-layer-for-payments",
+          "title": "The power of Transaction Foundation Models: Building the unified intelligence layer for payments",
+          "url": "https://www.thoughtworks.com/insights/articles/power-of-transaction-foundation-models-building-the-unified-intelligence-layer-for-payments",
+          "published": "Tue Jun 02 00:00:00 UTC 2026"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-06-30T04:37:00.974269+00:00",
+      "payload": {
+        "feed": {
+          "id": "thoughtworks",
+          "url": "https://www.thoughtworks.com/rss/insights.xml",
+          "source_type": "blog-post",
+          "description": "Thoughtworks Insights \u2014 AI-native engineering building blocks, agentic SDLC, vendor-neutral",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://www.thoughtworks.com/insights/blog/agile-engineering-practices/modern-engineering-flow-game",
+          "title": "Modern engineering is a flow game",
+          "url": "https://www.thoughtworks.com/insights/blog/agile-engineering-practices/modern-engineering-flow-game",
+          "published": "Tue Jun 02 00:00:00 UTC 2026"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-06-30T04:37:03.107376+00:00",
+      "payload": {
+        "feed": {
+          "id": "addy-osmani",
+          "url": "https://addyosmani.com/rss.xml",
+          "source_type": "blog-post",
+          "description": "Addy Osmani \u2014 AI-assisted engineering practices (already a top-cited corpus source)",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://addyosmani.com/blog/intent-debt/",
+          "title": "The Intent Debt",
+          "url": "https://addyosmani.com/blog/intent-debt/",
+          "published": "Fri, 05 Jun 2026 00:00:00 +0000"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-06-30T04:37:03.107764+00:00",
+      "payload": {
+        "feed": {
+          "id": "addy-osmani",
+          "url": "https://addyosmani.com/rss.xml",
+          "source_type": "blog-post",
+          "description": "Addy Osmani \u2014 AI-assisted engineering practices (already a top-cited corpus source)",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://addyosmani.com/blog/loop-engineering/",
+          "title": "Loop Engineering",
+          "url": "https://addyosmani.com/blog/loop-engineering/",
+          "published": "Sun, 07 Jun 2026 00:00:00 +0000"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-06-30T04:37:05.335028+00:00",
+      "payload": {
+        "feed": {
+          "id": "latent-space",
+          "url": "https://www.latent.space/feed",
+          "source_type": "blog-post",
+          "description": "Latent Space (swyx) \u2014 AI engineering essays/interviews; daily AINews is broad aggregation",
+          "max_per_run": 1
+        },
+        "entry": {
+          "id": "https://www.latent.space/p/ainews-frontiercode-benchmarking",
+          "title": "[AINews] FrontierCode: Benchmarking for Code Quality over Slop",
+          "url": "https://www.latent.space/p/ainews-frontiercode-benchmarking",
+          "published": "Tue, 09 Jun 2026 06:12:33 GMT"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-06-30T04:37:07.747812+00:00",
+      "payload": {
+        "feed": {
+          "id": "vercel",
+          "url": "https://vercel.com/atom",
+          "source_type": "blog-post",
+          "description": "Vercel \u2014 agent infrastructure (AI SDK, Sandbox, harness adapters); changelog-heavy",
+          "max_per_run": 1
+        },
+        "entry": {
+          "id": "https://vercel.com/changelog/minimax-m3-on-ai-gateway",
+          "title": "MiniMax M3 on AI Gateway",
+          "url": "https://vercel.com/changelog/minimax-m3-on-ai-gateway",
+          "published": "2026-05-31T07:00:00.000Z"
+        }
+      }
+    },
+    {
+      "scanner": "failures",
+      "queued_at": "2026-06-30T04:38:26.846368+00:00",
+      "payload": {
+        "result": {
+          "source": "github",
+          "title": "Discussion: replace post-hoc compact-changelog with file-per-change tooling (evaluate changie for 2026)",
+          "url": "https://github.com/genealogix/glx/issues/858",
+          "reactions": 0,
+          "comments": 2,
+          "author": "isaacschepp",
+          "created_at": "2026-05-15T18:41:08Z",
+          "body_snippet": "## Summary\n\n`compact-changelog.md` exists because agentic edits create duplicate `### Added` sections, self-cancelling Added/Removed pairs, and follow-up Fixed entries that should fold into the original Added. **File-per-change tools eliminate this class of problem at the source by writing each change to its own file**, then assembling at release time. The compact-changelog command is, at best, post-hoc cleanup of a problem that need not exist.\n\nThis is a Discussion, not a Bug or Enhancement \u2014 i"
+        }
+      }
+    },
+    {
+      "scanner": "failures",
+      "queued_at": "2026-06-30T04:38:26.846948+00:00",
+      "payload": {
+        "result": {
+          "source": "github",
+          "title": "Discussion: consolidate internal + external link checking on lychee (retire the two custom awk extractors)",
+          "url": "https://github.com/genealogix/glx/issues/890",
+          "reactions": 0,
+          "comments": 1,
+          "author": "isaacschepp",
+          "created_at": "2026-05-21T18:26:48Z",
+          "body_snippet": "## Context\n\nGLX currently runs **two** link-checking paths backed by **two** bespoke shell scripts:\n\n- `check-links.yml` \u2192 `scripts/check-links.sh` \u2014 internal/relative markdown links, on every PR.\n- `lychee.yml` \u2192 `scripts/extract-external-urls.sh` + `lychee` \u2014 external `https?://` links, weekly.\n\nTwo problems with the status quo:\n\n1. Both shell scripts carry the **same** code-block-aware `awk` extractor, and that extractor depends on a GNU-awk-only construct that breaks `make check-links` outsi"
+        }
+      }
+    }
+  ]
 }
