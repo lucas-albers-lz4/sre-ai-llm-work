@@ -1,196 +1,6 @@
 {
   "items": [
     {
-      "scanner": "trusted",
-      "queued_at": "2026-06-30T04:36:54.299949+00:00",
-      "payload": {
-        "feed": {
-          "id": "kent-beck",
-          "url": "https://newsletter.kentbeck.com/feed",
-          "source_type": "blog-post",
-          "description": "Kent Beck \u2014 TDD/XP creator on AI-augmented coding, design, and trust",
-          "max_per_run": 2
-        },
-        "entry": {
-          "id": "https://newsletter.kentbeck.com/p/trust-factory",
-          "title": "Trust Factory",
-          "url": "https://newsletter.kentbeck.com/p/trust-factory",
-          "published": "Tue, 02 Jun 2026 13:33:57 GMT"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-06-30T04:36:54.300214+00:00",
-      "payload": {
-        "feed": {
-          "id": "kent-beck",
-          "url": "https://newsletter.kentbeck.com/feed",
-          "source_type": "blog-post",
-          "description": "Kent Beck \u2014 TDD/XP creator on AI-augmented coding, design, and trust",
-          "max_per_run": 2
-        },
-        "entry": {
-          "id": "https://newsletter.kentbeck.com/p/you-dont-get-to-create-anything-6cb",
-          "title": "You Don't Get to Create Anything",
-          "url": "https://newsletter.kentbeck.com/p/you-dont-get-to-create-anything-6cb",
-          "published": "Wed, 03 Jun 2026 14:05:11 GMT"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-06-30T04:36:56.480216+00:00",
-      "payload": {
-        "feed": {
-          "id": "geoffrey-huntley",
-          "url": "https://ghuntley.com/rss/",
-          "source_type": "blog-post",
-          "description": "Geoffrey Huntley \u2014 deep agentic coding technique (Ralph loops, spec-driven autonomy)",
-          "max_per_run": 2
-        },
-        "entry": {
-          "id": "6a3ed2a7c2c506000126383b",
-          "title": "A couple of months ago in Miami, I sat down and dumped my brains. Here's the interview...",
-          "url": "https://ghuntley.com/miami/",
-          "published": "Fri, 26 Jun 2026 21:01:22 GMT"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-06-30T04:36:58.682547+00:00",
-      "payload": {
-        "feed": {
-          "id": "hamel-husain",
-          "url": "https://hamel.dev/index.xml",
-          "source_type": "blog-post",
-          "description": "Hamel Husain \u2014 applied AI engineering, LLM evals and verification",
-          "max_per_run": 2
-        },
-        "entry": {
-          "id": "https://hamel.dev/blog/posts/eval-smell/",
-          "title": "\u201cIt\u2019s Hard to Eval\u201d Is a Product Smell",
-          "url": "https://hamel.dev/blog/posts/eval-smell/",
-          "published": "Mon, 29 Jun 2026 07:00:00 GMT"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-06-30T04:37:00.973935+00:00",
-      "payload": {
-        "feed": {
-          "id": "thoughtworks",
-          "url": "https://www.thoughtworks.com/rss/insights.xml",
-          "source_type": "blog-post",
-          "description": "Thoughtworks Insights \u2014 AI-native engineering building blocks, agentic SDLC, vendor-neutral",
-          "max_per_run": 2
-        },
-        "entry": {
-          "id": "https://www.thoughtworks.com/insights/articles/power-of-transaction-foundation-models-building-the-unified-intelligence-layer-for-payments",
-          "title": "The power of Transaction Foundation Models: Building the unified intelligence layer for payments",
-          "url": "https://www.thoughtworks.com/insights/articles/power-of-transaction-foundation-models-building-the-unified-intelligence-layer-for-payments",
-          "published": "Tue Jun 02 00:00:00 UTC 2026"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-06-30T04:37:00.974269+00:00",
-      "payload": {
-        "feed": {
-          "id": "thoughtworks",
-          "url": "https://www.thoughtworks.com/rss/insights.xml",
-          "source_type": "blog-post",
-          "description": "Thoughtworks Insights \u2014 AI-native engineering building blocks, agentic SDLC, vendor-neutral",
-          "max_per_run": 2
-        },
-        "entry": {
-          "id": "https://www.thoughtworks.com/insights/blog/agile-engineering-practices/modern-engineering-flow-game",
-          "title": "Modern engineering is a flow game",
-          "url": "https://www.thoughtworks.com/insights/blog/agile-engineering-practices/modern-engineering-flow-game",
-          "published": "Tue Jun 02 00:00:00 UTC 2026"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-06-30T04:37:03.107376+00:00",
-      "payload": {
-        "feed": {
-          "id": "addy-osmani",
-          "url": "https://addyosmani.com/rss.xml",
-          "source_type": "blog-post",
-          "description": "Addy Osmani \u2014 AI-assisted engineering practices (already a top-cited corpus source)",
-          "max_per_run": 2
-        },
-        "entry": {
-          "id": "https://addyosmani.com/blog/intent-debt/",
-          "title": "The Intent Debt",
-          "url": "https://addyosmani.com/blog/intent-debt/",
-          "published": "Fri, 05 Jun 2026 00:00:00 +0000"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-06-30T04:37:03.107764+00:00",
-      "payload": {
-        "feed": {
-          "id": "addy-osmani",
-          "url": "https://addyosmani.com/rss.xml",
-          "source_type": "blog-post",
-          "description": "Addy Osmani \u2014 AI-assisted engineering practices (already a top-cited corpus source)",
-          "max_per_run": 2
-        },
-        "entry": {
-          "id": "https://addyosmani.com/blog/loop-engineering/",
-          "title": "Loop Engineering",
-          "url": "https://addyosmani.com/blog/loop-engineering/",
-          "published": "Sun, 07 Jun 2026 00:00:00 +0000"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-06-30T04:37:05.335028+00:00",
-      "payload": {
-        "feed": {
-          "id": "latent-space",
-          "url": "https://www.latent.space/feed",
-          "source_type": "blog-post",
-          "description": "Latent Space (swyx) \u2014 AI engineering essays/interviews; daily AINews is broad aggregation",
-          "max_per_run": 1
-        },
-        "entry": {
-          "id": "https://www.latent.space/p/ainews-frontiercode-benchmarking",
-          "title": "[AINews] FrontierCode: Benchmarking for Code Quality over Slop",
-          "url": "https://www.latent.space/p/ainews-frontiercode-benchmarking",
-          "published": "Tue, 09 Jun 2026 06:12:33 GMT"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-06-30T04:37:07.747812+00:00",
-      "payload": {
-        "feed": {
-          "id": "vercel",
-          "url": "https://vercel.com/atom",
-          "source_type": "blog-post",
-          "description": "Vercel \u2014 agent infrastructure (AI SDK, Sandbox, harness adapters); changelog-heavy",
-          "max_per_run": 1
-        },
-        "entry": {
-          "id": "https://vercel.com/changelog/minimax-m3-on-ai-gateway",
-          "title": "MiniMax M3 on AI Gateway",
-          "url": "https://vercel.com/changelog/minimax-m3-on-ai-gateway",
-          "published": "2026-05-31T07:00:00.000Z"
-        }
-      }
-    },
-    {
       "scanner": "failures",
       "queued_at": "2026-06-30T04:38:26.846368+00:00",
       "payload": {
@@ -219,196 +29,6 @@
           "author": "isaacschepp",
           "created_at": "2026-05-21T18:26:48Z",
           "body_snippet": "## Context\n\nGLX currently runs **two** link-checking paths backed by **two** bespoke shell scripts:\n\n- `check-links.yml` \u2192 `scripts/check-links.sh` \u2014 internal/relative markdown links, on every PR.\n- `lychee.yml` \u2192 `scripts/extract-external-urls.sh` + `lychee` \u2014 external `https?://` links, weekly.\n\nTwo problems with the status quo:\n\n1. Both shell scripts carry the **same** code-block-aware `awk` extractor, and that extractor depends on a GNU-awk-only construct that breaks `make check-links` outsi"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-06-30T07:14:13.728789+00:00",
-      "payload": {
-        "feed": {
-          "id": "simon-willison",
-          "url": "https://simonwillison.net/atom/everything/",
-          "source_type": "blog-post",
-          "description": "Simon Willison \u2014 high-signal LLM tooling commentary and experiments",
-          "max_per_run": 3
-        },
-        "entry": {
-          "id": "https://simonwillison.net/2026/Jun/24/browser-compat-db/#atom-everything",
-          "title": "simonw/browser-compat-db",
-          "url": "https://simonwillison.net/2026/Jun/24/browser-compat-db/#atom-everything",
-          "published": "2026-06-24T23:59:03+00:00"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-06-30T07:14:13.729427+00:00",
-      "payload": {
-        "feed": {
-          "id": "simon-willison",
-          "url": "https://simonwillison.net/atom/everything/",
-          "source_type": "blog-post",
-          "description": "Simon Willison \u2014 high-signal LLM tooling commentary and experiments",
-          "max_per_run": 3
-        },
-        "entry": {
-          "id": "https://simonwillison.net/2026/Jun/25/datasette-export-database/#atom-everything",
-          "title": "datasette-export-database 0.3a2",
-          "url": "https://simonwillison.net/2026/Jun/25/datasette-export-database/#atom-everything",
-          "published": "2026-06-25T17:21:09+00:00"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-06-30T07:14:13.730080+00:00",
-      "payload": {
-        "feed": {
-          "id": "simon-willison",
-          "url": "https://simonwillison.net/atom/everything/",
-          "source_type": "blog-post",
-          "description": "Simon Willison \u2014 high-signal LLM tooling commentary and experiments",
-          "max_per_run": 3
-        },
-        "entry": {
-          "id": "https://simonwillison.net/2026/Jun/25/ai-and-liability/#atom-everything",
-          "title": "AI and Liability",
-          "url": "https://simonwillison.net/2026/Jun/25/ai-and-liability/#atom-everything",
-          "published": "2026-06-25T22:28:46+00:00"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-06-30T07:14:33.206507+00:00",
-      "payload": {
-        "feed": {
-          "id": "sourcegraph",
-          "url": "https://sourcegraph.com/blog/rss.xml",
-          "source_type": "blog-post",
-          "description": "Sourcegraph (Amp, Cody) \u2014 agentic coding in large codebases, code-search infrastructure",
-          "max_per_run": 3
-        },
-        "entry": {
-          "id": "http://localhost:5174/blog/why-your-migration-tools-are-failing-your-engineers",
-          "title": "Why your migration tools are failing your engineers",
-          "url": "http://localhost:5174/blog/why-your-migration-tools-are-failing-your-engineers",
-          "published": "Wed, 24 Jun 2026 00:00:00 GMT"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-06-30T07:14:33.207238+00:00",
-      "payload": {
-        "feed": {
-          "id": "sourcegraph",
-          "url": "https://sourcegraph.com/blog/rss.xml",
-          "source_type": "blog-post",
-          "description": "Sourcegraph (Amp, Cody) \u2014 agentic coding in large codebases, code-search infrastructure",
-          "max_per_run": 3
-        },
-        "entry": {
-          "id": "http://localhost:5174/blog/owning-a-codebase",
-          "title": "On owning a codebase, and why it may be the hardest job in software",
-          "url": "http://localhost:5174/blog/owning-a-codebase",
-          "published": "Fri, 26 Jun 2026 00:00:00 GMT"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-06-30T07:14:35.673464+00:00",
-      "payload": {
-        "feed": {
-          "id": "martin-fowler",
-          "url": "https://martinfowler.com/feed.atom",
-          "source_type": "blog-post",
-          "description": "Martin Fowler / Thoughtworks \u2014 Boeckeler harness-engineering series, vendor-neutral AI-assisted dev",
-          "max_per_run": 2
-        },
-        "entry": {
-          "id": "tag:martinfowler.com,2026-06-16:Building-Reliable-Agentic-AI-Systems",
-          "title": "Building Reliable Agentic AI Systems",
-          "url": "https://martinfowler.com/articles/reliable-llm-bayer.html",
-          "published": "2026-06-16T13:11:00+01:00"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-06-30T07:14:37.979421+00:00",
-      "payload": {
-        "feed": {
-          "id": "openai-news",
-          "url": "https://openai.com/news/rss.xml",
-          "source_type": "blog-post",
-          "description": "OpenAI \u2014 Codex, agentic workflows, model releases (second major lab)",
-          "max_per_run": 2
-        },
-        "entry": {
-          "id": "https://openai.com/index/our-views-on-ai-policy-and-political-advocacy",
-          "title": "Our views on AI policy and political advocacy",
-          "url": "https://openai.com/index/our-views-on-ai-policy-and-political-advocacy",
-          "published": "Mon, 01 Jun 2026 17:00:00 GMT"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-06-30T07:14:37.980207+00:00",
-      "payload": {
-        "feed": {
-          "id": "openai-news",
-          "url": "https://openai.com/news/rss.xml",
-          "source_type": "blog-post",
-          "description": "OpenAI \u2014 Codex, agentic workflows, model releases (second major lab)",
-          "max_per_run": 2
-        },
-        "entry": {
-          "id": "https://openai.com/index/codex-for-knowledge-work",
-          "title": "Codex is becoming a productivity tool for everyone",
-          "url": "https://openai.com/index/codex-for-knowledge-work",
-          "published": "Tue, 02 Jun 2026 02:00:00 GMT"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-06-30T07:14:40.106659+00:00",
-      "payload": {
-        "feed": {
-          "id": "pragmatic-engineer",
-          "url": "https://newsletter.pragmaticengineer.com/feed",
-          "source_type": "blog-post",
-          "description": "Gergely Orosz \u2014 engineering-org AI adoption, productivity data, workflow practices",
-          "max_per_run": 2
-        },
-        "entry": {
-          "id": "https://newsletter.pragmaticengineer.com/p/the-job-market-in-2026-part-2",
-          "title": "State of the software engineering job market in 2026, part 2",
-          "url": "https://newsletter.pragmaticengineer.com/p/the-job-market-in-2026-part-2",
-          "published": "Tue, 09 Jun 2026 16:35:53 GMT"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-06-30T07:14:40.107519+00:00",
-      "payload": {
-        "feed": {
-          "id": "pragmatic-engineer",
-          "url": "https://newsletter.pragmaticengineer.com/feed",
-          "source_type": "blog-post",
-          "description": "Gergely Orosz \u2014 engineering-org AI adoption, productivity data, workflow practices",
-          "max_per_run": 2
-        },
-        "entry": {
-          "id": "https://newsletter.pragmaticengineer.com/p/did-anthropics-new-model-just-boost",
-          "title": "The Pulse: Did Anthropic\u2019s new model just boost rival Codex\u2019s market share?",
-          "url": "https://newsletter.pragmaticengineer.com/p/did-anthropics-new-model-just-boost",
-          "published": "Thu, 11 Jun 2026 16:26:58 GMT"
         }
       }
     },
@@ -659,6 +279,456 @@
     {
       "scanner": "failures",
       "queued_at": "2026-06-30T07:16:10.947236+00:00",
+      "payload": {
+        "result": {
+          "source": "github",
+          "title": "Discussion: consolidate internal + external link checking on lychee (retire the two custom awk extractors)",
+          "url": "https://github.com/genealogix/glx/issues/890",
+          "reactions": 0,
+          "comments": 1,
+          "author": "isaacschepp",
+          "created_at": "2026-05-21T18:26:48Z",
+          "body_snippet": "## Context\n\nGLX currently runs **two** link-checking paths backed by **two** bespoke shell scripts:\n\n- `check-links.yml` \u2192 `scripts/check-links.sh` \u2014 internal/relative markdown links, on every PR.\n- `lychee.yml` \u2192 `scripts/extract-external-urls.sh` + `lychee` \u2014 external `https?://` links, weekly.\n\nTwo problems with the status quo:\n\n1. Both shell scripts carry the **same** code-block-aware `awk` extractor, and that extractor depends on a GNU-awk-only construct that breaks `make check-links` outsi"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-01T07:26:23.790804+00:00",
+      "payload": {
+        "feed": {
+          "id": "simon-willison",
+          "url": "https://simonwillison.net/atom/everything/",
+          "source_type": "blog-post",
+          "description": "Simon Willison \u2014 high-signal LLM tooling commentary and experiments",
+          "max_per_run": 3
+        },
+        "entry": {
+          "id": "https://simonwillison.net/2026/Jun/26/openai/#atom-everything",
+          "title": "Quoting OpenAI",
+          "url": "https://simonwillison.net/2026/Jun/26/openai/#atom-everything",
+          "published": "2026-06-26T17:10:43+00:00"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-01T07:26:23.791565+00:00",
+      "payload": {
+        "feed": {
+          "id": "simon-willison",
+          "url": "https://simonwillison.net/atom/everything/",
+          "source_type": "blog-post",
+          "description": "Simon Willison \u2014 high-signal LLM tooling commentary and experiments",
+          "max_per_run": 3
+        },
+        "entry": {
+          "id": "https://simonwillison.net/2026/Jun/26/incident-report/#atom-everything",
+          "title": "Incident Report: CVE-2026-LGTM",
+          "url": "https://simonwillison.net/2026/Jun/26/incident-report/#atom-everything",
+          "published": "2026-06-26T17:58:54+00:00"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-01T07:26:23.792342+00:00",
+      "payload": {
+        "feed": {
+          "id": "simon-willison",
+          "url": "https://simonwillison.net/atom/everything/",
+          "source_type": "blog-post",
+          "description": "Simon Willison \u2014 high-signal LLM tooling commentary and experiments",
+          "max_per_run": 3
+        },
+        "entry": {
+          "id": "https://simonwillison.net/2026/Jun/26/hack-my-ai-assistant/#atom-everything",
+          "title": "What happened after 2,000 people tried to hack my AI assistant",
+          "url": "https://simonwillison.net/2026/Jun/26/hack-my-ai-assistant/#atom-everything",
+          "published": "2026-06-26T18:33:14+00:00"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-01T07:26:28.499476+00:00",
+      "payload": {
+        "feed": {
+          "id": "github-copilot",
+          "url": "https://github.blog/changelog/feed/?label=copilot",
+          "source_type": "documentation",
+          "description": "GitHub Copilot changelog \u2014 Copilot-specific feature changes and updates",
+          "max_per_run": 3
+        },
+        "entry": {
+          "id": "https://github.blog/changelog/2026-06-26-per-user-ai-credit-budgets-available-for-cost-centers",
+          "title": "Per-user AI credit budgets available for cost centers",
+          "url": "https://github.blog/changelog/2026-06-30-per-user-ai-credit-budgets-available-for-cost-centers",
+          "published": "Tue, 30 Jun 2026 07:45:13 +0000"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-01T07:26:28.500323+00:00",
+      "payload": {
+        "feed": {
+          "id": "github-copilot",
+          "url": "https://github.blog/changelog/feed/?label=copilot",
+          "source_type": "documentation",
+          "description": "GitHub Copilot changelog \u2014 Copilot-specific feature changes and updates",
+          "max_per_run": 3
+        },
+        "entry": {
+          "id": "https://github.blog/changelog/2026-06-18-copilot-agent-is-now-available-in-jetbrains-ai-assistant",
+          "title": "Copilot Agent is now available in JetBrains AI Assistant",
+          "url": "https://github.blog/changelog/2026-06-30-copilot-agent-is-now-available-in-jetbrains-ai-assistant",
+          "published": "Tue, 30 Jun 2026 16:00:19 +0000"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-01T07:26:28.501158+00:00",
+      "payload": {
+        "feed": {
+          "id": "github-copilot",
+          "url": "https://github.blog/changelog/feed/?label=copilot",
+          "source_type": "documentation",
+          "description": "GitHub Copilot changelog \u2014 Copilot-specific feature changes and updates",
+          "max_per_run": 3
+        },
+        "entry": {
+          "id": "https://github.blog/changelog/2026-06-30-claude-sonnet-5-is-generally-available-for-github-copilot",
+          "title": "Claude Sonnet 5 is generally available for GitHub Copilot",
+          "url": "https://github.blog/changelog/2026-06-30-claude-sonnet-5-is-generally-available-for-github-copilot",
+          "published": "Tue, 30 Jun 2026 17:25:51 +0000"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-01T07:26:35.050851+00:00",
+      "payload": {
+        "feed": {
+          "id": "claude-blog",
+          "url": "https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_claude.xml",
+          "source_type": "blog-post",
+          "description": "Claude blog \u2014 Claude Code features, multi-agent patterns, enterprise tooling (via Olshansk/rss-feeds mirror)",
+          "max_per_run": 3
+        },
+        "entry": {
+          "id": "https://claude.com/blog/getting-started-with-loops",
+          "title": "Getting started with loops",
+          "url": "https://claude.com/blog/getting-started-with-loops",
+          "published": "Tue, 30 Jun 2026 00:00:00 +0000"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-01T07:26:43.694849+00:00",
+      "payload": {
+        "feed": {
+          "id": "sourcegraph",
+          "url": "https://sourcegraph.com/blog/rss.xml",
+          "source_type": "blog-post",
+          "description": "Sourcegraph (Amp, Cody) \u2014 agentic coding in large codebases, code-search infrastructure",
+          "max_per_run": 3
+        },
+        "entry": {
+          "id": "http://localhost:5174/blog/agentic-batch-changes-public-beta",
+          "title": "Agentic Batch Changes is now in public beta",
+          "url": "http://localhost:5174/blog/agentic-batch-changes-public-beta",
+          "published": "Tue, 30 Jun 2026 00:00:00 GMT"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-01T07:26:48.545557+00:00",
+      "payload": {
+        "feed": {
+          "id": "openai-news",
+          "url": "https://openai.com/news/rss.xml",
+          "source_type": "blog-post",
+          "description": "OpenAI \u2014 Codex, agentic workflows, model releases (second major lab)",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://openai.com/index/advancing-youth-safety-and-opportunity-through-global-leadership",
+          "title": "Advancing youth safety and opportunity through global leadership",
+          "url": "https://openai.com/index/advancing-youth-safety-and-opportunity-through-global-leadership",
+          "published": "Tue, 02 Jun 2026 07:00:00 GMT"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-01T07:26:48.546498+00:00",
+      "payload": {
+        "feed": {
+          "id": "openai-news",
+          "url": "https://openai.com/news/rss.xml",
+          "source_type": "blog-post",
+          "description": "OpenAI \u2014 Codex, agentic workflows, model releases (second major lab)",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://openai.com/index/codex-for-every-role-tool-workflow",
+          "title": "Codex for every role, tool, and workflow",
+          "url": "https://openai.com/index/codex-for-every-role-tool-workflow",
+          "published": "Tue, 02 Jun 2026 09:00:00 GMT"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-01T07:26:50.689019+00:00",
+      "payload": {
+        "feed": {
+          "id": "pragmatic-engineer",
+          "url": "https://newsletter.pragmaticengineer.com/feed",
+          "source_type": "blog-post",
+          "description": "Gergely Orosz \u2014 engineering-org AI adoption, productivity data, workflow practices",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://newsletter.pragmaticengineer.com/p/why-is-meta-destroying-its-engineering",
+          "title": "Why is Meta destroying its engineering organization?",
+          "url": "https://newsletter.pragmaticengineer.com/p/why-is-meta-destroying-its-engineering",
+          "published": "Tue, 16 Jun 2026 16:27:43 GMT"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-01T07:26:50.690001+00:00",
+      "payload": {
+        "feed": {
+          "id": "pragmatic-engineer",
+          "url": "https://newsletter.pragmaticengineer.com/feed",
+          "source_type": "blog-post",
+          "description": "Gergely Orosz \u2014 engineering-org AI adoption, productivity data, workflow practices",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://newsletter.pragmaticengineer.com/p/cicd-with-robert-erez",
+          "title": "CI/CD with Robert Erez",
+          "url": "https://newsletter.pragmaticengineer.com/p/cicd-with-robert-erez",
+          "published": "Wed, 17 Jun 2026 16:41:01 GMT"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-01T07:26:52.753425+00:00",
+      "payload": {
+        "feed": {
+          "id": "jetbrains-ai",
+          "url": "https://blog.jetbrains.com/ai/feed/",
+          "source_type": "blog-post",
+          "description": "JetBrains AI \u2014 Junie agent, IDE-deep workflows, agent benchmarking",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://blog.jetbrains.com/?post_type=dotnet&p=712000",
+          "title": "Your AI Agent Keeps Missing The Real Bottleneck.  JetBrains Rider Can Fix It Now.",
+          "url": "https://blog.jetbrains.com/dotnet/2026/06/25/performance-profiling-agent-skill-in-rider/",
+          "published": "Thu, 25 Jun 2026 14:17:40 +0000"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-01T07:26:52.754539+00:00",
+      "payload": {
+        "feed": {
+          "id": "jetbrains-ai",
+          "url": "https://blog.jetbrains.com/ai/feed/",
+          "source_type": "blog-post",
+          "description": "JetBrains AI \u2014 Junie agent, IDE-deep workflows, agent benchmarking",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://blog.jetbrains.com/?post_type=ai&p=715203",
+          "title": "Introducing a Recommended Agent in AI Chat, With Codex as the Current Default",
+          "url": "https://blog.jetbrains.com/ai/2026/06/codex-is-now-the-recommended-agent-in-jetbrains-ai/",
+          "published": "Thu, 25 Jun 2026 14:57:31 +0000"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-01T07:26:55.071550+00:00",
+      "payload": {
+        "feed": {
+          "id": "google-developers",
+          "url": "https://developers.googleblog.com/feeds/posts/default",
+          "source_type": "blog-post",
+          "description": "Google Developers \u2014 Gemini, Jules coding agent, Antigravity, ADK (third major lab)",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://developers.googleblog.com/adk-kotlin-android-building-ai-agents/",
+          "title": "Announcing ADK for Kotlin and ADK for Android 0.1.0: Building AI Agents on Android and Beyond",
+          "url": "https://developers.googleblog.com/adk-kotlin-android-building-ai-agents/",
+          "published": ""
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-01T07:26:55.072658+00:00",
+      "payload": {
+        "feed": {
+          "id": "google-developers",
+          "url": "https://developers.googleblog.com/feeds/posts/default",
+          "source_type": "blog-post",
+          "description": "Google Developers \u2014 Gemini, Jules coding agent, Antigravity, ADK (third major lab)",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://developers.googleblog.com/enhancing-android-checkout-with-dynamic-callbacks-in-google-pay/",
+          "title": "Enhancing Android Checkout with Dynamic Callbacks in Google Pay",
+          "url": "https://developers.googleblog.com/enhancing-android-checkout-with-dynamic-callbacks-in-google-pay/",
+          "published": ""
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-01T07:26:57.222422+00:00",
+      "payload": {
+        "feed": {
+          "id": "kent-beck",
+          "url": "https://newsletter.kentbeck.com/feed",
+          "source_type": "blog-post",
+          "description": "Kent Beck \u2014 TDD/XP creator on AI-augmented coding, design, and trust",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://newsletter.kentbeck.com/p/why-so-literal",
+          "title": "Why So Literal?",
+          "url": "https://newsletter.kentbeck.com/p/why-so-literal",
+          "published": "Tue, 23 Jun 2026 13:08:55 GMT"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-01T07:26:57.223537+00:00",
+      "payload": {
+        "feed": {
+          "id": "kent-beck",
+          "url": "https://newsletter.kentbeck.com/feed",
+          "source_type": "blog-post",
+          "description": "Kent Beck \u2014 TDD/XP creator on AI-augmented coding, design, and trust",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://newsletter.kentbeck.com/p/the-cost-yagni-was-never-about",
+          "title": "The Cost YAGNI Was Never About",
+          "url": "https://newsletter.kentbeck.com/p/the-cost-yagni-was-never-about",
+          "published": "Thu, 25 Jun 2026 12:59:56 GMT"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-01T07:27:03.605021+00:00",
+      "payload": {
+        "feed": {
+          "id": "thoughtworks",
+          "url": "https://www.thoughtworks.com/rss/insights.xml",
+          "source_type": "blog-post",
+          "description": "Thoughtworks Insights \u2014 AI-native engineering building blocks, agentic SDLC, vendor-neutral",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://www.thoughtworks.com/insights/blog/data-engineering/enabling-evolutionary-database-branching-with-lakebase",
+          "title": "Enabling evolutionary database development: Database branching with Lakebase",
+          "url": "https://www.thoughtworks.com/insights/blog/data-engineering/enabling-evolutionary-database-branching-with-lakebase",
+          "published": "Thu Jun 04 00:00:00 UTC 2026"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-01T07:27:03.606242+00:00",
+      "payload": {
+        "feed": {
+          "id": "thoughtworks",
+          "url": "https://www.thoughtworks.com/rss/insights.xml",
+          "source_type": "blog-post",
+          "description": "Thoughtworks Insights \u2014 AI-native engineering building blocks, agentic SDLC, vendor-neutral",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://www.thoughtworks.com/insights/blog/generative-ai/is-ai-governance-the-right-conversation",
+          "title": "Is AI governance even the right conversation?",
+          "url": "https://www.thoughtworks.com/insights/blog/generative-ai/is-ai-governance-the-right-conversation",
+          "published": "Thu Jun 04 00:00:00 UTC 2026"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-01T07:27:07.756180+00:00",
+      "payload": {
+        "feed": {
+          "id": "latent-space",
+          "url": "https://www.latent.space/feed",
+          "source_type": "blog-post",
+          "description": "Latent Space (swyx) \u2014 AI engineering essays/interviews; daily AINews is broad aggregation",
+          "max_per_run": 1
+        },
+        "entry": {
+          "id": "https://www.latent.space/p/ainews-satya-on-loopcraft-building",
+          "title": "[AINews] Satya on Loopcraft: Building Frontier Ecosystems",
+          "url": "https://www.latent.space/p/ainews-satya-on-loopcraft-building",
+          "published": "Tue, 16 Jun 2026 02:29:29 GMT"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-01T07:27:10.150885+00:00",
+      "payload": {
+        "feed": {
+          "id": "vercel",
+          "url": "https://vercel.com/atom",
+          "source_type": "blog-post",
+          "description": "Vercel \u2014 agent infrastructure (AI SDK, Sandbox, harness adapters); changelog-heavy",
+          "max_per_run": 1
+        },
+        "entry": {
+          "id": "https://vercel.com/changelog/chat-sdk-adds-agentphone-support",
+          "title": "Chat SDK adds AgentPhone support",
+          "url": "https://vercel.com/changelog/chat-sdk-adds-agentphone-support",
+          "published": "2026-06-01T14:00:00.000Z"
+        }
+      }
+    },
+    {
+      "scanner": "failures",
+      "queued_at": "2026-07-01T07:28:15.487730+00:00",
+      "payload": {
+        "result": {
+          "source": "github",
+          "title": "Discussion: replace post-hoc compact-changelog with file-per-change tooling (evaluate changie for 2026)",
+          "url": "https://github.com/genealogix/glx/issues/858",
+          "reactions": 0,
+          "comments": 2,
+          "author": "isaacschepp",
+          "created_at": "2026-05-15T18:41:08Z",
+          "body_snippet": "## Summary\n\n`compact-changelog.md` exists because agentic edits create duplicate `### Added` sections, self-cancelling Added/Removed pairs, and follow-up Fixed entries that should fold into the original Added. **File-per-change tools eliminate this class of problem at the source by writing each change to its own file**, then assembling at release time. The compact-changelog command is, at best, post-hoc cleanup of a problem that need not exist.\n\nThis is a Discussion, not a Bug or Enhancement \u2014 i"
+        }
+      }
+    },
+    {
+      "scanner": "failures",
+      "queued_at": "2026-07-01T07:28:15.489069+00:00",
       "payload": {
         "result": {
           "source": "github",
