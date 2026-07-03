@@ -1,0 +1,316 @@
+name: Herald weekly changelog
+
+# Weekly town-crier run. Once a week the Herald computes what changed in the
+# published guide (`guide/*.md`, excluding SOURCES.md) since the last changelog
+# report, writes a concise executive summary to `changelog/<ISO-week>.md`,
+# commits it directly to main, and cuts a `guide-YYYY-MM-DD` GitHub Release.
+#
+# Structure mirrors the existing agent workflows:
+#   - smith-on-source-merge.yml — schedule + diff-range logic + the
+#     anthropics/claude-code-action invocation with an APPEND_SYSTEM_PROMPT
+#     loaded from the agent's role file.
+#   - daily-scan.yml — direct commit to main via the PROJECT_PAT (admin) token.
+#
+# The report chain is self-healing: each report's `from_commit` equals the
+# previous report's `to_commit`, so a missed week simply widens the next range
+# (see changelog/README.md → "The chaining contract"). Quiet weeks (no guide
+# change) produce no file and cut no release.
+
+on:
+  schedule:
+    - cron: '0 16 * * 0'     # Sunday 16:00 UTC (~9am PDT), after the Sat Smith run lands
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Compute + print the report but do NOT commit or release'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write            # push the changelog commit + cut the release
+  id-token: write            # required by anthropics/claude-code-action OIDC auth
+
+concurrency:
+  # One Herald run at a time — two overlapping runs could both try to write the
+  # same ISO-week file and race on the commit to main. Never cancel a run that
+  # may have already committed; let it finish.
+  group: herald-weekly
+  cancel-in-progress: false
+
+jobs:
+  herald:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Full history so the diff range can reach an arbitrarily old
+          # `from_commit` (a missed week widens the range). PROJECT_PAT gives
+          # admin push to main once branch protection is on.
+          fetch-depth: 0
+          token: ${{ secrets.PROJECT_PAT }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install PyYAML (report front-matter validation)
+        run: pip install pyyaml
+
+      - name: Resolve diff range and changed chapters
+        id: resolve
+        run: |
+          set -euo pipefail
+
+          # Anchor the "after" side on origin/main so the report always
+          # describes what has actually merged, never this runner's checkout.
+          git fetch origin main
+          TO=$(git rev-parse origin/main)
+          echo "TO (origin/main HEAD): $TO"
+
+          # --- Determine FROM (exclusive lower bound of the diff range) ---
+          #
+          # Normal path: chain from the most recent existing report. Reports
+          # are named YYYY-Www.md which sorts lexically in chronological
+          # order, so the highest filename is the latest report. Its
+          # `to_commit` front-matter value is our new `from_commit`.
+          LATEST=$(find changelog -maxdepth 1 -name '*.md' ! -name 'README.md' \
+                     -printf '%f\n' 2>/dev/null | sort | tail -1 || true)
+
+          if [ -n "$LATEST" ]; then
+            echo "Latest prior report: changelog/$LATEST"
+            FROM=$(grep -m1 '^to_commit:' "changelog/$LATEST" | awk '{print $2}' || true)
+            if [ -z "$FROM" ]; then
+              echo "::error::changelog/$LATEST has no to_commit front-matter — chain is broken."
+              exit 1
+            fi
+            echo "Chaining from prior report to_commit: $FROM"
+          else
+            # First-run bootstrap: no prior report exists. Start from the last
+            # commit that touched guide/ at or before 7 days ago, so the very
+            # first report covers roughly the past week rather than all history.
+            echo "No prior report — bootstrapping a ~7-day window."
+            FROM=$(git rev-list -1 --before="7 days ago" origin/main -- guide/ || true)
+            if [ -z "$FROM" ]; then
+              echo "No guide/ commit older than 7 days — falling back to TO~1."
+              FROM="${TO}~1"
+            fi
+            echo "Bootstrap from_commit: $FROM"
+          fi
+
+          # --- Compute the changed chapter set ---
+          # guide/*.md excluding SOURCES.md (a mechanical citation index, never
+          # substantive). Empty grep is not an error here.
+          CHANGED=$(git diff --name-only "$FROM" "$TO" -- 'guide/*.md' \
+                      | grep -v '^guide/SOURCES\.md$' || true)
+
+          if [ -z "$CHANGED" ]; then
+            echo "No guide changes between $FROM and $TO — quiet week, skipping."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "Changed chapters:"
+          printf '  %s\n' $CHANGED
+
+          # --- Naming / front-matter values ---
+          ISO_WEEK=$(date -u +%G-W%V)     # e.g. 2026-W27
+          GEN_DATE=$(date -u +%Y-%m-%d)   # e.g. 2026-07-05
+          echo "ISO week: $ISO_WEEK   Generated: $GEN_DATE"
+
+          # --- Unified diff for the agent ---
+          # Same exclusion (SOURCES.md) as the changed-set computation so the
+          # Herald never sees a citation-index hunk it might headline.
+          DIFF_FILE="$RUNNER_TEMP/guide.diff"
+          git diff "$FROM" "$TO" -- 'guide/*.md' ':(exclude)guide/SOURCES.md' > "$DIFF_FILE"
+          if [ ! -s "$DIFF_FILE" ]; then
+            echo "::error::diff file empty despite non-empty changed set — aborting."
+            exit 1
+          fi
+          echo "Wrote guide diff to $DIFF_FILE ($(wc -l < "$DIFF_FILE") lines)"
+
+          # --- Export for later steps ---
+          {
+            echo "skip=false"
+            echo "from_commit=$FROM"
+            echo "to_commit=$TO"
+            echo "iso_week=$ISO_WEEK"
+            echo "gen_date=$GEN_DATE"
+            echo "diff_file=$DIFF_FILE"
+            echo "report_path=changelog/${ISO_WEEK}.md"
+          } >> "$GITHUB_OUTPUT"
+          {
+            echo "changed_chapters<<CHAPTERS_EOF"
+            echo "$CHANGED"
+            echo "CHAPTERS_EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Load Herald role into APPEND_SYSTEM_PROMPT
+        if: steps.resolve.outputs.skip != 'true'
+        # Cache the role definition in the system-prompt prefix (same pattern
+        # as smith/assayer) so it hits the prompt cache across runs.
+        run: |
+          {
+            echo 'APPEND_SYSTEM_PROMPT<<APPEND_EOF'
+            cat agents/HERALD.md
+            echo 'APPEND_EOF'
+          } >> "$GITHUB_ENV"
+
+      - name: Run Herald
+        if: steps.resolve.outputs.skip != 'true'
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          show_full_output: true
+          prompt: |
+            You are the Herald. Read agents/HERALD.md first — it is your role,
+            process, output schema, and style rules. The system prompt already
+            contains that file, but read it from disk too so you have the exact
+            chapter-title mapping.
+
+            ## Inputs for this run
+
+            - Unified diff of the changed guide chapters (the ONLY content you
+              describe — do not read full chapters or invent history):
+                ${{ steps.resolve.outputs.diff_file }}
+            - from_commit (before side): ${{ steps.resolve.outputs.from_commit }}
+            - to_commit   (after side, tip of main): ${{ steps.resolve.outputs.to_commit }}
+            - iso_week: ${{ steps.resolve.outputs.iso_week }}
+            - generated: ${{ steps.resolve.outputs.gen_date }}
+            - Changed chapter files in range:
+            ${{ steps.resolve.outputs.changed_chapters }}
+
+            ## Your task
+
+            1. Read agents/HERALD.md for style and the chapter-title mapping.
+            2. Read the diff file above. Group hunks by chapter, drop
+               trivial/citation-only churn, and write newspaper-headline
+               bullets per the style rules.
+            3. Write the report to ${{ steps.resolve.outputs.report_path }}
+               with the YAML front matter Herald requires (week, generated,
+               from_commit, to_commit, guide_files_changed) using EXACTLY the
+               from_commit/to_commit/iso_week/generated values given above.
+
+            IMPORTANT: Write the file with a Bash heredoc
+            (e.g. `cat > "${{ steps.resolve.outputs.report_path }}" <<'EOF' ... EOF`),
+            NOT the Write tool. The Write tool is sandboxed here and its output
+            is invisible to the commit/release steps that follow. Only a file
+            written to the working tree via a shell command is picked up.
+
+            Then exit.
+          claude_args: |
+            --model sonnet
+            --max-turns 15
+            --allowedTools "Bash(*)" "Read" "Glob" "Grep"
+
+      - name: Validate report
+        if: steps.resolve.outputs.skip != 'true'
+        env:
+          REPORT_PATH: ${{ steps.resolve.outputs.report_path }}
+          EXPECT_FROM: ${{ steps.resolve.outputs.from_commit }}
+          EXPECT_TO: ${{ steps.resolve.outputs.to_commit }}
+        run: |
+          set -euo pipefail
+
+          # Never poison the chain with a bad report: if anything is off, fail
+          # the job BEFORE committing so the load-bearing to_commit field can't
+          # be wrong.
+          if [ ! -s "$REPORT_PATH" ]; then
+            echo "::error::Herald did not produce a non-empty $REPORT_PATH."
+            exit 1
+          fi
+
+          python3 - "$REPORT_PATH" "$EXPECT_FROM" "$EXPECT_TO" <<'PY'
+          import sys, yaml
+
+          path, expect_from, expect_to = sys.argv[1], sys.argv[2], sys.argv[3]
+          text = open(path, encoding="utf-8").read()
+
+          # Front matter must be a leading, closed `---` ... `---` block.
+          if not text.startswith("---\n") and not text.startswith("---\r\n"):
+              sys.exit(f"ERROR: {path} does not start with a YAML front-matter block")
+          parts = text.split("---", 2)
+          if len(parts) < 3:
+              sys.exit(f"ERROR: {path} has no closing --- for its front matter")
+
+          fm = yaml.safe_load(parts[1])
+          if not isinstance(fm, dict):
+              sys.exit(f"ERROR: {path} front matter did not parse to a mapping")
+
+          for key, want in (("from_commit", expect_from), ("to_commit", expect_to)):
+              got = str(fm.get(key, "")).strip()
+              if got != want:
+                  sys.exit(f"ERROR: {key} is {got!r}, expected {want!r}")
+
+          body = parts[2]
+          if not any(line.startswith("## ") for line in body.splitlines()):
+              sys.exit(f"ERROR: {path} has no '## ' chapter heading")
+
+          print(f"OK: {path} front matter and chapter heading validate.")
+          PY
+
+      - name: Print report (dry run)
+        if: steps.resolve.outputs.skip != 'true' && inputs.dry_run
+        env:
+          REPORT_PATH: ${{ steps.resolve.outputs.report_path }}
+        run: |
+          echo "::notice::Dry run — not committing or releasing. Report contents:"
+          echo "----------------------------------------------------------------"
+          cat "$REPORT_PATH"
+          echo "----------------------------------------------------------------"
+
+      - name: Commit and push report
+        if: steps.resolve.outputs.skip != 'true' && !inputs.dry_run
+        env:
+          PROJECT_PAT: ${{ secrets.PROJECT_PAT }}
+          REPORT_PATH: ${{ steps.resolve.outputs.report_path }}
+          ISO_WEEK: ${{ steps.resolve.outputs.iso_week }}
+        run: |
+          set -euo pipefail
+          git config user.name  "hitchhiker-herald[bot]"
+          git config user.email "hitchhiker-herald@users.noreply.github.com"
+          # Push directly to main via the admin PAT (same model as daily-scan).
+          git remote set-url origin \
+            "https://x-access-token:${PROJECT_PAT}@github.com/${{ github.repository }}.git"
+          git add "$REPORT_PATH"
+          if git diff --staged --quiet; then
+            echo "::error::Nothing staged to commit — expected $REPORT_PATH."
+            exit 1
+          fi
+          git commit -m "chronicle: guide changelog for ${ISO_WEEK}"
+          git push origin HEAD:main
+
+      - name: Cut release
+        if: steps.resolve.outputs.skip != 'true' && !inputs.dry_run
+        env:
+          GH_TOKEN: ${{ secrets.PROJECT_PAT }}
+          REPORT_PATH: ${{ steps.resolve.outputs.report_path }}
+          ISO_WEEK: ${{ steps.resolve.outputs.iso_week }}
+          GEN_DATE: ${{ steps.resolve.outputs.gen_date }}
+          TO: ${{ steps.resolve.outputs.to_commit }}
+        run: |
+          set -euo pipefail
+
+          # Release notes = report body (front matter stripped) + a link line.
+          NOTES="$RUNNER_TEMP/release-notes.md"
+          awk '
+            NR==1 && $0=="---" { fm=1; next }
+            fm && $0=="---"     { fm=0; next }
+            !fm                 { print }
+          ' "$REPORT_PATH" > "$NOTES"
+          {
+            echo ""
+            echo "Full changelog: ${REPORT_PATH}"
+          } >> "$NOTES"
+
+          # The commit is already the source of truth. If the release call
+          # fails (transient GitHub hiccup), surface it loudly but do not try
+          # to undo the commit — a human can re-cut the tag from $TO.
+          if ! gh release create "guide-${GEN_DATE}" \
+                 --target "$TO" \
+                 --title "Guide — week of ${ISO_WEEK}" \
+                 --notes-file "$NOTES"; then
+            echo "::error::Release guide-${GEN_DATE} failed AFTER the changelog commit landed on main."
+            echo "::error::The commit is the source of truth; re-cut the release from $TO manually."
+            exit 1
+          fi
+          echo "Cut release guide-${GEN_DATE} targeting $TO."
