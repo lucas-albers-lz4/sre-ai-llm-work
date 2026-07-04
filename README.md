@@ -3,7 +3,7 @@
 A living, opinionated, citation-backed handbook for practitioners building software
 with AI coding agents. Updated weekly as new patterns emerge and old ones decay.
 
-**This guide is unapologetically point-in-time.** What works today may not work
+**This guide is point-in-time.** What works today may not work
 next month. Every recommendation cites its source. Every claim states its confidence
 level. When the landscape shifts, the guide shifts with it.
 
@@ -45,7 +45,8 @@ Anyone can help improve the guide by submitting feedback. Two ways to contribute
 Found a practitioner repo, blog post, failure report, or community discussion that
 should inform the guide? File an issue:
 
-- [**Source submission**](.github/ISSUE_TEMPLATE/source-submission.yml) — article URL, blog feed, practitioner repo
+- [**Source submission**](.github/ISSUE_TEMPLATE/source-submission.yml) — a single article, doc, discussion, or paper
+- [**Seed site**](.github/ISSUE_TEMPLATE/seed-site.yml) — a whole blog/site to scan regularly; triage auto-routes it to trusted feeds or the site crawler
 - [**Practitioner repo**](.github/ISSUE_TEMPLATE/practitioner-repo.yml) — real CLAUDE.md, .claude/ configs, AGENTS.md from active repos
 - [**Failure report**](.github/ISSUE_TEMPLATE/failure-report.yml) — "I tried X and it broke" reports
 
@@ -93,6 +94,7 @@ curation. For the full pipeline design, see [`agents/README.md`](agents/README.m
 Additional references:
 
 - [**DASHBOARD.md**](DASHBOARD.md) — Content health metrics: per-chapter source counts, oldest cited source, staleness percentage, weekly delta
+- [**changelog/**](changelog/) — Weekly executive summary of what changed in the guide; each change-week also cuts a `guide-YYYY-MM-DD` [GitHub Release](../../releases)
 - [**CONTRADICTIONS.md**](CONTRADICTIONS.md) — Where sources disagree and how the guide resolves it
 - [**docs/PROJECT-SETUP.md**](docs/PROJECT-SETUP.md) — Development environment and project setup
 - **GitHub Project** [https://github.com/users/steveash/projects/1] — Workflow status across PRs, issues, and scanner queues
