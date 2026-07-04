@@ -97,253 +97,6 @@
       }
     },
     {
-      "scanner": "trusted",
-      "queued_at": "2026-07-02T07:04:59.573393+00:00",
-      "payload": {
-        "feed": {
-          "id": "openai-news",
-          "url": "https://openai.com/news/rss.xml",
-          "source_type": "blog-post",
-          "description": "OpenAI \u2014 Codex, agentic workflows, model releases (second major lab)",
-          "max_per_run": 2
-        },
-        "entry": {
-          "id": "https://openai.com/index/travelers",
-          "title": "Travelers deploys AI-powered claims countrywide with OpenAI",
-          "url": "https://openai.com/index/travelers",
-          "published": "Tue, 02 Jun 2026 12:00:00 GMT"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-07-02T07:04:59.574387+00:00",
-      "payload": {
-        "feed": {
-          "id": "openai-news",
-          "url": "https://openai.com/news/rss.xml",
-          "source_type": "blog-post",
-          "description": "OpenAI \u2014 Codex, agentic workflows, model releases (second major lab)",
-          "max_per_run": 2
-        },
-        "entry": {
-          "id": "https://openai.com/index/frontier-safety-blueprint",
-          "title": "A blueprint for democratic governance of frontier AI",
-          "url": "https://openai.com/index/frontier-safety-blueprint",
-          "published": "Wed, 03 Jun 2026 10:00:00 GMT"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-07-02T07:05:01.792807+00:00",
-      "payload": {
-        "feed": {
-          "id": "pragmatic-engineer",
-          "url": "https://newsletter.pragmaticengineer.com/feed",
-          "source_type": "blog-post",
-          "description": "Gergely Orosz \u2014 engineering-org AI adoption, productivity data, workflow practices",
-          "max_per_run": 2
-        },
-        "entry": {
-          "id": "https://newsletter.pragmaticengineer.com/p/the-pulse-big-implications-of-us",
-          "title": "The Pulse: Big implications of US banning Anthropic\u2019s new model, Fable",
-          "url": "https://newsletter.pragmaticengineer.com/p/the-pulse-big-implications-of-us",
-          "published": "Thu, 18 Jun 2026 17:11:03 GMT"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-07-02T07:05:01.793823+00:00",
-      "payload": {
-        "feed": {
-          "id": "pragmatic-engineer",
-          "url": "https://newsletter.pragmaticengineer.com/feed",
-          "source_type": "blog-post",
-          "description": "Gergely Orosz \u2014 engineering-org AI adoption, productivity data, workflow practices",
-          "max_per_run": 2
-        },
-        "entry": {
-          "id": "https://newsletter.pragmaticengineer.com/p/slow-down-to-speed-up",
-          "title": "Slow down to speed up: so much has changed in 6 months\u2019 time",
-          "url": "https://newsletter.pragmaticengineer.com/p/slow-down-to-speed-up",
-          "published": "Tue, 23 Jun 2026 15:30:26 GMT"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-07-02T07:05:03.883137+00:00",
-      "payload": {
-        "feed": {
-          "id": "jetbrains-ai",
-          "url": "https://blog.jetbrains.com/ai/feed/",
-          "source_type": "blog-post",
-          "description": "JetBrains AI \u2014 Junie agent, IDE-deep workflows, agent benchmarking",
-          "max_per_run": 2
-        },
-        "entry": {
-          "id": "https://blog.jetbrains.com/?post_type=air&p=717399",
-          "title": "JetBrains Air lands on Windows",
-          "url": "https://blog.jetbrains.com/air/2026/06/jetbrains-air-lands-on-windows/",
-          "published": "Mon, 29 Jun 2026 15:22:50 +0000"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-07-02T07:05:03.884244+00:00",
-      "payload": {
-        "feed": {
-          "id": "jetbrains-ai",
-          "url": "https://blog.jetbrains.com/ai/feed/",
-          "source_type": "blog-post",
-          "description": "JetBrains AI \u2014 Junie agent, IDE-deep workflows, agent benchmarking",
-          "max_per_run": 2
-        },
-        "entry": {
-          "id": "https://blog.jetbrains.com/?post_type=ai&p=714832",
-          "title": "GitHub Copilot now an Integrated Agent in JetBrains IDEs",
-          "url": "https://blog.jetbrains.com/ai/2026/06/github-copilot-now-an-integrated-agent/",
-          "published": "Tue, 30 Jun 2026 13:15:31 +0000"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-07-02T07:05:06.245699+00:00",
-      "payload": {
-        "feed": {
-          "id": "google-developers",
-          "url": "https://developers.googleblog.com/feeds/posts/default",
-          "source_type": "blog-post",
-          "description": "Google Developers \u2014 Gemini, Jules coding agent, Antigravity, ADK (third major lab)",
-          "max_per_run": 2
-        },
-        "entry": {
-          "id": "https://developers.googleblog.com/the-latest-updates-to-google-pay/",
-          "title": "The latest updates to Google Pay",
-          "url": "https://developers.googleblog.com/the-latest-updates-to-google-pay/",
-          "published": ""
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-07-02T07:05:06.246850+00:00",
-      "payload": {
-        "feed": {
-          "id": "google-developers",
-          "url": "https://developers.googleblog.com/feeds/posts/default",
-          "source_type": "blog-post",
-          "description": "Google Developers \u2014 Gemini, Jules coding agent, Antigravity, ADK (third major lab)",
-          "max_per_run": 2
-        },
-        "entry": {
-          "id": "https://developers.googleblog.com/supercharge-your-integration-workflow-with-the-google-pay-wallet-developer-mcp-server/",
-          "title": "Supercharge your integration workflow with the Google Pay & Wallet Developer MCP server",
-          "url": "https://developers.googleblog.com/supercharge-your-integration-workflow-with-the-google-pay-wallet-developer-mcp-server/",
-          "published": ""
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-07-02T07:05:08.518743+00:00",
-      "payload": {
-        "feed": {
-          "id": "kent-beck",
-          "url": "https://newsletter.kentbeck.com/feed",
-          "source_type": "blog-post",
-          "description": "Kent Beck \u2014 TDD/XP creator on AI-augmented coding, design, and trust",
-          "max_per_run": 2
-        },
-        "entry": {
-          "id": "https://newsletter.kentbeck.com/p/air-traffic-control",
-          "title": "Air Traffic Control",
-          "url": "https://newsletter.kentbeck.com/p/air-traffic-control",
-          "published": "Wed, 01 Jul 2026 14:25:26 GMT"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-07-02T07:05:15.024172+00:00",
-      "payload": {
-        "feed": {
-          "id": "thoughtworks",
-          "url": "https://www.thoughtworks.com/rss/insights.xml",
-          "source_type": "blog-post",
-          "description": "Thoughtworks Insights \u2014 AI-native engineering building blocks, agentic SDLC, vendor-neutral",
-          "max_per_run": 2
-        },
-        "entry": {
-          "id": "https://www.thoughtworks.com/insights/blog/data-engineering/backstage-lakebase-one-query-finops-solution",
-          "title": "Backstage with Lakebase | Part 3: The one-query FinOps solution",
-          "url": "https://www.thoughtworks.com/insights/blog/data-engineering/backstage-lakebase-one-query-finops-solution",
-          "published": "Fri Jun 05 00:00:00 UTC 2026"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-07-02T07:05:15.025399+00:00",
-      "payload": {
-        "feed": {
-          "id": "thoughtworks",
-          "url": "https://www.thoughtworks.com/rss/insights.xml",
-          "source_type": "blog-post",
-          "description": "Thoughtworks Insights \u2014 AI-native engineering building blocks, agentic SDLC, vendor-neutral",
-          "max_per_run": 2
-        },
-        "entry": {
-          "id": "https://www.thoughtworks.com/insights/blog/generative-ai/does-every-feature-build-ai-token-budget",
-          "title": "Does every feature we build with AI need a token budget?",
-          "url": "https://www.thoughtworks.com/insights/blog/generative-ai/does-every-feature-build-ai-token-budget",
-          "published": "Fri Jun 05 00:00:00 UTC 2026"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-07-02T07:05:19.305527+00:00",
-      "payload": {
-        "feed": {
-          "id": "latent-space",
-          "url": "https://www.latent.space/feed",
-          "source_type": "blog-post",
-          "description": "Latent Space (swyx) \u2014 AI engineering essays/interviews; daily AINews is broad aggregation",
-          "max_per_run": 1
-        },
-        "entry": {
-          "id": "https://www.latent.space/p/ainews-glm-gpt-glm-52-passes-vibe",
-          "title": "[AINews] GLM > GPT? GLM-5.2 passes vibe check; Z.ai forecasts Open Fable by December",
-          "url": "https://www.latent.space/p/ainews-glm-gpt-glm-52-passes-vibe",
-          "published": "Fri, 19 Jun 2026 05:53:54 GMT"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-07-02T07:05:21.691422+00:00",
-      "payload": {
-        "feed": {
-          "id": "vercel",
-          "url": "https://vercel.com/atom",
-          "source_type": "blog-post",
-          "description": "Vercel \u2014 agent infrastructure (AI SDK, Sandbox, harness adapters); changelog-heavy",
-          "max_per_run": 1
-        },
-        "entry": {
-          "id": "https://vercel.com/changelog/grok-imagine-video-1-5-on-ai-gateway",
-          "title": "Grok Imagine Video 1.5 on AI Gateway",
-          "url": "https://vercel.com/changelog/grok-imagine-video-1-5-on-ai-gateway",
-          "published": "2026-06-03T00:00:00.000Z"
-        }
-      }
-    },
-    {
       "scanner": "failures",
       "queued_at": "2026-07-02T07:06:27.965800+00:00",
       "payload": {
@@ -372,139 +125,6 @@
           "author": "isaacschepp",
           "created_at": "2026-05-21T18:26:48Z",
           "body_snippet": "## Context\n\nGLX currently runs **two** link-checking paths backed by **two** bespoke shell scripts:\n\n- `check-links.yml` \u2192 `scripts/check-links.sh` \u2014 internal/relative markdown links, on every PR.\n- `lychee.yml` \u2192 `scripts/extract-external-urls.sh` + `lychee` \u2014 external `https?://` links, weekly.\n\nTwo problems with the status quo:\n\n1. Both shell scripts carry the **same** code-block-aware `awk` extractor, and that extractor depends on a GNU-awk-only construct that breaks `make check-links` outsi"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-07-03T07:02:55.063147+00:00",
-      "payload": {
-        "feed": {
-          "id": "simon-willison",
-          "url": "https://simonwillison.net/atom/everything/",
-          "source_type": "blog-post",
-          "description": "Simon Willison \u2014 high-signal LLM tooling commentary and experiments",
-          "max_per_run": 3
-        },
-        "entry": {
-          "id": "https://simonwillison.net/2026/Jun/28/jon-udell/#atom-everything",
-          "title": "Quoting Jon Udell",
-          "url": "https://simonwillison.net/2026/Jun/28/jon-udell/#atom-everything",
-          "published": "2026-06-28T21:57:41+00:00"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-07-03T07:02:55.063818+00:00",
-      "payload": {
-        "feed": {
-          "id": "simon-willison",
-          "url": "https://simonwillison.net/atom/everything/",
-          "source_type": "blog-post",
-          "description": "Simon Willison \u2014 high-signal LLM tooling commentary and experiments",
-          "max_per_run": 3
-        },
-        "entry": {
-          "id": "https://simonwillison.net/2026/Jun/29/ornith/#atom-everything",
-          "title": "Ornith-1.0: Self-Scaffolding LLMs for Agentic Coding",
-          "url": "https://simonwillison.net/2026/Jun/29/ornith/#atom-everything",
-          "published": "2026-06-29T16:17:59+00:00"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-07-03T07:02:55.064570+00:00",
-      "payload": {
-        "feed": {
-          "id": "simon-willison",
-          "url": "https://simonwillison.net/atom/everything/",
-          "source_type": "blog-post",
-          "description": "Simon Willison \u2014 high-signal LLM tooling commentary and experiments",
-          "max_per_run": 3
-        },
-        "entry": {
-          "id": "https://simonwillison.net/2026/Jun/29/safari-tab-count/#atom-everything",
-          "title": "Count the number of Safari tabs",
-          "url": "https://simonwillison.net/2026/Jun/29/safari-tab-count/#atom-everything",
-          "published": "2026-06-29T18:36:18+00:00"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-07-03T07:02:59.791374+00:00",
-      "payload": {
-        "feed": {
-          "id": "github-copilot",
-          "url": "https://github.blog/changelog/feed/?label=copilot",
-          "source_type": "documentation",
-          "description": "GitHub Copilot changelog \u2014 Copilot-specific feature changes and updates",
-          "max_per_run": 3
-        },
-        "entry": {
-          "id": "https://github.blog/changelog/2026-07-01-copilot-vision-is-generally-available",
-          "title": "Copilot vision is generally available",
-          "url": "https://github.blog/changelog/2026-07-01-copilot-vision-is-generally-available",
-          "published": "Wed, 01 Jul 2026 18:39:17 +0000"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-07-03T07:02:59.792082+00:00",
-      "payload": {
-        "feed": {
-          "id": "github-copilot",
-          "url": "https://github.blog/changelog/feed/?label=copilot",
-          "source_type": "documentation",
-          "description": "GitHub Copilot changelog \u2014 Copilot-specific feature changes and updates",
-          "max_per_run": 3
-        },
-        "entry": {
-          "id": "https://github.blog/changelog/2026-06-30-kimi-k2-7-is-now-available-in-github-copilot",
-          "title": "Kimi K2.7 Code is generally available in GitHub Copilot",
-          "url": "https://github.blog/changelog/2026-07-01-kimi-k2-7-is-now-available-in-github-copilot",
-          "published": "Wed, 01 Jul 2026 19:00:21 +0000"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-07-03T07:02:59.881742+00:00",
-      "payload": {
-        "feed": {
-          "id": "github-copilot",
-          "url": "https://github.blog/changelog/feed/?label=copilot",
-          "source_type": "documentation",
-          "description": "GitHub Copilot changelog \u2014 Copilot-specific feature changes and updates",
-          "max_per_run": 3
-        },
-        "entry": {
-          "id": "https://github.blog/changelog/2026-07-01-new-c-language-server-config-skill-for-copilot-cli",
-          "title": "New C++ language server config skill for Copilot CLI",
-          "url": "https://github.blog/changelog/2026-07-01-new-c-language-server-config-skill-for-copilot-cli",
-          "published": "Wed, 01 Jul 2026 20:32:52 +0000"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-07-03T07:03:06.562676+00:00",
-      "payload": {
-        "feed": {
-          "id": "claude-blog",
-          "url": "https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_claude.xml",
-          "source_type": "blog-post",
-          "description": "Claude blog \u2014 Claude Code features, multi-agent patterns, enterprise tooling (via Olshansk/rss-feeds mirror)",
-          "max_per_run": 3
-        },
-        "entry": {
-          "id": "https://claude.com/blog/giving-admins-more-visibility-and-control-over-claude-usage-and-spend",
-          "title": "Giving admins more visibility and control over Claude spend",
-          "url": "https://claude.com/blog/giving-admins-more-visibility-and-control-over-claude-usage-and-spend",
-          "published": "Thu, 02 Jul 2026 00:00:00 +0000"
         }
       }
     },
@@ -717,6 +337,361 @@
     {
       "scanner": "failures",
       "queued_at": "2026-07-03T07:04:48.640536+00:00",
+      "payload": {
+        "result": {
+          "source": "github",
+          "title": "Discussion: consolidate internal + external link checking on lychee (retire the two custom awk extractors)",
+          "url": "https://github.com/genealogix/glx/issues/890",
+          "reactions": 0,
+          "comments": 1,
+          "author": "isaacschepp",
+          "created_at": "2026-05-21T18:26:48Z",
+          "body_snippet": "## Context\n\nGLX currently runs **two** link-checking paths backed by **two** bespoke shell scripts:\n\n- `check-links.yml` \u2192 `scripts/check-links.sh` \u2014 internal/relative markdown links, on every PR.\n- `lychee.yml` \u2192 `scripts/extract-external-urls.sh` + `lychee` \u2014 external `https?://` links, weekly.\n\nTwo problems with the status quo:\n\n1. Both shell scripts carry the **same** code-block-aware `awk` extractor, and that extractor depends on a GNU-awk-only construct that breaks `make check-links` outsi"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-04T06:58:07.749042+00:00",
+      "payload": {
+        "feed": {
+          "id": "simon-willison",
+          "url": "https://simonwillison.net/atom/everything/",
+          "source_type": "blog-post",
+          "description": "Simon Willison \u2014 high-signal LLM tooling commentary and experiments",
+          "max_per_run": 3
+        },
+        "entry": {
+          "id": "https://simonwillison.net/2026/Jun/29/html-table-extractor/#atom-everything",
+          "title": "HTML table extractor",
+          "url": "https://simonwillison.net/2026/Jun/29/html-table-extractor/#atom-everything",
+          "published": "2026-06-29T23:38:21+00:00"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-04T06:58:07.750101+00:00",
+      "payload": {
+        "feed": {
+          "id": "simon-willison",
+          "url": "https://simonwillison.net/atom/everything/",
+          "source_type": "blog-post",
+          "description": "Simon Willison \u2014 high-signal LLM tooling commentary and experiments",
+          "max_per_run": 3
+        },
+        "entry": {
+          "id": "https://simonwillison.net/2026/Jun/30/shot-scraper/#atom-everything",
+          "title": "shot-scraper 1.10",
+          "url": "https://simonwillison.net/2026/Jun/30/shot-scraper/#atom-everything",
+          "published": "2026-06-30T15:10:14+00:00"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-04T06:58:07.751074+00:00",
+      "payload": {
+        "feed": {
+          "id": "simon-willison",
+          "url": "https://simonwillison.net/atom/everything/",
+          "source_type": "blog-post",
+          "description": "Simon Willison \u2014 high-signal LLM tooling commentary and experiments",
+          "max_per_run": 3
+        },
+        "entry": {
+          "id": "https://simonwillison.net/2026/Jun/30/shot-scraper-video/#atom-everything",
+          "title": "Have your agent record video demos of its work with shot-scraper video",
+          "url": "https://simonwillison.net/2026/Jun/30/shot-scraper-video/#atom-everything",
+          "published": "2026-06-30T16:54:26+00:00"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-04T06:58:12.448463+00:00",
+      "payload": {
+        "feed": {
+          "id": "github-copilot",
+          "url": "https://github.blog/changelog/feed/?label=copilot",
+          "source_type": "documentation",
+          "description": "GitHub Copilot changelog \u2014 Copilot-specific feature changes and updates",
+          "max_per_run": 3
+        },
+        "entry": {
+          "id": "https://github.blog/changelog/2026-07-01-enterprise-managed-settings-json-is-generally-available",
+          "title": "Enterprise managed-settings.json is generally available",
+          "url": "https://github.blog/changelog/2026-07-01-enterprise-managed-settings-json-is-generally-available",
+          "published": "Wed, 01 Jul 2026 20:57:26 +0000"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-04T06:58:12.449365+00:00",
+      "payload": {
+        "feed": {
+          "id": "github-copilot",
+          "url": "https://github.blog/changelog/feed/?label=copilot",
+          "source_type": "documentation",
+          "description": "GitHub Copilot changelog \u2014 Copilot-specific feature changes and updates",
+          "max_per_run": 3
+        },
+        "entry": {
+          "id": "https://github.blog/changelog/2026-07-01-enterprises-can-default-to-auto-model-selection",
+          "title": "Enterprises can default to auto model selection",
+          "url": "https://github.blog/changelog/2026-07-01-enterprises-can-default-to-auto-model-selection",
+          "published": "Wed, 01 Jul 2026 22:27:16 +0000"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-04T06:58:12.450280+00:00",
+      "payload": {
+        "feed": {
+          "id": "github-copilot",
+          "url": "https://github.blog/changelog/feed/?label=copilot",
+          "source_type": "documentation",
+          "description": "GitHub Copilot changelog \u2014 Copilot-specific feature changes and updates",
+          "max_per_run": 3
+        },
+        "entry": {
+          "id": "https://github.blog/changelog/2026-06-26-cost-centers-now-support-included-usage-caps",
+          "title": "Cost centers now support AI credit pools",
+          "url": "https://github.blog/changelog/2026-07-02-cost-centers-now-support-included-usage-caps",
+          "published": "Thu, 02 Jul 2026 16:00:51 +0000"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-04T06:58:31.931487+00:00",
+      "payload": {
+        "feed": {
+          "id": "openai-news",
+          "url": "https://openai.com/news/rss.xml",
+          "source_type": "blog-post",
+          "description": "OpenAI \u2014 Codex, agentic workflows, model releases (second major lab)",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://openai.com/index/chatgpt-memory-dreaming",
+          "title": "Dreaming: Better memory for a more helpful ChatGPT",
+          "url": "https://openai.com/index/chatgpt-memory-dreaming",
+          "published": "Thu, 04 Jun 2026 09:00:00 GMT"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-04T06:58:31.932451+00:00",
+      "payload": {
+        "feed": {
+          "id": "openai-news",
+          "url": "https://openai.com/news/rss.xml",
+          "source_type": "blog-post",
+          "description": "OpenAI \u2014 Codex, agentic workflows, model releases (second major lab)",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://openai.com/index/endava-frontiers",
+          "title": "How Endava is redesigning software delivery around AI agents",
+          "url": "https://openai.com/index/endava-frontiers",
+          "published": "Thu, 04 Jun 2026 12:00:00 GMT"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-04T06:58:34.070358+00:00",
+      "payload": {
+        "feed": {
+          "id": "pragmatic-engineer",
+          "url": "https://newsletter.pragmaticengineer.com/feed",
+          "source_type": "blog-post",
+          "description": "Gergely Orosz \u2014 engineering-org AI adoption, productivity data, workflow practices",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://newsletter.pragmaticengineer.com/p/how-kent-beck-shapes-the-software",
+          "title": "How Kent Beck shapes the software engineering industry",
+          "url": "https://newsletter.pragmaticengineer.com/p/how-kent-beck-shapes-the-software",
+          "published": "Wed, 01 Jul 2026 16:57:46 GMT"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-04T06:58:38.466860+00:00",
+      "payload": {
+        "feed": {
+          "id": "google-developers",
+          "url": "https://developers.googleblog.com/feeds/posts/default",
+          "source_type": "blog-post",
+          "description": "Google Developers \u2014 Gemini, Jules coding agent, Antigravity, ADK (third major lab)",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://developers.googleblog.com/bringing-gemma-4-12b-to-your-laptop-unlocking-local-agentic-workflows-with-google-ai-edge/",
+          "title": "Bringing Gemma 4 12B to your Laptop: Unlocking Local, Agentic Workflows with Google AI Edge",
+          "url": "https://developers.googleblog.com/bringing-gemma-4-12b-to-your-laptop-unlocking-local-agentic-workflows-with-google-ai-edge/",
+          "published": ""
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-04T06:58:38.467947+00:00",
+      "payload": {
+        "feed": {
+          "id": "google-developers",
+          "url": "https://developers.googleblog.com/feeds/posts/default",
+          "source_type": "blog-post",
+          "description": "Google Developers \u2014 Gemini, Jules coding agent, Antigravity, ADK (third major lab)",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://developers.googleblog.com/introducing-the-google-colab-cli/",
+          "title": "Introducing the Google Colab CLI",
+          "url": "https://developers.googleblog.com/introducing-the-google-colab-cli/",
+          "published": ""
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-04T06:58:47.121936+00:00",
+      "payload": {
+        "feed": {
+          "id": "thoughtworks",
+          "url": "https://www.thoughtworks.com/rss/insights.xml",
+          "source_type": "blog-post",
+          "description": "Thoughtworks Insights \u2014 AI-native engineering building blocks, agentic SDLC, vendor-neutral",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://www.thoughtworks.com/insights/blog/legacy-modernization/Legacy-modernization-in-insurance-why-insurers-should-act-now",
+          "title": "Legacy modernization in insurance: Why insurers should act now",
+          "url": "https://www.thoughtworks.com/insights/blog/legacy-modernization/Legacy-modernization-in-insurance-why-insurers-should-act-now",
+          "published": "Mon Jun 08 00:00:00 UTC 2026"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-04T06:58:47.123083+00:00",
+      "payload": {
+        "feed": {
+          "id": "thoughtworks",
+          "url": "https://www.thoughtworks.com/rss/insights.xml",
+          "source_type": "blog-post",
+          "description": "Thoughtworks Insights \u2014 AI-native engineering building blocks, agentic SDLC, vendor-neutral",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://www.thoughtworks.com/insights/blog/generative-ai/navigating-ai-token-crisis",
+          "title": "Navigating today\u2019s AI token crisis",
+          "url": "https://www.thoughtworks.com/insights/blog/generative-ai/navigating-ai-token-crisis",
+          "published": "Wed Jun 10 00:00:00 UTC 2026"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-04T06:58:51.416855+00:00",
+      "payload": {
+        "feed": {
+          "id": "latent-space",
+          "url": "https://www.latent.space/feed",
+          "source_type": "blog-post",
+          "description": "Latent Space (swyx) \u2014 AI engineering essays/interviews; daily AINews is broad aggregation",
+          "max_per_run": 1
+        },
+        "entry": {
+          "id": "https://www.latent.space/p/databricks",
+          "title": "Why the Frontier Ecosystem must be Open \u2014 Matei Zaharia and Reynold Xin, Databricks",
+          "url": "https://www.latent.space/p/databricks",
+          "published": "Wed, 24 Jun 2026 18:53:16 GMT"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-04T06:58:53.704084+00:00",
+      "payload": {
+        "feed": {
+          "id": "vercel",
+          "url": "https://vercel.com/atom",
+          "source_type": "blog-post",
+          "description": "Vercel \u2014 agent infrastructure (AI SDK, Sandbox, harness adapters); changelog-heavy",
+          "max_per_run": 1
+        },
+        "entry": {
+          "id": "https://vercel.com/changelog/nemotron-3-ultra-now-available-on-ai-gateway",
+          "title": "Nemotron 3 Ultra now available on AI Gateway",
+          "url": "https://vercel.com/changelog/nemotron-3-ultra-now-available-on-ai-gateway",
+          "published": "2026-06-04T07:00:00.000Z"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-04T06:58:56.236162+00:00",
+      "payload": {
+        "feed": {
+          "id": "mattwood",
+          "url": "https://mattwood.blog/feed.xml",
+          "source_type": "blog-post",
+          "description": "Matt Wood (AWS CTO for AI) \u2014 high-level insights on organizational AI-native engineering and cost-of-validation in loops",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://mattwood.blog/essays/2026/06/what-the-garden-is-for/",
+          "title": "What The Garden Is For",
+          "url": "https://mattwood.blog/essays/2026/06/what-the-garden-is-for/",
+          "published": "2026-06-10T00:00:00Z"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-04T06:58:56.237343+00:00",
+      "payload": {
+        "feed": {
+          "id": "mattwood",
+          "url": "https://mattwood.blog/feed.xml",
+          "source_type": "blog-post",
+          "description": "Matt Wood (AWS CTO for AI) \u2014 high-level insights on organizational AI-native engineering and cost-of-validation in loops",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://mattwood.blog/essays/2026/06/the-field-and-the-frontier/",
+          "title": "The Field and The Frontier",
+          "url": "https://mattwood.blog/essays/2026/06/the-field-and-the-frontier/",
+          "published": "2026-06-23T00:00:00Z"
+        }
+      }
+    },
+    {
+      "scanner": "failures",
+      "queued_at": "2026-07-04T06:59:59.006355+00:00",
+      "payload": {
+        "result": {
+          "source": "github",
+          "title": "Discussion: replace post-hoc compact-changelog with file-per-change tooling (evaluate changie for 2026)",
+          "url": "https://github.com/genealogix/glx/issues/858",
+          "reactions": 0,
+          "comments": 2,
+          "author": "isaacschepp",
+          "created_at": "2026-05-15T18:41:08Z",
+          "body_snippet": "## Summary\n\n`compact-changelog.md` exists because agentic edits create duplicate `### Added` sections, self-cancelling Added/Removed pairs, and follow-up Fixed entries that should fold into the original Added. **File-per-change tools eliminate this class of problem at the source by writing each change to its own file**, then assembling at release time. The compact-changelog command is, at best, post-hoc cleanup of a problem that need not exist.\n\nThis is a Discussion, not a Bug or Enhancement \u2014 i"
+        }
+      }
+    },
+    {
+      "scanner": "failures",
+      "queued_at": "2026-07-04T06:59:59.007677+00:00",
       "payload": {
         "result": {
           "source": "github",
