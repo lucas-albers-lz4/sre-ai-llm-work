@@ -257,253 +257,6 @@
       }
     },
     {
-      "scanner": "trusted",
-      "queued_at": "2026-07-07T07:08:41.258907+00:00",
-      "payload": {
-        "feed": {
-          "id": "cursor-blog",
-          "url": "https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_cursor.xml",
-          "source_type": "blog-post",
-          "description": "Cursor blog \u2014 competing AI coding agent, Composer, model inference techniques",
-          "max_per_run": 3
-        },
-        "entry": {
-          "id": "https://cursor.com/blog/cfo-council",
-          "title": "CFOs and the new economics of AI",
-          "url": "https://cursor.com/blog/cfo-council",
-          "published": "Mon, 06 Jul 2026 12:00:00 +0000"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-07-07T07:08:49.954444+00:00",
-      "payload": {
-        "feed": {
-          "id": "martin-fowler",
-          "url": "https://martinfowler.com/feed.atom",
-          "source_type": "blog-post",
-          "description": "Martin Fowler / Thoughtworks \u2014 Boeckeler harness-engineering series, vendor-neutral AI-assisted dev",
-          "max_per_run": 2
-        },
-        "entry": {
-          "id": "https://martinfowler.com/fragments/2026-07-06.html",
-          "title": "Fragments: July  6",
-          "url": "https://martinfowler.com/fragments/2026-07-06.html",
-          "published": "2026-07-06T08:53:00-04:00"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-07-07T07:08:52.279240+00:00",
-      "payload": {
-        "feed": {
-          "id": "openai-news",
-          "url": "https://openai.com/news/rss.xml",
-          "source_type": "blog-post",
-          "description": "OpenAI \u2014 Codex, agentic workflows, model releases (second major lab)",
-          "max_per_run": 2
-        },
-        "entry": {
-          "id": "https://openai.com/index/notion",
-          "title": "What Codex unlocks for Notion",
-          "url": "https://openai.com/index/notion",
-          "published": "Tue, 09 Jun 2026 10:00:00 GMT"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-07-07T07:08:52.279843+00:00",
-      "payload": {
-        "feed": {
-          "id": "openai-news",
-          "url": "https://openai.com/news/rss.xml",
-          "source_type": "blog-post",
-          "description": "OpenAI \u2014 Codex, agentic workflows, model releases (second major lab)",
-          "max_per_run": 2
-        },
-        "entry": {
-          "id": "https://openai.com/index/nextdoor",
-          "title": "How engineers at Nextdoor use Codex to build without limits",
-          "url": "https://openai.com/index/nextdoor",
-          "published": "Tue, 09 Jun 2026 12:00:00 GMT"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-07-07T07:08:56.654212+00:00",
-      "payload": {
-        "feed": {
-          "id": "jetbrains-ai",
-          "url": "https://blog.jetbrains.com/ai/feed/",
-          "source_type": "blog-post",
-          "description": "JetBrains AI \u2014 Junie agent, IDE-deep workflows, agent benchmarking",
-          "max_per_run": 2
-        },
-        "entry": {
-          "id": "https://blog.jetbrains.com/?post_type=ai&p=719532",
-          "title": "Does Speaking to Agents Like Cavemen Really Save 65% of Tokens? We Test",
-          "url": "https://blog.jetbrains.com/ai/2026/07/speak-to-ai-agents-like-cavemen-tosave-tokens/",
-          "published": "Mon, 06 Jul 2026 10:01:12 +0000"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-07-07T07:08:58.967784+00:00",
-      "payload": {
-        "feed": {
-          "id": "google-developers",
-          "url": "https://developers.googleblog.com/feeds/posts/default",
-          "source_type": "blog-post",
-          "description": "Google Developers \u2014 Gemini, Jules coding agent, Antigravity, ADK (third major lab)",
-          "max_per_run": 2
-        },
-        "entry": {
-          "id": "https://developers.googleblog.com/announcing-the-agentic-resource-discovery-specification/",
-          "title": "Announcing the Agentic Resource Discovery specification",
-          "url": "https://developers.googleblog.com/announcing-the-agentic-resource-discovery-specification/",
-          "published": ""
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-07-07T07:08:58.968435+00:00",
-      "payload": {
-        "feed": {
-          "id": "google-developers",
-          "url": "https://developers.googleblog.com/feeds/posts/default",
-          "source_type": "blog-post",
-          "description": "Google Developers \u2014 Gemini, Jules coding agent, Antigravity, ADK (third major lab)",
-          "max_per_run": 2
-        },
-        "entry": {
-          "id": "https://developers.googleblog.com/how-a2a-is-building-a-world-of-collaborative-agents/",
-          "title": "How A2A is Building a World of Collaborative Agents",
-          "url": "https://developers.googleblog.com/how-a2a-is-building-a-world-of-collaborative-agents/",
-          "published": ""
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-07-07T07:09:07.559879+00:00",
-      "payload": {
-        "feed": {
-          "id": "thoughtworks",
-          "url": "https://www.thoughtworks.com/rss/insights.xml",
-          "source_type": "blog-post",
-          "description": "Thoughtworks Insights \u2014 AI-native engineering building blocks, agentic SDLC, vendor-neutral",
-          "max_per_run": 2
-        },
-        "entry": {
-          "id": "https://www.thoughtworks.com/insights/blog/programming-languages/codeless-future-illusion",
-          "title": "Is a codeless future an illusion?",
-          "url": "https://www.thoughtworks.com/insights/blog/programming-languages/codeless-future-illusion",
-          "published": "Mon Jun 15 00:00:00 UTC 2026"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-07-07T07:09:07.560568+00:00",
-      "payload": {
-        "feed": {
-          "id": "thoughtworks",
-          "url": "https://www.thoughtworks.com/rss/insights.xml",
-          "source_type": "blog-post",
-          "description": "Thoughtworks Insights \u2014 AI-native engineering building blocks, agentic SDLC, vendor-neutral",
-          "max_per_run": 2
-        },
-        "entry": {
-          "id": "https://www.thoughtworks.com/insights/blog/careers-at-thoughtworks/leading-by-example-even-through-uncertainty",
-          "title": "Leading by example, even through uncertainty",
-          "url": "https://www.thoughtworks.com/insights/blog/careers-at-thoughtworks/leading-by-example-even-through-uncertainty",
-          "published": "Mon Jun 15 00:00:00 UTC 2026"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-07-07T07:09:09.754228+00:00",
-      "payload": {
-        "feed": {
-          "id": "addy-osmani",
-          "url": "https://addyosmani.com/rss.xml",
-          "source_type": "blog-post",
-          "description": "Addy Osmani \u2014 AI-assisted engineering practices (already a top-cited corpus source)",
-          "max_per_run": 2
-        },
-        "entry": {
-          "id": "https://addyosmani.com/blog/agentic-autonomy-levels/",
-          "title": "Agentic Autonomy Levels",
-          "url": "https://addyosmani.com/blog/agentic-autonomy-levels/",
-          "published": "Thu, 02 Jul 2026 00:00:00 +0000"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-07-07T07:09:09.754926+00:00",
-      "payload": {
-        "feed": {
-          "id": "addy-osmani",
-          "url": "https://addyosmani.com/rss.xml",
-          "source_type": "blog-post",
-          "description": "Addy Osmani \u2014 AI-assisted engineering practices (already a top-cited corpus source)",
-          "max_per_run": 2
-        },
-        "entry": {
-          "id": "https://addyosmani.com/blog/career-advice-age-of-agents/",
-          "title": "The Agent-Era Career",
-          "url": "https://addyosmani.com/blog/career-advice-age-of-agents/",
-          "published": "Mon, 06 Jul 2026 00:00:00 +0000"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-07-07T07:09:11.868396+00:00",
-      "payload": {
-        "feed": {
-          "id": "latent-space",
-          "url": "https://www.latent.space/feed",
-          "source_type": "blog-post",
-          "description": "Latent Space (swyx) \u2014 AI engineering essays/interviews; daily AINews is broad aggregation",
-          "max_per_run": 1
-        },
-        "entry": {
-          "id": "https://www.latent.space/p/ainews-openai-gpt-56-sol-terra-luna",
-          "title": "[AINews] OpenAI GPT-5.6 Sol / Terra / Luna \u2014 restricted to trusted partners",
-          "url": "https://www.latent.space/p/ainews-openai-gpt-56-sol-terra-luna",
-          "published": "Sat, 27 Jun 2026 05:23:22 GMT"
-        }
-      }
-    },
-    {
-      "scanner": "trusted",
-      "queued_at": "2026-07-07T07:09:14.111626+00:00",
-      "payload": {
-        "feed": {
-          "id": "vercel",
-          "url": "https://vercel.com/atom",
-          "source_type": "blog-post",
-          "description": "Vercel \u2014 agent infrastructure (AI SDK, Sandbox, harness adapters); changelog-heavy",
-          "max_per_run": 1
-        },
-        "entry": {
-          "id": "https://vercel.com/changelog/budgets-for-api-keys-on-ai-gateway",
-          "title": "Budgets for API keys on AI Gateway",
-          "url": "https://vercel.com/changelog/budgets-for-api-keys-on-ai-gateway",
-          "published": "2026-06-09T00:00:00.000Z"
-        }
-      }
-    },
-    {
       "scanner": "failures",
       "queued_at": "2026-07-07T07:10:20.605863+00:00",
       "payload": {
@@ -522,6 +275,285 @@
     {
       "scanner": "failures",
       "queued_at": "2026-07-07T07:10:20.606755+00:00",
+      "payload": {
+        "result": {
+          "source": "github",
+          "title": "Discussion: consolidate internal + external link checking on lychee (retire the two custom awk extractors)",
+          "url": "https://github.com/genealogix/glx/issues/890",
+          "reactions": 0,
+          "comments": 1,
+          "author": "isaacschepp",
+          "created_at": "2026-05-21T18:26:48Z",
+          "body_snippet": "## Context\n\nGLX currently runs **two** link-checking paths backed by **two** bespoke shell scripts:\n\n- `check-links.yml` \u2192 `scripts/check-links.sh` \u2014 internal/relative markdown links, on every PR.\n- `lychee.yml` \u2192 `scripts/extract-external-urls.sh` + `lychee` \u2014 external `https?://` links, weekly.\n\nTwo problems with the status quo:\n\n1. Both shell scripts carry the **same** code-block-aware `awk` extractor, and that extractor depends on a GNU-awk-only construct that breaks `make check-links` outsi"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-08T06:48:16.856987+00:00",
+      "payload": {
+        "feed": {
+          "id": "claude-blog",
+          "url": "https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_claude.xml",
+          "source_type": "blog-post",
+          "description": "Claude blog \u2014 Claude Code features, multi-agent patterns, enterprise tooling (via Olshansk/rss-feeds mirror)",
+          "max_per_run": 3
+        },
+        "entry": {
+          "id": "https://claude.com/blog/claude-model-and-effort-level-in-claude-code",
+          "title": "Choosing a Claude model and effort level in Claude Code",
+          "url": "https://claude.com/blog/claude-model-and-effort-level-in-claude-code",
+          "published": "Tue, 07 Jul 2026 00:00:00 +0000"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-08T06:48:16.857377+00:00",
+      "payload": {
+        "feed": {
+          "id": "claude-blog",
+          "url": "https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_claude.xml",
+          "source_type": "blog-post",
+          "description": "Claude blog \u2014 Claude Code features, multi-agent patterns, enterprise tooling (via Olshansk/rss-feeds mirror)",
+          "max_per_run": 3
+        },
+        "entry": {
+          "id": "https://claude.com/blog/cowork-web-mobile",
+          "title": "Claude Cowork is coming to mobile and web",
+          "url": "https://claude.com/blog/cowork-web-mobile",
+          "published": "Tue, 07 Jul 2026 00:00:00 +0000"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-08T06:48:28.793989+00:00",
+      "payload": {
+        "feed": {
+          "id": "martin-fowler",
+          "url": "https://martinfowler.com/feed.atom",
+          "source_type": "blog-post",
+          "description": "Martin Fowler / Thoughtworks \u2014 Boeckeler harness-engineering series, vendor-neutral AI-assisted dev",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "tag:martinfowler.com,2026-07-07:Viability-of-local-models-for-coding",
+          "title": "Viability of local models for coding",
+          "url": "https://martinfowler.com/articles/exploring-gen-ai/local-models-for-coding-factors.html",
+          "published": "2026-07-07T08:34:00-04:00"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-08T06:48:31.099456+00:00",
+      "payload": {
+        "feed": {
+          "id": "openai-news",
+          "url": "https://openai.com/news/rss.xml",
+          "source_type": "blog-post",
+          "description": "OpenAI \u2014 Codex, agentic workflows, model releases (second major lab)",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://openai.com/index/lseg",
+          "title": "From data to decisions: how LSEG is scaling trusted AI",
+          "url": "https://openai.com/index/lseg",
+          "published": "Wed, 10 Jun 2026 00:00:00 GMT"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-08T06:48:31.099945+00:00",
+      "payload": {
+        "feed": {
+          "id": "openai-news",
+          "url": "https://openai.com/news/rss.xml",
+          "source_type": "blog-post",
+          "description": "OpenAI \u2014 Codex, agentic workflows, model releases (second major lab)",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://openai.com/index/prc-linked-influence-operations-ai-debates",
+          "title": "PRC-linked influence operations are targeting AI debates in the US",
+          "url": "https://openai.com/index/prc-linked-influence-operations-ai-debates",
+          "published": "Wed, 10 Jun 2026 12:00:00 GMT"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-08T06:48:33.297849+00:00",
+      "payload": {
+        "feed": {
+          "id": "pragmatic-engineer",
+          "url": "https://newsletter.pragmaticengineer.com/feed",
+          "source_type": "blog-post",
+          "description": "Gergely Orosz \u2014 engineering-org AI adoption, productivity data, workflow practices",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://newsletter.pragmaticengineer.com/p/tech-jobs-market-in-2026-part-3-hiring",
+          "title": "Tech jobs market in 2026, part 3: hiring managers & job seekers",
+          "url": "https://newsletter.pragmaticengineer.com/p/tech-jobs-market-in-2026-part-3-hiring",
+          "published": "Tue, 07 Jul 2026 17:25:41 GMT"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-08T06:48:35.432264+00:00",
+      "payload": {
+        "feed": {
+          "id": "jetbrains-ai",
+          "url": "https://blog.jetbrains.com/ai/feed/",
+          "source_type": "blog-post",
+          "description": "JetBrains AI \u2014 Junie agent, IDE-deep workflows, agent benchmarking",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://blog.jetbrains.com/?post_type=blog&p=719888",
+          "title": "JetBrains AI for Teams and Organizations: From Fragmented AI Usage to Coordinated Software Development",
+          "url": "https://blog.jetbrains.com/blog/2026/07/07/jetbrains-ai-for-teams-and-organizations-from-fragmented-ai-usage-to-coordinated-software-development/",
+          "published": "Tue, 07 Jul 2026 12:03:20 +0000"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-08T06:48:37.819483+00:00",
+      "payload": {
+        "feed": {
+          "id": "google-developers",
+          "url": "https://developers.googleblog.com/feeds/posts/default",
+          "source_type": "blog-post",
+          "description": "Google Developers \u2014 Gemini, Jules coding agent, Antigravity, ADK (third major lab)",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://developers.googleblog.com/build-cross-language-multi-agent-team-with-google-agent-development-kit-and-a2a/",
+          "title": "Build Cross-Language Multi-Agent Team with Google\u2019s Agent Development Kit and A2A",
+          "url": "https://developers.googleblog.com/build-cross-language-multi-agent-team-with-google-agent-development-kit-and-a2a/",
+          "published": ""
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-08T06:48:37.820099+00:00",
+      "payload": {
+        "feed": {
+          "id": "google-developers",
+          "url": "https://developers.googleblog.com/feeds/posts/default",
+          "source_type": "blog-post",
+          "description": "Google Developers \u2014 Gemini, Jules coding agent, Antigravity, ADK (third major lab)",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://developers.googleblog.com/measuring-what-matters-with-jules/",
+          "title": "Measuring What Matters with Jules",
+          "url": "https://developers.googleblog.com/measuring-what-matters-with-jules/",
+          "published": ""
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-08T06:48:46.757920+00:00",
+      "payload": {
+        "feed": {
+          "id": "thoughtworks",
+          "url": "https://www.thoughtworks.com/rss/insights.xml",
+          "source_type": "blog-post",
+          "description": "Thoughtworks Insights \u2014 AI-native engineering building blocks, agentic SDLC, vendor-neutral",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://www.thoughtworks.com/insights/blog/generative-ai/dangers-token-usage-billing",
+          "title": "The dangers of token usage billing",
+          "url": "https://www.thoughtworks.com/insights/blog/generative-ai/dangers-token-usage-billing",
+          "published": "Tue Jun 16 00:00:00 UTC 2026"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-08T06:48:46.758508+00:00",
+      "payload": {
+        "feed": {
+          "id": "thoughtworks",
+          "url": "https://www.thoughtworks.com/rss/insights.xml",
+          "source_type": "blog-post",
+          "description": "Thoughtworks Insights \u2014 AI-native engineering building blocks, agentic SDLC, vendor-neutral",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://www.thoughtworks.com/insights/blog/agile-engineering-practices/enabling-evolutionary-database-branching-lakebase-part-3",
+          "title": "Enabling evolutionary database development: Part 3",
+          "url": "https://www.thoughtworks.com/insights/blog/agile-engineering-practices/enabling-evolutionary-database-branching-lakebase-part-3",
+          "published": "Tue Jun 16 00:00:00 UTC 2026"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-08T06:48:51.080282+00:00",
+      "payload": {
+        "feed": {
+          "id": "latent-space",
+          "url": "https://www.latent.space/feed",
+          "source_type": "blog-post",
+          "description": "Latent Space (swyx) \u2014 AI engineering essays/interviews; daily AINews is broad aggregation",
+          "max_per_run": 1
+        },
+        "entry": {
+          "id": "https://www.latent.space/p/ainews-not-much-happened-today-07e",
+          "title": "[AINews] not much happened today",
+          "url": "https://www.latent.space/p/ainews-not-much-happened-today-07e",
+          "published": "Tue, 30 Jun 2026 06:47:27 GMT"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-08T06:48:53.401364+00:00",
+      "payload": {
+        "feed": {
+          "id": "vercel",
+          "url": "https://vercel.com/atom",
+          "source_type": "blog-post",
+          "description": "Vercel \u2014 agent infrastructure (AI SDK, Sandbox, harness adapters); changelog-heavy",
+          "max_per_run": 1
+        },
+        "entry": {
+          "id": "https://vercel.com/blog/how-fern-runs-multi-tenant-docs-for-webflow-and-elevenlabs-on-vercel",
+          "title": "How Fern runs multi-tenant docs for Webflow and ElevenLabs on Vercel",
+          "url": "https://vercel.com/blog/how-fern-runs-multi-tenant-docs-for-webflow-and-elevenlabs-on-vercel",
+          "published": "2026-06-09T00:00:00.000Z"
+        }
+      }
+    },
+    {
+      "scanner": "failures",
+      "queued_at": "2026-07-08T06:50:17.689946+00:00",
+      "payload": {
+        "result": {
+          "source": "github",
+          "title": "Discussion: replace post-hoc compact-changelog with file-per-change tooling (evaluate changie for 2026)",
+          "url": "https://github.com/genealogix/glx/issues/858",
+          "reactions": 0,
+          "comments": 2,
+          "author": "isaacschepp",
+          "created_at": "2026-05-15T18:41:08Z",
+          "body_snippet": "## Summary\n\n`compact-changelog.md` exists because agentic edits create duplicate `### Added` sections, self-cancelling Added/Removed pairs, and follow-up Fixed entries that should fold into the original Added. **File-per-change tools eliminate this class of problem at the source by writing each change to its own file**, then assembling at release time. The compact-changelog command is, at best, post-hoc cleanup of a problem that need not exist.\n\nThis is a Discussion, not a Bug or Enhancement \u2014 i"
+        }
+      }
+    },
+    {
+      "scanner": "failures",
+      "queued_at": "2026-07-08T06:50:17.690683+00:00",
       "payload": {
         "result": {
           "source": "github",
