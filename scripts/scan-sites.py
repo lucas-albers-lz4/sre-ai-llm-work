@@ -36,7 +36,15 @@ import scan_budget
 import scan_dedup
 
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
-ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY")
+# Prefer DeepSeek Anthropic-compatible routing; fall back to ANTHROPIC_API_KEY.
+ANTHROPIC_API_KEY = (
+    os.environ.get("DEEPSEEK_API_KEY")
+    or os.environ.get("ANTHROPIC_API_KEY")
+)
+ANTHROPIC_BASE_URL = os.environ.get(
+    "ANTHROPIC_BASE_URL", "https://api.deepseek.com/anthropic"
+).rstrip("/")
+SCREEN_MODEL = os.environ.get("SITE_CRAWL_MODEL", "deepseek-v4-flash")
 REPO_URL = os.environ.get("GITHUB_REPOSITORY", "steveash/hitchhiker-guide")
 
 SEEDS_PATH = Path(__file__).parent.parent / "registry" / "site-crawl-seeds.json"
@@ -195,10 +203,14 @@ def screen_urls_with_haiku(urls: list[str], seed: dict) -> dict[str, str]:
     Returns {url: "relevant"|"rejected"} with a one-line reason for each.
     """
     if not ANTHROPIC_API_KEY:
-        print("  WARNING: ANTHROPIC_API_KEY not set — marking all URLs as pending", file=sys.stderr)
+        print(
+            "  WARNING: DEEPSEEK_API_KEY/ANTHROPIC_API_KEY not set — "
+            "marking all URLs as pending",
+            file=sys.stderr,
+        )
         return {url: "pending" for url in urls}
 
-    # Build a compact list for Haiku
+    # Build a compact list for the screener model
     url_list = "\n".join(f"- {url}" for url in urls)
 
     prompt = f"""You are a fast relevance screener for the SRE AI LLM Work guide.
@@ -224,14 +236,14 @@ When in doubt, mark as RELEVANT — the Prospector will do the deep evaluation l
 
     try:
         resp = requests.post(
-            "https://api.anthropic.com/v1/messages",
+            f"{ANTHROPIC_BASE_URL}/v1/messages",
             headers={
                 "x-api-key": ANTHROPIC_API_KEY,
                 "anthropic-version": "2023-06-01",
                 "content-type": "application/json",
             },
             json={
-                "model": "claude-haiku-4-5-20251001",
+                "model": SCREEN_MODEL,
                 "max_tokens": 4096,
                 "messages": [{"role": "user", "content": prompt}],
             },
@@ -241,7 +253,7 @@ When in doubt, mark as RELEVANT — the Prospector will do the deep evaluation l
         result = resp.json()
         text = result["content"][0]["text"]
     except Exception as e:
-        print(f"  ERROR calling Haiku for screening: {e}", file=sys.stderr)
+        print(f"  ERROR calling screener model for screening: {e}", file=sys.stderr)
         return {url: "pending" for url in urls}
 
     # Parse the response

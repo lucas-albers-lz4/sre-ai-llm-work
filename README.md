@@ -52,14 +52,13 @@ See [SUBMISSION.md](SUBMISSION.md) and [`agents/README.md`](agents/README.md).
 
 ## MVP / cost posture
 
-Bootstrap targets cheap models for volume (DeepSeek Flash/Pro, Hy3 via
-OpenRouter while free) and stronger models for Assayer/Smith. See
+Bootstrap uses DeepSeek V4 Flash (triage) and V4 Pro (Miner/Assayer/Smith) via
+Claude Code's Anthropic-compatible DeepSeek endpoint. See
 [`docs/MODEL-ROUTING.md`](docs/MODEL-ROUTING.md) and
 [`docs/MVP-SETUP.md`](docs/MVP-SETUP.md).
 
-Pipeline workflows still use `anthropics/claude-code-action` by default.
-Point them at Anthropic-compatible endpoints (e.g. DeepSeek) or OpenRouter
-after secrets are configured — details in the docs above.
+Requires repo secret `DEEPSEEK_API_KEY`. Smoke-test with workflow
+`claude-smoke-test.yml`.
 
 ---
 

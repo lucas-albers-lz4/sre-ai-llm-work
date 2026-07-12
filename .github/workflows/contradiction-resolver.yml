@@ -34,6 +34,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Configure DeepSeek for Claude Code
+        uses: ./.github/actions/configure-deepseek
+        with:
+          api_key: ${{ secrets.DEEPSEEK_API_KEY }}
+
 
       - name: Load Assayer role into APPEND_SYSTEM_PROMPT
         # Cache the role definition in the system-prompt prefix so it
@@ -50,7 +55,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          anthropic_api_key: ${{ secrets.DEEPSEEK_API_KEY }}
           prompt: |
             You are the Assayer agent for the hitchhiker-guide repo,
             operating in **contradiction resolution** mode.
@@ -117,7 +122,7 @@ jobs:
             deterministic workflow step posts the comment and applies the label
             once you exit. Your ONLY output is /tmp/contradiction-assessment.md.
           claude_args: |
-            --model sonnet
+            --model "deepseek-v4-pro[1m]"
             --max-turns 25
             --allowedTools "Bash(*)" "Read" "Glob" "Grep"
 
@@ -169,6 +174,11 @@ jobs:
           token: ${{ secrets.PROJECT_PAT }}
           fetch-depth: 0
 
+      - name: Configure DeepSeek for Claude Code
+        uses: ./.github/actions/configure-deepseek
+        with:
+          api_key: ${{ secrets.DEEPSEEK_API_KEY }}
+
       - name: Configure git identity
         run: |
           git config user.name  "hitchhiker-assayer[bot]"
@@ -181,7 +191,7 @@ jobs:
           # required to override the action's app-installation token.
           # See miner-batch.yml's Miner step for the full explanation.
           github_token: ${{ secrets.PROJECT_PAT }}
-          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          anthropic_api_key: ${{ secrets.DEEPSEEK_API_KEY }}
           prompt: |
             You are the Assayer agent for the hitchhiker-guide repo,
             operating in **contradiction resolution — commit phase**.
@@ -240,7 +250,7 @@ jobs:
             The C-NNN MUST match in both files. That is your entire job — write
             those two files and exit. Do not git, gh, or edit the repo.
           claude_args: |
-            --model sonnet
+            --model "deepseek-v4-pro[1m]"
             --max-turns 25
             --allowedTools "Bash(*)" "Read" "Glob" "Grep"
 

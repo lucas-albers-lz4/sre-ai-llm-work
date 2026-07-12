@@ -1,13 +1,10 @@
-name: Claude Code Smoke Test
+name: DeepSeek Agent Smoke Test
 
-# Verifies the official anthropics/claude-code-action runs successfully
-# with our CLAUDE_CODE_OAUTH_TOKEN secret. This is a foundation check
-# for Pipeline 1 (Living Guide Automation, hi-4yk) — every other
-# automation task depends on the runner being able to invoke Claude
-# Code.
+# Verifies anthropics/claude-code-action runs successfully when routed to
+# DeepSeek's Anthropic-compatible API via DEEPSEEK_API_KEY +
+# .github/actions/configure-deepseek. Foundation check for every agent workflow.
 #
-# Trigger manually from the Actions tab to validate after token
-# rotation or action upgrades.
+# Trigger manually from the Actions tab after secret rotation or action upgrades.
 
 on:
   workflow_dispatch:
@@ -21,18 +18,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Configure DeepSeek for Claude Code
+        uses: ./.github/actions/configure-deepseek
+        with:
+          api_key: ${{ secrets.DEEPSEEK_API_KEY }}
+
 
       - name: Run Claude Code with a trivial prompt
         uses: anthropics/claude-code-action@v1
         with:
-          # Smoke-testing OAuth-based billing (Claude Pro/Max subscription)
-          # instead of pay-per-token Anthropic API. If this run succeeds,
-          # we'll migrate the rest of the workflows the same way.
-          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          anthropic_api_key: ${{ secrets.DEEPSEEK_API_KEY }}
           prompt: |
             Print exactly one line: "hitchhiker smoke test ok".
             Do not edit any files. Do not run any tools beyond what
             is needed to print that line. Then exit.
           claude_args: |
+            --model deepseek-v4-flash
             --max-turns 2
             --allowedTools "Bash(*)"

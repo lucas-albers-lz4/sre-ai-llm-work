@@ -84,7 +84,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_TOKEN: ${{ secrets.PROJECT_PAT }}
           GITHUB_REPOSITORY: ${{ github.repository }}
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          ANTHROPIC_BASE_URL: https://api.deepseek.com/anthropic
+          SITE_CRAWL_MODEL: deepseek-v4-flash
         run: python scripts/scan-sites.py
 
       - name: Run failure scanner (GitHub Discussions)

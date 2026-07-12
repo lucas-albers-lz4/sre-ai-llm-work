@@ -31,6 +31,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Configure DeepSeek for Claude Code
+        uses: ./.github/actions/configure-deepseek
+        with:
+          api_key: ${{ secrets.DEEPSEEK_API_KEY }}
+
 
       - name: Write issue body to file
         env:
@@ -47,7 +52,7 @@ jobs:
       - name: Parse sticky notes and prepare PR
         uses: anthropics/claude-code-action@v1
         with:
-          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          anthropic_api_key: ${{ secrets.DEEPSEEK_API_KEY }}
           prompt: |
             You are the Scribe agent. Your job is to parse sticky-note issues
             into structured notes in the sticky-notes/ directory.
@@ -134,7 +139,7 @@ jobs:
 
             Today's date is in .runtime/today.txt — read it for the current date.
           claude_args: |
-            --model haiku
+            --model deepseek-v4-flash
             --max-turns 25
             --allowedTools "Bash(*)" "Read" "Write" "Edit" "Glob" "Grep"
 

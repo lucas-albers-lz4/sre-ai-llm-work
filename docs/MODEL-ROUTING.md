@@ -1,47 +1,53 @@
 # Model routing (MVP)
 
-Default workflows invoke `anthropics/claude-code-action` with Haiku / Sonnet /
-Opus. For the SRE fork MVP, prefer cheaper models per worker while keeping
-the same agent prompts.
+Agent workflows use `anthropics/claude-code-action` (and the Claude Code CLI)
+routed to **DeepSeek's Anthropic-compatible API** via
+`.github/actions/configure-deepseek`.
 
-## Recommended worker → model map
+```text
+ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic
+ANTHROPIC_AUTH_TOKEN / ANTHROPIC_API_KEY = DEEPSEEK_API_KEY
+```
 
-| Worker | Primary | Fallback |
-|--------|---------|----------|
-| Pre-screen / Prospector / Scribe / Site-crawl | DeepSeek V4 Flash | GPT-5.4 nano |
-| Miner | Hy3 (`tencent/hy3:free` on OpenRouter until 2026-07-21) | DeepSeek V4 Pro |
-| Assayer | GLM-5.2 | DeepSeek V4 Pro / LongCat-2.0 |
-| Smith | GLM-5.2 | Claude Sonnet 4.6 (quality ceiling) |
-| Repo Scout | GLM-5.2 | LongCat-2.0 / DeepSeek V4 Pro |
+`CLAUDE_CODE_OAUTH_TOKEN` is **not** required for the MVP path.
+
+## Worker → model map (wired)
+
+| Worker | Model | Notes |
+|--------|-------|-------|
+| Pre-screen / Prospector / Scribe / Site-crawl | `deepseek-v4-flash` | Volume / cheap triage |
+| Miner / Assayer / Smith / Herald / Contradiction | `deepseek-v4-pro[1m]` | Heavier extraction & review |
+
+Site-crawl (`scripts/scan-sites.py`) calls the same Anthropic-compatible
+Messages API with `DEEPSEEK_API_KEY` + `SITE_CRAWL_MODEL=deepseek-v4-flash`.
 
 ## Secrets
 
 | Secret | Purpose |
 |--------|---------|
-| `OPENROUTER_API_KEY` | Hy3 free + other OpenRouter routes ($10 credits unlocks 1k free RPD) |
-| `DEEPSEEK_API_KEY` | Direct DeepSeek (preferred for volume; Anthropic-compatible base URL) |
-| `ANTHROPIC_API_KEY` or `CLAUDE_CODE_OAUTH_TOKEN` | Optional Claude ceiling / legacy path |
-| `PROJECT_PAT` | GitHub Projects + issue filing that triggers workflows |
+| `DEEPSEEK_API_KEY` | **Required** — all agent workflows + site-crawl screener |
+| `OPENROUTER_API_KEY` | Reserved (Hy3 / other OpenRouter routes). Not used by Claude Code yet — OpenRouter's Claude Code skin is only guaranteed for Anthropic 1P models |
+| `PROJECT_PAT` | GitHub Projects + issue/PR events that must trigger workflows |
+| `ANTHROPIC_API_KEY` / `CLAUDE_CODE_OAUTH_TOKEN` | Optional Claude ceiling later (Assayer/Smith quality) |
 
-## DeepSeek via Anthropic-compatible endpoint
+## Hy3 note
 
-DeepSeek serves `https://api.deepseek.com/anthropic`. For local/CLI experiments:
+MODEL plan originally preferred Miner → `tencent/hy3:free` on OpenRouter
+(until 2026-07-21). That route is **not wired** through `claude-code-action`
+because OpenRouter documents Claude Code as Anthropic-1P-only for reliability.
+Miner uses DeepSeek V4 Pro until we add a non-Claude-Code runner or confirm Hy3
+works end-to-end.
 
-```bash
-export ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic
-export ANTHROPIC_API_KEY=$DEEPSEEK_API_KEY
-# then use model ids deepseek-v4-flash / deepseek-v4-pro per DeepSeek docs
-```
+## Smoke test
 
-Wiring the same into every GitHub Action is a follow-up: either set
-`ANTHROPIC_BASE_URL` + key in workflow env, or replace
-`claude-code-action` with an OpenRouter/DeepSeek runner. MVP ships the domain
-retarget first; keep Claude OAuth working until the runner swap is tested.
+Dispatch `.github/workflows/claude-smoke-test.yml` after changing auth/routing.
+It should print `hitchhiker smoke test ok` via DeepSeek.
 
 ## Cost targets (MVP)
 
-- Bootstrap (~50–100 notes) with Hy3 free Miner: roughly **$100–200** cash
+- Bootstrap (~50–100 notes) with DeepSeek Flash/Pro: treat as the active path
+- Hy3 free Miner (if later wired): roughly **$100–200** cash for bootstrap
 - Without Hy3 free: roughly **$200–500**
 - Steady hybrid month after MVP: roughly **$50–150**
 
-See analysis notes in the originating conversation; treat these as estimates.
+Treat these as estimates.

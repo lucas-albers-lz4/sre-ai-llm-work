@@ -17,7 +17,7 @@
     },
     {
       "id": "honeycomb",
-      "url": "https://www.honeycomb.io/blog/rss.xml",
+      "url": "https://www.honeycomb.io/feed",
       "source_type": "blog-post",
       "description": "Honeycomb — observability culture, AI-assisted debugging",
       "max_per_run": 2
@@ -31,14 +31,14 @@
     },
     {
       "id": "pagerduty",
-      "url": "https://www.pagerduty.com/blog/feed/",
+      "url": "https://www.pagerduty.com/eng/feed/",
       "source_type": "blog-post",
-      "description": "PagerDuty — incident response, AIOps, on-call practice",
+      "description": "PagerDuty Engineering — incident response, AIOps, on-call practice",
       "max_per_run": 2
     },
     {
       "id": "incident-io",
-      "url": "https://incident.io/blog/rss.xml",
+      "url": "https://incident.io/blog.xml",
       "source_type": "blog-post",
       "description": "incident.io — modern incident management practice",
       "max_per_run": 2
@@ -58,10 +58,10 @@
       "max_per_run": 1
     },
     {
-      "id": "uber-eng",
-      "url": "https://www.uber.com/blog/engineering/rss/",
+      "id": "neuron-daily",
+      "url": "https://rss.beehiiv.com/feeds/N4eCstxvgX.xml",
       "source_type": "blog-post",
-      "description": "Uber Engineering — production systems and ML ops",
+      "description": "The Neuron Daily — high-signal AI news; keep max_per_run low (high volume)",
       "max_per_run": 1
     },
     {
@@ -91,6 +91,27 @@
       "source_type": "blog-post",
       "description": "The New Stack — cloud-native ops and AI infrastructure",
       "max_per_run": 2
+    },
+    {
+      "id": "huggingface",
+      "url": "https://huggingface.co/blog/feed.xml",
+      "source_type": "blog-post",
+      "description": "Hugging Face — model serving, quantization, open-source deploy (LLM ops)",
+      "max_per_run": 1
+    },
+    {
+      "id": "anyscale",
+      "url": "https://www.anyscale.com/blog/rss.xml",
+      "source_type": "blog-post",
+      "description": "Anyscale / Ray — distributed systems for LLM train and serve at scale",
+      "max_per_run": 1
+    },
+    {
+      "id": "meta-eng",
+      "url": "https://engineering.fb.com/feed/",
+      "source_type": "blog-post",
+      "description": "Meta Engineering — open-source AI infra scaling (Llama, PyTorch, clusters)",
+      "max_per_run": 1
     }
   ]
 }

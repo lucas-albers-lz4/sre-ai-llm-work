@@ -103,6 +103,11 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.PROJECT_PAT }}
 
+      - name: Configure DeepSeek for Claude Code
+        uses: ./.github/actions/configure-deepseek
+        with:
+          api_key: ${{ secrets.DEEPSEEK_API_KEY }}
+
       - name: Configure git
         run: |
           git config user.name "hitchhiker-smith[bot]"
@@ -205,7 +210,6 @@ jobs:
       - name: Run Smith (rework mode)
         if: steps.cmd.outputs.mode == 'rework'
         env:
-          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cat > /tmp/smith-prompt.txt <<'PROMPT_EOF'
@@ -256,7 +260,7 @@ jobs:
           PROMPT_EOF
 
           claude -p "$(cat /tmp/smith-prompt.txt)" \
-            --model opus \
+            --model "deepseek-v4-pro[1m]" \
             --append-system-prompt "$(cat agents/SMITH.md)" \
             --max-turns 30 \
             --output-format stream-json --verbose \
@@ -265,7 +269,6 @@ jobs:
       - name: Run Smith (rebase mode)
         if: steps.cmd.outputs.mode == 'rebase'
         env:
-          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cat > /tmp/smith-prompt.txt <<'PROMPT_EOF'
@@ -314,7 +317,7 @@ jobs:
           PROMPT_EOF
 
           claude -p "$(cat /tmp/smith-prompt.txt)" \
-            --model opus \
+            --model "deepseek-v4-pro[1m]" \
             --append-system-prompt "$(cat agents/SMITH.md)" \
             --max-turns 60 \
             --output-format stream-json --verbose \
