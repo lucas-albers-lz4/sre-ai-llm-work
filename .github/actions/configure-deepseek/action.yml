@@ -1,0 +1,34 @@
+name: Configure DeepSeek for Claude Code
+description: >
+  Point Claude Code / claude-code-action at DeepSeek's Anthropic-compatible
+  API. Call once per job before any agent step. Pass DEEPSEEK_API_KEY as
+  anthropic_api_key (action) or rely on env (CLI).
+
+inputs:
+  api_key:
+    description: DeepSeek API key (secrets.DEEPSEEK_API_KEY)
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Export DeepSeek Anthropic-compatible env
+      shell: bash
+      env:
+        DEEPSEEK_API_KEY: ${{ inputs.api_key }}
+      run: |
+        if [ -z "${DEEPSEEK_API_KEY}" ]; then
+          echo "::error::DEEPSEEK_API_KEY secret is empty — set it in repo Actions secrets"
+          exit 1
+        fi
+        {
+          echo "ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic"
+          echo "ANTHROPIC_AUTH_TOKEN=${DEEPSEEK_API_KEY}"
+          echo "ANTHROPIC_API_KEY=${DEEPSEEK_API_KEY}"
+          echo "ANTHROPIC_DEFAULT_HAIKU_MODEL=deepseek-v4-flash"
+          echo "ANTHROPIC_DEFAULT_SONNET_MODEL=deepseek-v4-pro[1m]"
+          echo "ANTHROPIC_DEFAULT_OPUS_MODEL=deepseek-v4-pro[1m]"
+          echo "CLAUDE_CODE_SUBAGENT_MODEL=deepseek-v4-flash"
+          echo "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1"
+        } >> "$GITHUB_ENV"
+        echo "Configured Claude Code → DeepSeek (flash/pro)"
