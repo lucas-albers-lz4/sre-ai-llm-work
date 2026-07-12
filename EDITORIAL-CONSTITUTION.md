@@ -1,23 +1,33 @@
 # Editorial Constitution
 
-This document defines the editorial standards for The Hitchhiker's Guide.
+This document defines the editorial standards for the SRE AI LLM Work guide.
 Every agent in the pipeline — discovery, extraction, review, synthesis — is
 bound by these rules.
 
 ## Mission
 
-Produce the fastest path from "I want to use AI coding agents effectively"
-to "I am using them effectively" for working software engineers.
+Produce the fastest path from "I want AI/LLMs to help with SRE work" to
+"I am using them effectively on-call, in incidents, and in production ops"
+for working SREs and platform engineers.
 
 Not a survey. Not a taxonomy. Not an overview. A field guide that tells you
 what to do, what not to do, and shows you exactly what it looks like.
 
+Scope includes:
+
+- Using AI/LLMs *as an SRE* (incidents, on-call, runbooks, observability, toil)
+- Running LLM-powered systems *reliably* (SLOs, failure modes, evals, cost, safety)
+- Practitioner configs, postmortems, failure reports, and ops agent harnesses
+
+Out of scope unless it directly serves those goals: AI coding-agent product
+reviews, CLAUDE.md-as-lifestyle content, and vendor marketing.
+
 ## Editorial Tenets
 
 ### 1. Concrete beats abstract
-Every recommendation must be actionable within a single coding session.
-"Use progressive disclosure in your CLAUDE.md" is useless without an example.
-Show the example. Always.
+Every recommendation must be actionable in a real ops context — an incident,
+an on-call shift, a runbook change, or a production LLM service. Show the
+example. Always.
 
 ### 2. Cite everything
 No unsourced claims. Every recommendation links to its source note.
@@ -30,94 +40,68 @@ Every claim carries a confidence tag: `[settled]`, `[emerging]`, `[anecdotal]`,
 to put on a recommendation.
 
 ### 4. Show the counter-evidence
-If sources disagree, say so. "Source A recommends X, but Source B found Y
-when they tried it at scale." Suppressing contradictions is editorial malpractice.
+If sources disagree, say so. Suppressing contradictions is editorial malpractice.
 
 ### 5. Prescriptive over descriptive
 Don't say "there are several approaches." Say "do X. Here's why. If your
-situation is Y, do Z instead." The reader came for guidance, not a menu.
+situation is Y, do Z instead."
 
 ### 6. Point-in-time honesty
-This guide describes what works *right now*. Tools change monthly.
-Recommendations that were solid in January may be wrong in March.
-Date your claims. Flag staleness. Never pretend stability.
+Tools and models change monthly. Date your claims. Flag staleness.
 
 ### 7. Failure reports are first-class sources
-"I tried X and it didn't work" is as valuable as "I tried X and it worked."
-Often more valuable. Anti-patterns prevent more damage than best practices create.
+"I tried X on-call and it made the incident worse" is as valuable as a success
+story — often more.
 
-### 8. Practitioner code over vendor docs
-A real CLAUDE.md from a production repo is worth more than ten pages of
-vendor documentation. Vendor docs say what's possible. Practitioner code
-shows what actually works.
+### 8. Practitioner ops over vendor decks
+A real runbook, pager playbook, or postmortem beats ten pages of product
+marketing. Vendor docs say what's possible. Practitioner artifacts show what
+survived production.
 
 ### 9. Small teams count
-A 2-person startup's CLAUDE.md is as valid a data point as a Fortune 500's.
-Don't filter by prestige. Filter by: did they actually use this in anger?
+A two-person platform team's AI on-call notes are as valid as a Fortune 500's.
+Filter by: did they use this under real load or real pages?
 
 ### 10. Deterministic tools for deterministic work
-If a linter, formatter, type checker, or test suite can enforce a rule,
-it should not be in a CLAUDE.md file or in this guide as "AI advice."
-AI agents are for judgment calls, not mechanical enforcement.
+If a monitor, alert, CI check, or policy engine can enforce a rule, it should
+not be "AI advice." LLMs are for judgment under uncertainty, not replacing
+SLOs or paging policies.
 
 ## Anti-Patterns (in our own writing)
 
 ### Survey-itis
-"There are several popular AI coding tools including..." — NO. The reader
-doesn't need a market survey. Name the tool when relevant. Skip the panorama.
+"There are several popular AI ops tools including..." — NO. Name the tool when
+relevant. Skip the panorama.
 
 ### Prompt cargo cults
-"Always include 'think step by step' in your prompts" — NO. Cite evidence
-or don't include it. "Everybody does it" is not evidence.
+"Always include 'think step by step' in your incident prompt" — NO. Cite
+evidence or don't include it.
 
 ### Terminal fanfiction
-Invented terminal sessions showing idealized AI interactions that never
-happened. If you're showing an interaction, link to the source or say
-it's a constructed example.
+Invented incident transcripts that never happened. If you're showing an
+interaction, link to the source or mark it as a constructed example.
 
 ### Grandiose framing
-"AI is transforming the very fabric of software engineering" — NO.
-We're writing a practical guide, not a keynote.
+"AI is transforming the very fabric of reliability engineering" — NO.
+Practical guide, not a keynote.
 
 ### Stale confidence
-Presenting 6-month-old claims as current truth. If the source is old
-and the space moves fast, flag it as `[stale]` or re-verify.
+Presenting 6-month-old claims as current truth without a `[stale]` flag.
 
 ### Unsourced prescriptions
-"You should always restart your session after 20 turns" — says who?
-Based on what? Every "should" needs a citation or an explicit `[editorial]` tag.
+Every "should" needs a citation or an explicit `[editorial]` tag.
 
 ### AI tells (LLM-isms)
-Writing that reads as machine-generated. The guide is written by agents, so this
-is the anti-pattern we're most at risk of. Cut or vary these:
-
-- **A clever metaphor on repeat.** "Load-bearing," "double-edged sword," "at its
-  core," "the backbone of." Fine once. A tell when every chapter reaches for the
-  same phrase — reusing it *is* the giveaway. Vary the wording or say it plainly.
-- **Throat-clearing filler.** "It's worth noting," "it's important to note,"
-  "notably," "importantly," "that said," "ultimately," "in essence," "simply
-  put." Delete them and state the point directly.
-- **Inflated vocabulary.** "Delve," "underscore," "leverage" (use *use*),
-  "utilize," "meticulous," "seamless," "unlock/unleash/empower," and "crucial /
-  pivotal / vital" as reflexive intensifiers. Prefer the plain word.
-- **The contrast cliché.** "It's not just X — it's Y." "Not about X, but about
-  Y." A formulaic faux-reveal. Rewrite as a direct statement.
-- **Reflexive rule-of-three.** "Faster, cheaper, and more reliable." Not
-  everything comes in threes; vary the rhythm — two is often enough, sometimes
-  one.
-- **Em-dash pile-up.** The guide uses `--` for an emphatic pause. If one sentence
-  has two, one of them is a comma or a period.
-
-The test: read it aloud. If it sounds like a press release or a chatbot being
-helpful, rewrite it plainer. (Hype nouns — "game-changer," "paradigm shift,"
-"tapestry," "landscape" — are already banned under *Grandiose framing*.)
+Same rules as the upstream hitchhiker constitution: cut filler, metaphor spam,
+contrast clichés, and em-dash pile-ups. Read it aloud; if it sounds like a
+press release, rewrite it plainer.
 
 ## Inclusion Bar
 
 A source or claim earns inclusion if it meets ANY of:
-- Concrete, reproducible pattern with evidence (code, config, metrics)
+- Concrete, reproducible ops/LLM pattern with evidence (config, metrics, postmortem)
 - Credible failure report with enough detail to learn from
-- Contradiction of an existing guide recommendation (forces re-evaluation)
+- Contradiction of an existing guide recommendation
 - Novel pattern not covered by existing source notes
 
 ## Exclusion Bar
@@ -125,22 +109,26 @@ A source or claim earns inclusion if it meets ANY of:
 Reject if ANY of:
 - Pure opinion with no supporting evidence or experience report
 - Vendor marketing disguised as guidance
-- Duplicate of an existing source note (update the existing note instead)
+- Duplicate of an existing source note
 - Theoretical/speculative — "this should work" with no evidence anyone tried it
-- Older than 2025-12-01 (pre-agentic-era; the landscape was too different)
+- Older than 2025-12-01 (pre-agentic-era landscape was too different)
+- Pure AI *coding-agent* content with no SRE/ops/reliability angle
 
 ## Report Shape
 
 The guide is organized by **practitioner need**, not by tool or vendor:
-1. How should I think about this? (principles, mental models)
-2. What does a good session look like? (workflows)
-3. How do I configure my tools? (harness engineering)
-4. How do I avoid disasters? (safety, verification)
-5. How do I scale this to a team? (adoption)
+
+1. How should I think about AI in SRE? (principles)
+2. How do I use AI in incidents? (incident response)
+3. How do I use AI with observability data? (observability)
+4. How do I encode ops knowledge for agents? (runbooks and agents)
+5. How do I cut on-call toil without creating new risk? (on-call and toil)
+6. How do I run LLM systems reliably? (LLM ops reliability)
+7. What can go wrong, and how do I trust the system? (security and trust)
 
 Each chapter follows the pattern:
 - Lead with the recommendation
-- Show a concrete example (code, config, or workflow)
+- Show a concrete example (config, runbook, workflow, or metric)
 - Cite the source(s)
 - Note the confidence level
 - Acknowledge counter-evidence if it exists

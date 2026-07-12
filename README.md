@@ -1,100 +1,76 @@
-# The Hitchhiker's Guide to AI-Native Engineering
+# SRE AI LLM Work
 
-A living, opinionated, citation-backed handbook for practitioners building software
-with AI coding agents. Updated weekly as new patterns emerge and old ones decay.
+A living, opinionated, citation-backed handbook for SREs and platform engineers
+using AI/LLMs in operations — and running LLM systems reliably. Updated as new
+patterns emerge and old ones decay.
 
-**This guide is point-in-time.** What works today may not work
-next month. Every recommendation cites its source. Every claim states its confidence
-level. When the landscape shifts, the guide shifts with it.
+**Fork lineage:** automation pipeline adapted from
+[hitchhikers-guide-to-ai-native-engineering](https://github.com/steveash/hitchhikers-guide-to-ai-native-engineering).
+Domain retargeted from AI coding agents → **SRE AI / LLM work**.
+
+**This guide is point-in-time.** Every recommendation cites its source. Every
+claim states its confidence level.
 
 ---
 
 ## Read the Guide
 
-The guide lives in [`guide/`](guide/). Read in order, or jump to what you need:
+The guide lives in [`guide/`](guide/):
 
-- [Principles](guide/00-principles.md) — The mental models that hold up
-- [Daily Workflows](guide/01-daily-workflows.md) — What a good session looks like
-- [Harness Engineering](guide/02-harness-engineering.md) — CLAUDE.md, rules, commands, hooks
-- [Verification](guide/03-verification.md) — Layered verification, kill criteria, comprehension debt
-- [Context Engineering](guide/04-context-engineering.md) — Context as budget, compaction, plan files, MCP cost
-- [Team Adoption](guide/05-team-adoption.md) — Scaling from one engineer to a team, measurement, rollout
-- [Security and Threat Model](guide/06-security-threat-model.md) — Offensive-AI window, defensive posture, trust rollout, attribution
-- [Sources](guide/SOURCES.md) — Master index of every source the guide cites
+- [Principles](guide/00-principles.md) — Mental models for AI in SRE
+- [Incident Response](guide/01-incident-response.md) — AI during pages and SEVs
+- [Observability](guide/02-observability.md) — Logs, metrics, traces + LLMs
+- [Runbooks and Agents](guide/03-runbooks-and-agents.md) — Encoding ops knowledge
+- [On-call and Toil](guide/04-oncall-and-toil.md) — Cutting toil without new risk
+- [LLM Ops Reliability](guide/05-llm-ops-reliability.md) — SLOs, evals, cost, failure modes
+- [Security and Trust](guide/06-security-and-trust.md) — Threat model for AI in ops
+- [Sources](guide/SOURCES.md) — Master index of cited sources
 
 ### Trust Model
-
-Every claim in the guide has a confidence tag:
 
 | Tag | Meaning |
 |-----|---------|
 | `[settled]` | Multiple independent sources confirm. Safe to rely on. |
-| `[emerging]` | 2-3 sources, consistent but limited evidence. Promising. |
+| `[emerging]` | 2-3 sources, consistent but limited evidence. |
 | `[anecdotal]` | Single practitioner report. Interesting but unverified. |
-| `[editorial]` | Our synthesis — not directly from a source. Flagged as opinion. |
-| `[stale]` | Source is >90 days old and hasn't been re-verified. May have drifted. |
+| `[editorial]` | Our synthesis — not directly from a source. |
+| `[stale]` | Source is >90 days old and hasn't been re-verified. |
 
 ---
 
 ## Improve the Guide
 
-Anyone can help improve the guide by submitting feedback. Two ways to contribute:
+- [**Source submission**](.github/ISSUE_TEMPLATE/source-submission.yml)
+- [**Seed site**](.github/ISSUE_TEMPLATE/seed-site.yml)
+- [**Practitioner repo**](.github/ISSUE_TEMPLATE/practitioner-repo.yml)
+- [**Failure report**](.github/ISSUE_TEMPLATE/failure-report.yml)
+- [**Sticky notes**](.github/ISSUE_TEMPLATE/sticky-notes.yml)
 
-### Submit a Source
-
-Found a practitioner repo, blog post, failure report, or community discussion that
-should inform the guide? File an issue:
-
-- [**Source submission**](.github/ISSUE_TEMPLATE/source-submission.yml) — a single article, doc, discussion, or paper
-- [**Seed site**](.github/ISSUE_TEMPLATE/seed-site.yml) — a whole blog/site to scan regularly; triage auto-routes it to trusted feeds or the site crawler
-- [**Practitioner repo**](.github/ISSUE_TEMPLATE/practitioner-repo.yml) — real CLAUDE.md, .claude/ configs, AGENTS.md from active repos
-- [**Failure report**](.github/ISSUE_TEMPLATE/failure-report.yml) — "I tried X and it broke" reports
-
-See [SUBMISSION.md](SUBMISSION.md) for full instructions. The agent pipeline processes
-community submissions with the same rigor as automated discoveries.
-
-### Submit Editorial Feedback
-
-Have opinions on layout, omissions, emphasis, or framing? File a sticky note:
-
-- [**Sticky notes**](.github/ISSUE_TEMPLATE/sticky-notes.yml) — editorial guidance for synthesis agents
-
-Sticky notes are prescriptive or conditional rules that agents must respect when
-updating guide content. They live in [`sticky-notes/`](sticky-notes/) and are
-consulted during every synthesis pass.
+See [SUBMISSION.md](SUBMISSION.md) and [`agents/README.md`](agents/README.md).
 
 ---
 
-### Review Guide Updates
+## MVP / cost posture
 
-When the Smith agent opens a `guide-update` PR, you can review and request changes
-directly:
+Bootstrap targets cheap models for volume (DeepSeek Flash/Pro, Hy3 via
+OpenRouter while free) and stronger models for Assayer/Smith. See
+[`docs/MODEL-ROUTING.md`](docs/MODEL-ROUTING.md) and
+[`docs/MVP-SETUP.md`](docs/MVP-SETUP.md).
 
-1. Read the PR diff
-2. Leave as many comments as you want — what to change, tone down, add, remove
-3. When you're done, post a comment containing one of:
-   - **`/rework`** — incremental fix. The Smith addresses your feedback and pushes
-     fixes to the existing branch.
-   - **`/rebase`** — fresh start. The Smith resets the branch to current main and
-     re-synthesizes the guide changes from scratch. Use this when the PR has merge
-     conflicts or the guide has changed too much for incremental fixes.
-
-The Smith reads **all** your comments holistically in one pass. The Assayer
-re-reviews automatically after each push. You can use either command as many
-times as needed. Only repo collaborators can trigger.
+Pipeline workflows still use `anthropics/claude-code-action` by default.
+Point them at Anthropic-compatible endpoints (e.g. DeepSeek) or OpenRouter
+after secrets are configured — details in the docs above.
 
 ---
 
 ## How the Automation Works
 
-The guide is maintained by a pipeline of AI agents that discover, extract, review,
-synthesize, and patrol for staleness — so the guide stays current without manual
-curation. For the full pipeline design, see [`agents/README.md`](agents/README.md).
+Same seven-agent pipeline as upstream: discover → triage → extract → review →
+synthesize → patrol. Domain filters and feeds are SRE/LLM-ops specific.
 
 Additional references:
 
-- [**DASHBOARD.md**](DASHBOARD.md) — Content health metrics: per-chapter source counts, oldest cited source, staleness percentage, weekly delta
-- [**changelog/**](changelog/) — Weekly executive summary of what changed in the guide; each change-week also cuts a `guide-YYYY-MM-DD` [GitHub Release](../../releases)
-- [**CONTRADICTIONS.md**](CONTRADICTIONS.md) — Where sources disagree and how the guide resolves it
-- [**docs/PROJECT-SETUP.md**](docs/PROJECT-SETUP.md) — Development environment and project setup
-- **GitHub Project** [https://github.com/users/steveash/projects/1] — Workflow status across PRs, issues, and scanner queues
+- [**DASHBOARD.md**](DASHBOARD.md) — Content health metrics
+- [**changelog/**](changelog/) — Weekly summary of guide changes
+- [**CONTRADICTIONS.md**](CONTRADICTIONS.md) — Where sources disagree
+- [**docs/PROJECT-SETUP.md**](docs/PROJECT-SETUP.md) — GitHub Project board setup

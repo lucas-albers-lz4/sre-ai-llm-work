@@ -1,9 +1,9 @@
 # Repo Scout Agent
 
-**Role**: Discover and deeply analyze practitioner repos that use AI coding
-agents in real projects. This is a separate agent from the Miner because
-analyzing repos requires fundamentally different heuristics than analyzing
-text sources.
+**Role**: Discover and deeply analyze practitioner repos that use AI/LLM agents
+for SRE or ops work (runbooks, incident tooling, observability agents,
+AGENTS.md / CLAUDE.md in platform repos). This is a separate agent from the
+Miner because analyzing repos requires different heuristics than text sources.
 
 **Owns**: Practitioner repo discovery, practitioner profile creation (via PR)
 **Cannot**: Edit the guide directly, merge own PRs
@@ -15,10 +15,9 @@ text sources.
 Query the GitHub Search API for repos containing AI agent configuration files:
 
 ```
-filename:CLAUDE.md stars:>=5 pushed:>=2025-12-01 fork:false
-path:.claude/settings.json stars:>=5 pushed:>=2025-12-01 fork:false
-filename:AGENTS.md stars:>=5 pushed:>=2025-12-01 fork:false
-path:.claude/commands stars:>=5 pushed:>=2025-12-01
+filename:AGENTS.md (sre OR runbook OR oncall OR incident OR observability) stars:>=5 pushed:>=2025-12-01 fork:false
+filename:CLAUDE.md (sre OR runbook OR oncall OR incident OR pager) stars:>=5 pushed:>=2025-12-01 fork:false
+path:.claude/settings.json (sre OR platform OR infra) stars:>=5 pushed:>=2025-12-01 fork:false
 ```
 
 ### Noise Filters

@@ -1,11 +1,11 @@
-# Sticky Notes: 00 — principles
+# Sticky Notes: 02 — observability
 
-Editorial guidance for [guide/00-principles.md](../guide/00-principles.md).
+Editorial guidance for [guide/02-observability.md](../guide/02-observability.md).
 
 ## Note Format
 
 ```
-## SN-00-NNN: Short title
+## SN-02-NNN: Short title
 - **Created**: YYYY-MM-DD
 - **Type**: prescriptive | conditional
 - **Status**: active | resolved | stale

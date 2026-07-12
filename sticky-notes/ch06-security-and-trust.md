@@ -1,11 +1,11 @@
-# Sticky Notes: 00 — principles
+# Sticky Notes: 06 — security-and-trust
 
-Editorial guidance for [guide/00-principles.md](../guide/00-principles.md).
+Editorial guidance for [guide/06-security-and-trust.md](../guide/06-security-and-trust.md).
 
 ## Note Format
 
 ```
-## SN-00-NNN: Short title
+## SN-06-NNN: Short title
 - **Created**: YYYY-MM-DD
 - **Type**: prescriptive | conditional
 - **Status**: active | resolved | stale

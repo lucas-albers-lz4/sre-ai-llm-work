@@ -44,9 +44,10 @@ When the submitted URL is a blog index page, RSS/Atom feed URL, or blog root
 `registry/trusted-feeds.json` instead of triaging a single article.
 
 **Criteria for feed-candidate:**
-- Known author or org in AI-native engineering
+- Known author or org in SRE, platform engineering, observability, or LLM ops
 - History of substantive posts (not marketing fluff)
 - Feed URL is discoverable or inferrable from the submitted URL
+- Content angle is SRE AI / LLM work — not pure AI coding-agent lifestyle
 
 **If the feed meets the bar:**
 1. Create a feature branch: `feed-candidate/<feed-id>`
@@ -74,7 +75,7 @@ whether a feed exists. Feed present → `feed-candidate` (trusted-feeds); no fee
 **If the feed does NOT meet the bar:**
 Reject as usual with a comment noting it was evaluated as a potential feed but
 didn't meet the quality threshold. Explain why (e.g. "mostly marketing content",
-"infrequent posting", "not focused on AI engineering").
+"infrequent posting", "not focused on SRE/AI ops", "pure coding-agent content with no ops angle").
 
 **Feed-candidate comment format:**
 ```markdown

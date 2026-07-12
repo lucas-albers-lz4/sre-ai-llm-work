@@ -1,172 +1,95 @@
 {
-  "_comment": "Curated Atom/RSS feeds for the trusted-source scanner. Hand-edited. Add high-signal sources here (specific authors, vendor changelogs, conference talks). The scanner files a source-submission issue for each new entry. Per-feed scanning state lives in registry/trusted-feeds-state.json so this file stays diff-clean.",
+  "_comment": "Curated Atom/RSS feeds for SRE AI / LLM ops discovery. Verify each URL before relying on the scanner. State lives in trusted-feeds-state.json.",
   "_schema": {
-    "id": "stable short identifier (used as key in state file)",
+    "id": "stable short identifier",
     "url": "Atom or RSS feed URL",
-    "source_type": "one of: blog-post, documentation, discussion, paper, practitioner-repo, failure-report (matches source-submission.yml dropdown)",
-    "description": "one-line note about why this source is trusted",
-    "max_per_run": "(optional) cap new entries filed per scan. Default: 3"
+    "source_type": "blog-post | documentation | discussion | paper | practitioner-repo | failure-report",
+    "description": "why this feed is trusted for SRE AI / LLM work",
+    "max_per_run": "(optional) default 3"
   },
   "feeds": [
+    {
+      "id": "datadog-engineering",
+      "url": "https://www.datadoghq.com/blog/engineering/index.xml",
+      "source_type": "blog-post",
+      "description": "Datadog engineering — observability, AI features, production ops",
+      "max_per_run": 2
+    },
+    {
+      "id": "honeycomb",
+      "url": "https://www.honeycomb.io/blog/rss.xml",
+      "source_type": "blog-post",
+      "description": "Honeycomb — observability culture, AI-assisted debugging",
+      "max_per_run": 2
+    },
+    {
+      "id": "grafana",
+      "url": "https://grafana.com/blog/index.xml",
+      "source_type": "blog-post",
+      "description": "Grafana — LGTM stack, AI/ML features, ops practice",
+      "max_per_run": 2
+    },
+    {
+      "id": "pagerduty",
+      "url": "https://www.pagerduty.com/blog/feed/",
+      "source_type": "blog-post",
+      "description": "PagerDuty — incident response, AIOps, on-call practice",
+      "max_per_run": 2
+    },
+    {
+      "id": "incident-io",
+      "url": "https://incident.io/blog/rss.xml",
+      "source_type": "blog-post",
+      "description": "incident.io — modern incident management practice",
+      "max_per_run": 2
+    },
+    {
+      "id": "cloudflare",
+      "url": "https://blog.cloudflare.com/rss/",
+      "source_type": "blog-post",
+      "description": "Cloudflare — production reliability, AI inference at edge",
+      "max_per_run": 2
+    },
+    {
+      "id": "netflix-tech",
+      "url": "https://netflixtechblog.com/feed",
+      "source_type": "blog-post",
+      "description": "Netflix TechBlog — large-scale reliability and platform practice",
+      "max_per_run": 1
+    },
+    {
+      "id": "uber-eng",
+      "url": "https://www.uber.com/blog/engineering/rss/",
+      "source_type": "blog-post",
+      "description": "Uber Engineering — production systems and ML ops",
+      "max_per_run": 1
+    },
+    {
+      "id": "openai-eng",
+      "url": "https://openai.com/news/rss.xml",
+      "source_type": "blog-post",
+      "description": "OpenAI — model reliability, production AI systems",
+      "max_per_run": 2
+    },
+    {
+      "id": "anthropic-eng",
+      "url": "https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_anthropic_engineering.xml",
+      "source_type": "blog-post",
+      "description": "Anthropic engineering — agents, evals, production safety (ops-relevant)",
+      "max_per_run": 2
+    },
     {
       "id": "simon-willison",
       "url": "https://simonwillison.net/atom/everything/",
       "source_type": "blog-post",
-      "description": "Simon Willison \u2014 high-signal LLM tooling commentary and experiments",
-      "max_per_run": 3
-    },
-    {
-      "id": "armin-ronacher",
-      "url": "https://lucumr.pocoo.org/feed.atom",
-      "source_type": "blog-post",
-      "description": "Armin Ronacher \u2014 practitioner notes on AI coding workflows",
+      "description": "Simon Willison — LLM tooling; filter for ops/reliability angles in triage",
       "max_per_run": 2
     },
     {
-      "id": "github-copilot",
-      "url": "https://github.blog/changelog/feed/?label=copilot",
-      "source_type": "documentation",
-      "description": "GitHub Copilot changelog \u2014 Copilot-specific feature changes and updates",
-      "max_per_run": 3
-    },
-    {
-      "id": "langchain-blog",
-      "url": "https://blog.langchain.com/rss/",
+      "id": "thenewstack",
+      "url": "https://thenewstack.io/feed/",
       "source_type": "blog-post",
-      "description": "LangChain blog \u2014 agent architectures, tool-use patterns, and LLM orchestration practitioner notes",
-      "max_per_run": 3
-    },
-    {
-      "id": "anthropic-engineering",
-      "url": "https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_anthropic_engineering.xml",
-      "source_type": "blog-post",
-      "description": "Anthropic engineering blog \u2014 agent design, harness patterns, evals (via Olshansk/rss-feeds mirror)",
-      "max_per_run": 3
-    },
-    {
-      "id": "claude-blog",
-      "url": "https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_claude.xml",
-      "source_type": "blog-post",
-      "description": "Claude blog \u2014 Claude Code features, multi-agent patterns, enterprise tooling (via Olshansk/rss-feeds mirror)",
-      "max_per_run": 3
-    },
-    {
-      "id": "cursor-blog",
-      "url": "https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_cursor.xml",
-      "source_type": "blog-post",
-      "description": "Cursor blog \u2014 competing AI coding agent, Composer, model inference techniques",
-      "max_per_run": 3
-    },
-    {
-      "id": "the-batch",
-      "url": "https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_the_batch.xml",
-      "source_type": "blog-post",
-      "description": "DeepLearning.AI The Batch \u2014 weekly AI industry news roundup (Andrew Ng)",
-      "max_per_run": 2
-    },
-    {
-      "id": "github-agentic-workflows",
-      "url": "https://github.github.com/gh-aw/blog/rss.xml",
-      "source_type": "documentation",
-      "description": "GitHub Agentic Workflows (gh-aw) blog \u2014 weekly updates on GitHub's agentic automation CLI",
-      "max_per_run": 2
-    },
-    {
-      "id": "sourcegraph",
-      "url": "https://sourcegraph.com/blog/rss.xml",
-      "source_type": "blog-post",
-      "description": "Sourcegraph (Amp, Cody) \u2014 agentic coding in large codebases, code-search infrastructure",
-      "max_per_run": 3
-    },
-    {
-      "id": "martin-fowler",
-      "url": "https://martinfowler.com/feed.atom",
-      "source_type": "blog-post",
-      "description": "Martin Fowler / Thoughtworks \u2014 Boeckeler harness-engineering series, vendor-neutral AI-assisted dev",
-      "max_per_run": 2
-    },
-    {
-      "id": "openai-news",
-      "url": "https://openai.com/news/rss.xml",
-      "source_type": "blog-post",
-      "description": "OpenAI \u2014 Codex, agentic workflows, model releases (second major lab)",
-      "max_per_run": 2
-    },
-    {
-      "id": "pragmatic-engineer",
-      "url": "https://newsletter.pragmaticengineer.com/feed",
-      "source_type": "blog-post",
-      "description": "Gergely Orosz \u2014 engineering-org AI adoption, productivity data, workflow practices",
-      "max_per_run": 2
-    },
-    {
-      "id": "jetbrains-ai",
-      "url": "https://blog.jetbrains.com/ai/feed/",
-      "source_type": "blog-post",
-      "description": "JetBrains AI \u2014 Junie agent, IDE-deep workflows, agent benchmarking",
-      "max_per_run": 2
-    },
-    {
-      "id": "google-developers",
-      "url": "https://developers.googleblog.com/feeds/posts/default",
-      "source_type": "blog-post",
-      "description": "Google Developers \u2014 Gemini, Jules coding agent, Antigravity, ADK (third major lab)",
-      "max_per_run": 2
-    },
-    {
-      "id": "kent-beck",
-      "url": "https://newsletter.kentbeck.com/feed",
-      "source_type": "blog-post",
-      "description": "Kent Beck \u2014 TDD/XP creator on AI-augmented coding, design, and trust",
-      "max_per_run": 2
-    },
-    {
-      "id": "geoffrey-huntley",
-      "url": "https://ghuntley.com/rss/",
-      "source_type": "blog-post",
-      "description": "Geoffrey Huntley \u2014 deep agentic coding technique (Ralph loops, spec-driven autonomy)",
-      "max_per_run": 2
-    },
-    {
-      "id": "hamel-husain",
-      "url": "https://hamel.dev/index.xml",
-      "source_type": "blog-post",
-      "description": "Hamel Husain \u2014 applied AI engineering, LLM evals and verification",
-      "max_per_run": 2
-    },
-    {
-      "id": "thoughtworks",
-      "url": "https://www.thoughtworks.com/rss/insights.xml",
-      "source_type": "blog-post",
-      "description": "Thoughtworks Insights \u2014 AI-native engineering building blocks, agentic SDLC, vendor-neutral",
-      "max_per_run": 2
-    },
-    {
-      "id": "addy-osmani",
-      "url": "https://addyosmani.com/rss.xml",
-      "source_type": "blog-post",
-      "description": "Addy Osmani \u2014 AI-assisted engineering practices (already a top-cited corpus source)",
-      "max_per_run": 2
-    },
-    {
-      "id": "latent-space",
-      "url": "https://www.latent.space/feed",
-      "source_type": "blog-post",
-      "description": "Latent Space (swyx) \u2014 AI engineering essays/interviews; daily AINews is broad aggregation",
-      "max_per_run": 1
-    },
-    {
-      "id": "vercel",
-      "url": "https://vercel.com/atom",
-      "source_type": "blog-post",
-      "description": "Vercel \u2014 agent infrastructure (AI SDK, Sandbox, harness adapters); changelog-heavy",
-      "max_per_run": 1
-    },
-    {
-      "id": "mattwood",
-      "url": "https://mattwood.blog/feed.xml",
-      "source_type": "blog-post",
-      "description": "Matt Wood (AWS CTO for AI) \u2014 high-level insights on organizational AI-native engineering and cost-of-validation in loops",
+      "description": "The New Stack — cloud-native ops and AI infrastructure",
       "max_per_run": 2
     }
   ]

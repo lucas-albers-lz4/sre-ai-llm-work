@@ -1,11 +1,11 @@
-# Sticky Notes: 00 — principles
+# Sticky Notes: 04 — oncall-and-toil
 
-Editorial guidance for [guide/00-principles.md](../guide/00-principles.md).
+Editorial guidance for [guide/04-oncall-and-toil.md](../guide/04-oncall-and-toil.md).
 
 ## Note Format
 
 ```
-## SN-00-NNN: Short title
+## SN-04-NNN: Short title
 - **Created**: YYYY-MM-DD
 - **Type**: prescriptive | conditional
 - **Status**: active | resolved | stale

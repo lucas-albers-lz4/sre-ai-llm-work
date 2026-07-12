@@ -1,6 +1,6 @@
-# GitHub Project (v2) Setup — Hitchhiker's Guide Pipeline
+# GitHub Project (v2) Setup — SRE AI LLM Work Pipeline
 
-This is the runbook for creating the **Hitchhikers Guide Pipeline** GitHub
+This is the runbook for creating the **SRE AI LLM Work Pipeline** GitHub
 Project. It is referenced from the README's "Pipeline Status" section.
 
 The project is a single shared dashboard for everyone watching the agent
@@ -21,7 +21,7 @@ gh auth refresh -s project
 
 # Open the project and finish view configuration in the UI (filters/groupings
 # cannot be set via gh CLI as of 2026-04)
-gh project view <NUMBER> --owner steveash --web
+gh project view <NUMBER> --owner lucas-albers-lz4 --web
 ```
 
 Then:
@@ -31,7 +31,7 @@ Then:
 
 ## Prerequisites
 
-1. You have admin on `steveash/hitchhikers-guide-to-ai-native-engineering`.
+1. You have admin on `lucas-albers-lz4/sre-ai-llm-work`.
 2. `gh` CLI is installed and authenticated as a user with the `project` scope.
    Default `gh auth login` does **not** grant this scope. Run:
    ```bash
@@ -51,9 +51,9 @@ Then:
 
 | Setting | Value |
 |---------|-------|
-| Title   | `Hitchhikers Guide Pipeline` |
-| Owner   | `steveash` (user-scoped, not org) |
-| Linked repo | `steveash/hitchhikers-guide-to-ai-native-engineering` |
+| Title   | `SRE AI LLM Work Pipeline` |
+| Owner   | `lucas-albers-lz4` (user-scoped, not org) |
+| Linked repo | `lucas-albers-lz4/sre-ai-llm-work` |
 | Visibility  | Public |
 
 ### Custom fields
@@ -64,7 +64,7 @@ The bootstrap script creates three single-select custom fields:
 |-------|---------|---------|
 | **Triage Status** | `untriaged`, `accepted`, `rejected`, `duplicate`, `in-progress`, `done` | Source intake view |
 | **Assayer Check** | `pending`, `running`, `passed`, `failed`, `skipped` | PR review queue view |
-| **Chapter** | `ch00-principles`, `ch01-daily-workflows`, `ch02-harness-engineering`, `ch03-safety-and-verification`, `ch04-context-engineering`, `ch05-team-adoption`, `cross-cutting` | Chapter health view |
+| **Chapter** | `ch00-principles`, `ch01-incident-response`, `ch02-observability`, `ch03-runbooks-and-agents`, `ch04-oncall-and-toil`, `ch05-llm-ops-reliability`, `ch06-security-and-trust`, `cross-cutting` | Chapter health view |
 
 ### Views
 
@@ -105,7 +105,7 @@ chapter editors know what's queued against their chapter.
 
 **Filter:**
 ```
-is:issue is:open label:ch00-principles,ch01-daily-workflows,ch02-harness-engineering,ch03-safety-and-verification,ch04-context-engineering,ch05-team-adoption
+is:issue is:open label:ch00-principles,ch01-incident-response,ch02-observability,ch03-runbooks-and-agents,ch04-oncall-and-toil,ch05-llm-ops-reliability,ch06-security-and-trust
 ```
 
 **Group by:** `Chapter` (the custom field, not the label — fall back to label
@@ -140,15 +140,15 @@ bootstrap script (or manually with `gh label create`):
 
 **Chapter labels** (one per chapter in `guide/`):
 - `ch00-principles`
-- `ch01-daily-workflows`
-- `ch02-harness-engineering`
-- `ch03-safety-and-verification`
-- `ch04-context-engineering`
-- `ch05-team-adoption`
+- `ch01-incident-response`
+- `ch02-observability`
+- `ch03-runbooks-and-agents`
+- `ch04-oncall-and-toil`
+- `ch05-llm-ops-reliability`
 
 To recreate any missing labels:
 ```bash
-gh label create <name> --repo steveash/hitchhikers-guide-to-ai-native-engineering --color <hex>
+gh label create <name> --repo lucas-albers-lz4/sre-ai-llm-work --color <hex>
 ```
 
 ## Manual steps (gh CLI limitations as of 2026-04)
@@ -184,7 +184,7 @@ issues and PRs as they are created or updated.
 2. Click **⋯** (menu in top-right) → **Workflows**.
 3. Click **Auto-add to project**.
 4. Enable the workflow.
-5. Set repository to `steveash/hitchhikers-guide-to-ai-native-engineering`.
+5. Set repository to `lucas-albers-lz4/sre-ai-llm-work`.
 6. Set filter to `is:issue,pr` (or narrow with labels if desired).
 7. Save.
 
@@ -241,7 +241,7 @@ configured` and skip board updates. To restore:
 
 After setup, confirm:
 
-- [ ] Project visible at `https://github.com/users/steveash/projects/<NUMBER>`
+- [ ] Project visible at `https://github.com/users/lucas-albers-lz4/projects/<NUMBER>`
 - [ ] Project linked to the repo (visible under repo → Projects tab)
 - [ ] Three views present and named correctly
 - [ ] Source intake shows recent issues with intake labels
@@ -257,7 +257,7 @@ in the "Pipeline Status" section:
 ```markdown
 ## Pipeline Status
 
-Live dashboard: <https://github.com/users/steveash/projects/NUMBER>
+Live dashboard: <https://github.com/users/lucas-albers-lz4/projects/NUMBER>
 ```
 
 The placeholder is intentionally absent from the bootstrap script — the

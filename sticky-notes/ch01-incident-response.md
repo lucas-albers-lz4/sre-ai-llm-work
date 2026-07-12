@@ -1,11 +1,11 @@
-# Sticky Notes: 00 — principles
+# Sticky Notes: 01 — incident-response
 
-Editorial guidance for [guide/00-principles.md](../guide/00-principles.md).
+Editorial guidance for [guide/01-incident-response.md](../guide/01-incident-response.md).
 
 ## Note Format
 
 ```
-## SN-00-NNN: Short title
+## SN-01-NNN: Short title
 - **Created**: YYYY-MM-DD
 - **Type**: prescriptive | conditional
 - **Status**: active | resolved | stale

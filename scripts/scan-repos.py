@@ -33,17 +33,19 @@ GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
 REGISTRY_PATH = Path(__file__).parent.parent / "registry" / "repos.json"
 REPO_URL = os.environ.get("GITHUB_REPOSITORY", "steveash/hitchhiker-guide")
 
-# Search queries for discovering repos with AI agent configs
+# Search queries for ops/SRE repos that use AI agent configs or runbooks
 SEARCH_QUERIES = [
-    'filename:CLAUDE.md stars:>=5 pushed:>=2025-12-01 fork:false',
-    'path:.claude/settings.json stars:>=5 pushed:>=2025-12-01 fork:false',
-    'filename:AGENTS.md stars:>=5 pushed:>=2025-12-01 fork:false',
+    'filename:AGENTS.md (sre OR runbook OR oncall OR incident OR observability) stars:>=5 pushed:>=2025-12-01 fork:false',
+    'filename:CLAUDE.md (sre OR runbook OR oncall OR incident OR pager) stars:>=5 pushed:>=2025-12-01 fork:false',
+    'path:.claude/settings.json (sre OR platform OR infra) stars:>=5 pushed:>=2025-12-01 fork:false',
+    'filename:runbook.md AI OR LLM stars:>=3 pushed:>=2025-12-01 fork:false',
 ]
 
-# Repos to always exclude (our own, Anthropic's, known tutorials)
+# Repos to always exclude (vendors, tutorials, this fork's owner)
 EXCLUDE_OWNERS = {
-    'anthropics',      # Vendor docs, not practitioner usage
-    'steveash',        # Our own repos
+    'anthropics',
+    'steveash',
+    'lucas-albers-lz4',
 }
 
 # Keywords in repo name/description that suggest it's ABOUT Claude, not USING it

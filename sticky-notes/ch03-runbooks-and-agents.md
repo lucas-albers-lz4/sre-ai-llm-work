@@ -1,11 +1,11 @@
-# Sticky Notes: 00 — principles
+# Sticky Notes: 03 — runbooks-and-agents
 
-Editorial guidance for [guide/00-principles.md](../guide/00-principles.md).
+Editorial guidance for [guide/03-runbooks-and-agents.md](../guide/03-runbooks-and-agents.md).
 
 ## Note Format
 
 ```
-## SN-00-NNN: Short title
+## SN-03-NNN: Short title
 - **Created**: YYYY-MM-DD
 - **Type**: prescriptive | conditional
 - **Status**: active | resolved | stale

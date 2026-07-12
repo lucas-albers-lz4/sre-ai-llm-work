@@ -1,11 +1,11 @@
-# Sticky Notes: 00 — principles
+# Sticky Notes: 05 — llm-ops-reliability
 
-Editorial guidance for [guide/00-principles.md](../guide/00-principles.md).
+Editorial guidance for [guide/05-llm-ops-reliability.md](../guide/05-llm-ops-reliability.md).
 
 ## Note Format
 
 ```
-## SN-00-NNN: Short title
+## SN-05-NNN: Short title
 - **Created**: YYYY-MM-DD
 - **Type**: prescriptive | conditional
 - **Status**: active | resolved | stale

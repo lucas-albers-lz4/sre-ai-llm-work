@@ -1,7 +1,11 @@
 {
-  "_comment": "Project-wide tunables for the hitchhiker-guide automation. Read by scripts/ and .github/workflows/. Keep keys small and namespaced; this file is loaded by Python with json.load (no comments allowed by spec \u2014 use _comment fields).",
+  "_comment": "Project-wide tunables for the SRE AI LLM Work automation. Read by scripts/ and .github/workflows/.",
   "guide": {
     "_comment": "Knobs for guide-chapter synthesis (see agents/SMITH.md, agents/GARDENER.md).",
     "max_sources_per_chapter": 30
+  },
+  "domain": {
+    "name": "SRE AI LLM Work",
+    "exclude_pure_coding_agents": true
   }
 }

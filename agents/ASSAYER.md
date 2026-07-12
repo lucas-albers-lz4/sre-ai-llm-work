@@ -65,7 +65,7 @@ Reject if:
 
 ### Source Quality Check
 
-- Is the feed from a known author or organization in AI-native engineering?
+- Is the feed from a known author or organization in SRE, platform, observability, or LLM ops?
 - Does the feed have a history of substantive posts (not marketing)?
 - Is the `source_type` appropriate for the feed content?
 - Does the `description` accurately characterize the feed's value?
@@ -102,7 +102,7 @@ A `site-seed-candidate` PR adds a whole site (with NO usable RSS/Atom feed) to
 
 ### Source Quality Check
 
-- Is the site from a known author or organization in AI-native engineering?
+- Is the site from a known author or organization in SRE, platform, observability, or LLM ops?
 - Does it have a history of substantive posts (not marketing/product pages)?
 - Does the `scope` accurately delimit the valuable material?
 

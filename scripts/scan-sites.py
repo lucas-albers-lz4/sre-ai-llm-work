@@ -201,11 +201,11 @@ def screen_urls_with_haiku(urls: list[str], seed: dict) -> dict[str, str]:
     # Build a compact list for Haiku
     url_list = "\n".join(f"- {url}" for url in urls)
 
-    prompt = f"""You are a fast relevance screener for the Hitchhiker's Guide to AI-Native Engineering.
+    prompt = f"""You are a fast relevance screener for the SRE AI LLM Work guide.
 
 Given these URLs from a documentation site, decide which pages are likely to contain
-practitioner insights relevant to AI-native software engineering (agent patterns,
-tool integration, workflow design, failure modes, team adoption).
+practitioner insights relevant to SRE work with AI/LLMs: incident response, on-call,
+observability, runbooks/agents, toil reduction, LLM ops reliability, or AI-in-ops security.
 
 Scope hint from the curator: {seed.get('scope', 'no specific scope')}
 
@@ -218,7 +218,8 @@ URL | REJECT | one-line reason
 
 Base your decision on the URL path structure and page name — you cannot read the pages.
 Reject API reference pages, changelog/release-note pages, installation/setup guides
-that are purely mechanical, and pages that are clearly not about AI coding practices.
+that are purely mechanical, pure AI coding-agent lifestyle content with no ops angle,
+and marketing/careers pages.
 When in doubt, mark as RELEVANT — the Prospector will do the deep evaluation later."""
 
     try:

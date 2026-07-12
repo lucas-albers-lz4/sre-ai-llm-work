@@ -38,26 +38,28 @@ REPO_URL = os.environ.get("GITHUB_REPOSITORY", "steveash/hitchhiker-guide")
 # HN Algolia API (free, no key required)
 HN_API = "https://hn.algolia.com/api/v1"
 
-# Search terms for finding failure reports
+# Search terms for finding failure reports (SRE AI / LLM ops)
 FAILURE_SEARCH_TERMS = [
-    "claude code doesn't work",
-    "claude code frustrating",
-    "claude code problem",
-    "CLAUDE.md ignored",
-    "AI coding agent failure",
-    "cursor vs claude code",
-    "switched from claude code",
-    "claude code context window",
-    "agentic coding mistake",
-    "AI coding tool limitation",
+    "AI on-call failure",
+    "LLM incident response mistake",
+    "AIOps false positive",
+    "ChatGPT runbook wrong",
+    "AI remediation made it worse",
+    "LLM hallucinated root cause",
+    "AI pager alert noise",
+    "autonomous remediation outage",
+    "prompt injection logs incident",
+    "AI SRE tool limitation",
 ]
 
 # Positive-signal terms to also capture (for balance)
 PRACTICE_SEARCH_TERMS = [
-    "claude code workflow",
-    "CLAUDE.md best practices",
-    "claude code tips",
-    "AI coding agent setup",
+    "AI incident response",
+    "LLM observability",
+    "AI on-call workflow",
+    "runbook agent SRE",
+    "LLM ops reliability",
+    "AIOps best practices",
 ]
 
 # Minimum engagement threshold (filters noise)

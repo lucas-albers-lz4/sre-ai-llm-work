@@ -1,28 +1,18 @@
 # Guide Dashboard
 
-_Generated 2026-07-12 (UTC) by `scripts/generate_dashboard.py`._
+_Generated for SRE AI LLM Work MVP bootstrap._
 
-Content-derived metrics for the living guide. Refreshed daily by
-`.github/workflows/daily-scan.yml`. For workflow status (PRs, issues,
-scanner queues) see the GitHub Project linked from README.md.
+Content-derived metrics for the living guide. Refresh with
+`scripts/generate_dashboard.py` (daily-scan workflow).
 
 | Chapter | Sources | Oldest source | Stale % | Lines (Δ7d) |
 |---|---|---|---|---|
-| `guide/00-principles.md` | 8/30 | 2026-02-12 (`paper-gloaguen-agentsmd-effectiveness`) | 83% | 291 (n/a) |
-| `guide/01-daily-workflows.md` | 14/30 | 2026-03-09 (`discussion-hn-agentic-coding-jobs`) | 30% | 747 (n/a) |
-| `guide/02-harness-engineering.md` | 22/30 | 2025-09-17 (`failure-claudemd-ignored-compaction`) | 40% | 1569 (n/a) |
-| `guide/03-verification.md` | 23/30 | 2025-09-17 (`failure-claudemd-ignored-compaction`) | 38% | 1067 (n/a) |
-| `guide/04-context-engineering.md` | 15/30 | 2025-12-27 (`blog-sankalp-claude-code-20`) | 40% | 1247 (n/a) |
-| `guide/05-team-adoption.md` | 20/30 | 2025-11-06 (`paper-miller-speed-cost-quality`) | 30% | 1542 (n/a) |
-| `guide/06-security-threat-model.md` | 7/30 | 2026-03-16 (`blog-cursor-security-agents`) | 0% | 247 (n/a) |
+| `guide/00-principles.md` | 0/30 | — | — | stub |
+| `guide/01-incident-response.md` | 0/30 | — | — | stub |
+| `guide/02-observability.md` | 0/30 | — | — | stub |
+| `guide/03-runbooks-and-agents.md` | 0/30 | — | — | stub |
+| `guide/04-oncall-and-toil.md` | 0/30 | — | — | stub |
+| `guide/05-llm-ops-reliability.md` | 0/30 | — | — | stub |
+| `guide/06-security-and-trust.md` | 0/30 | — | — | stub |
 
-**Source cap**: 30 per chapter (see `hitchhiker.config.json`). 
-Chapters at the cap are marked ⚠ and block new Smith additions until 
-the Gardener prunes.
-
-**Staleness**: percentage of cited source notes whose `last_checked` 
-frontmatter field is more than 90 days old. Matches the 
-`[stale]` confidence tag defined in README.md.
-
-**Δ7d**: line-count delta vs. the most recent commit from at least 7 
-days ago. `n/a` means the repo (or this chapter) is younger than a week.
+**Source cap**: 30 per chapter (`hitchhiker.config.json`).
