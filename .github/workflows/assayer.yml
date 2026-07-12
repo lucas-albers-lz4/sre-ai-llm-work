@@ -147,6 +147,8 @@ jobs:
       - name: Run Assayer review
         uses: anthropics/claude-code-action@v1
         with:
+          # Bypass Claude GitHub App OIDC (not installed on this fork).
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           anthropic_api_key: ${{ secrets.DEEPSEEK_API_KEY }}
           allowed_bots: "claude[bot]"
           show_full_output: true

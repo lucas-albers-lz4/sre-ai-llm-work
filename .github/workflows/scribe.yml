@@ -52,6 +52,8 @@ jobs:
       - name: Parse sticky notes and prepare PR
         uses: anthropics/claude-code-action@v1
         with:
+          # Bypass Claude GitHub App OIDC (not installed on this fork).
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           anthropic_api_key: ${{ secrets.DEEPSEEK_API_KEY }}
           prompt: |
             You are the Scribe agent. Your job is to parse sticky-note issues
