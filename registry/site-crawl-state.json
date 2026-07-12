@@ -988,29 +988,41 @@
         "screened_at": "2026-07-09T07:10:36.892608+00:00"
       },
       "https://github.github.com/gh-aw/guides/arc-dind-copilot-agent": {
-        "status": "pending",
-        "screened_at": "2026-07-10T07:09:48.036084+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-10T07:09:48.036084+00:00",
+        "issue": 1791,
+        "filed_at": "2026-07-12T06:54:12.192442+00:00"
+      },
+      "https://github.github.com/gh-aw/specs/safe-update-specification": {
+        "status": "rejected",
+        "screened_at": "2026-07-12T06:54:07.995027+00:00"
       }
     },
-    "last_scan": "2026-07-11T06:45:18.477943+00:00"
+    "last_scan": "2026-07-12T06:54:07.995041+00:00"
   },
   "humanlayer": {
     "urls": {
       "https://www.humanlayer.dev/blog/12-factor-agents": {
-        "status": "pending",
-        "screened_at": "2026-06-30T04:38:03.402146+00:00"
+        "status": "filed",
+        "screened_at": "2026-06-30T04:38:03.402146+00:00",
+        "issue": 1792,
+        "filed_at": "2026-07-12T06:54:14.097511+00:00"
       },
       "https://www.humanlayer.dev/blog/advanced-context-engineering": {
-        "status": "pending",
-        "screened_at": "2026-06-30T04:38:03.402161+00:00"
+        "status": "filed",
+        "screened_at": "2026-06-30T04:38:03.402161+00:00",
+        "issue": 1793,
+        "filed_at": "2026-07-12T06:54:15.921813+00:00"
       },
       "https://www.humanlayer.dev/blog/brief-history-of-ralph": {
         "status": "rejected",
         "screened_at": "2026-06-30T04:38:03.402164+00:00"
       },
       "https://www.humanlayer.dev/blog/context-efficient-backpressure": {
-        "status": "pending",
-        "screened_at": "2026-06-30T04:38:03.402165+00:00"
+        "status": "filed",
+        "screened_at": "2026-06-30T04:38:03.402165+00:00",
+        "issue": 1794,
+        "filed_at": "2026-07-12T06:54:17.737693+00:00"
       },
       "https://www.humanlayer.dev/blog/context-forking-to-save-time-trouble-and-tokens": {
         "status": "pending",
@@ -1073,7 +1085,7 @@
         "screened_at": "2026-06-30T04:38:03.402185+00:00"
       }
     },
-    "last_scan": "2026-07-11T06:45:19.976737+00:00"
+    "last_scan": "2026-07-12T06:54:09.485977+00:00"
   },
   "cognition": {
     "urls": {
@@ -1410,6 +1422,6 @@
         "screened_at": "2026-06-30T07:15:58.230869+00:00"
       }
     },
-    "last_scan": "2026-07-11T06:45:21.199489+00:00"
+    "last_scan": "2026-07-12T06:54:10.758887+00:00"
   }
 }
