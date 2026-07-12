@@ -20,12 +20,11 @@ See [`docs/MODEL-ROUTING.md`](MODEL-ROUTING.md) for the wired Flash/Pro map.
 ## 3. First human tasks after push
 
 1. ~~Replace placeholders in `registry/trusted-feeds.json`~~ — done (15 verified feeds).
-2. Add 2–5 site-crawl seeds with SRE-relevant `scope` hints.
-3. Dispatch `claude-smoke-test.yml` to confirm DeepSeek routing.
-4. File 3–5 seed `[source]` issues manually to smoke-test Prospector → Miner.
-5. Skim Assayer on the first source-note PRs; comment `/rework` if needed.
-6. After ~20–30 notes, dispatch Smith (`smith-on-source-merge.yml`) and review
-   the first `guide-update` PR yourself.
+2. ~~Add 2–5 site-crawl seeds with SRE-relevant `scope` hints.~~ — done (5 seeds in `registry/site-crawl-seeds.json`).
+3. ~~Dispatch `claude-smoke-test.yml` to confirm DeepSeek routing.~~ — passed.
+4. ~~File 3–5 seed `[source]` issues manually to smoke-test Prospector → Miner.~~ — 4 issues → 4 merged source notes.
+5. ~~Skim Assayer on the first source-note PRs; comment `/rework` if needed.~~ — quality OK.
+6. **Next:** let Daily Scanner + trusted feeds grow the corpus (~20–30 notes), then dispatch Smith (`smith-on-source-merge.yml`) and review the first `guide-update` PR yourself.
 
 ## 4. What was wiped
 

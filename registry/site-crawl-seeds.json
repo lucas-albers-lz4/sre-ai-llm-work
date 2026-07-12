@@ -18,6 +18,18 @@
       "url": "https://www.cncf.io/blog/",
       "scope": "cloud-native reliability, platform engineering, AI ops — skip event promotions",
       "source_type": "blog-post"
+    },
+    {
+      "id": "datadog-llm-obs",
+      "url": "https://docs.datadoghq.com/llm_observability/",
+      "scope": "LLM tracing, evals, token/cost monitoring, production agent observability — skip general Datadog product setup unrelated to LLM ops",
+      "source_type": "documentation"
+    },
+    {
+      "id": "langfuse-docs",
+      "url": "https://langfuse.com/docs",
+      "scope": "LLM observability, tracing, evals, prompt/version management for production agents — skip pricing, careers, and pure marketing pages",
+      "source_type": "documentation"
     }
   ]
 }
