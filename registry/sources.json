@@ -1,4 +1,82 @@
 {
-  "sources": {},
-  "last_rebuild": null
+  "sources": {
+    "blog-honeycomb-instrumenting-ai-agents-opentelemetry": {
+      "slug": "blog-honeycomb-instrumenting-ai-agents-opentelemetry",
+      "title": "Instrumenting AI Agents for the Agent Timeline: A Practical Guide to OTel GenAI Semantic Conventions",
+      "source_url": "https://www.honeycomb.io/blog/instrumenting-ai-agents-agent-timeline-opentelemetry-guide",
+      "source_type": "blog-post",
+      "author": "Dan Juengst",
+      "date_published": "2026-06-29",
+      "date_extracted": "2026-07-12",
+      "issue": "#2",
+      "file": "source-notes/blog-honeycomb-instrumenting-ai-agents-opentelemetry.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
+    "blog-incidentio-ai-sre-incident-run": {
+      "slug": "blog-incidentio-ai-sre-incident-run",
+      "title": "How it feels to run an incident with AI SRE",
+      "source_url": "https://incident.io/blog/how-it-feels-to-run-an-incident-with-ai-sre",
+      "source_type": "blog-post",
+      "author": "incident.io",
+      "date_published": "2026-04-23",
+      "date_extracted": "2026-07-12",
+      "issue": "#3",
+      "file": "source-notes/blog-incidentio-ai-sre-incident-run.md",
+      "confidence_overall": "anecdotal",
+      "status": "current"
+    },
+    "blog-pagerduty-production-ai-agent-gaps": {
+      "slug": "blog-pagerduty-production-ai-agent-gaps",
+      "title": "Production AI Agents: Closing the Gaps Between Idea and Reality",
+      "source_url": "https://www.pagerduty.com/eng/production-ai-agents-closing-the-gaps-between-idea-and-reality/",
+      "source_type": "blog-post",
+      "author": "João Freitas",
+      "date_published": "2026-06-11",
+      "date_extracted": "2026-07-12",
+      "issue": "#4",
+      "file": "source-notes/blog-pagerduty-production-ai-agent-gaps.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
+    "blog-pagerduty-sre-agent-architecture": {
+      "slug": "blog-pagerduty-sre-agent-architecture",
+      "title": "Inside PagerDuty's SRE Agent: How We Built Deep Incident Investigation",
+      "source_url": "https://www.pagerduty.com/eng/inside-pagerdutys-sre-agent-how-we-built-deep-incident-investigation/",
+      "source_type": "blog-post",
+      "author": "Viktor Vasylkovskyi, Micah Mayo, Ralph Bird",
+      "date_published": "2026-06-24",
+      "date_extracted": "2026-07-12",
+      "issue": "#1",
+      "file": "source-notes/blog-pagerduty-sre-agent-architecture.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
+    "discussion-google-sre-ben-treynor-interview": {
+      "slug": "discussion-google-sre-ben-treynor-interview",
+      "title": "In Conversation: Ben Treynor Sloss on Site Reliability Engineering",
+      "source_url": "https://sre.google/in-conversation/",
+      "source_type": "discussion",
+      "author": "Ben Treynor Sloss (VP of Engineering, Google), interviewed by Niall Murphy",
+      "date_published": "2016",
+      "date_extracted": "2026-07-13",
+      "issue": "#17",
+      "file": "source-notes/discussion-google-sre-ben-treynor-interview.md",
+      "confidence_overall": "settled",
+      "status": "current"
+    },
+    "docs-google-sre-nalsd-classroom": {
+      "slug": "docs-google-sre-nalsd-classroom",
+      "title": "SRE Classroom: NALSD and SRE Workshops",
+      "source_url": "https://sre.google/classroom/",
+      "source_type": "docs",
+      "author": "Google SRE",
+      "date_published": "2021",
+      "date_extracted": "2026-07-13",
+      "issue": "#13",
+      "file": "source-notes/docs-google-sre-nalsd-classroom.md",
+      "confidence_overall": "settled",
+      "status": "current"
+    }
+  }
 }
