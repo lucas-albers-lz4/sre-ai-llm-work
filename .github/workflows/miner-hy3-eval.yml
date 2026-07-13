@@ -74,7 +74,10 @@ jobs:
       - name: Run Hy3 Miner eval for issue #${{ inputs.issue_number }}
         uses: anthropics/claude-code-action@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # PROJECT_PAT (not GITHUB_TOKEN) so gh pr create runs as a user
+          # and the eval PR is discoverable for Assayer dispatch. Same
+          # pattern as miner-batch.yml.
+          github_token: ${{ secrets.PROJECT_PAT }}
           anthropic_api_key: ${{ secrets.OPENROUTER_API_KEY }}
           show_full_output: true
           prompt: |
@@ -148,6 +151,51 @@ jobs:
             --max-turns 60
             --allowedTools "Bash(*)" "Read" "Write" "Edit" "Glob" "Grep" "WebFetch"
 
+      - name: Ensure eval PR exists
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.PROJECT_PAT }}
+          BRANCH: miner/hy3-eval-issue-${{ inputs.issue_number }}-r${{ github.run_id }}
+          ISSUE: ${{ inputs.issue_number }}
+        run: |
+          PR_NUM=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number // empty')
+          if [ -n "$PR_NUM" ]; then
+            echo "Eval PR already open: #$PR_NUM"
+            exit 0
+          fi
+
+          # Miner may have pushed the branch but failed gh pr create (common
+          # when github_token was GITHUB_TOKEN). Open the PR if the eval file
+          # exists on the branch.
+          if ! git ls-remote --exit-code origin "refs/heads/$BRANCH" >/dev/null 2>&1; then
+            echo "::error::No branch $BRANCH and no eval PR — Miner did not produce output."
+            exit 1
+          fi
+
+          EVAL_FILE=$(git ls-tree -r --name-only "origin/$BRANCH" source-notes/ \
+            | grep 'hy3-eval\.md$' | head -1 || true)
+          if [ -z "$EVAL_FILE" ]; then
+            echo "::error::Branch $BRANCH exists but has no *-hy3-eval.md file."
+            exit 1
+          fi
+
+          SLUG=$(basename "$EVAL_FILE" -hy3-eval.md)
+          cat > /tmp/hy3-eval-pr-body.md <<EOF
+          Hy3 Miner eval replay for golden issue #${ISSUE}.
+          Do not merge — compare against the merged DeepSeek baseline note.
+          EOF
+
+          PR_NUM=$(gh pr create \
+            --repo "${{ github.repository }}" \
+            --base main \
+            --head "$BRANCH" \
+            --title "[hy3-eval] source: ${SLUG} (#${ISSUE})" \
+            --body-file /tmp/hy3-eval-pr-body.md \
+            --label source-note \
+            --label miner-eval)
+          PR_NUM=$(echo "$PR_NUM" | grep -Eo '[0-9]+$')
+          echo "Opened missing eval PR #$PR_NUM for branch $BRANCH"
+
       - name: Dispatch Assayer for eval PR
         if: success()
         env:
@@ -156,8 +204,8 @@ jobs:
         run: |
           PR_NUM=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number // empty')
           if [ -z "$PR_NUM" ]; then
-            echo "No eval PR found for branch $BRANCH"
-            exit 0
+            echo "::error::No eval PR found for branch $BRANCH after ensure step."
+            exit 1
           fi
           echo "Dispatching Assayer for Hy3 eval PR #$PR_NUM"
           gh workflow run assayer.yml \
