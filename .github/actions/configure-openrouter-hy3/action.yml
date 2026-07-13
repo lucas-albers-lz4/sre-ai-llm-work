@@ -1,0 +1,38 @@
+name: Configure OpenRouter Hy3 for Claude Code
+description: >
+  Point Claude Code / claude-code-action at OpenRouter's Anthropic-compatible
+  API with Tencent Hy3 (free). Requires OPENROUTER_API_KEY secret.
+
+inputs:
+  api_key:
+    description: OpenRouter API key (secrets.OPENROUTER_API_KEY)
+    required: true
+  model:
+    description: OpenRouter model slug (default tencent/hy3:free)
+    required: false
+    default: tencent/hy3:free
+
+runs:
+  using: composite
+  steps:
+    - name: Export OpenRouter Hy3 Anthropic-compatible env
+      shell: bash
+      env:
+        OPENROUTER_API_KEY: ${{ inputs.api_key }}
+        HY3_MODEL: ${{ inputs.model }}
+      run: |
+        if [ -z "${OPENROUTER_API_KEY}" ]; then
+          echo "::error::OPENROUTER_API_KEY secret is empty"
+          exit 1
+        fi
+        {
+          echo "ANTHROPIC_BASE_URL=https://openrouter.ai/api"
+          echo "ANTHROPIC_AUTH_TOKEN=${OPENROUTER_API_KEY}"
+          echo "ANTHROPIC_API_KEY="
+          echo "ANTHROPIC_DEFAULT_HAIKU_MODEL=${HY3_MODEL}"
+          echo "ANTHROPIC_DEFAULT_SONNET_MODEL=${HY3_MODEL}"
+          echo "ANTHROPIC_DEFAULT_OPUS_MODEL=${HY3_MODEL}"
+          echo "CLAUDE_CODE_SUBAGENT_MODEL=${HY3_MODEL}"
+          echo "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1"
+        } >> "$GITHUB_ENV"
+        echo "Configured Claude Code → OpenRouter (${HY3_MODEL})"

@@ -1,0 +1,165 @@
+name: Miner Hy3 Eval
+
+# Golden-set replay: re-mine a closed triaged issue with Tencent Hy3 (free)
+# on OpenRouter. Opens an eval PR only — does NOT merge or mutate the
+# source issue (no mining-complete / mining-queued changes).
+#
+# Compare Hy3 PRs against merged DeepSeek baseline notes + Assayer verdicts.
+# See docs/HY3-MINER-EVAL.md
+
+on:
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: 'Source issue number to re-mine (e.g. 1–4 for golden set)'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  issues: read
+  pull-requests: write
+  id-token: write
+
+concurrency:
+  group: miner-hy3-eval-${{ inputs.issue_number }}
+  cancel-in-progress: false
+
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PROJECT_PAT }}
+          fetch-depth: 0
+
+      - name: Configure OpenRouter Hy3 for Claude Code
+        uses: ./.github/actions/configure-openrouter-hy3
+        with:
+          api_key: ${{ secrets.OPENROUTER_API_KEY }}
+
+      - name: Ensure miner-eval label exists
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh label create "miner-eval" \
+            --repo "${{ github.repository }}" \
+            --description "Hy3 Miner eval PR — do not merge" \
+            --color "5319e7" \
+            2>/dev/null || true
+
+      - name: Verify source issue exists
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE: ${{ inputs.issue_number }}
+        run: |
+          gh issue view "$ISSUE" --repo "${{ github.repository }}" \
+            --json number,title,state,labels \
+            --jq '{number,title,state,labels:[.labels[].name]}'
+
+      - name: Configure git identity for Miner commits
+        run: |
+          git config user.name  "hitchhiker-miner[bot]"
+          git config user.email "hitchhiker-miner@users.noreply.github.com"
+
+      - name: Load Miner role into APPEND_SYSTEM_PROMPT
+        run: |
+          {
+            echo 'APPEND_SYSTEM_PROMPT<<APPEND_EOF'
+            cat agents/MINER.md
+            echo 'APPEND_EOF'
+          } >> "$GITHUB_ENV"
+
+      - name: Run Hy3 Miner eval for issue #${{ inputs.issue_number }}
+        uses: anthropics/claude-code-action@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          anthropic_api_key: ${{ secrets.OPENROUTER_API_KEY }}
+          show_full_output: true
+          prompt: |
+            You are the Miner agent running a **Hy3 model evaluation** for the
+            hitchhiker-guide repo. Read `agents/MINER.md` first — follow it
+            precisely; the Assayer will review this PR the same as production.
+
+            Your task: produce a source-note PR for issue
+            #${{ inputs.issue_number }} in ${{ github.repository }}.
+
+            ## EVAL MODE — mandatory overrides
+
+            This is a quality comparison run against an existing DeepSeek note.
+            You MUST follow these eval rules in addition to MINER.md:
+
+            1. **Do NOT modify the source issue** — no comments, no label
+               changes, no close/reopen on issue #${{ inputs.issue_number }}.
+            2. **Do NOT edit existing files** under `source-notes/` except to
+               add ONE new eval file (see filename rule below).
+            3. **Filename**: `<normal-slug>-hy3-eval.md` (e.g. if the note would
+               be `blog-foo-bar.md`, write `blog-foo-bar-hy3-eval.md`).
+            4. **Frontmatter**: set `issue: "#${{ inputs.issue_number }}-hy3-eval"`
+               (not the bare issue number).
+            5. **Branch**: `miner/hy3-eval-issue-${{ inputs.issue_number }}-r${{ github.run_id }}`
+            6. **PR title** must start with `[hy3-eval] ` then the normal
+               `source: <slug> (#${{ inputs.issue_number }})` pattern.
+            7. **PR labels**: `source-note` AND `miner-eval` (both required).
+            8. **PR body** must include:
+               "Hy3 Miner eval replay for golden issue #${{ inputs.issue_number }}.
+               Do not merge — compare against the merged DeepSeek baseline note."
+
+            ## Read inputs (same as production Miner)
+
+            a. `agents/MINER.md`
+            b. `source-notes/.template-general.md`
+            c. Issue + Prospector comment:
+                  gh issue view ${{ inputs.issue_number }} \
+                    --repo ${{ github.repository }} \
+                    --json number,title,body,labels,author,url,comments
+            d. Triage type from labels (`triaged:text` / `triaged:failure`).
+            e. Existing `source-notes/` for cross-references (including the
+               merged DeepSeek baseline for this URL — cite it in
+               Cross-References but do not edit it).
+
+            ## Extract, write, PR
+
+            Follow MINER.md extraction steps. Do NOT edit `registry/sources.json`.
+
+            Branch and PR:
+
+              git checkout -b miner/hy3-eval-issue-${{ inputs.issue_number }}-r${{ github.run_id }}
+              git add source-notes/*-hy3-eval.md
+              git commit -m "source: <slug>-hy3-eval (#${{ inputs.issue_number }})"
+              git push -u origin miner/hy3-eval-issue-${{ inputs.issue_number }}-r${{ github.run_id }}
+
+              gh pr create \
+                --repo ${{ github.repository }} \
+                --base main \
+                --head miner/hy3-eval-issue-${{ inputs.issue_number }}-r${{ github.run_id }} \
+                --title "[hy3-eval] source: <slug> (#${{ inputs.issue_number }})" \
+                --body-file /tmp/hy3-eval-pr-body.md \
+                --label source-note \
+                --label miner-eval
+
+            Write /tmp/hy3-eval-pr-body.md via Bash before gh pr create.
+
+            If the source is unreadable, exit WITHOUT opening a PR and WITHOUT
+            touching the source issue. Write a one-line summary to stdout only.
+          claude_args: |
+            --model tencent/hy3:free
+            --max-turns 60
+            --allowedTools "Bash(*)" "Read" "Write" "Edit" "Glob" "Grep" "WebFetch"
+
+      - name: Dispatch Assayer for eval PR
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.PROJECT_PAT }}
+          BRANCH: miner/hy3-eval-issue-${{ inputs.issue_number }}-r${{ github.run_id }}
+        run: |
+          PR_NUM=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number // empty')
+          if [ -z "$PR_NUM" ]; then
+            echo "No eval PR found for branch $BRANCH"
+            exit 0
+          fi
+          echo "Dispatching Assayer for Hy3 eval PR #$PR_NUM"
+          gh workflow run assayer.yml \
+            --repo "${{ github.repository }}" \
+            --field pr_number="$PR_NUM"

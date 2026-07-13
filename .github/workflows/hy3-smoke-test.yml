@@ -1,0 +1,36 @@
+name: Hy3 OpenRouter Smoke Test
+
+# Verifies claude-code-action + OpenRouter + tencent/hy3:free before Miner eval.
+# Same auth pattern as miner-hy3-eval.yml.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure OpenRouter Hy3 for Claude Code
+        uses: ./.github/actions/configure-openrouter-hy3
+        with:
+          api_key: ${{ secrets.OPENROUTER_API_KEY }}
+
+      - name: Run Hy3 with a trivial prompt
+        uses: anthropics/claude-code-action@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          anthropic_api_key: ${{ secrets.OPENROUTER_API_KEY }}
+          prompt: |
+            Print exactly one line: "hy3 smoke test ok".
+            Do not edit any files. Do not run any tools beyond what
+            is needed to print that line. Then exit.
+          claude_args: |
+            --model tencent/hy3:free
+            --max-turns 2
+            --allowedTools "Bash(*)"
