@@ -47,13 +47,14 @@ The guide lives in [`guide/`](guide/):
 - [**Sticky notes**](.github/ISSUE_TEMPLATE/sticky-notes.yml)
 
 See [SUBMISSION.md](SUBMISSION.md) and [`agents/README.md`](agents/README.md).
+Local agent context: [`AGENTS.md`](AGENTS.md) / [`CLAUDE.md`](CLAUDE.md).
 
 ---
 
 ## MVP / cost posture
 
-Bootstrap uses DeepSeek V4 Flash (triage) and V4 Pro (Miner/Assayer/Smith) via
-Claude Code's Anthropic-compatible DeepSeek endpoint. See
+Triage uses DeepSeek Flash; Miner uses OpenRouter Hy3 free (trial through
+2026-07-21); Assayer/Smith use DeepSeek Pro. See
 [`docs/MODEL-ROUTING.md`](docs/MODEL-ROUTING.md) and
 [`docs/MVP-SETUP.md`](docs/MVP-SETUP.md).
 

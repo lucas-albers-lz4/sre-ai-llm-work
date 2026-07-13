@@ -1,0 +1,16 @@
+---
+description: Guide chapter editing and trust tags
+globs: guide/**
+alwaysApply: false
+---
+
+# Guide chapters
+
+- Smith owns synthesis from `source-notes/` into `guide/0*.md`.
+- Every non-editorial claim should cite sources and use trust tags:
+  `[settled]`, `[emerging]`, `[anecdotal]`, `[editorial]`, `[stale]`.
+- Prefer incremental, citation-backed updates over rewriting whole chapters.
+- Do not invent quotes or metrics — pull from merged source notes.
+- `guide/SOURCES.md` is the master citation index; keep it consistent when
+  adding material.
+- Local edits: open a `guide-update` PR mindset; Assayer gates merge in CI.

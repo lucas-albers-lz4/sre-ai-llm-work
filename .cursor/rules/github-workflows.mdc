@@ -1,0 +1,22 @@
+---
+description: GitHub Actions agent workflow conventions
+globs: .github/workflows/**,.github/actions/**,.github/scripts/**
+alwaysApply: false
+---
+
+# Workflows & actions
+
+- Agent jobs that `git push` or `gh pr create` must use
+  `github_token: ${{ secrets.PROJECT_PAT }}` on `claude-code-action` (and
+  checkout `token: PROJECT_PAT`). `GITHUB_TOKEN` alone often fails to open
+  PRs or trigger downstream workflows.
+- Route models via composite actions:
+  - DeepSeek → `.github/actions/configure-deepseek`
+  - Hy3 → `.github/actions/configure-openrouter-hy3`
+- Pass the matching secret as `anthropic_api_key` on `claude-code-action`.
+- Assayer is also dispatched explicitly after Miner (`gh workflow run assayer.yml`)
+  because `pull_request` webhooks are rate-limited.
+- Board field updates: `.github/scripts/update-project-field.sh` (project #3 IDs).
+  Must stay best-effort (`exit 0` on failure).
+- Miner branch pattern: `miner/issue-<N>-r<run_id>` (eval: `miner/hy3-eval-issue-…`).
+- Prefer editing prompts in `agents/*.md` over duplicating long rubrics inline.

@@ -1,0 +1,37 @@
+---
+description: Core conventions for the SRE AI LLM Work fork
+alwaysApply: true
+---
+
+# SRE AI LLM Work
+
+Retargeted hitchhiker pipeline → **SRE / LLM-ops** handbook. Canonical agent
+context: [`AGENTS.md`](AGENTS.md).
+
+## Remotes
+
+- **`origin`** = `lucas-albers-lz4/sre-ai-llm-work` (all push/pull)
+- **`upstream`** = steveash hitchhiker (fetch only — never push)
+
+## Ownership
+
+| Path | Owner | Local agents |
+|------|-------|----------------|
+| `source-notes/` | Miner | OK to draft/fix notes + PRs |
+| `guide/` | Smith | Only if user asks for guide synthesis |
+| `registry/sources.json` | Generated | Never hand-edit |
+| `agents/*.md` | Humans | Edit carefully; CI loads these as prompts |
+| `.github/workflows/` | Humans | Prefer `PROJECT_PAT` for push/PR jobs |
+
+## MVP models
+
+- Triage/crawl: DeepSeek Flash
+- Miner: OpenRouter `tencent/hy3:free` until **2026-07-21**
+- Assayer/Smith: DeepSeek Pro
+- Details: `docs/MODEL-ROUTING.md`
+
+## Do not
+
+- Merge `miner-eval` / `*-hy3-eval.md` into the corpus
+- File secrets in git; use repo Actions secrets
+- Assume Claude GitHub App OIDC — this fork bypasses it with API keys + PAT

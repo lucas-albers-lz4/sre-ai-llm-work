@@ -1,0 +1,19 @@
+---
+description: Source-note extraction and template conventions
+globs: source-notes/**
+alwaysApply: false
+---
+
+# Source notes
+
+- Use `source-notes/.template-general.md` (or failure/practitioner templates).
+- Filename: `blog-…`, `docs-…`, `discussion-…`, `paper-…`, `failure-…`.
+- Front-matter must include real `source_url`, `issue: "#N"`, dates, and
+  `confidence_overall` (not template placeholders).
+- Claims need Evidence, Confidence, Quote (verbatim or explicit “no quote”),
+  and Our assessment. Aim for depth Assayer will accept (typically 5–15+).
+- Cross-References are required; cite related notes, do not silently contradict.
+- Do **not** edit `registry/sources.json` in the same change — registry rebuilds
+  post-merge.
+- Eval replays only: `*-hy3-eval.md` + `issue: "#N-hy3-eval"` — never merge as
+  production corpus.

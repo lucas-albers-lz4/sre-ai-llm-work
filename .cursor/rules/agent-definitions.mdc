@@ -1,0 +1,16 @@
+---
+description: Agent role definition files loaded by CI
+globs: agents/**
+alwaysApply: false
+---
+
+# Agent definitions
+
+- These markdown files are **production prompts** loaded into
+  `APPEND_SYSTEM_PROMPT` / workflow prompts. Edit for clarity and correctness.
+- Preserve ownership boundaries from `agents/README.md` (who may touch what).
+- Keep Assayer standards aligned with what Miner/Smith are told to produce.
+- Model/routing changes belong in workflows + `docs/MODEL-ROUTING.md`, not
+  buried only inside role prose.
+- After material rubric changes, plan a small golden-set or smoke run before
+  relying on the next cron batch.
