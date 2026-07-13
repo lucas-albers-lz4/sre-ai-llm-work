@@ -112,6 +112,20 @@
       "source_type": "blog-post",
       "description": "Meta Engineering — open-source AI infra scaling (Llama, PyTorch, clusters)",
       "max_per_run": 1
+    },
+    {
+      "id": "sentry",
+      "url": "https://blog.sentry.io/feed.xml",
+      "source_type": "blog-post",
+      "description": "Sentry — agent traces, evals, OpenTelemetry; keep max_per_run low (large feed)",
+      "max_per_run": 1
+    },
+    {
+      "id": "slack-engineering",
+      "url": "https://slack.engineering/feed/",
+      "source_type": "blog-post",
+      "description": "Slack Engineering — production AI and agentic systems at scale",
+      "max_per_run": 1
     }
   ]
 }
