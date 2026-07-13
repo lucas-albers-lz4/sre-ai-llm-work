@@ -1,5 +1,5 @@
 {
-  "_comment": "Site-crawl seeds for SRE AI / LLM ops docs. Haiku/Flash screens by scope hint.",
+  "_comment": "Site-crawl seeds for SRE AI / LLM ops docs. DeepSeek Flash screens by scope hint.",
   "seeds": [
     {
       "id": "sre-workbook",

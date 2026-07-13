@@ -4,7 +4,7 @@ Site-crawl scanner: seed-based documentation site discovery.
 
 Given a curated list of "seed" URLs (documentation sites, knowledge bases),
 this scanner discovers pages via sitemap.xml or nav-link extraction, screens
-them for relevance using a fast Haiku LLM call, and files GitHub issues for
+them for relevance using a fast DeepSeek Flash LLM call, and files GitHub issues for
 relevant pages to feed into the existing source pipeline.
 
 Per-seed crawl state lives in `registry/site-crawl-state.json` so the
@@ -57,7 +57,7 @@ INTER_REQUEST_SLEEP = 1  # seconds between requests (be polite)
 # Max issues to file per run across all seeds.
 MAX_ISSUES_PER_RUN = 20
 
-# Max new URLs to screen per seed per run (keeps Haiku costs bounded).
+# Max new URLs to screen per seed per run (keeps Flash API costs bounded).
 MAX_SCREEN_PER_SEED = 50
 
 
@@ -197,8 +197,8 @@ def discover_from_nav(seed_url: str) -> list[str]:
     return sorted(urls)
 
 
-def screen_urls_with_haiku(urls: list[str], seed: dict) -> dict[str, str]:
-    """Batch-screen URLs for relevance using Haiku.
+def screen_urls_with_flash(urls: list[str], seed: dict) -> dict[str, str]:
+    """Batch-screen URLs for relevance using DeepSeek Flash.
 
     Returns {url: "relevant"|"rejected"} with a one-line reason for each.
     """
@@ -267,7 +267,7 @@ When in doubt, mark as RELEVANT — the Prospector will do the deep evaluation l
             continue
         url = parts[0]
         verdict = parts[1].upper()
-        # Match URL back to our list (Haiku might slightly mangle URLs)
+        # Match URL back to our list (model might slightly mangle URLs)
         matched_url = None
         for u in urls:
             if u in url or url in u:
@@ -286,7 +286,7 @@ When in doubt, mark as RELEVANT — the Prospector will do the deep evaluation l
 
     relevant = sum(1 for v in verdicts.values() if v == "pending")
     rejected = sum(1 for v in verdicts.values() if v == "rejected")
-    print(f"  Haiku screening: {relevant} relevant, {rejected} rejected")
+    print(f"  Flash screening: {relevant} relevant, {rejected} rejected")
 
     return verdicts
 
@@ -319,7 +319,7 @@ Auto-discovered from site-crawl seed `{seed['id']}`.
 - **Scope**: {seed.get('scope', 'none specified')}
 
 This page was discovered via sitemap/nav-link crawling and passed a
-Haiku relevance screen. The Prospector still needs to evaluate novelty
+DeepSeek Flash relevance screen. The Prospector still needs to evaluate novelty
 and chapter relevance.
 
 ### Where might this be relevant?
@@ -386,12 +386,12 @@ def scan_seed(seed: dict, state: dict, dry_run: bool = False) -> tuple[int, int,
     if len(new_urls) > MAX_SCREEN_PER_SEED:
         print(f"  Capping screening at {MAX_SCREEN_PER_SEED}; remaining {len(new_urls) - MAX_SCREEN_PER_SEED} next run")
 
-    # Phase 2: Haiku screening
+    # Phase 2: DeepSeek Flash screening
     if not dry_run:
-        verdicts = screen_urls_with_haiku(to_screen, seed)
+        verdicts = screen_urls_with_flash(to_screen, seed)
     else:
         verdicts = {url: "pending" for url in to_screen}
-        print(f"  [DRY-RUN] skipping Haiku screening, marking all as pending")
+        print(f"  [DRY-RUN] skipping Flash screening, marking all as pending")
 
     # Update state with screening results
     for url, verdict in verdicts.items():

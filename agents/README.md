@@ -53,8 +53,8 @@ The Prospector has four triage outcomes:
 
 ### Scribe Model
 
-The Scribe runs as a GitHub Actions workflow using Haiku (cheap parsing task).
-It has no agent definition file — the prompt is inline in
+The Scribe runs as a GitHub Actions workflow using DeepSeek Flash (cheap
+parsing). It has no agent definition file — the prompt is inline in
 `.github/workflows/scribe.yml`.
 
 ## Key Principle: Separation of Concerns
@@ -72,20 +72,25 @@ pipeline does the rest.
 
 ### Trigger and model per workflow
 
+Canonical map: [`docs/MODEL-ROUTING.md`](../docs/MODEL-ROUTING.md).
+Upstream docs said Haiku/Sonnet/Opus; this fork routes Claude Code to
+**DeepSeek** (and Miner → OpenRouter Hy3).
+
 | Workflow file | Agent | Trigger | Model | Notes |
 |---------------|-------|---------|-------|-------|
-| `daily-scan.yml` | Site/feed scanners | Daily cron 06:00 UTC + workflow_dispatch | Haiku (site crawl synthesis) | Uses `PROJECT_PAT` so the issues it files trigger downstream `source-pipeline.yml` |
-| `source-pipeline.yml` (pre-screen job) | Pre-screen | `issues:[opened, labeled]` with `new-source` / `source-submission` / `new-repo` / `new-failure` | Haiku | ~$0.01/issue. Rejects obvious bad submissions (no URL, paywall, marketing, dupes) before the Prospector |
-| `source-pipeline.yml` (prospector job) | Prospector | After pre-screen passes (job dependency) | Haiku | Triages into `triaged:text` / `triaged:repo` / `triaged:failure` / `feed-candidate` / `rejected`. Applies `mining-queued` for text and failure triages. Opens a feed-candidate PR if the source is a feed |
-| `miner-batch.yml` | Miner | Hourly cron at `:17` + workflow_dispatch | Sonnet | Picks 2 oldest priority-sorted (high → medium → unset → low) `mining-queued` issues. Branch is `miner/issue-N-r<run_id>` (the `-rXXX` suffix avoids per-branch dispatch suppression on retries) |
-| `assayer.yml` | Assayer review | `pull_request:[opened, synchronize, reopened, labeled]` with `source-note` / `guide-update` / `feed-candidate` | Sonnet | Auto-merges `source-note` PRs on APPROVE. On REQUEST CHANGES for `guide-update` PRs, runs the auto-rework Smith one time (gated by `rework-attempted` label) |
-| `assayer.yml` (auto-rework Smith step) | Smith | Inside Assayer when guide-update PR fails review and `rework-attempted` is absent | Opus | Pushes a fix commit to the PR branch using `PROJECT_PAT` so the resulting `synchronize` event re-triggers Assayer |
-| `smith-on-source-merge.yml` | Smith (batch synthesis) | Twice-weekly cron — Sat 15:17 UTC and Thu 00:00 UTC + workflow_dispatch | Opus | Reads ALL source-note changes since the last run (tracked via the `smith-last-run` git tag), runs diff-aware synthesis on the affected chapters, opens a fresh `smith/source-merge-<run_id>` branch + `guide-update` PR if any chapter material changes. The cadence lets Miner output accumulate between runs and gives review time on the resulting guide-update PRs |
-| `smith-rework.yml` | Smith | `issue_comment` or `pull_request_review` containing `/rework` or `/rebase` on a `guide-update` PR (owner/collaborator/member only) | Opus | `/rework` = incremental fix on the existing branch. `/rebase` = reset branch to `main` and re-synthesize from scratch. Either resets the `rework-attempted` label so the auto-cycle can run one more time |
-| `contradiction-resolver.yml` (assess job) | Assayer (contradiction mode) | `issues:[labeled]` with `contradiction` | Sonnet | Reads both source notes, weighs evidence, posts the proposed verdict comment with structured fields. Adds `assessment-complete` label |
-| `contradiction-resolver.yml` (resolve job) | Assayer (commit phase) | `issues:[labeled]` with `resolution-approved` (added by a human after reviewing the assessment) | Haiku | Mechanical edit to `CONTRADICTIONS.md`. Opens a `guide-update` PR for the entry |
-| `scribe.yml` | Scribe | `issues:[labeled]` with `sticky-notes` | Haiku | Parses the issue into structured `sticky-notes/chNN-*.md` entries. Inline prompt — no agent definition file |
-| `gardener.yml` | Gardener | Weekly cron Sun 09:00 UTC + workflow_dispatch | Python (no LLM) | Tags source notes with `last_checked > 90 days` as stale; demotes confidence grades in chapters that cite them; opens a `guide-update` PR labeled `gardener` if anything changes |
+| `daily-scan.yml` | Site/feed scanners | Daily cron 06:00 UTC + workflow_dispatch | DeepSeek Flash (`scan-sites.py`) | Uses `PROJECT_PAT` so filed issues trigger `source-pipeline.yml` |
+| `source-pipeline.yml` (pre-screen job) | Pre-screen | `issues:[opened, labeled]` with `new-source` / `source-submission` / `new-repo` / `new-failure` | DeepSeek Flash | Rejects obvious bad submissions (no URL, paywall, marketing, dupes) before the Prospector |
+| `source-pipeline.yml` (prospector job) | Prospector | After pre-screen passes (job dependency) | DeepSeek Flash | Triages into `triaged:text` / `triaged:repo` / `triaged:failure` / `feed-candidate` / `rejected`. Applies `mining-queued` for text and failure triages. Opens a feed-candidate PR if the source is a feed |
+| `miner-batch.yml` | Miner | Hourly cron at `:17` + workflow_dispatch | OpenRouter `tencent/hy3:free` (→ 2026-07-21) | Picks 2 oldest priority-sorted (high → medium → unset → low) `mining-queued` issues. Branch is `miner/issue-N-r<run_id>` |
+| `assayer.yml` | Assayer review | `pull_request:[opened, synchronize, reopened, labeled]` with `source-note` / `guide-update` / `feed-candidate` | DeepSeek Pro | Auto-merges `source-note` PRs on APPROVE. On REQUEST CHANGES for `guide-update` PRs, runs the auto-rework Smith one time (gated by `rework-attempted` label) |
+| `assayer.yml` (auto-rework Smith step) | Smith | Inside Assayer when guide-update PR fails review and `rework-attempted` is absent | DeepSeek Pro | Pushes a fix commit to the PR branch using `PROJECT_PAT` so the resulting `synchronize` event re-triggers Assayer |
+| `smith-on-source-merge.yml` | Smith (batch synthesis) | Twice-weekly cron — Sat 15:17 UTC and Thu 00:00 UTC + workflow_dispatch | DeepSeek Pro | Diff-aware synthesis since `smith-last-run` tag; opens `guide-update` PR when chapters change |
+| `smith-rework.yml` | Smith | `issue_comment` or `pull_request_review` containing `/rework` or `/rebase` on a `guide-update` PR (owner/collaborator/member only) | DeepSeek Pro | `/rework` = incremental fix; `/rebase` = reset to `main` and re-synthesize |
+| `contradiction-resolver.yml` (assess job) | Assayer (contradiction mode) | `issues:[labeled]` with `contradiction` | DeepSeek Pro | Weighs evidence, posts proposed verdict; adds `assessment-complete` |
+| `contradiction-resolver.yml` (resolve job) | Assayer (commit phase) | `issues:[labeled]` with `resolution-approved` | DeepSeek Pro | Mechanical edit to `CONTRADICTIONS.md`; opens `guide-update` PR |
+| `scribe.yml` | Scribe | `issues:[labeled]` with `sticky-notes` | DeepSeek Flash | Parses into `sticky-notes/chNN-*.md`. Inline prompt — no agent definition file |
+| `herald-weekly.yml` | Herald | Weekly cron Sun 16:00 UTC + workflow_dispatch | DeepSeek Pro | Changelog / status write-up |
+| `gardener.yml` | Gardener | Weekly cron Sun 09:00 UTC + workflow_dispatch | Python (no LLM) | Staleness patrol; opens `guide-update` PR labeled `gardener` if anything changes |
 
 ## Failure modes and self-healing
 

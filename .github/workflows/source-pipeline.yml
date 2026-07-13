@@ -2,7 +2,7 @@ name: Source Processing Pipeline
 
 # Pipeline 1: source intake.
 #
-#   tier 1 (pre-screen)  — fast Haiku pre-filter (~$0.01/issue). Rejects
+#   tier 1 (pre-screen)  — fast DeepSeek Flash pre-filter. Rejects
 #                          obviously bad submissions (no URL, homepage,
 #                          pre-Dec-2025, marketing, dupes) before the
 #                          expensive Prospector runs.
@@ -31,7 +31,7 @@ permissions:
 
 jobs:
   pre-screen:
-    # Tier 1: Fast Haiku pre-filter (~$0.01/issue). Cheaply rejects
+    # Tier 1: Fast DeepSeek Flash pre-filter. Cheaply rejects
     # obviously bad submissions before the expensive Prospector (~$0.26).
     if: >-
       github.event.action == 'opened' ||
@@ -60,11 +60,11 @@ jobs:
         run: |
           gh label create "pre-screen:pass" \
             --repo "${{ github.repository }}" \
-            --description "Passed Tier 1 Haiku pre-screening" \
+            --description "Passed Tier 1 DeepSeek Flash pre-screening" \
             --color "0e8a16" \
             2>/dev/null || true
 
-      - name: Run Haiku pre-screen
+      - name: Run DeepSeek Flash pre-screen
         uses: anthropics/claude-code-action@v1
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
