@@ -34,6 +34,9 @@ Each run opens a PR labeled `miner-eval` + `source-note`. **Do not merge** eval 
 - **Switch Miner to Hy3** until 2026-07-21 if ≥3/4 APPROVE on first pass, 0 quote failures.
 - **Stay on DeepSeek Pro** if repeated REJECT / quote fabrication.
 
-**Recommendation (2026-07-13):** Criteria met — switch `miner-batch.yml` to OpenRouter Hy3 (`tencent/hy3:free`) for production Miner runs through 2026-07-21, then re-evaluate cost/quality vs DeepSeek Pro.
+**Decision (2026-07-13):** Criteria met — **switched** `miner-batch.yml` to
+OpenRouter Hy3 (`tencent/hy3:free`) for production Miner runs through
+**2026-07-21**. Re-evaluate then vs DeepSeek Pro.
 
-Eval PRs can be closed after scoring; delete `*-hy3-eval.md` files from main if any were merged by mistake (they should not be).
+Eval PRs #21–#24 were accidentally merged; remove `*-hy3-eval.md` from `main`
+(corpus should keep DeepSeek baselines only).

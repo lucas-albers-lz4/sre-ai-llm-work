@@ -16,7 +16,8 @@ ANTHROPIC_AUTH_TOKEN / ANTHROPIC_API_KEY = DEEPSEEK_API_KEY
 | Worker | Model | Notes |
 |--------|-------|-------|
 | Pre-screen / Prospector / Scribe / Site-crawl | `deepseek-v4-flash` | Volume / cheap triage |
-| Miner / Assayer / Smith / Herald / Contradiction | `deepseek-v4-pro[1m]` | Heavier extraction & review |
+| **Miner** | `tencent/hy3:free` (OpenRouter) | Trial through **2026-07-21** — golden-set 4/4 APPROVE; see `docs/HY3-MINER-EVAL.md` |
+| Assayer / Smith / Herald / Contradiction | `deepseek-v4-pro[1m]` | Heavier review & synthesis |
 
 Site-crawl (`scripts/scan-sites.py`) calls the same Anthropic-compatible
 Messages API with `DEEPSEEK_API_KEY` + `SITE_CRAWL_MODEL=deepseek-v4-flash`.
@@ -26,17 +27,18 @@ Messages API with `DEEPSEEK_API_KEY` + `SITE_CRAWL_MODEL=deepseek-v4-flash`.
 | Secret | Purpose |
 |--------|---------|
 | `DEEPSEEK_API_KEY` | **Required** — all agent workflows + site-crawl screener |
-| `OPENROUTER_API_KEY` | Reserved (Hy3 / other OpenRouter routes). Not used by Claude Code yet — OpenRouter's Claude Code skin is only guaranteed for Anthropic 1P models |
+| `OPENROUTER_API_KEY` | **Required for Miner** — OpenRouter Hy3 (`tencent/hy3:free`) via `.github/actions/configure-openrouter-hy3` |
 | `PROJECT_PAT` | GitHub Projects + issue/PR events that must trigger workflows |
 | `ANTHROPIC_API_KEY` / `CLAUDE_CODE_OAUTH_TOKEN` | Optional Claude ceiling later (Assayer/Smith quality) |
 
 ## Hy3 note
 
-MODEL plan originally preferred Miner → `tencent/hy3:free` on OpenRouter
-(until 2026-07-21). That route is **not wired** through `claude-code-action`
-because OpenRouter documents Claude Code as Anthropic-1P-only for reliability.
-Miner uses DeepSeek V4 Pro until we add a non-Claude-Code runner or confirm Hy3
-works end-to-end.
+Miner production path is **OpenRouter Hy3 free** (`tencent/hy3:free`) through
+**2026-07-21**, after golden-set replay scored 4/4 Assayer APPROVE with 0 quote
+failures (`docs/HY3-MINER-EVAL.md`). Assayer and other heavy workers stay on
+DeepSeek V4 Pro. Re-evaluate cost/quality on or before 2026-07-21 and either
+keep Hy3 or flip `miner-batch.yml` back to `configure-deepseek` +
+`deepseek-v4-pro[1m]`.
 
 ## Smoke test
 
@@ -45,8 +47,8 @@ It should print `hitchhiker smoke test ok` via DeepSeek.
 
 ## Cost targets (MVP)
 
-- Bootstrap (~50–100 notes) with DeepSeek Flash/Pro: treat as the active path
-- Hy3 free Miner (if later wired): roughly **$100–200** cash for bootstrap
+- Bootstrap (~50–100 notes): DeepSeek Flash (triage) + Hy3 free Miner + DeepSeek Pro Assayer/Smith
+- Hy3 free Miner trial (through 2026-07-21): lower Miner cash cost; watch OpenRouter free-tier rate limits
 - Without Hy3 free: roughly **$200–500**
 - Steady hybrid month after MVP: roughly **$50–150**
 

@@ -139,10 +139,13 @@ jobs:
           token: ${{ secrets.PROJECT_PAT }}
           fetch-depth: 0
 
-      - name: Configure DeepSeek for Claude Code
-        uses: ./.github/actions/configure-deepseek
+      - name: Configure OpenRouter Hy3 for Claude Code
+        # Production Miner on Hy3 free through 2026-07-21 (golden-set eval
+        # 4/4 Assayer APPROVE). Flip back to configure-deepseek +
+        # deepseek-v4-pro[1m] after re-eval. See docs/HY3-MINER-EVAL.md.
+        uses: ./.github/actions/configure-openrouter-hy3
         with:
-          api_key: ${{ secrets.DEEPSEEK_API_KEY }}
+          api_key: ${{ secrets.OPENROUTER_API_KEY }}
 
       - name: Configure git identity for Miner commits
         run: |
@@ -170,7 +173,7 @@ jobs:
           # the App and the PR doesn't trigger downstream workflows.
           # See action.yml: inputs.github_token → env.OVERRIDE_GITHUB_TOKEN.
           github_token: ${{ secrets.PROJECT_PAT }}
-          anthropic_api_key: ${{ secrets.DEEPSEEK_API_KEY }}
+          anthropic_api_key: ${{ secrets.OPENROUTER_API_KEY }}
           show_full_output: true
           # The issue number and repo slug are GitHub-controlled and safe
           # to interpolate. The issue title and body (which contain the
@@ -308,7 +311,7 @@ jobs:
                   --comment "Auto-closed: source unreadable (miner-blocked). Reopen if it becomes accessible."
               Exit WITHOUT opening a PR.
           claude_args: |
-            --model "deepseek-v4-pro[1m]"
+            --model tencent/hy3:free
             --max-turns 60
             --allowedTools "Bash(*)" "Read" "Write" "Edit" "Glob" "Grep" "WebFetch"
 
