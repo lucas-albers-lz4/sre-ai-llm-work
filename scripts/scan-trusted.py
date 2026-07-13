@@ -71,11 +71,19 @@ def load_feeds() -> dict:
 
 
 def load_state() -> dict:
-    """Load per-feed scanning state. Empty if file does not exist yet."""
+    """Load per-feed scanning state. Empty if file does not exist yet.
+
+    Always normalize required keys — a state file that only has `last_scan`
+    (or is otherwise partial) must not KeyError on `feeds` mid-scan.
+    """
     if STATE_PATH.exists():
         with open(STATE_PATH) as f:
-            return json.load(f)
-    return {"feeds": {}, "last_scan": None}
+            state = json.load(f)
+    else:
+        state = {}
+    state.setdefault("feeds", {})
+    state.setdefault("last_scan", None)
+    return state
 
 
 def save_state(state: dict):
