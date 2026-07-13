@@ -60,9 +60,9 @@ issue: "#13"
   QueryStore, LogJoiner, ClickMap, QueryMap), and graceful degradation
   (duplicate shards, Paxos replication, stale-data fallback).
 - **Confidence**: settled
-- **Quote**: "NALSD describes an iterative style of system design and
-  implementation that produces robust, scalable designs with low operational
-  costs."
+- **Quote**: "By following an iterative style of system design and
+  implementation, we arrive at robust and scalable designs with low operational
+  costs. We call this style Non-Abstract Large System Design (NALSD)."
 - **Our assessment**: This is a canonical definition from the definitive
   source. The three elements (capacity planning, component isolation, graceful
   degradation) form a coherent framework that generalizes beyond Google. The
@@ -124,14 +124,17 @@ issue: "#13"
   with click volume at ~2% of query volume; LogJoiner throughput is bounded by
   click rate). The chapter explicitly states this separation criterion.
 - **Confidence**: settled
-- **Quote**: "We separated components based on how we expected each to grow,
-  enabling us to scale each component independently while removing dependencies
-  on single hardware or software instances."
+- **Quote**: "Throughout this process, we separated software components based
+  on how we expected the system to grow." "This strategy allowed us to scale
+  different parts of the system independently" and "removed dependencies on
+  single pieces of hardware or single instances of software, thereby producing
+  a more reliable system."
 - **Our assessment**: "Separate by growth axis" is a concise, actionable design
   heuristic. It's more specific than "separate concerns" — it tells the
-  designer *which* dimension to separate on. This principle generalizes well
-  beyond the AdWords example and is directly applicable to any system design
-  exercise.
+  designer *which* dimension to separate on. The independent scaling and
+  removal of single-hardware/software dependencies are the concrete benefits
+  the source identifies. This principle generalizes well beyond the AdWords
+  example and is directly applicable to any system design exercise.
 
 ### Claim 6: NALSD is a learned skill requiring regular practice, not a one-time exercise — Google's experience shows that reasoning from abstract requirements to concrete resource approximations is "critical to building healthy and long-lived systems"
 - **Evidence**: The chapter states this explicitly in its conclusion. The SRE
@@ -140,7 +143,8 @@ issue: "#13"
   workshops as providing "hands-on experiences with applying these principles
   to the design and evaluation of these systems."
 - **Confidence**: settled
-- **Quote**: "NALSD is a skill that requires practice to master."
+- **Quote**: "NALSD is a learned skill. As with any skill, you need to practice
+  it regularly to maintain your proficiency."
 - **Our assessment**: This claim is significant because it positions NALSD as a
   practiced discipline rather than a memorized checklist. The existence of
   multiple workshops (PubSub, ImageServer, SLOs) with different domain problems
@@ -348,7 +352,7 @@ address:
   (LLM calls, tool calls, memory). The iterative design pattern (single agent
   → identify bottlenecks → distribute) could parallel the architecture
   evolution patterns already documented in
-  `blog-pagerduty-sre-agent-architecture.md` (Claim 8, architecture evolution)
+  `blog-pagerduty-sre-agent-architecture.md` (Claim 16, building distributed-first as methodology)
   and `blog-pagerduty-production-ai-agent-gaps.md` (Claim 8, earn complexity).
 
 - **Chapter 05 (LLM Ops Reliability)**: The SLO/SLI methodology (Claim 7)
