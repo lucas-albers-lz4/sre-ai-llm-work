@@ -30,6 +30,18 @@
       "url": "https://langfuse.com/docs",
       "scope": "LLM observability, tracing, evals, prompt/version management for production agents — skip pricing, careers, and pure marketing pages",
       "source_type": "documentation"
+    },
+    {
+      "id": "litellm-docs",
+      "url": "https://docs.litellm.ai/docs/",
+      "scope": "LLM gateway/proxy: routing, rate limits, spend, fallbacks, production deploy — skip marketing and pricing",
+      "source_type": "documentation"
+    },
+    {
+      "id": "promptfoo-docs",
+      "url": "https://www.promptfoo.dev/docs/getting-started/",
+      "scope": "Eval harnesses, CI gating, red-team/regression for LLM apps — skip pure product marketing",
+      "source_type": "documentation"
     }
   ]
 }
