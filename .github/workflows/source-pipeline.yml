@@ -150,8 +150,8 @@ jobs:
         run: |
           .github/scripts/update-project-field.sh \
             "${{ github.event.issue.number }}" \
-            "PVTSSF_lAHOABIwvc4BUXvuzhBgWzE" \
-            "4a01c3ba"
+            "PVTSSF_lAHOCzGzi84BdODFzhXxGe0" \
+            "52895f3d"
 
   prospector:
     needs: [pre-screen]
@@ -375,11 +375,11 @@ jobs:
             --json labels --jq '.labels[].name' 2>/dev/null || echo "")
 
           if echo "$LABELS" | grep -q "^rejected$"; then
-            OPTION_ID="4a01c3ba"   # rejected
+            OPTION_ID="52895f3d"   # rejected
           elif echo "$LABELS" | grep -qE "^triaged:(text|repo|failure)$"; then
-            OPTION_ID="c0dcbb7b"   # accepted
+            OPTION_ID="dbdf7af6"   # accepted
           elif echo "$LABELS" | grep -qE "^(feed-candidate|site-seed-candidate)$"; then
-            OPTION_ID="c0dcbb7b"   # accepted
+            OPTION_ID="dbdf7af6"   # accepted
           else
             echo "No recognized triage label found; skipping project update."
             exit 0
@@ -387,6 +387,6 @@ jobs:
 
           .github/scripts/update-project-field.sh \
             "$ISSUE_NUMBER" \
-            "PVTSSF_lAHOABIwvc4BUXvuzhBgWzE" \
+            "PVTSSF_lAHOCzGzi84BdODFzhXxGe0" \
             "$OPTION_ID"
 

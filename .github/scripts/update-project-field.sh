@@ -8,8 +8,8 @@
 
 set -uo pipefail
 
-PROJECT_ID="PVT_kwHOABIwvc4BUXvu"
-REPO="${GITHUB_REPOSITORY:-steveash/hitchhikers-guide-to-ai-native-engineering}"
+PROJECT_ID="PVT_kwHOCzGzi84BdODF"  # lucas-albers-lz4 / SRE AI LLM Work Pipeline #3
+REPO="${GITHUB_REPOSITORY:-lucas-albers-lz4/sre-ai-llm-work}"
 OWNER="${REPO%%/*}"
 REPO_NAME="${REPO##*/}"
 

@@ -357,5 +357,5 @@ jobs:
 
           .github/scripts/update-project-field.sh \
             "$ISSUE_NUMBER" \
-            "PVTSSF_lAHOABIwvc4BUXvuzhBgWzI" \
-            "8223d8d9"
+            "PVTSSF_lAHOCzGzi84BdODFzhXxGe4" \
+            "c376555e"

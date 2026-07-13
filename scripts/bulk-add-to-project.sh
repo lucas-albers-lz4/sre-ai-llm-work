@@ -13,7 +13,7 @@
 set -euo pipefail
 
 PROJECT_OWNER="${PROJECT_OWNER:-lucas-albers-lz4}"
-PROJECT_NUMBER="${PROJECT_NUMBER:-1}"
+PROJECT_NUMBER="${PROJECT_NUMBER:-3}"
 REPO="${REPO:-lucas-albers-lz4/sre-ai-llm-work}"
 
 err() { printf 'error: %s\n' "$*" >&2; exit 1; }

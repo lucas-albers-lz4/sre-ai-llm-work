@@ -368,15 +368,15 @@ jobs:
 
           if [ -f /tmp/assayer-review.md ] && \
              grep -Eq '^\*\*Verdict\*\*:[[:space:]]*APPROVE' /tmp/assayer-review.md; then
-            OPTION_ID="a29ada5c"   # passed
+            OPTION_ID="9d2034a5"   # passed
           else
-            OPTION_ID="8de29e84"   # failed
+            OPTION_ID="25004066"   # failed
           fi
 
           # Update the PR in the project
           .github/scripts/update-project-field.sh \
             "${{ needs.prepare.outputs.pr_number }}" \
-            "PVTSSF_lAHOABIwvc4BUXvuzhBgWzI" \
+            "PVTSSF_lAHOCzGzi84BdODFzhXxGe4" \
             "$OPTION_ID" \
             pr
 
@@ -384,7 +384,7 @@ jobs:
           if [ -n "$ISSUE_NUMBER" ]; then
             .github/scripts/update-project-field.sh \
               "$ISSUE_NUMBER" \
-              "PVTSSF_lAHOABIwvc4BUXvuzhBgWzI" \
+              "PVTSSF_lAHOCzGzi84BdODFzhXxGe4" \
               "$OPTION_ID"
           fi
 
