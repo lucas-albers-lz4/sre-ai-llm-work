@@ -30,9 +30,14 @@ jobs:
             exit 1
           fi
 
-          # Bypass setup script's interactive auth-status check; PROJECT_PAT
-          # is already scoped for Projects V2.
-          existing=$(gh project list --owner "$PROJECT_OWNER" --format json \
+          # Prefer @me so PROJECT_PAT's owning user is used (avoids
+          # "unknown owner type" when --owner <login> fails under some PATs).
+          OWNER_FLAG="@me"
+
+          who=$(gh api user --jq '.login')
+          echo "Authenticated as: $who (expected: $PROJECT_OWNER)"
+
+          existing=$(gh project list --owner "$OWNER_FLAG" --format json \
             | jq -r --arg t "$PROJECT_TITLE" \
               '.projects[] | select(.title == $t) | .number' | head -1)
 
@@ -41,39 +46,40 @@ jobs:
             echo "Reusing project #${PROJECT_NUMBER}"
           else
             PROJECT_NUMBER=$(gh project create \
-              --owner "$PROJECT_OWNER" \
+              --owner "$OWNER_FLAG" \
               --title "$PROJECT_TITLE" \
               --format json | jq -r '.number')
             echo "Created project #${PROJECT_NUMBER}"
           fi
 
-          PROJECT_NODE_ID=$(gh project view "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" --format json \
+          PROJECT_NODE_ID=$(gh project view "$PROJECT_NUMBER" --owner "$OWNER_FLAG" --format json \
             | jq -r '.id')
           echo "PROJECT_ID=$PROJECT_NODE_ID"
+          echo "PROJECT_NUMBER=$PROJECT_NUMBER"
 
-          gh project link "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" --repo "$REPO" || true
+          gh project link "$PROJECT_NUMBER" --owner "$OWNER_FLAG" --repo "$REPO" || true
 
           # Create fields (ignore "already exists")
-          gh project field-create "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" \
+          gh project field-create "$PROJECT_NUMBER" --owner "$OWNER_FLAG" \
             --name "Triage Status" \
             --data-type SINGLE_SELECT \
             --single-select-options "untriaged,accepted,rejected,duplicate,in-progress,done" \
             || true
-          gh project field-create "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" \
+          gh project field-create "$PROJECT_NUMBER" --owner "$OWNER_FLAG" \
             --name "Assayer Check" \
             --data-type SINGLE_SELECT \
             --single-select-options "pending,running,passed,failed,skipped" \
             || true
-          gh project field-create "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" \
+          gh project field-create "$PROJECT_NUMBER" --owner "$OWNER_FLAG" \
             --name "Chapter" \
             --data-type SINGLE_SELECT \
             --single-select-options "ch00-principles,ch01-incident-response,ch02-observability,ch03-runbooks-and-agents,ch04-oncall-and-toil,ch05-llm-ops-reliability,ch06-security-and-trust,cross-cutting" \
             || true
 
+          FIELDS_JSON=$(gh project field-list "$PROJECT_NUMBER" --owner "$OWNER_FLAG" --format json)
           echo ""
           echo "===== FIELD + OPTION IDS (paste into workflows) ====="
-          gh project field-list "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" --format json \
-            | jq -r '
+          echo "$FIELDS_JSON" | jq -r '
               .fields[]
               | select(.name == "Triage Status" or .name == "Assayer Check" or .name == "Chapter")
               | "\nFIELD \(.name)\n  id=\(.id)"
@@ -83,12 +89,12 @@ jobs:
           {
             echo "## Project board bootstrap"
             echo ""
-            echo "- **URL:** https://github.com/users/${PROJECT_OWNER}/projects/${PROJECT_NUMBER}"
+            echo "- **Auth user:** \`$who\`"
+            echo "- **URL:** https://github.com/users/${who}/projects/${PROJECT_NUMBER}"
             echo "- **PROJECT_ID:** \`${PROJECT_NODE_ID}\`"
             echo ""
             echo '```'
-            gh project field-list "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" --format json \
-              | jq -r '
+            echo "$FIELDS_JSON" | jq -r '
                 .fields[]
                 | select(.name == "Triage Status" or .name == "Assayer Check" or .name == "Chapter")
                 | "FIELD \(.name) id=\(.id)"
