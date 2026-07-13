@@ -257,8 +257,9 @@ in the "Pipeline Status" section:
 ```markdown
 ## Pipeline Status
 
-Live dashboard: <https://github.com/users/lucas-albers-lz4/projects/NUMBER>
+Live dashboard: <https://github.com/users/lucas-albers-lz4/projects/3>
 ```
 
-The placeholder is intentionally absent from the bootstrap script — the
-README change is human-reviewed because URLs in READMEs outlive scripts.
+The project was bootstrapped 2026-07-13 (`PROJECT_ID=PVT_kwHOCzGzi84BdODF`). Re-run
+`.github/workflows/bootstrap-project-board.yml` if you need to recreate fields or
+re-dump IDs.

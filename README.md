@@ -60,6 +60,10 @@ Claude Code's Anthropic-compatible DeepSeek endpoint. See
 Requires repo secret `DEEPSEEK_API_KEY`. Smoke-test with workflow
 `claude-smoke-test.yml`.
 
+## Pipeline Status
+
+Live dashboard: <https://github.com/users/lucas-albers-lz4/projects/3>
+
 ---
 
 ## How the Automation Works

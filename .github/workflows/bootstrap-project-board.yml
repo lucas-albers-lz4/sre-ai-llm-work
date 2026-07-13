@@ -177,3 +177,53 @@ jobs:
             '
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Bulk-add open issues/PRs and smoke-test field update
+        env:
+          GH_TOKEN: ${{ secrets.PROJECT_PAT }}
+          PROJECT_ID: PVT_kwHOCzGzi84BdODF
+          REPO: lucas-albers-lz4/sre-ai-llm-work
+        run: |
+          set -euo pipefail
+          OWNER="${REPO%%/*}"
+          NAME="${REPO##*/}"
+
+          add_item() {
+            local type="$1" number="$2"
+            local node_id
+            if [ "$type" = "pr" ]; then
+              node_id=$(gh api graphql -f query='
+                query($o:String!,$r:String!,$n:Int!){
+                  repository(owner:$o,name:$r){pullRequest(number:$n){id}}
+                }' -f o="$OWNER" -f r="$NAME" -F n="$number" \
+                --jq '.data.repository.pullRequest.id')
+            else
+              node_id=$(gh api graphql -f query='
+                query($o:String!,$r:String!,$n:Int!){
+                  repository(owner:$o,name:$r){issue(number:$n){id}}
+                }' -f o="$OWNER" -f r="$NAME" -F n="$number" \
+                --jq '.data.repository.issue.id')
+            fi
+            gh api graphql -f query='
+              mutation($p:ID!,$c:ID!){
+                addProjectV2ItemById(input:{projectId:$p,contentId:$c}){item{id}}
+              }' -f p="$PROJECT_ID" -f c="$node_id" >/dev/null
+            echo "Added $type #$number"
+          }
+
+          for n in $(gh issue list --repo "$REPO" --state all --json number --limit 100 --jq '.[].number'); do
+            add_item issue "$n" || echo "skip issue #$n"
+          done
+          for n in $(gh pr list --repo "$REPO" --state all --json number --limit 100 --jq '.[].number'); do
+            add_item pr "$n" || echo "skip pr #$n"
+          done
+
+          # Smoke-test: set Assayer Check=passed on a recent merged source PR if present
+          SAMPLE_PR=$(gh pr list --repo "$REPO" --state all --label source-note --limit 1 --json number --jq '.[0].number // empty')
+          if [ -n "$SAMPLE_PR" ]; then
+            .github/scripts/update-project-field.sh \
+              "$SAMPLE_PR" \
+              "PVTSSF_lAHOCzGzi84BdODFzhXxGe4" \
+              "9d2034a5" \
+              pr
+          fi
