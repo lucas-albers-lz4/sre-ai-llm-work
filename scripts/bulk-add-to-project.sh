@@ -12,9 +12,9 @@
 #
 set -euo pipefail
 
-PROJECT_OWNER="${PROJECT_OWNER:-steveash}"
+PROJECT_OWNER="${PROJECT_OWNER:-lucas-albers-lz4}"
 PROJECT_NUMBER="${PROJECT_NUMBER:-1}"
-REPO="${REPO:-steveash/hitchhikers-guide-to-ai-native-engineering}"
+REPO="${REPO:-lucas-albers-lz4/sre-ai-llm-work}"
 
 err() { printf 'error: %s\n' "$*" >&2; exit 1; }
 

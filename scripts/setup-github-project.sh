@@ -18,9 +18,9 @@
 #
 set -euo pipefail
 
-PROJECT_OWNER="${PROJECT_OWNER:-steveash}"
-PROJECT_TITLE="${PROJECT_TITLE:-Hitchhikers Guide Pipeline}"
-REPO="${REPO:-steveash/hitchhikers-guide-to-ai-native-engineering}"
+PROJECT_OWNER="${PROJECT_OWNER:-lucas-albers-lz4}"
+PROJECT_TITLE="${PROJECT_TITLE:-SRE AI LLM Work Pipeline}"
+REPO="${REPO:-lucas-albers-lz4/sre-ai-llm-work}"
 
 err() { printf 'error: %s\n' "$*" >&2; exit 1; }
 note() { printf '\n>> %s\n' "$*"; }
@@ -84,7 +84,7 @@ note "Creating custom field: Chapter"
 gh project field-create "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" \
   --name "Chapter" \
   --data-type SINGLE_SELECT \
-  --single-select-options "ch00-principles,ch01-daily-workflows,ch02-harness-engineering,ch03-safety-and-verification,ch04-context-engineering,ch05-team-adoption,cross-cutting" \
+  --single-select-options "ch00-principles,ch01-incident-response,ch02-observability,ch03-runbooks-and-agents,ch04-oncall-and-toil,ch05-llm-ops-reliability,ch06-security-and-trust,cross-cutting" \
   2>&1 | grep -v "already exists" || true
 
 # ------------------------------------------------------------------------ views

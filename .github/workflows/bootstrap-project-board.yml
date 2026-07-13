@@ -1,0 +1,98 @@
+name: Bootstrap Project Board
+
+# One-shot: create (or reuse) the GitHub Project v2 board and print the
+# GraphQL IDs needed by update-project-field.sh / pipeline workflows.
+# Uses PROJECT_PAT (classic, repo+project). Safe to re-run (idempotent).
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Bootstrap project + dump field IDs
+        env:
+          GH_TOKEN: ${{ secrets.PROJECT_PAT }}
+          PROJECT_OWNER: lucas-albers-lz4
+          PROJECT_TITLE: SRE AI LLM Work Pipeline
+          REPO: lucas-albers-lz4/sre-ai-llm-work
+        run: |
+          set -euo pipefail
+
+          if [ -z "${GH_TOKEN:-}" ]; then
+            echo "::error::PROJECT_PAT secret is not set"
+            exit 1
+          fi
+
+          # Bypass setup script's interactive auth-status check; PROJECT_PAT
+          # is already scoped for Projects V2.
+          existing=$(gh project list --owner "$PROJECT_OWNER" --format json \
+            | jq -r --arg t "$PROJECT_TITLE" \
+              '.projects[] | select(.title == $t) | .number' | head -1)
+
+          if [ -n "$existing" ]; then
+            PROJECT_NUMBER="$existing"
+            echo "Reusing project #${PROJECT_NUMBER}"
+          else
+            PROJECT_NUMBER=$(gh project create \
+              --owner "$PROJECT_OWNER" \
+              --title "$PROJECT_TITLE" \
+              --format json | jq -r '.number')
+            echo "Created project #${PROJECT_NUMBER}"
+          fi
+
+          PROJECT_NODE_ID=$(gh project view "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" --format json \
+            | jq -r '.id')
+          echo "PROJECT_ID=$PROJECT_NODE_ID"
+
+          gh project link "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" --repo "$REPO" || true
+
+          # Create fields (ignore "already exists")
+          gh project field-create "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" \
+            --name "Triage Status" \
+            --data-type SINGLE_SELECT \
+            --single-select-options "untriaged,accepted,rejected,duplicate,in-progress,done" \
+            || true
+          gh project field-create "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" \
+            --name "Assayer Check" \
+            --data-type SINGLE_SELECT \
+            --single-select-options "pending,running,passed,failed,skipped" \
+            || true
+          gh project field-create "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" \
+            --name "Chapter" \
+            --data-type SINGLE_SELECT \
+            --single-select-options "ch00-principles,ch01-incident-response,ch02-observability,ch03-runbooks-and-agents,ch04-oncall-and-toil,ch05-llm-ops-reliability,ch06-security-and-trust,cross-cutting" \
+            || true
+
+          echo ""
+          echo "===== FIELD + OPTION IDS (paste into workflows) ====="
+          gh project field-list "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" --format json \
+            | jq -r '
+              .fields[]
+              | select(.name == "Triage Status" or .name == "Assayer Check" or .name == "Chapter")
+              | "\nFIELD \(.name)\n  id=\(.id)"
+                + (if .options then (.options[] | "\n  option \(.name)=\(.id)") else "" end)
+            '
+
+          {
+            echo "## Project board bootstrap"
+            echo ""
+            echo "- **URL:** https://github.com/users/${PROJECT_OWNER}/projects/${PROJECT_NUMBER}"
+            echo "- **PROJECT_ID:** \`${PROJECT_NODE_ID}\`"
+            echo ""
+            echo '```'
+            gh project field-list "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" --format json \
+              | jq -r '
+                .fields[]
+                | select(.name == "Triage Status" or .name == "Assayer Check" or .name == "Chapter")
+                | "FIELD \(.name) id=\(.id)"
+                  + (if .options then (.options[] | "\n  \(.name)=\(.id)") else "" end)
+              '
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
