@@ -38,7 +38,7 @@ jobs:
       # workflow_dispatch may override via inputs.daily_scan_cap (e.g. 80 for a one-shot drain).
       DAILY_SCAN_CAP: ${{ github.event.inputs.daily_scan_cap || '35' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           # PROJECT_PAT (admin) so the scanner-state commit can push directly to
           # main once branch protection requires the assayer check — the

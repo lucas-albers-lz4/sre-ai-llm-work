@@ -37,7 +37,7 @@ jobs:
   smith:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           # Need full history so `git diff <before>..<after>` works even
           # if the merge queue lands a multi-commit batch in one push.

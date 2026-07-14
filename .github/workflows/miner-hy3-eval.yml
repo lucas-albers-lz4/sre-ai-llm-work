@@ -29,7 +29,7 @@ jobs:
   eval:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           token: ${{ secrets.PROJECT_PAT }}
           fetch-depth: 0

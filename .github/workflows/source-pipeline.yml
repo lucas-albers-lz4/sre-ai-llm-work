@@ -47,7 +47,7 @@ jobs:
     outputs:
       verdict: ${{ steps.verdict.outputs.verdict }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Configure DeepSeek for Claude Code
         uses: ./.github/actions/configure-deepseek
         with:
@@ -177,7 +177,7 @@ jobs:
       pull-requests: write
       id-token: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           # PROJECT_PAT so when the Prospector creates a feed-candidate
           # PR (gh pr create --label feed-candidate, in the prompt below),
