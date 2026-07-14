@@ -1046,6 +1046,803 @@
           "snippet": "Hi HN, tl;dr we built a bug finder that&#x27;s working really well, especially for app backends. Try it out and send us your thoughts!<p>Long story below.<p>--------------------------<p>We originally set out to work on technical debt. We had all seen codebases with a lot of debt, so we had personal grudges about the problem, and AI seemed to be making it a lot worse.<p>Tech debt also seemed like a great problem for AI because: 1) a small portion of the work is thinky and strategic, and then the "
         }
       }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-14T13:06:47.553099+00:00",
+      "payload": {
+        "feed": {
+          "id": "honeycomb",
+          "url": "https://www.honeycomb.io/feed",
+          "source_type": "blog-post",
+          "description": "Honeycomb \u2014 observability culture, AI-assisted debugging",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://www.honeycomb.io/blog/could-should-first-year-managing-sre-team",
+          "title": "Could vs. Should: The First Year Managing an SRE Team",
+          "url": "https://www.honeycomb.io/blog/could-should-first-year-managing-sre-team",
+          "published": "Thu, 02 Jul 2026 13:00:00 GMT"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-14T13:06:47.554728+00:00",
+      "payload": {
+        "feed": {
+          "id": "honeycomb",
+          "url": "https://www.honeycomb.io/feed",
+          "source_type": "blog-post",
+          "description": "Honeycomb \u2014 observability culture, AI-assisted debugging",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://www.honeycomb.io/blog/prototype-production-aws-agentcore",
+          "title": "From Prototype to Production With AWS AgentCore",
+          "url": "https://www.honeycomb.io/blog/prototype-production-aws-agentcore",
+          "published": "Mon, 06 Jul 2026 13:00:00 GMT"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-14T13:06:49.667833+00:00",
+      "payload": {
+        "feed": {
+          "id": "grafana",
+          "url": "https://grafana.com/blog/index.xml",
+          "source_type": "blog-post",
+          "description": "Grafana \u2014 LGTM stack, AI/ML features, ops practice",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://grafana.com/blog/building-an-end-to-end-reliability-testing-strategy-with-grafana-cloud/",
+          "title": "Building an end-to-end reliability testing strategy with Grafana Cloud",
+          "url": "https://grafana.com/blog/building-an-end-to-end-reliability-testing-strategy-with-grafana-cloud/",
+          "published": "Mon, 13 Jul 2026 15:53:09"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-14T13:06:57.263134+00:00",
+      "payload": {
+        "feed": {
+          "id": "cloudflare",
+          "url": "https://blog.cloudflare.com/rss/",
+          "source_type": "blog-post",
+          "description": "Cloudflare \u2014 production reliability, AI inference at edge",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "5X4Vz9KDcjIBXgHIFSuJFZ",
+          "title": "How we found a bug in the hyper HTTP library",
+          "url": "https://blog.cloudflare.com/hyper-bug/",
+          "published": "Mon, 22 Jun 2026 18:00:00 GMT"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-14T13:06:57.264814+00:00",
+      "payload": {
+        "feed": {
+          "id": "cloudflare",
+          "url": "https://blog.cloudflare.com/rss/",
+          "source_type": "blog-post",
+          "description": "Cloudflare \u2014 production reliability, AI inference at edge",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "6ecffq4Al52D0ka1U4p2OR",
+          "title": "The White House's post-quantum executive order is an important milestone. It\u2019s time to get to work",
+          "url": "https://blog.cloudflare.com/post-quantum-eo-2026/",
+          "published": "Tue, 23 Jun 2026 18:25:18 GMT"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-14T13:06:59.568791+00:00",
+      "payload": {
+        "feed": {
+          "id": "netflix-tech",
+          "url": "https://netflixtechblog.com/feed",
+          "source_type": "blog-post",
+          "description": "Netflix TechBlog \u2014 large-scale reliability and platform practice",
+          "max_per_run": 1
+        },
+        "entry": {
+          "id": "https://medium.com/p/6e13329c80a1",
+          "title": "The Evolution of Cassandra Data Movement at Netflix",
+          "url": "https://netflixtechblog.com/the-evolution-of-cassandra-data-movement-at-netflix-6e13329c80a1?source=rss----2615bd06b42e---4",
+          "published": "Fri, 19 Jun 2026 23:53:30 GMT"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-14T13:07:02.239362+00:00",
+      "payload": {
+        "feed": {
+          "id": "neuron-daily",
+          "url": "https://rss.beehiiv.com/feeds/N4eCstxvgX.xml",
+          "source_type": "blog-post",
+          "description": "The Neuron Daily \u2014 high-signal AI news; keep max_per_run low (high volume)",
+          "max_per_run": 1
+        },
+        "entry": {
+          "id": "https://www.theneurondaily.com/p/apple-s-brain-drain-continues",
+          "title": "\ud83d\ude3a Apple's brain drain continues \ud83c\udf4e",
+          "url": "https://www.theneurondaily.com/p/apple-s-brain-drain-continues",
+          "published": "Mon, 29 Jun 2026 10:00:00 +0000"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-14T13:07:04.544873+00:00",
+      "payload": {
+        "feed": {
+          "id": "openai-eng",
+          "url": "https://openai.com/news/rss.xml",
+          "source_type": "blog-post",
+          "description": "OpenAI \u2014 model reliability, production AI systems",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://openai.com/index/chatgpt-enterprise-spend-controls",
+          "title": "New usage analytics and updated spend controls for enterprises",
+          "url": "https://openai.com/index/chatgpt-enterprise-spend-controls",
+          "published": "Thu, 18 Jun 2026 17:00:00 GMT"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-14T13:07:04.546545+00:00",
+      "payload": {
+        "feed": {
+          "id": "openai-eng",
+          "url": "https://openai.com/news/rss.xml",
+          "source_type": "blog-post",
+          "description": "OpenAI \u2014 model reliability, production AI systems",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://openai.com/index/samsung-electronics-chatgpt-codex-deployment",
+          "title": "Samsung Electronics brings ChatGPT and Codex to employees",
+          "url": "https://openai.com/index/samsung-electronics-chatgpt-codex-deployment",
+          "published": "Sun, 21 Jun 2026 23:00:00 GMT"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-14T13:07:08.842990+00:00",
+      "payload": {
+        "feed": {
+          "id": "simon-willison",
+          "url": "https://simonwillison.net/atom/everything/",
+          "source_type": "blog-post",
+          "description": "Simon Willison \u2014 LLM tooling; filter for ops/reliability angles in triage",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://simonwillison.net/2026/Jul/4/building-a-world-map-with-only-500-bytes/#atom-everything",
+          "title": "Building a World Map with only 500 bytes",
+          "url": "https://simonwillison.net/2026/Jul/4/building-a-world-map-with-only-500-bytes/#atom-everything",
+          "published": "2026-07-04T23:09:02+00:00"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-14T13:07:08.844777+00:00",
+      "payload": {
+        "feed": {
+          "id": "simon-willison",
+          "url": "https://simonwillison.net/atom/everything/",
+          "source_type": "blog-post",
+          "description": "Simon Willison \u2014 LLM tooling; filter for ops/reliability angles in triage",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://simonwillison.net/2026/Jul/5/sqlite-utils/#atom-everything",
+          "title": "sqlite-utils 4.0rc2",
+          "url": "https://simonwillison.net/2026/Jul/5/sqlite-utils/#atom-everything",
+          "published": "2026-07-05T00:47:38+00:00"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-14T13:07:11.217396+00:00",
+      "payload": {
+        "feed": {
+          "id": "thenewstack",
+          "url": "https://thenewstack.io/feed/",
+          "source_type": "blog-post",
+          "description": "The New Stack \u2014 cloud-native ops and AI infrastructure",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://thenewstack.io/?p=22829582",
+          "title": "OpenAI is folding Codex into the ChatGPT app \u2014 and taking aim at Claude Cowork",
+          "url": "https://thenewstack.io/openai-codex-work-atlas/",
+          "published": "Thu, 09 Jul 2026 18:55:19 +0000"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-14T13:07:11.219146+00:00",
+      "payload": {
+        "feed": {
+          "id": "thenewstack",
+          "url": "https://thenewstack.io/feed/",
+          "source_type": "blog-post",
+          "description": "The New Stack \u2014 cloud-native ops and AI infrastructure",
+          "max_per_run": 2
+        },
+        "entry": {
+          "id": "https://thenewstack.io/?p=22829594",
+          "title": "Meta debuts Muse Spark 1.1 \u2014 its first paid AI model",
+          "url": "https://thenewstack.io/meta-muse-spark-api/",
+          "published": "Thu, 09 Jul 2026 22:22:15 +0000"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-14T13:07:13.405621+00:00",
+      "payload": {
+        "feed": {
+          "id": "huggingface",
+          "url": "https://huggingface.co/blog/feed.xml",
+          "source_type": "blog-post",
+          "description": "Hugging Face \u2014 model serving, quantization, open-source deploy (LLM ops)",
+          "max_per_run": 1
+        },
+        "entry": {
+          "id": "https://huggingface.co/blog/is-it-agentic-enough",
+          "title": "Is it agentic enough? Benchmarking open models on your own tooling",
+          "url": "https://huggingface.co/blog/is-it-agentic-enough",
+          "published": "Thu, 18 Jun 2026 00:00:00 GMT"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-14T13:07:18.131051+00:00",
+      "payload": {
+        "feed": {
+          "id": "meta-eng",
+          "url": "https://engineering.fb.com/feed/",
+          "source_type": "blog-post",
+          "description": "Meta Engineering \u2014 open-source AI infra scaling (Llama, PyTorch, clusters)",
+          "max_per_run": 1
+        },
+        "entry": {
+          "id": "https://engineering.fb.com/?p=24128",
+          "title": "10 Years of Meta\u2019s Commitment to Python",
+          "url": "https://engineering.fb.com/2026/06/30/open-source/10-years-of-metas-commitment-to-python/",
+          "published": "Tue, 30 Jun 2026 16:00:46 +0000"
+        }
+      }
+    },
+    {
+      "scanner": "trusted",
+      "queued_at": "2026-07-14T13:07:20.363305+00:00",
+      "payload": {
+        "feed": {
+          "id": "sentry",
+          "url": "https://blog.sentry.io/feed.xml",
+          "source_type": "blog-post",
+          "description": "Sentry \u2014 agent traces, evals, OpenTelemetry; keep max_per_run low (large feed)",
+          "max_per_run": 1
+        },
+        "entry": {
+          "id": "https://blog.sentry.io/logging-best-practices/",
+          "title": "When and what should I be logging?",
+          "url": "https://blog.sentry.io/logging-best-practices/",
+          "published": "Thu, 09 Jul 2026 09:00:00 GMT"
+        }
+      }
+    },
+    {
+      "scanner": "failures",
+      "queued_at": "2026-07-14T13:08:37.216442+00:00",
+      "payload": {
+        "result": {
+          "source": "hn",
+          "title": "Show HN: Steadwing \u2013 Your Autonomous On-Call Engineer",
+          "url": "https://www.steadwing.com/",
+          "hn_url": "https://news.ycombinator.com/item?id=47270724",
+          "points": 12,
+          "num_comments": 5,
+          "author": "abejith",
+          "created_at": "2026-03-06T04:02:25Z",
+          "snippet": "Hey HN! We\u2019re Abejith and Dev, and we\u2019re building Steadwing (<a href=\"https:&#x2F;&#x2F;www.steadwing.com\" rel=\"nofollow\">https:&#x2F;&#x2F;www.steadwing.com</a>) - an autonomous on-call engineer that diagnoses production incidents&#x2F;alerts, correlates evidence across your stack, and resolves them. You can try it at <a href=\"https:&#x2F;&#x2F;app.steadwing.com&#x2F;signup\" rel=\"nofollow\">https:&#x2F;&#x2F;app.steadwing.com&#x2F;signup</a> (no credit card required and a demo mode is available)"
+        }
+      }
+    },
+    {
+      "scanner": "failures",
+      "queued_at": "2026-07-14T13:08:37.218951+00:00",
+      "payload": {
+        "result": {
+          "source": "hn",
+          "title": "Launch HN: Relvy (YC F24) \u2013 On-call runbooks, automated",
+          "url": "https://www.relvy.ai",
+          "hn_url": "https://news.ycombinator.com/item?id=47702647",
+          "points": 48,
+          "num_comments": 25,
+          "author": "behat",
+          "created_at": "2026-04-09T12:11:56Z",
+          "snippet": "Hey HN! We are Bharath, and Simranjit from Relvy AI (<a href=\"https:&#x2F;&#x2F;www.relvy.ai\">https:&#x2F;&#x2F;www.relvy.ai</a>). Relvy automates on-call runbooks for software engineering teams. It is an AI agent equipped with tools that can analyze telemetry data and code at scale, helping teams debug and resolve production issues in minutes. Here\u2019s a video: [[[<a href=\"https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=BXr4_XlWXc0\" rel=\"nofollow\">https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=BXr"
+        }
+      }
+    },
+    {
+      "scanner": "failures",
+      "queued_at": "2026-07-14T13:08:37.221242+00:00",
+      "payload": {
+        "result": {
+          "source": "hn",
+          "title": "Show HN: I built a tool that watches webpages and exposes changes as RSS",
+          "url": "https://sitespy.app",
+          "hn_url": "https://news.ycombinator.com/item?id=47337607",
+          "points": 320,
+          "num_comments": 76,
+          "author": "vkuprin",
+          "created_at": "2026-03-11T16:21:06Z",
+          "snippet": "I built Site Spy after missing a visa appointment slot because a government page changed and I didn\u2019t notice for two weeks.<p>It watches webpages for changes and shows the result like a diff. The part I think HN might find interesting is that it can monitor a specific element on a page, not just the whole page, and it can expose changes as RSS feeds.<p>So instead of tracking an entire noisy page, you can watch just a price, a stock status, a headline, or a specific content block. When it changes"
+        }
+      }
+    },
+    {
+      "scanner": "failures",
+      "queued_at": "2026-07-14T13:08:37.223222+00:00",
+      "payload": {
+        "result": {
+          "source": "hn",
+          "title": "Show HN: Microsoft releases Flint, a visualization language for AI agents",
+          "url": "https://microsoft.github.io/flint-chart/#/",
+          "hn_url": "https://news.ycombinator.com/item?id=48834924",
+          "points": 347,
+          "num_comments": 138,
+          "author": "chenglong-hn",
+          "created_at": "2026-07-08T17:46:12Z",
+          "snippet": "Data visualizations are the bridge between user and data.<p>But building AI agents that can generate visualizations reliably can be very tricky:<p>- simple chart specs can be reliable, but generated charts are often of low quality due to reliance on system defaults; \n- complex chart specs with explicit details can produce good-looking charts, but they are verbose and agents can struggle with reliability<p>We figured out it is a limitation on the language issue (not just AI capability thing) -- c"
+        }
+      }
+    },
+    {
+      "scanner": "failures",
+      "queued_at": "2026-07-14T13:08:37.225118+00:00",
+      "payload": {
+        "result": {
+          "source": "hn",
+          "title": "Ask HN: What tools are you using for AI-assisted code review?",
+          "url": "https://news.ycombinator.com/item?id=48587808",
+          "hn_url": "https://news.ycombinator.com/item?id=48587808",
+          "points": 26,
+          "num_comments": 31,
+          "author": "agos",
+          "created_at": "2026-06-18T16:25:27Z",
+          "snippet": "My team (around 40 people who write code) is evaluating tools for AI-assisted code review. The market appears to be rife with options, so before starting a series of free trials, I\u2019d like to ask a knowledgeable crowd.\nWhat tools or services are you using? Do you use them just for code review, or for other purposes as well, such as incident response or branch management? Why did you choose them, and what do you like or dislike about them?"
+        }
+      }
+    },
+    {
+      "scanner": "failures",
+      "queued_at": "2026-07-14T13:08:37.227017+00:00",
+      "payload": {
+        "result": {
+          "source": "hn",
+          "title": "Show HN: Trust Protocols for Anthropic/OpenAI/Gemini",
+          "url": "https://www.mnemom.ai",
+          "hn_url": "https://news.ycombinator.com/item?id=47062824",
+          "points": 40,
+          "num_comments": 33,
+          "author": "alexgarden",
+          "created_at": "2026-02-18T16:33:56Z",
+          "snippet": "Much of my work right now involves complex, long-running, multi-agentic teams of agents. I kept running into the same problem: \u201cHow do I keep these guys in line?\u201d  Rules weren\u2019t cutting it, and we needed a scalable, agentic-native STANDARD I could count on.  There wasn\u2019t one.  So I built one.<p>Here are two open-source protocols that extend A2A, granting AI agents behavioral contracts and runtime integrity monitoring:<p>- Agent Alignment Protocol (AAP): What an agent can do &#x2F; has done.\n- Ag"
+        }
+      }
+    },
+    {
+      "scanner": "failures",
+      "queued_at": "2026-07-14T13:08:37.229001+00:00",
+      "payload": {
+        "result": {
+          "source": "hn",
+          "title": "Show HN: Torrix, self hosted, LLM Observability,(no Postgres, no Redis)",
+          "url": "https://github.com/torrix-ai/install",
+          "hn_url": "https://news.ycombinator.com/item?id=48120912",
+          "points": 74,
+          "num_comments": 4,
+          "author": "AdarshRao23",
+          "created_at": "2026-05-13T12:14:26Z",
+          "snippet": "I work as a SAP Integration consultant and built this as a side project. Friction point: Most self hosted LLM observability tools require Postgres, Redis and non trivial infrastructure. Teams just want to see what their agents are actually doing in Production, that set up cost discorages adoption.\nTorrix runs as a single docker contained backed by SQLite. The full install is:<p>curl -o docker-compose.yml <a href=\"https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;torrix-ai&#x2F;install&#x2F;main&#"
+        }
+      }
+    },
+    {
+      "scanner": "failures",
+      "queued_at": "2026-07-14T13:08:37.230890+00:00",
+      "payload": {
+        "result": {
+          "source": "hn",
+          "title": "Show HN: Lumina \u2013 Open-source observability for LLM applications",
+          "url": "https://github.com/use-lumina/Lumina",
+          "hn_url": "https://news.ycombinator.com/item?id=46751546",
+          "points": 6,
+          "num_comments": 2,
+          "author": "iggycodexs",
+          "created_at": "2026-01-25T07:08:52Z",
+          "snippet": "Hey HN! I built Lumina \u2013 an open-source observability platform for AI&#x2F;LLM applications. Self-host it in 5 minutes with Docker Compose, all features included.<p>The Problem:<p>I&#x27;ve been building LLM apps for the past year, and I kept running into the same issues:\n- LLM responses would randomly change after prompt tweaks, breaking things\n- Costs would spike unexpectedly (turns out a bug was hitting GPT-4 instead of 3.5)\n- No easy way to compare &quot;before vs after&quot; when testing pr"
+        }
+      }
+    },
+    {
+      "scanner": "failures",
+      "queued_at": "2026-07-14T13:08:37.232812+00:00",
+      "payload": {
+        "result": {
+          "source": "hn",
+          "title": "Show HN: MCP Gateway \u2013 Unifying Access to MCP Servers Without N\u00d7M Integrations",
+          "url": "https://www.truefoundry.com/mcp-gateway",
+          "hn_url": "https://news.ycombinator.com/item?id=46136222",
+          "points": 10,
+          "num_comments": 3,
+          "author": "supreetgupta",
+          "created_at": "2025-12-03T16:14:29Z",
+          "snippet": "Many teams connecting LLMs to external tools eventually encounter the same architectural issue: as more tools and agents are added, the integration pattern becomes an N\u00d7M mesh of direct connections. Each agent implements its own auth, retries, rate limiting, and logging; each tool needs credentials distributed to multiple places and observability becomes fragmented.<p>We built LLM gateway with this goal to provide a single place to manage authentication, authorization, routing, and observability"
+        }
+      }
+    },
+    {
+      "scanner": "failures",
+      "queued_at": "2026-07-14T13:08:37.234745+00:00",
+      "payload": {
+        "result": {
+          "source": "hn",
+          "title": "Show HN: Superlog (YC P26) \u2013 Observability that installs itself and fixes bugs",
+          "url": "https://superlog.sh/",
+          "hn_url": "https://news.ycombinator.com/item?id=48195021",
+          "points": 74,
+          "num_comments": 49,
+          "author": "Magnanten",
+          "created_at": "2026-05-19T15:54:06Z",
+          "snippet": "Hey HN, we\u2019re Nico and Arseniy, co-founders of Superlog (<a href=\"https:&#x2F;&#x2F;superlog.sh\">https:&#x2F;&#x2F;superlog.sh</a>). We&#x27;re building a self-installing, self healing observability tool meant not to be opened. It has a wizard that daily sets up proper logging and an agent that investigates errors and opens PRs.<p>Super short demo: <a href=\"https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=xFhU9Mk247M\" rel=\"nofollow\">https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=xFhU9Mk247M</a>.<p"
+        }
+      }
+    },
+    {
+      "scanner": "failures",
+      "queued_at": "2026-07-14T13:08:37.236685+00:00",
+      "payload": {
+        "result": {
+          "source": "hn",
+          "title": "Launch HN: Mentat (YC F24) \u2013 Controlling LLMs with Runtime Intervention",
+          "url": "https://news.ycombinator.com/item?id=46207017",
+          "hn_url": "https://news.ycombinator.com/item?id=46207017",
+          "points": 54,
+          "num_comments": 34,
+          "author": "cgorlla",
+          "created_at": "2025-12-09T16:37:55Z",
+          "snippet": "Hi HN, I\u2019m Cyril from CTGT. Today we\u2019re launching Mentat (<a href=\"https:&#x2F;&#x2F;docs.ctgt.ai&#x2F;api-reference&#x2F;endpoint&#x2F;chat-completions\">https:&#x2F;&#x2F;docs.ctgt.ai&#x2F;api-reference&#x2F;endpoint&#x2F;chat-completions</a>), an API that gives developers deterministic control over LLM behavior, steering reasoning and removing bias on the fly, without the compute of fine-tuning or the brittleness of prompt engineering. We use feature-level intervention and graph-based verifica"
+        }
+      }
+    },
+    {
+      "scanner": "failures",
+      "queued_at": "2026-07-14T13:08:37.238663+00:00",
+      "payload": {
+        "result": {
+          "source": "hn",
+          "title": "Show HN: ML condenses billions of logs into a tiny snapshot your LLM can debug",
+          "url": "https://github.com/Rocketgraph/rocketgraph",
+          "hn_url": "https://news.ycombinator.com/item?id=48578324",
+          "points": 13,
+          "num_comments": 3,
+          "author": "kvaranasi_",
+          "created_at": "2026-06-17T23:14:37Z",
+          "snippet": "Hi HN, I&#x27;m Kaushik, and I built Rocketgraph. I believe that while other spaces have caught up to the AI wave, the observability space is still lagging behind, using the same tools and dashboards that we use to analyse logs from human-written code. But now the code is written and debugged by AI, so we need to rethink how we do observability where the observer itself is an AI.<p>The problem that I run into is when an alert fires, I have to manually check the Grafana dashboards and write LogQL"
+        }
+      }
+    },
+    {
+      "scanner": "failures",
+      "queued_at": "2026-07-14T13:08:37.240638+00:00",
+      "payload": {
+        "result": {
+          "source": "hn",
+          "title": "Show HN: How to analyze your LLM output \u2013 A behavioural health monitor for LLMs",
+          "url": "https://splabs.io",
+          "hn_url": "https://news.ycombinator.com/item?id=48192607",
+          "points": 10,
+          "num_comments": 7,
+          "author": "k-thimmaraju",
+          "created_at": "2026-05-19T12:48:32Z",
+          "snippet": "Hey HN! We&#x27;re Dr. Kashyap Thimmaraju and Giuseppe Canale from Silicon Psyche. We&#x27;ve built Posture Sequence Analysis (PSA), a behavioural health monitor for LLMs and AI Agents.<p>Why we built PSA<p>We built PSA because we wanted to operationalize the Cybersecurity Psychology Framework (CPF3)[1] via Silicon Psyche[2]: our theory that because LLMs have been trained by humans on human-generated data, they inherit human-like vulnerabilities (what hackers use to psychologically trick people "
+        }
+      }
+    },
+    {
+      "scanner": "failures",
+      "queued_at": "2026-07-14T13:08:37.242636+00:00",
+      "payload": {
+        "result": {
+          "source": "hn",
+          "title": "Show HN: LLM Gateway for OpenAI/Anthropic Written in Golang",
+          "url": "https://github.com/ongoingai/gateway",
+          "hn_url": "https://news.ycombinator.com/item?id=47067077",
+          "points": 4,
+          "num_comments": 2,
+          "author": "oatmale",
+          "created_at": "2026-02-18T22:04:28Z",
+          "snippet": "Hi HN - I&#x27;m Nathan. I spent a bunch of years building Shopify subscriptions software, living in the land of failed payments, retries, and &quot;if this breaks, it breaks real money.&quot; We built a lot of automation around recovery: intelligent retry logic, routing decisions, backoffs, and all the messy edge cases you only find at scale.<p>When I started building AI&#x2F;LLM features, I kept running into the same class of problems - except harder to reason about. Multiple providers, model "
+        }
+      }
+    },
+    {
+      "scanner": "failures",
+      "queued_at": "2026-07-14T13:08:37.244645+00:00",
+      "payload": {
+        "result": {
+          "source": "hn",
+          "title": "Show HN: Moltis \u2013 AI assistant with memory, tools, and self-extending skills",
+          "url": "https://www.moltis.org",
+          "hn_url": "https://news.ycombinator.com/item?id=46993587",
+          "points": 131,
+          "num_comments": 52,
+          "author": "fabienpenso",
+          "created_at": "2026-02-12T19:15:21Z",
+          "snippet": "Hey HN. I&#x27;m Fabien, principal engineer, 25 years shipping production systems (Ruby, Swift, now Rust). I built Moltis because I wanted an AI assistant I could run myself, trust end to end, and make extensible in the Rust way using traits and the type system. It shares some ideas with OpenClaw (same memory approach, Pi-inspired self-extension) but is Rust-native from the ground up. The agent can create its own skills at runtime.<p>Moltis is one Rust binary, 150k lines, ~60MB, web UI included."
+        }
+      }
+    },
+    {
+      "scanner": "failures",
+      "queued_at": "2026-07-14T13:08:37.246678+00:00",
+      "payload": {
+        "result": {
+          "source": "hn",
+          "title": "Launch HN: Minicor (YC P26) \u2013 Windows desktop automations at scale",
+          "url": "https://www.minicor.com/",
+          "hn_url": "https://news.ycombinator.com/item?id=48280729",
+          "points": 105,
+          "num_comments": 64,
+          "author": "fchishtie",
+          "created_at": "2026-05-26T14:57:27Z",
+          "snippet": "Hey we\u2019re Faiz and Saheed and we built Minicor so AI companies who need to integrate to desktop systems with no API can quickly build scalable desktop RPAs. Demo: <a href=\"https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=MD0GHZIJ1cw\" rel=\"nofollow\">https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=MD0GHZIJ1cw</a><p>Edit: RPA is an acronym for Robotic Process Automation - things like triggering mouse clicks and key strokes to perform tasks programmatically. Sorry if this wasn&#x27;t clear!<p>We were w"
+        }
+      }
+    },
+    {
+      "scanner": "failures",
+      "queued_at": "2026-07-14T13:08:37.248737+00:00",
+      "payload": {
+        "result": {
+          "source": "hn",
+          "title": "Launch HN: Expanse (YC P26) \u2013 Unlock Wasted GPU Capacity",
+          "url": "https://news.ycombinator.com/item?id=48356312",
+          "hn_url": "https://news.ycombinator.com/item?id=48356312",
+          "points": 103,
+          "num_comments": 28,
+          "author": "ismaeel_bashir",
+          "created_at": "2026-06-01T13:05:02Z",
+          "snippet": "Hey HN, we\u2019re Ismaeel, Eren, Yafet and Nikodem. We built Expanse (<a href=\"https:&#x2F;&#x2F;expanse.sh&#x2F;\">https:&#x2F;&#x2F;expanse.sh&#x2F;</a>) to increase the effective capacity of your HPC&#x2F;GPU clusters running schedulers&#x2F;orchestrators like Kubernetes and SLURM. We read the source code, job submission script, and the hardware a workload is about to run on to predict what the job actually needs before the cluster sees it. We also flag failures we think are about to happen and su"
+        }
+      }
+    },
+    {
+      "scanner": "failures",
+      "queued_at": "2026-07-14T13:08:37.250828+00:00",
+      "payload": {
+        "result": {
+          "source": "hn",
+          "title": "Launch HN: Voker (YC S24) \u2013 Analytics for AI Agents",
+          "url": "https://voker.ai",
+          "hn_url": "https://news.ycombinator.com/item?id=48109962",
+          "points": 59,
+          "num_comments": 22,
+          "author": "ttpost",
+          "created_at": "2026-05-12T15:45:20Z",
+          "snippet": "Hey HN, we&#x27;re Alex and Tyler, co-founders of Voker.ai (<a href=\"https:&#x2F;&#x2F;voker.ai&#x2F;\">https:&#x2F;&#x2F;voker.ai&#x2F;</a>), an agent analytics platform for AI product teams. Voker gives full visibility into what users are asking of your agents, and whether your agents are delivering, without having to dig through logs. Our main product is a lightweight SDK that is LLM stack agnostic and purpose-built for agent products. (<a href=\"https:&#x2F;&#x2F;app.voker.ai&#x2F;docs\">https:"
+        }
+      }
+    },
+    {
+      "scanner": "failures",
+      "queued_at": "2026-07-14T13:08:37.252940+00:00",
+      "payload": {
+        "result": {
+          "source": "hn",
+          "title": "Show HN: Kapso \u2013 WhatsApp for developers",
+          "url": "https://kapso.ai/",
+          "hn_url": "https://news.ycombinator.com/item?id=46368379",
+          "points": 48,
+          "num_comments": 26,
+          "author": "aamatte",
+          "created_at": "2025-12-23T19:17:02Z",
+          "snippet": "Hey HN, I&#x27;m Andres. I&#x27;ve been building Kapso as a solo founder, and just crossed 4,000 developers, all organic.<p>WhatsApp has 3B+ users and 98% open rates. You&#x27;d expect developers to be building tons of stuff on it, especially when the US is the fastest-growing market in WhatsApp usage.<p>But it\u2019s not happening\u2026 And I&#x27;d bet it&#x27;s because the DX is painful.<p>Every team needs to build the same features again and again. Meta fires webhooks for everything. There&#x27;s valu"
+        }
+      }
+    },
+    {
+      "scanner": "failures",
+      "queued_at": "2026-07-14T13:08:37.255053+00:00",
+      "payload": {
+        "result": {
+          "source": "hn",
+          "title": "Show HN: Ink \u2013 Deploy full-stack apps from AI agents via MCP or Skills",
+          "url": "https://ml.ink/",
+          "hn_url": "https://news.ycombinator.com/item?id=47337028",
+          "points": 32,
+          "num_comments": 6,
+          "author": "august-",
+          "created_at": "2026-03-11T15:39:03Z",
+          "snippet": "Hi HN, I built Ink, a full stack deployment platform where the primary users are AI agents, not humans.<p>We all know AI can write code, but deploying them still requires a human to wire it up: hosting, databases, DNS, and secrets. Ink gives agents those tools directly.<p>The agent calls &quot;deploy&quot; and the platform auto-detects the framework, builds it, deploys it, and returns a live URL at *.ml.ink. Here&#x27;s a demo with Claude Code: <a href=\"https:&#x2F;&#x2F;www.youtube.com&#x2F;wat"
+        }
+      }
+    },
+    {
+      "scanner": "failures",
+      "queued_at": "2026-07-14T13:08:37.257246+00:00",
+      "payload": {
+        "result": {
+          "source": "hn",
+          "title": "SHOW HN: A usage circuit breaker for Cloudflare Workers",
+          "url": "https://news.ycombinator.com/item?id=47322794",
+          "hn_url": "https://news.ycombinator.com/item?id=47322794",
+          "points": 29,
+          "num_comments": 9,
+          "author": "ethan_zhao",
+          "created_at": "2026-03-10T13:09:00Z",
+          "snippet": "I run 3mins.news (https:&#x2F;&#x2F;3mins.news), an AI news aggregator built entirely on Cloudflare Workers. The backend has 10+ cron triggers running every few minutes: RSS fetching, article clustering, LLM calls, email delivery.<p>The problem: Workers Paid Plan has hard monthly limits (10M requests, 1M KV writes, 1M queue ops, etc.). There&#x27;s no built-in &quot;pause when you hit the limit&quot;, CF just starts billing overages. KV writes cost $5&#x2F;M over the cap, so a retry loop bug can"
+        }
+      }
+    },
+    {
+      "scanner": "failures",
+      "queued_at": "2026-07-14T13:08:37.259453+00:00",
+      "payload": {
+        "result": {
+          "source": "hn",
+          "title": "Show HN: Pylon Sync, an agent-first full-stack realtime framework",
+          "url": "https://www.pylonsync.com",
+          "hn_url": "https://news.ycombinator.com/item?id=48849648",
+          "points": 12,
+          "num_comments": 4,
+          "author": "ericc59",
+          "created_at": "2026-07-09T17:38:18Z",
+          "snippet": "I created Pylon to make it easier to move from hobby projects to full production apps.<p>When I work on hobby projects, I usually use React or Next.js because they are quick to set up and easy to deploy on Vercel. For production apps, I separate the frontend and backend, then deploy the backend on AWS. But setting up a full backend on AWS can be complex and costly, especially for simple apps.<p>Pylon is a full-stack, real-time framework that includes server-rendered React, TypeScript functions, "
+        }
+      }
+    },
+    {
+      "scanner": "failures",
+      "queued_at": "2026-07-14T13:08:37.261707+00:00",
+      "payload": {
+        "result": {
+          "source": "hn",
+          "title": "Launch HN: Sonarly (YC W26) \u2013 AI agent to triage and fix your production alerts",
+          "url": "https://sonarly.com/",
+          "hn_url": "https://news.ycombinator.com/item?id=47049776",
+          "points": 30,
+          "num_comments": 17,
+          "author": "Dimittri",
+          "created_at": "2026-02-17T17:03:09Z",
+          "snippet": "Hey HN, I am Dimittri and we\u2019re building Sonarly (<a href=\"https:&#x2F;&#x2F;sonarly.com\">https:&#x2F;&#x2F;sonarly.com</a>), an AI engineer for production. It connects to your observability tools like Sentry, Datadog, or user feedback channels, triages issues, and fixes them to cut your resolution time. Here&#x27;s a demo: <a href=\"https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=rr3VHv0eRdw\" rel=\"nofollow\">https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=rr3VHv0eRdw</a>.<p>Sonarly is really about "
+        }
+      }
+    },
+    {
+      "scanner": "failures",
+      "queued_at": "2026-07-14T13:08:37.263904+00:00",
+      "payload": {
+        "result": {
+          "source": "hn",
+          "title": "Show HN: Rowboat \u2013 Open-source, local-first alternative to Claude Desktop",
+          "url": "https://github.com/rowboatlabs/rowboat",
+          "hn_url": "https://news.ycombinator.com/item?id=48819808",
+          "points": 218,
+          "num_comments": 94,
+          "author": "segmenta",
+          "created_at": "2026-07-07T16:10:44Z",
+          "snippet": "Claude\u2019s desktop app is brilliant, but for our own daily work we kept wanting it to be less like a chat app and more like a full-fledged work app. Rowboat is our attempt at that, including the ability to build your own work surfaces inside Rowboat (more below).<p>Our repo is <a href=\"https:&#x2F;&#x2F;github.com&#x2F;rowboatlabs&#x2F;rowboat\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;rowboatlabs&#x2F;rowboat</a>, and there\u2019s a demo video here: <a href=\"https:&#x2F;&#x2F;www.youtube.com&#x"
+        }
+      }
+    },
+    {
+      "scanner": "failures",
+      "queued_at": "2026-07-14T13:08:37.266114+00:00",
+      "payload": {
+        "result": {
+          "source": "hn",
+          "title": "Launch HN: Runtime (YC P26) \u2013 Sandboxed coding agents for everyone on a team",
+          "url": "https://www.runtm.com/",
+          "hn_url": "https://news.ycombinator.com/item?id=48225040",
+          "points": 103,
+          "num_comments": 30,
+          "author": "gustrigos",
+          "created_at": "2026-05-21T16:07:13Z",
+          "snippet": "Hey HN, We&#x27;re Gus and Carlos from Runtime (<a href=\"https:&#x2F;&#x2F;runtm.com\">https:&#x2F;&#x2F;runtm.com</a>). We&#x27;re building infra that lets your whole team (including non-engineers) ship with Claude Code, Codex, and other agents without engineering having to handhold every session.<p>After Mentum (YC S21) was acquired, I personally shipped 4 full-stack products in 3 months using coding agents. When I tried to roll the same workflow out to the rest of the team, it fell apart: Most"
+        }
+      }
+    },
+    {
+      "scanner": "failures",
+      "queued_at": "2026-07-14T13:08:37.268381+00:00",
+      "payload": {
+        "result": {
+          "source": "hn",
+          "title": "Show HN: ctx \u2013 Search the coding agent history already on your machine",
+          "url": "https://github.com/ctxrs/ctx",
+          "hn_url": "https://news.ycombinator.com/item?id=48763462",
+          "points": 65,
+          "num_comments": 43,
+          "author": "luca-ctx",
+          "created_at": "2026-07-02T15:58:32Z",
+          "snippet": "Coding agents don&#x27;t have long-term memory.<p>But you do have months of full-fidelity agent transcripts stored on your machine.<p>A simple solution that goes a long way: ingest those transcripts and logs into a structured SQLite database, then search them with ranked text match. Everything is fully local and doesn&#x27;t require anything fancy like a graph database or hosted memory service.<p>This is the idea behind ctx, a Rust CLI that handles the ingestion and searching.<p>We give our agen"
+        }
+      }
+    },
+    {
+      "scanner": "failures",
+      "queued_at": "2026-07-14T13:08:37.270758+00:00",
+      "payload": {
+        "result": {
+          "source": "hn",
+          "title": "Show HN: 20x \u2013 Open-source agent orchestrator for Linear/HubSpot tasks",
+          "url": "https://github.com/peakflo/20x",
+          "hn_url": "https://news.ycombinator.com/item?id=47168850",
+          "points": 6,
+          "num_comments": 2,
+          "author": "dmitryv",
+          "created_at": "2026-02-26T17:09:54Z",
+          "snippet": "Hi HN,<p>We&#x27;re the engineering team at Peakflo <i>(B2B fintech)</i>. We built 20x internally because we kept copy-pasting Linear tickets into Claude, manually setting up branches, and babysitting agent output across terminals. Eventually we just built the infrastructure to connect task systems to agents directly \u2014 and decided to open source it.<p>20x is an open-source desktop app (macOS only \u2014 Linux and Windows on the roadmap) that orchestrates AI coding agents against your existing task sy"
+        }
+      }
+    },
+    {
+      "scanner": "failures",
+      "queued_at": "2026-07-14T13:08:37.273055+00:00",
+      "payload": {
+        "result": {
+          "source": "hn",
+          "title": "Show HN: A memory database that forgets, consolidates, and detects contradiction",
+          "url": "https://github.com/yantrikos/yantrikdb-server",
+          "hn_url": "https://news.ycombinator.com/item?id=47767119",
+          "points": 48,
+          "num_comments": 33,
+          "author": "pranabsarkar",
+          "created_at": "2026-04-14T15:41:01Z",
+          "snippet": "Vector databases store memories. They don&#x27;t manage them. After 10k memories, recall quality degrades because there&#x27;s no consolidation, no forgetting, no conflict resolution. Your AI agent just gets noisier.<p>YantrikDB is a cognitive memory engine \u2014 embed it, run it as a server, or connect via MCP. It thinks about what it stores: consolidation collapses duplicate memories, contradiction detection flags incompatible facts, temporal decay with configurable half-life lets unimportant memo"
+        }
+      }
+    },
+    {
+      "scanner": "failures",
+      "queued_at": "2026-07-14T13:08:37.275421+00:00",
+      "payload": {
+        "result": {
+          "source": "hn",
+          "title": "Show HN: Detail, a Bug Finder",
+          "url": "https://detail.dev/",
+          "hn_url": "https://news.ycombinator.com/item?id=46207852",
+          "points": 67,
+          "num_comments": 28,
+          "author": "drob",
+          "created_at": "2025-12-09T17:35:35Z",
+          "snippet": "Hi HN, tl;dr we built a bug finder that&#x27;s working really well, especially for app backends. Try it out and send us your thoughts!<p>Long story below.<p>--------------------------<p>We originally set out to work on technical debt. We had all seen codebases with a lot of debt, so we had personal grudges about the problem, and AI seemed to be making it a lot worse.<p>Tech debt also seemed like a great problem for AI because: 1) a small portion of the work is thinky and strategic, and then the "
+        }
+      }
     }
   ]
 }
