@@ -44,6 +44,13 @@
       "max_per_run": 2
     },
     {
+      "id": "litellm-blog",
+      "url": "https://docs.litellm.ai/blog/rss.xml",
+      "source_type": "blog-post",
+      "description": "LiteLLM engineering blog — LLM gateway routing, reliability, caching, and production AI ops",
+      "max_per_run": 2
+    },
+    {
       "id": "cloudflare",
       "url": "https://blog.cloudflare.com/rss/",
       "source_type": "blog-post",
