@@ -410,6 +410,14 @@ def scan_seed(seed: dict, state: dict, dry_run: bool = False) -> tuple[int, int,
             f"  Prefix-filtered sitemap: {before} → {len(urls)} "
             f"(prefix={get_site_prefix(seed['url'])})"
         )
+        # Some sites (e.g. sre.google) publish a site-wide sitemap that
+        # omits the seed section entirely — fall back to nav crawl.
+        if not urls:
+            print("  Prefix filter emptied sitemap; falling back to nav-link extraction")
+            urls = discover_from_nav(seed["url"])
+            urls = filter_urls_to_seed_prefix(urls, seed["url"]) if urls else []
+            # Nav discovery already prefix-filters; re-apply TOC/index drops
+            # via filter for consistency when nav returned unfiltered edges.
 
     if not urls:
         print("  No URLs discovered")

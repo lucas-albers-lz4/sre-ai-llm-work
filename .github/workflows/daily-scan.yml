@@ -48,22 +48,15 @@ jobs:
       - name: Install dependencies
         run: pip install requests
 
-      # Scanner order is signal-priority order: trusted feeds first
-      # (curated, highest signal-to-noise, naturally capped to ~3/feed),
-      # then repos (medium), then failures (broadest, noisiest). Whoever
-      # runs first gets first claim on the daily cap; whoever runs last
-      # is most likely to push to the overflow queue.
+      # Scanner order: repo scanner first while we re-energize it (code search
+      # is dormant until queries return hits + it needs daily-cap budget).
+      # Then trusted feeds (curated), then failures, then site-crawl.
+      # Whoever runs first gets first claim on the daily cap; overflow goes
+      # to registry/scan-queue.json.
 
       # All scanners use PROJECT_PAT for GH_TOKEN so that `gh issue create`
       # fires the issues:opened event, which triggers the source pipeline.
       # GITHUB_TOKEN can't do this (by design — prevents recursive triggers).
-
-      - name: Run trusted-feed scanner
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GH_TOKEN: ${{ secrets.PROJECT_PAT }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
-        run: python scripts/scan-trusted.py
 
       - name: Run repo scanner
         env:
@@ -71,6 +64,13 @@ jobs:
           GH_TOKEN: ${{ secrets.PROJECT_PAT }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: python scripts/scan-repos.py
+
+      - name: Run trusted-feed scanner
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.PROJECT_PAT }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: python scripts/scan-trusted.py
 
       - name: Run failure scanner (Hacker News)
         env:

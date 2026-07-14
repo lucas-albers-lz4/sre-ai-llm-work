@@ -35,14 +35,20 @@ REGISTRY_PATH = Path(__file__).parent.parent / "registry" / "repos.json"
 REPO_URL = os.environ.get("GITHUB_REPOSITORY", "steveash/hitchhiker-guide")
 
 # Search queries for ops/SRE repos that use AI agent configs or runbooks.
-# stars:>=2 — AGENTS.md / .cursor/rules adoption is recent; >=5 starved results.
+# IMPORTANT: /search/code does NOT accept repository qualifiers like stars:,
+# pushed:, or fork: — those cause HTTP 422 QUERY_PARSING_FATAL. Star floor
+# is applied in Python after enriching each hit via the repos API.
 SEARCH_QUERIES = [
-    'filename:AGENTS.md (sre OR runbook OR oncall OR incident OR observability) stars:>=2 pushed:>=2025-12-01 fork:false',
-    'filename:CLAUDE.md (sre OR runbook OR oncall OR incident OR pager) stars:>=2 pushed:>=2025-12-01 fork:false',
-    'path:.claude/settings.json (sre OR platform OR infra) stars:>=2 pushed:>=2025-12-01 fork:false',
-    'filename:runbook.md AI OR LLM stars:>=2 pushed:>=2025-12-01 fork:false',
-    'path:.cursor/rules (sre OR runbook OR oncall OR incident OR platform) stars:>=2 pushed:>=2025-12-01 fork:false',
+    'filename:AGENTS.md (sre OR runbook OR oncall OR incident OR observability)',
+    'filename:CLAUDE.md (sre OR runbook OR oncall OR incident OR pager)',
+    'path:.claude/settings.json (sre OR platform OR infra)',
+    'filename:runbook.md (AI OR LLM)',
+    'path:.cursor/rules (sre OR runbook OR oncall OR incident OR platform)',
 ]
+
+# Post-filter floor (applied after repo metadata enrich). AGENTS.md adoption
+# is recent; keep this low so SRE-relevant repos are not starved.
+MIN_STARS = 2
 
 # Repos to always exclude (vendors, tutorials, this fork's owner)
 EXCLUDE_OWNERS = {
@@ -72,9 +78,14 @@ def search_repos(query: str, page: int = 1) -> tuple[list[dict], str | None]:
     params = {"q": query, "per_page": 100, "page": page}
     resp = requests.get(url, headers=github_headers(), params=params)
 
-    if resp.status_code == 403:
-        print("Rate limited. Waiting 60s...", file=sys.stderr)
-        time.sleep(60)
+    # Code search is tightly rate-limited; retry on 403 and 429.
+    if resp.status_code in (403, 429):
+        wait = 60 if resp.status_code == 403 else 30
+        print(
+            f"Rate limited ({resp.status_code}). Waiting {wait}s...",
+            file=sys.stderr,
+        )
+        time.sleep(wait)
         resp = requests.get(url, headers=github_headers(), params=params)
 
     if resp.status_code != 200:
@@ -93,13 +104,49 @@ def search_repos(query: str, page: int = 1) -> tuple[list[dict], str | None]:
                 "full_name": full_name,
                 "description": repo.get("description", ""),
                 "html_url": repo["html_url"],
-                "stars": repo.get("stargazers_count", 0),
+                # Code-search payloads often omit stargazers_count — enriched below.
+                "stars": repo.get("stargazers_count", 0) or 0,
                 "config_files_found": [item["path"]],
             }
         else:
             repos[full_name]["config_files_found"].append(item["path"])
 
-    return list(repos.values()), None
+    enriched = []
+    for repo in repos.values():
+        enrich_repo_metadata(repo)
+        if repo.get("stars", 0) < MIN_STARS:
+            print(
+                f"  Below star floor ({repo.get('stars', 0)} < {MIN_STARS}): "
+                f"{repo['full_name']}"
+            )
+            continue
+        enriched.append(repo)
+
+    return enriched, None
+
+
+def enrich_repo_metadata(repo: dict) -> None:
+    """Fill stars/description from GET /repos/{full_name} when missing."""
+    full_name = repo["full_name"]
+    if repo.get("stars") and repo.get("description"):
+        return
+    try:
+        resp = requests.get(
+            f"https://api.github.com/repos/{full_name}",
+            headers=github_headers(),
+            timeout=30,
+        )
+        if resp.status_code != 200:
+            return
+        data = resp.json()
+        repo["stars"] = data.get("stargazers_count", repo.get("stars", 0)) or 0
+        if not repo.get("description"):
+            repo["description"] = data.get("description") or ""
+        # Prefer canonical html_url
+        if data.get("html_url"):
+            repo["html_url"] = data["html_url"]
+    except requests.RequestException as e:
+        print(f"  WARN: could not enrich {full_name}: {e}", file=sys.stderr)
 
 
 def is_excluded(repo: dict) -> bool:
