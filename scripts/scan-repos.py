@@ -328,6 +328,9 @@ def drain_queue(dry_run: bool = False) -> int:
         if scan_dedup.is_url_already_tracked(repo.get("html_url", "")):
             print(f"  [dedup] already tracked (queued): {repo.get('full_name', '')}")
             continue
+        if scan_dedup.is_repo_already_tracked(repo.get("full_name", "")):
+            print(f"  [dedup] repo issue already exists (queued): {repo.get('full_name', '')}")
+            continue
         if dry_run:
             print(f"  [DRY-RUN] would file (queued): {repo.get('full_name', '')}")
             filed += 1
@@ -347,6 +350,16 @@ def _try_file_or_queue(repo: dict, is_update: bool, dry_run: bool = False) -> st
     """
     if not dry_run and scan_dedup.is_url_already_tracked(repo.get("html_url", "")):
         print(f"  [dedup] already tracked: {repo['full_name']}")
+        return "dedup"
+    # Title match across open+closed issues — blocks concurrent daily-scan races
+    # and refiles after a prior duplicate was closed. Skip for updates so we can
+    # still file [repo-update] when config files change.
+    if (
+        not is_update
+        and not dry_run
+        and scan_dedup.is_repo_already_tracked(repo.get("full_name", ""))
+    ):
+        print(f"  [dedup] repo issue already exists: {repo['full_name']}")
         return "dedup"
     if dry_run:
         print(f"  [DRY-RUN] would file: {repo['full_name']}")

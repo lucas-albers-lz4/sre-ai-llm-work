@@ -1,25 +1,17 @@
 """
-Deterministic URL deduplication for discovery scanners.
+Deterministic URL / repo deduplication for discovery scanners.
 
-Before filing a new issue, scanners call `is_url_already_tracked(url)` to check
-whether the URL is already known via:
+Before filing a new issue, scanners call:
 
-1. `source_url:` frontmatter in source-notes/*.md files (local grep, instant)
-2. Any open GitHub issue body (one cached `gh` call per process)
+* `is_url_already_tracked(url)` — source-notes `source_url:` + open issue bodies
+* `is_repo_already_tracked(full_name)` — open **or closed** issue titles matching
+  `[repo] full_name` / `[repo-update] full_name` (guards concurrent daily-scan races
+  and prevents refiling after a prior run closed a duplicate)
 
-This is a cheap grep + API call — no LLM involved. Prevents the Prospector
-from spending tokens triaging duplicates that the scanner already knows about.
-
-Usage from a scanner:
-
-    import scan_dedup
-
-    for result in results:
-        if scan_dedup.is_url_already_tracked(result['url']):
-            print(f"  [dedup] already tracked: {result['url']}")
-            continue
-        file_issue(result)
+This is a cheap grep + API call — no LLM involved.
 """
+
+from __future__ import annotations
 
 import json
 import os
@@ -34,6 +26,7 @@ REPO_URL = os.environ.get("GITHUB_REPOSITORY", "steveash/hitchhiker-guide")
 # Caches — populated once per process on first call.
 _source_notes_urls: set[str] | None = None
 _open_issue_bodies: list[str] | None = None
+_repo_issue_titles: set[str] | None = None
 
 
 def _load_source_notes_urls() -> set[str]:
@@ -104,6 +97,43 @@ def _load_open_issue_bodies() -> list[str]:
     return _open_issue_bodies
 
 
+def _load_repo_issue_titles() -> set[str]:
+    """Titles of `[repo]` / `[repo-update]` issues in any state (cached)."""
+    global _repo_issue_titles
+    if _repo_issue_titles is not None:
+        return _repo_issue_titles
+
+    _repo_issue_titles = set()
+    if shutil.which("gh") is None:
+        return _repo_issue_titles
+
+    try:
+        # Include closed: concurrent runs may have filed then pre-screen-closed
+        # duplicates; we must not refile the same full_name again.
+        result = subprocess.run(
+            [
+                "gh", "issue", "list",
+                "--repo", REPO_URL,
+                "--state", "all",
+                "--search", 'in:title "[repo]"',
+                "--json", "title",
+                "--limit", "500",
+            ],
+            capture_output=True,
+            text=True,
+            timeout=90,
+        )
+        if result.returncode == 0:
+            for issue in json.loads(result.stdout):
+                title = (issue.get("title") or "").strip()
+                if title.startswith("[repo]") or title.startswith("[repo-update]"):
+                    _repo_issue_titles.add(title)
+    except (subprocess.TimeoutExpired, subprocess.SubprocessError, json.JSONDecodeError) as e:
+        print(f"  WARN: could not fetch repo issue titles for dedup: {e}", file=sys.stderr)
+
+    return _repo_issue_titles
+
+
 def is_url_already_tracked(url: str) -> bool:
     """Check if a URL is already tracked in source-notes or open issues.
 
@@ -122,3 +152,21 @@ def is_url_already_tracked(url: str) -> bool:
             return True
 
     return False
+
+
+def is_repo_already_tracked(full_name: str) -> bool:
+    """True if a `[repo]` / `[repo-update]` issue already exists for this full_name.
+
+    Checks open and closed issue titles so a prior run's closed duplicate still
+    blocks refiling (ledger race during concurrent daily-scan).
+    """
+    if not full_name:
+        return False
+
+    name = full_name.strip()
+    candidates = (
+        f"[repo] {name}",
+        f"[repo-update] {name}",
+    )
+    titles = _load_repo_issue_titles()
+    return any(t in titles for t in candidates)

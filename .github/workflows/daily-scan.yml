@@ -12,7 +12,13 @@ name: Daily Scanner
 on:
   schedule:
     - cron: '0 6 * * *'   # Every day at 06:00 UTC
-  workflow_dispatch:        # Manual trigger for testing / one-off runs
+  workflow_dispatch:        # Manual trigger for testing / one-off runs / queue flush
+    inputs:
+      daily_scan_cap:
+        description: "Override DAILY_SCAN_CAP for this run only (default 20; use 80 to flush scan-queue)"
+        required: false
+        default: "20"
+        type: string
 
 permissions:
   issues: write             # `gh issue create` calls from the scanners
@@ -28,9 +34,9 @@ jobs:
   scan:
     runs-on: ubuntu-latest
     env:
-      # Single knob for the daily issue-filing cap. Bumping this here is
-      # the entire interface for relaxing or tightening Pipeline 1 ingress.
-      DAILY_SCAN_CAP: '20'
+      # Schedule path uses 35 after queue-flush + Miner BATCH_SIZE=4 (issue #180).
+      # workflow_dispatch may override via inputs.daily_scan_cap (e.g. 80 for a one-shot drain).
+      DAILY_SCAN_CAP: ${{ github.event.inputs.daily_scan_cap || '35' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -47,6 +53,9 @@ jobs:
 
       - name: Install dependencies
         run: pip install requests
+
+      - name: Show daily-scan cap
+        run: echo "DAILY_SCAN_CAP=${DAILY_SCAN_CAP} (dispatch override or scheduled default)"
 
       # Scanner order: repo scanner first while we re-energize it (code search
       # is dormant until queries return hits + it needs daily-cap budget).
