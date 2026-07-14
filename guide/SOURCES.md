@@ -5,4 +5,4 @@ Miner and Smith populate this as notes merge.
 
 | Source | Type | Notes |
 |--------|------|-------|
-| — | — | No citations yet |
+| docs-google-sre-prodcast-03-06-incident-response-tooling | discussion | SRE Prodcast S3E6 — incident response tooling; Butt (Salesforce) & Stacey (Google) |
