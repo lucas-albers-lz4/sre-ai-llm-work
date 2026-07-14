@@ -2,7 +2,7 @@
   "repos": {
     "magnus919/hermes-profiles": {
       "first_seen": "2026-07-14T13:38:31.887629+00:00",
-      "last_scanned": "2026-07-14T13:38:31.887638+00:00",
+      "last_scanned": "2026-07-14T13:50:56.595341+00:00",
       "config_files": [
         "profiles/site-reliability-engineer/AGENTS.md"
       ],
@@ -10,7 +10,7 @@
     },
     "kaynor/agent-voir": {
       "first_seen": "2026-07-14T13:38:33.601648+00:00",
-      "last_scanned": "2026-07-14T13:38:33.601656+00:00",
+      "last_scanned": "2026-07-14T13:50:56.595412+00:00",
       "config_files": [
         "docs/voice-agents.md"
       ],
@@ -18,7 +18,7 @@
     },
     "manojmallick/guardian": {
       "first_seen": "2026-07-14T13:38:35.291515+00:00",
-      "last_scanned": "2026-07-14T13:38:35.291523+00:00",
+      "last_scanned": "2026-07-14T13:50:56.595447+00:00",
       "config_files": [
         "logs/CLAUDE.md"
       ],
@@ -26,7 +26,7 @@
     },
     "tang-vu/ContribAI": {
       "first_seen": "2026-07-14T13:38:36.750652+00:00",
-      "last_scanned": "2026-07-14T13:38:36.750660+00:00",
+      "last_scanned": "2026-07-14T13:50:56.595503+00:00",
       "config_files": [
         "RUNBOOK.md"
       ],
@@ -34,7 +34,7 @@
     },
     "youngde811/Lisa": {
       "first_seen": "2026-07-14T13:38:38.258897+00:00",
-      "last_scanned": "2026-07-14T13:38:38.258906+00:00",
+      "last_scanned": "2026-07-14T13:50:56.595520+00:00",
       "config_files": [
         "docs/runbook.md"
       ],
@@ -42,7 +42,7 @@
     },
     "xerj-org/xerj": {
       "first_seen": "2026-07-14T13:38:39.835289+00:00",
-      "last_scanned": "2026-07-14T13:38:39.835297+00:00",
+      "last_scanned": "2026-07-14T13:50:56.595537+00:00",
       "config_files": [
         "demo/DEMO_RUNBOOK.md"
       ],
@@ -50,7 +50,7 @@
     },
     "NarratorAI-Studio/narrator-ai-cli": {
       "first_seen": "2026-07-14T13:38:41.374018+00:00",
-      "last_scanned": "2026-07-14T13:38:41.374025+00:00",
+      "last_scanned": "2026-07-14T13:50:56.595570+00:00",
       "config_files": [
         "docs/ops-runbook.md"
       ],
@@ -58,7 +58,7 @@
     },
     "exploitbench/exploitbench": {
       "first_seen": "2026-07-14T13:38:42.835438+00:00",
-      "last_scanned": "2026-07-14T13:38:42.835446+00:00",
+      "last_scanned": "2026-07-14T13:50:56.595615+00:00",
       "config_files": [
         "docs/RUNBOOK.md"
       ],
@@ -66,7 +66,7 @@
     },
     "rrbanda/maas-demo": {
       "first_seen": "2026-07-14T13:38:44.322356+00:00",
-      "last_scanned": "2026-07-14T13:38:44.322363+00:00",
+      "last_scanned": "2026-07-14T13:50:56.595632+00:00",
       "config_files": [
         "docs/demo-runbook.md"
       ],
@@ -74,7 +74,7 @@
     },
     "ebongard/renfield": {
       "first_seen": "2026-07-14T13:38:46.154789+00:00",
-      "last_scanned": "2026-07-14T13:38:46.154798+00:00",
+      "last_scanned": "2026-07-14T13:50:56.595664+00:00",
       "config_files": [
         "docs/B5_RUNBOOK.md"
       ],
@@ -82,7 +82,7 @@
     },
     "oscharko-dev/Keiko": {
       "first_seen": "2026-07-14T13:38:47.654024+00:00",
-      "last_scanned": "2026-07-14T13:38:47.654031+00:00",
+      "last_scanned": "2026-07-14T13:50:56.595690+00:00",
       "config_files": [
         "docs/ui-runbook.md"
       ],
@@ -90,7 +90,7 @@
     },
     "samchatterley/investor-bot": {
       "first_seen": "2026-07-14T13:38:49.093870+00:00",
-      "last_scanned": "2026-07-14T13:38:49.093877+00:00",
+      "last_scanned": "2026-07-14T13:50:56.595773+00:00",
       "config_files": [
         "LIVE_RUNBOOK.md"
       ],
@@ -98,7 +98,7 @@
     },
     "electricsheephq/WorldOS": {
       "first_seen": "2026-07-14T13:38:50.715513+00:00",
-      "last_scanned": "2026-07-14T13:38:50.715520+00:00",
+      "last_scanned": "2026-07-14T13:50:56.595818+00:00",
       "config_files": [
         "WorldOS-RUNBOOK.md"
       ],
@@ -106,7 +106,7 @@
     },
     "omkarumarani/obseransiblerepo": {
       "first_seen": "2026-07-14T13:38:52.190000+00:00",
-      "last_scanned": "2026-07-14T13:38:52.190007+00:00",
+      "last_scanned": "2026-07-14T13:50:56.595839+00:00",
       "config_files": [
         "DEMO-RUNBOOK.md"
       ],
@@ -114,7 +114,7 @@
     },
     "ADanMan/AVI": {
       "first_seen": "2026-07-14T13:38:53.542067+00:00",
-      "last_scanned": "2026-07-14T13:38:53.542074+00:00",
+      "last_scanned": "2026-07-14T13:50:56.595853+00:00",
       "config_files": [
         "docs/runbook.md"
       ],
@@ -122,7 +122,7 @@
     },
     "anchapin/portkit": {
       "first_seen": "2026-07-14T13:38:55.219513+00:00",
-      "last_scanned": "2026-07-14T13:38:55.219521+00:00",
+      "last_scanned": "2026-07-14T13:50:56.595880+00:00",
       "config_files": [
         "docs/runbook.md"
       ],
@@ -130,7 +130,7 @@
     },
     "aberration-technology/burn_p2p": {
       "first_seen": "2026-07-14T13:38:55.219591+00:00",
-      "last_scanned": "2026-07-14T13:38:55.219593+00:00",
+      "last_scanned": "2026-07-14T13:50:56.595909+00:00",
       "config_files": [
         "docs/operator-runbook.md"
       ],
@@ -138,7 +138,7 @@
     },
     "yoshioterada/Spring-Boot-Ski-Shop-with-Multi-Agent-Skill": {
       "first_seen": "2026-07-14T13:38:55.219625+00:00",
-      "last_scanned": "2026-07-14T13:38:55.219627+00:00",
+      "last_scanned": "2026-07-14T13:50:56.595931+00:00",
       "config_files": [
         "docs/runbook.md"
       ],
@@ -146,7 +146,7 @@
     },
     "mrebbert/local-ai-memory": {
       "first_seen": "2026-07-14T13:38:56.601797+00:00",
-      "last_scanned": "2026-07-14T13:38:56.601811+00:00",
+      "last_scanned": "2026-07-14T13:50:56.595947+00:00",
       "config_files": [
         "docs/03-runbook.md"
       ],
@@ -154,7 +154,7 @@
     },
     "infantesromeroadrian/FraudAI-Agent": {
       "first_seen": "2026-07-14T13:38:57.993307+00:00",
-      "last_scanned": "2026-07-14T13:38:57.993314+00:00",
+      "last_scanned": "2026-07-14T13:50:56.595976+00:00",
       "config_files": [
         "docs/F6_runbook.md"
       ],
@@ -162,7 +162,7 @@
     },
     "nicolasramos/odooclaw-mcp": {
       "first_seen": "2026-07-14T13:38:59.334366+00:00",
-      "last_scanned": "2026-07-14T13:38:59.334375+00:00",
+      "last_scanned": "2026-07-14T13:50:56.595991+00:00",
       "config_files": [
         "docs/QA_RUNBOOK.md"
       ],
@@ -170,7 +170,7 @@
     },
     "nisavid/agent-armory": {
       "first_seen": "2026-07-14T13:39:00.745051+00:00",
-      "last_scanned": "2026-07-14T13:39:00.745058+00:00",
+      "last_scanned": "2026-07-14T13:50:56.596037+00:00",
       "config_files": [
         "docs/smith-runbook.md"
       ],
@@ -178,7 +178,7 @@
     },
     "syndicalt/zaxy": {
       "first_seen": "2026-07-14T13:39:00.746554+00:00",
-      "last_scanned": "2026-07-14T13:39:00.746559+00:00",
+      "last_scanned": "2026-07-14T13:50:56.596122+00:00",
       "config_files": [
         "docs/runbook.md"
       ],
@@ -186,7 +186,7 @@
     },
     "R00T-Kim/SCOUT": {
       "first_seen": "2026-07-14T13:39:00.747920+00:00",
-      "last_scanned": "2026-07-14T13:39:00.747924+00:00",
+      "last_scanned": "2026-07-14T13:50:56.596158+00:00",
       "config_files": [
         "docs/runbook.md"
       ],
@@ -194,7 +194,7 @@
     },
     "aishanee-sinha/Multi-Agent-Autonomous-Workforce-Assistant": {
       "first_seen": "2026-07-14T13:39:00.749214+00:00",
-      "last_scanned": "2026-07-14T13:39:00.749217+00:00",
+      "last_scanned": "2026-07-14T13:50:56.596232+00:00",
       "config_files": [
         "docs/Runbook.md"
       ],
@@ -202,12 +202,12 @@
     },
     "neilghosh/medical-ai-doc-processing": {
       "first_seen": "2026-07-14T13:39:00.750464+00:00",
-      "last_scanned": "2026-07-14T13:39:00.750468+00:00",
+      "last_scanned": "2026-07-14T13:50:56.596250+00:00",
       "config_files": [
         "DEMO_RUNBOOK.md"
       ],
       "stars": 2
     }
   },
-  "last_scan": "2026-07-14T13:39:00.750472+00:00"
+  "last_scan": "2026-07-14T13:50:56.596253+00:00"
 }
