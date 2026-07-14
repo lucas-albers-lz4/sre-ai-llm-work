@@ -122,7 +122,7 @@ jobs:
       pull-requests: write   # open the source-note PR
       id-token: write        # required by anthropics/claude-code-action OIDC auth
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           # Use PROJECT_PAT so subsequent git push (and gh pr create below)
           # are authenticated as a user, not the GitHub Actions bot. PRs

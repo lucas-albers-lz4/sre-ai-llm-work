@@ -97,7 +97,7 @@ jobs:
             echo "Mode: rework (incremental fix)"
           fi
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: ${{ steps.pr.outputs.head_ref }}
           fetch-depth: 0

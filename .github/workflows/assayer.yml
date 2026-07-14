@@ -118,7 +118,7 @@ jobs:
     if: needs.prepare.outputs.should_run == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
           ref: ${{ needs.prepare.outputs.head_sha }}

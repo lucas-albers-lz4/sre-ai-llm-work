@@ -29,7 +29,7 @@ jobs:
   rebuild:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           # PROJECT_PAT (an admin user), not GITHUB_TOKEN: the commit below is a
           # direct push to main. Once branch protection requires the assayer

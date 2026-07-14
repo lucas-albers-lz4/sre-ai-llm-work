@@ -45,7 +45,7 @@ jobs:
   herald:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           # Full history so the diff range can reach an arbitrarily old
           # `from_commit` (a missed week widens the range). PROJECT_PAT gives
