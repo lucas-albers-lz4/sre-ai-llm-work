@@ -15,6 +15,7 @@ still happens — issue filing is an additional side effect that promotes
 the scanner from passive data collector to active driver of Pipeline 1.
 """
 
+import argparse
 import json
 import os
 import shutil
@@ -28,18 +29,29 @@ import requests
 
 import scan_budget
 import scan_dedup
+import _domain
 
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
 REGISTRY_PATH = Path(__file__).parent.parent / "registry" / "repos.json"
 REPO_URL = os.environ.get("GITHUB_REPOSITORY", "steveash/hitchhiker-guide")
 
-# Search queries for ops/SRE repos that use AI agent configs or runbooks
+# Search queries for ops/SRE repos that use AI agent configs or runbooks.
+# IMPORTANT (legacy /search/code quirks):
+# - Repository qualifiers (stars:, pushed:, fork:) → HTTP 422
+# - Parentheses around OR groups → HTTP 422
+# Repeat the filename:/path: qualifier on each OR branch instead.
+# Star floor is applied in Python after enriching via the repos API.
 SEARCH_QUERIES = [
-    'filename:AGENTS.md (sre OR runbook OR oncall OR incident OR observability) stars:>=5 pushed:>=2025-12-01 fork:false',
-    'filename:CLAUDE.md (sre OR runbook OR oncall OR incident OR pager) stars:>=5 pushed:>=2025-12-01 fork:false',
-    'path:.claude/settings.json (sre OR platform OR infra) stars:>=5 pushed:>=2025-12-01 fork:false',
-    'filename:runbook.md AI OR LLM stars:>=3 pushed:>=2025-12-01 fork:false',
+    'filename:AGENTS.md sre OR filename:AGENTS.md runbook OR filename:AGENTS.md oncall OR filename:AGENTS.md incident OR filename:AGENTS.md observability',
+    'filename:CLAUDE.md sre OR filename:CLAUDE.md runbook OR filename:CLAUDE.md oncall OR filename:CLAUDE.md incident OR filename:CLAUDE.md pager',
+    'path:.claude/settings.json',
+    'filename:runbook.md AI OR filename:runbook.md LLM',
+    'path:.cursor/rules sre OR path:.cursor/rules oncall OR path:.cursor/rules incident OR path:.cursor/rules platform OR path:.cursor/rules runbook',
 ]
+
+# Post-filter floor (applied after repo metadata enrich). AGENTS.md adoption
+# is recent; keep this low so SRE-relevant repos are not starved.
+MIN_STARS = 2
 
 # Repos to always exclude (vendors, tutorials, this fork's owner)
 EXCLUDE_OWNERS = {
@@ -63,20 +75,37 @@ def github_headers():
     return headers
 
 
-def search_repos(query: str, page: int = 1) -> list[dict]:
-    """Search GitHub code API and return unique repos from results."""
+def search_repos(query: str, page: int = 1) -> tuple[list[dict], str | None]:
+    """Search GitHub code API and return (repos, error_message_or_None)."""
     url = "https://api.github.com/search/code"
     params = {"q": query, "per_page": 100, "page": page}
-    resp = requests.get(url, headers=github_headers(), params=params)
-
-    if resp.status_code == 403:
-        print(f"Rate limited. Waiting 60s...", file=sys.stderr)
-        time.sleep(60)
+    resp = None
+    for attempt in range(4):
         resp = requests.get(url, headers=github_headers(), params=params)
+        if resp.status_code not in (403, 429):
+            break
+        # Prefer Retry-After when present; otherwise escalate wait.
+        retry_after = resp.headers.get("Retry-After")
+        try:
+            wait = int(retry_after) if retry_after else (30 * (attempt + 1))
+        except ValueError:
+            wait = 30 * (attempt + 1)
+        wait = min(max(wait, 15), 120)
+        print(
+            f"Rate limited ({resp.status_code}), attempt {attempt + 1}/4. "
+            f"Waiting {wait}s...",
+            file=sys.stderr,
+        )
+        time.sleep(wait)
 
-    if resp.status_code != 200:
-        print(f"Search failed ({resp.status_code}): {resp.text}", file=sys.stderr)
-        return []
+    if resp is None or resp.status_code != 200:
+        status = resp.status_code if resp is not None else "no-response"
+        body_excerpt = ((resp.text if resp is not None else "") or "")[:300].replace(
+            "\n", " "
+        )
+        err = f"HTTP {status}: {body_excerpt}"
+        print(f"Search failed for query — {err}", file=sys.stderr)
+        return [], err
 
     data = resp.json()
     repos = {}
@@ -88,13 +117,49 @@ def search_repos(query: str, page: int = 1) -> list[dict]:
                 "full_name": full_name,
                 "description": repo.get("description", ""),
                 "html_url": repo["html_url"],
-                "stars": repo.get("stargazers_count", 0),
+                # Code-search payloads often omit stargazers_count — enriched below.
+                "stars": repo.get("stargazers_count", 0) or 0,
                 "config_files_found": [item["path"]],
             }
         else:
             repos[full_name]["config_files_found"].append(item["path"])
 
-    return list(repos.values())
+    enriched = []
+    for repo in repos.values():
+        enrich_repo_metadata(repo)
+        if repo.get("stars", 0) < MIN_STARS:
+            print(
+                f"  Below star floor ({repo.get('stars', 0)} < {MIN_STARS}): "
+                f"{repo['full_name']}"
+            )
+            continue
+        enriched.append(repo)
+
+    return enriched, None
+
+
+def enrich_repo_metadata(repo: dict) -> None:
+    """Fill stars/description from GET /repos/{full_name} when missing."""
+    full_name = repo["full_name"]
+    if repo.get("stars") and repo.get("description"):
+        return
+    try:
+        resp = requests.get(
+            f"https://api.github.com/repos/{full_name}",
+            headers=github_headers(),
+            timeout=30,
+        )
+        if resp.status_code != 200:
+            return
+        data = resp.json()
+        repo["stars"] = data.get("stargazers_count", repo.get("stars", 0)) or 0
+        if not repo.get("description"):
+            repo["description"] = data.get("description") or ""
+        # Prefer canonical html_url
+        if data.get("html_url"):
+            repo["html_url"] = data["html_url"]
+    except requests.RequestException as e:
+        print(f"  WARN: could not enrich {full_name}: {e}", file=sys.stderr)
 
 
 def is_excluded(repo: dict) -> bool:
@@ -110,6 +175,10 @@ def is_excluded(repo: dict) -> bool:
     for kw in TUTORIAL_KEYWORDS:
         if kw in name or kw in desc:
             return True
+
+    # Pure coding-agent DX with no SRE/LLM-ops signal (config flag).
+    if not _domain.is_sre_relevant(f"{name} {desc}"):
+        return True
 
     return False
 
@@ -153,10 +222,30 @@ def file_issue(repo: dict, is_update: bool = False) -> bool:
     title_prefix = "[repo-update]" if is_update else "[repo]"
     title = f'{title_prefix} {repo["full_name"]}'
 
+    # Ensure labels exist (first run on a fork may lack template-only labels).
+    for lbl, desc, color in (
+        ("new-repo", "Newly discovered practitioner repo", "0E8A16"),
+        ("repo-updated", "Known practitioner repo with config changes", "1D76DB"),
+        ("practitioner-repo", "Practitioner repo for SRE/AI-ops analysis", "5319E7"),
+    ):
+        subprocess.run(
+            [
+                "gh", "label", "create", lbl,
+                "--repo", REPO_URL,
+                "--description", desc,
+                "--color", color,
+            ],
+            capture_output=True,
+            text=True,
+        )
+
     config_files = repo.get("config_files_found", [])
     config_files_md = (
         "\n".join(f"- `{f}`" for f in config_files) if config_files else "- (none detected)"
     )
+
+    relevance_blob = f"{repo.get('full_name', '')} {repo.get('description') or ''}"
+    relevance = _domain.domain_relevance(relevance_blob)
 
     # Body mirrors the practitioner-repo.yml form sections so triage tooling can
     # treat auto-filed and human-filed issues the same way.
@@ -170,12 +259,25 @@ URL: {repo['html_url']}
 
 {config_files_md}
 
+### What operational/SRE pattern does this repo demonstrate?
+
+Auto-discovered by the repo scanner. Prospector: pick the best fit —
+
+- Operational runbook content (incident response, oncall, SLOs, postmortems)
+- AI agent usage patterns (which AI tools are wired in ops, and how)
+- Observability + LLM tracing patterns (OTel GenAI, LLM evals)
+- Production safety patterns (eval gates, cost monitors, prompt/version mgmt)
+
+Note: CLAUDE.md / `.cursorrules` / AGENTS.md are evidence of AI agent adoption
+in production, not the primary classification.
+
 ### What makes this repo worth analyzing?
 
 Auto-discovered by the weekly repo scanner.
 
 - Stars: {repo.get('stars', 'unknown')}
 - Description: {repo.get('description') or 'No description'}
+- **domain_relevance**: {relevance}
 
 This issue was filed automatically and needs triage by the Prospector agent.
 
@@ -206,7 +308,7 @@ This issue was filed automatically and needs triage by the Prospector agent.
         return False
 
 
-def drain_queue() -> int:
+def drain_queue(dry_run: bool = False) -> int:
     """File repo entries previously queued by this scanner. Returns count filed."""
     budget = scan_budget.remaining()
     if budget <= 0:
@@ -226,34 +328,48 @@ def drain_queue() -> int:
         if scan_dedup.is_url_already_tracked(repo.get("html_url", "")):
             print(f"  [dedup] already tracked (queued): {repo.get('full_name', '')}")
             continue
+        if dry_run:
+            print(f"  [DRY-RUN] would file (queued): {repo.get('full_name', '')}")
+            filed += 1
+            continue
         if file_issue(repo, is_update=is_update):
             filed += 1
             scan_budget.record_filed(1)
     return filed
 
 
-def _try_file_or_queue(repo: dict, is_update: bool) -> tuple[bool, bool]:
+def _try_file_or_queue(repo: dict, is_update: bool, dry_run: bool = False) -> str:
     """File a repo issue if budget allows, otherwise queue it for next run.
 
-    Returns (filed, queued) — exactly one will be True. The repo is
-    *always* recorded as known in the registry afterwards (caller's
-    responsibility) so we never re-discover it tomorrow; the queue is now
-    the canonical home for the unfiled work.
+    Returns one of: "filed", "queued", "dedup", "failed".
+    Persist into the registry only for filed/queued/dedup — failed stays
+    undiscovered so the next run retries (e.g. missing labels).
     """
-    if scan_dedup.is_url_already_tracked(repo.get("html_url", "")):
+    if not dry_run and scan_dedup.is_url_already_tracked(repo.get("html_url", "")):
         print(f"  [dedup] already tracked: {repo['full_name']}")
-        return (False, False)
+        return "dedup"
+    if dry_run:
+        print(f"  [DRY-RUN] would file: {repo['full_name']}")
+        return "filed"
     if scan_budget.remaining() <= 0:
         scan_budget.queue_item("repos", {"repo": repo, "is_update": is_update})
         print(f"  [queued] daily cap reached: {repo['full_name']}")
-        return (False, True)
+        return "queued"
     if file_issue(repo, is_update=is_update):
         scan_budget.record_filed(1)
-        return (True, False)
-    return (False, False)
+        return "filed"
+    return "failed"
 
 
 def main():
+    parser = argparse.ArgumentParser(description="Scan GitHub for SRE/ops repos with AI agent configs.")
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Search and report NEW/Excluded/summary without filing issues or writing registry.",
+    )
+    args = parser.parse_args()
+
     registry = load_registry()
     known_repos = registry.get("repos", {})
     all_discovered = {}
@@ -262,16 +378,25 @@ def main():
 
     # Drain repo backlog from prior runs first so the oldest discoveries
     # become Pipeline 1 issues before we go looking for fresh ones.
-    drained = drain_queue()
+    drained = drain_queue(dry_run=args.dry_run)
     if drained:
         print(f"Refiled {drained} item(s) from queue. {scan_budget.status_summary()}")
 
     print("Starting repo scan...")
 
+    queries_run = 0
+    query_failures = 0
+    raw_hits = 0
+
     for query in SEARCH_QUERIES:
+        queries_run += 1
         print(f"\nSearching: {query}")
-        repos = search_repos(query)
+        repos, err = search_repos(query)
+        if err:
+            query_failures += 1
+            print(f"  Query error — treating as 0 results ({err})", file=sys.stderr)
         print(f"  Found {len(repos)} repos")
+        raw_hits += len(repos)
 
         for repo in repos:
             name = repo["full_name"]
@@ -285,54 +410,71 @@ def main():
                     set(existing_files + new_files)
                 )
 
-        # Respect rate limits
-        time.sleep(10)
+        # Code search secondary rate limit — stay under ~30 req/min.
+        time.sleep(12)
 
     # Filter and process
     new_count = 0
     update_count = 0
     queued_count = 0
+    excluded_count = 0
+    skipped_count = 0
 
     for name, repo in all_discovered.items():
         if is_excluded(repo):
             print(f"  Excluded: {name}")
+            excluded_count += 1
             continue
 
         if name not in known_repos:
             print(f"  NEW: {name}")
-            filed, queued = _try_file_or_queue(repo, is_update=False)
-            known_repos[name] = {
-                "first_seen": datetime.now(timezone.utc).isoformat(),
-                "last_scanned": datetime.now(timezone.utc).isoformat(),
-                "config_files": repo["config_files_found"],
-                "stars": repo.get("stars", 0),
-            }
-            if filed:
+            outcome = _try_file_or_queue(repo, is_update=False, dry_run=args.dry_run)
+            if outcome == "filed":
                 new_count += 1
-            if queued:
+            elif outcome == "queued":
                 queued_count += 1
+            else:
+                skipped_count += 1
+            # Only persist when filed/queued/dedup — failed retries next run.
+            if not args.dry_run and outcome in ("filed", "queued", "dedup"):
+                known_repos[name] = {
+                    "first_seen": datetime.now(timezone.utc).isoformat(),
+                    "last_scanned": datetime.now(timezone.utc).isoformat(),
+                    "config_files": repo["config_files_found"],
+                    "stars": repo.get("stars", 0),
+                }
         else:
             # Check if config files changed
             old_files = set(known_repos[name].get("config_files", []))
             new_files = set(repo["config_files_found"])
             if new_files != old_files:
                 print(f"  UPDATED: {name} (config files changed)")
-                filed, queued = _try_file_or_queue(repo, is_update=True)
-                known_repos[name]["last_scanned"] = datetime.now(timezone.utc).isoformat()
-                known_repos[name]["config_files"] = repo["config_files_found"]
-                if filed:
+                outcome = _try_file_or_queue(repo, is_update=True, dry_run=args.dry_run)
+                if outcome == "filed":
                     update_count += 1
-                if queued:
+                elif outcome == "queued":
                     queued_count += 1
-            else:
+                else:
+                    skipped_count += 1
+                if not args.dry_run and outcome in ("filed", "queued", "dedup"):
+                    known_repos[name]["last_scanned"] = datetime.now(timezone.utc).isoformat()
+                    known_repos[name]["config_files"] = repo["config_files_found"]
+            elif not args.dry_run:
                 known_repos[name]["last_scanned"] = datetime.now(timezone.utc).isoformat()
 
-    registry["repos"] = known_repos
-    registry["last_scan"] = datetime.now(timezone.utc).isoformat()
-    save_registry(registry)
+    if not args.dry_run:
+        registry["repos"] = known_repos
+        registry["last_scan"] = datetime.now(timezone.utc).isoformat()
+        save_registry(registry)
 
-    print(f"\nScan complete: {new_count} new, {update_count} updated, "
-          f"{queued_count} queued for next run, {len(known_repos)} total tracked")
+    filed_total = new_count + update_count
+    print(
+        f"\nScan complete: queries={queries_run} found={len(all_discovered)} "
+        f"(raw_hits={raw_hits}) excluded={excluded_count} filed={filed_total} "
+        f"(new={new_count} updated={update_count}) queued={queued_count} "
+        f"skipped={skipped_count} query_failures={query_failures} "
+        f"tracked={len(known_repos)}"
+    )
     print(f"Final budget: {scan_budget.status_summary()}")
 
 

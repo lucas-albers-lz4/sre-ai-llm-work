@@ -34,6 +34,7 @@ import requests
 
 import scan_budget
 import scan_dedup
+import _domain
 
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
 REPO_URL = os.environ.get("GITHUB_REPOSITORY", "steveash/hitchhiker-guide")
@@ -217,6 +218,9 @@ def file_issue(feed: dict, entry: dict) -> bool:
     title_text = entry["title"] or entry["url"] or "untitled"
     title = f"[source] {title_text[:100]}"
 
+    relevance_blob = f"{entry.get('title', '')} {entry.get('url', '')} {feed.get('description', '')}"
+    relevance = _domain.domain_relevance(relevance_blob)
+
     body = f"""### Source URL
 
 {entry['url']}
@@ -236,6 +240,8 @@ Auto-discovered from trusted feed `{feed['id']}` ({feed['description']}).
 This source comes from a curated high-signal feed, so it has already passed
 the "is this author worth listening to?" bar. The Prospector still needs to
 decide novelty and chapter relevance.
+
+- **domain_relevance**: {relevance}
 
 ### Where might this be relevant?
 
@@ -350,6 +356,12 @@ def scan_feed(feed: dict, state: dict, dry_run: bool = False) -> tuple[int, int,
 
         if not dry_run and scan_dedup.is_url_already_tracked(entry.get("url", "")):
             print(f"  [dedup] already tracked: {entry['title'][:80]}")
+            seen_set.add(entry["id"])
+            continue
+
+        relevance_blob = f"{entry.get('title', '')} {entry.get('url', '')} {feed.get('description', '')}"
+        if not _domain.is_sre_relevant(relevance_blob):
+            print(f"  [domain] pure coding agent — skip: {entry['title'][:80]}")
             seen_set.add(entry["id"])
             continue
 
