@@ -182,84 +182,124 @@
         "filed_at": "2026-07-13T02:15:39.578497+00:00"
       },
       "https://sre.google/prodcast/transcripts/sre-prodcast-02-04/": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:52:29.333095+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:52:29.333095+00:00",
+        "issue": 54,
+        "filed_at": "2026-07-14T08:25:13.574484+00:00"
       },
       "https://sre.google/prodcast/transcripts/sre-prodcast-02-05/": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:52:29.333097+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:52:29.333097+00:00",
+        "issue": 55,
+        "filed_at": "2026-07-14T08:25:15.557296+00:00"
       },
       "https://sre.google/prodcast/transcripts/sre-prodcast-02-06/": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:52:29.333099+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:52:29.333099+00:00",
+        "issue": 56,
+        "filed_at": "2026-07-14T08:25:17.531881+00:00"
       },
       "https://sre.google/prodcast/transcripts/sre-prodcast-02-07/": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:52:29.333100+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:52:29.333100+00:00",
+        "issue": 57,
+        "filed_at": "2026-07-14T08:25:19.467387+00:00"
       },
       "https://sre.google/prodcast/transcripts/sre-prodcast-02-08/": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:52:29.333102+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:52:29.333102+00:00",
+        "issue": 58,
+        "filed_at": "2026-07-14T08:25:21.394305+00:00"
       },
       "https://sre.google/prodcast/transcripts/sre-prodcast-03-01/": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:52:29.333103+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:52:29.333103+00:00",
+        "issue": 59,
+        "filed_at": "2026-07-14T08:25:23.402022+00:00"
       },
       "https://sre.google/prodcast/transcripts/sre-prodcast-03-02/": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:52:29.333105+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:52:29.333105+00:00",
+        "issue": 60,
+        "filed_at": "2026-07-14T08:25:25.920872+00:00"
       },
       "https://sre.google/prodcast/transcripts/sre-prodcast-03-03/": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:52:29.333106+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:52:29.333106+00:00",
+        "issue": 61,
+        "filed_at": "2026-07-14T08:25:27.903677+00:00"
       },
       "https://sre.google/prodcast/transcripts/sre-prodcast-03-04/": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:52:29.333108+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:52:29.333108+00:00",
+        "issue": 62,
+        "filed_at": "2026-07-14T08:25:29.892122+00:00"
       },
       "https://sre.google/prodcast/transcripts/sre-prodcast-03-05/": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:52:29.333110+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:52:29.333110+00:00",
+        "issue": 63,
+        "filed_at": "2026-07-14T08:25:31.868997+00:00"
       },
       "https://sre.google/prodcast/transcripts/sre-prodcast-03-06/": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:52:29.333111+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:52:29.333111+00:00",
+        "issue": 64,
+        "filed_at": "2026-07-14T08:25:34.130637+00:00"
       },
       "https://sre.google/prodcast/transcripts/sre-prodcast-03-07/": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:52:29.333113+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:52:29.333113+00:00",
+        "issue": 65,
+        "filed_at": "2026-07-14T08:25:36.011428+00:00"
       },
       "https://sre.google/prodcast/transcripts/sre-prodcast-03-08/": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:52:29.333114+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:52:29.333114+00:00",
+        "issue": 66,
+        "filed_at": "2026-07-14T08:25:37.876219+00:00"
       },
       "https://sre.google/prodcast/transcripts/sre-prodcast-03-09/": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:52:29.333266+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:52:29.333266+00:00",
+        "issue": 67,
+        "filed_at": "2026-07-14T08:25:39.904889+00:00"
       },
       "https://sre.google/prodcast/transcripts/sre-prodcast-03-10/": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:52:29.333269+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:52:29.333269+00:00",
+        "issue": 68,
+        "filed_at": "2026-07-14T08:25:41.867246+00:00"
       },
       "https://sre.google/prodcast/transcripts/sre-prodcast-03-11/": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:52:29.333270+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:52:29.333270+00:00",
+        "issue": 69,
+        "filed_at": "2026-07-14T08:25:43.742018+00:00"
       },
       "https://sre.google/prodcast/transcripts/sre-prodcast-03-12/": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:52:29.333272+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:52:29.333272+00:00",
+        "issue": 70,
+        "filed_at": "2026-07-14T08:25:45.778488+00:00"
       },
       "https://sre.google/prodcast/transcripts/sre-prodcast-03-13/": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:52:29.333274+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:52:29.333274+00:00",
+        "issue": 71,
+        "filed_at": "2026-07-14T08:25:48.169020+00:00"
       },
       "https://sre.google/prodcast/transcripts/sre-prodcast-03-14/": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:52:29.333286+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:52:29.333286+00:00",
+        "issue": 72,
+        "filed_at": "2026-07-14T08:25:50.102819+00:00"
       },
       "https://sre.google/prodcast/transcripts/sre-prodcast-04-00/": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:52:29.333288+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:52:29.333288+00:00",
+        "issue": 73,
+        "filed_at": "2026-07-14T08:25:52.078979+00:00"
       },
       "https://sre.google/prodcast/transcripts/sre-prodcast-04-01/": {
         "status": "pending",
@@ -826,7 +866,7 @@
         "screened_at": "2026-07-13T23:35:46.504006+00:00"
       }
     },
-    "last_scan": "2026-07-13T23:35:46.504008+00:00"
+    "last_scan": "2026-07-14T08:23:47.195255+00:00"
   },
   "opentelemetry": {
     "urls": {},
@@ -1633,9 +1673,209 @@
       "https://www.cncf.io/projects/metal3-io/": {
         "status": "pending",
         "screened_at": "2026-07-13T23:36:08.365760+00:00"
+      },
+      "https://www.cncf.io/projects/tekton/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126823+00:00"
+      },
+      "https://www.cncf.io/projects/meshery/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126840+00:00"
+      },
+      "https://www.cncf.io/projects/longhorn/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126844+00:00"
+      },
+      "https://www.cncf.io/projects/logging-operator-kube-logging/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126846+00:00"
+      },
+      "https://www.cncf.io/projects/litmus/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126848+00:00"
+      },
+      "https://www.cncf.io/projects/llm-d/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126850+00:00"
+      },
+      "https://www.cncf.io/projects/linkerd/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126852+00:00"
+      },
+      "https://www.cncf.io/projects/lima/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126854+00:00"
+      },
+      "https://www.cncf.io/projects/kyverno/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126856+00:00"
+      },
+      "https://www.cncf.io/projects/kured/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126858+00:00"
+      },
+      "https://www.cncf.io/projects/kusionstack/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126859+00:00"
+      },
+      "https://www.cncf.io/projects/kudo/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126861+00:00"
+      },
+      "https://www.cncf.io/projects/kuma/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126863+00:00"
+      },
+      "https://www.cncf.io/projects/kubevela/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126865+00:00"
+      },
+      "https://www.cncf.io/projects/kubestellar/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126868+00:00"
+      },
+      "https://www.cncf.io/projects/kubeslice/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126869+00:00"
+      },
+      "https://www.cncf.io/projects/kubevirt/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126871+00:00"
+      },
+      "https://www.cncf.io/projects/kubewarden/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126873+00:00"
+      },
+      "https://www.cncf.io/projects/kubescape/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126875+00:00"
+      },
+      "https://www.cncf.io/projects/kubernetes/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126876+00:00"
+      },
+      "https://www.cncf.io/projects/kubeflow/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126878+00:00"
+      },
+      "https://www.cncf.io/projects/kuberhealthy/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126880+00:00"
+      },
+      "https://www.cncf.io/projects/kubefleet/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126882+00:00"
+      },
+      "https://www.cncf.io/projects/kubeelasti/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126884+00:00"
+      },
+      "https://www.cncf.io/projects/kubearmor/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126885+00:00"
+      },
+      "https://www.cncf.io/projects/kubeclipper/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126887+00:00"
+      },
+      "https://www.cncf.io/projects/kubeedge/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126889+00:00"
+      },
+      "https://www.cncf.io/projects/kubedl/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126891+00:00"
+      },
+      "https://www.cncf.io/projects/kubean/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126892+00:00"
+      },
+      "https://www.cncf.io/projects/kube-burner/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126894+00:00"
+      },
+      "https://www.cncf.io/projects/kube-vip/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126896+00:00"
+      },
+      "https://www.cncf.io/projects/kube-ovn/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126897+00:00"
+      },
+      "https://www.cncf.io/projects/kube-rs/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126899+00:00"
+      },
+      "https://www.cncf.io/projects/kuadrant/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126901+00:00"
+      },
+      "https://www.cncf.io/projects/kuasar/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126903+00:00"
+      },
+      "https://www.cncf.io/projects/krustlet/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126904+00:00"
+      },
+      "https://www.cncf.io/projects/kserve/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126906+00:00"
+      },
+      "https://www.cncf.io/projects/krkn/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126908+00:00"
+      },
+      "https://www.cncf.io/projects/koordinator/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126909+00:00"
+      },
+      "https://www.cncf.io/projects/krator/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126911+00:00"
+      },
+      "https://www.cncf.io/projects/ko/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126913+00:00"
+      },
+      "https://www.cncf.io/projects/kpt/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126914+00:00"
+      },
+      "https://www.cncf.io/projects/konveyor/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126916+00:00"
+      },
+      "https://www.cncf.io/projects/kgateway/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126918+00:00"
+      },
+      "https://www.cncf.io/projects/kitops/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126919+00:00"
+      },
+      "https://www.cncf.io/projects/knative/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126961+00:00"
+      },
+      "https://www.cncf.io/projects/kmesh/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126965+00:00"
+      },
+      "https://www.cncf.io/projects/keycloak/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126968+00:00"
+      },
+      "https://www.cncf.io/projects/kepler/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126972+00:00"
+      },
+      "https://www.cncf.io/projects/keptn/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:16.126976+00:00"
       }
     },
-    "last_scan": "2026-07-13T23:36:08.365762+00:00"
+    "last_scan": "2026-07-14T08:24:16.126980+00:00"
   },
   "datadog-llm-obs": {
     "urls": {
@@ -1644,7 +1884,7 @@
         "screened_at": "2026-07-12T23:52:56.905756+00:00"
       }
     },
-    "last_scan": "2026-07-13T23:36:09.958040+00:00"
+    "last_scan": "2026-07-14T08:24:17.771681+00:00"
   },
   "langfuse-docs": {
     "urls": {
@@ -1729,7 +1969,7 @@
         "screened_at": "2026-07-12T23:53:08.149153+00:00"
       }
     },
-    "last_scan": "2026-07-13T23:36:11.320227+00:00"
+    "last_scan": "2026-07-14T08:24:19.281709+00:00"
   },
   "litellm-docs": {
     "urls": {
@@ -2332,9 +2572,209 @@
       "https://docs.litellm.ai/blog/tags/reliability": {
         "status": "pending",
         "screened_at": "2026-07-13T23:36:32.157680+00:00"
+      },
+      "https://docs.litellm.ai/blog/autorouter-v2": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963588+00:00"
+      },
+      "https://docs.litellm.ai/blog/tags/adaptive": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963605+00:00"
+      },
+      "https://docs.litellm.ai/blog/tags/complexity-router": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963608+00:00"
+      },
+      "https://docs.litellm.ai/blog/tags/responses-api": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963611+00:00"
+      },
+      "https://docs.litellm.ai/blog/tags/routing": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963612+00:00"
+      },
+      "https://docs.litellm.ai/blog/tags/rust": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963614+00:00"
+      },
+      "https://docs.litellm.ai/blog/tags/sandbox": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963616+00:00"
+      },
+      "https://docs.litellm.ai/blog/tags/scaling": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963618+00:00"
+      },
+      "https://docs.litellm.ai/blog/tags/sdk": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963620+00:00"
+      },
+      "https://docs.litellm.ai/blog/tags/security": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963622+00:00"
+      },
+      "https://docs.litellm.ai/blog/tags/semantic-cache": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963623+00:00"
+      },
+      "https://docs.litellm.ai/blog/tags/semantic-router": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963625+00:00"
+      },
+      "https://docs.litellm.ai/blog/tags/sonnet-4-6": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963627+00:00"
+      },
+      "https://docs.litellm.ai/blog/tags/sonnet-5": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963629+00:00"
+      },
+      "https://docs.litellm.ai/blog/tags/stability": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963631+00:00"
+      },
+      "https://docs.litellm.ai/blog/tags/supernova": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963633+00:00"
+      },
+      "https://docs.litellm.ai/blog/tags/supply-chain": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963634+00:00"
+      },
+      "https://docs.litellm.ai/blog/tags/support": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963636+00:00"
+      },
+      "https://docs.litellm.ai/blog/tags/testing": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963638+00:00"
+      },
+      "https://docs.litellm.ai/blog/tags/tool-search": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963639+00:00"
+      },
+      "https://docs.litellm.ai/blog/tags/townhall": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963641+00:00"
+      },
+      "https://docs.litellm.ai/blog/tags/ui": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963688+00:00"
+      },
+      "https://docs.litellm.ai/blog/tags/valkey": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963690+00:00"
+      },
+      "https://docs.litellm.ai/blog/tags/vertex-ai": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963692+00:00"
+      },
+      "https://docs.litellm.ai/blog/tags/videos": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963693+00:00"
+      },
+      "https://docs.litellm.ai/blog/tags/vllm": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963695+00:00"
+      },
+      "https://docs.litellm.ai/blog/tags/webrtc": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963697+00:00"
+      },
+      "https://docs.litellm.ai/blog/two-week-stability-update": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963698+00:00"
+      },
+      "https://docs.litellm.ai/blog/valkey_semantic_caching": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963700+00:00"
+      },
+      "https://docs.litellm.ai/blog/vanta-compliance-recertification": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963701+00:00"
+      },
+      "https://docs.litellm.ai/blog/version-support": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963703+00:00"
+      },
+      "https://docs.litellm.ai/blog/video_characters_api": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963705+00:00"
+      },
+      "https://docs.litellm.ai/blog/vllm-embeddings-incident": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963707+00:00"
+      },
+      "https://docs.litellm.ai/completion/input": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963708+00:00"
+      },
+      "https://docs.litellm.ai/completion/output": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963710+00:00"
+      },
+      "https://docs.litellm.ai/completion/supported": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963711+00:00"
+      },
+      "https://docs.litellm.ai/contact": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963713+00:00"
+      },
+      "https://docs.litellm.ai/contributing": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963715+00:00"
+      },
+      "https://docs.litellm.ai/embedding/supported_embedding": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963716+00:00"
+      },
+      "https://docs.litellm.ai/observability/callbacks": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963718+00:00"
+      },
+      "https://docs.litellm.ai/observability/helicone_integration": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963720+00:00"
+      },
+      "https://docs.litellm.ai/observability/supabase_integration": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963721+00:00"
+      },
+      "https://docs.litellm.ai/stream": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963723+00:00"
+      },
+      "https://docs.litellm.ai/token_usage": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963724+00:00"
+      },
+      "https://docs.litellm.ai/docs/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963726+00:00"
+      },
+      "https://docs.litellm.ai/docs/a2a": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963728+00:00"
+      },
+      "https://docs.litellm.ai/docs/a2a_agent_card": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963729+00:00"
+      },
+      "https://docs.litellm.ai/docs/a2a_agent_headers": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963731+00:00"
+      },
+      "https://docs.litellm.ai/docs/a2a_agent_permissions": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963733+00:00"
+      },
+      "https://docs.litellm.ai/docs/a2a_cost_tracking": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:24:46.963734+00:00"
       }
     },
-    "last_scan": "2026-07-13T23:36:32.157682+00:00"
+    "last_scan": "2026-07-14T08:24:46.963737+00:00"
   },
   "promptfoo-docs": {
     "urls": {
@@ -2937,8 +3377,208 @@
       "https://www.promptfoo.dev/mcp/": {
         "status": "pending",
         "screened_at": "2026-07-13T23:36:51.782661+00:00"
+      },
+      "https://www.promptfoo.dev/model-security/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358777+00:00"
+      },
+      "https://www.promptfoo.dev/press/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358792+00:00"
+      },
+      "https://www.promptfoo.dev/pricing/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358795+00:00"
+      },
+      "https://www.promptfoo.dev/privacy/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358797+00:00"
+      },
+      "https://www.promptfoo.dev/red-teaming/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358799+00:00"
+      },
+      "https://www.promptfoo.dev/releases/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358801+00:00"
+      },
+      "https://www.promptfoo.dev/releases/authors/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358803+00:00"
+      },
+      "https://www.promptfoo.dev/responsible-disclosure-policy/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358805+00:00"
+      },
+      "https://www.promptfoo.dev/search/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358806+00:00"
+      },
+      "https://www.promptfoo.dev/security/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358808+00:00"
+      },
+      "https://www.promptfoo.dev/solutions/finance/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358810+00:00"
+      },
+      "https://www.promptfoo.dev/solutions/insurance/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358812+00:00"
+      },
+      "https://www.promptfoo.dev/solutions/real-estate/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358814+00:00"
+      },
+      "https://www.promptfoo.dev/solutions/telecom/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358816+00:00"
+      },
+      "https://www.promptfoo.dev/store/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358817+00:00"
+      },
+      "https://www.promptfoo.dev/terms-of-service/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358819+00:00"
+      },
+      "https://www.promptfoo.dev/validator/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358821+00:00"
+      },
+      "https://www.promptfoo.dev/docs/tags/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358823+00:00"
+      },
+      "https://www.promptfoo.dev/docs/tags/changelog/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358825+00:00"
+      },
+      "https://www.promptfoo.dev/docs/tags/custom/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358826+00:00"
+      },
+      "https://www.promptfoo.dev/docs/tags/features/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358828+00:00"
+      },
+      "https://www.promptfoo.dev/docs/tags/multi-turn/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358851+00:00"
+      },
+      "https://www.promptfoo.dev/docs/tags/red-team/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358853+00:00"
+      },
+      "https://www.promptfoo.dev/docs/tags/releases/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358854+00:00"
+      },
+      "https://www.promptfoo.dev/docs/tags/strategies/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358856+00:00"
+      },
+      "https://www.promptfoo.dev/docs/tags/updates/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358858+00:00"
+      },
+      "https://www.promptfoo.dev/docs/category/configuration/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358860+00:00"
+      },
+      "https://www.promptfoo.dev/docs/category/integrations/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358861+00:00"
+      },
+      "https://www.promptfoo.dev/docs/category/usage/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358863+00:00"
+      },
+      "https://www.promptfoo.dev/docs/code-scanning/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358865+00:00"
+      },
+      "https://www.promptfoo.dev/docs/code-scanning/cli/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358866+00:00"
+      },
+      "https://www.promptfoo.dev/docs/code-scanning/github-action/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358868+00:00"
+      },
+      "https://www.promptfoo.dev/docs/code-scanning/vscode-extension/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358870+00:00"
+      },
+      "https://www.promptfoo.dev/docs/configuration/caching/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358871+00:00"
+      },
+      "https://www.promptfoo.dev/docs/configuration/chat/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358873+00:00"
+      },
+      "https://www.promptfoo.dev/docs/configuration/datasets/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358874+00:00"
+      },
+      "https://www.promptfoo.dev/docs/configuration/expected-outputs/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358876+00:00"
+      },
+      "https://www.promptfoo.dev/docs/configuration/expected-outputs/classifier/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358878+00:00"
+      },
+      "https://www.promptfoo.dev/docs/configuration/expected-outputs/deterministic/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358879+00:00"
+      },
+      "https://www.promptfoo.dev/docs/configuration/expected-outputs/guardrails/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358881+00:00"
+      },
+      "https://www.promptfoo.dev/docs/configuration/expected-outputs/javascript/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358883+00:00"
+      },
+      "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358884+00:00"
+      },
+      "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/agent-rubric/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358886+00:00"
+      },
+      "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/answer-relevance/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358888+00:00"
+      },
+      "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/context-faithfulness/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358890+00:00"
+      },
+      "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/context-recall/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358891+00:00"
+      },
+      "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/context-relevance/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358893+00:00"
+      },
+      "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/conversation-relevance/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358895+00:00"
+      },
+      "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/factuality/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358896+00:00"
+      },
+      "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/g-eval/": {
+        "status": "pending",
+        "screened_at": "2026-07-14T08:25:12.358898+00:00"
       }
     },
-    "last_scan": "2026-07-13T23:36:51.782663+00:00"
+    "last_scan": "2026-07-14T08:25:12.358900+00:00"
   }
 }
