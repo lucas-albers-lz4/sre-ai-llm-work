@@ -9,7 +9,7 @@ Staff a primary and a deputy for every rotation, and page both in parallel for
 every incident. The tooling must support this: parallel paging and quick
 overrides are table-stakes requirements, not nice-to-haves
 [source: docs-google-sre-prodcast-03-06-incident-response-tooling, Claim 2]
-[anecdotal].
+[settled].
 
 > "not having a single point of failure in terms of just one person getting
 > paged." — and — "we always have a primary and a deputy, and they're both
@@ -30,7 +30,7 @@ Teams without dedicated incident-management budgets already have tools — they
 just aren't calling them tools. Google Docs, Sheets, and Slack workflows have
 supported effective incident response at large companies
 [source: docs-google-sre-prodcast-03-06-incident-response-tooling, Claim 7]
-[anecdotal].
+[settled].
 
 > "you have tools. You're just not calling them tools. I have been amazed at
 > big companies with amazing incident response who have done it with Google
@@ -53,7 +53,7 @@ many postmortems to find the common pain points, then streamlining those. The
 target is the 80% majority of on-callers, with the remaining 20% handled
 through extensibility points the team runs itself
 [source: docs-google-sre-prodcast-03-06-incident-response-tooling, Claim 5]
-[anecdotal].
+[emerging].
 
 ```
 1. Run postmortems / retrospectives per incident.

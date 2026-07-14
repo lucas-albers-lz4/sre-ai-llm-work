@@ -11,7 +11,7 @@ do a bunch of extra work during takeoff and landing just to make cruising
 easier, the automation is a net negative — because takeoff and landing are
 exactly when cognitive load is highest
 [source: docs-google-sre-prodcast-03-06-incident-response-tooling, Claim 12]
-[anecdotal].
+[emerging].
 
 ```
 clumsy automation = automation that increases workloads at a high workload
@@ -27,7 +27,7 @@ For incident-response agents and runbooks, the acute phase of an incident is
 the equivalent of takeoff/landing. Automation that demands responders fill in
 fields, confirm dialogs, or triage agent output during the first 15 minutes of
 a SEV is clumsy. Automation that silently drafts a timeline from chat logs
-without asking for input is not.
+without asking for input is not. [editorial]
 
 **Rule**: Measure automation value by cognitive load at the moment it
 intervenes, not by total steps removed. An automation that removes 10 steps
@@ -45,11 +45,11 @@ The same source describes the strategy as "buy a foundation and build our needs
 on top of that versus just assuming it's going to come for us perfectly out of
 the box"
 [source: docs-google-sre-prodcast-03-06-incident-response-tooling, Claim 6]
-[anecdotal].
+[settled].
 
 This applies directly to agent-harness tooling: prefer platforms that expose
 APIs for creating incidents, attaching evidence, and updating status, so your
-agents can integrate into existing workflows rather than replacing them.
+agents can integrate into existing workflows rather than replacing them. [editorial]
 
 **Rule**: When evaluating incident tooling, prioritize API surface area over
 feature checklist. You will need to extend whatever you buy.

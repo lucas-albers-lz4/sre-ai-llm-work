@@ -11,7 +11,7 @@ rollbacks are within reach. But AI is "not creative, at least not at the
 moment," and you should not trust crown-jewel production systems to it without
 human oversight
 [source: docs-google-sre-prodcast-03-06-incident-response-tooling, Claim 9]
-[anecdotal].
+[emerging].
 
 > "AI is a tool like anything else, and it's a tool that's making radical and
 > great progress. And I think it can help remove a bunch of the toil from
@@ -26,7 +26,7 @@ human oversight
 The toil tasks AI is ready for today — summarization, categorization, timeline
 drafting — are low-risk and high-volume. The tasks it is not ready for —
 autonomous decision-making during novel incidents — are high-risk and
-(hopefully) low-volume. Deploy AI where the risk profile matches.
+(hopefully) low-volume. Deploy AI where the risk profile matches. [editorial]
 
 **Rule**: Deploy AI for incident toil (summaries, categorization, timeline
 drafting) today. Keep a human in the loop for any action that mutates
@@ -43,7 +43,7 @@ machines to clean up, it worked correctly. Given an empty list, it interpreted
 manually reinstall to recover. The automation caused far more trouble than it
 had ever prevented. This is a published SRE Workbook case study
 [source: docs-google-sre-prodcast-03-06-incident-response-tooling, Claim 16]
-[anecdotal].
+[settled].
 
 ```
 A decommissioning automation had a tiny one-line bug:
@@ -61,7 +61,7 @@ The same failure mode applies to AI agents with tool access: an agent told to
 "clean up stale resources" that receives an empty or malformed list from an
 upstream query could interpret it as "delete everything." Every destructive
 action an agent can take needs a guard that treats empty, null, or unexpected
-input as a no-op — never as "all."
+input as a no-op — never as "all." [editorial]
 
 **Rule**: Every destructive action needs a kill switch and a default-deny on
 bad input. If an empty list means "everything," the automation is a landmine.

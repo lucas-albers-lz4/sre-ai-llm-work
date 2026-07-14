@@ -10,7 +10,7 @@ working process where one doesn't exist. Obtuse tooling that only half the team
 can use becomes a detriment — it adds friction during the moments that demand
 the least friction
 [source: docs-google-sre-prodcast-03-06-incident-response-tooling, Claim 8]
-[anecdotal].
+[settled].
 
 > "Tools can assist you in having a good process, and they can make it easier.
 > They can remove a lot of the manual work, but tools can't give you a working
@@ -34,7 +34,7 @@ highest-bandwidth communication must happen during an incident. Run a separate
 Slack channel (or equivalent) for customer-support and stakeholder updates, so
 the bridge airtime stays clear for the people fixing the problem
 [source: docs-google-sre-prodcast-03-06-incident-response-tooling, Claim 4]
-[anecdotal].
+[settled].
 
 ```
 Keep the voice bridge focused on engineering mitigation (highest-bandwidth
@@ -47,7 +47,7 @@ airtime clear for engineering and mitigation efforts."
 This topology also defines where AI assistance is safest to deploy first: the
 stakeholder-facing channel, where summarization and status drafting reduce toil
 without touching production. The engineering bridge needs higher trust before
-automation intervenes.
+automation intervenes. [editorial]
 
 **Rule**: Run two parallel channels during incidents — one for engineers
 mitigating, one for everyone else asking "is it fixed yet?"
@@ -60,7 +60,7 @@ legal, authorize spend, or bypass change freezes. Declare SEV1 if you need
 SEV1's mechanisms, not because you're certain the impact warrants it
 [source: docs-google-sre-prodcast-03-06-incident-response-tooling, Claim 10]
 [source: docs-google-sre-prodcast-03-06-incident-response-tooling, Claim 11]
-[anecdotal].
+[settled].
 
 > "severity is very much an organizational construct, and it's a model. All
 > models are flawed, but some models are useful."
@@ -84,7 +84,7 @@ return on that unplanned investment. The goal is to rebalance spending away
 from slick mitigation and toward ensuring you never fall down the same hole
 twice
 [source: docs-google-sre-prodcast-03-06-incident-response-tooling, Claim 14]
-[anecdotal].
+[settled].
 
 > "we need to re-balance somewhat the investments in general in incident
 > response into let's not have the same incident happen twice."
