@@ -74,11 +74,11 @@ issue: "#59"
 - **Quote**: "to sit here and say renaming the team does nothing, that's a lie because we've reoriented their focus a little bit right out of the gate."; "the team wasn't just renamed into SRE, but they got a raise as well. And nothing else changed... on the ground, nothing changed."
 - **Our assessment**: A balanced, credible take — renaming is not *purely* cosmetic (it shifts focus) but is insufficient. Emerging; corroborates the broad SRE-adoption skepticism in the corpus without contradicting the "incremental growth" path in Claim 7.
 
-### Claim 9: Injecting a real software engineer into a traditional ops team catalyzes SRE transformation far better than embedding an SRE into a dev team — "embedded SRE is wrong. Embedded SWE is right."
-- **Evidence**: Vladyslav's "case where... you inject a real software engineer into the team" (lines 368–370) — the SWE "starts building something as a software engineer for a certain purpose for a certain user," and daily proximity ("they go to lunch together") creates the connection that catalyzes change. Amy's punchline: "embedded SRE is wrong. Embedded SWE is right." (line 372)
+### Claim 9: Injecting a real software engineer into a traditional ops team — one who builds real tooling and shares daily proximity — catalyzes SRE transformation; the common "embed SREs in dev teams" default may have the direction backwards
+- **Evidence**: Vladyslav's case where injecting a real SWE into an ops team (lines 489–490 of transcript) catalyzes change: the SWE "starts building something as a software engineer for a certain purpose for a certain user," and daily proximity ("they go to lunch together") creates connections the ops team never had before. Amy responds with a joking punchline — "embedded SRE is wrong. Embedded SWE is right." — but **immediately walks it back**: "I'm not going to say either one is right or wrong. I just thought that would be funny." ([CHUCKLES] cue in transcript). Steve caps the exchange: "That was the missing chapter in the book. We fixed it. Good job everyone."
 - **Confidence**: emerging
-- **Quote**: "if you have got an operations team that has done traditional operations all along, and you inject a real software engineer into the team... Then this can actually catalyze a change where the software engineer starts building something as a software engineer for a certain purpose for a certain user and so on."; "embedded SRE is wrong. Embedded SWE is right."
-- **Our assessment**: A concrete, counterintuitive organizational pattern with direct guide relevance for SRE-team design. Emerging (single observation), but it's a crisp, memorable, actionable claim — a good candidate for the guide's team-structure advice, and a useful contrast to the usual "embed SREs with devs" default.
+- **Quote**: "if you have got an operations team that has done traditional operations all along, and you inject a real software engineer into the team-- so just a software engineer that's got an interest in infrastructure stuff and automation and so on. Then this can actually catalyze a change where the software engineer starts building something as a software engineer for a certain purpose for a certain user and so on. This is where things can catch on, because then they go to lunch together and so on."; "I love that. So embedded SRE is wrong. Embedded SWE is right."; "I'm not going to say either one is right or wrong. I just thought that would be funny."
+- **Our assessment**: Vladyslav's underlying observation — that embedding a real SWE in an ops team (not renaming/training alone) is a practical catalyst for SRE transformation — is the serious, actionable claim here. Amy's punchline ("embedded SRE is wrong. Embedded SWE is right.") is a memorable one-liner, but she immediately walks it back as a joke; presenting it as a standalone prescription would misrepresent the source. The substantive takeaway for the guide is Vladyslav's pattern: daily proximity to a practicing SWE, building real tooling for real users, creates the connection that reorients an ops team toward SRE practice — a concrete, counterintuitive team-design pattern that contrasts with the usual "embed SREs with devs" default.
 
 ### Claim 10: For most enterprises the real scaling problem is scaling DOWN (cost), not scaling UP — "almost nothing is designed to scale down," while Kubernetes/AWS "scale up like a dream"
 - **Evidence**: Amy's reframing of the scaling question (lines 392–401). Google-scale SREs worry about scale-UP; "most folks carrying that title out there, have the opposite problem, which is how do we make things scale down. Because almost nothing is designed to scale down." Examples: in-memory-resident programs and "tightly coupled codes" that force "spending n thousand dollars a month to keep n servers up... because they can't scale down. And so that has a real business cost."
@@ -143,10 +143,29 @@ power who has a way to say to the leadership team, like, no, you're actually
 going to do reliability, and that's not an option.
 ```
 
-### "Embedded SWE, not embedded SRE" (Amy Tobey, line 372)
+### "Embedded SWE, not embedded SRE" exchange (Vladyslav Ukis & Amy Tobey, lines 489–494)
 
 ```
-embedded SRE is wrong. Embedded SWE is right.
+VLADYSLAV: So what I found useful is, if you have got an operations team
+that has done traditional operations all along, and you inject a real
+software engineer into the team-- so just a software engineer that's
+got an interest in infrastructure stuff and automation and so on.
+Then this can actually catalyze a change where the software engineer
+starts building something as a software engineer for a certain purpose
+for a certain user and so on. This is where things can catch on, because
+then they go to lunch together and so on.
+
+They have conversations on a daily basis. And they've got a connection
+then to a software engineer which is so close, they have never had that
+before. And this is where you can catalyze the change.
+
+AMY: I love that. So embedded SRE is wrong. Embedded SWE is right.
+[CHUCKLES]
+I'm not going to say either one is right or wrong. I just thought
+that would be funny.
+
+STEVE: That was the missing chapter in the book. We fixed it.
+Good job everyone.
 ```
 
 ### "Adaptive capacity engineers" (Amy Tobey, line 540)
@@ -182,16 +201,18 @@ Theme:   "what Software Engineering means to Site Reliability Engineering"
 - **Extends**:
   - **`docs-google-sre-prodcast.md`** (issue #32, the Prodcast index) — That note flags the Season 3 episodes as separate mining items (its Claim 8 / Concrete Artifact "AI/LLM-Relevant Episodes" catalog starts at S3E3 Treynor) but does **not** cover S3E01. This note fills that gap, mining S3E01 directly and adding the non-Google-practitioner organizational lens the index note's structure omits.
   - **`discussion-google-sre-ben-treynor-interview.md`** — That note is explicitly pre-LLM (its Claim 8 assessment: "predates the LLM era and contains no AI/LLM content whatsoever"). This S3E01 episode begins the *AI-era* practitioner framing ("adaptive work," banal-task chatbots) that later S3+ episodes (e.g., S3E3 Treynor) develop further. This note bridges the foundational Treynor interview toward the AI-era material.
+  - **`docs-google-sre-prodcast-01-04-rethinking-slos.md`** — Claim 4 here (newly-formed SLOs "all red" while customer experiences no pain) complements that note's SLO reframing material with a concrete, practitioner-observed failure mode: the SLO/experience convergence is an iterative refinement, not a one-shot definition.
+  - **`discussion-google-sre-prodcast-customer-centric-monitoring.md`** — Claim 5 here (healthy-looking dashboards disconnected from customer experience; the fix is organizational/leadership, not technical instrumentation) extends the customer-centric monitoring theme with a specific "the system works as designed but the design is wrong" failure mode and its organizational remediation path.
 
 - **Novel** (new to the corpus):
   - **The "basis of influence" thesis** (Claim 6) — platform engineering as an *organizational power base* for reliability advocacy, filling the SRE Book's missing "leadership structure" chapter. No existing note addresses the organizational/power dimension of platform engineering; the existing notes are technical (SRE-as-SWE, agents, observability).
-  - **The "embedded SWE, not embedded SRE" catalyst** (Claim 9) — a concrete, counterintuitive team-design pattern absent from the corpus.
+  - **The "embedded SWE as ops-team catalyst" pattern** (Claim 9) — injecting a real SWE into a traditional ops team (daily proximity, building real tooling) as a practical SRE-transformation catalyst, absent from the corpus.
   - **The enterprise scale-DOWN/cost framing** (Claim 10) — reframes "scale" around cost rather than throughput, a conditioning variable vs the Google-scale narrative.
   - **The "adaptive capacity engineers" framing** (Claim 15) — a crisp primary-source label for the human niche in AI-augmented SRE.
 
 ## Guide Impact
 
-- **Chapter 02 (SRE Fundamentals)**: Add the "basis of influence" thesis (Claim 6) as an organizational complement to the technical SRE definition — SRE influence inside most orgs requires a *platform power base* and leadership representation that the SRE Book omitted. This gives the guide a structural, non-Google lens on *why* SREs struggle to be heard, balancing the technical definitions from Treynor (Claim 1) and Vladyslav (Claim 1 here). Also surface the dual-factor "skill gap + empowerment gap" model (Claim 7) and the "embedded SWE, not embedded SRE" pattern (Claim 9) in any team-design / SRE-adoption subsection.
+- **Chapter 02 (SRE Fundamentals)**: Add the "basis of influence" thesis (Claim 6) as an organizational complement to the technical SRE definition — SRE influence inside most orgs requires a *platform power base* and leadership representation that the SRE Book omitted. This gives the guide a structural, non-Google lens on *why* SREs struggle to be heard, balancing the technical definitions from Treynor (Claim 1) and Vladyslav (Claim 1 here). Also surface the dual-factor "skill gap + empowerment gap" model (Claim 7) and the embedded-SWE-as-ops-catalyst pattern (Claim 9) in any team-design / SRE-adoption subsection.
 
 - **Chapter 04 (Incident Management / Monitoring / SLOs)**: Use Claim 4 (SLOs "all red" with no customer impact) and Claim 5 (healthy-looking dashboards disconnected from customer experience) as concrete SLO/monitoring-pitfall examples. Claim 5's "the fix is organizational, not technical" lesson is especially valuable for the customer-centric-monitoring material already sourced from `discussion-google-sre-prodcast-customer-centric-monitoring.md`.
 
