@@ -133,6 +133,13 @@
       "source_type": "blog-post",
       "description": "Slack Engineering — production AI and agentic systems at scale",
       "max_per_run": 1
+    },
+    {
+      "id": "cncf-blog",
+      "url": "https://www.cncf.io/feed/",
+      "source_type": "blog-post",
+      "description": "CNCF blog — cloud-native reliability, platform engineering, AI ops",
+      "max_per_run": 2
     }
   ]
 }
