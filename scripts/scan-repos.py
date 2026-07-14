@@ -222,6 +222,23 @@ def file_issue(repo: dict, is_update: bool = False) -> bool:
     title_prefix = "[repo-update]" if is_update else "[repo]"
     title = f'{title_prefix} {repo["full_name"]}'
 
+    # Ensure labels exist (first run on a fork may lack template-only labels).
+    for lbl, desc, color in (
+        ("new-repo", "Newly discovered practitioner repo", "0E8A16"),
+        ("repo-updated", "Known practitioner repo with config changes", "1D76DB"),
+        ("practitioner-repo", "Practitioner repo for SRE/AI-ops analysis", "5319E7"),
+    ):
+        subprocess.run(
+            [
+                "gh", "label", "create", lbl,
+                "--repo", REPO_URL,
+                "--description", desc,
+                "--color", color,
+            ],
+            capture_output=True,
+            text=True,
+        )
+
     config_files = repo.get("config_files_found", [])
     config_files_md = (
         "\n".join(f"- `{f}`" for f in config_files) if config_files else "- (none detected)"
@@ -321,28 +338,27 @@ def drain_queue(dry_run: bool = False) -> int:
     return filed
 
 
-def _try_file_or_queue(repo: dict, is_update: bool, dry_run: bool = False) -> tuple[bool, bool]:
+def _try_file_or_queue(repo: dict, is_update: bool, dry_run: bool = False) -> str:
     """File a repo issue if budget allows, otherwise queue it for next run.
 
-    Returns (filed, queued) — exactly one will be True. The repo is
-    *always* recorded as known in the registry afterwards (caller's
-    responsibility) so we never re-discover it tomorrow; the queue is now
-    the canonical home for the unfiled work.
+    Returns one of: "filed", "queued", "dedup", "failed".
+    Persist into the registry only for filed/queued/dedup — failed stays
+    undiscovered so the next run retries (e.g. missing labels).
     """
     if not dry_run and scan_dedup.is_url_already_tracked(repo.get("html_url", "")):
         print(f"  [dedup] already tracked: {repo['full_name']}")
-        return (False, False)
+        return "dedup"
     if dry_run:
         print(f"  [DRY-RUN] would file: {repo['full_name']}")
-        return (True, False)
+        return "filed"
     if scan_budget.remaining() <= 0:
         scan_budget.queue_item("repos", {"repo": repo, "is_update": is_update})
         print(f"  [queued] daily cap reached: {repo['full_name']}")
-        return (False, True)
+        return "queued"
     if file_issue(repo, is_update=is_update):
         scan_budget.record_filed(1)
-        return (True, False)
-    return (False, False)
+        return "filed"
+    return "failed"
 
 
 def main():
@@ -412,36 +428,37 @@ def main():
 
         if name not in known_repos:
             print(f"  NEW: {name}")
-            filed, queued = _try_file_or_queue(repo, is_update=False, dry_run=args.dry_run)
-            if not args.dry_run:
+            outcome = _try_file_or_queue(repo, is_update=False, dry_run=args.dry_run)
+            if outcome == "filed":
+                new_count += 1
+            elif outcome == "queued":
+                queued_count += 1
+            else:
+                skipped_count += 1
+            # Only persist when filed/queued/dedup — failed retries next run.
+            if not args.dry_run and outcome in ("filed", "queued", "dedup"):
                 known_repos[name] = {
                     "first_seen": datetime.now(timezone.utc).isoformat(),
                     "last_scanned": datetime.now(timezone.utc).isoformat(),
                     "config_files": repo["config_files_found"],
                     "stars": repo.get("stars", 0),
                 }
-            if filed:
-                new_count += 1
-            elif queued:
-                queued_count += 1
-            else:
-                skipped_count += 1
         else:
             # Check if config files changed
             old_files = set(known_repos[name].get("config_files", []))
             new_files = set(repo["config_files_found"])
             if new_files != old_files:
                 print(f"  UPDATED: {name} (config files changed)")
-                filed, queued = _try_file_or_queue(repo, is_update=True, dry_run=args.dry_run)
-                if not args.dry_run:
-                    known_repos[name]["last_scanned"] = datetime.now(timezone.utc).isoformat()
-                    known_repos[name]["config_files"] = repo["config_files_found"]
-                if filed:
+                outcome = _try_file_or_queue(repo, is_update=True, dry_run=args.dry_run)
+                if outcome == "filed":
                     update_count += 1
-                elif queued:
+                elif outcome == "queued":
                     queued_count += 1
                 else:
                     skipped_count += 1
+                if not args.dry_run and outcome in ("filed", "queued", "dedup"):
+                    known_repos[name]["last_scanned"] = datetime.now(timezone.utc).isoformat()
+                    known_repos[name]["config_files"] = repo["config_files_found"]
             elif not args.dry_run:
                 known_repos[name]["last_scanned"] = datetime.now(timezone.utc).isoformat()
 
