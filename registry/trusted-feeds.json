@@ -126,6 +126,13 @@
       "source_type": "blog-post",
       "description": "Slack Engineering — production AI and agentic systems at scale",
       "max_per_run": 1
+    },
+    {
+      "id": "promptfoo",
+      "url": "https://www.promptfoo.dev/blog/atom.xml",
+      "source_type": "blog-post",
+      "description": "Promptfoo — LLM evaluation, red-teaming, AI reliability and security testing",
+      "max_per_run": 2
     }
   ]
 }
