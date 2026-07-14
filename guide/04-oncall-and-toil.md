@@ -24,6 +24,21 @@ minutes bakes latency into the response before the incident is even acknowledged
 If your tooling doesn't support parallel paging, fix that before adding any
 other automation.
 
+### Example
+
+```
+Rotation: primary + deputy, both paged for every incident.
+
+- Primary: Alice (on-call this week)
+- Deputy: Bob (also paged in parallel)
+- Escalation: Charlie (paged if neither acknowledges within 5 minutes)
+
+When the page fires, both Alice and Bob receive it simultaneously. If Alice
+acknowledges, Bob sees the incident is claimed and stays available as backup.
+If Alice's phone is on DND or she's already engaged, Bob acknowledges and
+begins mitigation immediately — no escalation timeout, no delay.
+```
+
 ## Start With the Tools You Already Have
 
 Teams without dedicated incident-management budgets already have tools — they
@@ -45,6 +60,18 @@ useful without a platform migration.
 **Rule**: Don't block incident-response improvements on a tooling purchase.
 Process and discipline with a spreadsheet beat a platform nobody knows how to
 use.
+
+### Example
+
+**Before**: "We can't improve incident response until we get budget for a
+dedicated platform approved."
+
+**After**: Team runs incidents with a shared Google Sheet (timestamp, action,
+owner columns), a Slack #incident-response channel for engineering
+coordination, and a Slack #incident-status channel for stakeholder updates.
+When budget is approved, they know exactly which manual steps are the
+bottlenecks and buy the tool that automates those — not the one with the
+longest feature list.
 
 ## Drive Tooling Roadmaps From Postmortems
 

@@ -27,6 +27,20 @@ actually use the thing properly"
 **Rule**: Designate and exercise the process first; select tools that remove
 steps from that process, not tools that demand the process bend around them.
 
+### Example
+
+**Before (tool-first)**: Team purchases an enterprise incident-management
+platform and spends two quarters configuring it. During the first SEV,
+responders discover nobody knows how to declare an incident or hand off
+command in the new tool. Mitigation stalls while they figure out the UI.
+
+**After (process-first)**: Team runs tabletop exercises with a shared
+Google Doc and a Slack channel. They identify the 3 manual steps that
+cause the most friction during handoffs. Then they evaluate tools based
+on which ones eliminate those specific steps without adding new ones.
+The tool ships in one week because the process already works — the tool
+just removes friction.
+
 ## Communication Topology: Separate Engineering from Stakeholders
 
 Keep the voice bridge focused on engineering mitigation — that's where the
@@ -74,6 +88,17 @@ for life, which is a bummer because it can change"
 **Rule**: Pick the severity that unlocks the resources you need right now.
 Reclassify as you learn more. Never let the label outlive its usefulness.
 
+### Example
+
+```
+1. Alert fires — unknown scope. Declare SEV1 to unlock cross-team paging,
+   legal escalation, and spend authorization.
+2. Mitigation begins. Scope narrows: single-region impact, contained.
+3. Demote to SEV2 at minute 45. Release SEV1-only mechanisms.
+4. Postmortem confirms: declaring SEV1 at minute 0 was correct given the
+   information available, and demoting at minute 45 was equally correct.
+```
+
 ## Learn From Every Outage
 
 > "an outage that you don't learn from is a failure."
@@ -92,6 +117,17 @@ twice
 **Rule**: Treat every incident as an unplanned investment whose payoff is the
 postmortem. If you didn't learn something that prevents recurrence, the outage
 failed.
+
+### Example
+
+```
+After every SEV:
+1. Draft timeline within 24h — raw, from chat logs and alert timestamps.
+2. Blameless review within 5 business days — what happened, not who.
+3. Action items tracked to completion in the team's normal backlog.
+4. Quarterly meta-retrospective: aggregate action items across incidents,
+   find the recurring patterns, fund the top prevention investments.
+```
 
 ---
 *Sources for this chapter: docs-google-sre-prodcast-03-06-incident-response-tooling*

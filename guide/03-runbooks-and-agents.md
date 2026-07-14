@@ -30,8 +30,8 @@ a SEV is clumsy. Automation that silently drafts a timeline from chat logs
 without asking for input is not. [editorial]
 
 **Rule**: Measure automation value by cognitive load at the moment it
-intervenes, not by total steps removed. An automation that removes 10 steps
-during routine work but demands 2 decisions during a SEV is a net loss.
+intervenes, not by total steps removed. An automation that removes steps
+during routine work but demands decisions during a SEV is a net loss.
 
 ## Build on a Foundation, Extend via APIs
 
@@ -53,6 +53,18 @@ agents can integrate into existing workflows rather than replacing them. [editor
 
 **Rule**: When evaluating incident tooling, prioritize API surface area over
 feature checklist. You will need to extend whatever you buy.
+
+### Example
+
+**Feature-checklist evaluation**: "Does the tool have a status page?
+Built-in runbooks? ChatOps integration? Yes to all three — ship it."
+
+**API-first evaluation**: "Can we create an incident via API with a
+structured payload? Can we attach evidence (logs, graphs, timeline
+entries) programmatically? Can we update status from our deploy tooling?
+Yes — we can build the rest." The team then wires the platform into
+their existing deploy pipelines, monitoring dashboards, and agent
+harness, extending it organically as needs evolve.
 
 ---
 *Sources for this chapter: docs-google-sre-prodcast-03-06-incident-response-tooling*

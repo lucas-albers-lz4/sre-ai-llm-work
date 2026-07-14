@@ -32,6 +32,23 @@ autonomous decision-making during novel incidents — are high-risk and
 drafting) today. Keep a human in the loop for any action that mutates
 production state. Shadow → suggest → act, never the reverse.
 
+### Example
+
+```
+Phase 1 — Shadow (week 1-2): Agent drafts incident timelines and status
+summaries. Human reviewer reads every output before it reaches stakeholders.
+Agent output is never customer-facing without review.
+
+Phase 2 — Suggest (week 3-4): Agent proposes rollback commands, restart
+candidates, or config reverts. Human approves or rejects each suggestion.
+Agent never executes without explicit approval.
+
+Phase 3 — Act (earned, not calendar-driven): After 20+ consecutive correct
+suggestions with zero false positives, agent is granted auto-approval for
+a narrow action class (e.g., restart a known-flaky service during a
+documented incident pattern). Human can revoke at any time.
+```
+
 ## Destructive Actions Need Destructive Defaults
 
 > "Don't have a system whose default behavior when you pass it an empty list
