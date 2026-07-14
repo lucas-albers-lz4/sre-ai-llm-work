@@ -101,12 +101,22 @@ jobs:
             c) Content is dated before 2025-12-01 (check dates in title, URL, or body)
             d) Marketing copy, press release, or changelog with no engineering substance
             e) Tool announcement ("Show HN: X", "Announcing X") with no extractable
-               claims about how to USE AI coding agents — a tool merely existing is
-               not a source
+               claims about how to operate AI/LLM systems in production (SRE,
+               runbooks, oncall, observability, evals, cost, safety) — a tool
+               merely existing is not a source. Pure AI coding-agent DX
+               announcements (IDE agents, Claude Code tutorials, Cursor tips
+               with no ops content) must be rejected.
             f) Duplicate URL: run
                gh issue list --repo ${{ github.repository }} --state open \
                  --limit 200 --json number,title
                and check if the exact same URL appears in another open issue title
+            g) Domain: pure coding agent — the issue is about AI coding-agent
+               developer experience (Claude Code, Cursor, Copilot coding,
+               slash commands, .cursorrules as the topic) with no SRE / LLM-ops
+               signal (runbook, oncall, incident, observability, SLO, pager,
+               postmortem, inference, evals, RAG, production agents). When
+               rejecting, use the exact reason phrase:
+               "domain: pure coding agent"
 
             ## Step 3: Write verdict and act
 

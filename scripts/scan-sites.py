@@ -57,8 +57,43 @@ INTER_REQUEST_SLEEP = 1  # seconds between requests (be polite)
 # Max issues to file per run across all seeds.
 MAX_ISSUES_PER_RUN = 20
 
-# Max new URLs to screen per seed per run (keeps Flash API costs bounded).
+# Default max new URLs to screen/file per seed per run (overridable via seed.max_per_run).
+DEFAULT_MAX_PER_RUN = 3
+
+# Legacy hard ceiling on screening if a seed omits max_per_run and someone
+# raises DEFAULT — keep Flash API costs bounded.
 MAX_SCREEN_PER_SEED = 50
+
+
+def filter_urls_to_seed_prefix(urls: list[str], seed_url: str) -> list[str]:
+    """Keep only URLs under the seed's path prefix; drop TOC/index stubs."""
+    prefix = get_site_prefix(seed_url).rstrip("/")
+    seed_norm = seed_url.rstrip("/")
+    filtered = []
+    for raw in urls:
+        u = raw.split("#")[0].rstrip("/")
+        if not u.startswith(prefix):
+            continue
+        if u == seed_norm or u == prefix:
+            continue
+        lower = u.lower()
+        if "/table-of-contents" in lower:
+            continue
+        # Bare section index pages (…/workbook or …/docs) already dropped via
+        # prefix equality; also skip …/index and …/index.html
+        path = urlparse(u).path.rstrip("/")
+        if path.endswith("/index") or path.endswith("/index.html"):
+            continue
+        # Skip common non-content paths (shared with nav discovery)
+        skip_patterns = (
+            "/api/", "/assets/", "/static/", "/css/", "/js/",
+            "/images/", "/fonts/", ".css", ".js", ".png", ".jpg",
+            ".svg", ".ico", ".xml", ".json",
+        )
+        if any(p in lower for p in skip_patterns):
+            continue
+        filtered.append(u)
+    return filtered
 
 
 def load_seeds() -> dict:
@@ -368,6 +403,13 @@ def scan_seed(seed: dict, state: dict, dry_run: bool = False) -> tuple[int, int,
     if urls is None:
         print("  No sitemap found, falling back to nav-link extraction")
         urls = discover_from_nav(seed["url"])
+    else:
+        before = len(urls)
+        urls = filter_urls_to_seed_prefix(urls, seed["url"])
+        print(
+            f"  Prefix-filtered sitemap: {before} → {len(urls)} "
+            f"(prefix={get_site_prefix(seed['url'])})"
+        )
 
     if not urls:
         print("  No URLs discovered")
@@ -381,10 +423,17 @@ def scan_seed(seed: dict, state: dict, dry_run: bool = False) -> tuple[int, int,
         seed_state["last_scan"] = datetime.now(timezone.utc).isoformat()
         return (0, 0, sum(1 for v in known_urls.values() if isinstance(v, dict) and v.get("status") == "pending"))
 
-    # Cap screening per run
-    to_screen = new_urls[:MAX_SCREEN_PER_SEED]
-    if len(new_urls) > MAX_SCREEN_PER_SEED:
-        print(f"  Capping screening at {MAX_SCREEN_PER_SEED}; remaining {len(new_urls) - MAX_SCREEN_PER_SEED} next run")
+    # Cap screening per seed (max_per_run), with global MAX_SCREEN_PER_SEED ceiling
+    max_per_run = min(
+        int(seed.get("max_per_run", DEFAULT_MAX_PER_RUN)),
+        MAX_SCREEN_PER_SEED,
+    )
+    to_screen = new_urls[:max_per_run]
+    if len(new_urls) > max_per_run:
+        print(
+            f"  Capping screening at {max_per_run}/seed; "
+            f"remaining {len(new_urls) - max_per_run} next run"
+        )
 
     # Phase 2: DeepSeek Flash screening
     if not dry_run:
@@ -415,6 +464,8 @@ def file_pending(state: dict, seeds_by_id: dict, dry_run: bool = False) -> int:
         if seed_id not in seeds_by_id:
             continue
         seed = seeds_by_id[seed_id]
+        max_per_run = int(seed.get("max_per_run", DEFAULT_MAX_PER_RUN))
+        filed_this_seed = 0
 
         for url, info in list(seed_state.get("urls", {}).items()):
             if not isinstance(info, dict) or info.get("status") != "pending":
@@ -422,6 +473,12 @@ def file_pending(state: dict, seeds_by_id: dict, dry_run: bool = False) -> int:
             if filed >= MAX_ISSUES_PER_RUN:
                 print(f"\n  Hit per-run cap of {MAX_ISSUES_PER_RUN} issues. Remaining pending URLs will be filed next run.")
                 return filed
+            if filed_this_seed >= max_per_run:
+                print(
+                    f"  [{seed_id}] Hit per-seed max_per_run={max_per_run}; "
+                    f"remaining pending URLs next run"
+                )
+                break
             if scan_budget.remaining() <= 0:
                 print(f"\n  Daily budget exhausted. Remaining pending URLs will be filed next run.")
                 return filed
@@ -434,6 +491,7 @@ def file_pending(state: dict, seeds_by_id: dict, dry_run: bool = False) -> int:
             if dry_run:
                 print(f"  [DRY-RUN] would file: {url}")
                 filed += 1
+                filed_this_seed += 1
             else:
                 issue_num = file_issue(seed, url)
                 if issue_num is not None:
@@ -441,6 +499,7 @@ def file_pending(state: dict, seeds_by_id: dict, dry_run: bool = False) -> int:
                     info["issue"] = issue_num
                     info["filed_at"] = datetime.now(timezone.utc).isoformat()
                     filed += 1
+                    filed_this_seed += 1
                     scan_budget.record_filed(1)
                 else:
                     # Don't retry failed filings forever

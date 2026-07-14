@@ -1,8 +1,15 @@
 name: Practitioner Repo Discovery
-description: Flag a GitHub repo with interesting AI agent configuration
+description: Flag a GitHub repo with interesting AI agent configuration used in SRE/ops context
 title: "[repo] "
 labels: ["new-repo", "practitioner-repo"]
 body:
+  - type: markdown
+    attributes:
+      value: |
+        CLAUDE.md, `.cursorrules`, and similar AI config files are **evidence of
+        AI agent adoption** — not the primary classification. Prefer describing
+        the operational / SRE pattern this repo demonstrates.
+
   - type: input
     id: repo
     attributes:
@@ -16,7 +23,7 @@ body:
     id: config_files
     attributes:
       label: AI config files present
-      description: Check all that you've confirmed exist in the repo
+      description: Check all that you've confirmed exist in the repo (evidence of agent adoption)
       options:
         - label: CLAUDE.md (root)
         - label: CLAUDE.md (nested in subdirectories)
@@ -28,14 +35,33 @@ body:
         - label: Other (describe below)
 
   - type: textarea
+    id: sre_pattern
+    attributes:
+      label: What operational/SRE pattern does this repo demonstrate?
+      description: |
+        Pick the best fit (or combine). This is the primary classification for
+        the Project board's Practitioner repo column.
+      placeholder: |
+        e.g., "Oncall runbooks wired through an agent with PagerDuty context;
+        OTel GenAI traces on the LLM path; eval gates in CI before prompt
+        deploys."
+      value: |
+        Buckets (use one or more):
+        - Operational runbook content (incident response, oncall, SLOs, postmortems)
+        - AI agent usage patterns (which AI tools are wired in ops, and how)
+        - Observability + LLM tracing patterns (OTel GenAI, LLM evals)
+        - Production safety patterns (eval gates, cost monitors, prompt/version mgmt)
+    validations:
+      required: true
+
+  - type: textarea
     id: whats_notable
     attributes:
       label: What makes this repo worth analyzing?
       description: |
         Be specific about what patterns or approaches caught your eye.
       placeholder: |
-        e.g., "They have 5 custom slash commands for different review
-        workflows, and their CLAUDE.md explicitly bans certain refactoring
-        patterns that most repos encourage"
+        e.g., "Their AGENTS.md encodes incident severity → runbook routing,
+        and they gate prompt changes with promptfoo in CI"
     validations:
       required: true

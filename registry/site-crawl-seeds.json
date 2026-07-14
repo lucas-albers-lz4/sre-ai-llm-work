@@ -1,47 +1,61 @@
 {
   "_comment": "Site-crawl seeds for SRE AI / LLM ops docs. DeepSeek Flash screens by scope hint.",
+  "_schema": {
+    "id": "stable short identifier",
+    "url": "Seed page or section root URL",
+    "scope": "Hint for Flash screener — what to keep / skip",
+    "source_type": "blog-post | documentation | discussion | paper | practitioner-repo | failure-report",
+    "max_per_run": "(optional) default 3 — max new URLs to screen/file per seed per run"
+  },
   "seeds": [
     {
       "id": "sre-workbook",
       "url": "https://sre.google/workbook/table-of-contents/",
-      "scope": "SRE practice chapters relevant to automation, toil, incident response — skip pure culture essays without technical practice",
-      "source_type": "documentation"
+      "scope": "SRE practice chapters relevant to automation, toil, incident response — skip pure culture essays without technical practice. Skip any URL containing /table-of-contents, /index, or with no path segment after /workbook/. Only follow chapter URLs of the form /workbook/chapter-name/.",
+      "source_type": "documentation",
+      "max_per_run": 5
     },
     {
       "id": "opentelemetry",
       "url": "https://opentelemetry.io/blog/",
       "scope": "observability, telemetry pipelines, AI/LLM instrumentation — skip marketing and conference CFPs",
-      "source_type": "blog-post"
+      "source_type": "blog-post",
+      "max_per_run": 3
     },
     {
       "id": "cncf-blog",
       "url": "https://www.cncf.io/blog/",
       "scope": "cloud-native reliability, platform engineering, AI ops — skip event promotions",
-      "source_type": "blog-post"
+      "source_type": "blog-post",
+      "max_per_run": 3
     },
     {
       "id": "datadog-llm-obs",
       "url": "https://docs.datadoghq.com/llm_observability/",
       "scope": "LLM tracing, evals, token/cost monitoring, production agent observability — skip general Datadog product setup unrelated to LLM ops",
-      "source_type": "documentation"
+      "source_type": "documentation",
+      "max_per_run": 3
     },
     {
       "id": "langfuse-docs",
       "url": "https://langfuse.com/docs",
       "scope": "LLM observability, tracing, evals, prompt/version management for production agents — skip pricing, careers, and pure marketing pages",
-      "source_type": "documentation"
+      "source_type": "documentation",
+      "max_per_run": 3
     },
     {
       "id": "litellm-docs",
       "url": "https://docs.litellm.ai/docs/",
       "scope": "LLM gateway/proxy: routing, rate limits, spend, fallbacks, production deploy — skip marketing and pricing",
-      "source_type": "documentation"
+      "source_type": "documentation",
+      "max_per_run": 3
     },
     {
       "id": "promptfoo-docs",
       "url": "https://www.promptfoo.dev/docs/getting-started/",
       "scope": "Eval harnesses, CI gating, red-team/regression for LLM apps — skip pure product marketing",
-      "source_type": "documentation"
+      "source_type": "documentation",
+      "max_per_run": 3
     }
   ]
 }

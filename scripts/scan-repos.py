@@ -28,17 +28,20 @@ import requests
 
 import scan_budget
 import scan_dedup
+import _domain
 
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
 REGISTRY_PATH = Path(__file__).parent.parent / "registry" / "repos.json"
 REPO_URL = os.environ.get("GITHUB_REPOSITORY", "steveash/hitchhiker-guide")
 
-# Search queries for ops/SRE repos that use AI agent configs or runbooks
+# Search queries for ops/SRE repos that use AI agent configs or runbooks.
+# stars:>=2 — AGENTS.md / .cursor/rules adoption is recent; >=5 starved results.
 SEARCH_QUERIES = [
-    'filename:AGENTS.md (sre OR runbook OR oncall OR incident OR observability) stars:>=5 pushed:>=2025-12-01 fork:false',
-    'filename:CLAUDE.md (sre OR runbook OR oncall OR incident OR pager) stars:>=5 pushed:>=2025-12-01 fork:false',
-    'path:.claude/settings.json (sre OR platform OR infra) stars:>=5 pushed:>=2025-12-01 fork:false',
-    'filename:runbook.md AI OR LLM stars:>=3 pushed:>=2025-12-01 fork:false',
+    'filename:AGENTS.md (sre OR runbook OR oncall OR incident OR observability) stars:>=2 pushed:>=2025-12-01 fork:false',
+    'filename:CLAUDE.md (sre OR runbook OR oncall OR incident OR pager) stars:>=2 pushed:>=2025-12-01 fork:false',
+    'path:.claude/settings.json (sre OR platform OR infra) stars:>=2 pushed:>=2025-12-01 fork:false',
+    'filename:runbook.md AI OR LLM stars:>=2 pushed:>=2025-12-01 fork:false',
+    'path:.cursor/rules (sre OR runbook OR oncall OR incident OR platform) stars:>=2 pushed:>=2025-12-01 fork:false',
 ]
 
 # Repos to always exclude (vendors, tutorials, this fork's owner)
@@ -63,20 +66,22 @@ def github_headers():
     return headers
 
 
-def search_repos(query: str, page: int = 1) -> list[dict]:
-    """Search GitHub code API and return unique repos from results."""
+def search_repos(query: str, page: int = 1) -> tuple[list[dict], str | None]:
+    """Search GitHub code API and return (repos, error_message_or_None)."""
     url = "https://api.github.com/search/code"
     params = {"q": query, "per_page": 100, "page": page}
     resp = requests.get(url, headers=github_headers(), params=params)
 
     if resp.status_code == 403:
-        print(f"Rate limited. Waiting 60s...", file=sys.stderr)
+        print("Rate limited. Waiting 60s...", file=sys.stderr)
         time.sleep(60)
         resp = requests.get(url, headers=github_headers(), params=params)
 
     if resp.status_code != 200:
-        print(f"Search failed ({resp.status_code}): {resp.text}", file=sys.stderr)
-        return []
+        body_excerpt = (resp.text or "")[:300].replace("\n", " ")
+        err = f"HTTP {resp.status_code}: {body_excerpt}"
+        print(f"Search failed for query — {err}", file=sys.stderr)
+        return [], err
 
     data = resp.json()
     repos = {}
@@ -94,7 +99,7 @@ def search_repos(query: str, page: int = 1) -> list[dict]:
         else:
             repos[full_name]["config_files_found"].append(item["path"])
 
-    return list(repos.values())
+    return list(repos.values()), None
 
 
 def is_excluded(repo: dict) -> bool:
@@ -110,6 +115,10 @@ def is_excluded(repo: dict) -> bool:
     for kw in TUTORIAL_KEYWORDS:
         if kw in name or kw in desc:
             return True
+
+    # Pure coding-agent DX with no SRE/LLM-ops signal (config flag).
+    if not _domain.is_sre_relevant(f"{name} {desc}"):
+        return True
 
     return False
 
@@ -158,6 +167,9 @@ def file_issue(repo: dict, is_update: bool = False) -> bool:
         "\n".join(f"- `{f}`" for f in config_files) if config_files else "- (none detected)"
     )
 
+    relevance_blob = f"{repo.get('full_name', '')} {repo.get('description') or ''}"
+    relevance = _domain.domain_relevance(relevance_blob)
+
     # Body mirrors the practitioner-repo.yml form sections so triage tooling can
     # treat auto-filed and human-filed issues the same way.
     body = f"""### Repository
@@ -170,12 +182,25 @@ URL: {repo['html_url']}
 
 {config_files_md}
 
+### What operational/SRE pattern does this repo demonstrate?
+
+Auto-discovered by the repo scanner. Prospector: pick the best fit —
+
+- Operational runbook content (incident response, oncall, SLOs, postmortems)
+- AI agent usage patterns (which AI tools are wired in ops, and how)
+- Observability + LLM tracing patterns (OTel GenAI, LLM evals)
+- Production safety patterns (eval gates, cost monitors, prompt/version mgmt)
+
+Note: CLAUDE.md / `.cursorrules` / AGENTS.md are evidence of AI agent adoption
+in production, not the primary classification.
+
 ### What makes this repo worth analyzing?
 
 Auto-discovered by the weekly repo scanner.
 
 - Stars: {repo.get('stars', 'unknown')}
 - Description: {repo.get('description') or 'No description'}
+- **domain_relevance**: {relevance}
 
 This issue was filed automatically and needs triage by the Prospector agent.
 
@@ -268,10 +293,19 @@ def main():
 
     print("Starting repo scan...")
 
+    queries_run = 0
+    query_failures = 0
+    raw_hits = 0
+
     for query in SEARCH_QUERIES:
+        queries_run += 1
         print(f"\nSearching: {query}")
-        repos = search_repos(query)
+        repos, err = search_repos(query)
+        if err:
+            query_failures += 1
+            print(f"  Query error — treating as 0 results ({err})", file=sys.stderr)
         print(f"  Found {len(repos)} repos")
+        raw_hits += len(repos)
 
         for repo in repos:
             name = repo["full_name"]
@@ -292,10 +326,13 @@ def main():
     new_count = 0
     update_count = 0
     queued_count = 0
+    excluded_count = 0
+    skipped_count = 0
 
     for name, repo in all_discovered.items():
         if is_excluded(repo):
             print(f"  Excluded: {name}")
+            excluded_count += 1
             continue
 
         if name not in known_repos:
@@ -309,8 +346,10 @@ def main():
             }
             if filed:
                 new_count += 1
-            if queued:
+            elif queued:
                 queued_count += 1
+            else:
+                skipped_count += 1
         else:
             # Check if config files changed
             old_files = set(known_repos[name].get("config_files", []))
@@ -322,8 +361,10 @@ def main():
                 known_repos[name]["config_files"] = repo["config_files_found"]
                 if filed:
                     update_count += 1
-                if queued:
+                elif queued:
                     queued_count += 1
+                else:
+                    skipped_count += 1
             else:
                 known_repos[name]["last_scanned"] = datetime.now(timezone.utc).isoformat()
 
@@ -331,8 +372,14 @@ def main():
     registry["last_scan"] = datetime.now(timezone.utc).isoformat()
     save_registry(registry)
 
-    print(f"\nScan complete: {new_count} new, {update_count} updated, "
-          f"{queued_count} queued for next run, {len(known_repos)} total tracked")
+    filed_total = new_count + update_count
+    print(
+        f"\nScan complete: queries={queries_run} found={len(all_discovered)} "
+        f"(raw_hits={raw_hits}) excluded={excluded_count} filed={filed_total} "
+        f"(new={new_count} updated={update_count}) queued={queued_count} "
+        f"skipped={skipped_count} query_failures={query_failures} "
+        f"tracked={len(known_repos)}"
+    )
     print(f"Final budget: {scan_budget.status_summary()}")
 
 
