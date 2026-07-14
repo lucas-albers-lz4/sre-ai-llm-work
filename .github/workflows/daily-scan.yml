@@ -60,7 +60,9 @@ jobs:
 
       - name: Run repo scanner
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Prefer PROJECT_PAT for /search/code — GITHUB_TOKEN often hits
+          # secondary 429s during dense Actions traffic.
+          GITHUB_TOKEN: ${{ secrets.PROJECT_PAT }}
           GH_TOKEN: ${{ secrets.PROJECT_PAT }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: python scripts/scan-repos.py
@@ -122,5 +124,8 @@ jobs:
             echo "No registry/state/dashboard changes to commit."
           else
             git commit -m "chore: daily scanner registry + rate-limit state + dashboard"
+            # Rebase onto any commits pushed while this job was running
+            # (e.g. human pushes to the same branch during workflow_dispatch).
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
             git push
           fi

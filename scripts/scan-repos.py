@@ -36,15 +36,17 @@ REGISTRY_PATH = Path(__file__).parent.parent / "registry" / "repos.json"
 REPO_URL = os.environ.get("GITHUB_REPOSITORY", "steveash/hitchhiker-guide")
 
 # Search queries for ops/SRE repos that use AI agent configs or runbooks.
-# IMPORTANT: /search/code does NOT accept repository qualifiers like stars:,
-# pushed:, or fork: — those cause HTTP 422 QUERY_PARSING_FATAL. Star floor
-# is applied in Python after enriching each hit via the repos API.
+# IMPORTANT (legacy /search/code quirks):
+# - Repository qualifiers (stars:, pushed:, fork:) → HTTP 422
+# - Parentheses around OR groups → HTTP 422
+# Repeat the filename:/path: qualifier on each OR branch instead.
+# Star floor is applied in Python after enriching via the repos API.
 SEARCH_QUERIES = [
-    'filename:AGENTS.md (sre OR runbook OR oncall OR incident OR observability)',
-    'filename:CLAUDE.md (sre OR runbook OR oncall OR incident OR pager)',
-    'path:.claude/settings.json (sre OR platform OR infra)',
-    'filename:runbook.md (AI OR LLM)',
-    'path:.cursor/rules (sre OR runbook OR oncall OR incident OR platform)',
+    'filename:AGENTS.md sre OR filename:AGENTS.md runbook OR filename:AGENTS.md oncall OR filename:AGENTS.md incident OR filename:AGENTS.md observability',
+    'filename:CLAUDE.md sre OR filename:CLAUDE.md runbook OR filename:CLAUDE.md oncall OR filename:CLAUDE.md incident OR filename:CLAUDE.md pager',
+    'path:.claude/settings.json',
+    'filename:runbook.md AI OR filename:runbook.md LLM',
+    'path:.cursor/rules sre OR path:.cursor/rules oncall OR path:.cursor/rules incident OR path:.cursor/rules platform OR path:.cursor/rules runbook',
 ]
 
 # Post-filter floor (applied after repo metadata enrich). AGENTS.md adoption
@@ -77,21 +79,31 @@ def search_repos(query: str, page: int = 1) -> tuple[list[dict], str | None]:
     """Search GitHub code API and return (repos, error_message_or_None)."""
     url = "https://api.github.com/search/code"
     params = {"q": query, "per_page": 100, "page": page}
-    resp = requests.get(url, headers=github_headers(), params=params)
-
-    # Code search is tightly rate-limited; retry on 403 and 429.
-    if resp.status_code in (403, 429):
-        wait = 60 if resp.status_code == 403 else 30
+    resp = None
+    for attempt in range(4):
+        resp = requests.get(url, headers=github_headers(), params=params)
+        if resp.status_code not in (403, 429):
+            break
+        # Prefer Retry-After when present; otherwise escalate wait.
+        retry_after = resp.headers.get("Retry-After")
+        try:
+            wait = int(retry_after) if retry_after else (30 * (attempt + 1))
+        except ValueError:
+            wait = 30 * (attempt + 1)
+        wait = min(max(wait, 15), 120)
         print(
-            f"Rate limited ({resp.status_code}). Waiting {wait}s...",
+            f"Rate limited ({resp.status_code}), attempt {attempt + 1}/4. "
+            f"Waiting {wait}s...",
             file=sys.stderr,
         )
         time.sleep(wait)
-        resp = requests.get(url, headers=github_headers(), params=params)
 
-    if resp.status_code != 200:
-        body_excerpt = (resp.text or "")[:300].replace("\n", " ")
-        err = f"HTTP {resp.status_code}: {body_excerpt}"
+    if resp is None or resp.status_code != 200:
+        status = resp.status_code if resp is not None else "no-response"
+        body_excerpt = ((resp.text if resp is not None else "") or "")[:300].replace(
+            "\n", " "
+        )
+        err = f"HTTP {status}: {body_excerpt}"
         print(f"Search failed for query — {err}", file=sys.stderr)
         return [], err
 
@@ -382,8 +394,8 @@ def main():
                     set(existing_files + new_files)
                 )
 
-        # Respect rate limits
-        time.sleep(10)
+        # Code search secondary rate limit — stay under ~30 req/min.
+        time.sleep(12)
 
     # Filter and process
     new_count = 0
