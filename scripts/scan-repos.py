@@ -15,6 +15,7 @@ still happens — issue filing is an additional side effect that promotes
 the scanner from passive data collector to active driver of Pipeline 1.
 """
 
+import argparse
 import json
 import os
 import shutil
@@ -278,7 +279,7 @@ This issue was filed automatically and needs triage by the Prospector agent.
         return False
 
 
-def drain_queue() -> int:
+def drain_queue(dry_run: bool = False) -> int:
     """File repo entries previously queued by this scanner. Returns count filed."""
     budget = scan_budget.remaining()
     if budget <= 0:
@@ -298,13 +299,17 @@ def drain_queue() -> int:
         if scan_dedup.is_url_already_tracked(repo.get("html_url", "")):
             print(f"  [dedup] already tracked (queued): {repo.get('full_name', '')}")
             continue
+        if dry_run:
+            print(f"  [DRY-RUN] would file (queued): {repo.get('full_name', '')}")
+            filed += 1
+            continue
         if file_issue(repo, is_update=is_update):
             filed += 1
             scan_budget.record_filed(1)
     return filed
 
 
-def _try_file_or_queue(repo: dict, is_update: bool) -> tuple[bool, bool]:
+def _try_file_or_queue(repo: dict, is_update: bool, dry_run: bool = False) -> tuple[bool, bool]:
     """File a repo issue if budget allows, otherwise queue it for next run.
 
     Returns (filed, queued) — exactly one will be True. The repo is
@@ -312,9 +317,12 @@ def _try_file_or_queue(repo: dict, is_update: bool) -> tuple[bool, bool]:
     responsibility) so we never re-discover it tomorrow; the queue is now
     the canonical home for the unfiled work.
     """
-    if scan_dedup.is_url_already_tracked(repo.get("html_url", "")):
+    if not dry_run and scan_dedup.is_url_already_tracked(repo.get("html_url", "")):
         print(f"  [dedup] already tracked: {repo['full_name']}")
         return (False, False)
+    if dry_run:
+        print(f"  [DRY-RUN] would file: {repo['full_name']}")
+        return (True, False)
     if scan_budget.remaining() <= 0:
         scan_budget.queue_item("repos", {"repo": repo, "is_update": is_update})
         print(f"  [queued] daily cap reached: {repo['full_name']}")
@@ -326,6 +334,14 @@ def _try_file_or_queue(repo: dict, is_update: bool) -> tuple[bool, bool]:
 
 
 def main():
+    parser = argparse.ArgumentParser(description="Scan GitHub for SRE/ops repos with AI agent configs.")
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Search and report NEW/Excluded/summary without filing issues or writing registry.",
+    )
+    args = parser.parse_args()
+
     registry = load_registry()
     known_repos = registry.get("repos", {})
     all_discovered = {}
@@ -334,7 +350,7 @@ def main():
 
     # Drain repo backlog from prior runs first so the oldest discoveries
     # become Pipeline 1 issues before we go looking for fresh ones.
-    drained = drain_queue()
+    drained = drain_queue(dry_run=args.dry_run)
     if drained:
         print(f"Refiled {drained} item(s) from queue. {scan_budget.status_summary()}")
 
@@ -384,13 +400,14 @@ def main():
 
         if name not in known_repos:
             print(f"  NEW: {name}")
-            filed, queued = _try_file_or_queue(repo, is_update=False)
-            known_repos[name] = {
-                "first_seen": datetime.now(timezone.utc).isoformat(),
-                "last_scanned": datetime.now(timezone.utc).isoformat(),
-                "config_files": repo["config_files_found"],
-                "stars": repo.get("stars", 0),
-            }
+            filed, queued = _try_file_or_queue(repo, is_update=False, dry_run=args.dry_run)
+            if not args.dry_run:
+                known_repos[name] = {
+                    "first_seen": datetime.now(timezone.utc).isoformat(),
+                    "last_scanned": datetime.now(timezone.utc).isoformat(),
+                    "config_files": repo["config_files_found"],
+                    "stars": repo.get("stars", 0),
+                }
             if filed:
                 new_count += 1
             elif queued:
@@ -403,21 +420,23 @@ def main():
             new_files = set(repo["config_files_found"])
             if new_files != old_files:
                 print(f"  UPDATED: {name} (config files changed)")
-                filed, queued = _try_file_or_queue(repo, is_update=True)
-                known_repos[name]["last_scanned"] = datetime.now(timezone.utc).isoformat()
-                known_repos[name]["config_files"] = repo["config_files_found"]
+                filed, queued = _try_file_or_queue(repo, is_update=True, dry_run=args.dry_run)
+                if not args.dry_run:
+                    known_repos[name]["last_scanned"] = datetime.now(timezone.utc).isoformat()
+                    known_repos[name]["config_files"] = repo["config_files_found"]
                 if filed:
                     update_count += 1
                 elif queued:
                     queued_count += 1
                 else:
                     skipped_count += 1
-            else:
+            elif not args.dry_run:
                 known_repos[name]["last_scanned"] = datetime.now(timezone.utc).isoformat()
 
-    registry["repos"] = known_repos
-    registry["last_scan"] = datetime.now(timezone.utc).isoformat()
-    save_registry(registry)
+    if not args.dry_run:
+        registry["repos"] = known_repos
+        registry["last_scan"] = datetime.now(timezone.utc).isoformat()
+        save_registry(registry)
 
     filed_total = new_count + update_count
     print(

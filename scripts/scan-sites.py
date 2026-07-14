@@ -66,7 +66,12 @@ MAX_SCREEN_PER_SEED = 50
 
 
 def filter_urls_to_seed_prefix(urls: list[str], seed_url: str) -> list[str]:
-    """Keep only URLs under the seed's path prefix; drop TOC/index stubs."""
+    """Keep only URLs under the seed's path prefix; drop TOC/index stubs.
+
+    Example (sre-workbook): seed
+    ``https://sre.google/workbook/table-of-contents/`` → prefix
+    ``https://sre.google/workbook``; keep chapter URLs, drop TOC/root.
+    """
     prefix = get_site_prefix(seed_url).rstrip("/")
     seed_norm = seed_url.rstrip("/")
     filtered = []
@@ -398,11 +403,14 @@ def scan_seed(seed: dict, state: dict, dry_run: bool = False) -> tuple[int, int,
     seed_state = state.setdefault(seed_id, {"urls": {}, "last_scan": None})
     known_urls = seed_state["urls"]
 
-    # Phase 1: Discover URLs
+    # Phase 1: Discover URLs, then always apply shared prefix/TOC/index filter
+    # (nav discovery already path-prefixes; filter still drops TOC/index stubs).
     urls = discover_from_sitemap(seed["url"])
+    source = "sitemap"
     if urls is None:
         print("  No sitemap found, falling back to nav-link extraction")
-        urls = discover_from_nav(seed["url"])
+        urls = discover_from_nav(seed["url"]) or []
+        source = "nav"
     else:
         before = len(urls)
         urls = filter_urls_to_seed_prefix(urls, seed["url"])
@@ -414,10 +422,16 @@ def scan_seed(seed: dict, state: dict, dry_run: bool = False) -> tuple[int, int,
         # omits the seed section entirely — fall back to nav crawl.
         if not urls:
             print("  Prefix filter emptied sitemap; falling back to nav-link extraction")
-            urls = discover_from_nav(seed["url"])
-            urls = filter_urls_to_seed_prefix(urls, seed["url"]) if urls else []
-            # Nav discovery already prefix-filters; re-apply TOC/index drops
-            # via filter for consistency when nav returned unfiltered edges.
+            urls = discover_from_nav(seed["url"]) or []
+            source = "nav"
+
+    if urls and source == "nav":
+        before = len(urls)
+        urls = filter_urls_to_seed_prefix(urls, seed["url"])
+        print(
+            f"  Prefix-filtered nav: {before} → {len(urls)} "
+            f"(prefix={get_site_prefix(seed['url'])})"
+        )
 
     if not urls:
         print("  No URLs discovered")

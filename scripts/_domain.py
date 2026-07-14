@@ -73,6 +73,9 @@ CODING_AGENT_DX_PHRASES = (
 
 @lru_cache(maxsize=1)
 def _load_domain_config() -> dict:
+    # Cached for the process lifetime — mid-run edits to hitchhiker.config.json
+    # (or tests that flip domain flags) will not be picked up without a restart
+    # or cache_clear(). Scanners load config once at start; that is intentional.
     if not CONFIG_PATH.exists():
         return {"exclude_pure_coding_agents": False}
     with open(CONFIG_PATH) as f:
