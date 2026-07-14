@@ -3,7 +3,7 @@ source_url: https://sre.google/prodcast/transcripts/sre-prodcast-05-02/
 source_type: discussion
 title: "The One With SLOs — SRE Prodcast S5E2 (Alex Hidalgo & Brian Singer, nobl9)"
 author: "Alex Hidalgo (ex-Google CRE, author of 'Implementing Service Level Objectives', Nobl9) and Brian Singer (co-founder & CPO, Nobl9), interviewed by Steve McGhee, Matt Siegler (Prodcast hosts)"
-date_published: 2022-03-31
+date_published: 2026-05-25
 date_extracted: 2026-07-14
 last_checked: 2026-07-14
 status: current
@@ -614,12 +614,12 @@ GUARD   → "we still need a human in the loop to basically say,
     experience, not a global average.
   - `docs-google-sre-prodcast-04-04-zelesko-future-sre.md`,
     `docs-google-sre-prodcast-04-03-underwood-ai.md`, and
-    `docs-google-sre-prodcast-05-04`/`docs-google-sre-prodcast-05-01` lineage (AI
-    episodes) — Hidalgo/Singer's "LLMs lower the observability/SLO barrier" (Claim 15)
+    the Prodcast index note's descriptions of S5E1 (Hippo, observability+AI loop) and
+    S5E4 (Denia del Cid, golden data sets / humans in the loop) — Hidalgo/Singer's
+    "LLMs lower the observability/SLO barrier" (Claim 15)
     and "AI as a force multiplier with humans in the loop" (Claim 16) corroborate the
     "AI as assistant, not autonomous" theme in the later Prodcast AI episodes and the
-    "golden data sets / humans in the loop" framing (S5E4 Denia del Cid, per the
-    index note Claim 8).
+    "golden data sets / humans in the loop" framing (per the index note Claims 7–8).
 
 - **Contradicts**: None filed — but two tensions must be surfaced prominently, both
   resolved as *conditioning variables* (per MINER.md §4a), consistent with how the
@@ -772,11 +772,19 @@ GUARD   → "we still need a human in the loop to basically say,
   read end-to-end — no skimming. No sub-pages were followed; the transcript is
   self-contained.
 
-- **`date_published: 2022-03-31`**: The page carries only `release-date="2022-03-31"` in
-  its metadata — the Prodcast *series* launch date, not the S5E2 air date (Season 5 aired
-  well after 2022). This matches the metadata used by the sibling S1 transcript notes and
-  the index note; it is approximate for the episode itself. Refine if a precise air date
-  is found.
+- **`date_published: 2026-05-25`**: The page carries only `release-date="2022-03-31"` in
+  its HTML metadata — the Prodcast *series* launch date, not the S5E2 air date (Season 5
+  aired well after 2022; this episode discusses LLM-assisted observability and "AI SRE,"
+  topics firmly post-ChatGPT). The HTTP `last-modified` header shows `Mon, 25 May 2026`,
+  which is used here as a conservative upper bound. No episode-specific date metadata is
+  available on the page. Refine to a precise air date if one is found.
+
+- **Internal filename discrepancy**: The transcript page embeds the internal audio
+  filename `SRE-S5-E1-SLOs-w-Alex-and-Brian.1.1`, suggesting S5E1. However, the
+  canonical URL path (`sre-prodcast-05-02`) and the Prodcast index note's S5E1 listing
+  (Stephanie Hippo, observability+AI) confirm this is S5E2. The internal filename is
+  likely an audio production artifact; the note follows the URL path and index note in
+  identifying this as S5E2.
 
 - **Vendor/consulting bias (flagged)**: Both guests are now at **Nobl9**, a SLO/error-
   budget tooling vendor (Hidalgo author-of-record on the SLO book; Singer co-founder/CPO).
