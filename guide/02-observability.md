@@ -60,8 +60,10 @@ spans without requiring the Datadog SDK
 
 Honeycomb's instrumentation aligns with the same operation model
 (`gen_ai.operation.name`: chat, execute_tool, retrieval, embeddings,
-invoke_agent, invoke_workflow). Two independently-authored vendor docs
-converge on the same operation taxonomy.
+invoke_agent, invoke_workflow)
+[source: blog-honeycomb-instrumenting-ai-agents-opentelemetry, Concrete Artifacts]
+[emerging]. Two independently-authored vendor docs converge on the same
+operation taxonomy.
 
 **Rule**: Standardize on the OTel GenAI semantic-convention operation and
 attribute model. It is the vendor-neutral schema that at least two major
@@ -209,5 +211,6 @@ can distinguish real problems from cosmetic ones
 
 ---
 *Sources for this chapter: docs-datadog-llm-observability,
-docs-google-sre-prodcast-03-04-observability-spectrum*
+docs-google-sre-prodcast-03-04-observability-spectrum,
+blog-honeycomb-instrumenting-ai-agents-opentelemetry*
 *Last updated: 2026-07-15*

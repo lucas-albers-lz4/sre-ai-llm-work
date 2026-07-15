@@ -88,8 +88,7 @@ trajectories and comparing the agent's actions to what the on-caller actually
 did. The key challenge: historical incident data is retained for limited
 windows, so evaluation coverage degrades over time unless data is
 deliberately preserved for eval
-[source: docs-google-sre-prodcast-04-09-ai-agents, Claims 6-8 — evaluation
-methodology] [settled].
+[source: docs-google-sre-prodcast-04-09-ai-agents, Claims 7, 8, 10] [settled].
 
 > Production has no sandbox. You cannot roll back an agent action in
 > production the way you can roll back a bad deploy. So you must evaluate
@@ -106,8 +105,7 @@ Agents should have a catalog of safe, pre-audited mitigations they can
 recommend or apply: restart, rollback, scale-up, drain-traffic, fail-over.
 Each mitigation carries preconditions (what must be true before it's
 applicable) and a blast-radius estimate
-[source: docs-google-sre-prodcast-04-09-ai-agents, Claims 9-10 — Generic
-Mitigations] [settled].
+[source: docs-google-sre-prodcast-04-09-ai-agents, Claim 12] [settled].
 
 **Rule**: Build a named, version-controlled catalog of allowed mitigations
 before letting an agent recommend actions. An agent should never invent a
@@ -120,7 +118,7 @@ Beyond incident response, agents can review proposed production changes
 (config pushes, binary rollouts) for risk signals before they land. The agent
 checks: has this change pattern caused incidents before? Does the blast
 radius exceed the error budget? Are the affected components currently
-healthy? [source: docs-google-sre-prodcast-04-09-ai-agents, Claim 11-12]
+healthy? [source: docs-google-sre-prodcast-04-09-ai-agents, Claim 14]
 [settled].
 
 **Rule**: Run the same agent that triages incidents against proposed changes
