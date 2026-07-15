@@ -74,7 +74,7 @@ issue: "#107"
   project where the interface is literally a document written into Firestore.
 - **Confidence**: emerging (experience-based practitioner definition, no metrics)
 - **Quote**: "And I really think that platform engineering is the process that you go through to glue all that stuff together."; "I've recently been working on a project where the interface is a document in Firestore. It's not a fancy UI. It's... write a document in the proper document format in the Firestore. And then automation kicks off, and magic happens. And then that is the interface to it. You can get more advanced or user-friendly with a tool like Backstage. But it doesn't have to be that. It's just got to be some sort of well-defined interface."
-- **Our assessment**: The load-bearing definitional claim of the episode. The
+- **Our assessment**: The central definitional claim of the episode. The
   "interface is fungible" insight (a plain Firestore doc counts as an interface)
   is a valuable de-hyping message for the guide: platform engineering is a
   process and an abstraction contract, not a specific product. Kaslin restates it
@@ -100,7 +100,7 @@ issue: "#107"
   the "shifting down" term.
 - **Confidence**: emerging (practitioner pattern; described qualitatively)
 - **Quote**: "The term is shifting down. You might have heard that before."; "Those are examples of where you can shift those responsibilities down into the platform, and you just get that stuff for free because your application is running on that platform."
-- **Our assessment**: A clean articulation of platform-as-leverage for
+- **Our assessment**: A clean articulation of using the platform to bundle
   nonfunctional requirements: policy/observability/compliance come bundled with
   the platform rather than being re-solved per app. The "shift down" (vs the more
   common "shift left") vocabulary is worth capturing. Kaslin's addendum — that
@@ -221,7 +221,7 @@ issue: "#107"
 
 The source is a podcast transcript — no code, configs, metrics, or logs. The
 concrete artifacts are the verbatim passages that carry the episode's
-load-bearing patterns. Reproduced character-for-character from the transcript.
+core patterns. Reproduced character-for-character from the transcript.
 
 ### The fungible interface — a Firestore document as the platform interface (Ben Good)
 
@@ -343,6 +343,17 @@ Theme:   Platform engineering (golden paths, deployment archetypes, DORA)
     deploy-break data). This episode's Claim 12 extends the same DORA lens to the
     *platform team's own output* ("platform velocity"; "platforms are software,
     too") — same tool, applied one level up.
+  - **`docs-google-sre-prodcast-03-13-imperative-declarative.md` Claim 11**
+    (platform engineering *is* what every team does with IaC; the exposed
+    abstraction — not the declarative/imperative paradigm — is the real problem).
+    This directly corroborates Claim 2 here (platform engineering as a "fungible
+    interface" / "process of gluing infrastructure together behind a well-defined
+    interface") — both notes converge on the abstraction/interface being the
+    substance, not the tool or paradigm. The 03-13 note's "don't build the
+    platform too early in a startup" caveat also complements Claim 10 here
+    (mandating platforms for compliance/cost "doesn't typically yield the desired
+    outcome") — both are cautionary conditioning variables on when platform
+    engineering effort pays off.
   - **`discussion-google-sre-prodcast-customer-centric-monitoring.md` Claim 13**
     (Critical User Journeys are the most reasonable aggregation for action). Ben's
     Backstage description (Claim 6 here) uses the same CUJ concept — successful
