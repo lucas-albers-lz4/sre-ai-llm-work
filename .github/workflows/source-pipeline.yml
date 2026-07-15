@@ -33,16 +33,21 @@ jobs:
   pre-screen:
     # Tier 1: Fast DeepSeek Flash pre-filter. Cheaply rejects
     # obviously bad submissions before the expensive Prospector (~$0.26).
+    # Skip entirely when the issue carries `no-triage` (internal/pipeline
+    # bugs — apply that label at create time so opened never queues agents).
     if: >-
-      github.event.action == 'opened' ||
-      (github.event.action == 'labeled' && (
-        github.event.label.name == 'new-source' ||
-        github.event.label.name == 'new-repo' ||
-        github.event.label.name == 'new-failure' ||
-        github.event.label.name == 'new-seed' ||
-        github.event.label.name == 'source-submission' ||
-        github.event.label.name == 'seed-submission'
-      ))
+      !contains(github.event.issue.labels.*.name, 'no-triage') &&
+      (
+        github.event.action == 'opened' ||
+        (github.event.action == 'labeled' && (
+          github.event.label.name == 'new-source' ||
+          github.event.label.name == 'new-repo' ||
+          github.event.label.name == 'new-failure' ||
+          github.event.label.name == 'new-seed' ||
+          github.event.label.name == 'source-submission' ||
+          github.event.label.name == 'seed-submission'
+        ))
+      )
     runs-on: ubuntu-latest
     outputs:
       verdict: ${{ steps.verdict.outputs.verdict }}
@@ -62,6 +67,11 @@ jobs:
             --repo "${{ github.repository }}" \
             --description "Passed Tier 1 DeepSeek Flash pre-screening" \
             --color "0e8a16" \
+            2>/dev/null || true
+          gh label create "no-triage" \
+            --repo "${{ github.repository }}" \
+            --description "Internal/pipeline/bug issue — pre-screen and Prospector skip" \
+            --color "cccccc" \
             2>/dev/null || true
 
       - name: Run DeepSeek Flash pre-screen

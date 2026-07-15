@@ -30,6 +30,14 @@ context: [`AGENTS.md`](AGENTS.md).
 - Assayer/Smith: DeepSeek Pro
 - Details: `docs/MODEL-ROUTING.md`
 
+## Filing issues (local coding agents only)
+
+- Internal / pipeline / bug / tooling issues: apply **`no-triage` at create time**
+  so pre-screen does not run. See `AGENTS.md` hard rule 7.
+- Source / repo / seed / failure submissions: never use `no-triage`; use the
+  normal issue templates so triage can run.
+- Do not put this guidance in `agents/*.md` (those are CI worker prompts).
+
 ## Do not
 
 - Merge `miner-eval` / `*-hy3-eval.md` into the corpus

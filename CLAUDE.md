@@ -11,6 +11,9 @@ Follow [`AGENTS.md`](AGENTS.md) for remotes, pipeline, models, and hard rules.
 - Prefer `gh` against `lucas-albers-lz4/sre-ai-llm-work` (`origin`).
 - After auth/routing changes, dispatch `claude-smoke-test.yml` (DeepSeek) or
   `hy3-smoke-test.yml` (OpenRouter).
+- Filing a pipeline/bug/docs issue (not a source submission)? Apply **`no-triage`**
+  at create time — see `AGENTS.md` hard rule 7. Do not add that guidance to
+  `agents/*.md` (CI worker prompts).
 
 ## Quick pointers
 

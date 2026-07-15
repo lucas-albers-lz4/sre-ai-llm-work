@@ -39,6 +39,11 @@ downstream workflows). Claude OAuth is **not** required.
 
 ## Hard rules for local agents
 
+These rules are for **local coding agents** (Cursor, Claude Code, Hermes,
+OpenCode, etc.) working in this checkout. They are **not** instructions for
+CI workers — do not copy them into `agents/*.md` (those files are loaded as
+Actions prompts).
+
 1. **Do not edit `guide/`** unless implementing Smith-style synthesis or a
    human explicitly asks for a guide edit. Prefer filing/fixing source notes.
 2. **Do not hand-edit `registry/sources.json`** — it is rebuilt from source-note
@@ -53,6 +58,13 @@ downstream workflows). Claude OAuth is **not** required.
    IDs for project **#3** (`docs/PROJECT-SETUP.md`). Failures are warnings only.
 6. Match existing templates: `source-notes/.template-*.md`, chapter stubs in
    `guide/`, label vocabulary in workflows/`agents/`.
+7. **When filing a GitHub issue that is not a source submission** (pipeline
+   bug, workflow fix, docs/tooling work, enhancement for local agents), apply
+   the **`no-triage`** label **at create time**. That short-circuits
+   `source-pipeline.yml` pre-screen so the issue is not auto-rejected or
+   fed into Prospector/Miner. Use `bug` / `enhancement` / `pipeline` as needed
+   for board organization. Do **not** put `no-triage` on real source / repo /
+   seed / failure submissions — those must go through triage.
 
 ## Useful commands
 
