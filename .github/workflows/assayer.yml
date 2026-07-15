@@ -150,7 +150,11 @@ jobs:
           # Bypass Claude GitHub App OIDC (not installed on this fork).
           github_token: ${{ secrets.GITHUB_TOKEN }}
           anthropic_api_key: ${{ secrets.DEEPSEEK_API_KEY }}
-          allowed_bots: "claude[bot]"
+          # github-actions: Smith/Miner rework dispatches Assayer via
+          # `gh workflow run`; without this the action aborts before writing
+          # a review and the rework gate used to treat that as REQUEST_CHANGES
+          # (see #268 / PR #206).
+          allowed_bots: "claude[bot],github-actions,github-actions[bot]"
           show_full_output: true
           prompt: |
             You are the Assayer. Read agents/ASSAYER.md for your role,
@@ -397,6 +401,10 @@ jobs:
         # a hard REJECT or after the rounds are exhausted, the PR is auto-closed —
         # the affected chapters re-synthesize on a future Smith run.
         #
+        # Only real quality verdicts (REQUEST CHANGES / REJECT) enter this path's
+        # body. APPROVE, missing review file, or unparseable verdict exit 0
+        # without burning a round or closing (#268).
+        #
         # SKIP contradiction-resolution PRs (branch assayer/contradiction-*): those
         # change CONTRADICTIONS.md, which the Smith rework does not edit (it only
         # touches guide/ + sticky-notes/), so reworking them just churns. A flagged
@@ -420,10 +428,25 @@ jobs:
           fi
 
           # Decide: rework again, or give up and auto-close.
-          if grep -Eq '^\*\*Verdict\*\*:[[:space:]]*REJECT' /tmp/assayer-review.md 2>/dev/null; then
+          # Only act on a real Assayer quality verdict. Infra failures
+          # (agent step aborted, no review file, unparseable verdict) must
+          # NOT burn a rework round or auto-close — that is what killed
+          # APPROVED PR #206 after parallel workflow_dispatch runs failed
+          # before writing /tmp/assayer-review.md (#268).
+          if [ ! -s /tmp/assayer-review.md ]; then
+            echo "No Assayer review file — infra failure, not a quality verdict. Skipping rework/auto-close."
+            exit 0
+          fi
+          if grep -Eq '^\*\*Verdict\*\*:[[:space:]]*APPROVE' /tmp/assayer-review.md; then
+            echo "Assayer verdict is APPROVE — skipping rework/auto-close."
+            exit 0
+          elif grep -Eq '^\*\*Verdict\*\*:[[:space:]]*REJECT' /tmp/assayer-review.md; then
             VERDICT="REJECT"
-          else
+          elif grep -Eq '^\*\*Verdict\*\*:[[:space:]]*REQUEST[[:space:]]+CHANGES' /tmp/assayer-review.md; then
             VERDICT="REQUEST_CHANGES"
+          else
+            echo "Unparseable Assayer verdict — infra/format failure, not a quality verdict. Skipping rework/auto-close."
+            exit 0
           fi
           MAX_REWORK=3
           ATTEMPTS=$(gh pr view "$PR_NUMBER" --repo "${{ github.repository }}" --json labels \
@@ -436,6 +459,8 @@ jobs:
           }
 
           # Hard reject, or out of auto-rework rounds -> close. No human queue.
+          # Cap only applies to real non-APPROVE quality verdicts (APPROVE
+          # already exited above).
           if [ "$VERDICT" = "REJECT" ]; then
             close_stuck "fundamental issue (hard REJECT)"
             exit 0
@@ -523,10 +548,22 @@ jobs:
           MAX_REWORK=2
           REPO="${{ github.repository }}"
 
-          if grep -Eq '^\*\*Verdict\*\*:[[:space:]]*REJECT' /tmp/assayer-review.md 2>/dev/null; then
+          # Same gate as guide-update rework: only act on a real quality
+          # verdict. Missing/unparseable review = infra failure (#268).
+          if [ ! -s /tmp/assayer-review.md ]; then
+            echo "No Assayer review file — infra failure, not a quality verdict. Skipping rework/auto-reject."
+            exit 0
+          fi
+          if grep -Eq '^\*\*Verdict\*\*:[[:space:]]*APPROVE' /tmp/assayer-review.md; then
+            echo "Assayer verdict is APPROVE — skipping rework/auto-reject."
+            exit 0
+          elif grep -Eq '^\*\*Verdict\*\*:[[:space:]]*REJECT' /tmp/assayer-review.md; then
             VERDICT="REJECT"
-          else
+          elif grep -Eq '^\*\*Verdict\*\*:[[:space:]]*REQUEST[[:space:]]+CHANGES' /tmp/assayer-review.md; then
             VERDICT="REQUEST_CHANGES"
+          else
+            echo "Unparseable Assayer verdict — infra/format failure, not a quality verdict. Skipping rework/auto-reject."
+            exit 0
           fi
           ISSUE_NUMBER=$(echo "$PR_HEAD_REF" | sed -n 's|^miner/issue-\([0-9]\+\)\(-r[0-9]\+\)\?$|\1|p')
           ATTEMPTS=$(gh pr view "$PR_NUMBER" --repo "$REPO" --json labels \
