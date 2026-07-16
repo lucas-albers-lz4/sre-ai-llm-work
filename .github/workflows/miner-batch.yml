@@ -3,8 +3,12 @@ name: Batch Miner
 # Hourly scheduled workflow that processes mining-queued issues.
 #
 # Pre-flight (bash, no LLM): query for open issues with label
-# 'mining-queued' that do NOT have 'mining-complete' or 'miner-blocked'.
+# 'mining-queued' that do NOT have 'mining-complete', 'miner-blocked',
+# 'extraction-rejected', or mine-attempt-* count >= MAX_MINE_ATTEMPTS (3).
 # If zero results, exit 0 — no Claude Code invocation, no tokens spent.
+#
+# After each mine job, a post-step records mine-attempt-N on non-terminal
+# outcomes and auto-blocks after 3 failed attempts (issue #272).
 #
 # If work exists: pick the oldest N issues (controlled by BATCH_SIZE).
 # For each, invoke Claude Code with agents/MINER.md as the extraction
@@ -52,6 +56,15 @@ jobs:
             --description "Miner could not extract: paywalled, dead link, or unreadable" \
             --color "e4e669" \
             2>/dev/null || true
+          # Per-issue Miner attempt budget (issue #272). Pre-create so the
+          # post-mine accounting step never depends on on-demand label create.
+          for n in 1 2 3; do
+            gh label create "mine-attempt-$n" \
+              --repo "${{ github.repository }}" \
+              --description "Miner batch non-terminal attempt $n of 3" \
+              --color "f9d0c4" \
+              2>/dev/null || true
+          done
 
       - name: Find mining-queued issues without completion labels
         id: query
@@ -62,11 +75,13 @@ jobs:
           # 4 (issue #179) now that Assayer is also explicitly dispatched; if
           # any Assayer miss reappears, drop to 3 — not back to 2.
           BATCH_SIZE: '4'
+          MAX_MINE_ATTEMPTS: '3'
         run: |
-          # Find open issues labeled mining-queued but NOT mining-complete
-          # or miner-blocked. Sort by priority band first (high → medium →
-          # unset → low), then by createdAt within each band so older
-          # issues drain first at equal priority.
+          # Find open issues labeled mining-queued but NOT mining-complete,
+          # miner-blocked, extraction-rejected, or already at the attempt
+          # budget (mine-attempt-N count >= MAX). Sort by priority band
+          # first (high → medium → unset → low), then by createdAt within
+          # each band so older issues drain first at equal priority.
           QUEUED=$(gh issue list \
             --repo "${{ github.repository }}" \
             --label "mining-queued" \
@@ -75,10 +90,13 @@ jobs:
             --limit 100 \
             --jq "
               [.[] |
-                select(.labels | map(.name) |
-                  (contains([\"mining-complete\"]) or
-                   contains([\"miner-blocked\"]) or
-                   contains([\"extraction-rejected\"])) | not
+                select(
+                  (.labels | map(.name) |
+                    (contains([\"mining-complete\"]) or
+                     contains([\"miner-blocked\"]) or
+                     contains([\"extraction-rejected\"])) | not)
+                  and
+                  (([.labels[].name | select(test(\"^mine-attempt-[0-9]+$\"))] | length) < ${MAX_MINE_ATTEMPTS})
                 ) |
                 . + {prio:
                   (if .labels | map(.name) | index(\"priority:high\")   then 0
@@ -158,6 +176,7 @@ jobs:
           } >> "$GITHUB_ENV"
 
       - name: Run Miner extraction for issue #${{ matrix.issue }}
+        id: miner
         uses: anthropics/claude-code-action@v1
         with:
           # Top-level github_token input (NOT just an env: GH_TOKEN) is
@@ -336,6 +355,82 @@ jobs:
           gh workflow run assayer.yml \
             --repo "${{ github.repository }}" \
             --field pr_number="$PR_NUM"
+
+      - name: Record mine attempt or exhaust budget
+        # Caps unbounded hourly re-mines of a permanently bad issue (issue #272).
+        # Runs even when the Miner step fails; continue-on-error so a label API
+        # hiccup does not fail the matrix job.
+        if: always()
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE: ${{ matrix.issue }}
+          MAX_MINE_ATTEMPTS: '3'
+          BRANCH: miner/issue-${{ matrix.issue }}-r${{ github.run_id }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          MINER_OUTCOME: ${{ steps.miner.outcome }}
+        run: |
+          set -euo pipefail
+          REPO="${{ github.repository }}"
+
+          LABELS_JSON=""
+          for attempt in 1 2 3; do
+            if LABELS_JSON=$(gh issue view "$ISSUE" --repo "$REPO" --json labels -q '[.labels[].name]' 2>/dev/null); then
+              break
+            fi
+            echo "warn: gh issue view failed (try $attempt/3); retrying..."
+            sleep $((attempt * 2))
+            LABELS_JSON=""
+          done
+          if [ -z "$LABELS_JSON" ]; then
+            echo "warn: could not read labels for #$ISSUE after retries; skipping attempt accounting."
+            exit 0
+          fi
+          echo "issue=#$ISSUE miner_outcome=$MINER_OUTCOME labels=$LABELS_JSON"
+
+          if echo "$LABELS_JSON" | jq -e 'index("mining-complete") or index("miner-blocked") or index("extraction-rejected")' >/dev/null; then
+            echo "Terminal state already — no attempt accounting."
+            if echo "$LABELS_JSON" | jq -e 'index("mining-complete")' >/dev/null; then
+              ATTEMPT_LABELS=$(echo "$LABELS_JSON" | jq -r '.[] | select(test("^mine-attempt-[0-9]+$"))')
+              if [ -n "$ATTEMPT_LABELS" ]; then
+                for L in $ATTEMPT_LABELS; do
+                  gh issue edit "$ISSUE" --repo "$REPO" --remove-label "$L" || true
+                done
+                echo "Stripped mine-attempt-* after mining-complete."
+              fi
+            fi
+            exit 0
+          fi
+
+          # False-positive gate: PR opened for this run but agent forgot a
+          # terminal label — do not burn an attempt slot.
+          PR_NUM=$(gh pr list --repo "$REPO" --head "$BRANCH" --state open \
+            --json number --jq '.[0].number // empty' 2>/dev/null || echo "")
+          if [ -n "$PR_NUM" ]; then
+            echo "Open PR #$PR_NUM on $BRANCH without terminal label — skipping attempt increment."
+            gh issue comment "$ISSUE" --repo "$REPO" \
+              --body "Miner opened PR #${PR_NUM} but did not apply \`mining-complete\` / \`miner-blocked\`. Attempt budget not incremented for this run. See ${RUN_URL}" \
+              || true
+            exit 0
+          fi
+
+          ATTEMPTS=$(echo "$LABELS_JSON" | jq '[.[] | select(test("^mine-attempt-[0-9]+$"))] | length')
+          NEXT=$((ATTEMPTS + 1))
+          echo "Non-terminal outcome — recording mine-attempt-$NEXT (prior=$ATTEMPTS, max=$MAX_MINE_ATTEMPTS)"
+
+          gh issue edit "$ISSUE" --repo "$REPO" --add-label "mine-attempt-$NEXT" || true
+
+          if [ "$NEXT" -ge "$MAX_MINE_ATTEMPTS" ]; then
+            echo "Attempt budget exhausted — applying miner-blocked and closing."
+            gh issue edit "$ISSUE" --repo "$REPO" \
+              --add-label "miner-blocked" \
+              --remove-label "mining-queued" || true
+            gh issue close "$ISSUE" --repo "$REPO" --reason "not planned" \
+              --comment "Auto-blocked: Miner failed ${MAX_MINE_ATTEMPTS} times without \`mining-complete\` / \`miner-blocked\`. Run: ${RUN_URL}
+
+To retry: remove \`miner-blocked\` and all \`mine-attempt-*\`, reopen, and re-add \`mining-queued\`." \
+              || true
+          fi
 
       - name: Update project board (assayer pending)
         if: always()

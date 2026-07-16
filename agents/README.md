@@ -99,7 +99,7 @@ human intervention. The recovery mechanism for each common failure:
 
 | Failure | Agent | Human needed? | Recovery |
 |---------|-------|---------------|----------|
-| Run fails mid-extraction (Anthropic stream timeout, network blip) | Miner | No | Issue keeps `mining-queued`, doesn't get `mining-complete`. Next hourly cron picks it up automatically |
+| Run fails mid-extraction (stream timeout, network blip, Claude `is_error`) | Miner | No (until cap) | Issue keeps `mining-queued`. Next hourly cron retries. After 3 non-terminal runs, `mine-attempt-3` + `miner-blocked` + close (issue #272). Pre-existing queued issues start at attempt 0 (no backfill). Reopen: remove `miner-blocked` and all `mine-attempt-*`, re-add `mining-queued`. |
 | Real source rejected by mistake | Pre-screen | Yes | Issue is closed with `rejected` label. A human can reopen and remove `rejected` to re-run, or file a fresh issue |
 | Triages incorrectly (e.g. should be `triaged:text` not `triaged:repo`) | Prospector | Yes | Human swaps labels — the Miner picks up `triaged:text` + `mining-queued` automatically |
 | Source-note PR fails Assayer review | Miner | Yes | No automated rework path for source-note PRs. Default action: close the PR, requeue the source issue (`mining-queued`, remove `mining-complete`); the next batch re-mines on a fresh `-r<run_id>` branch |
