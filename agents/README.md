@@ -78,7 +78,7 @@ Upstream docs said Haiku/Sonnet/Opus; this fork routes Claude Code to
 
 | Workflow file | Agent | Trigger | Model | Notes |
 |---------------|-------|---------|-------|-------|
-| `daily-scan.yml` | Site/feed scanners | Daily cron 06:00 UTC + workflow_dispatch | DeepSeek Flash (`scan-sites.py`) | Uses `PROJECT_PAT` so filed issues trigger `source-pipeline.yml` |
+| `daily-scan.yml` | Site/feed scanners | Daily cron 12:00 UTC + workflow_dispatch | DeepSeek Flash (`scan-sites.py`) | Uses `PROJECT_PAT` so filed issues trigger `source-pipeline.yml`; 12:00 UTC avoids DeepSeek V4 peak windows |
 | `source-pipeline.yml` (pre-screen job) | Pre-screen | `issues:[opened, labeled]` with `new-source` / `source-submission` / `new-repo` / `new-failure` | DeepSeek Flash | Rejects obvious bad submissions (no URL, paywall, marketing, dupes) before the Prospector |
 | `source-pipeline.yml` (prospector job) | Prospector | After pre-screen passes (job dependency) | DeepSeek Flash | Triages into `triaged:text` / `triaged:repo` / `triaged:failure` / `feed-candidate` / `rejected`. Applies `mining-queued` for text and failure triages. Opens a feed-candidate PR if the source is a feed |
 | `miner-batch.yml` | Miner | Hourly cron at `:17` + workflow_dispatch | OpenRouter `tencent/hy3:free` (→ 2026-07-21) | Picks 2 oldest priority-sorted (high → medium → unset → low) `mining-queued` issues. Branch is `miner/issue-N-r<run_id>` |
@@ -90,7 +90,7 @@ Upstream docs said Haiku/Sonnet/Opus; this fork routes Claude Code to
 | `contradiction-resolver.yml` (resolve job) | Assayer (commit phase) | `issues:[labeled]` with `resolution-approved` | DeepSeek Pro | Mechanical edit to `CONTRADICTIONS.md`; opens `guide-update` PR |
 | `scribe.yml` | Scribe | `issues:[labeled]` with `sticky-notes` | DeepSeek Flash | Parses into `sticky-notes/chNN-*.md`. Inline prompt — no agent definition file |
 | `herald-weekly.yml` | Herald | Weekly cron Sun 16:00 UTC + workflow_dispatch | DeepSeek Pro | Changelog / status write-up |
-| `gardener.yml` | Gardener | Weekly cron Sun 09:00 UTC + workflow_dispatch | Python (no LLM) | Staleness patrol; opens `guide-update` PR labeled `gardener` if anything changes |
+| `gardener.yml` | Gardener | Weekly cron Sun 14:00 UTC + workflow_dispatch | Python (no LLM) | Staleness patrol; opens `guide-update` PR labeled `gardener` if anything changes; 14:00 UTC keeps Assayer follow-up off DeepSeek peak |
 
 ## Failure modes and self-healing
 

@@ -11,7 +11,9 @@ name: Daily Scanner
 
 on:
   schedule:
-    - cron: '0 6 * * *'   # Every day at 06:00 UTC
+    # 12:00 UTC — after DeepSeek V4 peak (UTC 01:00–04:00 and 06:00–10:00
+    # Beijing afternoon). Site-crawl uses deepseek-v4-flash.
+    - cron: '0 12 * * *'
   workflow_dispatch:        # Manual trigger for testing / one-off runs / queue flush
     inputs:
       daily_scan_cap:
