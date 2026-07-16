@@ -7,13 +7,13 @@ name: Weekly Gardener
 #   3. Open a PR labeled `guide-update` so the Assayer can re-grade the
 #      demoted claims before the changes merge.
 #
-# Sunday slot is intentional: it offsets the daily-scan (06:00 UTC) so the
-# gardener's weekly bot PR doesn't land alongside a fresh batch of scanner
-# issues.
+# Sunday 14:00 UTC: after daily-scan (12:00 UTC) and after DeepSeek V4 peak
+# (UTC 01:00–04:00 / 06:00–10:00), so the Assayer review of any guide-update
+# PR stays off-peak. Before Herald (16:00 UTC).
 
 on:
   schedule:
-    - cron: '0 9 * * 0'    # Every Sunday 9:00 UTC
+    - cron: '0 14 * * 0'   # Every Sunday 14:00 UTC
   workflow_dispatch:        # Manual trigger for testing
 
 permissions:
