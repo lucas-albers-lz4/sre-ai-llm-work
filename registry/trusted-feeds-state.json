@@ -99,13 +99,15 @@
         "https://www.datadoghq.com/blog/engineering/what-product-designers-can-learn-from-explanatory-journalism/",
         "https://www.datadoghq.com/blog/engineering/workload-protection-ebpf-fim/"
       ],
-      "last_scan": "2026-07-16T13:45:34.752865+00:00"
+      "last_scan": "2026-07-17T13:23:19.759305+00:00"
     },
     "honeycomb": {
       "seen": [
+        "https://www.honeycomb.io/blog/30-70-prs-day-how-we-managed-not-wreck-systems",
         "https://www.honeycomb.io/blog/accelerate-opentelemetry-migrations-honeycomb-agent-skills",
         "https://www.honeycomb.io/blog/agent-timeline-flight-recorder-for-your-ai-agents",
         "https://www.honeycomb.io/blog/agent-timeline-generally-available",
+        "https://www.honeycomb.io/blog/ai-amplifies-existing-practices-lessons-ai-first-strategy",
         "https://www.honeycomb.io/blog/ai-working-for-you-mcp-canvas-agentic-workflows-pt2",
         "https://www.honeycomb.io/blog/approaching-parhelion",
         "https://www.honeycomb.io/blog/could-should-first-year-managing-sre-team",
@@ -157,7 +159,7 @@
         "https://www.honeycomb.io/blog/your-questions-about-ai-agents-production-feedback-answered",
         "https://www.honeycomb.io/blog/your-questions-about-ai-assisted-development-answered"
       ],
-      "last_scan": "2026-07-16T13:45:37.780564+00:00"
+      "last_scan": "2026-07-17T13:23:23.378884+00:00"
     },
     "grafana": {
       "seen": [
@@ -171,11 +173,12 @@
         "https://grafana.com/blog/how-to-generate-real-world-load-tests-using-grafana-cloud-k6-and-production-telemetry/",
         "https://grafana.com/blog/how-to-scale-access-control-in-grafana-cloud/",
         "https://grafana.com/blog/observabilitycon-2026-is-coming-to-san-francisco/",
+        "https://grafana.com/blog/observabilitycon-2026-register-today-and-preview-this-year-s-agenda/",
         "https://grafana.com/blog/post-incident-review-for-tanstack-npm-supply-chain-ransom-incident/",
         "https://grafana.com/blog/stop-switching-tools-to-find-answers-grafana-assistant-now-works-across-30-data-sources/",
         "https://grafana.com/blog/tempo-3-0-release-all-the-latest-features/"
       ],
-      "last_scan": "2026-07-16T13:45:40.478288+00:00"
+      "last_scan": "2026-07-17T13:23:26.024991+00:00"
     },
     "pagerduty": {
       "seen": [
@@ -190,7 +193,7 @@
         "https://www.pagerduty.foo/?post_type=eng-blog&p=99717",
         "https://www.pagerduty.foo/?post_type=eng-blog&p=99876"
       ],
-      "last_scan": "2026-07-16T13:45:42.558265+00:00"
+      "last_scan": "2026-07-17T13:23:28.162787+00:00"
     },
     "incident-io": {
       "seen": [
@@ -231,6 +234,7 @@
         "https://incident.io/blog/behind-the-flame-harrison",
         "https://incident.io/blog/behind-the-flame-herbert",
         "https://incident.io/blog/behind-the-flame-jack-bridge",
+        "https://incident.io/blog/behind-the-flame-jack-broughton",
         "https://incident.io/blog/behind-the-flame-james",
         "https://incident.io/blog/behind-the-flame-joe-hart",
         "https://incident.io/blog/behind-the-flame-josh-miller",
@@ -627,7 +631,7 @@
         "https://incident.io/blog/zapier-integration",
         "https://incident.io/blog/zendesk"
       ],
-      "last_scan": "2026-07-16T13:45:45.417026+00:00"
+      "last_scan": "2026-07-17T13:23:31.578502+00:00"
     },
     "cloudflare": {
       "seen": [
@@ -636,12 +640,14 @@
         "1WYEYtVwQSo4H3jKHTcKmO",
         "1kBoofDb8dfLiYnekjlUaX",
         "2EKaG8rvH4FLnpEQVgvJ4I",
+        "2smERhDvpGH6FbC035djwD",
         "3qEwyKxigFNDK4JTlPfl8A",
         "3wrqj94tEFsKCZ8OBUE52R",
         "3xHevpKOOM76zUSrlPcQno",
         "48yPgdpb7RGTBdh4DPPCUF",
         "5Ad3Svz0xFxJQNx6eQZjJP",
         "5X4Vz9KDcjIBXgHIFSuJFZ",
+        "5wMIF1Oa7DES2YNRpqiVB0",
         "6BmERiKIIt4pIJoFmNy7Jn",
         "6dNg0U03j4cnbacP8txDok",
         "6ecffq4Al52D0ka1U4p2OR",
@@ -650,7 +656,7 @@
         "FWKHybUFEZFSsFCrbEwAd",
         "YqZRSH26JlDBUNvwASOr2"
       ],
-      "last_scan": "2026-07-16T13:45:51.857880+00:00"
+      "last_scan": "2026-07-17T13:23:38.016392+00:00"
     },
     "netflix-tech": {
       "seen": [
@@ -660,11 +666,12 @@
         "https://medium.com/p/4d89b26525cd",
         "https://medium.com/p/587b1f2de928",
         "https://medium.com/p/6e13329c80a1",
+        "https://medium.com/p/77146fba8a08",
         "https://medium.com/p/7ca25888591e",
         "https://medium.com/p/87860682629c",
         "https://medium.com/p/eb8160ed60a2"
       ],
-      "last_scan": "2026-07-16T13:45:54.739321+00:00"
+      "last_scan": "2026-07-17T13:23:41.136472+00:00"
     },
     "neuron-daily": {
       "seen": [
@@ -676,9 +683,10 @@
         "https://www.theneurondaily.com/p/june-30-tuesday",
         "https://www.theneurondaily.com/p/live-government-banning-ai-fallout",
         "https://www.theneurondaily.com/p/openai-launched-sol-terra-and-luna-kiiinda",
+        "https://www.theneurondaily.com/p/openai-may-give-uncle-sam-5",
         "https://www.theneurondaily.com/p/watch-openais-tax-agent-learns-from-experts"
       ],
-      "last_scan": "2026-07-16T13:45:57.773573+00:00"
+      "last_scan": "2026-07-17T13:23:44.280513+00:00"
     },
     "openai-eng": {
       "seen": [
@@ -1172,6 +1180,7 @@
         "https://openai.com/index/introducing-data-residency-in-europe",
         "https://openai.com/index/introducing-deep-research",
         "https://openai.com/index/introducing-evmbench",
+        "https://openai.com/index/introducing-genebench-pro",
         "https://openai.com/index/introducing-gpt-5",
         "https://openai.com/index/introducing-gpt-5-2",
         "https://openai.com/index/introducing-gpt-5-2-codex",
@@ -1276,6 +1285,7 @@
         "https://openai.com/index/machine-learning-unconference",
         "https://openai.com/index/making-chatgpt-better-for-clinicians",
         "https://openai.com/index/malta-chatgpt-plus-partnership",
+        "https://openai.com/index/mapping-ai-jobs-transition-eu",
         "https://openai.com/index/march-20-chatgpt-outage",
         "https://openai.com/index/march-funding-updates",
         "https://openai.com/index/match-group",
@@ -1707,7 +1717,7 @@
         "https://openai.com/openai-o1-contributions",
         "https://openai.com/signals/research/2026q1-update"
       ],
-      "last_scan": "2026-07-16T13:46:01.131891+00:00"
+      "last_scan": "2026-07-17T13:23:47.800153+00:00"
     },
     "anthropic-eng": {
       "seen": [
@@ -1737,7 +1747,7 @@
         "https://www.anthropic.com/engineering/swe-bench-sonnet",
         "https://www.anthropic.com/engineering/writing-tools-for-agents"
       ],
-      "last_scan": "2026-07-16T13:46:03.161335+00:00"
+      "last_scan": "2026-07-17T13:23:49.857930+00:00"
     },
     "simon-willison": {
       "seen": [
@@ -1758,12 +1768,15 @@
         "https://simonwillison.net/2026/Jul/7/sqlite-utils-4/#atom-everything",
         "https://simonwillison.net/2026/Jul/7/sqlite-utils/#atom-everything",
         "https://simonwillison.net/2026/Jul/8/introducing-gptlive/#atom-everything",
-        "https://simonwillison.net/2026/Jul/8/kenton-varda/#atom-everything"
+        "https://simonwillison.net/2026/Jul/8/kenton-varda/#atom-everything",
+        "https://simonwillison.net/2026/Jul/8/rewriting-bun-in-rust/#atom-everything",
+        "https://simonwillison.net/2026/Jul/9/llm/#atom-everything"
       ],
-      "last_scan": "2026-07-16T13:46:06.220673+00:00"
+      "last_scan": "2026-07-17T13:23:53.067510+00:00"
     },
     "thenewstack": {
       "seen": [
+        "https://thenewstack.io/?p=22829326",
         "https://thenewstack.io/?p=22829420",
         "https://thenewstack.io/?p=22829421",
         "https://thenewstack.io/?p=22829474",
@@ -1781,9 +1794,10 @@
         "https://thenewstack.io/?p=22829806",
         "https://thenewstack.io/?p=22829810",
         "https://thenewstack.io/?p=22829977",
-        "https://thenewstack.io/?p=22829996"
+        "https://thenewstack.io/?p=22829996",
+        "https://thenewstack.io/?p=22830188"
       ],
-      "last_scan": "2026-07-16T13:46:09.524531+00:00"
+      "last_scan": "2026-07-17T13:23:55.905230+00:00"
     },
     "huggingface": {
       "seen": [
@@ -2116,6 +2130,7 @@
         "https://huggingface.co/blog/huggingface-and-amd",
         "https://huggingface.co/blog/huggingface-and-ibm",
         "https://huggingface.co/blog/huggingface-and-optimum-amd",
+        "https://huggingface.co/blog/huggingface-hub-release-ci",
         "https://huggingface.co/blog/huggingface-hub-v1",
         "https://huggingface.co/blog/huggingface/blog-articles-for-orgs",
         "https://huggingface.co/blog/huggingface/one-year-since-the-deepseek-moment",
@@ -2593,11 +2608,11 @@
         "https://huggingface.co/blog/zero-shot-vqa-docmatix",
         "https://huggingface.co/blog/zerogpu-aoti"
       ],
-      "last_scan": "2026-07-16T13:46:12.229154+00:00"
+      "last_scan": "2026-07-17T13:23:58.600164+00:00"
     },
     "anyscale": {
       "seen": [],
-      "last_scan": "2026-07-16T13:46:14.949673+00:00"
+      "last_scan": "2026-07-17T13:24:01.157546+00:00"
     },
     "meta-eng": {
       "seen": [
@@ -2613,7 +2628,7 @@
         "https://engineering.fb.com/?p=24221",
         "https://engineering.fb.com/?p=24251"
       ],
-      "last_scan": "2026-07-16T13:46:17.580875+00:00"
+      "last_scan": "2026-07-17T13:24:03.259825+00:00"
     },
     "sentry": {
       "seen": [
@@ -2640,6 +2655,7 @@
         "https://blog.sentry.io/product-analytics-you-already-have/",
         "https://blog.sentry.io/sample-ai-traces-at-100-percent-without-sampling-everything/",
         "https://blog.sentry.io/scaling-observability-for-multi-agent-ai-systems/",
+        "https://blog.sentry.io/seer-agent-page-context/",
         "https://blog.sentry.io/send-your-existing-opentelemetry-traces/",
         "https://blog.sentry.io/sentry-opentelemetry-work-together/",
         "https://blog.sentry.io/sentry-stripe-projects/",
@@ -2648,7 +2664,7 @@
         "https://blog.sentry.io/two-years-without-cookies-on-the-site/",
         "https://blog.sentry.io/unreal-engine-performance-metrics/"
       ],
-      "last_scan": "2026-07-16T13:46:19.715842+00:00"
+      "last_scan": "2026-07-17T13:24:06.058256+00:00"
     },
     "slack-engineering": {
       "seen": [
@@ -2662,13 +2678,14 @@
         "https://slack.engineering/?p=17832",
         "https://slack.engineering/?p=17854"
       ],
-      "last_scan": "2026-07-16T13:46:21.925948+00:00"
+      "last_scan": "2026-07-17T13:24:08.475609+00:00"
     },
     "litellm-blog": {
       "seen": [
         "https://docs.litellm.ai/blog/agents-are-the-new-llms",
         "https://docs.litellm.ai/blog/claude_fable_5",
         "https://docs.litellm.ai/blog/claude_opus_4_8",
+        "https://docs.litellm.ai/blog/claude_sonnet_5",
         "https://docs.litellm.ai/blog/headroom-integration",
         "https://docs.litellm.ai/blog/host-header-auth-bypass",
         "https://docs.litellm.ai/blog/june-townhall-announcement",
@@ -2676,12 +2693,13 @@
         "https://docs.litellm.ai/blog/lite-harness-sdk",
         "https://docs.litellm.ai/blog/litellm-microsoft-assert",
         "https://docs.litellm.ai/blog/litellm-rust-launch",
+        "https://docs.litellm.ai/blog/save-claude-code-costs-with-litellm",
         "https://docs.litellm.ai/blog/stability",
         "https://docs.litellm.ai/blog/swap_openai_code_interpreter",
         "https://docs.litellm.ai/blog/valkey_semantic_caching",
         "https://docs.litellm.ai/blog/version-support"
       ],
-      "last_scan": "2026-07-16T13:45:48.743833+00:00"
+      "last_scan": "2026-07-17T13:23:34.869882+00:00"
     },
     "cncf-blog": {
       "seen": [
@@ -2690,12 +2708,14 @@
         "https://www.cncf.io/?p=170186",
         "https://www.cncf.io/?p=170192",
         "https://www.cncf.io/?p=170276",
+        "https://www.cncf.io/?p=170305",
+        "https://www.cncf.io/?p=170311",
         "https://www.cncf.io/?p=170389",
         "https://www.cncf.io/?p=170530",
         "https://www.cncf.io/?p=170619"
       ],
-      "last_scan": "2026-07-16T13:46:25.291306+00:00"
+      "last_scan": "2026-07-17T13:24:12.807403+00:00"
     }
   },
-  "last_scan": "2026-07-16T13:46:25.291335+00:00"
+  "last_scan": "2026-07-17T13:24:12.807440+00:00"
 }

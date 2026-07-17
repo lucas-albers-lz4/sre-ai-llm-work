@@ -462,24 +462,34 @@
         "filed_at": "2026-07-16T13:48:00.663290+00:00"
       },
       "https://sre.google/resources/book-update/slos/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:13:38.856044+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:13:38.856044+00:00",
+        "issue": 294,
+        "filed_at": "2026-07-17T13:25:20.258953+00:00"
       },
       "https://sre.google/resources/book-update/embracing-risk/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:13:38.856046+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:13:38.856046+00:00",
+        "issue": 295,
+        "filed_at": "2026-07-17T13:25:22.213650+00:00"
       },
       "https://sre.google/resources/book-update/production-environment/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:13:38.856047+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:13:38.856047+00:00",
+        "issue": 296,
+        "filed_at": "2026-07-17T13:25:24.220778+00:00"
       },
       "https://sre.google/resources/book-update/eliminating-toil/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:13:38.856049+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:13:38.856049+00:00",
+        "issue": 297,
+        "filed_at": "2026-07-17T13:25:26.118839+00:00"
       },
       "https://sre.google/resources/book-update/monitoring-distributed-systems/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:13:38.856050+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:13:38.856050+00:00",
+        "issue": 298,
+        "filed_at": "2026-07-17T13:25:28.101337+00:00"
       },
       "https://sre.google/resources/book-update/automation-at-google/": {
         "status": "pending",
@@ -1004,9 +1014,29 @@
       "https://sre.google/workbook/part-III-processes": {
         "status": "pending",
         "screened_at": "2026-07-16T13:47:09.459736+00:00"
+      },
+      "https://sre.google/workbook/postmortem-analysis": {
+        "status": "pending",
+        "screened_at": "2026-07-17T13:24:54.956461+00:00"
+      },
+      "https://sre.google/workbook/postmortem-culture": {
+        "status": "pending",
+        "screened_at": "2026-07-17T13:24:54.956482+00:00"
+      },
+      "https://sre.google/workbook/preface": {
+        "status": "pending",
+        "screened_at": "2026-07-17T13:24:54.956484+00:00"
+      },
+      "https://sre.google/workbook/reaching-beyond": {
+        "status": "pending",
+        "screened_at": "2026-07-17T13:24:54.956486+00:00"
+      },
+      "https://sre.google/workbook/simplicity": {
+        "status": "pending",
+        "screened_at": "2026-07-17T13:24:54.956488+00:00"
       }
     },
-    "last_scan": "2026-07-16T13:47:09.459739+00:00"
+    "last_scan": "2026-07-17T13:24:54.956490+00:00"
   },
   "opentelemetry": {
     "urls": {},
@@ -1087,16 +1117,22 @@
         "filed_at": "2026-07-16T13:48:06.642004+00:00"
       },
       "https://www.cncf.io/video-spotlight/": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:52:53.813808+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:52:53.813808+00:00",
+        "issue": 299,
+        "filed_at": "2026-07-17T13:25:30.013711+00:00"
       },
       "https://www.cncf.io/about/join/startups/": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:52:53.813810+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:52:53.813810+00:00",
+        "issue": 300,
+        "filed_at": "2026-07-17T13:25:31.925880+00:00"
       },
       "https://www.cncf.io/kubecon-cloudnativecon-branding-guidelines/": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:52:53.813812+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:52:53.813812+00:00",
+        "issue": 301,
+        "filed_at": "2026-07-17T13:25:33.844254+00:00"
       },
       "https://www.cncf.io/about/join/silver/": {
         "status": "pending",
@@ -2109,9 +2145,21 @@
       "https://www.cncf.io/blog/2026/07/15/on-prem-dbaas-in-2026-platforms-standards-and-gaps": {
         "status": "pending",
         "screened_at": "2026-07-16T13:47:25.192220+00:00"
+      },
+      "https://www.cncf.io/blog/2026/07/17/flipkart-and-litmuschaos-at-kubecon-cloudnativecon-india-2026-a-recap": {
+        "status": "pending",
+        "screened_at": "2026-07-17T13:25:03.772602+00:00"
+      },
+      "https://www.cncf.io/blog/2026/06/29/otel-and-mesh-derived-metrics-a-2026-reference": {
+        "status": "pending",
+        "screened_at": "2026-07-17T13:25:03.772620+00:00"
+      },
+      "https://www.cncf.io/blog/2026/06/29/etcd-operator-joins-cozystack-with-a-new-v1alpha2-api": {
+        "status": "pending",
+        "screened_at": "2026-07-17T13:25:03.772623+00:00"
       }
     },
-    "last_scan": "2026-07-16T13:47:25.192224+00:00"
+    "last_scan": "2026-07-17T13:25:03.772626+00:00"
   },
   "datadog-llm-obs": {
     "urls": {
@@ -2120,7 +2168,7 @@
         "screened_at": "2026-07-12T23:52:56.905756+00:00"
       }
     },
-    "last_scan": "2026-07-16T13:47:31.897564+00:00"
+    "last_scan": "2026-07-17T13:25:05.648471+00:00"
   },
   "langfuse-docs": {
     "urls": {
@@ -2201,16 +2249,22 @@
         "filed_at": "2026-07-16T13:48:12.967981+00:00"
       },
       "https://langfuse.com/docs/observability/sdk/overview": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:53:08.149142+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:53:08.149142+00:00",
+        "issue": 302,
+        "filed_at": "2026-07-17T13:25:35.726157+00:00"
       },
       "https://langfuse.com/docs/prompt-management/features/playground": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:53:08.149144+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:53:08.149144+00:00",
+        "issue": 303,
+        "filed_at": "2026-07-17T13:25:37.544433+00:00"
       },
       "https://langfuse.com/docs/prompt-management/get-started": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:53:08.149146+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:53:08.149146+00:00",
+        "issue": 304,
+        "filed_at": "2026-07-17T13:25:39.524878+00:00"
       },
       "https://langfuse.com/docs/prompt-management/overview": {
         "status": "pending",
@@ -2229,7 +2283,7 @@
         "screened_at": "2026-07-12T23:53:08.149153+00:00"
       }
     },
-    "last_scan": "2026-07-16T13:47:33.253859+00:00"
+    "last_scan": "2026-07-17T13:25:07.656355+00:00"
   },
   "litellm-docs": {
     "urls": {
@@ -2322,16 +2376,22 @@
         "filed_at": "2026-07-16T13:48:18.922022+00:00"
       },
       "https://docs.litellm.ai/blog/claude_sonnet_5": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:14:36.852357+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:14:36.852357+00:00",
+        "issue": 305,
+        "filed_at": "2026-07-17T13:25:41.400498+00:00"
       },
       "https://docs.litellm.ai/blog/claude-code-beta-headers-incident": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:14:36.852359+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:14:36.852359+00:00",
+        "issue": 306,
+        "filed_at": "2026-07-17T13:25:43.259173+00:00"
       },
       "https://docs.litellm.ai/blog/cleaner-release-versions": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:14:36.852361+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:14:36.852361+00:00",
+        "issue": 307,
+        "filed_at": "2026-07-17T13:25:45.157791+00:00"
       },
       "https://docs.litellm.ai/blog/componentized-deployment": {
         "status": "pending",
@@ -3128,9 +3188,21 @@
       "https://docs.litellm.ai/docs/assistants": {
         "status": "pending",
         "screened_at": "2026-07-16T13:47:42.049188+00:00"
+      },
+      "https://docs.litellm.ai/docs/audio_transcription": {
+        "status": "pending",
+        "screened_at": "2026-07-17T13:25:14.456334+00:00"
+      },
+      "https://docs.litellm.ai/docs/auth_overview": {
+        "status": "pending",
+        "screened_at": "2026-07-17T13:25:14.456354+00:00"
+      },
+      "https://docs.litellm.ai/docs/batches": {
+        "status": "pending",
+        "screened_at": "2026-07-17T13:25:14.456357+00:00"
       }
     },
-    "last_scan": "2026-07-16T13:47:42.049190+00:00"
+    "last_scan": "2026-07-17T13:25:14.456359+00:00"
   },
   "promptfoo-docs": {
     "urls": {
@@ -3219,16 +3291,22 @@
         "filed_at": "2026-07-16T13:48:25.047249+00:00"
       },
       "https://www.promptfoo.dev/blog/claude-code-attack/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:15:01.445371+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:15:01.445371+00:00",
+        "issue": 308,
+        "filed_at": "2026-07-17T13:25:47.061023+00:00"
       },
       "https://www.promptfoo.dev/blog/cyberseceval/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:15:01.445373+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:15:01.445373+00:00",
+        "issue": 309,
+        "filed_at": "2026-07-17T13:25:49.034920+00:00"
       },
       "https://www.promptfoo.dev/blog/data-poisoning/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:15:01.445374+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:15:01.445374+00:00",
+        "issue": 310,
+        "filed_at": "2026-07-17T13:25:50.866193+00:00"
       },
       "https://www.promptfoo.dev/blog/deepseek-censorship/": {
         "status": "pending",
@@ -4029,8 +4107,20 @@
       "https://www.promptfoo.dev/docs/configuration/caching": {
         "status": "pending",
         "screened_at": "2026-07-16T13:47:51.144483+00:00"
+      },
+      "https://www.promptfoo.dev/docs/configuration/chat": {
+        "status": "pending",
+        "screened_at": "2026-07-17T13:25:18.844450+00:00"
+      },
+      "https://www.promptfoo.dev/docs/configuration/datasets": {
+        "status": "pending",
+        "screened_at": "2026-07-17T13:25:18.844471+00:00"
+      },
+      "https://www.promptfoo.dev/docs/configuration/expected-outputs": {
+        "status": "pending",
+        "screened_at": "2026-07-17T13:25:18.844475+00:00"
       }
     },
-    "last_scan": "2026-07-16T13:47:51.144485+00:00"
+    "last_scan": "2026-07-17T13:25:18.844477+00:00"
   }
 }
