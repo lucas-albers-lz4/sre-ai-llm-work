@@ -425,9 +425,7 @@ jobs:
               --add-label "miner-blocked" \
               --remove-label "mining-queued" || true
             gh issue close "$ISSUE" --repo "$REPO" --reason "not planned" \
-              --comment "Auto-blocked: Miner failed ${MAX_MINE_ATTEMPTS} times without \`mining-complete\` / \`miner-blocked\`. Run: ${RUN_URL}
-
-To retry: remove \`miner-blocked\` and all \`mine-attempt-*\`, reopen, and re-add \`mining-queued\`." \
+              --comment "Auto-blocked: Miner failed ${MAX_MINE_ATTEMPTS} times without mining-complete / miner-blocked. Run: ${RUN_URL}. To retry: remove miner-blocked and all mine-attempt-*, reopen, and re-add mining-queued." \
               || true
           fi
 
