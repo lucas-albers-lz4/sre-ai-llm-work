@@ -187,6 +187,10 @@ jobs:
           # See action.yml: inputs.github_token → env.OVERRIDE_GITHUB_TOKEN.
           github_token: ${{ secrets.PROJECT_PAT }}
           anthropic_api_key: ${{ secrets.DEEPSEEK_API_KEY }}
+          # Schedule and Actions-dispatched runs use the github-actions
+          # actor; without this the action aborts before extraction
+          # (see #334 / Assayer parity in #268).
+          allowed_bots: "claude[bot],github-actions,github-actions[bot]"
           show_full_output: true
           # The issue number and repo slug are GitHub-controlled and safe
           # to interpolate. The issue title and body (which contain the
