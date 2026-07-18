@@ -11,7 +11,7 @@ This repository is the retargeted fork:
 
 1. `PROJECT_PAT` — classic PAT with `repo` + `project` (issue filing + board)
 2. `DEEPSEEK_API_KEY` — **required** for all agent workflows (Anthropic-compatible)
-3. `OPENROUTER_API_KEY` — **required for Miner** (Hy3 free trial through 2026-07-21)
+3. `OPENROUTER_API_KEY` — **optional** (Hy3 smoke / `miner-hy3-eval.yml` only)
 4. Optional: `CLAUDE_CODE_OAUTH_TOKEN` / `ANTHROPIC_API_KEY` for a Claude quality ceiling later
 5. Optional: GLM / LongCat keys when you wire those workers
 

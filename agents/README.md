@@ -73,24 +73,24 @@ pipeline does the rest.
 ### Trigger and model per workflow
 
 Canonical map: [`docs/MODEL-ROUTING.md`](../docs/MODEL-ROUTING.md).
-Upstream docs said Haiku/Sonnet/Opus; this fork routes Claude Code to
-**DeepSeek** (and Miner → OpenRouter Hy3).
+**DeepSeek** (Anthropic-compatible). Scheduled LLM jobs avoid DeepSeek V4
+peak windows; see [`docs/MODEL-ROUTING.md`](../docs/MODEL-ROUTING.md).
 
 | Workflow file | Agent | Trigger | Model | Notes |
 |---------------|-------|---------|-------|-------|
-| `daily-scan.yml` | Site/feed scanners | Daily cron 12:00 UTC + workflow_dispatch | DeepSeek Flash (`scan-sites.py`) | Uses `PROJECT_PAT` so filed issues trigger `source-pipeline.yml`; 12:00 UTC avoids DeepSeek V4 peak windows |
+| `daily-scan.yml` | Site/feed scanners | Daily cron **12:02 UTC** + workflow_dispatch | DeepSeek Flash (`scan-sites.py`) | Uses `PROJECT_PAT` so filed issues trigger `source-pipeline.yml`; off-peak + `:02` offset |
 | `source-pipeline.yml` (pre-screen job) | Pre-screen | `issues:[opened, labeled]` with `new-source` / `source-submission` / `new-repo` / `new-failure` | DeepSeek Flash | Rejects obvious bad submissions (no URL, paywall, marketing, dupes) before the Prospector |
 | `source-pipeline.yml` (prospector job) | Prospector | After pre-screen passes (job dependency) | DeepSeek Flash | Triages into `triaged:text` / `triaged:repo` / `triaged:failure` / `feed-candidate` / `rejected`. Applies `mining-queued` for text and failure triages. Opens a feed-candidate PR if the source is a feed |
-| `miner-batch.yml` | Miner | Hourly cron at `:17` + workflow_dispatch | OpenRouter `tencent/hy3:free` (→ 2026-07-21) | Picks 2 oldest priority-sorted (high → medium → unset → low) `mining-queued` issues. Branch is `miner/issue-N-r<run_id>` |
+| `miner-batch.yml` | Miner | Cron `:19` at hours `0,4,5,10–23` UTC + workflow_dispatch | DeepSeek Flash | Off-peak only. Picks oldest priority-sorted (high → medium → unset → low) `mining-queued` issues (`BATCH_SIZE`). Branch is `miner/issue-N-r<run_id>` |
 | `assayer.yml` | Assayer review | `pull_request:[opened, synchronize, reopened, labeled]` with `source-note` / `guide-update` / `feed-candidate` | DeepSeek Pro | Auto-merges `source-note` PRs on APPROVE. On REQUEST CHANGES for `guide-update` PRs, runs the auto-rework Smith one time (gated by `rework-attempted` label) |
 | `assayer.yml` (auto-rework Smith step) | Smith | Inside Assayer when guide-update PR fails review and `rework-attempted` is absent | DeepSeek Pro | Pushes a fix commit to the PR branch using `PROJECT_PAT` so the resulting `synchronize` event re-triggers Assayer |
-| `smith-on-source-merge.yml` | Smith (batch synthesis) | Twice-weekly cron — Sat 15:17 UTC and Thu 00:00 UTC + workflow_dispatch | DeepSeek Pro | Diff-aware synthesis since `smith-last-run` tag; opens `guide-update` PR when chapters change |
+| `smith-on-source-merge.yml` | Smith (batch synthesis) | Twice-weekly cron — Sat **15:19 UTC** and Thu **00:02 UTC** + workflow_dispatch | DeepSeek Pro | Diff-aware synthesis since `smith-last-run` tag; opens `guide-update` PR when chapters change |
 | `smith-rework.yml` | Smith | `issue_comment` or `pull_request_review` containing `/rework` or `/rebase` on a `guide-update` PR (owner/collaborator/member only) | DeepSeek Pro | `/rework` = incremental fix; `/rebase` = reset to `main` and re-synthesize |
 | `contradiction-resolver.yml` (assess job) | Assayer (contradiction mode) | `issues:[labeled]` with `contradiction` | DeepSeek Pro | Weighs evidence, posts proposed verdict; adds `assessment-complete` |
 | `contradiction-resolver.yml` (resolve job) | Assayer (commit phase) | `issues:[labeled]` with `resolution-approved` | DeepSeek Pro | Mechanical edit to `CONTRADICTIONS.md`; opens `guide-update` PR |
 | `scribe.yml` | Scribe | `issues:[labeled]` with `sticky-notes` | DeepSeek Flash | Parses into `sticky-notes/chNN-*.md`. Inline prompt — no agent definition file |
-| `herald-weekly.yml` | Herald | Weekly cron Sun 16:00 UTC + workflow_dispatch | DeepSeek Pro | Changelog / status write-up |
-| `gardener.yml` | Gardener | Weekly cron Sun 14:00 UTC + workflow_dispatch | Python (no LLM) | Staleness patrol; opens `guide-update` PR labeled `gardener` if anything changes; 14:00 UTC keeps Assayer follow-up off DeepSeek peak |
+| `herald-weekly.yml` | Herald | Weekly cron Sun **16:02 UTC** + workflow_dispatch | DeepSeek Pro | Changelog / status write-up |
+| `gardener.yml` | Gardener | Weekly cron Sun **14:02 UTC** + workflow_dispatch | Python (no LLM) | Staleness patrol; opens `guide-update` PR labeled `gardener` if anything changes; keeps Assayer follow-up off DeepSeek peak |
 
 ## Failure modes and self-healing
 
@@ -99,7 +99,7 @@ human intervention. The recovery mechanism for each common failure:
 
 | Failure | Agent | Human needed? | Recovery |
 |---------|-------|---------------|----------|
-| Run fails mid-extraction (stream timeout, network blip, Claude `is_error`) | Miner | No (until cap) | Issue keeps `mining-queued`. Next hourly cron retries. After 3 non-terminal runs, `mine-attempt-3` + `miner-blocked` + close (issue #272). Pre-existing queued issues start at attempt 0 (no backfill). Reopen: remove `miner-blocked` and all `mine-attempt-*`, re-add `mining-queued`. |
+| Run fails mid-extraction (stream timeout, network blip, Claude `is_error`) | Miner | No (until cap) | Issue keeps `mining-queued`. Next off-peak cron retries. After 3 non-terminal runs, `mine-attempt-3` + `miner-blocked` + close (issue #272). Pre-existing queued issues start at attempt 0 (no backfill). Reopen: remove `miner-blocked` and all `mine-attempt-*`, re-add `mining-queued`. |
 | Real source rejected by mistake | Pre-screen | Yes | Issue is closed with `rejected` label. A human can reopen and remove `rejected` to re-run, or file a fresh issue |
 | Triages incorrectly (e.g. should be `triaged:text` not `triaged:repo`) | Prospector | Yes | Human swaps labels — the Miner picks up `triaged:text` + `mining-queued` automatically |
 | Source-note PR fails Assayer review | Miner | Yes | No automated rework path for source-note PRs. Default action: close the PR, requeue the source issue (`mining-queued`, remove `mining-complete`); the next batch re-mines on a fresh `-r<run_id>` branch |

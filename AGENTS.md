@@ -30,12 +30,13 @@ See [`docs/MODEL-ROUTING.md`](docs/MODEL-ROUTING.md).
 | Worker | Model |
 |--------|-------|
 | Pre-screen / Prospector / site-crawl | DeepSeek Flash |
-| Miner | OpenRouter `tencent/hy3:free` (trial → **2026-07-21**) |
+| Miner | DeepSeek Flash (off-peak cron) |
 | Assayer / Smith / Herald | DeepSeek Pro |
 
-Secrets: `DEEPSEEK_API_KEY`, `OPENROUTER_API_KEY` (Miner), `PROJECT_PAT`
+Secrets: `DEEPSEEK_API_KEY`, `PROJECT_PAT`
 (classic `repo`+`project` — needed so `gh pr create` / issue filing triggers
-downstream workflows). Claude OAuth is **not** required.
+downstream workflows). `OPENROUTER_API_KEY` is optional (Hy3 eval only).
+Claude OAuth is **not** required.
 
 ## Hard rules for local agents
 
@@ -51,7 +52,8 @@ Actions prompts).
 3. **Do not merge `miner-eval` / `*-hy3-eval.md` PRs** into the corpus. Eval
    notes are comparison artifacts only.
 4. When changing agent auth/routing, use
-   `.github/actions/configure-deepseek` or `configure-openrouter-hy3`, and
+   `.github/actions/configure-deepseek` (production) or
+   `configure-openrouter-hy3` (optional Hy3 eval), and
    pass **`github_token: ${{ secrets.PROJECT_PAT }}`** to `claude-code-action`
    for any job that pushes branches or opens PRs.
 5. Project board updates use `.github/scripts/update-project-field.sh` with
@@ -72,7 +74,7 @@ Actions prompts).
 # Smoke DeepSeek routing
 gh workflow run claude-smoke-test.yml
 
-# Hy3 smoke / golden-set Miner replay
+# Optional Hy3 smoke / golden-set replay (needs OPENROUTER_API_KEY)
 gh workflow run hy3-smoke-test.yml
 gh workflow run miner-hy3-eval.yml -f issue_number=1
 

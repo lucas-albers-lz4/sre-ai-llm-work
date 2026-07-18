@@ -18,7 +18,7 @@ name: Herald weekly changelog
 
 on:
   schedule:
-    - cron: '0 16 * * 0'     # Sunday 16:00 UTC (~9am PDT), after the Sat Smith run lands
+    - cron: '2 16 * * 0'     # Sunday 16:02 UTC, after Sat Smith; :02 off top-of-hour
   workflow_dispatch:
     inputs:
       dry_run:
