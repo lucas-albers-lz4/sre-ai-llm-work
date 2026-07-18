@@ -1,6 +1,6 @@
 name: Batch Miner
 
-# Hourly scheduled workflow that processes mining-queued issues.
+# Off-peak scheduled workflow that processes mining-queued issues.
 #
 # Pre-flight (bash, no LLM): query for open issues with label
 # 'mining-queued' that do NOT have 'mining-complete', 'miner-blocked',
@@ -18,12 +18,11 @@ name: Batch Miner
 
 on:
   schedule:
-    # Hourly at :17 (offset from top-of-hour load). Bumped from every-8h
-    # on 2026-05-10 to drain a 100+ issue triage backlog faster. With
-    # BATCH_SIZE=4 this caps Miner capacity at 96 issues/day; once the
-    # queue is empty, cron runs exit immediately at the preflight step
-    # (no Claude invocation, no tokens spent).
-    - cron: '17 * * * *'
+    # Off-peak DeepSeek V4 only (skip UTC 01:00–04:00 and 06:00–10:00).
+    # Minute :19 avoids top-of-hour Actions contention. ~16 slots/day ×
+    # BATCH_SIZE=4 ≈ 64 issues/day ceiling; empty queue exits at preflight
+    # with no tokens spent. Small drain delay vs 24× hourly is intentional.
+    - cron: '19 0,4,5,10-23 * * *'
   workflow_dispatch:        # Manual trigger for testing / one-off runs
 
 permissions:
@@ -152,13 +151,13 @@ jobs:
           token: ${{ secrets.PROJECT_PAT }}
           fetch-depth: 0
 
-      - name: Configure OpenRouter Hy3 for Claude Code
-        # Production Miner on Hy3 free through 2026-07-21 (golden-set eval
-        # 4/4 Assayer APPROVE). Flip back to configure-deepseek +
-        # deepseek-v4-pro[1m] after re-eval. See docs/HY3-MINER-EVAL.md.
-        uses: ./.github/actions/configure-openrouter-hy3
+      - name: Configure DeepSeek for Claude Code
+        # Production Miner on deepseek-v4-flash (direct API) after Hy3 free
+        # trial end. Same auth stack as triage; Assayer remains Pro.
+        # See docs/MODEL-ROUTING.md and docs/HY3-MINER-EVAL.md.
+        uses: ./.github/actions/configure-deepseek
         with:
-          api_key: ${{ secrets.OPENROUTER_API_KEY }}
+          api_key: ${{ secrets.DEEPSEEK_API_KEY }}
 
       - name: Configure git identity for Miner commits
         run: |
@@ -187,7 +186,7 @@ jobs:
           # the App and the PR doesn't trigger downstream workflows.
           # See action.yml: inputs.github_token → env.OVERRIDE_GITHUB_TOKEN.
           github_token: ${{ secrets.PROJECT_PAT }}
-          anthropic_api_key: ${{ secrets.OPENROUTER_API_KEY }}
+          anthropic_api_key: ${{ secrets.DEEPSEEK_API_KEY }}
           show_full_output: true
           # The issue number and repo slug are GitHub-controlled and safe
           # to interpolate. The issue title and body (which contain the
@@ -325,7 +324,7 @@ jobs:
                   --comment "Auto-closed: source unreadable (miner-blocked). Reopen if it becomes accessible."
               Exit WITHOUT opening a PR.
           claude_args: |
-            --model tencent/hy3:free
+            --model deepseek-v4-flash
             --max-turns 60
             --allowedTools "Bash(*)" "Read" "Write" "Edit" "Glob" "Grep" "WebFetch"
 
@@ -426,9 +425,7 @@ jobs:
               --add-label "miner-blocked" \
               --remove-label "mining-queued" || true
             gh issue close "$ISSUE" --repo "$REPO" --reason "not planned" \
-              --comment "Auto-blocked: Miner failed ${MAX_MINE_ATTEMPTS} times without \`mining-complete\` / \`miner-blocked\`. Run: ${RUN_URL}
-
-To retry: remove \`miner-blocked\` and all \`mine-attempt-*\`, reopen, and re-add \`mining-queued\`." \
+              --comment "Auto-blocked: Miner failed ${MAX_MINE_ATTEMPTS} times without mining-complete / miner-blocked. Run: ${RUN_URL}. To retry: remove miner-blocked and all mine-attempt-*, reopen, and re-add mining-queued." \
               || true
           fi
 

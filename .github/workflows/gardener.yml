@@ -7,13 +7,13 @@ name: Weekly Gardener
 #   3. Open a PR labeled `guide-update` so the Assayer can re-grade the
 #      demoted claims before the changes merge.
 #
-# Sunday 14:00 UTC: after daily-scan (12:00 UTC) and after DeepSeek V4 peak
+# Sunday 14:02 UTC: after daily-scan (12:02 UTC) and after DeepSeek V4 peak
 # (UTC 01:00–04:00 / 06:00–10:00), so the Assayer review of any guide-update
-# PR stays off-peak. Before Herald (16:00 UTC).
+# PR stays off-peak. Before Herald (16:02 UTC). :02 avoids top-of-hour load.
 
 on:
   schedule:
-    - cron: '0 14 * * 0'   # Every Sunday 14:00 UTC
+    - cron: '2 14 * * 0'   # Every Sunday 14:02 UTC
   workflow_dispatch:        # Manual trigger for testing
 
 permissions:

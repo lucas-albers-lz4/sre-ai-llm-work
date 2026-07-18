@@ -25,8 +25,7 @@ context: [`AGENTS.md`](AGENTS.md).
 
 ## MVP models
 
-- Triage/crawl: DeepSeek Flash
-- Miner: OpenRouter `tencent/hy3:free` until **2026-07-21**
+- Triage/crawl/Miner: DeepSeek Flash (Miner cron off-peak only)
 - Assayer/Smith: DeepSeek Pro
 - Details: `docs/MODEL-ROUTING.md`
 

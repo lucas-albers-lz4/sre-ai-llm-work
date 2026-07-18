@@ -11,8 +11,8 @@ alwaysApply: false
   checkout `token: PROJECT_PAT`). `GITHUB_TOKEN` alone often fails to open
   PRs or trigger downstream workflows.
 - Route models via composite actions:
-  - DeepSeek → `.github/actions/configure-deepseek`
-  - Hy3 → `.github/actions/configure-openrouter-hy3`
+  - DeepSeek → `.github/actions/configure-deepseek` (production path)
+  - Hy3 → `.github/actions/configure-openrouter-hy3` (optional eval only)
 - Pass the matching secret as `anthropic_api_key` on `claude-code-action`.
 - Assayer is also dispatched explicitly after Miner (`gh workflow run assayer.yml`)
   because `pull_request` webhooks are rate-limited.

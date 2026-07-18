@@ -5,10 +5,10 @@ name: Smith daily synthesis
 # last run (tracked via the `smith-last-run` git tag), synthesizes
 # affected chapters, and opens a `guide-update` PR for the Assayer.
 #
-# Runs twice weekly: Saturday morning and Wednesday evening (PDT).
-# This lets source notes accumulate from the miner (3x daily) and gives
-# time to review guide-update PRs between runs. Manual dispatch is
-# available for testing / one-off runs.
+# Runs twice weekly: Saturday morning and Wednesday evening (PDT), off
+# DeepSeek peak and offset from top-of-hour. This lets source notes
+# accumulate from the miner and gives time to review guide-update PRs
+# between runs. Manual dispatch is available for testing / one-off runs.
 #
 # Batch mode: unlike the previous per-push trigger, this processes
 # ALL source-note changes since the last run in a single synthesis
@@ -23,8 +23,10 @@ name: Smith daily synthesis
 
 on:
   schedule:
-    - cron: '17 15 * * 6'    # Saturday 8:17am PDT (15:17 UTC)
-    - cron: '0 0 * * 4'     # Wednesday 5:00pm PDT (Thursday 00:00 UTC)
+    # Off-peak DeepSeek Pro (avoid UTC 01:00–04:00 / 06:00–10:00). Minutes
+    # offset from :00 to reduce top-of-hour Actions contention.
+    - cron: '19 15 * * 6'    # Saturday 15:19 UTC (~8:19am PDT)
+    - cron: '2 0 * * 4'      # Thursday 00:02 UTC (Wed 5:02pm PDT)
   workflow_dispatch:           # manual trigger for testing / re-runs
 
 permissions:

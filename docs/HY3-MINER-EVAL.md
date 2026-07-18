@@ -36,7 +36,13 @@ Each run opens a PR labeled `miner-eval` + `source-note`. **Do not merge** eval 
 
 **Decision (2026-07-13):** Criteria met — **switched** `miner-batch.yml` to
 OpenRouter Hy3 (`tencent/hy3:free`) for production Miner runs through
-**2026-07-21**. Re-evaluate then vs DeepSeek Pro.
+**2026-07-21**.
+
+**Decision (2026-07-18):** Hy3 free trial ended. Production Miner switched to
+**DeepSeek V4 Flash** (direct API) with off-peak cron only — same auth stack as
+triage, better $/token than paid Hy3, Assayer remains the quote-fidelity gate.
+Optional `miner-hy3-eval.yml` / `hy3-smoke-test.yml` retained for A/B if Assayer
+REJECT rate climbs. See `docs/MODEL-ROUTING.md`.
 
 Eval PRs #21–#24 were accidentally merged; remove `*-hy3-eval.md` from `main`
 (corpus should keep DeepSeek baselines only).
