@@ -181,18 +181,7 @@
       "last_scan": "2026-07-19T13:01:20.286159+00:00"
     },
     "pagerduty": {
-      "seen": [
-        "https://www.pagerduty.foo/?post_type=eng-blog&p=100077",
-        "https://www.pagerduty.foo/?post_type=eng-blog&p=100156",
-        "https://www.pagerduty.foo/?post_type=eng-blog&p=100219",
-        "https://www.pagerduty.foo/?post_type=eng-blog&p=100242",
-        "https://www.pagerduty.foo/?post_type=eng-blog&p=100274",
-        "https://www.pagerduty.foo/?post_type=eng-blog&p=100422",
-        "https://www.pagerduty.foo/?post_type=eng-blog&p=100453",
-        "https://www.pagerduty.foo/?post_type=eng-blog&p=100601",
-        "https://www.pagerduty.foo/?post_type=eng-blog&p=99717",
-        "https://www.pagerduty.foo/?post_type=eng-blog&p=99876"
-      ],
+      "seen": [],
       "last_scan": "2026-07-19T13:01:22.531944+00:00"
     },
     "incident-io": {

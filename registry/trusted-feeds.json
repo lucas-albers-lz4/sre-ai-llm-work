@@ -33,7 +33,7 @@
       "id": "pagerduty",
       "url": "https://www.pagerduty.com/eng/feed/",
       "source_type": "blog-post",
-      "description": "PagerDuty Engineering — incident response, AIOps, on-call practice (scanner guid/link fix tracked separately)",
+      "description": "PagerDuty Engineering — incident response, AIOps, on-call practice",
       "max_per_run": 2
     },
     {
