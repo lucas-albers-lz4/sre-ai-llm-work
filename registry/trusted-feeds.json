@@ -1,5 +1,5 @@
 {
-  "_comment": "Curated Atom/RSS feeds for SRE AI / LLM ops discovery. Verify each URL before relying on the scanner. State lives in trusted-feeds-state.json.",
+  "_comment": "Curated Atom/RSS feeds for SRE AI / LLM ops discovery. Verify each URL before relying on the scanner. State lives in trusted-feeds-state.json. Scenario C+ from issue #359.",
   "_schema": {
     "id": "stable short identifier",
     "url": "Atom or RSS feed URL",
@@ -20,7 +20,7 @@
       "url": "https://www.honeycomb.io/feed",
       "source_type": "blog-post",
       "description": "Honeycomb — observability culture, AI-assisted debugging",
-      "max_per_run": 2
+      "max_per_run": 3
     },
     {
       "id": "grafana",
@@ -33,50 +33,29 @@
       "id": "pagerduty",
       "url": "https://www.pagerduty.com/eng/feed/",
       "source_type": "blog-post",
-      "description": "PagerDuty Engineering — incident response, AIOps, on-call practice",
+      "description": "PagerDuty Engineering — incident response, AIOps, on-call practice (scanner guid/link fix tracked separately)",
       "max_per_run": 2
     },
     {
       "id": "incident-io",
       "url": "https://incident.io/blog.xml",
       "source_type": "blog-post",
-      "description": "incident.io — modern incident management practice",
-      "max_per_run": 2
+      "description": "incident.io — modern incident management practice; trial max_per_run 4 for AI-SRE posts",
+      "max_per_run": 4
     },
     {
       "id": "litellm-blog",
       "url": "https://docs.litellm.ai/blog/rss.xml",
       "source_type": "blog-post",
       "description": "LiteLLM engineering blog — LLM gateway routing, reliability, caching, and production AI ops",
-      "max_per_run": 2
-    },
-    {
-      "id": "cloudflare",
-      "url": "https://blog.cloudflare.com/rss/",
-      "source_type": "blog-post",
-      "description": "Cloudflare — production reliability, AI inference at edge",
-      "max_per_run": 2
+      "max_per_run": 3
     },
     {
       "id": "netflix-tech",
       "url": "https://netflixtechblog.com/feed",
       "source_type": "blog-post",
-      "description": "Netflix TechBlog — large-scale reliability and platform practice",
+      "description": "Netflix TechBlog — large-scale reliability and platform practice; marginal keep, monitor yield",
       "max_per_run": 1
-    },
-    {
-      "id": "neuron-daily",
-      "url": "https://rss.beehiiv.com/feeds/N4eCstxvgX.xml",
-      "source_type": "blog-post",
-      "description": "The Neuron Daily — high-signal AI news; keep max_per_run low (high volume)",
-      "max_per_run": 1
-    },
-    {
-      "id": "openai-eng",
-      "url": "https://openai.com/news/rss.xml",
-      "source_type": "blog-post",
-      "description": "OpenAI — model reliability, production AI systems",
-      "max_per_run": 2
     },
     {
       "id": "anthropic-eng",
@@ -89,28 +68,14 @@
       "id": "simon-willison",
       "url": "https://simonwillison.net/atom/everything/",
       "source_type": "blog-post",
-      "description": "Simon Willison — LLM tooling; filter for ops/reliability angles in triage",
-      "max_per_run": 2
+      "description": "Simon Willison — LLM tooling; filter for ops/reliability angles in triage; marginal keep",
+      "max_per_run": 1
     },
     {
       "id": "thenewstack",
       "url": "https://thenewstack.io/feed/",
       "source_type": "blog-post",
-      "description": "The New Stack — cloud-native ops and AI infrastructure",
-      "max_per_run": 2
-    },
-    {
-      "id": "huggingface",
-      "url": "https://huggingface.co/blog/feed.xml",
-      "source_type": "blog-post",
-      "description": "Hugging Face — model serving, quantization, open-source deploy (LLM ops)",
-      "max_per_run": 1
-    },
-    {
-      "id": "anyscale",
-      "url": "https://www.anyscale.com/blog/rss.xml",
-      "source_type": "blog-post",
-      "description": "Anyscale / Ray — distributed systems for LLM train and serve at scale",
+      "description": "The New Stack — cloud-native ops and AI infrastructure; marginal keep, monitor yield",
       "max_per_run": 1
     },
     {
@@ -124,22 +89,64 @@
       "id": "sentry",
       "url": "https://blog.sentry.io/feed.xml",
       "source_type": "blog-post",
-      "description": "Sentry — agent traces, evals, OpenTelemetry; keep max_per_run low (large feed)",
-      "max_per_run": 1
+      "description": "Sentry — agent traces, evals, OpenTelemetry; promising multi-agent ops content",
+      "max_per_run": 2
     },
     {
       "id": "slack-engineering",
       "url": "https://slack.engineering/feed/",
       "source_type": "blog-post",
       "description": "Slack Engineering — production AI and agentic systems at scale",
+      "max_per_run": 2
+    },
+    {
+      "id": "promptfoo-blog",
+      "url": "https://www.promptfoo.dev/blog/rss.xml",
+      "source_type": "blog-post",
+      "description": "Promptfoo blog — LLM evals, red-teaming, agent safety; top cited blog source",
+      "max_per_run": 3
+    },
+    {
+      "id": "github-engineering",
+      "url": "https://github.blog/engineering/feed",
+      "source_type": "blog-post",
+      "description": "GitHub Engineering — production AI, platform engineering, developer workflow reliability",
+      "max_per_run": 3
+    },
+    {
+      "id": "aws-architecture",
+      "url": "https://aws.amazon.com/blogs/architecture/feed/",
+      "source_type": "blog-post",
+      "description": "AWS Architecture Blog — cloud reliability, distributed systems, production architecture",
+      "max_per_run": 2
+    },
+    {
+      "id": "nvidia-developer",
+      "url": "https://developer.nvidia.com/blog/feed",
+      "source_type": "blog-post",
+      "description": "NVIDIA Developer Blog — AI infrastructure, GPU cluster ops, inference optimization",
       "max_per_run": 1
     },
     {
-      "id": "cncf-blog",
-      "url": "https://www.cncf.io/feed/",
+      "id": "docker",
+      "url": "https://www.docker.com/feed/",
       "source_type": "blog-post",
-      "description": "CNCF blog — cloud-native reliability, platform engineering, AI ops",
-      "max_per_run": 2
+      "description": "Docker — container operations, deployment reliability, dev-prod parity",
+      "max_per_run": 1
+    },
+    {
+      "id": "together-ai",
+      "url": "https://www.together.ai/blog/rss.xml",
+      "source_type": "blog-post",
+      "description": "Together AI — LLM inference platform, model serving, scaling and reliability",
+      "max_per_run": 1
+    },
+    {
+      "id": "mongodb-engineering",
+      "url": "https://www.mongodb.com/company/blog/rss",
+      "source_type": "blog-post",
+      "description": "MongoDB Engineering — production database operations and reliability patterns",
+      "max_per_run": 1
     }
   ]
 }
