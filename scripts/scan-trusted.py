@@ -29,6 +29,7 @@ import time
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from urllib.parse import urlparse
 
 import requests
 
@@ -179,6 +180,29 @@ def _parse_atom_entry(entry: ET.Element) -> dict | None:
     return {"id": entry_id or url, "title": title, "url": url, "published": published}
 
 
+def _rss_entry_id(guid_el: ET.Element | None, url: str) -> str:
+    """Pick a stable dedup id for an RSS item.
+
+    Prefer <guid> when it is a usable permalink or opaque id. Fall back to
+    <link> when isPermaLink=\"false\" or the guid host is a known-bogus /
+    test TLD (e.g. PagerDuty's pagerduty.foo guids).
+    """
+    if guid_el is None:
+        return url
+    guid = (guid_el.text or "").strip()
+    if not guid:
+        return url
+    if (guid_el.get("isPermaLink") or "").lower() == "false":
+        return url or guid
+    # Belt-and-suspenders: reject http(s) guids on .foo test hosts even if
+    # isPermaLink is missing/true.
+    if "://" in guid:
+        host = (urlparse(guid).hostname or "").lower()
+        if host.endswith(".foo"):
+            return url or guid
+    return guid
+
+
 def _parse_rss_item(item: ET.Element) -> dict | None:
     """Extract id/title/url/published from an RSS 2.0 <item>."""
     title_el = item.find("title")
@@ -188,7 +212,7 @@ def _parse_rss_item(item: ET.Element) -> dict | None:
     url = (link_el.text or "").strip() if link_el is not None else ""
 
     guid_el = item.find("guid")
-    entry_id = (guid_el.text or "").strip() if guid_el is not None else url
+    entry_id = _rss_entry_id(guid_el, url)
 
     pub_el = item.find("pubDate")
     if pub_el is None:
