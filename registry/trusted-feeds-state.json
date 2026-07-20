@@ -99,7 +99,7 @@
         "https://www.datadoghq.com/blog/engineering/what-product-designers-can-learn-from-explanatory-journalism/",
         "https://www.datadoghq.com/blog/engineering/workload-protection-ebpf-fim/"
       ],
-      "last_scan": "2026-07-19T13:01:16.027323+00:00"
+      "last_scan": "2026-07-20T13:53:40.045265+00:00"
     },
     "honeycomb": {
       "seen": [
@@ -159,7 +159,7 @@
         "https://www.honeycomb.io/blog/your-questions-about-ai-agents-production-feedback-answered",
         "https://www.honeycomb.io/blog/your-questions-about-ai-assisted-development-answered"
       ],
-      "last_scan": "2026-07-19T13:01:18.205427+00:00"
+      "last_scan": "2026-07-20T13:53:42.282026+00:00"
     },
     "grafana": {
       "seen": [
@@ -178,11 +178,21 @@
         "https://grafana.com/blog/stop-switching-tools-to-find-answers-grafana-assistant-now-works-across-30-data-sources/",
         "https://grafana.com/blog/tempo-3-0-release-all-the-latest-features/"
       ],
-      "last_scan": "2026-07-19T13:01:20.286159+00:00"
+      "last_scan": "2026-07-20T13:53:44.400053+00:00"
     },
     "pagerduty": {
-      "seen": [],
-      "last_scan": "2026-07-19T13:01:22.531944+00:00"
+      "seen": [
+        "https://www.pagerduty.com/eng/98-7-adoption-was-the-easy-part/",
+        "https://www.pagerduty.com/eng/channels-are-free-why-we-gave-every-incident-its-own/",
+        "https://www.pagerduty.com/eng/from-incidents-to-insight-closing-the-post-incident-review-gap/",
+        "https://www.pagerduty.com/eng/how-ai-tools-accelerated-six-month-framework-migration-to-nine-days/",
+        "https://www.pagerduty.com/eng/inside-pagerdutys-sre-agent-how-we-built-deep-incident-investigation/",
+        "https://www.pagerduty.com/eng/navigating-the-shift-to-agentic-ai/",
+        "https://www.pagerduty.com/eng/pagerdutys-approach-to-reliability/",
+        "https://www.pagerduty.com/eng/production-ai-agents-closing-the-gaps-between-idea-and-reality/",
+        "https://www.pagerduty.com/eng/watchtower-and-journey-gated-rollouts/"
+      ],
+      "last_scan": "2026-07-20T13:53:47.443118+00:00"
     },
     "incident-io": {
       "seen": [
@@ -620,7 +630,7 @@
         "https://incident.io/blog/zapier-integration",
         "https://incident.io/blog/zendesk"
       ],
-      "last_scan": "2026-07-19T13:01:25.245179+00:00"
+      "last_scan": "2026-07-20T13:53:50.184547+00:00"
     },
     "netflix-tech": {
       "seen": [
@@ -635,9 +645,15 @@
         "https://medium.com/p/87860682629c",
         "https://medium.com/p/a5a8e799ea2c",
         "https://medium.com/p/eb8160ed60a2",
-        "https://medium.com/p/f4b792f3f0d8"
+        "https://medium.com/p/f4b792f3f0d8",
+        "https://netflixtechblog.com/data-projects-managing-data-assets-at-netflix-scale-7ca25888591e?source=rss----2615bd06b42e---4",
+        "https://netflixtechblog.com/how-netflix-simplified-batch-compute-with-kueue-87860682629c?source=rss----2615bd06b42e---4",
+        "https://netflixtechblog.com/predicting-risk-in-content-launches-how-data-driven-insights-can-transform-launch-planning-587b1f2de928?source=rss----2615bd06b42e---4",
+        "https://netflixtechblog.com/the-data-canary-how-netflix-validates-catalog-metadata-18b699d58e36?source=rss----2615bd06b42e---4",
+        "https://netflixtechblog.com/the-evolution-of-cassandra-data-movement-at-netflix-6e13329c80a1?source=rss----2615bd06b42e---4",
+        "https://netflixtechblog.com/thinking-fast-slow-for-a-personalized-notification-system-4d89b26525cd?source=rss----2615bd06b42e---4"
       ],
-      "last_scan": "2026-07-19T13:01:33.551811+00:00"
+      "last_scan": "2026-07-20T13:53:57.089256+00:00"
     },
     "anthropic-eng": {
       "seen": [
@@ -667,12 +683,13 @@
         "https://www.anthropic.com/engineering/swe-bench-sonnet",
         "https://www.anthropic.com/engineering/writing-tools-for-agents"
       ],
-      "last_scan": "2026-07-19T13:01:41.077091+00:00"
+      "last_scan": "2026-07-20T13:53:59.214201+00:00"
     },
     "simon-willison": {
       "seen": [
         "https://simonwillison.net/2026/Jul/10/openai/#atom-everything",
         "https://simonwillison.net/2026/Jul/11/sqlite-utils/#atom-everything",
+        "https://simonwillison.net/2026/Jul/12/bump/#atom-everything",
         "https://simonwillison.net/2026/Jul/12/sqlite-utils/#atom-everything",
         "https://simonwillison.net/2026/Jul/2/llm-coding-agent/#atom-everything",
         "https://simonwillison.net/2026/Jul/3/josh-w-comeau/#atom-everything",
@@ -696,7 +713,7 @@
         "https://simonwillison.net/2026/Jul/9/gpt-5-6/#atom-everything",
         "https://simonwillison.net/2026/Jul/9/llm/#atom-everything"
       ],
-      "last_scan": "2026-07-19T13:01:43.891461+00:00"
+      "last_scan": "2026-07-20T13:54:01.903510+00:00"
     },
     "thenewstack": {
       "seen": [
@@ -723,12 +740,16 @@
         "https://thenewstack.io/?p=22830293",
         "https://thenewstack.io/?p=22830311",
         "https://thenewstack.io/?p=22830347",
-        "https://thenewstack.io/?p=22830353"
+        "https://thenewstack.io/?p=22830353",
+        "https://thenewstack.io/atlassian-jira-coding-agents/"
       ],
-      "last_scan": "2026-07-19T13:01:46.272372+00:00"
+      "last_scan": "2026-07-20T13:54:04.618822+00:00"
     },
     "meta-eng": {
       "seen": [
+        "https://engineering.fb.com/2026/05/26/ml-applications/silvertorch-index-as-model-new-retrieval-paradigm-recommendation-systems/",
+        "https://engineering.fb.com/2026/06/03/data-center-engineering/lights-out-systems-on-validating-instant-power-loss-readiness/",
+        "https://engineering.fb.com/2026/06/22/video-engineering/adopting-av1-for-real-time-communication-rtc-meta/",
         "https://engineering.fb.com/?p=23963",
         "https://engineering.fb.com/?p=23982",
         "https://engineering.fb.com/?p=23988",
@@ -741,7 +762,7 @@
         "https://engineering.fb.com/?p=24221",
         "https://engineering.fb.com/?p=24251"
       ],
-      "last_scan": "2026-07-19T13:01:53.122573+00:00"
+      "last_scan": "2026-07-20T13:54:07.239528+00:00"
     },
     "sentry": {
       "seen": [
@@ -777,7 +798,7 @@
         "https://blog.sentry.io/two-years-without-cookies-on-the-site/",
         "https://blog.sentry.io/unreal-engine-performance-metrics/"
       ],
-      "last_scan": "2026-07-19T13:01:55.341869+00:00"
+      "last_scan": "2026-07-20T13:54:09.350299+00:00"
     },
     "slack-engineering": {
       "seen": [
@@ -789,13 +810,22 @@
         "https://slack.engineering/?p=17774",
         "https://slack.engineering/?p=17812",
         "https://slack.engineering/?p=17832",
-        "https://slack.engineering/?p=17854"
+        "https://slack.engineering/?p=17854",
+        "https://slack.engineering/agentic-testing-where-agents-fit-in-the-e2e-testing-stack/",
+        "https://slack.engineering/from-custom-to-open-scalable-network-probing-and-http-3-readiness-with-prometheus/",
+        "https://slack.engineering/from-ssh-to-rest-a-security-driven-modernization-of-slacks-emr-data-pipelines/",
+        "https://slack.engineering/how-slack-rebuilt-notifications/",
+        "https://slack.engineering/managing-context-in-long-run-agentic-applications/",
+        "https://slack.engineering/shipyard-how-we-built-slacks-next-generation-ec2-platform/",
+        "https://slack.engineering/slack-ai-the-path-to-multi-cloud/",
+        "https://slack.engineering/streamlining-security-investigations-with-agents/"
       ],
-      "last_scan": "2026-07-19T13:01:57.509572+00:00"
+      "last_scan": "2026-07-20T13:54:11.982159+00:00"
     },
     "litellm-blog": {
       "seen": [
         "https://docs.litellm.ai/blog/agents-are-the-new-llms",
+        "https://docs.litellm.ai/blog/autorouter-v2",
         "https://docs.litellm.ai/blog/bedrock-invoke-prompt-caching-incident",
         "https://docs.litellm.ai/blog/claude_fable_5",
         "https://docs.litellm.ai/blog/claude_opus_4_8",
@@ -809,6 +839,7 @@
         "https://docs.litellm.ai/blog/lite-harness-sdk",
         "https://docs.litellm.ai/blog/litellm-microsoft-assert",
         "https://docs.litellm.ai/blog/litellm-rust-launch",
+        "https://docs.litellm.ai/blog/router-plugins-on-the-proxy",
         "https://docs.litellm.ai/blog/save-claude-code-costs-with-litellm",
         "https://docs.litellm.ai/blog/stability",
         "https://docs.litellm.ai/blog/swap_openai_code_interpreter",
@@ -816,8 +847,282 @@
         "https://docs.litellm.ai/blog/valkey_semantic_caching",
         "https://docs.litellm.ai/blog/version-support"
       ],
-      "last_scan": "2026-07-19T13:01:28.599512+00:00"
+      "last_scan": "2026-07-20T13:53:53.650399+00:00"
+    },
+    "promptfoo-blog": {
+      "seen": [
+        "https://www.promptfoo.dev/blog/ai-regulation-2025/",
+        "https://www.promptfoo.dev/blog/ai-safety-vs-security/",
+        "https://www.promptfoo.dev/blog/anthropic-threat-intelligence-vibe-hacking/",
+        "https://www.promptfoo.dev/blog/asr-not-portable-metric/",
+        "https://www.promptfoo.dev/blog/autonomy-agency-ai-secure-llms/",
+        "https://www.promptfoo.dev/blog/building-a-security-scanner-for-llm-apps/",
+        "https://www.promptfoo.dev/blog/claude-code-attack/",
+        "https://www.promptfoo.dev/blog/gpt-5.2-trust-safety-assessment/",
+        "https://www.promptfoo.dev/blog/indirect-prompt-injection-web-agents/",
+        "https://www.promptfoo.dev/blog/jailbreaking-vs-prompt-injection/",
+        "https://www.promptfoo.dev/blog/lethal-trifecta-testing/",
+        "https://www.promptfoo.dev/blog/llm-search-rubric-assertions/",
+        "https://www.promptfoo.dev/blog/mckinsey-lilli-appsec-vs-ai-jailbreak/",
+        "https://www.promptfoo.dev/blog/model-upgrades-break-agent-safety/",
+        "https://www.promptfoo.dev/blog/open-sourcing-modelaudit/",
+        "https://www.promptfoo.dev/blog/openclaw-at-work/",
+        "https://www.promptfoo.dev/blog/promptfoo-joining-openai/",
+        "https://www.promptfoo.dev/blog/rlvr-explained/",
+        "https://www.promptfoo.dev/blog/top-llm-safety-bias-benchmarks/",
+        "https://www.promptfoo.dev/blog/will-agents-hack-everything/"
+      ],
+      "last_scan": "2026-07-20T13:54:14.182235+00:00"
+    },
+    "github-engineering": {
+      "seen": [
+        "https://github.blog/ai-and-ml/github-copilot/agent-driven-development-in-copilot-applied-science/",
+        "https://github.blog/ai-and-ml/github-copilot/automating-cross-repo-documentation-with-github-agentic-workflows/",
+        "https://github.blog/ai-and-ml/github-copilot/better-tools-made-copilot-code-review-worse-heres-how-we-actually-improved-it/",
+        "https://github.blog/ai-and-ml/github-copilot/continuous-ai-for-accessibility-how-github-transforms-feedback-into-inclusion/",
+        "https://github.blog/engineering/architecture-optimization/from-latency-to-instant-modernizing-github-issues-navigation-performance/",
+        "https://github.blog/engineering/architecture-optimization/how-we-rebuilt-the-search-architecture-for-high-availability-in-github-enterprise-server/",
+        "https://github.blog/engineering/architecture-optimization/the-uphill-climb-of-making-diff-lines-performant/",
+        "https://github.blog/engineering/from-pixels-to-characters-the-engineering-behind-github-copilot-clis-animated-ascii-banner/",
+        "https://github.blog/engineering/infrastructure/how-github-uses-ebpf-to-improve-deployment-safety/",
+        "https://github.blog/engineering/the-cost-of-saying-yes-has-changed/"
+      ],
+      "last_scan": "2026-07-20T13:54:18.259132+00:00"
+    },
+    "aws-architecture": {
+      "seen": [
+        "https://aws.amazon.com/blogs/architecture/align-your-architecture-backlog-with-tech-roadmap-prioritization-trp/",
+        "https://aws.amazon.com/blogs/architecture/architecting-ai-powered-resilience-framework-on-aws/",
+        "https://aws.amazon.com/blogs/architecture/automate-medical-record-digitization-with-amazon-bedrock-data-automation-and-aws-healthlake/",
+        "https://aws.amazon.com/blogs/architecture/how-samsung-achieved-real-time-pricing-with-aws-lambda-response-streaming/",
+        "https://aws.amazon.com/blogs/architecture/introducing-the-snowflake-and-aws-custom-lens-for-the-aws-well-architected-framework/",
+        "https://aws.amazon.com/blogs/architecture/modernizing-financial-analytics-with-amazon-sagemaker-unified-studio/",
+        "https://aws.amazon.com/blogs/architecture/reducing-sms-otp-fraud-with-vonage-network-powered-solutions-and-amazon-cognito/"
+      ],
+      "last_scan": "2026-07-20T13:54:21.518777+00:00"
+    },
+    "nvidia-developer": {
+      "seen": [
+        "https://developer.nvidia.com/blog/?p=113238",
+        "https://developer.nvidia.com/blog/?p=116517",
+        "https://developer.nvidia.com/blog/?p=116526",
+        "https://developer.nvidia.com/blog/?p=116529",
+        "https://developer.nvidia.com/blog/?p=116606",
+        "https://developer.nvidia.com/blog/?p=116649",
+        "https://developer.nvidia.com/blog/?p=116658",
+        "https://developer.nvidia.com/blog/?p=116680",
+        "https://developer.nvidia.com/blog/?p=116707",
+        "https://developer.nvidia.com/blog/?p=116726",
+        "https://developer.nvidia.com/blog/?p=116759",
+        "https://developer.nvidia.com/blog/?p=116769",
+        "https://developer.nvidia.com/blog/?p=116772",
+        "https://developer.nvidia.com/blog/?p=116828",
+        "https://developer.nvidia.com/blog/?p=116866",
+        "https://developer.nvidia.com/blog/?p=116877",
+        "https://developer.nvidia.com/blog/?p=116892",
+        "https://developer.nvidia.com/blog/?p=116929",
+        "https://developer.nvidia.com/blog/?p=116952",
+        "https://developer.nvidia.com/blog/?p=116965",
+        "https://developer.nvidia.com/blog/?p=116988",
+        "https://developer.nvidia.com/blog/?p=117052",
+        "https://developer.nvidia.com/blog/?p=117097",
+        "https://developer.nvidia.com/blog/?p=117200",
+        "https://developer.nvidia.com/blog/?p=117237",
+        "https://developer.nvidia.com/blog/?p=117261",
+        "https://developer.nvidia.com/blog/?p=117282",
+        "https://developer.nvidia.com/blog/?p=117357",
+        "https://developer.nvidia.com/blog/?p=117420",
+        "https://developer.nvidia.com/blog/?p=117439",
+        "https://developer.nvidia.com/blog/?p=117440",
+        "https://developer.nvidia.com/blog/?p=117479",
+        "https://developer.nvidia.com/blog/?p=117480",
+        "https://developer.nvidia.com/blog/?p=117549",
+        "https://developer.nvidia.com/blog/?p=117598",
+        "https://developer.nvidia.com/blog/?p=117653",
+        "https://developer.nvidia.com/blog/?p=117661",
+        "https://developer.nvidia.com/blog/?p=117742",
+        "https://developer.nvidia.com/blog/?p=117833",
+        "https://developer.nvidia.com/blog/?p=117863",
+        "https://developer.nvidia.com/blog/?p=117924",
+        "https://developer.nvidia.com/blog/?p=117942",
+        "https://developer.nvidia.com/blog/?p=118052",
+        "https://developer.nvidia.com/blog/?p=118134",
+        "https://developer.nvidia.com/blog/?p=118215",
+        "https://developer.nvidia.com/blog/?p=118222",
+        "https://developer.nvidia.com/blog/?p=118254",
+        "https://developer.nvidia.com/blog/?p=118345",
+        "https://developer.nvidia.com/blog/?p=118389",
+        "https://developer.nvidia.com/blog/?p=118418",
+        "https://developer.nvidia.com/blog/?p=118419",
+        "https://developer.nvidia.com/blog/?p=118492",
+        "https://developer.nvidia.com/blog/?p=118509",
+        "https://developer.nvidia.com/blog/?p=118516",
+        "https://developer.nvidia.com/blog/?p=118581",
+        "https://developer.nvidia.com/blog/?p=118667",
+        "https://developer.nvidia.com/blog/?p=118679",
+        "https://developer.nvidia.com/blog/?p=118700"
+      ],
+      "last_scan": "2026-07-20T13:54:24.252608+00:00"
+    },
+    "docker": {
+      "seen": [
+        "https://www.docker.com/blog/eu-cyber-resilience-act-overview/"
+      ],
+      "last_scan": "2026-07-20T13:54:26.862549+00:00"
+    },
+    "together-ai": {
+      "seen": [
+        "https://www.together.ai/blog/40-new-image-and-video-models",
+        "https://www.together.ai/blog/adaptive-learning-speculator-system-atlas",
+        "https://www.together.ai/blog/ai-agents-to-automate-complex-engineering-tasks",
+        "https://www.together.ai/blog/ai-native-conf-research-and-product-announcements",
+        "https://www.together.ai/blog/alon-gavrielov-as-vp-of-infrastructure-strategy",
+        "https://www.together.ai/blog/announcing-the-availability-of-openais-open-models-on-together-ai",
+        "https://www.together.ai/blog/announcing-together-ai-and-adaption-partnership",
+        "https://www.together.ai/blog/announcing-together-ai-startup-accelerator",
+        "https://www.together.ai/blog/aurora",
+        "https://www.together.ai/blog/batch-api",
+        "https://www.together.ai/blog/batch-inference-api-updates-2025",
+        "https://www.together.ai/blog/build-real-time-voice-agents-on-together-ai",
+        "https://www.together.ai/blog/building-an-autonomous-and-open-data-scientist-agent-from-scratch",
+        "https://www.together.ai/blog/cache-aware-disaggregated-inference",
+        "https://www.together.ai/blog/coderforge-preview",
+        "https://www.together.ai/blog/coding-agent-benchmarks",
+        "https://www.together.ai/blog/collinear-simulations-together-evals",
+        "https://www.together.ai/blog/consistency-diffusion-language-models",
+        "https://www.together.ai/blog/dedicated-container-inference",
+        "https://www.together.ai/blog/deepgram-speech-to-text-and-voice-models-now-available-natively-on-together-ai",
+        "https://www.together.ai/blog/deepseek-v3-1-hybrid-thinking-model-now-available-on-together-ai",
+        "https://www.together.ai/blog/deepseek-v4-pro-now-available-on-together-ai",
+        "https://www.together.ai/blog/deepswe",
+        "https://www.together.ai/blog/deploy-and-inference-any-model-from-huggingface",
+        "https://www.together.ai/blog/distribution-aware-speculative-decoding",
+        "https://www.together.ai/blog/dsgym",
+        "https://www.together.ai/blog/einsteinarena",
+        "https://www.together.ai/blog/evaluate-and-benchmark-llms",
+        "https://www.together.ai/blog/fastest-inference-for-deepseek-r1-0528-with-nvidia-hgx-b200",
+        "https://www.together.ai/blog/fastest-inference-for-the-top-open-source-models",
+        "https://www.together.ai/blog/fine-tune-gpt-oss-models-into-domain-experts-together-ai",
+        "https://www.together.ai/blog/fine-tune-small-open-source-llms-outperform-closed-models",
+        "https://www.together.ai/blog/fine-tuning-open-llm-judges-to-outperform-gpt-5-2",
+        "https://www.together.ai/blog/fine-tuning-update",
+        "https://www.together.ai/blog/fine-tuning-updates-sept-2025",
+        "https://www.together.ai/blog/flashattention-4",
+        "https://www.together.ai/blog/flux-1-kontext",
+        "https://www.together.ai/blog/flux-2-multi-reference-image-generation-now-available-on-together-ai",
+        "https://www.together.ai/blog/foundational-research-powering-efficient-inference-at-scale",
+        "https://www.together.ai/blog/futurebench",
+        "https://www.together.ai/blog/how-speech-models-fail",
+        "https://www.together.ai/blog/how-to-choose-the-right-open-model-for-production",
+        "https://www.together.ai/blog/how-together-ai-built-the-worlds-fastest-speech-to-text-stack",
+        "https://www.together.ai/blog/inside-the-together-ai-kernels-team",
+        "https://www.together.ai/blog/introducing-autojudge-streamlined-inference-acceleration-via-automated-dataset-curation",
+        "https://www.together.ai/blog/introducing-together-ai-new-look",
+        "https://www.together.ai/blog/introducing-together-evaluations",
+        "https://www.together.ai/blog/introducing-voice-finder-a-new-tool-to-quickly-find-the-right-voice-for-your-app-from-over-600-voices",
+        "https://www.together.ai/blog/iso-27001-2022-certification",
+        "https://www.together.ai/blog/kimi-k2-7-code-vs-claude-fable-5",
+        "https://www.together.ai/blog/kimi-k2-leading-open-source-model-now-available-on-together-ai",
+        "https://www.together.ai/blog/large-reasoning-models-fail-to-follow-instructions-during-reasoning-a-benchmark-study",
+        "https://www.together.ai/blog/learn-how-cursor-partnered-with-together-ai-to-deliver-real-time-low-latency-inference-at-scale",
+        "https://www.together.ai/blog/mahadev-konar-svp-infrastructure-engineering",
+        "https://www.together.ai/blog/mamba-3",
+        "https://www.together.ai/blog/minimax-speech-2-6",
+        "https://www.together.ai/blog/moaa",
+        "https://www.together.ai/blog/multi-node-gpu-training",
+        "https://www.together.ai/blog/multi-tenant-gpu-cluster-design-for-ai-native-teams",
+        "https://www.together.ai/blog/nemotron-3-nano-now-available-on-together-ai",
+        "https://www.together.ai/blog/new-in-together-gpu-clusters-autoscaling-observability-self-healing",
+        "https://www.together.ai/blog/nvidia-nemotron-3-super",
+        "https://www.together.ai/blog/openais-new-open-gpt-oss-models-vs-o4-mini-a-real-world-comparison",
+        "https://www.together.ai/blog/optimizing-inference-speed-and-costs",
+        "https://www.together.ai/blog/parallelkernelbench",
+        "https://www.together.ai/blog/parcae",
+        "https://www.together.ai/blog/plan-divide-conquer",
+        "https://www.together.ai/blog/qwen-3-coder",
+        "https://www.together.ai/blog/research-pov-yes-agi-can-happen",
+        "https://www.together.ai/blog/rime-arcana-v3-turbo-and-rime-arcana-v3-now-available-on-together-ai",
+        "https://www.together.ai/blog/rime-voice-models-now-available-on-together-ai",
+        "https://www.together.ai/blog/serving-deepseek-v4-why-million-token-context-is-an-inference-systems-problem",
+        "https://www.together.ai/blog/serving-minimax-m3-for-efficient-inference-unlocking-1m-token-context-and-multimodality-without-regrets",
+        "https://www.together.ai/blog/shutting-down-copy-fail-in-production",
+        "https://www.together.ai/blog/soc-2-compliance",
+        "https://www.together.ai/blog/speech-to-text-whisper-apis",
+        "https://www.together.ai/blog/the-fastest-inference-for-realtime-voice-ai-agents",
+        "https://www.together.ai/blog/the-frontier-is-open",
+        "https://www.together.ai/blog/together-ai-and-meta-partner-to-bring-pytorch-reinforcement-learning-to-the-ai-native-cloud",
+        "https://www.together.ai/blog/together-ai-at-nvidia-gtc-2026",
+        "https://www.together.ai/blog/together-ai-brings-nvidia-nemotron-3-nano-omni-to-developers-on-day-0",
+        "https://www.together.ai/blog/together-ai-expands-in-europe",
+        "https://www.together.ai/blog/together-ai-partners-with-pearl-research-labs",
+        "https://www.together.ai/blog/together-evaluations-v2",
+        "https://www.together.ai/blog/together-instant-clusters-ga",
+        "https://www.together.ai/blog/together-python-sdk-2-0",
+        "https://www.together.ai/blog/torchforge-reinforcement-learning-pipelines",
+        "https://www.together.ai/blog/using-llms-to-optimize-database-query-execution",
+        "https://www.together.ai/blog/violin-open-source-translation-skill",
+        "https://www.together.ai/blog/virtueguard",
+        "https://www.together.ai/blog/wan-2-7-now-available-on-together-ai",
+        "https://www.together.ai/blog/what-is-an-ai-native-cloud",
+        "https://www.together.ai/blog/what-llms-think",
+        "https://www.together.ai/blog/yaqa"
+      ],
+      "last_scan": "2026-07-20T13:54:29.575796+00:00"
+    },
+    "mongodb-engineering": {
+      "seen": [
+        "https://www.mongodb.com/company/blog/culture/inside-mongodb-dublin-the-heart-of-our-international-growth",
+        "https://www.mongodb.com/company/blog/culture/mongodb-is-glassdoor-best-led-company-2025",
+        "https://www.mongodb.com/company/blog/engineering/carrying-complexity-delivering-agility",
+        "https://www.mongodb.com/company/blog/engineering/mongodb-predictive-auto-scaling-an-experiment",
+        "https://www.mongodb.com/company/blog/engineering/token-count-based-batching-faster-cheaper-embedding-inference-for-queries",
+        "https://www.mongodb.com/company/blog/engineering/towards-model-based-verification-key-value-storage-engine",
+        "https://www.mongodb.com/company/blog/events/local-nyc-2025-defining-ideal-database-for-ai-era",
+        "https://www.mongodb.com/company/blog/events/local-nyc-2025-defining-ideal-database-for-ai-era-br",
+        "https://www.mongodb.com/company/blog/events/local-nyc-2025-defining-ideal-database-for-ai-era-cn",
+        "https://www.mongodb.com/company/blog/events/local-nyc-2025-defining-ideal-database-for-ai-era-de",
+        "https://www.mongodb.com/company/blog/events/local-nyc-2025-defining-ideal-database-for-ai-era-es",
+        "https://www.mongodb.com/company/blog/events/local-nyc-2025-defining-ideal-database-for-ai-era-fr",
+        "https://www.mongodb.com/company/blog/events/local-nyc-2025-defining-ideal-database-for-ai-era-it",
+        "https://www.mongodb.com/company/blog/events/local-nyc-2025-defining-ideal-database-for-ai-era-kr",
+        "https://www.mongodb.com/company/blog/events/mongodb-local-san-francisco-2026-ship-production-ai-faster",
+        "https://www.mongodb.com/company/blog/from-niche-nosql-enterprise-powerhouse-story-mongodbs-evolution",
+        "https://www.mongodb.com/company/blog/innovation/agentic-supplier-management-with-atlas-voyage-ai-multi-modal-search",
+        "https://www.mongodb.com/company/blog/innovation/build-trust-in-agentic-ai-from-poc-to-production",
+        "https://www.mongodb.com/company/blog/innovation/cars24-improves-search-for-300-million-users-with-atlas",
+        "https://www.mongodb.com/company/blog/innovation/edge-ai-made-easy-mongodb-and-objectbox-data-synchronization",
+        "https://www.mongodb.com/company/blog/innovation/innovating-customer-successes-october-2025",
+        "https://www.mongodb.com/company/blog/innovation/innovating-with-mongodb-customer-successes-february-2026",
+        "https://www.mongodb.com/company/blog/innovation/mongodb-community-edition-to-atlas-migration-masterclass-bharatpe",
+        "https://www.mongodb.com/company/blog/innovation/new-research-reveals-overcoming-legacy-tech-issues-key-ai-success",
+        "https://www.mongodb.com/company/blog/innovation/production-ready-agents-need-production-ready-data-platform",
+        "https://www.mongodb.com/company/blog/innovation/simplify-ai-driven-data-connectivity-mcp-toolbox",
+        "https://www.mongodb.com/company/blog/innovation/smarter-ai-search-powered-by-atlas-pureinsights",
+        "https://www.mongodb.com/company/blog/mongodb-2025-in-review-2026-predictions",
+        "https://www.mongodb.com/company/blog/news/celebrating-excellence-mongodb-global-partner-awards-2025",
+        "https://www.mongodb.com/company/blog/news/celebrating-excellence-mongodb-global-partner-awards-2025-cn",
+        "https://www.mongodb.com/company/blog/news/celebrating-excellence-mongodb-global-partner-awards-2025-es",
+        "https://www.mongodb.com/company/blog/news/celebrating-excellence-mongodb-global-partner-awards-2025-fr",
+        "https://www.mongodb.com/company/blog/news/celebrating-excellence-mongodb-global-partner-awards-2025-kr",
+        "https://www.mongodb.com/company/blog/news/charting-new-course-saas-security-why-mongodb-helped-build-sscf",
+        "https://www.mongodb.com/company/blog/news/mongodb-announces-leadership-transition",
+        "https://www.mongodb.com/company/blog/product-release-announcements/ai-changing-what-customers-need-from-database-mongodb-8-3-built-for-it",
+        "https://www.mongodb.com/company/blog/product-release-announcements/introducing-mongodb-agent-skills",
+        "https://www.mongodb.com/company/blog/product-release-announcements/introducing-mongodb-atlas-log-integration",
+        "https://www.mongodb.com/company/blog/product-release-announcements/mongodb-sql-interface-now-available-enterprise-advanced",
+        "https://www.mongodb.com/company/blog/technical/10-skills-was-missing-as-mongodb-user",
+        "https://www.mongodb.com/company/blog/technical/build-ai-agents-worth-keeping-canvas-framework",
+        "https://www.mongodb.com/company/blog/technical/building-a-movie-recommendation-engine-with-hugging-face-and-voyage-ai",
+        "https://www.mongodb.com/company/blog/technical/cost-of-not-knowing-mongodb-part-3-appv6r0-appv6r4",
+        "https://www.mongodb.com/company/blog/technical/endian-communication-systems-information-exchange-in-bytes",
+        "https://www.mongodb.com/company/blog/technical/enhance-your-in-ide-data-browsing-experience-with-mongodb",
+        "https://www.mongodb.com/company/blog/technical/fighting-tool-sprawl-case-for-ai-tool-registries",
+        "https://www.mongodb.com/company/blog/technical/modernizing-core-insurance-systems-breaking-batch-bottleneck",
+        "https://www.mongodb.com/company/blog/technical/top-considerations-when-choosing-hybrid-search-solution",
+        "https://www.mongodb.com/company/blog/technical/vision-rag-enabling-search-on-any-documents"
+      ],
+      "last_scan": "2026-07-20T13:54:32.669757+00:00"
     }
   },
-  "last_scan": "2026-07-19T13:02:00.294530+00:00"
+  "last_scan": "2026-07-20T13:54:32.669804+00:00"
 }

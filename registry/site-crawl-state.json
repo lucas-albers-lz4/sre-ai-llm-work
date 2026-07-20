@@ -552,24 +552,34 @@
         "filed_at": "2026-07-19T13:02:58.985563+00:00"
       },
       "https://sre.google/resources/book-update/testing-for-reliability/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:13:38.856225+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:13:38.856225+00:00",
+        "issue": 364,
+        "filed_at": "2026-07-20T13:55:35.840786+00:00"
       },
       "https://sre.google/resources/book-update/software-engineering-in-sre/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:13:38.856227+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:13:38.856227+00:00",
+        "issue": 365,
+        "filed_at": "2026-07-20T13:55:37.924922+00:00"
       },
       "https://sre.google/resources/book-update/load-balancing-at-the-frontend/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:13:38.856228+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:13:38.856228+00:00",
+        "issue": 366,
+        "filed_at": "2026-07-20T13:55:40.684922+00:00"
       },
       "https://sre.google/resources/book-update/load-balancing-in-the-datacenter/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:13:38.856230+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:13:38.856230+00:00",
+        "issue": 367,
+        "filed_at": "2026-07-20T13:55:42.647260+00:00"
       },
       "https://sre.google/resources/book-update/handling-overload/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:13:38.856232+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:13:38.856232+00:00",
+        "issue": 368,
+        "filed_at": "2026-07-20T13:55:44.666828+00:00"
       },
       "https://sre.google/resources/book-update/addressing-cascading-failures/": {
         "status": "pending",
@@ -1068,7 +1078,7 @@
         "screened_at": "2026-07-18T13:10:30.818325+00:00"
       }
     },
-    "last_scan": "2026-07-19T13:02:29.033232+00:00"
+    "last_scan": "2026-07-20T13:55:11.110871+00:00"
   },
   "opentelemetry": {
     "urls": {},
@@ -1203,16 +1213,22 @@
         "filed_at": "2026-07-19T13:03:03.572359+00:00"
       },
       "https://www.cncf.io/heroes/participation-instructions/": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:52:53.813823+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:52:53.813823+00:00",
+        "issue": 369,
+        "filed_at": "2026-07-20T13:55:46.693163+00:00"
       },
       "https://www.cncf.io/heroes/": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:52:53.813825+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:52:53.813825+00:00",
+        "issue": 370,
+        "filed_at": "2026-07-20T13:55:49.213745+00:00"
       },
       "https://www.cncf.io/political-neutrality-policy/": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:52:53.813827+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:52:53.813827+00:00",
+        "issue": 371,
+        "filed_at": "2026-07-20T13:55:51.148605+00:00"
       },
       "https://www.cncf.io/policies/": {
         "status": "pending",
@@ -2225,9 +2241,21 @@
       "https://www.cncf.io/blog/2026/06/23/building-jaegers-clickhouse-backend-8-6x-compression-on-10-million-spans": {
         "status": "pending",
         "screened_at": "2026-07-19T13:02:37.700081+00:00"
+      },
+      "https://www.cncf.io/blog/2026/07/20/argocon-japan-2026-meeting-the-maintainers-enterprise-insights-and-the-road-to-argo-cd-3-5": {
+        "status": "pending",
+        "screened_at": "2026-07-20T13:55:19.613527+00:00"
+      },
+      "https://www.cncf.io/blog/2026/07/20/why-goodput-matters-more-than-throughput-for-llm-serving": {
+        "status": "pending",
+        "screened_at": "2026-07-20T13:55:19.613543+00:00"
+      },
+      "https://www.cncf.io/blog/2026/06/22/telemetry-that-matters-designing-sustainable-high-impact-observability-pipelines": {
+        "status": "pending",
+        "screened_at": "2026-07-20T13:55:19.613547+00:00"
       }
     },
-    "last_scan": "2026-07-19T13:02:37.700083+00:00"
+    "last_scan": "2026-07-20T13:55:19.613550+00:00"
   },
   "datadog-llm-obs": {
     "urls": {
@@ -2236,7 +2264,7 @@
         "screened_at": "2026-07-12T23:52:56.905756+00:00"
       }
     },
-    "last_scan": "2026-07-19T13:02:39.071780+00:00"
+    "last_scan": "2026-07-20T13:55:21.299468+00:00"
   },
   "langfuse-docs": {
     "urls": {
@@ -2359,7 +2387,7 @@
         "filed_at": "2026-07-19T13:03:05.094027+00:00"
       }
     },
-    "last_scan": "2026-07-19T13:02:40.346549+00:00"
+    "last_scan": "2026-07-20T13:55:22.786005+00:00"
   },
   "litellm-docs": {
     "urls": {
@@ -2506,16 +2534,22 @@
         "filed_at": "2026-07-19T13:03:09.822879+00:00"
       },
       "https://docs.litellm.ai/blog/gemini_3_5_flash": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:14:36.852372+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:14:36.852372+00:00",
+        "issue": 372,
+        "filed_at": "2026-07-20T13:55:53.340763+00:00"
       },
       "https://docs.litellm.ai/blog/gemini_3_flash": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:14:36.852374+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:14:36.852374+00:00",
+        "issue": 373,
+        "filed_at": "2026-07-20T13:55:55.619705+00:00"
       },
       "https://docs.litellm.ai/blog/gemini_embedding_2_ga": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:14:36.852375+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:14:36.852375+00:00",
+        "issue": 374,
+        "filed_at": "2026-07-20T13:55:57.604445+00:00"
       },
       "https://docs.litellm.ai/blog/gemini_embedding_2_multimodal": {
         "status": "pending",
@@ -3312,9 +3346,21 @@
       "https://docs.litellm.ai/docs/caching/local_caching": {
         "status": "pending",
         "screened_at": "2026-07-19T13:02:46.666437+00:00"
+      },
+      "https://docs.litellm.ai/docs/claude_code_compatibility": {
+        "status": "pending",
+        "screened_at": "2026-07-20T13:55:30.156878+00:00"
+      },
+      "https://docs.litellm.ai/docs/claude_code_context_management": {
+        "status": "pending",
+        "screened_at": "2026-07-20T13:55:30.156894+00:00"
+      },
+      "https://docs.litellm.ai/docs/completion": {
+        "status": "pending",
+        "screened_at": "2026-07-20T13:55:30.156897+00:00"
       }
     },
-    "last_scan": "2026-07-19T13:02:46.666440+00:00"
+    "last_scan": "2026-07-20T13:55:30.156901+00:00"
   },
   "promptfoo-docs": {
     "urls": {
@@ -3457,16 +3503,22 @@
         "filed_at": "2026-07-19T13:03:15.415928+00:00"
       },
       "https://www.promptfoo.dev/blog/grok-4-political-bias/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:15:01.445386+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:15:01.445386+00:00",
+        "issue": 375,
+        "filed_at": "2026-07-20T13:55:59.592300+00:00"
       },
       "https://www.promptfoo.dev/blog/hacker-summer-camp/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:15:01.445388+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:15:01.445388+00:00",
+        "issue": 376,
+        "filed_at": "2026-07-20T13:56:01.807701+00:00"
       },
       "https://www.promptfoo.dev/blog/harder-better-prompter-stronger/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:15:01.445389+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:15:01.445389+00:00",
+        "issue": 377,
+        "filed_at": "2026-07-20T13:56:03.865788+00:00"
       },
       "https://www.promptfoo.dev/blog/how-to-jailbreak-llms/": {
         "status": "pending",
@@ -4267,8 +4319,20 @@
       "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/agent-rubric": {
         "status": "pending",
         "screened_at": "2026-07-19T13:02:52.115510+00:00"
+      },
+      "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/answer-relevance": {
+        "status": "pending",
+        "screened_at": "2026-07-20T13:55:34.593887+00:00"
+      },
+      "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/context-faithfulness": {
+        "status": "pending",
+        "screened_at": "2026-07-20T13:55:34.593903+00:00"
+      },
+      "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/context-recall": {
+        "status": "pending",
+        "screened_at": "2026-07-20T13:55:34.593905+00:00"
       }
     },
-    "last_scan": "2026-07-19T13:02:52.115513+00:00"
+    "last_scan": "2026-07-20T13:55:34.593908+00:00"
   }
 }
