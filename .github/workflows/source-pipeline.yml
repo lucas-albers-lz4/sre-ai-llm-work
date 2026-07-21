@@ -150,7 +150,7 @@ jobs:
               gh issue edit ${{ github.event.issue.number }} --repo ${{ github.repository }} --add-label "pre-screen:pass"
           claude_args: |
             --model deepseek-v4-flash
-            --max-turns 5
+            --max-turns 10
             --allowedTools "Bash(*)" "Read" "Grep"
 
       - name: Read verdict
