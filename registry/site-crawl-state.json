@@ -582,24 +582,34 @@
         "filed_at": "2026-07-20T13:55:44.666828+00:00"
       },
       "https://sre.google/resources/book-update/addressing-cascading-failures/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:43:43.330113+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:43:43.330113+00:00",
+        "issue": 389,
+        "filed_at": "2026-07-21T13:25:09.690306+00:00"
       },
       "https://sre.google/resources/book-update/distributed-consensus/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:43:43.330131+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:43:43.330131+00:00",
+        "issue": 390,
+        "filed_at": "2026-07-21T13:25:11.484278+00:00"
       },
       "https://sre.google/resources/book-update/distributed-periodic-scheduling-with-cron/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:43:43.330134+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:43:43.330134+00:00",
+        "issue": 391,
+        "filed_at": "2026-07-21T13:25:13.276472+00:00"
       },
       "https://sre.google/resources/book-update/data-processing-pipelines/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:43:43.330135+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:43:43.330135+00:00",
+        "issue": 392,
+        "filed_at": "2026-07-21T13:25:15.155229+00:00"
       },
       "https://sre.google/resources/book-update/data-integrity/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:43:43.330137+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:43:43.330137+00:00",
+        "issue": 393,
+        "filed_at": "2026-07-21T13:25:17.052046+00:00"
       },
       "https://sre.google/resources/book-update/reliable-product-launches-at-scale/": {
         "status": "pending",
@@ -1078,7 +1088,7 @@
         "screened_at": "2026-07-18T13:10:30.818325+00:00"
       }
     },
-    "last_scan": "2026-07-20T13:55:11.110871+00:00"
+    "last_scan": "2026-07-21T13:24:48.681587+00:00"
   },
   "opentelemetry": {
     "urls": {},
@@ -1231,16 +1241,22 @@
         "filed_at": "2026-07-20T13:55:51.148605+00:00"
       },
       "https://www.cncf.io/policies/": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:52:53.813829+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:52:53.813829+00:00",
+        "issue": 394,
+        "filed_at": "2026-07-21T13:25:18.817553+00:00"
       },
       "https://www.cncf.io/npe-deterrence-benefits/": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:52:53.813830+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:52:53.813830+00:00",
+        "issue": 395,
+        "filed_at": "2026-07-21T13:25:20.584974+00:00"
       },
       "https://www.cncf.io/conduct/faq/": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:52:53.813832+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:52:53.813832+00:00",
+        "issue": 396,
+        "filed_at": "2026-07-21T13:25:22.369419+00:00"
       },
       "https://www.cncf.io/kcds/faq/": {
         "status": "pending",
@@ -2253,9 +2269,21 @@
       "https://www.cncf.io/blog/2026/06/22/telemetry-that-matters-designing-sustainable-high-impact-observability-pipelines": {
         "status": "pending",
         "screened_at": "2026-07-20T13:55:19.613547+00:00"
+      },
+      "https://www.cncf.io/blog/2026/07/21/platform-engineering-for-the-agentic-enterprise-managing-applications-resources-and-ai-agents": {
+        "status": "pending",
+        "screened_at": "2026-07-21T13:24:56.125520+00:00"
+      },
+      "https://www.cncf.io/blog/2026/07/21/why-your-agent-needs-access-to-your-documentation": {
+        "status": "pending",
+        "screened_at": "2026-07-21T13:24:56.125539+00:00"
+      },
+      "https://www.cncf.io/blog/2026/06/17/expanding-care-passing-cks-can-now-extend-your-cka-certification": {
+        "status": "pending",
+        "screened_at": "2026-07-21T13:24:56.125542+00:00"
       }
     },
-    "last_scan": "2026-07-20T13:55:19.613550+00:00"
+    "last_scan": "2026-07-21T13:24:56.125544+00:00"
   },
   "datadog-llm-obs": {
     "urls": {
@@ -2264,7 +2292,7 @@
         "screened_at": "2026-07-12T23:52:56.905756+00:00"
       }
     },
-    "last_scan": "2026-07-20T13:55:21.299468+00:00"
+    "last_scan": "2026-07-21T13:24:57.559662+00:00"
   },
   "langfuse-docs": {
     "urls": {
@@ -2387,7 +2415,7 @@
         "filed_at": "2026-07-19T13:03:05.094027+00:00"
       }
     },
-    "last_scan": "2026-07-20T13:55:22.786005+00:00"
+    "last_scan": "2026-07-21T13:24:58.868485+00:00"
   },
   "litellm-docs": {
     "urls": {
@@ -2552,16 +2580,22 @@
         "filed_at": "2026-07-20T13:55:57.604445+00:00"
       },
       "https://docs.litellm.ai/blog/gemini_embedding_2_multimodal": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:14:36.852377+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:14:36.852377+00:00",
+        "issue": 397,
+        "filed_at": "2026-07-21T13:25:24.211269+00:00"
       },
       "https://docs.litellm.ai/blog/google-ai-studio-managed-agents": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:14:36.852378+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:14:36.852378+00:00",
+        "issue": 398,
+        "filed_at": "2026-07-21T13:25:25.899054+00:00"
       },
       "https://docs.litellm.ai/blog/gpt_5_3_codex": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:14:36.852380+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:14:36.852380+00:00",
+        "issue": 399,
+        "filed_at": "2026-07-21T13:25:27.784316+00:00"
       },
       "https://docs.litellm.ai/blog/gpt_5_4": {
         "status": "pending",
@@ -3358,9 +3392,21 @@
       "https://docs.litellm.ai/docs/completion": {
         "status": "pending",
         "screened_at": "2026-07-20T13:55:30.156897+00:00"
+      },
+      "https://docs.litellm.ai/docs/completion/anthropic_advisor_tool": {
+        "status": "pending",
+        "screened_at": "2026-07-21T13:25:04.562275+00:00"
+      },
+      "https://docs.litellm.ai/docs/completion/audio": {
+        "status": "pending",
+        "screened_at": "2026-07-21T13:25:04.562292+00:00"
+      },
+      "https://docs.litellm.ai/docs/completion/batching": {
+        "status": "pending",
+        "screened_at": "2026-07-21T13:25:04.562295+00:00"
       }
     },
-    "last_scan": "2026-07-20T13:55:30.156901+00:00"
+    "last_scan": "2026-07-21T13:25:04.562298+00:00"
   },
   "promptfoo-docs": {
     "urls": {
@@ -3521,16 +3567,22 @@
         "filed_at": "2026-07-20T13:56:03.865788+00:00"
       },
       "https://www.promptfoo.dev/blog/how-to-jailbreak-llms/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:15:01.445391+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:15:01.445391+00:00",
+        "issue": 400,
+        "filed_at": "2026-07-21T13:25:29.660681+00:00"
       },
       "https://www.promptfoo.dev/blog/indirect-prompt-injection-web-agents/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:15:01.445392+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:15:01.445392+00:00",
+        "issue": 401,
+        "filed_at": "2026-07-21T13:25:31.886131+00:00"
       },
       "https://www.promptfoo.dev/blog/invisible-unicode-threats/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:15:01.445394+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:15:01.445394+00:00",
+        "issue": 402,
+        "filed_at": "2026-07-21T13:25:33.576184+00:00"
       },
       "https://www.promptfoo.dev/blog/jailbreak-dalle/": {
         "status": "pending",
@@ -4331,8 +4383,20 @@
       "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/context-recall": {
         "status": "pending",
         "screened_at": "2026-07-20T13:55:34.593905+00:00"
+      },
+      "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/context-relevance": {
+        "status": "pending",
+        "screened_at": "2026-07-21T13:25:08.647456+00:00"
+      },
+      "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/conversation-relevance": {
+        "status": "pending",
+        "screened_at": "2026-07-21T13:25:08.647472+00:00"
+      },
+      "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/factuality": {
+        "status": "pending",
+        "screened_at": "2026-07-21T13:25:08.647475+00:00"
       }
     },
-    "last_scan": "2026-07-20T13:55:34.593908+00:00"
+    "last_scan": "2026-07-21T13:25:08.647477+00:00"
   }
 }

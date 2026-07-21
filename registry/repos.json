@@ -2,7 +2,7 @@
   "repos": {
     "magnus919/hermes-profiles": {
       "first_seen": "2026-07-14T13:38:31.887629+00:00",
-      "last_scanned": "2026-07-20T13:53:35.899266+00:00",
+      "last_scanned": "2026-07-21T13:23:15.050569+00:00",
       "config_files": [
         "profiles/site-reliability-engineer/AGENTS.md"
       ],
@@ -10,7 +10,7 @@
     },
     "kaynor/agent-voir": {
       "first_seen": "2026-07-14T13:38:33.601648+00:00",
-      "last_scanned": "2026-07-20T13:53:35.899333+00:00",
+      "last_scanned": "2026-07-21T13:23:15.050639+00:00",
       "config_files": [
         "docs/voice-agents.md"
       ],
@@ -18,7 +18,7 @@
     },
     "manojmallick/guardian": {
       "first_seen": "2026-07-14T13:38:35.291515+00:00",
-      "last_scanned": "2026-07-20T13:53:35.899357+00:00",
+      "last_scanned": "2026-07-21T13:23:15.050666+00:00",
       "config_files": [
         "logs/CLAUDE.md"
       ],
@@ -26,7 +26,7 @@
     },
     "tang-vu/ContribAI": {
       "first_seen": "2026-07-14T13:38:36.750652+00:00",
-      "last_scanned": "2026-07-20T13:53:35.899407+00:00",
+      "last_scanned": "2026-07-21T13:23:15.050726+00:00",
       "config_files": [
         "RUNBOOK.md"
       ],
@@ -34,7 +34,7 @@
     },
     "youngde811/Lisa": {
       "first_seen": "2026-07-14T13:38:38.258897+00:00",
-      "last_scanned": "2026-07-20T13:53:35.899422+00:00",
+      "last_scanned": "2026-07-21T13:23:15.050740+00:00",
       "config_files": [
         "docs/runbook.md"
       ],
@@ -42,7 +42,7 @@
     },
     "xerj-org/xerj": {
       "first_seen": "2026-07-14T13:38:39.835289+00:00",
-      "last_scanned": "2026-07-20T13:53:35.899443+00:00",
+      "last_scanned": "2026-07-21T13:23:17.873805+00:00",
       "config_files": [
         "demo/DEMO_RUNBOOK.md"
       ],
@@ -50,7 +50,7 @@
     },
     "NarratorAI-Studio/narrator-ai-cli": {
       "first_seen": "2026-07-14T13:38:41.374018+00:00",
-      "last_scanned": "2026-07-20T13:53:35.899476+00:00",
+      "last_scanned": "2026-07-21T13:23:17.873847+00:00",
       "config_files": [
         "docs/ops-runbook.md"
       ],
@@ -58,7 +58,7 @@
     },
     "exploitbench/exploitbench": {
       "first_seen": "2026-07-14T13:38:42.835438+00:00",
-      "last_scanned": "2026-07-20T13:53:35.899558+00:00",
+      "last_scanned": "2026-07-21T13:23:17.873961+00:00",
       "config_files": [
         "docs/RUNBOOK.md"
       ],
@@ -74,7 +74,7 @@
     },
     "ebongard/renfield": {
       "first_seen": "2026-07-14T13:38:46.154789+00:00",
-      "last_scanned": "2026-07-20T13:53:35.899513+00:00",
+      "last_scanned": "2026-07-21T13:23:17.873898+00:00",
       "config_files": [
         "docs/B5_RUNBOOK.md"
       ],
@@ -82,7 +82,7 @@
     },
     "oscharko-dev/Keiko": {
       "first_seen": "2026-07-14T13:38:47.654024+00:00",
-      "last_scanned": "2026-07-16T13:45:31.359019+00:00",
+      "last_scanned": "2026-07-21T13:23:17.873996+00:00",
       "config_files": [
         "docs/ui-runbook.md"
       ],
@@ -90,7 +90,7 @@
     },
     "samchatterley/investor-bot": {
       "first_seen": "2026-07-14T13:38:49.093870+00:00",
-      "last_scanned": "2026-07-20T13:53:35.899638+00:00",
+      "last_scanned": "2026-07-21T13:23:19.449542+00:00",
       "config_files": [
         "LIVE_RUNBOOK.md"
       ],
@@ -106,7 +106,7 @@
     },
     "omkarumarani/obseransiblerepo": {
       "first_seen": "2026-07-14T13:38:52.190000+00:00",
-      "last_scanned": "2026-07-20T13:53:39.730879+00:00",
+      "last_scanned": "2026-07-21T13:23:19.449573+00:00",
       "config_files": [
         "DEMO-RUNBOOK.md"
       ],
@@ -114,7 +114,7 @@
     },
     "ADanMan/AVI": {
       "first_seen": "2026-07-14T13:38:53.542067+00:00",
-      "last_scanned": "2026-07-20T13:53:39.730901+00:00",
+      "last_scanned": "2026-07-21T13:23:19.449594+00:00",
       "config_files": [
         "docs/runbook.md"
       ],
@@ -122,7 +122,7 @@
     },
     "anchapin/portkit": {
       "first_seen": "2026-07-14T13:38:55.219513+00:00",
-      "last_scanned": "2026-07-20T13:53:39.730945+00:00",
+      "last_scanned": "2026-07-21T13:23:19.449629+00:00",
       "config_files": [
         "docs/runbook.md"
       ],
@@ -138,7 +138,7 @@
     },
     "yoshioterada/Spring-Boot-Ski-Shop-with-Multi-Agent-Skill": {
       "first_seen": "2026-07-14T13:38:55.219625+00:00",
-      "last_scanned": "2026-07-20T13:53:39.730986+00:00",
+      "last_scanned": "2026-07-21T13:23:19.449680+00:00",
       "config_files": [
         "docs/runbook.md"
       ],
@@ -146,7 +146,7 @@
     },
     "mrebbert/local-ai-memory": {
       "first_seen": "2026-07-14T13:38:56.601797+00:00",
-      "last_scanned": "2026-07-20T13:53:39.731009+00:00",
+      "last_scanned": "2026-07-21T13:23:19.449653+00:00",
       "config_files": [
         "docs/03-runbook.md"
       ],
@@ -178,7 +178,7 @@
     },
     "syndicalt/zaxy": {
       "first_seen": "2026-07-14T13:39:00.746554+00:00",
-      "last_scanned": "2026-07-20T13:53:39.731246+00:00",
+      "last_scanned": "2026-07-21T13:23:21.086138+00:00",
       "config_files": [
         "docs/runbook.md"
       ],
@@ -194,7 +194,7 @@
     },
     "aishanee-sinha/Multi-Agent-Autonomous-Workforce-Assistant": {
       "first_seen": "2026-07-14T13:39:00.749214+00:00",
-      "last_scanned": "2026-07-20T13:53:39.731386+00:00",
+      "last_scanned": "2026-07-21T13:23:21.086240+00:00",
       "config_files": [
         "docs/Runbook.md"
       ],
@@ -231,7 +231,55 @@
         "docs/VIKI_RUNBOOK.md"
       ],
       "stars": 2
+    },
+    "BrettKinny/dotty-stackchan": {
+      "first_seen": "2026-07-21T13:23:17.873746+00:00",
+      "last_scanned": "2026-07-21T13:23:17.873755+00:00",
+      "config_files": [
+        "docs/uat-runbook.md"
+      ],
+      "stars": 91
+    },
+    "AgentiaPT/vela-slides": {
+      "first_seen": "2026-07-21T13:23:19.449439+00:00",
+      "last_scanned": "2026-07-21T13:23:19.449448+00:00",
+      "config_files": [
+        "docs/EVAL-RUNBOOK.md"
+      ],
+      "stars": 5
+    },
+    "mrlucas679/shelfwise": {
+      "first_seen": "2026-07-21T13:23:21.085994+00:00",
+      "last_scanned": "2026-07-21T13:23:21.086002+00:00",
+      "config_files": [
+        "DEMO_RUNBOOK.md"
+      ],
+      "stars": 2
+    },
+    "Lore-Hex/quill-router": {
+      "first_seen": "2026-07-21T13:23:23.035211+00:00",
+      "last_scanned": "2026-07-21T13:23:23.035220+00:00",
+      "config_files": [
+        "docs/runbook.md"
+      ],
+      "stars": 13
+    },
+    "zcag/tela": {
+      "first_seen": "2026-07-21T13:23:24.418355+00:00",
+      "last_scanned": "2026-07-21T13:23:24.418364+00:00",
+      "config_files": [
+        "docs/runbook.md"
+      ],
+      "stars": 39
+    },
+    "0xdiNGo/kabAI": {
+      "first_seen": "2026-07-21T13:23:25.884711+00:00",
+      "last_scanned": "2026-07-21T13:23:25.884720+00:00",
+      "config_files": [
+        "docs/runbook.md"
+      ],
+      "stars": 2
     }
   },
-  "last_scan": "2026-07-20T13:53:39.731426+00:00"
+  "last_scan": "2026-07-21T13:23:25.884726+00:00"
 }
