@@ -612,24 +612,34 @@
         "filed_at": "2026-07-21T13:25:17.052046+00:00"
       },
       "https://sre.google/resources/book-update/reliable-product-launches-at-scale/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:43:43.330138+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:43:43.330138+00:00",
+        "issue": 409,
+        "filed_at": "2026-07-22T13:29:07.727216+00:00"
       },
       "https://sre.google/resources/book-update/accelerating-sres-to-on-call-and-beyond/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:43:43.330140+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:43:43.330140+00:00",
+        "issue": 410,
+        "filed_at": "2026-07-22T13:29:09.423301+00:00"
       },
       "https://sre.google/resources/book-update/dealing-with-interrupts/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:43:43.330141+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:43:43.330141+00:00",
+        "issue": 411,
+        "filed_at": "2026-07-22T13:29:11.153938+00:00"
       },
       "https://sre.google/resources/book-update/embedding-an-sre-to-recover-from-operational-overload/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:43:43.330143+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:43:43.330143+00:00",
+        "issue": 412,
+        "filed_at": "2026-07-22T13:29:13.140460+00:00"
       },
       "https://sre.google/resources/book-update/communication-and-collaboration-in-sre/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:43:43.330144+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:43:43.330144+00:00",
+        "issue": 413,
+        "filed_at": "2026-07-22T13:29:14.930777+00:00"
       },
       "https://sre.google/resources/book-update/the-evolving-sre-engagement-model/": {
         "status": "pending",
@@ -1088,7 +1098,7 @@
         "screened_at": "2026-07-18T13:10:30.818325+00:00"
       }
     },
-    "last_scan": "2026-07-21T13:24:48.681587+00:00"
+    "last_scan": "2026-07-22T13:28:38.065771+00:00"
   },
   "opentelemetry": {
     "urls": {},
@@ -1259,16 +1269,22 @@
         "filed_at": "2026-07-21T13:25:22.369419+00:00"
       },
       "https://www.cncf.io/kcds/faq/": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:52:53.813834+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:52:53.813834+00:00",
+        "issue": 414,
+        "filed_at": "2026-07-22T13:29:16.593419+00:00"
       },
       "https://www.cncf.io/kcds/application/": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:52:53.813835+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:52:53.813835+00:00",
+        "issue": 415,
+        "filed_at": "2026-07-22T13:29:18.511793+00:00"
       },
       "https://www.cncf.io/membership-faq/": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:52:53.813836+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:52:53.813836+00:00",
+        "issue": 416,
+        "filed_at": "2026-07-22T13:29:20.176387+00:00"
       },
       "https://www.cncf.io/membership-hub/": {
         "status": "pending",
@@ -2281,9 +2297,21 @@
       "https://www.cncf.io/blog/2026/06/17/expanding-care-passing-cks-can-now-extend-your-cka-certification": {
         "status": "pending",
         "screened_at": "2026-07-21T13:24:56.125542+00:00"
+      },
+      "https://www.cncf.io/blog/2026/07/22/multi-cluster-databases-on-kubernetes-architecture-and-deployment": {
+        "status": "pending",
+        "screened_at": "2026-07-22T13:28:51.322872+00:00"
+      },
+      "https://www.cncf.io/blog/2026/07/22/i-made-a-policy-engine-think-it-was-in-production": {
+        "status": "pending",
+        "screened_at": "2026-07-22T13:28:51.322894+00:00"
+      },
+      "https://www.cncf.io/blog/2026/06/17/why-cloud-native-belongs-at-the-heart-of-agentic-ai-lessons-from-building-a-multi-agent-security-platform-on-kubernetes": {
+        "status": "pending",
+        "screened_at": "2026-07-22T13:28:51.322897+00:00"
       }
     },
-    "last_scan": "2026-07-21T13:24:56.125544+00:00"
+    "last_scan": "2026-07-22T13:28:51.322900+00:00"
   },
   "datadog-llm-obs": {
     "urls": {
@@ -2292,7 +2320,7 @@
         "screened_at": "2026-07-12T23:52:56.905756+00:00"
       }
     },
-    "last_scan": "2026-07-21T13:24:57.559662+00:00"
+    "last_scan": "2026-07-22T13:28:52.753932+00:00"
   },
   "langfuse-docs": {
     "urls": {
@@ -2415,7 +2443,7 @@
         "filed_at": "2026-07-19T13:03:05.094027+00:00"
       }
     },
-    "last_scan": "2026-07-21T13:24:58.868485+00:00"
+    "last_scan": "2026-07-22T13:28:54.102538+00:00"
   },
   "litellm-docs": {
     "urls": {
@@ -2598,16 +2626,22 @@
         "filed_at": "2026-07-21T13:25:27.784316+00:00"
       },
       "https://docs.litellm.ai/blog/gpt_5_4": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:14:36.852381+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:14:36.852381+00:00",
+        "issue": 417,
+        "filed_at": "2026-07-22T13:29:21.984230+00:00"
       },
       "https://docs.litellm.ai/blog/gpt_5_4_mini_nano": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:14:36.852383+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:14:36.852383+00:00",
+        "issue": 418,
+        "filed_at": "2026-07-22T13:29:23.922482+00:00"
       },
       "https://docs.litellm.ai/blog/gpt_5_5": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:14:36.852385+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:14:36.852385+00:00",
+        "issue": 419,
+        "filed_at": "2026-07-22T13:29:25.768586+00:00"
       },
       "https://docs.litellm.ai/blog/gpt_5_6": {
         "status": "pending",
@@ -3404,9 +3438,21 @@
       "https://docs.litellm.ai/docs/completion/batching": {
         "status": "pending",
         "screened_at": "2026-07-21T13:25:04.562295+00:00"
+      },
+      "https://docs.litellm.ai/docs/completion/computer_use": {
+        "status": "pending",
+        "screened_at": "2026-07-22T13:29:01.340285+00:00"
+      },
+      "https://docs.litellm.ai/docs/completion/document_understanding": {
+        "status": "pending",
+        "screened_at": "2026-07-22T13:29:01.340305+00:00"
+      },
+      "https://docs.litellm.ai/docs/completion/drop_params": {
+        "status": "pending",
+        "screened_at": "2026-07-22T13:29:01.340308+00:00"
       }
     },
-    "last_scan": "2026-07-21T13:25:04.562298+00:00"
+    "last_scan": "2026-07-22T13:29:01.340311+00:00"
   },
   "promptfoo-docs": {
     "urls": {
@@ -3585,16 +3631,22 @@
         "filed_at": "2026-07-21T13:25:33.576184+00:00"
       },
       "https://www.promptfoo.dev/blog/jailbreak-dalle/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:15:01.445396+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:15:01.445396+00:00",
+        "issue": 420,
+        "filed_at": "2026-07-22T13:29:27.790438+00:00"
       },
       "https://www.promptfoo.dev/blog/jailbreaking-vs-prompt-injection/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:15:01.445397+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:15:01.445397+00:00",
+        "issue": 421,
+        "filed_at": "2026-07-22T13:29:29.542145+00:00"
       },
       "https://www.promptfoo.dev/blog/jailbreaking-with-goat/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:15:01.445399+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:15:01.445399+00:00",
+        "issue": 422,
+        "filed_at": "2026-07-22T13:29:31.293897+00:00"
       },
       "https://www.promptfoo.dev/blog/lethal-trifecta-testing/": {
         "status": "pending",
@@ -4395,8 +4447,20 @@
       "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/factuality": {
         "status": "pending",
         "screened_at": "2026-07-21T13:25:08.647475+00:00"
+      },
+      "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/g-eval": {
+        "status": "pending",
+        "screened_at": "2026-07-22T13:29:05.841827+00:00"
+      },
+      "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/llm-rubric": {
+        "status": "pending",
+        "screened_at": "2026-07-22T13:29:05.841845+00:00"
+      },
+      "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/max-score": {
+        "status": "pending",
+        "screened_at": "2026-07-22T13:29:05.841848+00:00"
       }
     },
-    "last_scan": "2026-07-21T13:25:08.647477+00:00"
+    "last_scan": "2026-07-22T13:29:05.841851+00:00"
   }
 }
