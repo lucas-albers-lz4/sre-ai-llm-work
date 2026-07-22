@@ -397,15 +397,20 @@ rendered HTML; full configs were not extractable.
     which system components those hidden instructions can reach. (Verified: #402
     Claim 2 = LLMs process invisible Unicode; Claim 3 = encoding is invisible,
     bypasses validation, LLM-accessible.)
-  - `docs-langfuse-security-and-guardrails.md` — **Claim 8** (Lakera Guard catches
-    indirect injection) and **Claim 9** (guardrails must distinguish injection from
-    benign input but cannot do so perfectly) corroborate this source's Claim 9 (no
-    model or filter can reliably distinguish instructions from data) and Claim 8
-    (detection limitations — detectors are "imperfect heuristics"). The Langfuse
-    note provides quantitative data from guardrail vendors; this source provides
-    the architectural explanation for why perfect detection is impossible.
-    (Verified: Claim 8 = Lakera Guard catches indirect injection; Claim 9 = guardrails
-    can't perfectly distinguish injection from benign input.)
+  - `docs-langfuse-security-and-guardrails.md` — **Claim 5** (no single guardrail
+    library or approach catches all injection patterns — different tools have
+    different detection profiles) corroborates this source's Claim 8 (detectors are
+    "imperfect heuristics") and Claim 9 (no model or filter can reliably distinguish
+    instructions from data). **Claim 8** (Lakera Guard catches indirect injection
+    patterns that LLM Guard misses) provides empirical evidence for that imperfection.
+    **Claim 9** (multi-scanner stacking pattern: each scanner runs sequentially, scores
+    are logged independently, the pipeline fails if any single scanner rejects) is
+    the implementation response — stack multiple imperfect detectors so no single
+    heuristic is the sole gate. The Langfuse note provides evidence from guardrail
+    vendor comparisons; this source provides the architectural explanation for why
+    perfect detection is impossible. (Verified: Claim 5 = no single tool catches all
+    injection patterns; Claim 8 = Lakera catches indirect injection; Claim 9 =
+    multi-scanner stacking with fail-on-any rejection.)
   - `docs-google-sre-prodcast-05-06-ai-safety.md` — **Claim 1** (safety is "squishy
     and a continuum") and **Claim 5** (multi-layered defense architecture) provide
     the production safety engineering context for this source's defensive controls.
