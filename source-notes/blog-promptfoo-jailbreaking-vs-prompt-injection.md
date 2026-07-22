@@ -408,9 +408,13 @@ rendered HTML; full configs were not extractable.
     the implementation response — stack multiple imperfect detectors so no single
     heuristic is the sole gate. The Langfuse note provides evidence from guardrail
     vendor comparisons; this source provides the architectural explanation for why
-    perfect detection is impossible. (Verified: Claim 5 = no single tool catches all
-    injection patterns; Claim 8 = Lakera catches indirect injection; Claim 9 =
-    multi-scanner stacking with fail-on-any rejection.)
+    perfect detection is impossible. Notably, the multi-scanner stacking architecture
+    itself implicitly validates Willison's separation (Claim 2 of this note): the
+    Langfuse pipeline treats jailbreak detection and prompt-injection detection as
+    distinct scanner responsibilities with different detection profiles, exactly the
+    operational distinction this source argues for in its taxonomy. (Verified: Claim 5
+    = no single tool catches all injection patterns; Claim 8 = Lakera catches indirect
+    injection; Claim 9 = multi-scanner stacking with fail-on-any rejection.)
   - `docs-google-sre-prodcast-05-06-ai-safety.md` — **Claim 1** (safety is "squishy
     and a continuum") and **Claim 5** (multi-layered defense architecture) provide
     the production safety engineering context for this source's defensive controls.
@@ -418,6 +422,20 @@ rendered HTML; full configs were not extractable.
     what those layers look like in practice (system instructions, content-moderation
     filters, LLM-as-classifier, automated red teaming). The Prodcast note's Claim 5
     architecture is the production deployment of this source's Claim 8 principles.
+  - `blog-pagerduty-production-ai-agent-gaps.md` — **Claim 5** (AI agents are
+    highly susceptible to prompt injection, with reported rates in the 80-90%
+    range, citing Chang et al., 2026) provides quantitative evidence supporting
+    this source's Claim 11 (the rise of AI agents with system privileges makes
+    the jailbreaking-vs-injection distinction critical). The PagerDuty note
+    documents *how severe* the agent prompt-injection problem is quantitatively;
+    this source explains *why misclassification matters architecturally* — when
+    agents have system privileges, applying the wrong class of defenses (model-level
+    filtering for an application-layer injection attack) leaves critical gaps.
+    Together they make the case that the taxonomy distinction is not academic:
+    it directly determines which defenses get deployed and whether they actually
+    cover the attack surface. (Verified: PagerDuty note Claim 5 = 80-90% prompt
+    injection susceptibility; this note Claim 11 = agent privileges make jailbreaking-vs-injection
+    distinction critical.)
 
 - **Contradicts**: None identified. All claims in this source are either established
   taxonomy (Willison's jailbreaking vs injection distinction), real CVE case studies,
