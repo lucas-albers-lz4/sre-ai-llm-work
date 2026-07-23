@@ -30,13 +30,14 @@ See [`docs/MODEL-ROUTING.md`](docs/MODEL-ROUTING.md).
 | Worker | Model |
 |--------|-------|
 | Pre-screen / Prospector / site-crawl | DeepSeek Flash |
-| Miner | DeepSeek Flash (off-peak) + OpenRouter Nemotron free (peak-fill) |
+| Miner | DeepSeek Flash (off-peak). OpenRouter peak-fill disabled pending agent-reliable free model |
 | Assayer / Smith / Herald | DeepSeek Pro |
 
 Secrets: `DEEPSEEK_API_KEY`, `PROJECT_PAT`
 (classic `repo`+`project` — needed so `gh pr create` / issue filing triggers
-downstream workflows). `OPENROUTER_API_KEY` is required for Miner peak-fill
-(and optional Hy3 / Nemotron smoke). Claude OAuth is **not** required.
+downstream workflows). `OPENROUTER_API_KEY` is optional while Miner peak-fill
+cron is off (manual OpenRouter trials / Hy3 / Nemotron smoke). Claude OAuth is
+**not** required.
 
 ## Hard rules for local agents
 

@@ -73,15 +73,15 @@ pipeline does the rest.
 ### Trigger and model per workflow
 
 Canonical map: [`docs/MODEL-ROUTING.md`](../docs/MODEL-ROUTING.md).
-**DeepSeek** (Anthropic-compatible) for most agents; Miner **peak-fill** uses
-OpenRouter Nemotron free during DeepSeek surge windows.
+**DeepSeek** (Anthropic-compatible) for production agents. Miner OpenRouter
+peak-fill is **disabled** until a free model is agent-reliable.
 
 | Workflow file | Agent | Trigger | Model | Notes |
 |---------------|-------|---------|-------|-------|
 | `daily-scan.yml` | Site/feed scanners | Daily cron **12:02 UTC** + workflow_dispatch | DeepSeek Flash (`scan-sites.py`) | Uses `PROJECT_PAT` so filed issues trigger `source-pipeline.yml`; off-peak + `:02` offset |
 | `source-pipeline.yml` (pre-screen job) | Pre-screen | `issues:[opened, labeled]` with `new-source` / `source-submission` / `new-repo` / `new-failure` | DeepSeek Flash | Rejects obvious bad submissions (no URL, paywall, marketing, dupes) before the Prospector |
 | `source-pipeline.yml` (prospector job) | Prospector | After pre-screen passes (job dependency) | DeepSeek Flash | Triages into `triaged:text` / `triaged:repo` / `triaged:failure` / `feed-candidate` / `rejected`. Applies `mining-queued` for text and failure triages. Opens a feed-candidate PR if the source is a feed |
-| `miner-batch.yml` | Miner | Cron `:19` at `0,4,5,10–23` UTC (Flash) and `1–3,6–9` UTC (Nemotron) + `workflow_dispatch` (`backend=flash\|nemotron`) | Flash off-peak; `nvidia/nemotron-3-ultra-550b-a55b:free` peak-fill | Shared concurrency `miner-batch`. Needs `OPENROUTER_API_KEY` for peak-fill. Branch `miner/issue-N-r<run_id>` |
+| `miner-batch.yml` | Miner | Cron `:19` at `0,4,5,10–23` UTC (Flash only) + `workflow_dispatch` (`backend=flash\|nemotron`) | DeepSeek Flash | Peak-fill cron **disabled** (Nemotron Ultra free failed multi-turn Miner 2026-07-23). `backend=nemotron` is manual trial only. Branch `miner/issue-N-r<run_id>` |
 | `assayer.yml` | Assayer review | `pull_request:[opened, synchronize, reopened, labeled]` with `source-note` / `guide-update` / `feed-candidate` | DeepSeek Pro | Auto-merges `source-note` PRs on APPROVE. On REQUEST CHANGES for `guide-update` PRs, runs the auto-rework Smith one time (gated by `rework-attempted` label) |
 | `assayer.yml` (auto-rework Smith step) | Smith | Inside Assayer when guide-update PR fails review and `rework-attempted` is absent | DeepSeek Pro | Pushes a fix commit to the PR branch using `PROJECT_PAT` so the resulting `synchronize` event re-triggers Assayer |
 | `smith-on-source-merge.yml` | Smith (batch synthesis) | Twice-weekly cron — Sat **15:19 UTC** and Thu **00:02 UTC** + workflow_dispatch | DeepSeek Pro | Diff-aware synthesis since `smith-last-run` tag; opens `guide-update` PR when chapters change |
