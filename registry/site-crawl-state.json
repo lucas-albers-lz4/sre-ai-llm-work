@@ -642,24 +642,34 @@
         "filed_at": "2026-07-22T13:29:14.930777+00:00"
       },
       "https://sre.google/resources/book-update/the-evolving-sre-engagement-model/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:43:43.330146+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:43:43.330146+00:00",
+        "issue": 428,
+        "filed_at": "2026-07-23T13:33:42.426155+00:00"
       },
       "https://sre.google/resources/book-update/lessons-learned-from-other-industries/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:43:43.330147+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:43:43.330147+00:00",
+        "issue": 429,
+        "filed_at": "2026-07-23T13:33:44.407608+00:00"
       },
       "https://sre.google/books/building-secure-reliable-systems/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:43:43.330149+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:43:43.330149+00:00",
+        "issue": 430,
+        "filed_at": "2026-07-23T13:33:46.549010+00:00"
       },
       "https://sre.google/resources/practices-and-processes/infrastructure-change-management/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:43:43.330150+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:43:43.330150+00:00",
+        "issue": 431,
+        "filed_at": "2026-07-23T13:33:48.670388+00:00"
       },
       "https://sre.google/resources/practices-and-processes/slo-adoption-and-usage/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:43:43.330152+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:43:43.330152+00:00",
+        "issue": 432,
+        "filed_at": "2026-07-23T13:33:50.935435+00:00"
       },
       "https://sre.google/resources/practices-and-processes/training-site-reliability-engineers/": {
         "status": "pending",
@@ -1098,7 +1108,7 @@
         "screened_at": "2026-07-18T13:10:30.818325+00:00"
       }
     },
-    "last_scan": "2026-07-22T13:28:38.065771+00:00"
+    "last_scan": "2026-07-23T13:32:55.667200+00:00"
   },
   "opentelemetry": {
     "urls": {},
@@ -1287,16 +1297,22 @@
         "filed_at": "2026-07-22T13:29:20.176387+00:00"
       },
       "https://www.cncf.io/membership-hub/": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:52:53.813838+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:52:53.813838+00:00",
+        "issue": 433,
+        "filed_at": "2026-07-23T13:33:52.883706+00:00"
       },
       "https://www.cncf.io/kubertenes/": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:52:53.813840+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:52:53.813840+00:00",
+        "issue": 434,
+        "filed_at": "2026-07-23T13:33:54.934844+00:00"
       },
       "https://www.cncf.io/training/kubestronaut/kubestronaut-faq/": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:52:53.813842+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:52:53.813842+00:00",
+        "issue": 435,
+        "filed_at": "2026-07-23T13:33:56.931378+00:00"
       },
       "https://www.cncf.io/training/kubestronaut/": {
         "status": "pending",
@@ -2309,9 +2325,21 @@
       "https://www.cncf.io/blog/2026/06/17/why-cloud-native-belongs-at-the-heart-of-agentic-ai-lessons-from-building-a-multi-agent-security-platform-on-kubernetes": {
         "status": "pending",
         "screened_at": "2026-07-22T13:28:51.322897+00:00"
+      },
+      "https://www.cncf.io/blog/2026/07/23/sustaining-opentelemetry-what-a-10-week-contributor-cohort-actually-looks-like": {
+        "status": "pending",
+        "screened_at": "2026-07-23T13:33:19.884515+00:00"
+      },
+      "https://www.cncf.io/blog/2026/07/23/when-kubeflow-meets-cilium-debugging-60-idle-gpus-in-kubernetes": {
+        "status": "pending",
+        "screened_at": "2026-07-23T13:33:19.884533+00:00"
+      },
+      "https://www.cncf.io/blog/2026/07/23/the-future-of-ai-is-community-driven-and-open": {
+        "status": "pending",
+        "screened_at": "2026-07-23T13:33:19.884536+00:00"
       }
     },
-    "last_scan": "2026-07-22T13:28:51.322900+00:00"
+    "last_scan": "2026-07-23T13:33:19.884539+00:00"
   },
   "datadog-llm-obs": {
     "urls": {
@@ -2320,7 +2348,7 @@
         "screened_at": "2026-07-12T23:52:56.905756+00:00"
       }
     },
-    "last_scan": "2026-07-22T13:28:52.753932+00:00"
+    "last_scan": "2026-07-23T13:33:21.627843+00:00"
   },
   "langfuse-docs": {
     "urls": {
@@ -2441,9 +2469,15 @@
         "screened_at": "2026-07-12T23:53:08.149153+00:00",
         "issue": 351,
         "filed_at": "2026-07-19T13:03:05.094027+00:00"
+      },
+      "https://langfuse.com/docs/compatibility": {
+        "status": "filed",
+        "screened_at": "2026-07-23T13:33:26.128940+00:00",
+        "issue": 436,
+        "filed_at": "2026-07-23T13:33:58.953513+00:00"
       }
     },
-    "last_scan": "2026-07-22T13:28:54.102538+00:00"
+    "last_scan": "2026-07-23T13:33:26.128961+00:00"
   },
   "litellm-docs": {
     "urls": {
@@ -2644,16 +2678,22 @@
         "filed_at": "2026-07-22T13:29:25.768586+00:00"
       },
       "https://docs.litellm.ai/blog/gpt_5_6": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:14:36.852386+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:14:36.852386+00:00",
+        "issue": 437,
+        "filed_at": "2026-07-23T13:34:00.952655+00:00"
       },
       "https://docs.litellm.ai/blog/guardrail-logging-secret-exposure-incident": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:14:36.852388+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:14:36.852388+00:00",
+        "issue": 438,
+        "filed_at": "2026-07-23T13:34:02.947678+00:00"
       },
       "https://docs.litellm.ai/blog/headroom-integration": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:14:36.852389+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:14:36.852389+00:00",
+        "issue": 439,
+        "filed_at": "2026-07-23T13:34:04.922054+00:00"
       },
       "https://docs.litellm.ai/blog/host-header-auth-bypass": {
         "status": "pending",
@@ -3450,9 +3490,21 @@
       "https://docs.litellm.ai/docs/completion/drop_params": {
         "status": "pending",
         "screened_at": "2026-07-22T13:29:01.340308+00:00"
+      },
+      "https://docs.litellm.ai/docs/completion/function_call": {
+        "status": "pending",
+        "screened_at": "2026-07-23T13:33:35.237383+00:00"
+      },
+      "https://docs.litellm.ai/docs/completion/http_handler_config": {
+        "status": "pending",
+        "screened_at": "2026-07-23T13:33:35.237400+00:00"
+      },
+      "https://docs.litellm.ai/docs/completion/image_generation_chat": {
+        "status": "pending",
+        "screened_at": "2026-07-23T13:33:35.237403+00:00"
       }
     },
-    "last_scan": "2026-07-22T13:29:01.340311+00:00"
+    "last_scan": "2026-07-23T13:33:35.237405+00:00"
   },
   "promptfoo-docs": {
     "urls": {
@@ -3649,16 +3701,22 @@
         "filed_at": "2026-07-22T13:29:31.293897+00:00"
       },
       "https://www.promptfoo.dev/blog/lethal-trifecta-testing/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:15:01.445400+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:15:01.445400+00:00",
+        "issue": 440,
+        "filed_at": "2026-07-23T13:34:06.875194+00:00"
       },
       "https://www.promptfoo.dev/blog/llm-agent-red-teaming-plugins/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:15:01.445402+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:15:01.445402+00:00",
+        "issue": 441,
+        "filed_at": "2026-07-23T13:34:08.857695+00:00"
       },
       "https://www.promptfoo.dev/blog/llm-fuzzing/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:15:01.445404+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:15:01.445404+00:00",
+        "issue": 442,
+        "filed_at": "2026-07-23T13:34:10.762595+00:00"
       },
       "https://www.promptfoo.dev/blog/llm-search-rubric-assertions/": {
         "status": "pending",
@@ -4459,8 +4517,20 @@
       "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/max-score": {
         "status": "pending",
         "screened_at": "2026-07-22T13:29:05.841848+00:00"
+      },
+      "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/model-graded-closedqa": {
+        "status": "pending",
+        "screened_at": "2026-07-23T13:33:41.103966+00:00"
+      },
+      "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/pi": {
+        "status": "pending",
+        "screened_at": "2026-07-23T13:33:41.103983+00:00"
+      },
+      "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/search-rubric": {
+        "status": "pending",
+        "screened_at": "2026-07-23T13:33:41.103986+00:00"
       }
     },
-    "last_scan": "2026-07-22T13:29:05.841851+00:00"
+    "last_scan": "2026-07-23T13:33:41.103989+00:00"
   }
 }
