@@ -292,8 +292,190 @@ credential or release path
 **Rule**: Isolate CI/CD stages by blast radius. A release should be
 verifiable independently of any single credential that touched the build.
 
+## Gateway proxy performance
+
+### BaseHTTPMiddleware creates 7 objects per request — even on no-ops
+
+Starlette's `BaseHTTPMiddleware` allocates seven intermediate objects and tasks
+per request even for a pure passthrough: Request Wrapping (`_CachedRequest`),
+Sync Event (`anyio.Event()`), Memory Stream (`create_memory_object_stream()`),
+Task Group (`create_task_group()`), Background Task (`task_group.start_soon(coro)`),
+Nested Task Group (`receive_or_disconnect()`), and Response Wrapping
+(`_StreamingResponse`). This is a structural property of Starlette, not a
+measurement artifact
+[source: blog-litellm-fastapi-middleware-performance, Claim 1] [settled].
+
+> On every request, even a pure passthrough (meaning nothing happens),
+> BaseHTTPMiddleware creates 7 intermediate objects and tasks.
+
+**Rule**: Audit every `BaseHTTPMiddleware` subclass in your gateway proxy. For
+middleware that acts on a tiny fraction of traffic (e.g., auth on `/metrics`
+only), the per-request overhead is paid by every request — not just the ones
+the middleware actually services.
+
+### Replace narrow-purpose BaseHTTPMiddleware with pure ASGI
+
+LiteLLM replaced a single `PrometheusAuthMiddleware` (a `BaseHTTPMiddleware`
+subclass that only authenticated the `/metrics` endpoint — ~0.1% of requests)
+with a pure ASGI middleware. The pure ASGI path checks `scope["type"]` and the
+request path, then delegates directly with `await self.app(scope, receive, send)`
+— two steps, zero allocations. Result: **+74% throughput** and **-38% median
+latency** (Apache Bench: 50K requests, 1K concurrent, 1 worker)
+[source: blog-litellm-fastapi-middleware-performance, Claim 2, Claim 3] [settled].
+
+Before:
+```python
+class PrometheusAuthMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        if self._is_prometheus_metrics_endpoint(request):
+            if self._should_run_auth_on_metrics_endpoint() is True:
+                try:
+                    await user_api_key_auth(request=request, api_key=...)
+                except Exception as e:
+                    return JSONResponse(status_code=401, content=...)
+        response = await call_next(request)
+        return response
+```
+
+After:
+```python
+class PrometheusAuthMiddleware:
+    def __init__(self, app: ASGIApp) -> None:
+        self.app = app
+
+    async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
+        if scope["type"] != "http" or "/metrics" not in scope.get("path", ""):
+            await self.app(scope, receive, send)
+            return
+        if litellm.require_auth_for_metrics_endpoint is True:
+            request = Request(scope, receive)
+            api_key = request.headers.get("Authorization") or ""
+            try:
+                await user_api_key_auth(request=request, api_key=api_key)
+            except Exception as e:
+                # send 401 directly via ASGI protocol
+                ...
+```
+*Before/after code from [source: blog-litellm-fastapi-middleware-performance, Concrete Artifacts].*
+
+The key technique: short-circuit on the common path before doing any work. For
+the 99.9% of requests not hitting `/metrics`, the middleware is "one dict lookup,
+one string check, and one function call. No objects allocated, no tasks spawned"
+[source: blog-litellm-fastapi-middleware-performance, Claim 5] [settled].
+
+LiteLLM also added a static analysis check to prevent `BaseHTTPMiddleware`
+subclasses from being re-introduced for simple use cases
+[source: blog-litellm-fastapi-middleware-performance, Claim 6] [emerging].
+
+**Rule**: For any middleware that only acts on a small fraction of requests,
+rewrite as a pure ASGI middleware with an early-return short-circuit. The
+`BaseHTTPMiddleware` overhead is not amortized — it's paid by every request
+regardless of whether the middleware needs to act. Add a static analysis check
+to prevent regression.
+
+## Cross-provider model enablement
+
+### Bedrock invocation patterns are model-specific, not provider-level
+
+Not all Claude models on Bedrock use the same invocation pattern. Fable 5
+requires an inference-profile prefix (`bedrock/converse/us.anthropic.claude-fable-5`),
+but Opus 4.7 and Opus 4.8 accept direct model IDs
+(`bedrock/anthropic.claude-opus-4-8`)
+[source: blog-litellm-claude-opus-4-7-day-0, Claim 3] [settled]
+[source: blog-litellm-claude-opus-4-8-day-0, Claim 6] [settled].
+
+The inference-profile requirement was introduced sometime between Opus 4.7
+(April 2026) and Fable 5 (June 2026). Gateway operators standardizing on Bedrock
+should check each model individually rather than assuming a consistent
+invocation pattern.
+
+**Rule**: Document per-model Bedrock invocation requirements before enabling a
+new model. A config template that works for one model may fail with a validation
+error on another.
+
+### Parameter mapping is provider-specific, not uniform
+
+The `reasoning_effort` parameter maps differently across providers. On Claude
+models, it maps to `thinking: {type: "adaptive"}`. On Gemini 3+ models, it
+maps to `thinkingLevel` with `minimal`/`low`/`medium`/`high` values — a
+different target field with a different value set
+[source: blog-litellm-gemini-3-flash-day-0, Claim 3] [settled].
+
+A gateway operator normalizing across providers cannot assume the same
+`reasoning_effort` value set works on every backend. Gemini 3.5 Flash only
+documents a single `minimal` value, while Claude Opus models support a five-rung
+ladder (low/medium/high/xhigh/max).
+
+**Rule**: Test parameter mapping on each provider backend independently. A
+`reasoning_effort` value valid on Anthropic may map to a no-op or error on
+Gemini. Multi-provider parameter normalization is specific to each model and
+provider pair.
+
+### Google's sampling parameter deprecation
+
+Google recommends moving away from `temperature`, `top_p`, and `top_k` for
+Gemini 3.5+ models, favoring system-instruction-based sampling instead. These
+parameters still function but may be removed in a future API release. LiteLLM
+emits deprecation warnings when they are passed on Gemini 3+ models
+[source: blog-litellm-gemini-3-5-flash-day-0, Claim 5] [emerging].
+
+This is a paradigm shift: temperature/top_p/top_k are the standard sampling
+knobs across every major LLM provider. Multi-provider routing code that passes
+`temperature` unconditionally will produce deprecation warnings today and may
+produce errors in a future API release.
+
+**Rule**: Grep gateway logs for deprecation warnings on Gemini 3+ traffic to
+identify which workloads depend on sampling parameters. Plan to migrate
+sampling control to system instructions before the parameters are removed.
+
+### Mid-task system messages preserve prompt cache
+
+Claude Opus 4.8's Messages API accepts `system` entries inside the `messages`
+array, enabling mid-run instruction updates without breaking the prompt cache.
+Previously, system messages were a top-level parameter, and changing them
+mid-conversation required a new request whose cache prefix would differ.
+The new approach keeps the preceding conversation in cache while the agent
+inserts updated instructions as another message
+[source: blog-litellm-claude-opus-4-8-day-0, Claim 2] [emerging].
+
+> The Messages API now accepts system entries inside the messages array, so an
+> agent can update its instructions, permissions, or token budget mid-run without
+> breaking the prompt cache, and it flows straight through LiteLLM's /v1/messages
+> passthrough.
+
+**Rule**: For multi-turn agentic workloads, use `system` entries inside the
+`messages` array rather than the top-level `system` parameter when instructions
+may change mid-conversation. This preserves the prompt cache across instruction
+updates.
+
+## Gateway security hardening
+
+### SQL injection in the auth path
+
+A SQL injection vulnerability (CVE-2026-42208, CVSS 9.3 Critical) existed in
+LiteLLM's proxy API key validation path: a non-parameterized database query
+mixed the caller-supplied key value into the query text. The injection was
+reachable through the error-handling path — an unauthenticated attacker could
+send a specially crafted `Authorization` header to any LLM API route
+(e.g., `POST /chat/completions`) and reach the query through the proxy's error
+handler [source: failure-litellm-proxy-sql-injection-cve-2026-42208,
+Concrete Artifacts] [settled].
+
+This is the first documented critical-severity SQL injection in LLM gateway
+infrastructure. The error-handling-path attack surface is especially subtle:
+audit tools focused on happy-path code would miss it.
+
+**Rule**: Audit every database query in your LLM gateway's auth path for
+parameterization. The error-handling path is part of the attack surface —
+malformed tokens, invalid payloads, and authentication failures all reach
+gateway code that may construct queries from untrusted input. The proxy's
+database user should use a read-only role scoped to the minimum tables needed.
+
 ---
 *Sources for this chapter: blog-litellm-april-townhall-updates,
 blog-litellm-claude-fable-5-day-0, blog-litellm-agents-are-the-new-llms,
-failure-litellm-wildcard-model-access-desync, blog-promptfoo-asr-not-portable-metric*
-*Last updated: 2026-07-15*
+failure-litellm-wildcard-model-access-desync, blog-promptfoo-asr-not-portable-metric,
+blog-litellm-fastapi-middleware-performance, blog-litellm-claude-opus-4-7-day-0,
+blog-litellm-claude-opus-4-8-day-0, blog-litellm-gemini-3-5-flash-day-0,
+blog-litellm-gemini-3-flash-day-0, failure-litellm-proxy-sql-injection-cve-2026-42208*
+*Last updated: 2026-07-23*
