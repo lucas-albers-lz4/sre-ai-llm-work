@@ -1,0 +1,37 @@
+name: Nemotron OpenRouter Smoke Test
+
+# Verifies claude-code-action + OpenRouter + Nemotron 3 Ultra free before
+# relying on miner-batch.yml peak-fill cron. Same auth pattern as Hy3 smoke.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Configure OpenRouter Nemotron for Claude Code
+        uses: ./.github/actions/configure-openrouter-hy3
+        with:
+          api_key: ${{ secrets.OPENROUTER_API_KEY }}
+          model: nvidia/nemotron-3-ultra-550b-a55b:free
+
+      - name: Run Nemotron with a trivial prompt
+        uses: anthropics/claude-code-action@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          anthropic_api_key: ${{ secrets.OPENROUTER_API_KEY }}
+          prompt: |
+            Print exactly one line: "nemotron smoke test ok".
+            Do not edit any files. Do not run any tools beyond what
+            is needed to print that line. Then exit.
+          claude_args: |
+            --model nvidia/nemotron-3-ultra-550b-a55b:free
+            --max-turns 2
+            --allowedTools "Bash(*)"

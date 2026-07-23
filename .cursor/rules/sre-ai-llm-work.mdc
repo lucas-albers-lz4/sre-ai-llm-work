@@ -25,7 +25,8 @@ context: [`AGENTS.md`](AGENTS.md).
 
 ## MVP models
 
-- Triage/crawl/Miner: DeepSeek Flash (Miner cron off-peak only)
+- Triage/crawl: DeepSeek Flash
+- Miner: DeepSeek Flash (off-peak) + OpenRouter Nemotron free (peak-fill)
 - Assayer/Smith: DeepSeek Pro
 - Details: `docs/MODEL-ROUTING.md`
 

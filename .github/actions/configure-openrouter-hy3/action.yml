@@ -1,7 +1,9 @@
-name: Configure OpenRouter Hy3 for Claude Code
+name: Configure OpenRouter for Claude Code
 description: >
   Point Claude Code / claude-code-action at OpenRouter's Anthropic-compatible
-  API with Tencent Hy3 (free). Requires OPENROUTER_API_KEY secret.
+  API. Default model is Tencent Hy3 (free) for historical eval workflows;
+  pass model= for Miner peak-fill (e.g. nvidia/nemotron-3-ultra-550b-a55b:free).
+  Requires OPENROUTER_API_KEY secret.
 
 inputs:
   api_key:
