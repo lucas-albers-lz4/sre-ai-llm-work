@@ -12,7 +12,8 @@ alwaysApply: false
   PRs or trigger downstream workflows.
 - Route models via composite actions:
   - DeepSeek → `.github/actions/configure-deepseek` (production path)
-  - Hy3 → `.github/actions/configure-openrouter-hy3` (optional eval only)
+  - OpenRouter → `.github/actions/configure-openrouter-hy3` (Miner peak-fill
+    Nemotron free; optional Hy3 eval — pass `model:` input)
 - Pass the matching secret as `anthropic_api_key` on `claude-code-action`.
 - Assayer is also dispatched explicitly after Miner (`gh workflow run assayer.yml`)
   because `pull_request` webhooks are rate-limited.
