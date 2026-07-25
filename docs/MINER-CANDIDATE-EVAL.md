@@ -65,7 +65,7 @@ As of 2026-07-25, `qwen/qwen3-coder:free` is **not** listed.
 
 | # | Model | Smoke | #1 | #2 | #3 | #4 | Live | Notes / decision |
 |---|-------|-------|----|----|----|----|------|------------------|
-| 1 | `poolside/laguna-m.1:free` | | | | | | | |
+| 1 | `poolside/laguna-m.1:free` | pass ([run](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30164857692)) | running | | | | | |
 | 2 | `poolside/laguna-xs-2.1:free` (or `laguna-s-2.1:free`) | | | | | | | |
 | 3 | `cohere/north-mini-code:free` | | | | | | | |
 
