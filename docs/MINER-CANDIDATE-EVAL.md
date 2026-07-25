@@ -97,7 +97,7 @@ Claude Code + `configure-opencode-zen` (Messages). Eval uses
 
 | Model | Agent signals (indicative) | Verdict |
 |-------|----------------------------|---------|
-| `nemotron-3-ultra-free` | Terminal-Bench 56.4; Toolathlon 34.3; prior OpenRouter Miner fail | **Excluded** |
+| `nemotron-3-ultra-free` | Terminal-Bench 56.4; Toolathlon 34.3; prior OpenRouter Miner fail | Late trial on OpenCode Action |
 | `mimo-v2.5-free` | MiMo V2.5 family agent/coding-first | Try first |
 | `ling-3.0-flash-free` | InclusionAI agent MoE; vendor SWE ~72 multilingual | Try second |
 | `laguna-s-2.1-free` | Terminal-Bench 70.2; Toolathlon 49.7; stronger than M.1 | Try third (hang → abort) |
@@ -112,12 +112,12 @@ gh workflow run miner-zen-free-eval.yml -f model=mimo-v2.5-free -f issue_number=
 | 1 | `mimo-v2.5-free` | pass ([run](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30167553119)) | [PR #492](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/492) **REQUEST CHANGES** (cross-refs) | — | — | — | — | Fail-fast after #1; proceed to Ling |
 | 2 | `ling-3.0-flash-free` | pass ([run](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30168573200)) | [PR #493](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/493) **REQUEST CHANGES** | — | — | — | — | Fail-fast after #1; proceed to Laguna S |
 | 3 | `laguna-s-2.1-free` | pass ([run](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30168739432)) | [PR #494](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/494) **REQUEST CHANGES** | — | — | — | — | Completed in ~5m (no hang); Assayer still REQUEST CHANGES |
+| 4 | `nemotron-3-ultra-free` | | | | | | | Late trial (different runner than OpenRouter Claude Code fail) |
 
-**Wave C decision (2026-07-25):** All three Zen free chat-completions candidates
-failed Assayer on golden #1 (REQUEST CHANGES). None cleared the bar to continue
-#2–#4. **Nemotron Ultra free remains excluded.** Prefer Wave B Zen
-`qwen3.5-plus` (Messages, Claude Code, 3/4 golden APPROVE) as the cost
-candidate; keep off-peak Flash for production until live trial.
+**Wave C decision (2026-07-25):** First three Zen free chat-completions candidates
+failed Assayer on golden #1 (REQUEST CHANGES). Late trial: `nemotron-3-ultra-free`
+via OpenCode Action (retest despite OpenRouter fail). Prefer Wave B Zen
+`qwen3.5-plus` unless Nemotron clears golden.
 
 If all three fail the Assayer bar, stay on off-peak Flash + Zen `qwen3.5-plus`
 (Wave B) as the peak-fill candidate.

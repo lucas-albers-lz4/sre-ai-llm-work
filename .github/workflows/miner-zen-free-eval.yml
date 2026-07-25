@@ -12,8 +12,9 @@ name: Miner Zen Free Eval
 # wall time after the OpenCode step starts, cancel and mark fail (Laguna M.1
 # lesson: smoke ≠ multi-turn Miner). Prefer cancelling hung runs early.
 #
-# Models: mimo-v2.5-free → ling-3.0-flash-free → laguna-s-2.1-free.
-# Excluded: nemotron-3-ultra-free.
+# Models: mimo-v2.5-free → ling-3.0-flash-free → laguna-s-2.1-free;
+# plus late trial nemotron-3-ultra-free (OpenRouter Claude Code path failed;
+# Zen OpenCode Action is a different runner).
 # See docs/MINER-CANDIDATE-EVAL.md Wave C.
 
 on:
@@ -26,6 +27,7 @@ on:
           - mimo-v2.5-free
           - ling-3.0-flash-free
           - laguna-s-2.1-free
+          - nemotron-3-ultra-free
         default: mimo-v2.5-free
       issue_number:
         description: 'Source issue number to re-mine (e.g. 1–4 for golden set)'
