@@ -86,7 +86,9 @@ Only `/v1/messages` models. Requires `OPENCODE_ZEN_API_KEY`.
 | 2 | `qwen3.7-plus` | | | | | | | not needed yet — 3.5-plus leading |
 | 3 | `claude-haiku-4.5` (fallback) | | | | | | | |
 
-**Wave B interim decision (2026-07-25):** `qwen3.5-plus` on OpenCode Zen is the leading Miner cost candidate (3/4 golden Assayer APPROVE; ~5–7 min/extraction vs Laguna free hang). Assayer auto-merge now skips `miner-eval`. Keep off-peak Flash production until live trial clears.
+**Wave B interim decision (2026-07-25):** `qwen3.5-plus` cleared golden (3/4)
+but live trial never ran (empty queue). **Final:** park it; stay on Flash
+(see Final decision below). Assayer auto-merge now skips `miner-eval`.
 
 ### Wave C — Zen free chat-completions (OpenCode Action runner)
 
@@ -118,10 +120,33 @@ gh workflow run miner-zen-free-eval.yml -f model=mimo-v2.5-free -f issue_number=
 failed to clear a clean golden #1 Assayer gate. MiMo/Ling/Laguna S:
 REQUEST CHANGES on first review. Nemotron: stream error mid-run + first Assayer
 REQUEST CHANGES (cross-refs), then Assayer re-review APPROVE without note changes
-(non-deterministic). Prefer Wave B Zen `qwen3.5-plus` (Messages, Claude Code,
-3/4 golden APPROVE) as the cost candidate; keep off-peak Flash for production
-until live trial. Stay on off-peak Flash + Zen `qwen3.5-plus` as peak-fill
-candidate.
+(non-deterministic).
+
+## Final decision (2026-07-25)
+
+**Stay on DeepSeek V4 Flash** for production Miner (off-peak cron). Peak-fill
+cron remains **off**. No candidate cleared smoke + golden + live Assayer with
+a clean cost win over Flash.
+
+- Free OpenRouter / Zen free: multi-turn fail or Assayer fail on #1
+- Zen `qwen3.5-plus`: 3/4 golden APPROVE but **live trial never run** (empty
+  queue); parked as optional future peak-fill only if we revisit cost
+- Assayer/Smith/Herald stay on DeepSeek V4 Pro (unchanged)
+
+Scorecard detail above; routing: [`MODEL-ROUTING.md`](MODEL-ROUTING.md).
+Related decision history: [#328](https://github.com/lucas-albers-lz4/sre-ai-llm-work/issues/328).
+
+### Gaps vs original plan (accepted / deferred)
+
+| Item | Status |
+|------|--------|
+| Wave A `qwen/qwen3-coder:free` | Not in live OpenRouter catalog (2026-07-25) |
+| Wave A `north-mini-code` golden | Smoke only; golden deferred after Laguna hang |
+| Wave B `qwen3.7-plus` / `claude-haiku-4.5` | Not run — 3.5-plus already cleared golden; staying on Flash |
+| Live `mining-queued` trial (any candidate) | Never ran — queue empty; not required once staying on Flash |
+| $/note Flash vs Zen/OpenRouter comparison | **Not recorded** (optional follow-up if revisiting peak-fill) |
+| Peak cron re-enable | Correctly not done |
+| Assayer skip-merge for `miner-eval` | Done (PR #488 leak fixed) |
 
 ## Decision rules
 

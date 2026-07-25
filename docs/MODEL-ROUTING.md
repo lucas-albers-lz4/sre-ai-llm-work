@@ -2,11 +2,13 @@
 
 Agent workflows use `anthropics/claude-code-action` (and the Claude Code CLI)
 routed to **DeepSeek's Anthropic-compatible API** via
-`.github/actions/configure-deepseek`. OpenRouter peak-fill wiring remains in
-`miner-batch.yml` / `configure-openrouter-hy3` but the **peak cron is
-disabled** until a candidate model proves agent-reliable under Miner tool
-use. Current candidate: OpenCode Zen `qwen3.7-plus` via
-`configure-opencode-zen` (`backend=zen`, manual trials only).
+`.github/actions/configure-deepseek`. OpenRouter / Zen peak-fill wiring remains
+in `miner-batch.yml` for **manual trials only**. The **peak cron is disabled**.
+**2026-07-25 candidate eval concluded:** keep production Miner on off-peak
+**DeepSeek V4 Flash** — no free/cheap substitute cleared smoke + golden + live
+Assayer. Optional parked candidate (not production): Zen `qwen3.5-plus`
+(3/4 golden APPROVE; live trial never run). See
+[`docs/MINER-CANDIDATE-EVAL.md`](MINER-CANDIDATE-EVAL.md).
 
 ```text
 # Default (DeepSeek)
@@ -32,7 +34,7 @@ ANTHROPIC_API_KEY = OPENCODE_ZEN_API_KEY
 |--------|-------|-------|
 | Pre-screen / Prospector / Scribe / Site-crawl | `deepseek-v4-flash` | Volume / cheap triage |
 | **Miner** | `deepseek-v4-flash` | Direct DeepSeek API; off-peak cron `0,4,5,10–23` UTC |
-| **Miner peak-fill** | — | **Disabled** (2026-07-23). Nemotron Ultra free failed multi-turn Miner (empty/malformed HTTP 200). Manual `backend=nemotron` only for experiments. Current candidate: OpenCode Zen `qwen3.7-plus` via `backend=zen` (see below) |
+| **Miner peak-fill** | — | **Disabled**. 2026-07-25 eval: stay Flash. Manual `backend=openrouter\|zen\|nemotron` for experiments only. Parked (not production): Zen `qwen3.5-plus` |
 | Assayer / Smith / Herald / Contradiction | `deepseek-v4-pro[1m]` | Heavier review & synthesis |
 
 Site-crawl (`scripts/scan-sites.py`) calls the same Anthropic-compatible
@@ -85,11 +87,9 @@ gh workflow run nemotron-smoke-test.yml   # or a model-specific smoke
 gh workflow run miner-batch.yml -f backend=nemotron  # single manual trial
 ```
 
-**Current candidate program (2026-07-25):** Miner-only cost eval across
-OpenRouter free, Zen Messages (`qwen3.5-plus` leading), and Zen free
-chat-completions via OpenCode Action. See
-[`docs/MINER-CANDIDATE-EVAL.md`](MINER-CANDIDATE-EVAL.md). Production Miner
-stays on off-peak Flash until a candidate clears smoke + golden + live Assayer.
+**Current candidate program (2026-07-25) — concluded:** Stay on off-peak Flash.
+Waves A–C scorecard in [`docs/MINER-CANDIDATE-EVAL.md`](MINER-CANDIDATE-EVAL.md).
+Peak cron stays off. Harness remains for future catalog retries:
 
 ```bash
 gh workflow run miner-candidate-smoke.yml -f backend=zen -f model=qwen3.5-plus
@@ -101,10 +101,10 @@ gh workflow run miner-zen-free-eval.yml -f model=mimo-v2.5-free -f issue_number=
 Requires `OPENROUTER_API_KEY` (Wave A) and/or `OPENCODE_ZEN_API_KEY` (Wave B
 Messages + Wave C OpenCode Action). Zen `/v1/messages` for Claude Code
 (qwen3.5/3.6/3.7 plus/max, claude-*); Zen free chat-completions use
-`anomalyco/opencode/github` (Wave C). `nemotron-3-ultra-free` excluded.
+`anomalyco/opencode/github` (Wave C).
 
 Same re-enable bar as any candidate: a full source-note extraction that
-passes Assayer, not just smoke.
+passes Assayer, not just smoke — plus a live `mining-queued` trial.
 
 ## Hy3 note (historical)
 
