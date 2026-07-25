@@ -17,6 +17,7 @@ on:
           - ling-3.0-flash-free
           - laguna-s-2.1-free
           - nemotron-3-ultra-free
+          - deepseek-v4-flash-free
         default: mimo-v2.5-free
 
 permissions:

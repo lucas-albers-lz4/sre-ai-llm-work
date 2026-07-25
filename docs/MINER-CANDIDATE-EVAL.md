@@ -102,7 +102,8 @@ Claude Code + `configure-opencode-zen` (Messages). Eval uses
 | `nemotron-3-ultra-free` | Terminal-Bench 56.4; Toolathlon 34.3; prior OpenRouter Miner fail | Tried — fail (REQUEST CHANGES + stream error) |
 | `mimo-v2.5-free` | MiMo V2.5 family agent/coding-first | Try first |
 | `ling-3.0-flash-free` | InclusionAI agent MoE; vendor SWE ~72 multilingual | Try second |
-| `laguna-s-2.1-free` | Terminal-Bench 70.2; Toolathlon 49.7; stronger than M.1 | Try third (hang → abort) |
+| `laguna-s-2.1-free` | Terminal-Bench 70.2; Toolathlon 49.7; stronger than M.1 | Tried — fail (REQUEST CHANGES) |
+| `deepseek-v4-flash-free` | Same family as production Miner Flash; Zen free chat-completions | Late trial — A/B vs direct Flash |
 
 ```bash
 gh workflow run miner-zen-free-smoke.yml -f model=mimo-v2.5-free
@@ -115,12 +116,13 @@ gh workflow run miner-zen-free-eval.yml -f model=mimo-v2.5-free -f issue_number=
 | 2 | `ling-3.0-flash-free` | pass ([run](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30168573200)) | [PR #493](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/493) **REQUEST CHANGES** | — | — | — | — | Fail-fast after #1; proceed to Laguna S |
 | 3 | `laguna-s-2.1-free` | pass ([run](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30168739432)) | [PR #494](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/494) **REQUEST CHANGES** | — | — | — | — | Completed in ~5m (no hang); Assayer still REQUEST CHANGES |
 | 4 | `nemotron-3-ultra-free` | pass ([run](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30171998659)) | [PR #495](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/495) first Assayer **REQUEST CHANGES** (cross-refs); re-review **APPROVE** (same note, no Miner fix) | — | — | — | — | Eval job stream-failed after push; PR salvaged. Fail-fast: do not continue #2–#4 (Assayer variance + stream fragility; peers failed cross-refs cleanly) |
+| 5 | `deepseek-v4-flash-free` | | | | | | | Late trial: same model family as production Flash via Zen free OpenCode Action |
 
-**Wave C decision (2026-07-25):** All four Zen free chat-completions candidates
-failed to clear a clean golden #1 Assayer gate. MiMo/Ling/Laguna S:
-REQUEST CHANGES on first review. Nemotron: stream error mid-run + first Assayer
-REQUEST CHANGES (cross-refs), then Assayer re-review APPROVE without note changes
-(non-deterministic).
+**Wave C decision (2026-07-25):** First four Zen free chat-completions candidates
+failed to clear a clean golden #1 Assayer gate (cross-refs). Late trial:
+`deepseek-v4-flash-free` — if this also fails cross-refs, the gap is runner/prompt
+discovery rather than model family; if it passes, free Zen Flash is a peak-fill
+candidate against direct paid Flash.
 
 ## Final decision (2026-07-25)
 
