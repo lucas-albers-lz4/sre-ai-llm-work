@@ -1,0 +1,50 @@
+name: Miner Zen Free Smoke Test
+
+# 1-turn auth/routing check for Zen free chat-completions models via
+# OpenCode's native GitHub Action (NOT Claude Code — these models are
+# /v1/chat/completions only). See docs/MINER-CANDIDATE-EVAL.md Wave C.
+#
+# Excluded: nemotron-3-ultra-free (weak tool benches + empirical Miner fail).
+
+on:
+  workflow_dispatch:
+    inputs:
+      model:
+        description: 'Zen free model id (chat-completions)'
+        type: choice
+        options:
+          - mimo-v2.5-free
+          - ling-3.0-flash-free
+          - laguna-s-2.1-free
+        default: mimo-v2.5-free
+
+permissions:
+  contents: read
+  id-token: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - name: Run OpenCode Zen free model smoke
+        uses: anomalyco/opencode/github@latest
+        env:
+          OPENCODE_API_KEY: ${{ secrets.OPENCODE_ZEN_API_KEY }}
+          OPENCODE_ZEN_API_KEY: ${{ secrets.OPENCODE_ZEN_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          model: opencode/${{ inputs.model }}
+          use_github_token: true
+          share: false
+          prompt: |
+            Print exactly one line: "miner zen free smoke test ok".
+            Do not edit any files. Do not open PRs or issues.
+            Do not run any tools beyond what is needed to print that line.
+            Then exit.

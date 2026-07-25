@@ -86,21 +86,22 @@ gh workflow run miner-batch.yml -f backend=nemotron  # single manual trial
 ```
 
 **Current candidate program (2026-07-25):** Miner-only cost eval across
-OpenRouter free coding models and OpenCode Zen Messages models. See
-[`docs/MINER-CANDIDATE-EVAL.md`](MINER-CANDIDATE-EVAL.md) for ladder,
-pass bar, and scorecard. Production Miner stays on off-peak Flash until a
-candidate clears smoke + golden + live Assayer.
+OpenRouter free, Zen Messages (`qwen3.5-plus` leading), and Zen free
+chat-completions via OpenCode Action. See
+[`docs/MINER-CANDIDATE-EVAL.md`](MINER-CANDIDATE-EVAL.md). Production Miner
+stays on off-peak Flash until a candidate clears smoke + golden + live Assayer.
 
 ```bash
-gh workflow run miner-candidate-smoke.yml -f backend=openrouter -f model=poolside/laguna-m.1:free
-gh workflow run miner-candidate-eval.yml -f backend=openrouter -f model=poolside/laguna-m.1:free -f issue_number=1
-gh workflow run miner-batch.yml -f backend=openrouter -f model=poolside/laguna-m.1:free
 gh workflow run miner-candidate-smoke.yml -f backend=zen -f model=qwen3.5-plus
+gh workflow run miner-batch.yml -f backend=zen -f model=qwen3.5-plus
+gh workflow run miner-zen-free-smoke.yml -f model=mimo-v2.5-free
+gh workflow run miner-zen-free-eval.yml -f model=mimo-v2.5-free -f issue_number=1
 ```
 
-Requires `OPENROUTER_API_KEY` (Wave A) and/or `OPENCODE_ZEN_API_KEY` (Wave B).
-Zen `/v1/messages` only for Claude Code (qwen3.5/3.6/3.7 plus/max, claude-*);
-Zen chat-completions free tier is Wave C (proxy) later.
+Requires `OPENROUTER_API_KEY` (Wave A) and/or `OPENCODE_ZEN_API_KEY` (Wave B
+Messages + Wave C OpenCode Action). Zen `/v1/messages` for Claude Code
+(qwen3.5/3.6/3.7 plus/max, claude-*); Zen free chat-completions use
+`anomalyco/opencode/github` (Wave C). `nemotron-3-ultra-free` excluded.
 
 Same re-enable bar as any candidate: a full source-note extraction that
 passes Assayer, not just smoke.

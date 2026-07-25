@@ -33,10 +33,13 @@ gh workflow run miner-candidate-smoke.yml \
   -f backend=openrouter -f model=poolside/laguna-m.1:free
 gh workflow run miner-candidate-smoke.yml \
   -f backend=zen -f model=qwen3.5-plus
+gh workflow run miner-zen-free-smoke.yml -f model=mimo-v2.5-free
 
 # Golden-set eval (repeat issue_number=1..4)
 gh workflow run miner-candidate-eval.yml \
   -f backend=openrouter -f model=poolside/laguna-m.1:free -f issue_number=1
+gh workflow run miner-zen-free-eval.yml \
+  -f model=mimo-v2.5-free -f issue_number=1
 
 # Live queue trial
 gh workflow run miner-batch.yml \
@@ -45,9 +48,9 @@ gh workflow run miner-batch.yml \
   -f backend=zen -f model=qwen3.5-plus
 ```
 
-Secrets: `OPENROUTER_API_KEY` (Wave A), `OPENCODE_ZEN_API_KEY` (Wave B).
-Eval PRs: labels `miner-eval` + `source-note`; branch
-`miner/eval-<slug>-issue-<N>-r<run_id>`; filename `*-<slug>-eval.md`.
+Secrets: `OPENROUTER_API_KEY` (Wave A), `OPENCODE_ZEN_API_KEY` (Wave B Messages
++ Wave C OpenCode Action free). Eval PRs: labels `miner-eval` + `source-note`;
+branch `miner/eval-<slug>-issue-<N>-r<run_id>`; filename `*-<slug>-eval.md`.
 
 Legacy one-offs (`nemotron-smoke-test.yml`, `opencode-zen-smoke-test.yml`,
 `miner-hy3-eval.yml`) remain for history; prefer the parameterized workflows
@@ -85,10 +88,33 @@ Only `/v1/messages` models. Requires `OPENCODE_ZEN_API_KEY`.
 
 **Wave B interim decision (2026-07-25):** `qwen3.5-plus` on OpenCode Zen is the leading Miner cost candidate (3/4 golden Assayer APPROVE; ~5–7 min/extraction vs Laguna free hang). Assayer auto-merge now skips `miner-eval`. Keep off-peak Flash production until live trial clears.
 
-### Wave C — later
+### Wave C — Zen free chat-completions (OpenCode Action runner)
 
-Zen free DeepSeek / MiniMax / Kimi need a chat-completions bridge — out of
-scope until Waves A–B finish.
+These Zen free IDs are `/v1/chat/completions` only — they **cannot** use
+Claude Code + `configure-opencode-zen` (Messages). Eval uses
+`anomalyco/opencode/github` with `model: opencode/<id>` and
+`OPENCODE_ZEN_API_KEY`. Job timeout 25m (fail-fast vs Laguna M.1 hang).
+
+| Model | Agent signals (indicative) | Verdict |
+|-------|----------------------------|---------|
+| `nemotron-3-ultra-free` | Terminal-Bench 56.4; Toolathlon 34.3; prior OpenRouter Miner fail | **Excluded** |
+| `mimo-v2.5-free` | MiMo V2.5 family agent/coding-first | Try first |
+| `ling-3.0-flash-free` | InclusionAI agent MoE; vendor SWE ~72 multilingual | Try second |
+| `laguna-s-2.1-free` | Terminal-Bench 70.2; Toolathlon 49.7; stronger than M.1 | Try third (hang → abort) |
+
+```bash
+gh workflow run miner-zen-free-smoke.yml -f model=mimo-v2.5-free
+gh workflow run miner-zen-free-eval.yml -f model=mimo-v2.5-free -f issue_number=1
+```
+
+| # | Model | Smoke | #1 | #2 | #3 | #4 | Live | Notes / decision |
+|---|-------|-------|----|----|----|----|------|------------------|
+| 1 | `mimo-v2.5-free` | | | | | | | |
+| 2 | `ling-3.0-flash-free` | | | | | | | |
+| 3 | `laguna-s-2.1-free` | | | | | | | |
+
+If all three fail the Assayer bar, stay on off-peak Flash + Zen `qwen3.5-plus`
+(Wave B) as the peak-fill candidate.
 
 ## Decision rules
 

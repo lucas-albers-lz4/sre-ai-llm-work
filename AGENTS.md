@@ -80,6 +80,9 @@ gh workflow run claude-smoke-test.yml
 gh workflow run miner-candidate-smoke.yml -f backend=openrouter -f model=poolside/laguna-m.1:free
 gh workflow run miner-candidate-eval.yml -f backend=openrouter -f model=poolside/laguna-m.1:free -f issue_number=1
 gh workflow run miner-candidate-smoke.yml -f backend=zen -f model=qwen3.5-plus
+# Zen free chat-completions (OpenCode Action — not Claude Code)
+gh workflow run miner-zen-free-smoke.yml -f model=mimo-v2.5-free
+gh workflow run miner-zen-free-eval.yml -f model=mimo-v2.5-free -f issue_number=1
 
 # Drain mining queue / daily discovery
 gh workflow run miner-batch.yml -f backend=flash
