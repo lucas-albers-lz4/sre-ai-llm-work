@@ -332,18 +332,81 @@ Priority 1:          Sub-agent results — processed in arrival order after any 
 
 ## Cross-References
 
-- **Corroborates**: `blog-pagerduty-sre-agent-architecture.md` — the merged
-  baseline note for this same URL. This eval note covers the same source. Key
-  corroboration: both notes extract the same 17 claims, the same reactive loop
-  structure, the same identity convention, and the same simplification argument.
-- **Contradicts**: None.
-- **Extends**: None — first source note in the repo.
-- **Novel**: Everything in this source is new to the corpus. Specific novel
-  contributions already documented in the baseline note (Claim 6 — three
-  execution models mapped to SRE investigation, Claim 7 — LangGraph BSP
-  limitation, Claim 11 — task_id === thread_id convention, Claim 12 —
-  single-process simplification for IO-bound workloads, Claim 13 — durable
-  supervisor / stateless sub-agent asymmetry).
+- **Corroborates**:
+  - `blog-pagerduty-sre-agent-architecture.md` (baseline, same URL, issue #1):
+    Both notes extract the same 17 claims from the same source — the reactive
+    loop structure, the identity convention (task_id === thread_id), the
+    single-process simplification argument, and the durable supervisor /
+    stateless sub-agent asymmetry. Two independent models (DeepSeek/Flash and
+    mimo-v2.5-free) arrived at the same extraction, increasing confidence in
+    the claims.
+  - `blog-pagerduty-production-ai-agent-gaps.md` (Freitas, issue #4): The
+    precursor framing article that this note's Claim 1 explicitly cites. Claim 3
+    (context fatigue) corroborates this note's Claim 2 (context rot as a hard
+    ceiling for single-agent architectures) — same failure mode under a
+    different name, both citing the "Lost in the Middle" phenomenon. Claim 4
+    (compounding errors across multi-step agent workflows) corroborates this
+    note's Claim 3 (instruction overload creating an inverse relationship
+    between feature count and output quality). Claim 8 (architecture evolution
+    single-agent → supervisor → hierarchical) corroborates this note's Claims 6
+    (three execution models), 12 (single-process simplification), and 16 (build
+    hard, ship simple). The gaps article covers evaluation, metrics, guardrails,
+    and UX — areas this note explicitly says it does not cover — making the two
+    notes complementary.
+  - `blog-incidentio-ai-sre-incident-run.md` (issue #3): Independent production
+    experience from incident.io corroborating the parallel investigation
+    pattern and real-time visibility requirement. This note's Claim 5 (agent
+    operating without information the human already had) is the structural
+    failure mode that incident.io's bidirectional context sync and parallel
+    human-agent investigation pattern addresses. This note's Claim 10 (user
+    input as first-class event) parallels incident.io's design where human and
+    AI investigate independently in parallel.
+  - `docs-google-sre-prodcast-06-04-zelesko-agentic-sre.md` (Zelesko, issue
+    #247): Google VP of SRE corroborating at the leadership level: the
+    investigation-vs-mitigation safety boundary (non-mutating investigation is
+    AI-safe; mitigation requires human in the loop) aligns with this note's
+    architectural emphasis on keeping human oversight for production changes.
+    The shift from "human-centric" to "human-supervised" work parallels this
+    note's framing of the agent as an active participant requiring mid-run
+    human steering. The "build to understand" philosophy (Zelesko S6E4, Claims
+    6–8: discover skills bottom-up) parallels this note's Claim 16 ("build
+    hard, ship simple").
+  - `docs-google-sre-prodcast-04-09-ai-agents.md` (Llamas & Haria, issue #105):
+    Google SRE practitioners corroborating: the pre-on-caller triage pattern
+    (agent investigates in parallel before the human arrives) maps to this
+    note's concurrent fan-in execution model (Claim 6). The read-vs-write
+    capability split and human-permission-before-write guardrail align with this
+    note's emphasis on keeping humans in control of production-state mutations.
+    The "production has no sandbox" evaluation difficulty parallels this note's
+    context-rot argument — both describe structural ceilings created by
+    production's inherent complexity.
+
+- **Contradicts**: None identified. This note's architectural claims are
+  consistent with all related notes in the corpus. PagerDuty, incident.io, and
+  Google sources independently converge on the same principles: parallel
+  investigation, human-in-the-loop for writes, and transparent agent reasoning.
+
+- **Extends**: This note is a re-extraction of the same URL as the baseline
+  `blog-pagerduty-sre-agent-architecture.md` (issue #1). It does not extend the
+  baseline with new content — both notes extract the same 17 claims, the same
+  concrete artifacts, and the same architectural patterns. The eval note adds
+  an "Our assessment" field per claim (not present in the baseline template),
+  providing independent model judgment of each claim's credibility. The two
+  independent extractions corroborate each other and increase confidence in the
+  extracted claims by confirming that different models arrive at the same
+  substantive conclusions when given the same source.
+
+- **Novel**: No substantively new claims relative to the baseline — both notes
+  cover the same source. The value of this note is as an independent
+  re-extraction that (a) confirms the baseline's 17 claims via a different
+  model (mimo-v2.5-free), (b) adds "Our assessment" evaluations per claim
+  providing a second opinion on credibility, and (c) provides a comparison
+  point for model quality assessment (mimo-v2.5-free vs DeepSeek/Flash) as
+  part of the miner-eval pipeline. The cross-references to three additional
+  related notes (`blog-pagerduty-production-ai-agent-gaps.md`,
+  `blog-incidentio-ai-sre-incident-run.md`, and the Google Prodcast notes on AI
+  agents and agentic SRE) are new in this extraction and contextualize the
+  claims within the broader corpus.
 
 ## Guide Impact
 
