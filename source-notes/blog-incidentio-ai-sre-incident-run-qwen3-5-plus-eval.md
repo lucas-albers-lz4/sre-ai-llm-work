@@ -90,14 +90,16 @@ issue: "#3-qwen3-5-plus-eval"
   "blindly trust" the AI's output.
 - **Confidence**: anecdotal
 - **Quote**: "everything you do in Claude and post back to the channel gets
-  reverified by AI SRE. If you've made a mistake or forgotten something, it'll
+  reverified by Investigations. If you've made a mistake or forgotten something, it'll
   nudge you about it."
 - **Our assessment**: The reverification loop is a novel safety pattern — it treats
   the human-AI collaboration as adversarial enough to warrant double-checking, but
-  cooperative enough to make the double-check automatic and non-blocking. However,
-  without examples of actual caught mistakes, we can't assess the sensitivity or
-  specificity of this mechanism. The article presents an ideal run where no mistakes
-  were caught, which leaves the reverification's practical value unproven.
+  cooperative enough to make the double-check automatic and non-blocking. "Investigations"
+  is the incident.io feature name within the AI SRE product responsible for this
+  reverification. However, without examples of actual caught mistakes, we can't assess
+  the sensitivity or specificity of this mechanism. The article presents an ideal run
+  where no mistakes were caught, which leaves the reverification's practical value
+  unproven.
 
 ### Claim 5: Claude Code, via incident.io MCP integration, can open a GitHub PR and post a structured incident-channel update without the responder leaving the terminal
 - **Evidence**: Screenshots of terminal output showing the PR creation prompt and
@@ -383,3 +385,9 @@ As described, AI SRE checks these data sources upon incident declaration:
   against the merged DeepSeek/Flash baseline note at
   `blog-incidentio-ai-sre-incident-run.md`. The extraction follows the same MINER.md
   process with emphasis on verbatim quote accuracy and cross-reference verification.
+
+- **Assayer rework note (2026-07-25)**: Claim 4's quote was corrected from
+  "reverified by AI SRE" → "reverified by Investigations" (the incident.io feature
+  name within AI SRE). The same quote inaccuracy exists in the merged baseline note
+  (`blog-incidentio-ai-sre-incident-run.md` lines 103-104), meaning this corrected
+  eval note is now more accurate than the baseline on this dimension.
