@@ -316,8 +316,8 @@ issue: "#1-nemotron-3-ultra-free-eval"
   understanding why each layer exists is what distinguishes inheriting an
   architecture from owning it.
 - **Confidence**: emerging
-- **Quote**: "Understanding why each layer exists is what lets you extend or
-  replace individual pieces as frameworks evolve."
+- **Quote**: "Understanding why each layer exists is what lets you extend it or
+  replace individual pieces as your framework evolves."
 - **Our assessment**: This is a useful distillation. The three primitives form a
   reasonable abstraction stack (identity → transport → control loop) that could
   guide design even outside LangGraph. The portability claim is plausible but
@@ -377,12 +377,42 @@ Priority 1:          Sub-agent results — processed in arrival order after any 
 
 ## Cross-References
 
-- **Corroborates**: None — this is the first source note in the repo.
+- **Corroborates**:
+  - `blog-pagerduty-production-ai-agent-gaps.md` — the companion PagerDuty
+    article on production AI agent gaps corroborates several claims:
+    - Gaps Claim 3 (Context fatigue) ↔ Architecture Claim 2 (Context rot as
+      a hard ceiling for single-agent architectures)
+    - Gaps Claim 4 (Compounding errors) ↔ Architecture Claim 3 (Instruction
+      overload creating inverse relationship between features and quality)
+    - Gaps Claim 8 (Architecture evolution) ↔ Architecture Claims 6 (Three
+      execution models), 12 (Single-process simplification), and 16 (Build
+      hard, ship simple)
+    - AI-native vs AI-assisted framing shared between both
+  - `blog-incidentio-ai-sre-incident-run.md` — corroborates on:
+    - Architecture Claim 5 (lack of interactivity during agent execution as
+      a structural failure) — incident.io demonstrates a design response:
+      parallel human-agent investigation with bidirectional context sync
+    - Architecture Claim 10 (user input as priority-0 event) — incident.io's
+      parallel investigation pattern treats human input as a first-class event
+    - Architecture Claim 6 (three execution models) — incident.io demonstrates
+      a UX-level implementation of concurrent operation
+    - Architecture Claim 16 ("build hard, ship simple") — incident.io's
+      "better to be right than first" philosophy and 18-month development cycle
+      parallel this methodology
+
 - **Contradicts**: None identified.
-- **Extends**: None — first source note.
-- **Novel**: Everything in this source is new to the corpus. This is the first
-  practitioner source, the first architecture deep-dive, and the first
-  production incident-investigation agent pattern. Specific novel contributions:
+
+- **Extends**:
+  - `blog-pagerduty-production-ai-agent-gaps.md` extends the architecture
+    patterns into production readiness gaps (evaluation, metrics, guardrails,
+    UX, memory architecture) that this note explicitly says it doesn't cover.
+  - `blog-incidentio-ai-sre-incident-run.md` extends the execution models
+    (Claim 6) into a concrete UX-level implementation with parallel
+    human-agent investigation, reverification loops, and multi-surface
+    orchestration. Also extends Claim 16 into a product design philosophy
+    with explicit pre-launch dogfooding.
+
+- **Novel**: Patterns in this source that are new to the corpus:
   - The three execution models mapped to SRE investigation requirements
   - The LangGraph BSP limitation for interactive agent systems
   - The queue+lock pattern for serializing concurrent graph resumes
@@ -396,10 +426,11 @@ Priority 1:          Sub-agent results — processed in arrival order after any 
 of the same source as the merged baseline note `blog-pagerduty-sre-agent-architecture.md`
 (issue #1, PR #5). The Assayer should compare claim coverage, quote fidelity,
 and artifact extraction between the two notes. Key differences to check:
-- Claim 8 and 9 quote handling (baseline has "no direct quote; see paraphrase")
+- Claim 8 and 9 quote handling (both notes use "no direct quote; see paraphrase")
 - Claim 14 and 15 quote handling (same)
 - Concrete Artifacts section completeness
-- Cross-references section (this note explicitly cites the baseline)
+- Cross-references section (this note has updated cross-refs vs baseline's
+  original "first source note" text)
 
 ## Guide Impact
 
