@@ -337,11 +337,49 @@ Priority 1:          Sub-agent results — processed in arrival order after any 
   consistent with the baseline extraction. Both notes cover the same source URL
   and reach the same architectural conclusions.
 - **Contradicts**: None identified.
-- **Extends**: None — this is the first source note in the repo (the baseline
-  note states no prior notes overlap).
-- **Novel**: To the corpus, this is the first practitioner source and the first
-  architecture deep-dive. Specific novel contributions relative to the existing
-  corpus:
+- **Extends**: This is a re-extraction of the same source as
+  `blog-pagerduty-sre-agent-architecture.md` (the baseline, extracted
+  2026-07-12). The baseline was the first source note in the repo; this eval
+  extraction covers the same 17 claims with independently verified coverage
+  of all quotes, concrete artifacts, and assessments — corroborating rather
+  than extending the baseline.
+
+  In the broader corpus:
+  - `blog-pagerduty-production-ai-agent-gaps.md` (Freitas, same PagerDuty
+    team, published June 11, 2026 — the foundational framing piece that
+    precedes this architecture deep-dive): The gaps note covers evaluation,
+    metrics, guardrails, and UX (areas this architecture note explicitly
+    says it doesn't cover). Its Cross-References section already cites the
+    baseline architecture note on Claims 2, 3, 6, 12, and 16. The two
+    articles are complementary: gaps covers "what to evaluate and measure,"
+    architecture covers "how to build the primitives."
+  - `blog-incidentio-ai-sre-incident-run.md` (incident.io, different company):
+    Claim 3 (human and AI investigate independently in parallel with
+    automatic context sync) independently corroborates Claims 5 and 10
+    (interactivity as structural failure; user input as higher-priority
+    event) from a different company's implementation. The incident.io note's
+    Cross-References already cites the baseline architecture note on Claims
+    5, 6, 10, and 16. The reverification loop (AI double-checks human-
+    contributed code) is a UX-level implementation of the architectural
+    principle that human input must be a first-class event.
+  - `docs-google-sre-prodcast-06-04-zelesko-agentic-sre.md` Claim 5
+    (investigation-vs-mitigation safety boundary — investigation is
+    non-mutating and AI-safe; mitigation requires human-in-the-loop): The
+    leadership-level articulation of the same boundary implied by Claims 5
+    and 10 (mid-run human steering, priority queue for user input).
+  - `docs-google-sre-prodcast-04-09-ai-agents.md` Claims 3 and 5: Claim 3
+    (default guardrail: deny world-mutating actions, require human
+    permission) and Claim 5 (agent as pre-on-caller — triage in ~3-4
+    minutes before the human arrives) are Google's practitioner account of
+    the human-in-the-loop patterns demonstrated by the priority queue and
+    user input preemption in Claims 5 and 10.
+- **Novel**: This is a re-extraction of the same source as the baseline note
+  `blog-pagerduty-sre-agent-architecture.md` (extracted 2026-07-12). The
+  baseline contributed these as novel to the corpus at that time. This eval
+  extraction independently confirms the full set of claims, quotes, and
+  concrete artifacts from the same source with a different model, without
+  adding new claims. Specific contributions carried forward from the
+  baseline:
   - The three execution models mapped to SRE investigation requirements
   - The LangGraph BSP limitation for interactive agent systems
   - The queue+lock pattern for serializing concurrent graph resumes
