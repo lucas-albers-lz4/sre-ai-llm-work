@@ -109,9 +109,15 @@ gh workflow run miner-zen-free-eval.yml -f model=mimo-v2.5-free -f issue_number=
 
 | # | Model | Smoke | #1 | #2 | #3 | #4 | Live | Notes / decision |
 |---|-------|-------|----|----|----|----|------|------------------|
-| 1 | `mimo-v2.5-free` | | | | | | | |
-| 2 | `ling-3.0-flash-free` | | | | | | | |
-| 3 | `laguna-s-2.1-free` | | | | | | | |
+| 1 | `mimo-v2.5-free` | pass ([run](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30167553119)) | [PR #492](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/492) **REQUEST CHANGES** (cross-refs) | — | — | — | — | Fail-fast after #1; proceed to Ling |
+| 2 | `ling-3.0-flash-free` | pass ([run](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30168573200)) | [PR #493](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/493) **REQUEST CHANGES** | — | — | — | — | Fail-fast after #1; proceed to Laguna S |
+| 3 | `laguna-s-2.1-free` | pass ([run](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30168739432)) | [PR #494](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/494) **REQUEST CHANGES** | — | — | — | — | Completed in ~5m (no hang); Assayer still REQUEST CHANGES |
+
+**Wave C decision (2026-07-25):** All three Zen free chat-completions candidates
+failed Assayer on golden #1 (REQUEST CHANGES). None cleared the bar to continue
+#2–#4. **Nemotron Ultra free remains excluded.** Prefer Wave B Zen
+`qwen3.5-plus` (Messages, Claude Code, 3/4 golden APPROVE) as the cost
+candidate; keep off-peak Flash for production until live trial.
 
 If all three fail the Assayer bar, stay on off-peak Flash + Zen `qwen3.5-plus`
 (Wave B) as the peak-fill candidate.
