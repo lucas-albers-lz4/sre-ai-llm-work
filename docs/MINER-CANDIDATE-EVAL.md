@@ -65,9 +65,11 @@ As of 2026-07-25, `qwen/qwen3-coder:free` is **not** listed.
 
 | # | Model | Smoke | #1 | #2 | #3 | #4 | Live | Notes / decision |
 |---|-------|-------|----|----|----|----|------|------------------|
-| 1 | `poolside/laguna-m.1:free` | pass ([run](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30164857692)) | running | | | | | |
-| 2 | `poolside/laguna-xs-2.1:free` (or `laguna-s-2.1:free`) | | | | | | | |
-| 3 | `cohere/north-mini-code:free` | | | | | | | |
+| 1 | `poolside/laguna-m.1:free` | pass ([run](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30164857692)) | **fail** — no eval PR after ~27m; aborted as not Miner-capable ([cancelled](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30164900980)) | — | — | — | — | Smoke ≠ multi-turn. Skip sibling Laguna free variants. |
+| 2 | `poolside/laguna-xs-2.1:free` / `laguna-s-2.1:free` | skipped | — | — | — | — | — | Same family as M.1; not worth another 27m hang |
+| 3 | `cohere/north-mini-code:free` | pass ([run](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30165922607)) | skipped | — | — | — | — | Smoke only. Golden deferred — prioritize Wave B after Laguna multi-turn hang |
+
+**Wave A interim decision (2026-07-25):** No free OpenRouter coding model cleared multi-turn Miner. Laguna M.1 hung ~27m with no eval PR (smoke had passed). Proceed to Wave B (Zen paid Messages).
 
 Skip: `nvidia/nemotron-3-ultra-550b-a55b:free` (already failed multi-turn).
 
