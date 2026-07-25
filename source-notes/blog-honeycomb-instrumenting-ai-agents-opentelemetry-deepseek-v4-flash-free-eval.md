@@ -77,11 +77,11 @@ issue: "#2-deepseek-v4-flash-free-eval"
 - **Quote**: "This is what turns failures into first-class navigation primitives instead of needles in a haystack."
 - **Our assessment**: This is standard OpenTelemetry error semantics applied to a new domain. The article correctly identifies that agent debugging without structured error signals is uniquely painful because of nondeterminism. The "needles in a haystack" framing is apt — without `error.type` on spans, an operator searching for failures across thousands of agent conversations has no queryable surface.
 
-### Claim 10: Span naming follows a strict `<operation> <target>` pattern for the Agent Timeline
-- **Evidence**: The article provides a span naming table with eight operation types and their span name patterns: `chat {model}`, `execute_tool {tool_name}`, `invoke_agent {agent_name}`, `embeddings {model}`, `generate_content {model}`, `text_completion {model}`, plus retrieval and create_agent patterns.
-- **Confidence**: settled (for Honeycomb's implementation)
-- **Quote**: (no direct quote; see paraphrase in Our assessment)
-- **Our assessment**: The `<operation> <target>` naming convention is simple, grep-able, and machine-parseable. It encodes both the operation type and its target in the span name, making span lists readable without inspecting attributes. This is a good convention for the guide to recommend even for teams not using Honeycomb.
+### Claim 10: Span naming follows a `<operation> <target>` pattern for the Agent Timeline
+- **Evidence**: The article's code examples consistently use the `<operation> <target>` naming pattern in `start_as_current_span()` calls: `"chat gpt-4o"` (LLM call span), `"execute_tool {tool_name}"` (tool execution span), and `"invoke_agent support_agent"` / `"invoke_agent billing_agent"` (agent invocation spans). Embeddings spans are mentioned in prose ("On embedding spans, set `gen_ai.request.model` and `gen_ai.usage.input_tokens`"). Three operation types (`chat`, `execute_tool`, `invoke_agent`) are explicitly set as `gen_ai.operation.name` values in code examples. Additional operation types (`generate_content`, `text_completion`, `retrieval`, `create_agent`) appear in Honeycomb's linked documentation pages (docs.honeycomb.io), not in this blog article.
+- **Confidence**: settled (for Honeycomb's implementation; the code examples demonstrate the pattern for three operation types)
+- **Quote**: (no direct quote; the naming pattern is demonstrated across multiple code examples — see Artifacts 1, 2, and 3)
+- **Our assessment**: The `<operation> <target>` naming convention is simple, grep-able, and machine-parseable. It encodes both the operation type and its target in the span name, making span lists readable without inspecting attributes. The article demonstrates this for `chat`, `execute_tool`, and `invoke_agent` — the three operation types that cover the most common agent instrumentation scenarios. This is a good convention for the guide to recommend even for teams not using Honeycomb.
 
 ### Claim 11: Evaluation results should be attached as span events to GenAI operation spans
 - **Evidence**: The article mentions `gen_ai.evaluation.result` as a span event that closes the feedback loop between cost (tokens), latency (span duration), and quality (eval result).
@@ -181,7 +181,7 @@ From the blog post, synthesized across sections:
 **Required attributes (every span):**
 - `gen_ai.conversation.id` (string) — unique conversation or session identifier
 - `gen_ai.agent.name` (string) — name of the agent emitting the span
-- `gen_ai.operation.name` (string) — operation type (chat, execute_tool, invoke_agent, embeddings, generate_content, text_completion)
+- `gen_ai.operation.name` (string) — operation type (chat, execute_tool, invoke_agent; embeddings mentioned in prose)
 
 **Token tracking attributes:**
 - `gen_ai.usage.input_tokens`
