@@ -70,9 +70,9 @@ As of 2026-07-25, `qwen/qwen3-coder:free` is **not** listed.
 |---|-------|-------|----|----|----|----|------|------------------|
 | 1 | `poolside/laguna-m.1:free` | pass ([run](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30164857692)) | **fail** — no eval PR after ~27m; aborted as not Miner-capable ([cancelled](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30164900980)) | — | — | — | — | Smoke ≠ multi-turn. Skip sibling Laguna free variants. |
 | 2 | `poolside/laguna-xs-2.1:free` / `laguna-s-2.1:free` | skipped | — | — | — | — | — | Same family as M.1; not worth another 27m hang |
-| 3 | `cohere/north-mini-code:free` | pass ([run](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30165922607)) | skipped | — | — | — | — | Smoke only. Golden deferred — prioritize Wave B after Laguna multi-turn hang |
+| 3 | `cohere/north-mini-code:free` | pass ([run](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30165922607)) | [PR #496](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/496) **REQUEST CHANGES** (cross-refs) | — | — | — | — | Ran clean (~2m, no hang; depth/accuracy/completeness pass) but same "first source note in repo" cross-ref fabrication as Wave C free models. Fail-fast after #1. |
 
-**Wave A interim decision (2026-07-25):** No free OpenRouter coding model cleared multi-turn Miner. Laguna M.1 hung ~27m with no eval PR (smoke had passed). Proceed to Wave B (Zen paid Messages).
+**Wave A decision (2026-07-25):** No free OpenRouter coding model cleared the Assayer bar. Laguna M.1 hung ~27m with no eval PR (smoke had passed); north-mini-code completed golden #1 fast but failed cross-references.
 
 Skip: `nvidia/nemotron-3-ultra-550b-a55b:free` (already failed multi-turn).
 
@@ -141,7 +141,7 @@ Related decision history: [#328](https://github.com/lucas-albers-lz4/sre-ai-llm-
 | Item | Status |
 |------|--------|
 | Wave A `qwen/qwen3-coder:free` | Not in live OpenRouter catalog (2026-07-25) |
-| Wave A `north-mini-code` golden | Smoke only; golden deferred after Laguna hang |
+| Wave A `north-mini-code` golden | **Closed 2026-07-25** — PR #496 REQUEST CHANGES (cross-refs); Wave A exhausted |
 | Wave B `qwen3.7-plus` / `claude-haiku-4.5` | Not run — 3.5-plus already cleared golden; staying on Flash |
 | Live `mining-queued` trial (any candidate) | Never ran — queue empty; not required once staying on Flash |
 | $/note Flash vs Zen/OpenRouter comparison | **Not recorded** (optional follow-up if revisiting peak-fill) |
