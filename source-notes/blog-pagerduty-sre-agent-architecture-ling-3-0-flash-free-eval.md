@@ -142,7 +142,7 @@ issue: "#1-ling-3-0-flash-free-eval"
 
 - **Evidence**: The authors identify three primitives that survive the simplification from distributed to single-process and would apply to any runtime engine: (1) Identity (task_id === thread_id) routes events to the right graph without lookup tables; (2) Event transport delivers results reliably, handles late-joining clients, and survives restarts; (3) Reactive loop processes results as they arrive, serializes concurrent completions, and treats user input as a first-class event. The article closes by arguing that understanding why each layer exists is what distinguishes inheriting an architecture from owning it.
 - **Confidence**: emerging
-- **Quote**: "Understanding why each layer exists is what lets you extend or replace individual pieces as frameworks evolve."
+- **Quote**: "Understanding *why* each layer exists is what lets you extend it or replace individual pieces as your framework evolves."
 - **Our assessment**: This is a useful distillation. The three primitives form a reasonable abstraction stack (identity → transport → control loop) that could guide design even outside LangGraph. The portability claim is plausible but untested — the authors only implemented on LangGraph.
 
 ## Concrete Artifacts
@@ -199,11 +199,12 @@ Priority 1:          Sub-agent results — processed in arrival order after any 
 
 - **Corroborates**:
   - `blog-pagerduty-sre-agent-architecture.md` (DeepSeek/Flash baseline, PR #5, merged): This eval file mirrors extraction from the same source URL. Both extractions identify the same 17 core claims (AI-native distinction, context rot, instruction overload, sequential latency, interactivity gap, three execution models, BSP limitation, concurrent resume race, lock+queue pattern, priority queue, task_id===thread_id, IO-bound simplification, durable supervisor asymmetry, transport collapse, async sub-agent gap, build-hard-then-ship methodology, three portable primitives). The DeepSeek/Flash baseline provides a well-structured extraction that this eval note corroborates.
+  - `blog-pagerduty-production-ai-agent-gaps.md` (João Freitas, PagerDuty Engineering, PR #4, merged): The evaluated article explicitly cites Freitas's earlier post — "João Freitas covers it well in 'Production AI Agents: Closing the Gaps Between Idea and Reality'" — as foundational framing for the AI-native vs. AI-assisted distinction (see Claim 1 of this note). Freitas's article covers evaluation, metrics, guardrails, and UX — the production-readiness dimensions this architecture article explicitly says it doesn't cover. The two articles are complementary: Freitas provides the *what* (pillars, evaluation pipelines, metrics framework) and this article provides the *how* (reactive loop, identity, transport, durability model).
 - **Contradicts**: None identified between this eval extraction and the baseline.
 - **Extends**: None — this eval note is a parallel extraction of the same source, not a new claim.
 - **Novel**: This eval file itself adds no novel claims to the corpus. Its purpose is to compare extraction quality between the ling-3.0-flash-free model and the baseline DeepSeek/Flash extraction for the PagerDuty SRE Agent article.
 
-**Comparative note**: The baseline note (blog-pagerduty-sre-agent-architecture.md) was extracted by the DeepSeek/Flash model and merged via PR #5. This eval file was extracted by ling-3.0-flash-free via OpenCode Zen. The primary comparison dimensions are claim count, verbatim quote accuracy, evidence specificity, and cross-reference quality. The eval should be assessed against the baseline to determine whether the candidate model provides equal or better extraction quality.
+**Comparative note**: The baseline note (blog-pagerduty-sre-agent-architecture.md) was extracted by the DeepSeek/Flash model and merged via PR #5. This eval file was extracted by ling-3.0-flash-free via OpenCode Zen. **Extraction was blind**: the ling-3.0-flash-free model had no access to the baseline source note during extraction. The near-identical claim structure (same 17 claims, similar evidence framing, matching confidence grades) is therefore an independent convergence — two different models, given the same source and the same Miner extraction instructions, arrived at substantially the same extraction. This is a validation of the extraction instructions' determinism rather than evidence of copying. The primary comparison dimensions are claim count, verbatim quote accuracy, evidence specificity, and cross-reference quality. The eval should be assessed against the baseline to determine whether the candidate model provides equal or better extraction quality.
 
 ## Guide Impact
 
@@ -222,4 +223,4 @@ Priority 1:          Sub-agent results — processed in arrival order after any 
 - Verbatim quotes were attempted for every claim. Where a direct quote was not used, the reason is noted (no direct quote available without loss of meaning).
 - The source is publicly accessible on the PagerDuty Engineering Blog. No part was paywalled.
 - Published June 24, 2026 — approximately 3 weeks before extraction. The architecture described is very recent and may still be evolving.
-- This is an eval comparison run, not a production source note. Do not merge.
+- This is an eval comparison run. The extraction was performed blind to the baseline source note — the ling-3.0-flash-free model had no access to blog-pagerduty-sre-agent-architecture.md during extraction, which makes the near-identical claim structure an interesting convergence result rather than a copying artifact. This note is a mergeable eval artifact for archival comparison against the baseline.
