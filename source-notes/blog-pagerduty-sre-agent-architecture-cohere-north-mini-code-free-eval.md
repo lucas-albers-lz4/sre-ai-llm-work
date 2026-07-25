@@ -314,8 +314,8 @@ issue: "#1-cohere-north-mini-code-free-eval"
   understanding why each layer exists is what distinguishes inheriting an
   architecture from owning it.
 - **Confidence**: emerging
-- **Quote**: "Understanding why each layer exists is what lets you extend or
-  replace individual pieces as frameworks evolve."
+- **Quote**: "Understanding why each layer exists is what lets you extend it or
+  replace individual pieces as your framework evolves."
 - **Our assessment**: This is a useful distillation. The three primitives form a
   reasonable abstraction stack (identity → transport → control loop) that could
   guide design even outside LangGraph. The portability claim is plausible but
@@ -380,20 +380,87 @@ Priority 1:          Sub-agent results — processed in arrival order after any 
 
 ## Cross-References
 
-- **Corroborates**: None — this is the first source note in the repo.
-- **Contradicts**: None identified.
-- **Extends**: None — first source note.
-- **Novel**: Everything in this source is new to the corpus. This is the first
-  practitioner source, the first architecture deep-dive, and the first
-  production incident-investigation agent pattern. Specific novel contributions:
-  - The three execution models mapped to SRE investigation requirements
-  - The LangGraph BSP limitation for interactive agent systems
-  - The queue+lock pattern for serializing concurrent graph resumes
-  - The priority queue pattern for user input preemption in agent loops
-  - The `task_id === thread_id` identity convention
-  - The single-process simplification argument for IO-bound agent workloads
-  - The durable supervisor / stateless sub-agent asymmetry
-  - The "build hard, ship simple" methodology demonstrated end-to-end
+> **Note**: This is a `miner-eval` extraction (Cohere North Mini Code Free model)
+> of the same source URL as the canonical
+> `blog-pagerduty-sre-agent-architecture.md` (DeepSeek Pro extraction, issue #1).
+> Both notes extract the same 17 claims from the same article. This eval note
+> independently arrives at a near-identical claim structure, confirming the
+> source's extractability. The cross-references below position this extraction
+> within the broader corpus.
+
+- **Corroborates**:
+  - **`blog-pagerduty-sre-agent-architecture.md`** (same source, canonical
+    extraction): All 17 claims map to equivalent claims in the canonical note —
+    same source, same architectural journey, same artifacts. The claim ordering,
+    evidence grading, and concrete artifacts sections are structurally parallel,
+    validating that both models extract the same signal from this article.
+  - **`blog-pagerduty-production-ai-agent-gaps.md`** (Freitas 2026, companion
+    article): The Freitas article is the foundational framing piece explicitly
+    cited in Claim 1 of this source. It cross-references: (a) AI-native vs
+    AI-assisted distinction (Claim 1 ↔ Freitas framework); (b) context rot /
+    context fatigue (Claim 2 ↔ Freitas Claim 3); (c) instruction overload /
+    compounding errors (Claim 3 ↔ Freitas Claim 4); (d) architecture evolution
+    patterns (Claim 6 ↔ Freitas Claim 8); (e) single-process simplification
+    (Claim 12 ↔ Freitas Claim 8 — earn complexity, then simplify); (f) "build
+    hard, ship simple" methodology (Claim 16 ↔ Freitas's overall evolutionary
+    approach).
+  - **`blog-incidentio-ai-sre-incident-run.md`** (pre-launch vendor narrative):
+    That note's Cross-References section already cites this source's Claim 5
+    (lack of interactivity as structural failure) and Claim 10 (priority queue
+    for user input) as the architectural rationale behind incident.io's parallel
+    human-agent investigation design. Same problem domain (AI-assisted incident
+    investigation); different layer (PagerDuty = agent internals, incident.io =
+    user-facing multi-surface orchestration).
+  - **`docs-google-sre-prodcast-04-09-ai-agents.md`** (Google SRE practitioners):
+    Corroborates the pre-on-caller triage pattern, the human-in-the-loop stance
+    for world-mutating actions, and the evaluation-as-hardest-problem framing
+    (this source identifies evaluation as the gap it doesn't cover; S4E9
+    provides Google's approach to that gap).
+  - **`docs-google-sre-prodcast-06-04-zelesko-agentic-sre.md`** (Google VP of
+    SRE): Corroborates the investigation-as-non-mutating /
+    mitigation-as-human-in-loop safety boundary. Zelesko's "skills" model and
+    PagerDuty's sub-agent pattern address the same decomposition problem at
+    different organizational scales.
+
+- **Contradicts**: None identified. The Freitas companion article covers
+  evaluation, metrics, guardrails, and UX — dimensions this source explicitly
+  says it doesn't cover — making the two articles complementary rather than
+  conflicting.
+
+- **Extends**:
+  - **`blog-pagerduty-production-ai-agent-gaps.md`**: This source provides the
+    implementation primitives (reactive loop, identity convention, event
+    transport, durability model) that the Freitas article's evaluation/metrics/
+    guardrails framework was designed for. Together they form a complete picture:
+    Freitas covers **what** to measure and guard; this source covers **how** to
+    build the runtime those measurements apply to.
+  - **`blog-incidentio-ai-sre-incident-run.md`**: The incident.io note
+    demonstrates a UX-level implementation of the interactivity requirements
+    this source establishes as architectural constraints. This source's Claims
+    5, 6, and 10 define the requirements; incident.io shows one product design
+    that addresses them.
+  - **`docs-google-sre-prodcast-04-09-ai-agents.md`**: The Prodcast's
+    pre-on-caller triage pattern (agent begins investigation before human
+    arrives) is a simpler operational shape than this source's full reactive
+    multi-agent loop. This source represents the next maturity step beyond the
+    S4E9 pattern — from single-agent triage to multi-agent concurrent
+    investigation with mid-run steering.
+  - **`blog-honeycomb-instrumenting-ai-agents-opentelemetry.md`**: Complements
+    this source's focus on agent architecture with observability instrumentation
+    patterns (Agent Timeline, OTel GenAI semantic conventions). This source
+    describes the architecture that needs to be observed; Honeycomb describes
+    how to observe it.
+
+- **Novel** (relative to the canonical `blog-pagerduty-sre-agent-architecture.md`
+  extraction):
+  - This eval extraction independently arrives at the same 17-claim structure
+    as the canonical note, confirming the source's extractability across model
+    families (Cohere North Mini Code Free vs DeepSeek Pro).
+  - Claim ordering, evidence grading, and confidence assignments are
+    structurally parallel to the canonical extraction.
+  - No claims are novel to the corpus — the canonical note already covers all
+    architectural content from this source. This extraction serves as a
+    model-quality comparison artifact, not as new corpus material.
 
 ## Guide Impact
 
