@@ -9,6 +9,10 @@ last_checked: 2026-07-25
 status: current
 confidence_overall: emerging
 issue: "#1-mimo-v2-5-free-eval"
+derived_from: "#1"
+purpose: "Miner model evaluation (mimo-v2.5-free) — re-extracts the same source
+  as the baseline to compare extraction quality across models. Not a
+  replacement for the baseline note."
 ---
 
 # Inside PagerDuty's SRE Agent: How We Built Deep Incident Investigation
@@ -387,22 +391,24 @@ Priority 1:          Sub-agent results — processed in arrival order after any 
   investigation, human-in-the-loop for writes, and transparent agent reasoning.
 
 - **Extends**: This note is a re-extraction of the same URL as the baseline
-  `blog-pagerduty-sre-agent-architecture.md` (issue #1). It does not extend the
-  baseline with new content — both notes extract the same 17 claims, the same
-  concrete artifacts, and the same architectural patterns. The eval note adds
-  an "Our assessment" field per claim (not present in the baseline template),
-  providing independent model judgment of each claim's credibility. The two
-  independent extractions corroborate each other and increase confidence in the
-  extracted claims by confirming that different models arrive at the same
-  substantive conclusions when given the same source.
+  `blog-pagerduty-sre-agent-architecture.md` (issue #1, DeepSeek/Flash). It does
+  not extend the baseline with new content — both notes extract the same 17
+  claims, the same concrete artifacts, and the same architectural patterns.
+  Both notes include "Our assessment" fields per claim; the eval note's
+  assessments are edited and condensed versions of the baseline text, reflecting
+  a second model's extraction of the same source rather than fully independent
+  judgment. The two extractions corroborate each other and increase confidence
+  in the extracted claims by confirming that different models (mimo-v2.5-free
+  and DeepSeek/Flash) arrive at the same substantive conclusions when given the
+  same source.
 
 - **Novel**: No substantively new claims relative to the baseline — both notes
-  cover the same source. The value of this note is as an independent
+  cover the same source. The value of this note is as a second-model
   re-extraction that (a) confirms the baseline's 17 claims via a different
-  model (mimo-v2.5-free), (b) adds "Our assessment" evaluations per claim
-  providing a second opinion on credibility, and (c) provides a comparison
-  point for model quality assessment (mimo-v2.5-free vs DeepSeek/Flash) as
-  part of the miner-eval pipeline. The cross-references to three additional
+  model (mimo-v2.5-free), (b) provides "Our assessment" evaluations edited from
+  the baseline text as a second model's read on credibility, and (c) serves as a
+  comparison point for model quality assessment (mimo-v2.5-free vs DeepSeek/Flash)
+  as part of the miner-eval pipeline. The cross-references to three additional
   related notes (`blog-pagerduty-production-ai-agent-gaps.md`,
   `blog-incidentio-ai-sre-incident-run.md`, and the Google Prodcast notes on AI
   agents and agentic SRE) are new in this extraction and contextualize the
