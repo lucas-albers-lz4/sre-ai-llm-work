@@ -79,7 +79,7 @@ Only `/v1/messages` models. Requires `OPENCODE_ZEN_API_KEY`.
 
 | # | Model | Smoke | #1 | #2 | #3 | #4 | Live | Notes / decision |
 |---|-------|-------|----|----|----|----|------|------------------|
-| 1 | `qwen3.5-plus` | | | | | | | |
+| 1 | `qwen3.5-plus` | pass ([run](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30165953323)) | [PR #488](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/488) **APPROVE** | [PR #489](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/489) Assayer pending | running | | | |
 | 2 | `qwen3.7-plus` | | | | | | | |
 | 3 | `claude-haiku-4.5` (fallback) | | | | | | | |
 

@@ -272,6 +272,11 @@ jobs:
             echo "guide-update PR; handled by the shadow/live step."
             exit 0
           fi
+          # Eval / A/B Miner PRs must never enter the corpus (AGENTS.md hard rule).
+          if echo "$LABELS" | jq -e 'index("miner-eval")' > /dev/null 2>&1; then
+            echo "miner-eval PR; skipping auto-merge (compare-only artifact)."
+            exit 0
+          fi
           if ! echo "$LABELS" | jq -e 'any(.[]; . == "source-note" or . == "feed-candidate" or . == "site-seed-candidate")' > /dev/null 2>&1; then
             echo "Not an auto-mergeable label; skipping auto-merge."
             exit 0
