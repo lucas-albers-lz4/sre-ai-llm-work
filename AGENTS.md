@@ -36,8 +36,9 @@ See [`docs/MODEL-ROUTING.md`](docs/MODEL-ROUTING.md).
 Secrets: `DEEPSEEK_API_KEY`, `PROJECT_PAT`
 (classic `repo`+`project` — needed so `gh pr create` / issue filing triggers
 downstream workflows). `OPENROUTER_API_KEY` is optional while Miner peak-fill
-cron is off (manual OpenRouter trials / Hy3 / Nemotron smoke). Claude OAuth is
-**not** required.
+cron is off (manual OpenRouter trials / Hy3 / Nemotron smoke).
+`OPENCODE_ZEN_API_KEY` is optional — OpenCode Zen peak-fill trials
+(`backend=zen`). Claude OAuth is **not** required.
 
 ## Hard rules for local agents
 
@@ -75,14 +76,15 @@ Actions prompts).
 # Smoke DeepSeek routing
 gh workflow run claude-smoke-test.yml
 
-# OpenRouter Nemotron smoke (Miner peak-fill) + optional Hy3 eval
-gh workflow run nemotron-smoke-test.yml
-gh workflow run hy3-smoke-test.yml
-gh workflow run miner-hy3-eval.yml -f issue_number=1
+# OpenRouter / Zen Miner candidate smoke + golden eval (cost program)
+gh workflow run miner-candidate-smoke.yml -f backend=openrouter -f model=qwen/qwen3-coder:free
+gh workflow run miner-candidate-eval.yml -f backend=openrouter -f model=qwen/qwen3-coder:free -f issue_number=1
+gh workflow run miner-candidate-smoke.yml -f backend=zen -f model=qwen3.5-plus
 
 # Drain mining queue / daily discovery
 gh workflow run miner-batch.yml -f backend=flash
-gh workflow run miner-batch.yml -f backend=nemotron
+gh workflow run miner-batch.yml -f backend=openrouter -f model=qwen/qwen3-coder:free
+gh workflow run miner-batch.yml -f backend=zen -f model=qwen3.5-plus
 gh workflow run daily-scan.yml
 
 # Project board (idempotent)
@@ -99,5 +101,6 @@ Board: https://github.com/users/lucas-albers-lz4/projects/3
 | Models / secrets | `docs/MODEL-ROUTING.md` |
 | Agent roles | `agents/README.md` |
 | Hy3 Miner trial | `docs/HY3-MINER-EVAL.md` |
+| Miner cost candidates | `docs/MINER-CANDIDATE-EVAL.md` |
 | Project board | `docs/PROJECT-SETUP.md` |
 | Submissions | `SUBMISSION.md` |

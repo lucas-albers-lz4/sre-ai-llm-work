@@ -1,0 +1,46 @@
+name: Configure OpenCode Zen for Claude Code
+description: >
+  Point Claude Code / claude-code-action at OpenCode Zen's Anthropic-compatible
+  Messages API (https://opencode.ai/zen/v1/messages). Only Zen models served on
+  the /v1/messages endpoint work here: the Claude family and qwen3.5/3.6/3.7
+  plus/max. Zen's chat-completions-only models (deepseek-*, kimi-*, glm-*, the
+  free tier) will NOT work through this action. Auth is x-api-key, so the key
+  is exported as ANTHROPIC_API_KEY and ANTHROPIC_AUTH_TOKEN is cleared.
+  Requires OPENCODE_ZEN_API_KEY secret (distinct from an OpenCode Go key).
+
+inputs:
+  api_key:
+    description: OpenCode Zen API key (secrets.OPENCODE_ZEN_API_KEY)
+    required: true
+  model:
+    description: Zen model id on the /v1/messages endpoint (default qwen3.7-plus)
+    required: false
+    default: qwen3.7-plus
+
+runs:
+  using: composite
+  steps:
+    - name: Export OpenCode Zen Anthropic-compatible env
+      shell: bash
+      env:
+        OPENCODE_ZEN_API_KEY: ${{ inputs.api_key }}
+        ZEN_MODEL: ${{ inputs.model }}
+      run: |
+        if [ -z "${OPENCODE_ZEN_API_KEY}" ]; then
+          echo "::error::OPENCODE_ZEN_API_KEY secret is empty — set it in repo Actions secrets"
+          exit 1
+        fi
+        {
+          # Claude Code appends /v1/messages to the base URL, so this must be
+          # /zen (NOT /zen/v1 — that yields /zen/v1/v1/messages → 404).
+          echo "ANTHROPIC_BASE_URL=https://opencode.ai/zen"
+          # Zen authenticates via x-api-key (ANTHROPIC_API_KEY), not Bearer.
+          echo "ANTHROPIC_API_KEY=${OPENCODE_ZEN_API_KEY}"
+          echo "ANTHROPIC_AUTH_TOKEN="
+          echo "ANTHROPIC_DEFAULT_HAIKU_MODEL=${ZEN_MODEL}"
+          echo "ANTHROPIC_DEFAULT_SONNET_MODEL=${ZEN_MODEL}"
+          echo "ANTHROPIC_DEFAULT_OPUS_MODEL=${ZEN_MODEL}"
+          echo "CLAUDE_CODE_SUBAGENT_MODEL=${ZEN_MODEL}"
+          echo "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1"
+        } >> "$GITHUB_ENV"
+        echo "Configured Claude Code → OpenCode Zen (${ZEN_MODEL})"

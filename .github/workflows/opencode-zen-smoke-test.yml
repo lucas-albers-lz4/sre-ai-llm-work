@@ -1,0 +1,47 @@
+name: OpenCode Zen Smoke Test
+
+# Verifies claude-code-action + OpenCode Zen's Anthropic-compatible Messages
+# endpoint before trying a real Miner batch (backend=zen in miner-batch.yml).
+# Same pattern as nemotron-smoke-test.yml. Smoke passing != Miner-reliable;
+# a 1-turn print proves auth + routing only — run a manual miner-batch trial
+# before considering the peak-fill cron.
+#
+# Only Zen /v1/messages models work (claude-*, qwen3.5/3.6/3.7 plus/max).
+
+on:
+  workflow_dispatch:
+    inputs:
+      model:
+        description: 'Zen model id on the /v1/messages endpoint'
+        required: false
+        default: qwen3.7-plus
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Configure OpenCode Zen for Claude Code
+        uses: ./.github/actions/configure-opencode-zen
+        with:
+          api_key: ${{ secrets.OPENCODE_ZEN_API_KEY }}
+          model: ${{ inputs.model }}
+
+      - name: Run Zen model with a trivial prompt
+        uses: anthropics/claude-code-action@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          anthropic_api_key: ${{ secrets.OPENCODE_ZEN_API_KEY }}
+          prompt: |
+            Print exactly one line: "opencode zen smoke test ok".
+            Do not edit any files. Do not run any tools beyond what
+            is needed to print that line. Then exit.
+          claude_args: |
+            --model ${{ inputs.model }}
+            --max-turns 2
+            --allowedTools "Bash(*)"

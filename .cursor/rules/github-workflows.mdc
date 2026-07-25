@@ -14,10 +14,15 @@ alwaysApply: false
   - DeepSeek → `.github/actions/configure-deepseek` (production path)
   - OpenRouter → `.github/actions/configure-openrouter-hy3` (manual Miner
     trials / Hy3 eval — peak-fill cron disabled; pass `model:` input)
+  - OpenCode Zen → `.github/actions/configure-opencode-zen` (manual Miner
+    peak-fill trials; `/v1/messages` models only, x-api-key auth via
+    `OPENCODE_ZEN_API_KEY`)
 - Pass the matching secret as `anthropic_api_key` on `claude-code-action`.
 - Assayer is also dispatched explicitly after Miner (`gh workflow run assayer.yml`)
   because `pull_request` webhooks are rate-limited.
 - Board field updates: `.github/scripts/update-project-field.sh` (project #3 IDs).
   Must stay best-effort (`exit 0` on failure).
-- Miner branch pattern: `miner/issue-<N>-r<run_id>` (eval: `miner/hy3-eval-issue-…`).
-- Prefer editing prompts in `agents/*.md` over duplicating long rubrics inline.
+- Miner branch pattern: `miner/issue-<N>-r<run_id>` (eval:
+  `miner/eval-<slug>-issue-…`; legacy Hy3: `miner/hy3-eval-issue-…`).
+  Candidate eval: `miner-candidate-smoke.yml` / `miner-candidate-eval.yml`
+  — see `docs/MINER-CANDIDATE-EVAL.md`.

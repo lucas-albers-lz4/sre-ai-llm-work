@@ -1,0 +1,74 @@
+name: Miner Candidate Smoke Test
+
+# 1-turn auth/routing check for Miner cost-reduction candidates.
+# Smoke pass ≠ Miner-reliable — follow with miner-candidate-eval.yml then a
+# live miner-batch trial. See docs/MINER-CANDIDATE-EVAL.md.
+
+on:
+  workflow_dispatch:
+    inputs:
+      backend:
+        description: 'LLM gateway (openrouter Anthropic skin | zen Messages)'
+        type: choice
+        options:
+          - openrouter
+          - zen
+        default: openrouter
+      model:
+        description: 'Model slug (e.g. qwen/qwen3-coder:free or qwen3.5-plus)'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Configure OpenRouter for Claude Code
+        if: inputs.backend == 'openrouter'
+        uses: ./.github/actions/configure-openrouter-hy3
+        with:
+          api_key: ${{ secrets.OPENROUTER_API_KEY }}
+          model: ${{ inputs.model }}
+
+      - name: Configure OpenCode Zen for Claude Code
+        if: inputs.backend == 'zen'
+        uses: ./.github/actions/configure-opencode-zen
+        with:
+          api_key: ${{ secrets.OPENCODE_ZEN_API_KEY }}
+          model: ${{ inputs.model }}
+
+      - name: Run candidate with a trivial prompt (OpenRouter)
+        if: inputs.backend == 'openrouter'
+        uses: anthropics/claude-code-action@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          anthropic_api_key: ${{ secrets.OPENROUTER_API_KEY }}
+          prompt: |
+            Print exactly one line: "miner candidate smoke test ok".
+            Do not edit any files. Do not run any tools beyond what
+            is needed to print that line. Then exit.
+          claude_args: |
+            --model ${{ inputs.model }}
+            --max-turns 2
+            --allowedTools "Bash(*)"
+
+      - name: Run candidate with a trivial prompt (Zen)
+        if: inputs.backend == 'zen'
+        uses: anthropics/claude-code-action@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          anthropic_api_key: ${{ secrets.OPENCODE_ZEN_API_KEY }}
+          prompt: |
+            Print exactly one line: "miner candidate smoke test ok".
+            Do not edit any files. Do not run any tools beyond what
+            is needed to print that line. Then exit.
+          claude_args: |
+            --model ${{ inputs.model }}
+            --max-turns 2
+            --allowedTools "Bash(*)"

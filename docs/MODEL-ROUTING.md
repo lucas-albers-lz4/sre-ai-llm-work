@@ -4,7 +4,9 @@ Agent workflows use `anthropics/claude-code-action` (and the Claude Code CLI)
 routed to **DeepSeek's Anthropic-compatible API** via
 `.github/actions/configure-deepseek`. OpenRouter peak-fill wiring remains in
 `miner-batch.yml` / `configure-openrouter-hy3` but the **peak cron is
-disabled** until a free model proves agent-reliable under Miner tool use.
+disabled** until a candidate model proves agent-reliable under Miner tool
+use. Current candidate: OpenCode Zen `qwen3.7-plus` via
+`configure-opencode-zen` (`backend=zen`, manual trials only).
 
 ```text
 # Default (DeepSeek)
@@ -14,6 +16,12 @@ ANTHROPIC_AUTH_TOKEN / ANTHROPIC_API_KEY = DEEPSEEK_API_KEY
 # Manual OpenRouter Miner trial only (peak cron OFF)
 ANTHROPIC_BASE_URL=https://openrouter.ai/api
 ANTHROPIC_AUTH_TOKEN = OPENROUTER_API_KEY
+
+# Manual OpenCode Zen Miner trial (peak-fill candidate, paid)
+# Zen auths via x-api-key → ANTHROPIC_API_KEY; AUTH_TOKEN must be empty.
+# Base URL is /zen (Claude Code appends /v1/messages).
+ANTHROPIC_BASE_URL=https://opencode.ai/zen
+ANTHROPIC_API_KEY = OPENCODE_ZEN_API_KEY
 ```
 
 `CLAUDE_CODE_OAUTH_TOKEN` is **not** required for the MVP path.
@@ -24,7 +32,7 @@ ANTHROPIC_AUTH_TOKEN = OPENROUTER_API_KEY
 |--------|-------|-------|
 | Pre-screen / Prospector / Scribe / Site-crawl | `deepseek-v4-flash` | Volume / cheap triage |
 | **Miner** | `deepseek-v4-flash` | Direct DeepSeek API; off-peak cron `0,4,5,10–23` UTC |
-| **Miner peak-fill** | — | **Disabled** (2026-07-23). Nemotron Ultra free failed multi-turn Miner (empty/malformed HTTP 200). Manual `backend=nemotron` only for experiments |
+| **Miner peak-fill** | — | **Disabled** (2026-07-23). Nemotron Ultra free failed multi-turn Miner (empty/malformed HTTP 200). Manual `backend=nemotron` only for experiments. Current candidate: OpenCode Zen `qwen3.7-plus` via `backend=zen` (see below) |
 | Assayer / Smith / Herald / Contradiction | `deepseek-v4-pro[1m]` | Heavier review & synthesis |
 
 Site-crawl (`scripts/scan-sites.py`) calls the same Anthropic-compatible
@@ -37,6 +45,7 @@ Messages API with `DEEPSEEK_API_KEY` + `SITE_CRAWL_MODEL=deepseek-v4-flash`.
 | `DEEPSEEK_API_KEY` | **Required** — all agent workflows + site-crawl screener |
 | `PROJECT_PAT` | GitHub Projects + issue/PR events that must trigger workflows |
 | `OPENROUTER_API_KEY` | Optional — manual Miner OpenRouter trials / Hy3 / Nemotron smoke (not required while peak cron is off) |
+| `OPENCODE_ZEN_API_KEY` | Optional — OpenCode Zen peak-fill trials (`backend=zen`, `opencode-zen-smoke-test.yml`) |
 | `ANTHROPIC_API_KEY` / `CLAUDE_CODE_OAUTH_TOKEN` | Optional Claude ceiling later (Assayer/Smith quality) |
 
 ## Peak / valley pricing (DeepSeek V4)
@@ -75,6 +84,26 @@ Smoke (when retrying a candidate model):
 gh workflow run nemotron-smoke-test.yml   # or a model-specific smoke
 gh workflow run miner-batch.yml -f backend=nemotron  # single manual trial
 ```
+
+**Current candidate program (2026-07-25):** Miner-only cost eval across
+OpenRouter free coding models and OpenCode Zen Messages models. See
+[`docs/MINER-CANDIDATE-EVAL.md`](MINER-CANDIDATE-EVAL.md) for ladder,
+pass bar, and scorecard. Production Miner stays on off-peak Flash until a
+candidate clears smoke + golden + live Assayer.
+
+```bash
+gh workflow run miner-candidate-smoke.yml -f backend=openrouter -f model=qwen/qwen3-coder:free
+gh workflow run miner-candidate-eval.yml -f backend=openrouter -f model=qwen/qwen3-coder:free -f issue_number=1
+gh workflow run miner-batch.yml -f backend=openrouter -f model=qwen/qwen3-coder:free
+gh workflow run miner-candidate-smoke.yml -f backend=zen -f model=qwen3.5-plus
+```
+
+Requires `OPENROUTER_API_KEY` (Wave A) and/or `OPENCODE_ZEN_API_KEY` (Wave B).
+Zen `/v1/messages` only for Claude Code (qwen3.5/3.6/3.7 plus/max, claude-*);
+Zen chat-completions free tier is Wave C (proxy) later.
+
+Same re-enable bar as any candidate: a full source-note extraction that
+passes Assayer, not just smoke.
 
 ## Hy3 note (historical)
 

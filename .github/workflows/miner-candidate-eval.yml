@@ -1,0 +1,334 @@
+name: Miner Candidate Eval
+
+# Golden-set replay for Miner cost-reduction candidates (OpenRouter or Zen).
+# Opens an eval PR only — does NOT merge or mutate the source issue.
+# Compare against merged DeepSeek/Flash baseline notes + Assayer verdicts.
+# See docs/MINER-CANDIDATE-EVAL.md
+
+on:
+  workflow_dispatch:
+    inputs:
+      backend:
+        description: 'LLM gateway (openrouter | zen)'
+        type: choice
+        options:
+          - openrouter
+          - zen
+        default: openrouter
+      model:
+        description: 'Model slug (e.g. qwen/qwen3-coder:free or qwen3.5-plus)'
+        required: true
+        type: string
+      issue_number:
+        description: 'Source issue number to re-mine (e.g. 1–4 for golden set)'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  issues: read
+  pull-requests: write
+  id-token: write
+
+concurrency:
+  group: miner-candidate-eval-${{ inputs.backend }}-${{ inputs.model }}-${{ inputs.issue_number }}
+  cancel-in-progress: false
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    outputs:
+      slug: ${{ steps.slug.outputs.slug }}
+    steps:
+      - name: Derive eval slug from model
+        id: slug
+        run: |
+          # Sanitize model for branch/filename: qwen/qwen3-coder:free → qwen-qwen3-coder-free
+          SLUG=$(echo "${{ inputs.model }}" | tr '/:.' '-' | tr '[:upper:]' '[:lower:]' | sed 's/--*/-/g; s/^-//; s/-$//')
+          echo "slug=$SLUG" >> "$GITHUB_OUTPUT"
+          echo "Eval slug=$SLUG backend=${{ inputs.backend }} model=${{ inputs.model }}"
+
+  eval:
+    needs: preflight
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          token: ${{ secrets.PROJECT_PAT }}
+          fetch-depth: 0
+
+      - name: Configure OpenRouter for Claude Code
+        if: inputs.backend == 'openrouter'
+        uses: ./.github/actions/configure-openrouter-hy3
+        with:
+          api_key: ${{ secrets.OPENROUTER_API_KEY }}
+          model: ${{ inputs.model }}
+
+      - name: Configure OpenCode Zen for Claude Code
+        if: inputs.backend == 'zen'
+        uses: ./.github/actions/configure-opencode-zen
+        with:
+          api_key: ${{ secrets.OPENCODE_ZEN_API_KEY }}
+          model: ${{ inputs.model }}
+
+      - name: Ensure miner-eval label exists
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh label create "miner-eval" \
+            --repo "${{ github.repository }}" \
+            --description "Miner candidate eval PR — do not merge" \
+            --color "5319e7" \
+            2>/dev/null || true
+
+      - name: Verify source issue exists
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE: ${{ inputs.issue_number }}
+        run: |
+          gh issue view "$ISSUE" --repo "${{ github.repository }}" \
+            --json number,title,state,labels \
+            --jq '{number,title,state,labels:[.labels[].name]}'
+
+      - name: Configure git identity for Miner commits
+        run: |
+          git config user.name  "hitchhiker-miner[bot]"
+          git config user.email "hitchhiker-miner@users.noreply.github.com"
+
+      - name: Load Miner role into APPEND_SYSTEM_PROMPT
+        run: |
+          {
+            echo 'APPEND_SYSTEM_PROMPT<<APPEND_EOF'
+            cat agents/MINER.md
+            echo 'APPEND_EOF'
+          } >> "$GITHUB_ENV"
+
+      - name: Run Miner candidate eval for issue #${{ inputs.issue_number }} (OpenRouter)
+        if: inputs.backend == 'openrouter'
+        uses: anthropics/claude-code-action@v1
+        with:
+          github_token: ${{ secrets.PROJECT_PAT }}
+          anthropic_api_key: ${{ secrets.OPENROUTER_API_KEY }}
+          allowed_bots: "claude[bot],github-actions,github-actions[bot]"
+          show_full_output: true
+          prompt: |
+            You are the Miner agent running a **candidate model evaluation** for the
+            hitchhiker-guide repo. Read `agents/MINER.md` first — follow it
+            precisely; the Assayer will review this PR the same as production.
+
+            Backend: openrouter. Model: `${{ inputs.model }}`.
+
+            Your task: produce a source-note PR for issue
+            #${{ inputs.issue_number }} in ${{ github.repository }}.
+
+            ## EVAL MODE — mandatory overrides
+
+            This is a quality comparison run against an existing DeepSeek/Flash note.
+            You MUST follow these eval rules in addition to MINER.md:
+
+            1. **Do NOT modify the source issue** — no comments, no label
+               changes, no close/reopen on issue #${{ inputs.issue_number }}.
+            2. **Do NOT edit existing files** under `source-notes/` except to
+               add ONE new eval file (see filename rule below).
+            3. **Filename**: `<normal-slug>-${{ needs.preflight.outputs.slug }}-eval.md`
+               (e.g. if the note would be `blog-foo-bar.md`, write
+               `blog-foo-bar-${{ needs.preflight.outputs.slug }}-eval.md`).
+            4. **Frontmatter**: set
+               `issue: "#${{ inputs.issue_number }}-${{ needs.preflight.outputs.slug }}-eval"`
+               (not the bare issue number).
+            5. **Branch**:
+               `miner/eval-${{ needs.preflight.outputs.slug }}-issue-${{ inputs.issue_number }}-r${{ github.run_id }}`
+            6. **PR title** must start with `[eval:${{ needs.preflight.outputs.slug }}] `
+               then the normal `source: <slug> (#${{ inputs.issue_number }})` pattern.
+            7. **PR labels**: `source-note` AND `miner-eval` (both required).
+            8. **PR body** must include:
+               "Miner candidate eval (${{ inputs.backend }} / `${{ inputs.model }}`)
+               for golden issue #${{ inputs.issue_number }}. Do not merge —
+               compare against the merged DeepSeek/Flash baseline note."
+
+            ## Read inputs (same as production Miner)
+
+            a. `agents/MINER.md`
+            b. `source-notes/.template-general.md`
+            c. Issue + Prospector comment:
+                  gh issue view ${{ inputs.issue_number }} \
+                    --repo ${{ github.repository }} \
+                    --json number,title,body,labels,author,url,comments
+            d. Triage type from labels (`triaged:text` / `triaged:failure`).
+            e. Existing `source-notes/` for cross-references (including the
+               merged baseline for this URL — cite it in Cross-References
+               but do not edit it).
+
+            ## Extract, write, PR
+
+            Follow MINER.md extraction steps. Do NOT edit `registry/sources.json`.
+
+            Branch and PR:
+
+              git checkout -b miner/eval-${{ needs.preflight.outputs.slug }}-issue-${{ inputs.issue_number }}-r${{ github.run_id }}
+              git add source-notes/*-${{ needs.preflight.outputs.slug }}-eval.md
+              git commit -m "source: <slug>-${{ needs.preflight.outputs.slug }}-eval (#${{ inputs.issue_number }})"
+              git push -u origin miner/eval-${{ needs.preflight.outputs.slug }}-issue-${{ inputs.issue_number }}-r${{ github.run_id }}
+
+              Write /tmp/miner-eval-pr-body.md via Bash before gh pr create, then:
+
+              gh pr create \
+                --repo ${{ github.repository }} \
+                --base main \
+                --head miner/eval-${{ needs.preflight.outputs.slug }}-issue-${{ inputs.issue_number }}-r${{ github.run_id }} \
+                --title "[eval:${{ needs.preflight.outputs.slug }}] source: <slug> (#${{ inputs.issue_number }})" \
+                --body-file /tmp/miner-eval-pr-body.md \
+                --label source-note \
+                --label miner-eval
+
+            If the source is unreadable, exit WITHOUT opening a PR and WITHOUT
+            touching the source issue. Write a one-line summary to stdout only.
+          claude_args: |
+            --model ${{ inputs.model }}
+            --max-turns 60
+            --allowedTools "Bash(*)" "Read" "Write" "Edit" "Glob" "Grep" "WebFetch"
+
+      - name: Run Miner candidate eval for issue #${{ inputs.issue_number }} (Zen)
+        if: inputs.backend == 'zen'
+        uses: anthropics/claude-code-action@v1
+        with:
+          github_token: ${{ secrets.PROJECT_PAT }}
+          anthropic_api_key: ${{ secrets.OPENCODE_ZEN_API_KEY }}
+          allowed_bots: "claude[bot],github-actions,github-actions[bot]"
+          show_full_output: true
+          prompt: |
+            You are the Miner agent running a **candidate model evaluation** for the
+            hitchhiker-guide repo. Read `agents/MINER.md` first — follow it
+            precisely; the Assayer will review this PR the same as production.
+
+            Backend: zen. Model: `${{ inputs.model }}`.
+
+            Your task: produce a source-note PR for issue
+            #${{ inputs.issue_number }} in ${{ github.repository }}.
+
+            ## EVAL MODE — mandatory overrides
+
+            This is a quality comparison run against an existing DeepSeek/Flash note.
+            You MUST follow these eval rules in addition to MINER.md:
+
+            1. **Do NOT modify the source issue** — no comments, no label
+               changes, no close/reopen on issue #${{ inputs.issue_number }}.
+            2. **Do NOT edit existing files** under `source-notes/` except to
+               add ONE new eval file (see filename rule below).
+            3. **Filename**: `<normal-slug>-${{ needs.preflight.outputs.slug }}-eval.md`
+               (e.g. if the note would be `blog-foo-bar.md`, write
+               `blog-foo-bar-${{ needs.preflight.outputs.slug }}-eval.md`).
+            4. **Frontmatter**: set
+               `issue: "#${{ inputs.issue_number }}-${{ needs.preflight.outputs.slug }}-eval"`
+               (not the bare issue number).
+            5. **Branch**:
+               `miner/eval-${{ needs.preflight.outputs.slug }}-issue-${{ inputs.issue_number }}-r${{ github.run_id }}`
+            6. **PR title** must start with `[eval:${{ needs.preflight.outputs.slug }}] `
+               then the normal `source: <slug> (#${{ inputs.issue_number }})` pattern.
+            7. **PR labels**: `source-note` AND `miner-eval` (both required).
+            8. **PR body** must include:
+               "Miner candidate eval (${{ inputs.backend }} / `${{ inputs.model }}`)
+               for golden issue #${{ inputs.issue_number }}. Do not merge —
+               compare against the merged DeepSeek/Flash baseline note."
+
+            ## Read inputs (same as production Miner)
+
+            a. `agents/MINER.md`
+            b. `source-notes/.template-general.md`
+            c. Issue + Prospector comment:
+                  gh issue view ${{ inputs.issue_number }} \
+                    --repo ${{ github.repository }} \
+                    --json number,title,body,labels,author,url,comments
+            d. Triage type from labels (`triaged:text` / `triaged:failure`).
+            e. Existing `source-notes/` for cross-references (including the
+               merged baseline for this URL — cite it in Cross-References
+               but do not edit it).
+
+            ## Extract, write, PR
+
+            Follow MINER.md extraction steps. Do NOT edit `registry/sources.json`.
+
+            Branch and PR:
+
+              git checkout -b miner/eval-${{ needs.preflight.outputs.slug }}-issue-${{ inputs.issue_number }}-r${{ github.run_id }}
+              git add source-notes/*-${{ needs.preflight.outputs.slug }}-eval.md
+              git commit -m "source: <slug>-${{ needs.preflight.outputs.slug }}-eval (#${{ inputs.issue_number }})"
+              git push -u origin miner/eval-${{ needs.preflight.outputs.slug }}-issue-${{ inputs.issue_number }}-r${{ github.run_id }}
+
+              Write /tmp/miner-eval-pr-body.md via Bash before gh pr create, then:
+
+              gh pr create \
+                --repo ${{ github.repository }} \
+                --base main \
+                --head miner/eval-${{ needs.preflight.outputs.slug }}-issue-${{ inputs.issue_number }}-r${{ github.run_id }} \
+                --title "[eval:${{ needs.preflight.outputs.slug }}] source: <slug> (#${{ inputs.issue_number }})" \
+                --body-file /tmp/miner-eval-pr-body.md \
+                --label source-note \
+                --label miner-eval
+
+            If the source is unreadable, exit WITHOUT opening a PR and WITHOUT
+            touching the source issue. Write a one-line summary to stdout only.
+          claude_args: |
+            --model ${{ inputs.model }}
+            --max-turns 60
+            --allowedTools "Bash(*)" "Read" "Write" "Edit" "Glob" "Grep" "WebFetch"
+
+      - name: Ensure eval PR exists
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.PROJECT_PAT }}
+          SLUG: ${{ needs.preflight.outputs.slug }}
+          BRANCH: miner/eval-${{ needs.preflight.outputs.slug }}-issue-${{ inputs.issue_number }}-r${{ github.run_id }}
+          ISSUE: ${{ inputs.issue_number }}
+          BACKEND: ${{ inputs.backend }}
+          MODEL: ${{ inputs.model }}
+        run: |
+          PR_NUM=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number // empty')
+          if [ -n "$PR_NUM" ]; then
+            echo "Eval PR already open: #$PR_NUM"
+            exit 0
+          fi
+
+          if ! git ls-remote --exit-code origin "refs/heads/$BRANCH" >/dev/null 2>&1; then
+            echo "::error::No branch $BRANCH and no eval PR — Miner did not produce output."
+            exit 1
+          fi
+
+          EVAL_FILE=$(git ls-tree -r --name-only "origin/$BRANCH" source-notes/ \
+            | grep -- "-${SLUG}-eval\\.md$" | head -1 || true)
+          if [ -z "$EVAL_FILE" ]; then
+            echo "::error::Branch $BRANCH exists but has no *-${SLUG}-eval.md file."
+            exit 1
+          fi
+
+          NOTE_SLUG=$(basename "$EVAL_FILE" "-${SLUG}-eval.md")
+          cat > /tmp/miner-eval-pr-body.md <<EOF
+          Miner candidate eval (${BACKEND} / \`${MODEL}\`) for golden issue #${ISSUE}.
+          Do not merge — compare against the merged DeepSeek/Flash baseline note.
+          EOF
+
+          PR_URL=$(gh pr create \
+            --repo "${{ github.repository }}" \
+            --base main \
+            --head "$BRANCH" \
+            --title "[eval:${SLUG}] source: ${NOTE_SLUG} (#${ISSUE})" \
+            --body-file /tmp/miner-eval-pr-body.md \
+            --label source-note \
+            --label miner-eval)
+          echo "Opened missing eval PR: $PR_URL"
+
+      - name: Dispatch Assayer for eval PR
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.PROJECT_PAT }}
+          BRANCH: miner/eval-${{ needs.preflight.outputs.slug }}-issue-${{ inputs.issue_number }}-r${{ github.run_id }}
+        run: |
+          PR_NUM=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number // empty')
+          if [ -z "$PR_NUM" ]; then
+            echo "::error::No eval PR found for branch $BRANCH after ensure step."
+            exit 1
+          fi
+          echo "Dispatching Assayer for candidate eval PR #$PR_NUM"
+          gh workflow run assayer.yml \
+            --repo "${{ github.repository }}" \
+            --field pr_number="$PR_NUM"
