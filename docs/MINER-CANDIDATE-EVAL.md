@@ -79,9 +79,11 @@ Only `/v1/messages` models. Requires `OPENCODE_ZEN_API_KEY`.
 
 | # | Model | Smoke | #1 | #2 | #3 | #4 | Live | Notes / decision |
 |---|-------|-------|----|----|----|----|------|------------------|
-| 1 | `qwen3.5-plus` | pass ([run](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30165953323)) | [PR #488](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/488) **APPROVE** | [PR #489](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/489) Assayer pending | running | | | |
-| 2 | `qwen3.7-plus` | | | | | | | |
+| 1 | `qwen3.5-plus` | pass ([run](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30165953323)) | [PR #488](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/488) **APPROVE** (accidentally auto-merged then removed from corpus) | [PR #489](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/489) **APPROVE** | [PR #490](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/490) REQUEST CHANGES | [PR #491](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/491) **APPROVE** | deferred — queue empty ([batch](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30167011081) no-op) | **3/4 APPROVE** clears golden bar. Live when next `mining-queued` issue: `gh workflow run miner-batch.yml -f backend=zen -f model=qwen3.5-plus`. No peak cron until that live Assayer APPROVE. |
+| 2 | `qwen3.7-plus` | | | | | | | not needed yet — 3.5-plus leading |
 | 3 | `claude-haiku-4.5` (fallback) | | | | | | | |
+
+**Wave B interim decision (2026-07-25):** `qwen3.5-plus` on OpenCode Zen is the leading Miner cost candidate (3/4 golden Assayer APPROVE; ~5–7 min/extraction vs Laguna free hang). Assayer auto-merge now skips `miner-eval`. Keep off-peak Flash production until live trial clears.
 
 ### Wave C — later
 
