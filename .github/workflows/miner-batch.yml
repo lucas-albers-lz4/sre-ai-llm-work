@@ -6,7 +6,7 @@ name: Batch Miner
 # Peak-fill cron DISABLED — 2026-07-23 Nemotron free failed multi-turn Miner.
 # Manual trial backends (workflow_dispatch only):
 #   flash      — production DeepSeek Flash
-#   openrouter — OpenRouter Anthropic skin; pass `model` (default qwen/qwen3-coder:free)
+#   openrouter — OpenRouter Anthropic skin; pass `model` (default poolside/laguna-m.1:free)
 #   zen        — OpenCode Zen /v1/messages; pass `model` (default qwen3.7-plus)
 #   nemotron   — legacy OpenRouter Nemotron free (do not retry as primary)
 # Requires OPENROUTER_API_KEY (openrouter/nemotron) or OPENCODE_ZEN_API_KEY (zen).
@@ -85,7 +85,7 @@ jobs:
           fi
 
           if [ "$BACKEND" = "openrouter" ]; then
-            MODEL="${MODEL_OVERRIDE:-qwen/qwen3-coder:free}"
+            MODEL="${MODEL_OVERRIDE:-poolside/laguna-m.1:free}"
           elif [ "$BACKEND" = "nemotron" ]; then
             MODEL="${MODEL_OVERRIDE:-nvidia/nemotron-3-ultra-550b-a55b:free}"
           elif [ "$BACKEND" = "zen" ]; then

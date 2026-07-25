@@ -92,9 +92,9 @@ pass bar, and scorecard. Production Miner stays on off-peak Flash until a
 candidate clears smoke + golden + live Assayer.
 
 ```bash
-gh workflow run miner-candidate-smoke.yml -f backend=openrouter -f model=qwen/qwen3-coder:free
-gh workflow run miner-candidate-eval.yml -f backend=openrouter -f model=qwen/qwen3-coder:free -f issue_number=1
-gh workflow run miner-batch.yml -f backend=openrouter -f model=qwen/qwen3-coder:free
+gh workflow run miner-candidate-smoke.yml -f backend=openrouter -f model=poolside/laguna-m.1:free
+gh workflow run miner-candidate-eval.yml -f backend=openrouter -f model=poolside/laguna-m.1:free -f issue_number=1
+gh workflow run miner-batch.yml -f backend=openrouter -f model=poolside/laguna-m.1:free
 gh workflow run miner-candidate-smoke.yml -f backend=zen -f model=qwen3.5-plus
 ```
 

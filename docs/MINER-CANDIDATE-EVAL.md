@@ -30,17 +30,17 @@ Do **not** re-enable peak cron until smoke + golden + live all pass.
 ```bash
 # Smoke
 gh workflow run miner-candidate-smoke.yml \
-  -f backend=openrouter -f model=qwen/qwen3-coder:free
+  -f backend=openrouter -f model=poolside/laguna-m.1:free
 gh workflow run miner-candidate-smoke.yml \
   -f backend=zen -f model=qwen3.5-plus
 
 # Golden-set eval (repeat issue_number=1..4)
 gh workflow run miner-candidate-eval.yml \
-  -f backend=openrouter -f model=qwen/qwen3-coder:free -f issue_number=1
+  -f backend=openrouter -f model=poolside/laguna-m.1:free -f issue_number=1
 
 # Live queue trial
 gh workflow run miner-batch.yml \
-  -f backend=openrouter -f model=qwen/qwen3-coder:free
+  -f backend=openrouter -f model=poolside/laguna-m.1:free
 gh workflow run miner-batch.yml \
   -f backend=zen -f model=qwen3.5-plus
 ```
@@ -60,10 +60,13 @@ the live catalog before each run (IDs churn).
 
 ### Wave A — OpenRouter free (coding-oriented)
 
+Confirm slugs against the live OpenRouter catalog before each run (IDs churn).
+As of 2026-07-25, `qwen/qwen3-coder:free` is **not** listed.
+
 | # | Model | Smoke | #1 | #2 | #3 | #4 | Live | Notes / decision |
 |---|-------|-------|----|----|----|----|------|------------------|
-| 1 | `qwen/qwen3-coder:free` | | | | | | | |
-| 2 | `poolside/laguna-m.1:free` (or `laguna-xs-2.1:free`) | | | | | | | |
+| 1 | `poolside/laguna-m.1:free` | | | | | | | |
+| 2 | `poolside/laguna-xs-2.1:free` (or `laguna-s-2.1:free`) | | | | | | | |
 | 3 | `cohere/north-mini-code:free` | | | | | | | |
 
 Skip: `nvidia/nemotron-3-ultra-550b-a55b:free` (already failed multi-turn).

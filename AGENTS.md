@@ -77,13 +77,13 @@ Actions prompts).
 gh workflow run claude-smoke-test.yml
 
 # OpenRouter / Zen Miner candidate smoke + golden eval (cost program)
-gh workflow run miner-candidate-smoke.yml -f backend=openrouter -f model=qwen/qwen3-coder:free
-gh workflow run miner-candidate-eval.yml -f backend=openrouter -f model=qwen/qwen3-coder:free -f issue_number=1
+gh workflow run miner-candidate-smoke.yml -f backend=openrouter -f model=poolside/laguna-m.1:free
+gh workflow run miner-candidate-eval.yml -f backend=openrouter -f model=poolside/laguna-m.1:free -f issue_number=1
 gh workflow run miner-candidate-smoke.yml -f backend=zen -f model=qwen3.5-plus
 
 # Drain mining queue / daily discovery
 gh workflow run miner-batch.yml -f backend=flash
-gh workflow run miner-batch.yml -f backend=openrouter -f model=qwen/qwen3-coder:free
+gh workflow run miner-batch.yml -f backend=openrouter -f model=poolside/laguna-m.1:free
 gh workflow run miner-batch.yml -f backend=zen -f model=qwen3.5-plus
 gh workflow run daily-scan.yml
 
