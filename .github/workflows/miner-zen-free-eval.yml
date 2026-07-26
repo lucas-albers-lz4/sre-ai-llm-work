@@ -14,8 +14,11 @@ name: Miner Zen Free Eval
 # the miner-eval PR and dispatch Assayer.
 #
 # Hang diagnostics (H0 / opencode-hang-repro#2): job-level OPENCODE_PRINT_LOGS
-# + DEBUG, and always() upload of ~/.local/share/opencode/log/ plus a process/
-# socket snapshot — confirms or kills unbounded FreeUsageLimitError retry sleep.
+# + DEBUG, and always() upload of per-pid sockets/FDs, every reachable log sink,
+# and the installed CLI version — confirms or kills unbounded
+# FreeUsageLimitError retry sleep. Step 0 (run 30189432574) reproduced the hang
+# but stayed inconclusive: the file log was boot-only and global `ss` could not
+# attribute sockets to opencode.
 #
 # Run these one at a time. Four concurrent Zen free jobs all failed without
 # pushing a branch (2026-07-26), versus 2/4 clean when serialized.
@@ -225,40 +228,115 @@ jobs:
             Work efficiently — finish extraction and open the PR; do not loop
             indefinitely on optional polish.
 
-      # H0 confirm/kill (opencode-hang-repro#2): file logger is always on under
-      # ~/.local/share/opencode/log/. Retry sleeps leave no Zen :443 socket;
-      # stream-idle leaves ESTABLISHED. Runs even when OpenCode is cancelled.
+      # H0 confirm/kill (opencode-hang-repro#2). Step 0 was inconclusive: the
+      # file log stayed boot-only and global `ss` could not attribute sockets to
+      # opencode. This pass resolves the opencode PIDs first, then records
+      # per-pid sockets and FDs, harvests every log sink it can find, and pins
+      # the CLI version the Action actually installed.
+      #
+      # Retry sleep  => process alive, no opencode-owned socket to Zen.
+      # Stream idle  => opencode-owned ESTABLISHED socket with no traffic.
       - name: Snapshot OpenCode hang diagnostics
         id: opencode_diag
         if: always()
         run: |
           set +e
           DIAG="${RUNNER_TEMP}/opencode-diag"
-          mkdir -p "$DIAG/log"
+          mkdir -p "$DIAG/log" "$DIAG/proc"
+
+          # Drop this step's own processes: their argv contains the diag path.
+          PIDS=$(pgrep -f '[o]pencode' 2>/dev/null | while read -r p; do
+            [ "$p" = "$$" ] && continue
+            cmd=$(tr '\0' ' ' < "/proc/$p/cmdline" 2>/dev/null)
+            case "$cmd" in *opencode-diag*) continue ;; esac
+            echo "$p"
+          done | tr '\n' ' ')
+          {
+            echo "=== utc ==="
+            date -u
+            echo "=== pgrep -af opencode (raw) ==="
+            pgrep -af '[o]pencode' 2>/dev/null || echo "(none matched)"
+            echo "=== resolved pids (self-excluded) ==="
+            echo "${PIDS:-(none)}"
+          } | tee "$DIAG/pids.txt"
+
+          # Per-pid sockets: the decisive H0 signal. A retry sleep holds no
+          # connection to Zen; a stalled stream keeps one ESTABLISHED.
+          {
+            echo "=== ss -tnp per opencode pid ==="
+            if [ -z "$PIDS" ]; then
+              echo "(no opencode pids at snapshot time)"
+            fi
+            for p in $PIDS; do
+              echo "-- pid $p"
+              ss -tnp 2>/dev/null | grep "pid=$p," || echo "   (no sockets owned by pid $p)"
+            done
+            echo "=== all :443 (context) ==="
+            ss -tnp 2>/dev/null | grep ':443' || echo "(no :443)"
+            echo "=== full ss -tnp (context) ==="
+            ss -tnp 2>/dev/null | head -n 200
+          } | tee "$DIAG/ss-per-pid.txt"
+
+          for p in $PIDS; do
+            {
+              echo "=== pid $p cmdline ==="
+              tr '\0' ' ' < "/proc/$p/cmdline" 2>/dev/null; echo
+              echo "=== pid $p status (wchan/state) ==="
+              grep -E '^(Name|State|Threads)' "/proc/$p/status" 2>/dev/null
+              cat "/proc/$p/wchan" 2>/dev/null; echo
+              echo "=== pid $p fd table ==="
+              ls -l "/proc/$p/fd" 2>/dev/null || echo "(unreadable)"
+            } > "$DIAG/proc/fd-$p.txt" 2>&1
+          done
+
+          # Harvest every plausible log sink, not just the known-good path.
+          {
+            echo "=== candidate log trees ==="
+            for d in \
+              "${HOME}/.local/share/opencode" \
+              ${XDG_DATA_HOME:+"${XDG_DATA_HOME}/opencode"} \
+              "${HOME}/.opencode" \
+              "${HOME}/.config/opencode"
+            do
+              [ -n "$d" ] || continue
+              echo "-- $d"
+              find "$d" -maxdepth 4 -type f \( -name '*.log' -o -name '*.jsonl' -o -name '*.txt' \) \
+                -printf '%TY-%Tm-%Td %TH:%TM %10s %p\n' 2>/dev/null || echo "   (missing)"
+            done
+            echo "=== recent opencode files under RUNNER_TEMP ==="
+            find "${RUNNER_TEMP}" -maxdepth 3 -iname '*opencode*' \
+              -printf '%TY-%Tm-%Td %TH:%TM %10s %p\n' 2>/dev/null | head -n 50
+          } | tee "$DIAG/log-tree.txt"
+
+          for d in \
+            "${HOME}/.local/share/opencode" \
+            ${XDG_DATA_HOME:+"${XDG_DATA_HOME}/opencode"} \
+            "${HOME}/.opencode"
+          do
+            [ -d "$d" ] || continue
+            find "$d" -maxdepth 4 -type f \( -name '*.log' -o -name '*.jsonl' \) \
+              -exec cp -a --parents {} "$DIAG/log/" \; 2>/dev/null
+          done
+
+          {
+            echo "=== which opencode ==="
+            command -v opencode || echo "(not on PATH)"
+            echo "=== opencode --version ==="
+            timeout 20 opencode --version 2>&1 || echo "(version call failed)"
+            echo "=== ~/.opencode/bin ==="
+            ls -la "${HOME}/.opencode/bin" 2>/dev/null || echo "(missing)"
+          } | tee "$DIAG/version.txt"
+
           {
             echo "=== utc ==="
             date -u
             echo "=== opencode / related processes ==="
             ps auxww | grep -iE '[o]pencode|[n]ode.*opencode' || echo "(none matched)"
-            echo "=== listening / established (ss) ==="
-            ss -tnp 2>/dev/null | head -n 200 || true
-            echo "=== ss :443 ==="
-            ss -tnp 2>/dev/null | grep ':443' || echo "(no :443)"
-            echo "=== log paths ==="
-            for d in \
-              "${HOME}/.local/share/opencode/log" \
-              ${XDG_DATA_HOME:+"${XDG_DATA_HOME}/opencode/log"} \
-              "${HOME}/.opencode/log"
-            do
-              [ -n "$d" ] || continue
-              echo "-- $d"
-              ls -la "$d" 2>/dev/null || echo "(missing)"
-            done
+            echo "=== summary ==="
+            echo "pids: ${PIDS:-(none)}"
+            echo "see pids.txt, ss-per-pid.txt, proc/fd-*.txt, log-tree.txt, version.txt"
           } | tee "$DIAG/snapshot.txt"
-          cp -a "${HOME}/.local/share/opencode/log/." "$DIAG/log/" 2>/dev/null || true
-          if [ -n "${XDG_DATA_HOME:-}" ]; then
-            cp -a "${XDG_DATA_HOME}/opencode/log/." "$DIAG/log/" 2>/dev/null || true
-          fi
+
           echo "diag_dir=$DIAG" >> "$GITHUB_OUTPUT"
           echo "OpenCode diag snapshot written to $DIAG"
 
