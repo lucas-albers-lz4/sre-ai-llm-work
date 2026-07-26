@@ -8,10 +8,13 @@ name: Miner Zen Free Eval
 # Assayer (DeepSeek Pro) is the quality gate; miner-eval PRs are never
 # auto-merged.
 #
-# Fail-fast: job timeout 12m (successful OpenCode extractions finish in <5m;
-# post-push hangs burned ~25m — see Actions run 30178399593 / issue #500).
+# Fail-fast: job timeout 12m (clean OpenCode extractions finish in 3-9m, even
+# with related-note retrieval; post-work hangs never self-recover — see #500).
 # Salvage: if OpenCode fails/cancels after pushing the eval branch, still open
 # the miner-eval PR and dispatch Assayer.
+#
+# Run these one at a time. Four concurrent Zen free jobs all failed without
+# pushing a branch (2026-07-26), versus 2/4 clean when serialized.
 #
 # Models: mimo / ling / laguna-s / nemotron-3-ultra-free /
 # deepseek-v4-flash-free (same family as production Miner, Zen free tier).
@@ -66,10 +69,12 @@ jobs:
   eval:
     needs: preflight
     runs-on: ubuntu-latest
-    # Real OpenCode extractions finish in <5m without retrieval; with
-    # related-note cite-or-dismiss, budget more wall time. Hangs after git
-    # push still salvage via Ensure (see #500 / #501).
-    timeout-minutes: 25
+    # Clean runs finish well inside 12m even with related-note cite-or-dismiss
+    # (#506 matrix: mimo 3m00s, laguna 9m10s). Hangs never recover on their own —
+    # Ensure salvages the PR from the pushed branch — so a longer budget only
+    # wastes runner time per hang (25m attempt: ling and nemotron both burned the
+    # full window). See #500.
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v5
         with:
