@@ -25,6 +25,19 @@ smoke (1-turn) → golden #1 → #2–#4 → live mining-queued trial (1 issue)
 
 Do **not** re-enable peak cron until smoke + golden + live all pass.
 
+## Related-note retrieval (#506)
+
+Miner jobs (production batch + candidate evals) inject lexical
+cross-reference candidates from `registry/claims-index.json` into
+`${RUNNER_TEMP}/miner-related-notes.md` before the agent runs. Kill switch:
+`disable_candidates=true` on `workflow_dispatch`, or
+`MINER_DISABLE_CANDIDATES=1`. PRs get `has-candidates` / `no-candidates`.
+
+Success bar for free non-Flash models after retrieval lands: ≥3/5 of
+`mimo` / `ling` / `laguna-s` / `nemotron-ultra-free` / `north-mini` pass
+Assayer Cross-refs on golden #1 with quote-accuracy unchanged, plus one
+Flash spot-check. See issue #506.
+
 ## Workflows
 
 ```bash

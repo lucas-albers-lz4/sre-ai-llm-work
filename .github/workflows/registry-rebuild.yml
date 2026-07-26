@@ -1,14 +1,14 @@
 name: Rebuild source registry
 
-# registry/sources.json is a DERIVED index of source-note front-matter, not a
-# hand-edited file. Previously every miner appended its own entry to this one
-# shared file, so every parallel miner PR conflicted on it — the structural
-# cause of the 2026-06 54-PR backlog. Miners no longer touch it (see
-# miner-batch.yml); instead this workflow rebuilds it deterministically from
+# registry/sources.json and registry/claims-index.json are DERIVED indexes —
+# not hand-edited files. Previously every miner appended its own entry to
+# sources.json, so every parallel miner PR conflicted on it — the structural
+# cause of the 2026-06 54-PR backlog. Miners no longer touch either file (see
+# miner-batch.yml); instead this workflow rebuilds them deterministically from
 # source-notes/*.md whenever notes change on main.
 #
 # Loop-safety: the trigger is path-filtered to source-notes/**, and the only
-# file this workflow commits is registry/sources.json, so its own commit does
+# files this workflow commits are under registry/, so its own commit does
 # not re-trigger it.
 
 on:
@@ -46,18 +46,20 @@ jobs:
         run: pip install pyyaml
 
       - name: Regenerate registry from source-note front-matter
-        run: python3 scripts/build_registry.py
+        run: |
+          python3 scripts/build_registry.py
+          python3 scripts/build_claims_index.py
 
       - name: Commit if the index changed
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          if git diff --quiet -- registry/sources.json; then
-            echo "registry/sources.json already up to date."
+          if git diff --quiet -- registry/sources.json registry/claims-index.json; then
+            echo "registry indexes already up to date."
             exit 0
           fi
           git config user.name  "hitchhiker-registry[bot]"
           git config user.email "hitchhiker-registry@users.noreply.github.com"
-          git add registry/sources.json
-          git commit -m "registry: rebuild index from source-note front-matter [skip ci]"
+          git add registry/sources.json registry/claims-index.json
+          git commit -m "registry: rebuild indexes from source-notes [skip ci]"
           git push origin main

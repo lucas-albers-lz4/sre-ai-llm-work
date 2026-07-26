@@ -1,0 +1,91 @@
+name: Prepare Miner related-note candidates
+description: >
+  Rebuild claims-index and write lexical related-notes Markdown for Miner
+  prompt injection (#506). Fail-open when disable_candidates is true.
+inputs:
+  issue_number:
+    description: Source issue number to build the query from
+    required: true
+  disable_candidates:
+    description: 'If true/1, skip retrieval (MINER_DISABLE_CANDIDATES)'
+    required: false
+    default: 'false'
+  github_token:
+    description: Token for gh issue view
+    required: true
+outputs:
+  ran_candidates:
+    description: true when retrieval ran (not kill-switched)
+    value: ${{ steps.run.outputs.ran_candidates }}
+  has_candidates:
+    description: true when candidate list is non-empty
+    value: ${{ steps.run.outputs.has_candidates }}
+  related_notes_path:
+    description: Absolute path to miner-related-notes.md (empty if skipped)
+    value: ${{ steps.run.outputs.related_notes_path }}
+runs:
+  using: composite
+  steps:
+    - name: Setup Python
+      if: inputs.disable_candidates != 'true' && inputs.disable_candidates != '1'
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Install PyYAML
+      if: inputs.disable_candidates != 'true' && inputs.disable_candidates != '1'
+      shell: bash
+      run: pip install pyyaml
+
+    - name: Build claims index + related notes
+      id: run
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github_token }}
+        ISSUE: ${{ inputs.issue_number }}
+        DISABLE: ${{ inputs.disable_candidates }}
+        MINER_DISABLE_CANDIDATES: ${{ inputs.disable_candidates }}
+      run: |
+        set -euo pipefail
+        OUT="${RUNNER_TEMP}/miner-related-notes.md"
+
+        if [ "${DISABLE}" = "true" ] || [ "${DISABLE}" = "1" ] || \
+           [ "${MINER_DISABLE_CANDIDATES:-0}" = "1" ]; then
+          echo "ran_candidates=false" >> "$GITHUB_OUTPUT"
+          echo "has_candidates=false" >> "$GITHUB_OUTPUT"
+          echo "related_notes_path=" >> "$GITHUB_OUTPUT"
+          echo "Miner related-note candidates disabled (kill switch)."
+          exit 0
+        fi
+
+        python3 scripts/build_claims_index.py
+
+        META=$(gh issue view "$ISSUE" --repo "${{ github.repository }}" \
+          --json title,body)
+        TITLE=$(echo "$META" | jq -r '.title // ""')
+        echo "$META" | jq -r '.body // ""' > "${RUNNER_TEMP}/miner-issue-body.txt"
+
+        # Prefer explicit Source URL block; related_notes.py also scrapes body.
+        SOURCE_URL=$(echo "$META" | jq -r '.body // ""' | \
+          sed -nE 's/^[[:space:]]*(https?:\/\/[^[:space:]]+).*$/\1/p' | head -1)
+
+        python3 scripts/related_notes.py \
+          --issue-title "$TITLE" \
+          --source-url "${SOURCE_URL:-}" \
+          --body-file "${RUNNER_TEMP}/miner-issue-body.txt" \
+          --out "$OUT"
+
+        echo "related_notes_path=$OUT" >> "$GITHUB_OUTPUT"
+        # has_candidates / ran_candidates also written by related_notes.py;
+        # ensure ran_candidates is set even if the script path changes.
+        if ! grep -q '^ran_candidates=' "$GITHUB_OUTPUT"; then
+          echo "ran_candidates=true" >> "$GITHUB_OUTPUT"
+        fi
+        if ! grep -q '^has_candidates=' "$GITHUB_OUTPUT"; then
+          if grep -q '^## 1\.' "$OUT" 2>/dev/null; then
+            echo "has_candidates=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_candidates=false" >> "$GITHUB_OUTPUT"
+          fi
+        fi
+        echo "Related notes ready at $OUT (has_candidates=$(grep '^has_candidates=' "$GITHUB_OUTPUT" | tail -1))"
