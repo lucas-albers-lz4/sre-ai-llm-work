@@ -1000,6 +1000,131 @@
         }
       ]
     },
+    "blog-litellm-observatory": {
+      "path": "source-notes/blog-litellm-observatory.md",
+      "title": "Improve Release Stability With Long-Running Load Tests — LiteLLM Observatory",
+      "source_url": "https://docs.litellm.ai/blog/litellm-observatory",
+      "chapters": [
+        "02",
+        "03",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "LiteLLM Observatory is a long-running release-validation testing system for LLM gateway proxies, triggered via API requests with results posted to Slack",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The test flow uses smart queueing — duplicate tests are rejected to avoid wasted resources, and up to 5 tests run concurrently by default",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The API responds immediately (milliseconds) even though tests run for hours — tests execute asynchronously in the background",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "`TestOAIAzureRelease` runs continuously for 3 hours, cycling through specified models, with a pass/fail threshold of <1% failure rate",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The same HTTP client is reused for the entire 3-hour test run to detect lifecycle-related bugs that only appear under prolonged reuse",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The v1.81.3 HTTP client lifecycle bug — a cached httpx client with a 1-hour TTL was closed on cache expiry while a higher-level client still held a reference — caused a 40% failure rate",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "After the fix, the failure rate dropped from 40% to 0.001% for OpenAI and from 40% to 0.002% for Azure, with total request volumes more than doubling",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Unit tests do not cover real provider behavior, long-lived network interactions, resource lifecycle edge cases, or time-dependent regressions — Observatory fills these gaps",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The Observatory is used in four distinct scenarios — before deployments, routine validation (daily or weekly), issue investigation, and long-running failure detection",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The 3-hour test duration was specifically chosen because bugs like the v1.81.3 incident require sustained runtime to manifest",
+          "kind": "claim"
+        }
+      ]
+    },
+    "blog-litellm-rust-launch": {
+      "path": "source-notes/blog-litellm-rust-launch.md",
+      "title": "Migrating LiteLLM to Rust — Building the Fastest and Litest AI Gateway",
+      "source_url": "https://docs.litellm.ai/blog/litellm-rust-launch",
+      "chapters": [
+        "02",
+        "04",
+        "06",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The Rust core follows a \"describe, don't execute\" principle — it never opens sockets, reads secrets, or writes to databases; it only transforms data",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The PyO3 bridge lets Python do all I/O while Rust does transforms, with flag-gated per-provider rollout and a parity check gate",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Each route follows a 3-beat cadence: prove one provider, then roll out to all providers, then fold the route into the Rust core",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The migration progresses through four stages from pure Python to pure Rust, each shipped to production before the next begins",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The server evolution follows V5a (FastAPI thin shell, Rust engine) → V5b (pure Rust axum, Python plugins in optional sidecar), removing Python from forwarding before removing PyO3",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The routes move in order of increasing risk — OCR first (no streaming, tiny schema), then /v1/messages (adds streaming), then /chat/completions (largest surface), then router, then full server",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The benchmark harness is checked into the repo under benchmark/ with a summarized CSV, making the overhead measurement fully reproducible",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The Rust gateway is deployed with a full non-breaking guarantee — same config.yaml, same database, same client API, same providers",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The post cites Datadog's Java→Rust static analyzer migration and GitGuardian's Rust platform migration as prior-art industry references",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The Rust migration removes GIL concerns for the hot path — request transforms, streaming, and routing run outside the GIL in the end state",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-pagerduty-production-ai-agent-gaps": {
       "path": "source-notes/blog-pagerduty-production-ai-agent-gaps.md",
       "title": "Production AI Agents: Closing the Gaps Between Idea and Reality",
@@ -1907,6 +2032,222 @@
         }
       ]
     },
+    "blog-promptfoo-open-sourcing-modelaudit": {
+      "path": "source-notes/blog-promptfoo-open-sourcing-modelaudit.md",
+      "title": "Open-Sourcing ModelAudit: Security Scanner for ML Model Files",
+      "source_url": "https://www.promptfoo.dev/blog/open-sourcing-modelaudit/",
+      "chapters": [
+        "05",
+        "03",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Model files are executable at load time — the standard torch.load() pattern is a deserialization RCE vector that most teams do not scan for",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Blocklist-based scanners (fickling, picklescan) are architecturally reactive — maintaining a list of known-dangerous functions and allowing everything else through means one bypass defeats the entire defense",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "pkgutil.resolve_name provides a CVSS 10.0 universal blocklist bypass against picklescan — one opcode sequence \"bypasses the entire blocklist\"",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Fickling's OBJ opcode handler invisibility (CVSS 8.6) allows RCE calls to vanish from AST analysis entirely",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Both fickling and picklescan are missing numerous unsafe stdlib modules in their blocklists, including ctypes, importlib, multiprocessing, codeop, code, compileall, runpy, profile, pdb, smtplib, socketserver, signal, and sqlite3",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "ModelAudit uses an allowlist-first architecture with format-specific analysis across 42+ model file formats, significantly more than any other open-source scanner",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Real malicious models on Hugging Face evade every other scanner in Hugging Face's scanning pipeline but are caught by ModelAudit",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Roughly 45% of popular Hugging Face models still use the pickle format, making format-native deserialization risks a persistent threat",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "ModelAudit achieves zero false positives across 1,000+ real models and 5,000+ security checks",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "ModelAudit runs fully offline with no ML framework dependencies, making it suitable for CI/CD pipelines where installing PyTorch/TensorFlow is impractical",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "ModelAudit detected 16 issues across 11 test files vs ModelScan's 3 in a head-to-head comparison",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "ModelAudit supports SARIF output, SBOM generation, secret scanning, and license detection — capabilities absent from all other open-source model scanners",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "The unsafe-imports gap in fickling extended to network and system modules — smtplib.SMTP and socketserver.TCPServer were treated as safe because they are stdlib modules",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "ModelAudit is complementary to existing scanners — teams should run it alongside picklescan or ModelScan with aggregated SARIF results",
+          "kind": "claim"
+        }
+      ]
+    },
+    "blog-promptfoo-openclaw-at-work": {
+      "path": "source-notes/blog-promptfoo-openclaw-at-work.md",
+      "title": "OpenClaw at Work: Prompt Injection Risks",
+      "source_url": "https://www.promptfoo.dev/blog/openclaw-at-work/",
+      "chapters": [
+        "05",
+        "02",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "When browsing, local file access, and outbound actions share one trust boundary in a browser-capable agent, a malicious webpage becomes an endpoint-security problem — the relevant security boundary is the agent's action boundary, not model alignment",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Indirect prompt injection against a browser-capable local agent can be reliably demonstrated as a three-phase exploit chain — capability discovery, artifact creation, unauthorized outbound action",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Artifact creation is a distinct and operationally dangerous failure mode — injected instructions that produce durable local files can be later trusted by other prompts, users, or workflows",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The documented run produced verifiable side-effect evidence through loopback sink logs — SMS, email, and social channels all received a false incident broadcast",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Side effects were verified independently from model output by inspecting loopback sink logs and local artifacts — \"Prompt output tells you what the model said. It does not tell you what the agent actually did\"",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The deployment recommendation is to separate browsing from high-trust actions, treat external content as hostile, require explicit confirmation for outbound messages, keep sensitive files out of default agent reach, and monitor artifact creation as closely as network actions",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The YAML config using `openclaw:agent:main` provider, `indirect-web-pwn` strategy, and `tool-discovery`/`prompt-extraction`/`hijacking` plugins provides a reusable test harness for evaluating browser-capable agent security",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "A local deployment with browser access and messaging integrations can generate false operational messages that mimic real incident communications, creating operational disruption beyond data leakage",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The \"untrusted web browsing + local file access + external action\" combination in one trust boundary is the specific deployment posture that enables the exploit chain — the article does not test other configurations",
+          "kind": "claim"
+        }
+      ]
+    },
+    "blog-promptfoo-owasp-red-teaming": {
+      "path": "source-notes/blog-promptfoo-owasp-red-teaming.md",
+      "title": "OWASP Red Teaming: A Practical Guide to Getting Started",
+      "source_url": "https://www.promptfoo.dev/blog/owasp-red-teaming/",
+      "chapters": [
+        "06",
+        "05",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The OWASP GenAI Red Teaming Guide establishes a \"step zero\" principle — red teaming must start with defined objectives and success criteria before any testing begins",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The OWASP guide defines five primary threat categories for LLM-based applications — adversarial attacks, alignment risks, data risks, interaction risks, and knowledge risks",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Red teaming should be integrated throughout the SDLC across four sequential phases — model evaluation, implementation testing, system testing, and runtime monitoring",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Pre-deployment red teaming must be integrated into CI/CD pipelines and run on a recurring schedule because LLM application changes have nondeterministic consequences",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Post-deployment black-box testing should enumerate all exposed application information — models, system prompts, guardrails, frameworks — because any public information is an attack surface",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The OWASP Top 10 for LLM Applications can be used as a red-teaming shortcut — Promptfoo's `owasp:llm` plugin tests all ten categories with a single configuration line",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "RAG applications require evaluation across three dimensions — factuality, relevance, and groundedness — forming the \"RAG Triad\"",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The OWASP guide identifies five specific risk categories for agents and multi-agent systems — multi-turn attack chains, decision-making manipulation, tool-integration exploitation, cross-chain data poisoning, and permission bypass",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Red teaming is most effective when performed after guardrails are built, because the iterative cycle of catching bypasses improves guardrail settings",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "NIST AI 600.1 and the EU AI Act establish that AI red-teaming quality depends on team expertise and that high-risk AI systems require adversarial testing",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Custom policies and custom graders enable application-specific red-teaming beyond standard OWASP categories, covering contractual, regulatory, and business-specific constraints",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "The foundation model itself should be baseline red-teamed before application-layer testing, using multiple jailbreak strategies",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "The OWASP guide recommends prioritizing red teaming for customer-facing apps, sensitive-data apps, autonomous agents, and shipped platforms — and reviewing contractual and regulatory obligations",
+          "kind": "claim"
+        }
+      ]
+    },
     "discussion-google-sre-ben-treynor-interview": {
       "path": "source-notes/discussion-google-sre-ben-treynor-interview.md",
       "title": "In Conversation: Ben Treynor Sloss on Site Reliability Engineering",
@@ -2392,6 +2733,89 @@
         {
           "n": 15,
           "heading": "Perform dependency analysis on backend services before deploying autoscalers — a microservice scaling in response to traffic spikes may consume shared quota, starving other services",
+          "kind": "claim"
+        }
+      ]
+    },
+    "docs-google-sre-incident-management-guide": {
+      "path": "source-notes/docs-google-sre-incident-management-guide.md",
+      "title": "Google SRE — Incident Management Guide",
+      "source_url": "https://sre.google/resources/practices-and-processes/incident-management-guide/",
+      "chapters": [
+        "01",
+        "02",
+        "03",
+        "04"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Outages are inevitable in complex systems; a well-defined incident management process minimizes impact and enables learning",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "A good alerting mechanism must meet four attributes — timely, cover all key user-facing functionality, symptom-based not cause-based, and actionable",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Alerting based on SLOs is the recommended method to achieve timely, comprehensive, symptom-based alerting; avoid alerting on internal system behavior except for preventive capacity-quota alerts",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Oncall readiness requires up-to-date playbooks, playbook awareness, and regular \"Wheel of Misfortune\" practice exercises",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Automation of incident response elements — common tasks, impact analysis, root cause analysis, and intelligent mitigation suggestions — frees oncallers to focus on problem-solving",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Google's IMAG system is based on the Incident Command System (ICS) and centers on the three Cs: coordinate, communicate, and control",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "IMAG establishes a hierarchical structure with three main roles — Incident Commander (IC), Communications Lead (CL), and Operations Lead (OL) — based on knowledge and incident context, not reporting chains",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Good incident response is user-centric — communicating consistently and with appropriate detail builds trust and transparency as important as technical mitigations",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Google maintains Incident Response Teams (IRTs) that can be activated for major incidents, providing coordination, hands-on assistance, and escalation services",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Effective incident response requires treating the incident as a project — planning ahead, deciding who needs involvement, documenting actions — because \"chaos will naturally prevail unless it is actively managed\"",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "A core SRE tenet is learning from outages and improving systems to prevent recurrence; the most effective tool is open and blameless postmortem writing",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "Postmortems must be blameless — everyone involved had good intentions; focus on improving systems, procedures, and training, not blaming individuals",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "Corrective action items from postmortems feed into the team's backlog with agreed SLOs for completion, balanced against feature work based on reliability priorities",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "Aggregating structured data across many postmortems in larger organizations enables identification of trends and organizational areas needing larger investments",
           "kind": "claim"
         }
       ]
@@ -6035,6 +6459,74 @@
         {
           "n": 17,
           "heading": "Client retry behavior must be controlled server-side via config files that enable/disable features and set sync frequency — \"releasing a new version becomes much easier if we don't need to maintain parallel release tracks\"",
+          "kind": "claim"
+        }
+      ]
+    },
+    "docs-google-sre-twenty-years-lessons": {
+      "path": "source-notes/docs-google-sre-twenty-years-lessons.md",
+      "title": "Lessons Learned from Two Decades of Site Reliability Engineering",
+      "source_url": "https://sre.google/resources/practices-and-processes/twenty-years-of-sre-lessons-learned/",
+      "chapters": [
+        "01",
+        "02",
+        "04",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The riskiness of a mitigation should scale with the severity of the outage — a risky mitigation chosen during an incident can backfire and prolong the outage rather than resolving it",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Recovery mechanisms must be fully tested before an emergency — an outage is a terrible moment to try an untested process for the first time",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Canary all changes with progressive rollout — a configuration change that the team was \"pretty sure\" was safe can fully hobble a critical service for 13 minutes",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Every service dependency should have a \"Big Red Button\" — a simple, easy-trigger action that reverts an undesirable state — identified before submitting a risky change",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Unit tests alone are insufficient — integration testing is needed because unit tests have intentionally limited scope and don't replicate runtime environment or production demands",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Establish non-dependent backup communication channels for incident management — relying on the same infrastructure that is failing is \"kind of a bad call\"",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Build degraded performance modes carefully and intentionally — availability as a binary \"fully up\" or \"fully down\" is less useful than offering continuous minimum functionality under exceptional circumstances",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Disaster resilience testing and recovery testing are critical complements to unit and integration testing — resilience verifies survival through faults; recovery verifies return to homeostasis after full shutdown",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Automate mitigations for clear failure signals to reduce MTTR — it is sometimes better to use automated mitigation first and root-cause after user impact has been avoided",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Reduce time between rollouts to decrease the likelihood of rollout failures — long delays between rollouts make it extremely difficult to reason about change safety in complex multi-component systems",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "A single global hardware version is a single point of failure — latent bugs in critical infrastructure can lurk undetected until a seemingly innocuous event triggers them, and hardware diversity can mean the difference between a troublesome outage and a total one",
           "kind": "claim"
         }
       ]
