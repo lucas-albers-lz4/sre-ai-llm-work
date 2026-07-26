@@ -314,8 +314,12 @@ jobs:
             "${HOME}/.opencode"
           do
             [ -d "$d" ] || continue
+            # Flatten: upload-artifact drops paths with hidden components, and
+            # every real log lives under ~/.local or ~/.opencode.
             find "$d" -maxdepth 4 -type f \( -name '*.log' -o -name '*.jsonl' \) \
-              -exec cp -a --parents {} "$DIAG/log/" \; 2>/dev/null
+              -print0 2>/dev/null | while IFS= read -r -d '' f; do
+                cp -a "$f" "$DIAG/log/$(echo "${f#/}" | tr '/' '_')" 2>/dev/null
+              done
           done
 
           {
