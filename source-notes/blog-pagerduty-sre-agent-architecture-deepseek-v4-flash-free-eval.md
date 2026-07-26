@@ -380,11 +380,41 @@ cited or dismissed:
   moving from human-centric to human-supervised") is directly instantiated by
   PagerDuty's priority queue giving user input precedence over sub-agent results.
 - **`source-notes/blog-pagerduty-production-ai-agent-gaps.md`** (Freitas, 2026) —
-  **Extends**: This source is the direct companion framing piece cited in the
-  SRE Agent article. Freitas's Claim 1 (AI-native vs AI-assisted distinction)
-  is the foundational framing the SRE Agent article adopts as its own starting
-  point. The SRE Agent article extends Freitas's framing with concrete
-  architectural implementation.
+  **Corroborates**: This source is the direct companion framing piece cited in
+  the SRE Agent article. Freitas's Claim 1 (the prototype-to-production gap
+  is large and structural — demos are easy, reliability is hard) frames the
+  production reliability problem that motivates the SRE Agent's architectural
+  journey. The SRE Agent article introduces the AI-native vs AI-assisted
+  distinction as its own framing (Claim 1), building on — but distinct from —
+  Freitas's reliability framework. Freitas also contributes the five-pillar
+  production-readiness framework (Claim 7), the architecture evolution pattern
+  from single-agent to hierarchical (Claim 8), and the transparent UX finding
+  (Claim 9), all of which the SRE Agent architecture instantiates in concrete
+  implementation details.
+
+- **`source-notes/blog-anthropic-building-effective-agents.md`** (Anthropic, 2024) —
+  **Corroborates**: This is the canonical taxonomy of agentic-system
+  architecture and provides framework-level endorsement of several PagerDuty
+  design choices. Anthropic's Claim 11 (orchestrator-workers pattern: "a
+  central LLM dynamically breaks down tasks, delegates to worker LLMs, and
+  synthesizes results") directly corroborates PagerDuty's supervisor/sub-agent
+  architecture (Claims 6, 11–14) — both describe the same fundamental pattern
+  of dynamic task decomposition and parallel result synthesis. Anthropic's
+  Claim 14 (human checkpointing: "Agents can then pause for human feedback at
+  checkpoints or when encountering blockers") corroborates PagerDuty's mid-run
+  human steering design (Claims 5, 10) — both treat human input as a
+  first-class event in the agent execution lifecycle. Anthropic's Claim 2
+  (workflows-vs-agents distinction: predetermined code paths vs. LLM-directed
+  control) is a parallel framing to PagerDuty's Claim 1 (AI-native vs
+  AI-assisted distinction) — both describe the same architectural spectrum
+  from different angles (Anthropic: implementation patterns; PagerDuty:
+  product philosophy). Anthropic's simplicity-first principle (Claims 1, 3)
+  also aligns with PagerDuty's "build hard, ship simple" methodology
+  (Claim 16). **Contrasts**: Anthropic's post is pattern-agnostic about
+  deployment architecture (single-process vs distributed), while PagerDuty
+  makes a specific argument (Claim 12) that IO-bound agent workloads should
+  be single-process — a deployment-level recommendation outside Anthropic's
+  scope.
 - **Corroborates — additional**: None of the remaining existing source notes
   discuss SRE agent architecture. All other notes cover SLOs, incident response
   tooling, database reliability, ML training observability, or platform
