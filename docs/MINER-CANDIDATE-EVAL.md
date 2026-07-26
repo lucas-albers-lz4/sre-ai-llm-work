@@ -95,7 +95,10 @@ but live trial never ran (empty queue). **Final:** park it; stay on Flash
 These Zen free IDs are `/v1/chat/completions` only — they **cannot** use
 Claude Code + `configure-opencode-zen` (Messages). Eval uses
 `anomalyco/opencode/github` with `model: opencode/<id>` and
-`OPENCODE_ZEN_API_KEY`. Job timeout 25m (fail-fast vs Laguna M.1 hang).
+`OPENCODE_ZEN_API_KEY`. Job timeout **12m** (successful extractions finish in
+&lt;5m; post-push OpenCode hangs previously burned ~25m — see [#500](https://github.com/lucas-albers-lz4/sre-ai-llm-work/issues/500)).
+If OpenCode fails/cancels after pushing the eval branch, the workflow still
+opens the `miner-eval` PR and dispatches Assayer.
 
 | Model | Agent signals (indicative) | Verdict |
 |-------|----------------------------|---------|
@@ -116,13 +119,13 @@ gh workflow run miner-zen-free-eval.yml -f model=mimo-v2.5-free -f issue_number=
 | 2 | `ling-3.0-flash-free` | pass ([run](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30168573200)) | [PR #493](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/493) **REQUEST CHANGES** | — | — | — | — | Fail-fast after #1; proceed to Laguna S |
 | 3 | `laguna-s-2.1-free` | pass ([run](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30168739432)) | [PR #494](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/494) **REQUEST CHANGES** | — | — | — | — | Completed in ~5m (no hang); Assayer still REQUEST CHANGES |
 | 4 | `nemotron-3-ultra-free` | pass ([run](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30171998659)) | [PR #495](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/495) first Assayer **REQUEST CHANGES** (cross-refs); re-review **APPROVE** (same note, no Miner fix) | — | — | — | — | Eval job stream-failed after push; PR salvaged. Fail-fast: do not continue #2–#4 (Assayer variance + stream fragility; peers failed cross-refs cleanly) |
-| 5 | `deepseek-v4-flash-free` | | | | | | | Late trial: same model family as production Flash via Zen free OpenCode Action |
+| 5 | `deepseek-v4-flash-free` | pass ([run](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30178170790)) | [PR #498](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/498) **APPROVE** | [PR #499](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/499) **APPROVE** (eval run timed out after push; PR salvaged) | — | — | — | 2/2 Assayer APPROVE so far; #3–#4 not yet run. OpenCode post-push hang class → [#500](https://github.com/lucas-albers-lz4/sre-ai-llm-work/issues/500). |
 
-**Wave C decision (2026-07-25):** First four Zen free chat-completions candidates
-failed to clear a clean golden #1 Assayer gate (cross-refs). Late trial:
-`deepseek-v4-flash-free` — if this also fails cross-refs, the gap is runner/prompt
-discovery rather than model family; if it passes, free Zen Flash is a peak-fill
-candidate against direct paid Flash.
+**Wave C decision (2026-07-25):** First four Zen free candidates failed golden #1
+(cross-refs). Late trial `deepseek-v4-flash-free` cleared #1 and #2 Assayer
+APPROVE — finish #3–#4 before calling peak-fill. Eval workflow hardened (12m
+timeout + PR salvage); see #500.
+
 
 ## Final decision (2026-07-25)
 
