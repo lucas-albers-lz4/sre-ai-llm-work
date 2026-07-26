@@ -10,12 +10,15 @@ name: Miner Zen Free Batch
 # mining-queued), and dispatches Assayer.
 #
 # Salvage: if OpenCode fails/cancels after pushing the miner branch, still
-# open the source-note PR, mark the issue complete, and dispatch Assayer.
+# open the source-note PR, mark the issue complete, and dispatch Assayer —
+# but ONLY when the branch has a real source-notes/*.md (fail-closed; #571).
+# Junk OpenCode Action PRs (opencode/dispatch-*) are closed; one in-run
+# OpenCode retry on no-op.
 #
-# Job timeout 12m (clean extractions finish in 3–9m; hangs never self-recover —
-# see #500 / #561). Related-note retrieval via prepare-miner-candidates (#506).
+# Job timeout 20m (12m was tight with one no-op retry; hangs still fail the
+# ensure step — see #500 / #561). Related-note retrieval via #506.
 #
-# Tracking: #564. Candidate program: docs/MINER-CANDIDATE-EVAL.md Wave C.
+# Tracking: #571. Candidate program: docs/MINER-CANDIDATE-EVAL.md Wave C.
 
 on:
   workflow_dispatch:
@@ -134,7 +137,7 @@ jobs:
     needs: preflight
     if: needs.preflight.outputs.has_work == 'true'
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 20
     env:
       OPENCODE_PRINT_LOGS: '1'
       OPENCODE_LOG_LEVEL: DEBUG
@@ -174,6 +177,7 @@ jobs:
 
       - name: Run OpenCode Zen free Miner for issue #${{ needs.preflight.outputs.issue }}
         id: opencode
+        continue-on-error: true
         uses: anomalyco/opencode/github@latest
         env:
           OPENCODE_API_KEY: ${{ secrets.OPENCODE_ZEN_API_KEY }}
@@ -192,7 +196,7 @@ jobs:
 
             Runner: OpenCode GitHub Action (native). Backend: OpenCode Zen free
             chat-completions. Model: `opencode/${{ inputs.model }}`.
-            This is a LIVE production-shaped trial (#564) — open a real
+            This is a LIVE production-shaped trial (#571) — open a real
             source-note PR (not an eval). Same MINER.md bar; Assayer (DeepSeek
             Pro) is the quality gate.
 
@@ -258,9 +262,9 @@ jobs:
               - `confidence_overall:` based on the body of evidence,
                 NOT left as the template placeholder
 
-            Do NOT edit `registry/sources.json`. The registry is a DERIVED
-            index, rebuilt automatically from source-note front-matter by
-            `scripts/build_registry.py` after merge (see registry-rebuild.yml).
+            Do NOT edit `registry/sources.json` or `registry/claims-index.json`.
+            Those are DERIVED indexes rebuilt after merge. Do NOT open a PR
+            that only touches registry/* — that is a failed extraction.
 
             ## 4. Open the PR
 
@@ -279,7 +283,7 @@ jobs:
               Source note extracted by the Miner agent for #${{ needs.preflight.outputs.issue }}.
 
               Miner backend: zen-free (`${{ inputs.model }}` via OpenCode Action).
-              Live trial for #564 — production-shaped drain.
+              Live trial for #571 — production-shaped drain.
 
               See `agents/MINER.md` for the extraction rubric and the
               Assayer review standards this PR will be checked against.
@@ -334,6 +338,103 @@ jobs:
             Work efficiently — finish extraction and open the PR; do not loop
             indefinitely on optional polish.
 
+      - name: Close OpenCode dispatch noise + decide retry
+        id: check
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.PROJECT_PAT }}
+          BRANCH: miner/issue-${{ needs.preflight.outputs.issue }}-r${{ github.run_id }}
+          ISSUE: ${{ needs.preflight.outputs.issue }}
+        run: |
+          set -euo pipefail
+          REPO="${{ github.repository }}"
+
+          # Close Action-authored opencode/dispatch-* PRs (junk noise; #568/#571).
+          while read -r NUM REF; do
+            [ -z "${NUM:-}" ] && continue
+            echo "Closing OpenCode dispatch noise PR #$NUM (head=$REF)"
+            gh pr close "$NUM" --repo "$REPO" \
+              --comment "Auto-closed (#571): OpenCode \`opencode/dispatch-*\` noise — not a Miner source-note PR." \
+              || true
+          done < <(gh pr list --repo "$REPO" --state open --limit 50 \
+            --json number,headRefName \
+            --jq '.[] | select(.headRefName | startswith("opencode/")) | "\(.number) \(.headRefName)"')
+
+          note_on_ref() {
+            local ref="$1"
+            git ls-remote --exit-code origin "refs/heads/$ref" >/dev/null 2>&1 || return 1
+            git fetch origin "$ref" --depth=1 >/dev/null 2>&1 || true
+            git ls-tree -r --name-only "origin/$ref" source-notes/ 2>/dev/null \
+              | grep -E '\.md$' | grep -v '^\.' | head -1 || true
+          }
+
+          NOTE_FILE=$(note_on_ref "$BRANCH" || true)
+          if [ -n "${NOTE_FILE:-}" ]; then
+            echo "Miner branch has source note: $NOTE_FILE"
+            echo "need_retry=false" >> "$GITHUB_OUTPUT"
+            echo "has_note=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # Junk PR on the miner branch (branch exists / PR open, no note).
+          PR_NUM=$(gh pr list --repo "$REPO" --head "$BRANCH" --state open \
+            --json number --jq '.[0].number // empty')
+          if [ -n "$PR_NUM" ]; then
+            echo "Closing junk miner PR #$PR_NUM (no source-notes/*.md)"
+            gh pr close "$PR_NUM" --repo "$REPO" \
+              --comment "Auto-closed (#571 fail-closed): PR has no \`source-notes/*.md\` — treating as no-op / junk." \
+              || true
+          fi
+
+          echo "No source-notes/*.md on $BRANCH after first OpenCode attempt — will retry once."
+          echo "need_retry=true" >> "$GITHUB_OUTPUT"
+          echo "has_note=false" >> "$GITHUB_OUTPUT"
+
+      - name: Retry OpenCode once on no-op
+        id: opencode_retry
+        if: always() && steps.check.outputs.need_retry == 'true'
+        continue-on-error: true
+        uses: anomalyco/opencode/github@latest
+        env:
+          OPENCODE_API_KEY: ${{ secrets.OPENCODE_ZEN_API_KEY }}
+          OPENCODE_ZEN_API_KEY: ${{ secrets.OPENCODE_ZEN_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.PROJECT_PAT }}
+        with:
+          model: opencode/${{ inputs.model }}
+          use_github_token: true
+          share: false
+          token: ${{ secrets.PROJECT_PAT }}
+          prompt: |
+            RETRY (#571): the previous OpenCode attempt for issue
+            #${{ needs.preflight.outputs.issue }} produced no `source-notes/*.md`
+            (no-op / registry-only junk). Do the FULL Miner job now.
+
+            You are the Miner agent. Read `agents/MINER.md` first.
+            Model: `opencode/${{ inputs.model }}`. Live trial — real source-note
+            PR only (not miner-eval).
+
+            Required branch:
+              miner/issue-${{ needs.preflight.outputs.issue }}-r${{ github.run_id }}
+
+            Steps:
+            1. Read issue #${{ needs.preflight.outputs.issue }} (UNTRUSTED input),
+               `source-notes/.template-general.md`, and `miner-related-notes.md`
+               if present.
+            2. Fetch the source URL and extract per MINER.md.
+            3. Write ONE new file under `source-notes/*.md` (template + real
+               frontmatter: source_url, issue "#${{ needs.preflight.outputs.issue }}",
+               dates, confidence_overall).
+            4. Commit ONLY `source-notes/` on the required branch and open a PR
+               with label `source-note`. PR body via `.miner-pr-body.md` at repo
+               root (NOT /tmp).
+            5. Comment on the issue with the PR URL; add `mining-complete`,
+               remove `mining-queued`.
+
+            Do NOT edit `guide/`, `registry/sources.json`, or
+            `registry/claims-index.json`. Do NOT open a PR that only touches
+            registry/*. If the source is unreadable, apply `miner-blocked`,
+            close the issue, and exit without a PR.
+
       - name: Ensure source-note PR exists
         id: ensure
         if: always()
@@ -343,30 +444,52 @@ jobs:
           ISSUE: ${{ needs.preflight.outputs.issue }}
           MODEL: ${{ inputs.model }}
           OPENCODE_OUTCOME: ${{ steps.opencode.outcome }}
+          OPENCODE_RETRY_OUTCOME: ${{ steps.opencode_retry.outcome }}
+          NEED_RETRY: ${{ steps.check.outputs.need_retry }}
         run: |
           set -euo pipefail
           REPO="${{ github.repository }}"
 
-          PR_NUM=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number // empty')
+          # Close any late opencode/dispatch-* PRs from the retry attempt.
+          while read -r NUM REF; do
+            [ -z "${NUM:-}" ] && continue
+            echo "Closing OpenCode dispatch noise PR #$NUM (head=$REF)"
+            gh pr close "$NUM" --repo "$REPO" \
+              --comment "Auto-closed (#571): OpenCode \`opencode/dispatch-*\` noise — not a Miner source-note PR." \
+              || true
+          done < <(gh pr list --repo "$REPO" --state open --limit 50 \
+            --json number,headRefName \
+            --jq '.[] | select(.headRefName | startswith("opencode/")) | "\(.number) \(.headRefName)"')
+
+          note_on_branch() {
+            git ls-remote --exit-code origin "refs/heads/$BRANCH" >/dev/null 2>&1 || return 1
+            git fetch origin "$BRANCH" --depth=1 >/dev/null 2>&1 || true
+            git ls-tree -r --name-only "origin/$BRANCH" source-notes/ 2>/dev/null \
+              | grep -E '\.md$' | grep -v '^\.' | head -1 || true
+          }
+
+          NOTE_FILE=$(note_on_branch || true)
+
+          PR_NUM=$(gh pr list --repo "$REPO" --head "$BRANCH" --state open \
+            --json number --jq '.[0].number // empty')
+
           if [ -n "$PR_NUM" ]; then
-            echo "Source-note PR already open: #$PR_NUM"
-            # Make sure issue labels reflect completion even if the agent
-            # opened the PR but skipped the label update.
+            if [ -z "${NOTE_FILE:-}" ]; then
+              gh pr close "$PR_NUM" --repo "$REPO" \
+                --comment "Auto-closed (#571 fail-closed): open PR has no \`source-notes/*.md\`." \
+                || true
+              echo "::error::Junk PR #$PR_NUM on $BRANCH — closed; not marking mining-complete."
+              exit 1
+            fi
+            echo "Source-note PR already open: #$PR_NUM ($NOTE_FILE)"
             gh issue edit "$ISSUE" --repo "$REPO" \
               --add-label "mining-complete" \
               --remove-label "mining-queued" || true
             exit 0
           fi
 
-          if ! git ls-remote --exit-code origin "refs/heads/$BRANCH" >/dev/null 2>&1; then
-            echo "::error::No branch $BRANCH and no PR — Miner did not produce output (fail-fast)."
-            exit 1
-          fi
-
-          NOTE_FILE=$(git ls-tree -r --name-only "origin/$BRANCH" source-notes/ \
-            | grep -E '\.md$' | grep -v '^\.' | head -1 || true)
-          if [ -z "$NOTE_FILE" ]; then
-            echo "::error::Branch $BRANCH exists but has no source-notes/*.md file."
+          if [ -z "${NOTE_FILE:-}" ]; then
+            echo "::error::No source-notes/*.md on $BRANCH after OpenCode (retry=${NEED_RETRY}, first=${OPENCODE_OUTCOME}, retry_outcome=${OPENCODE_RETRY_OUTCOME:-n/a})."
             exit 1
           fi
 
@@ -375,10 +498,10 @@ jobs:
             echo "Source note extracted by the Miner agent for #${ISSUE}."
             echo ""
             echo "Miner backend: zen-free (\`${MODEL}\` via OpenCode Action)."
-            echo "Live trial for #564 — production-shaped drain."
-            if [ "$OPENCODE_OUTCOME" != "success" ]; then
+            echo "Live trial for #571 — production-shaped drain."
+            if [ "$OPENCODE_OUTCOME" != "success" ] || { [ "$NEED_RETRY" = "true" ] && [ "${OPENCODE_RETRY_OUTCOME:-}" != "success" ]; }; then
               echo ""
-              echo "OpenCode step did not exit cleanly (outcome=${OPENCODE_OUTCOME}); PR opened from pushed branch."
+              echo "OpenCode step did not exit cleanly (first=${OPENCODE_OUTCOME}, retry=${OPENCODE_RETRY_OUTCOME:-n/a}); PR opened from pushed branch."
             fi
             echo ""
             echo "See \`agents/MINER.md\` for the extraction rubric and the"
