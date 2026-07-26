@@ -321,12 +321,13 @@ jobs:
                - If the issue has `triaged:failure`  → failure report extraction
                Use this to guide your extraction approach per MINER.md.
             e0. **MANDATORY when the file exists:** Read
-               `${{ runner.temp }}/miner-related-notes.md` FIRST for
+               `miner-related-notes.md` at the repo root FIRST for
                cross-reference candidates (pre-computed lexical retrieval).
                Cite or explicitly dismiss each listed path before writing
                Cross-References (see MINER.md §4). Candidates are suggestions
-               only — do not invent corroboration. If the file is missing
-               (kill switch), search `source-notes/` yourself as before.
+               only — do not invent corroboration. Do NOT commit this file.
+               If the file is missing (kill switch), search `source-notes/`
+               yourself as before.
             e. Existing files under `source-notes/` for additional
                cross-references beyond the candidate list.
                Do NOT skip this — Cross-References is a hard requirement
@@ -479,12 +480,13 @@ jobs:
                - If the issue has `triaged:failure`  → failure report extraction
                Use this to guide your extraction approach per MINER.md.
             e0. **MANDATORY when the file exists:** Read
-               `${{ runner.temp }}/miner-related-notes.md` FIRST for
+               `miner-related-notes.md` at the repo root FIRST for
                cross-reference candidates (pre-computed lexical retrieval).
                Cite or explicitly dismiss each listed path before writing
                Cross-References (see MINER.md §4). Candidates are suggestions
-               only — do not invent corroboration. If the file is missing
-               (kill switch), search `source-notes/` yourself as before.
+               only — do not invent corroboration. Do NOT commit this file.
+               If the file is missing (kill switch), search `source-notes/`
+               yourself as before.
             e. Existing files under `source-notes/` for additional
                cross-references beyond the candidate list.
                Do NOT skip this — Cross-References is a hard requirement
@@ -638,12 +640,13 @@ jobs:
                - If the issue has `triaged:failure`  → failure report extraction
                Use this to guide your extraction approach per MINER.md.
             e0. **MANDATORY when the file exists:** Read
-               `${{ runner.temp }}/miner-related-notes.md` FIRST for
+               `miner-related-notes.md` at the repo root FIRST for
                cross-reference candidates (pre-computed lexical retrieval).
                Cite or explicitly dismiss each listed path before writing
                Cross-References (see MINER.md §4). Candidates are suggestions
-               only — do not invent corroboration. If the file is missing
-               (kill switch), search `source-notes/` yourself as before.
+               only — do not invent corroboration. Do NOT commit this file.
+               If the file is missing (kill switch), search `source-notes/`
+               yourself as before.
             e. Existing files under `source-notes/` for additional
                cross-references beyond the candidate list.
                Do NOT skip this — Cross-References is a hard requirement

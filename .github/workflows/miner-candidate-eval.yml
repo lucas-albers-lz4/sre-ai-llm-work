@@ -179,9 +179,10 @@ jobs:
                     --json number,title,body,labels,author,url,comments
             d. Triage type from labels (`triaged:text` / `triaged:failure`).
             e0. **MANDATORY when the file exists:** Read
-               `${{ runner.temp }}/miner-related-notes.md` FIRST for
+               `miner-related-notes.md` at the repo root FIRST for
                cross-reference candidates. Cite or dismiss each listed path
-               (MINER.md §4). If missing, search `source-notes/` yourself.
+               (MINER.md §4). Do NOT commit this file. If missing, search
+               `source-notes/` yourself.
             e. Existing `source-notes/` for cross-references (including the
                merged baseline for this URL — cite it in Cross-References
                but do not edit it).
@@ -268,9 +269,10 @@ jobs:
                     --json number,title,body,labels,author,url,comments
             d. Triage type from labels (`triaged:text` / `triaged:failure`).
             e0. **MANDATORY when the file exists:** Read
-               `${{ runner.temp }}/miner-related-notes.md` FIRST for
+               `miner-related-notes.md` at the repo root FIRST for
                cross-reference candidates. Cite or dismiss each listed path
-               (MINER.md §4). If missing, search `source-notes/` yourself.
+               (MINER.md §4). Do NOT commit this file. If missing, search
+               `source-notes/` yourself.
             e. Existing `source-notes/` for cross-references (including the
                merged baseline for this URL — cite it in Cross-References
                but do not edit it).

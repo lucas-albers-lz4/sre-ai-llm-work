@@ -7,3 +7,4 @@ mail/
 .beads/
 *.pyc
 .env
+miner-related-notes.md

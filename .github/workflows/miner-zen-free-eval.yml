@@ -66,9 +66,10 @@ jobs:
   eval:
     needs: preflight
     runs-on: ubuntu-latest
-    # Real OpenCode extractions finish in <5m. Hangs after git push burned ~25m
-    # (run 30178399593). 12m fail-fast leaves headroom without matching hang budget.
-    timeout-minutes: 12
+    # Real OpenCode extractions finish in <5m without retrieval; with
+    # related-note cite-or-dismiss, budget more wall time. Hangs after git
+    # push still salvage via Ensure (see #500 / #501).
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v5
         with:
@@ -175,9 +176,10 @@ jobs:
                     --json number,title,body,labels,author,url,comments
             d. Triage type from labels (`triaged:text` / `triaged:failure`).
             e0. **MANDATORY when the file exists:** Read
-               `${{ runner.temp }}/miner-related-notes.md` FIRST for
+               `miner-related-notes.md` at the repo root FIRST for
                cross-reference candidates. Cite or dismiss each listed path
-               (MINER.md §4). If missing, search `source-notes/` yourself.
+               (MINER.md §4). Do NOT commit this file. If missing, search
+               `source-notes/` yourself.
             e. Existing `source-notes/` for cross-references (including the
                merged baseline for this URL — cite it in Cross-References
                but do not edit it).

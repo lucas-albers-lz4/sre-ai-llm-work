@@ -108,10 +108,12 @@ but live trial never ran (empty queue). **Final:** park it; stay on Flash
 These Zen free IDs are `/v1/chat/completions` only — they **cannot** use
 Claude Code + `configure-opencode-zen` (Messages). Eval uses
 `anomalyco/opencode/github` with `model: opencode/<id>` and
-`OPENCODE_ZEN_API_KEY`. Job timeout **12m** (successful extractions finish in
-&lt;5m; post-push OpenCode hangs previously burned ~25m — see [#500](https://github.com/lucas-albers-lz4/sre-ai-llm-work/issues/500)).
+`OPENCODE_ZEN_API_KEY`. Job timeout **25m** (retrieval cite-or-dismiss
+adds wall time; post-push OpenCode hangs still salvage via Ensure —
+see [#500](https://github.com/lucas-albers-lz4/sre-ai-llm-work/issues/500)).
 If OpenCode fails/cancels after pushing the eval branch, the workflow still
-opens the `miner-eval` PR and dispatches Assayer.
+opens the `miner-eval` PR and dispatches Assayer. Related-note candidates
+are written to repo-root `miner-related-notes.md` (gitignored).
 
 | Model | Agent signals (indicative) | Verdict |
 |-------|----------------------------|---------|
