@@ -3,12 +3,15 @@
 Agent workflows use `anthropics/claude-code-action` (and the Claude Code CLI)
 routed to **DeepSeek's Anthropic-compatible API** via
 `.github/actions/configure-deepseek`. OpenRouter / Zen peak-fill wiring remains
-in `miner-batch.yml` for **manual trials only**. The **peak cron is disabled**.
-**2026-07-25 candidate eval concluded:** keep production Miner on off-peak
-**DeepSeek V4 Flash** — no free/cheap substitute cleared smoke + golden + live
-Assayer. Optional parked candidate (not production): Zen `qwen3.5-plus`
-(3/4 golden APPROVE; live trial never run). See
-[`docs/MINER-CANDIDATE-EVAL.md`](MINER-CANDIDATE-EVAL.md).
+in `miner-batch.yml` for **manual Messages trials** only. Zen free
+chat-completions live drains use **`miner-zen-free-batch.yml`** (OpenCode
+Action). The **peak cron is disabled**.
+**2026-07-26:** `deepseek-v4-flash-free` cleared golden **and** one live
+Assayer APPROVE ([#564](https://github.com/lucas-albers-lz4/sre-ai-llm-work/issues/564) /
+PR [#569](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/569)); production
+Miner stays on off-peak **DeepSeek V4 Flash** until an explicit peak-cron
+follow-up. Optional parked Messages candidate: Zen `qwen3.5-plus` (3/4 golden).
+See [`docs/MINER-CANDIDATE-EVAL.md`](MINER-CANDIDATE-EVAL.md).
 
 ```text
 # Default (DeepSeek)
@@ -34,7 +37,7 @@ ANTHROPIC_API_KEY = OPENCODE_ZEN_API_KEY
 |--------|-------|-------|
 | Pre-screen / Prospector / Scribe / Site-crawl | `deepseek-v4-flash` | Volume / cheap triage |
 | **Miner** | `deepseek-v4-flash` | Direct DeepSeek API; off-peak cron `0,4,5,10–23` UTC |
-| **Miner peak-fill** | — | **Disabled**. 2026-07-25 eval: stay Flash. Manual `backend=openrouter\|zen\|nemotron` for experiments only. Parked (not production): Zen `qwen3.5-plus` |
+| **Miner peak-fill** | — | **Disabled**. Live bar cleared for Zen free `deepseek-v4-flash-free` via manual `miner-zen-free-batch.yml` (#564 / PR #569); peak cron not enabled yet. Manual trials: `backend=openrouter\|zen\|nemotron` (Messages) or `miner-zen-free-batch.yml` (OpenCode free). Parked Messages: Zen `qwen3.5-plus` |
 | Assayer / Smith / Herald / Contradiction | `deepseek-v4-pro[1m]` | Heavier review & synthesis |
 
 Site-crawl (`scripts/scan-sites.py`) calls the same Anthropic-compatible
@@ -47,7 +50,7 @@ Messages API with `DEEPSEEK_API_KEY` + `SITE_CRAWL_MODEL=deepseek-v4-flash`.
 | `DEEPSEEK_API_KEY` | **Required** — all agent workflows + site-crawl screener |
 | `PROJECT_PAT` | GitHub Projects + issue/PR events that must trigger workflows |
 | `OPENROUTER_API_KEY` | Optional — manual Miner OpenRouter trials / Hy3 / Nemotron smoke (not required while peak cron is off) |
-| `OPENCODE_ZEN_API_KEY` | Optional — OpenCode Zen peak-fill trials (`backend=zen`, `opencode-zen-smoke-test.yml`) |
+| `OPENCODE_ZEN_API_KEY` | Optional — OpenCode Zen trials (`miner-zen-free-batch.yml`, `miner-zen-free-*.yml`, `backend=zen`) |
 | `ANTHROPIC_API_KEY` / `CLAUDE_CODE_OAUTH_TOKEN` | Optional Claude ceiling later (Assayer/Smith quality) |
 
 ## Peak / valley pricing (DeepSeek V4)
@@ -87,24 +90,27 @@ gh workflow run nemotron-smoke-test.yml   # or a model-specific smoke
 gh workflow run miner-batch.yml -f backend=nemotron  # single manual trial
 ```
 
-**Current candidate program (2026-07-25) — concluded:** Stay on off-peak Flash.
-Waves A–C scorecard in [`docs/MINER-CANDIDATE-EVAL.md`](MINER-CANDIDATE-EVAL.md).
-Peak cron stays off. Harness remains for future catalog retries:
+**Current candidate program (2026-07-26):** Stay on off-peak Flash for
+scheduled Miner. Zen free `deepseek-v4-flash-free` cleared golden **and**
+live Assayer (#564 / PR #569) via `miner-zen-free-batch.yml`; peak cron
+still off pending an explicit enablement follow-up. Scorecard:
+[`docs/MINER-CANDIDATE-EVAL.md`](MINER-CANDIDATE-EVAL.md).
 
 ```bash
 gh workflow run miner-candidate-smoke.yml -f backend=zen -f model=qwen3.5-plus
 gh workflow run miner-batch.yml -f backend=zen -f model=qwen3.5-plus
-gh workflow run miner-zen-free-smoke.yml -f model=mimo-v2.5-free
-gh workflow run miner-zen-free-eval.yml -f model=mimo-v2.5-free -f issue_number=1
+gh workflow run miner-zen-free-smoke.yml -f model=deepseek-v4-flash-free
+gh workflow run miner-zen-free-eval.yml -f model=deepseek-v4-flash-free -f issue_number=1
+gh workflow run miner-zen-free-batch.yml -f model=deepseek-v4-flash-free
 ```
 
 Requires `OPENROUTER_API_KEY` (Wave A) and/or `OPENCODE_ZEN_API_KEY` (Wave B
 Messages + Wave C OpenCode Action). Zen `/v1/messages` for Claude Code
 (qwen3.5/3.6/3.7 plus/max, claude-*); Zen free chat-completions use
-`anomalyco/opencode/github` (Wave C).
+`anomalyco/opencode/github` (`miner-zen-free-*.yml`).
 
-Same re-enable bar as any candidate: a full source-note extraction that
-passes Assayer, not just smoke — plus a live `mining-queued` trial.
+Peak-cron re-enable bar: already met for `deepseek-v4-flash-free` on quality;
+remaining work is operational (schedule, retry policy for early no-ops).
 
 ## Hy3 note (historical)
 
