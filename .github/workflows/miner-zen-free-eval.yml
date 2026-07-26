@@ -8,9 +8,10 @@ name: Miner Zen Free Eval
 # Assayer (DeepSeek Pro) is the quality gate; miner-eval PRs are never
 # auto-merged.
 #
-# Fail-fast: if the agent has not opened an eval PR within ~20 minutes of
-# wall time after the OpenCode step starts, cancel and mark fail (Laguna M.1
-# lesson: smoke ≠ multi-turn Miner). Prefer cancelling hung runs early.
+# Fail-fast: job timeout 12m (successful OpenCode extractions finish in <5m;
+# post-push hangs burned ~25m — see Actions run 30178399593 / issue #500).
+# Salvage: if OpenCode fails/cancels after pushing the eval branch, still open
+# the miner-eval PR and dispatch Assayer.
 #
 # Models: mimo / ling / laguna-s / nemotron-3-ultra-free /
 # deepseek-v4-flash-free (same family as production Miner, Zen free tier).
@@ -60,8 +61,9 @@ jobs:
   eval:
     needs: preflight
     runs-on: ubuntu-latest
-    # Hard wall: do not burn another 27m hang like Laguna M.1 on OpenRouter.
-    timeout-minutes: 25
+    # Real OpenCode extractions finish in <5m. Hangs after git push burned ~25m
+    # (run 30178399593). 12m fail-fast leaves headroom without matching hang budget.
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v5
         with:
@@ -93,6 +95,7 @@ jobs:
           git config user.email "hitchhiker-miner@users.noreply.github.com"
 
       - name: Run OpenCode Zen free Miner eval for issue #${{ inputs.issue_number }}
+        id: opencode
         uses: anomalyco/opencode/github@latest
         env:
           OPENCODE_API_KEY: ${{ secrets.OPENCODE_ZEN_API_KEY }}
@@ -181,13 +184,15 @@ jobs:
             indefinitely on optional polish.
 
       - name: Ensure eval PR exists
-        if: success()
+        id: ensure
+        if: always()
         env:
           GH_TOKEN: ${{ secrets.PROJECT_PAT }}
           SLUG: ${{ needs.preflight.outputs.slug }}
           BRANCH: miner/eval-${{ needs.preflight.outputs.slug }}-issue-${{ inputs.issue_number }}-r${{ github.run_id }}
           ISSUE: ${{ inputs.issue_number }}
           MODEL: ${{ inputs.model }}
+          OPENCODE_OUTCOME: ${{ steps.opencode.outcome }}
         run: |
           PR_NUM=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number // empty')
           if [ -n "$PR_NUM" ]; then
@@ -208,10 +213,14 @@ jobs:
           fi
 
           NOTE_SLUG=$(basename "$EVAL_FILE" "-${SLUG}-eval.md")
-          cat > /tmp/miner-eval-pr-body.md <<EOF
-          Miner candidate eval (zen-free / \`${MODEL}\` via OpenCode Action) for golden issue #${ISSUE}.
-          Do not merge — compare against the merged DeepSeek/Flash baseline note.
-          EOF
+          {
+            echo "Miner candidate eval (zen-free / \`${MODEL}\` via OpenCode Action) for golden issue #${ISSUE}."
+            echo "Do not merge — compare against the merged DeepSeek/Flash baseline note."
+            if [ "$OPENCODE_OUTCOME" != "success" ]; then
+              echo ""
+              echo "OpenCode step did not exit cleanly (outcome=${OPENCODE_OUTCOME}); PR opened from pushed branch."
+            fi
+          } > /tmp/miner-eval-pr-body.md
 
           PR_URL=$(gh pr create \
             --repo "${{ github.repository }}" \
@@ -224,7 +233,7 @@ jobs:
           echo "Opened missing eval PR: $PR_URL"
 
       - name: Dispatch Assayer for eval PR
-        if: success()
+        if: always() && steps.ensure.outcome == 'success'
         env:
           GH_TOKEN: ${{ secrets.PROJECT_PAT }}
           BRANCH: miner/eval-${{ needs.preflight.outputs.slug }}-issue-${{ inputs.issue_number }}-r${{ github.run_id }}
