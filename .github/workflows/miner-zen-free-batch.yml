@@ -28,6 +28,8 @@ on:
         type: choice
         options:
           - deepseek-v4-flash-free
+          - big-pickle
+          - north-mini-code-free
           - mimo-v2.5-free
           - ling-3.0-flash-free
           - laguna-s-2.1-free
