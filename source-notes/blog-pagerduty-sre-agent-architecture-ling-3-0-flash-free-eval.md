@@ -58,9 +58,9 @@ issue: "#1-ling-3-0-flash-free-eval"
   - **Sequential**: Total time = sum of all sub-agent durations. Simple but "a slow hypothesis in the middle blocks everything behind it."
   - **Parallel, wait for all**: Total time = slowest sub-agent. But the main agent is idle during execution, can't report progress, and "the graph is locked inside the parallel call until everything resolves."
   - **Parallel fan-out, concurrent fan-in**: Dispatch all asynchronously, process each result as it arrives, user input is "a first-class event alongside sub-agent results." The main agent is never idle, user always has visibility, new work can be injected at any point.
-- **Confidence**: settled
+- **Confidence**: emerging
 - **Quote**: "The main agent is never idle. The user always has visibility. New work can be injected at any point."
-- **Our assessment**: This taxonomy is clearly reasoned and each model's trade-offs are well articulated. The authors' contribution is not inventing these models but clearly mapping them to the SRE investigation domain with concrete requirements (real-time visibility, mid-run injection, cancellation).
+- **Our assessment**: This taxonomy is clearly reasoned and each model's trade-offs are well articulated. The authors' contribution is not inventing these models but clearly mapping them to the SRE investigation domain with concrete requirements (real-time visibility, mid-run injection, cancellation). The three-execution-model taxonomy is a single-team design analysis, not independently validated across sources — well-reasoned and well-articulated, but graded `emerging` rather than `settled` because broader cross-organization consensus on this specific taxonomy is not established.
 
 ### Claim 7: LangGraph's Bulk Synchronous Parallel (BSP) execution model prevents per-result reactivity and makes mid-run user input injection impossible
 - **Evidence**: The authors tried LangChain Deep Agents with sub-agents as tools. In LangGraph's BSP model, a parallel tool call is one superstep — control returns only after every tool in that batch resolves. The orchestrator cannot react to sub-agent 1's result at t=3min while sub-agents 2 and 3 still run. No external event — including user input — can reach the graph while blocked inside a parallel tool call. The tool set is fixed at dispatch time.
@@ -180,7 +180,25 @@ Priority 1:          Sub-agent results — processed in arrival order after any 
 
 ## Cross-References
 
-- **Corroborates**: Existing merged baseline note `blog-pagerduty-sre-agent-architecture.md` (issue #1, PR #5) — this eval extraction is of the same source URL and corroborates the same claims and patterns: AI-native vs AI-assisted framing, three execution models, context rot, instruction overload, LangGraph BSP limitation, queue+lock pattern, priority queue, task_id=thread_id, single-process simplification, durable supervisor/stateless sub-agent asymmetry, and the "build hard, ship simple" methodology.
+- **Corroborates**: Multiple existing source notes corroborate the claims in this extraction.
+
+  - **`blog-pagerduty-sre-agent-architecture.md`** (issue #1, PR #5) — the merged baseline extraction of the same source URL. This eval extraction corroborates the same claims and patterns: AI-native vs AI-assisted framing, three execution models, context rot, instruction overload, LangGraph BSP limitation, queue+lock pattern, priority queue, task_id=thread_id, single-process simplification, durable supervisor/stateless sub-agent asymmetry, and the "build hard, ship simple" methodology.
+
+  - **`blog-pagerduty-production-ai-agent-gaps.md`** (issue #4) — the direct precursor article, published June 11 2026, two weeks before this SRE Agent architecture deep-dive. Both are from PagerDuty Engineering; the SRE Agent article's Claim 1 explicitly cites João Freitas, the author of the gaps article. Specific claim-level overlaps:
+    - Gaps **Claim 3** (context fatigue causes early prompt instructions to lose weight as token count grows) corroborates eval **Claim 2** (context rot as a hard ceiling for single-agent architectures) — same failure mode under a different name, both backed by Liu et al. 2023.
+    - Gaps **Claim 4** (errors compound multiplicatively across multi-step agent workflows) corroborates eval **Claims 7–9** (LangGraph concurrency edge cases, the queue-and-lock pattern, and real-world race conditions) — the concurrency edge cases are concrete manifestations of compound failure propagation.
+    - Gaps **Claim 8** (architecture should evolve single-agent → supervisor → hierarchical, earning complexity rather than starting with it) corroborates eval **Claim 12** (single-process simplification) and **Claim 16** ("build hard, ship simple" methodology) — both articles converge on the same architectural philosophy from different angles (production-readiness gaps vs implementation primitives).
+
+  - **`docs-google-sre-prodcast-04-09-ai-agents.md`** (issue #105) — Google SRE practitioners building production AI agents. Cross-organizational validation of the same human-in-the-loop safety principle:
+    - S4E9 **Claim 3** (default guardrail: deny world-mutating actions, require explicit human permission for writes) corroborates eval **Claim 10** (user input as priority-0 event, mid-run steering as a first-class event) — both embed human judgment as a structural primitive, not an afterthought.
+    - S4E9 **Claim 5** (agent as pre-on-caller triage in the 3–4 minutes before the human arrives; human owns the write) corroborates eval **Claims 4 and 5** (sequential hypothesis testing causes multi-minute latency; lack of interactivity was a structural failure) — both identify the same investigation pattern, independently arrived at by teams at different organizations.
+    - S4E9 **Claim 1** (agent spectrum: static algorithm → LLM-augmented → full agent) and **Claim 2** (capability split into read vs world-modification write) provide the Google framing parallel to eval **Claim 1** (AI-native vs AI-assisted products determine failure modes and engineering trade-offs).
+
+  - **`docs-google-sre-prodcast-06-04-zelesko-agentic-sre.md`** (issue #247) — Google VP of SRE on the AI/SRE trajectory. Cross-organizational validation from Google leadership of the same design boundary PagerDuty arrived at independently:
+    - Zelesko **Claim 5** (investigation is non-mutating and AI-safe; mitigation changes production and requires a human in the loop) corroborates eval **Claims 5 and 10** (reactive loop with mid-run human steering via priority queue; user input as a first-class event) — same investigation-is-safe / mitigation-needs-human boundary, articulated at the strategic framework level (Zelesko) and the implementation-primitive level (PagerDuty).
+    - Zelesko **Claim 2** (SRE work moving from human-centric to human-supervised — agents do a growing share of the work while humans retain judgment) is the leadership-level articulation of the same shift that eval **Claim 1** frames as AI-native failure modes requiring different engineering choices.
+    - Zelesko **Claim 3** (generalist capabilities absorb specialized SRE work as agents take on domain tasks) provides the organizational counterpart to the eval's durable supervisor / stateless sub-agent asymmetry — the durable supervisor is the generalist; the replaceable sub-agents are the specialists.
+
 - **Contradicts**: None identified between this extraction and the baseline.
 - **Extends**: N/A — same source as baseline.
 - **Novel**: The following miner-related-notes.md candidates were considered. Each is dismissed below with one-line justification:
