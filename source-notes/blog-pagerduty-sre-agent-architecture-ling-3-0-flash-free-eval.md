@@ -125,7 +125,7 @@ issue: "#1-ling-3-0-flash-free-eval"
 ### Claim 17: Three insights — identity, event transport, and reactive loop — remain true regardless of runtime engine, forming a portable foundation for multi-agent architectures
 - **Evidence**: The authors identify three primitives that survive the simplification from distributed to single-process and would apply to any runtime engine: (1) Identity (`task_id === thread_id`) routes events to the right graph without lookup tables; (2) Event transport delivers results reliably, handles late-joining clients, and survives restarts; (3) Reactive loop processes results as they arrive, serializes concurrent completions, and treats user input as a first-class event. The article closes by arguing that understanding why each layer exists is what distinguishes inheriting an architecture from owning it.
 - **Confidence**: emerging
-- **Quote**: "Understanding why each layer exists is what lets you extend or replace individual pieces as frameworks evolve."
+- **Quote**: "Understanding why each layer exists is what lets you extend it or replace individual pieces as your framework evolves."
 - **Our assessment**: This is a useful distillation. The three primitives form a reasonable abstraction stack (identity → transport → control loop) that could guide design even outside LangGraph. The portability claim is plausible but untested — the authors only implemented on LangGraph.
 
 ## Concrete Artifacts
@@ -231,3 +231,4 @@ Priority 1:          Sub-agent results — processed in arrival order after any 
 - No part of the source was paywalled. The article is publicly accessible on the PagerDuty Engineering Blog.
 - Published June 24, 2026 — approximately 3 weeks before extraction. The architecture described is very recent and may still be evolving.
 - This evaluation note should be compared against the merged DeepSeek/Flash baseline note (`blog-pagerduty-sre-agent-architecture.md`) for quality assessment of the ling-3.0-flash-free extraction against the production standard.
+- Claim 6 (three execution models) is graded `emerging` here versus `settled` in the baseline. Rationale: while the taxonomy is well-reasoned, it is a single-team design analysis without independent cross-organizational replication. The `settled` grade in the baseline may have been premature for a first-in-corpus source.
