@@ -13,6 +13,10 @@ name: Miner Zen Free Eval
 # Salvage: if OpenCode fails/cancels after pushing the eval branch, still open
 # the miner-eval PR and dispatch Assayer.
 #
+# Hang diagnostics (H0 / opencode-hang-repro#2): job-level OPENCODE_PRINT_LOGS
+# + DEBUG, and always() upload of ~/.local/share/opencode/log/ plus a process/
+# socket snapshot — confirms or kills unbounded FreeUsageLimitError retry sleep.
+#
 # Run these one at a time. Four concurrent Zen free jobs all failed without
 # pushing a branch (2026-07-26), versus 2/4 clean when serialized.
 #
@@ -75,6 +79,10 @@ jobs:
     # wastes runner time per hang (25m attempt: ling and nemotron both burned the
     # full window). See #500.
     timeout-minutes: 12
+    # Inherited by composite action steps (no Action input / fork needed).
+    env:
+      OPENCODE_PRINT_LOGS: '1'
+      OPENCODE_LOG_LEVEL: DEBUG
     steps:
       - uses: actions/checkout@v5
         with:
@@ -216,6 +224,52 @@ jobs:
 
             Work efficiently — finish extraction and open the PR; do not loop
             indefinitely on optional polish.
+
+      # H0 confirm/kill (opencode-hang-repro#2): file logger is always on under
+      # ~/.local/share/opencode/log/. Retry sleeps leave no Zen :443 socket;
+      # stream-idle leaves ESTABLISHED. Runs even when OpenCode is cancelled.
+      - name: Snapshot OpenCode hang diagnostics
+        id: opencode_diag
+        if: always()
+        run: |
+          set +e
+          DIAG="${RUNNER_TEMP}/opencode-diag"
+          mkdir -p "$DIAG/log"
+          {
+            echo "=== utc ==="
+            date -u
+            echo "=== opencode / related processes ==="
+            ps auxww | grep -iE '[o]pencode|[n]ode.*opencode' || echo "(none matched)"
+            echo "=== listening / established (ss) ==="
+            ss -tnp 2>/dev/null | head -n 200 || true
+            echo "=== ss :443 ==="
+            ss -tnp 2>/dev/null | grep ':443' || echo "(no :443)"
+            echo "=== log paths ==="
+            for d in \
+              "${HOME}/.local/share/opencode/log" \
+              ${XDG_DATA_HOME:+"${XDG_DATA_HOME}/opencode/log"} \
+              "${HOME}/.opencode/log"
+            do
+              [ -n "$d" ] || continue
+              echo "-- $d"
+              ls -la "$d" 2>/dev/null || echo "(missing)"
+            done
+          } | tee "$DIAG/snapshot.txt"
+          cp -a "${HOME}/.local/share/opencode/log/." "$DIAG/log/" 2>/dev/null || true
+          if [ -n "${XDG_DATA_HOME:-}" ]; then
+            cp -a "${XDG_DATA_HOME}/opencode/log/." "$DIAG/log/" 2>/dev/null || true
+          fi
+          echo "diag_dir=$DIAG" >> "$GITHUB_OUTPUT"
+          echo "OpenCode diag snapshot written to $DIAG"
+
+      - name: Upload OpenCode logs and hang diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: opencode-diag-${{ inputs.model }}-issue-${{ inputs.issue_number }}-r${{ github.run_id }}
+          path: ${{ runner.temp }}/opencode-diag/
+          if-no-files-found: warn
+          retention-days: 14
 
       - name: Ensure eval PR exists
         id: ensure
