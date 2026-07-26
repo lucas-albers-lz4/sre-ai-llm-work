@@ -47,7 +47,10 @@ runs:
         MINER_DISABLE_CANDIDATES: ${{ inputs.disable_candidates }}
       run: |
         set -euo pipefail
-        OUT="${RUNNER_TEMP}/miner-related-notes.md"
+        # Workspace path is readable by OpenCode + Claude Code sandboxes;
+        # RUNNER_TEMP copy kept for Actions tooling / older prompt refs.
+        OUT_WS="${GITHUB_WORKSPACE}/miner-related-notes.md"
+        OUT_TMP="${RUNNER_TEMP}/miner-related-notes.md"
 
         if [ "${DISABLE}" = "true" ] || [ "${DISABLE}" = "1" ] || \
            [ "${MINER_DISABLE_CANDIDATES:-0}" = "1" ]; then
@@ -63,29 +66,28 @@ runs:
         META=$(gh issue view "$ISSUE" --repo "${{ github.repository }}" \
           --json title,body)
         TITLE=$(echo "$META" | jq -r '.title // ""')
-        echo "$META" | jq -r '.body // ""' > "${RUNNER_TEMP}/miner-issue-body.txt"
+        BODY_FILE="${RUNNER_TEMP}/miner-issue-body.txt"
+        echo "$META" | jq -r '.body // ""' > "$BODY_FILE"
 
-        # Prefer explicit Source URL block; related_notes.py also scrapes body.
         SOURCE_URL=$(echo "$META" | jq -r '.body // ""' | \
           sed -nE 's/^[[:space:]]*(https?:\/\/[^[:space:]]+).*$/\1/p' | head -1)
 
         python3 scripts/related_notes.py \
           --issue-title "$TITLE" \
           --source-url "${SOURCE_URL:-}" \
-          --body-file "${RUNNER_TEMP}/miner-issue-body.txt" \
-          --out "$OUT"
+          --body-file "$BODY_FILE" \
+          --out "$OUT_WS"
+        cp -f "$OUT_WS" "$OUT_TMP"
 
-        echo "related_notes_path=$OUT" >> "$GITHUB_OUTPUT"
-        # has_candidates / ran_candidates also written by related_notes.py;
-        # ensure ran_candidates is set even if the script path changes.
+        echo "related_notes_path=$OUT_WS" >> "$GITHUB_OUTPUT"
         if ! grep -q '^ran_candidates=' "$GITHUB_OUTPUT"; then
           echo "ran_candidates=true" >> "$GITHUB_OUTPUT"
         fi
         if ! grep -q '^has_candidates=' "$GITHUB_OUTPUT"; then
-          if grep -q '^## 1\.' "$OUT" 2>/dev/null; then
+          if grep -q '^## 1\.' "$OUT_WS" 2>/dev/null; then
             echo "has_candidates=true" >> "$GITHUB_OUTPUT"
           else
             echo "has_candidates=false" >> "$GITHUB_OUTPUT"
           fi
         fi
-        echo "Related notes ready at $OUT (has_candidates=$(grep '^has_candidates=' "$GITHUB_OUTPUT" | tail -1))"
+        echo "Related notes ready at $OUT_WS (has_candidates=$(grep '^has_candidates=' "$GITHUB_OUTPUT" | tail -1 | cut -d= -f2))"
