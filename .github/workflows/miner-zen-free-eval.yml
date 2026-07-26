@@ -39,6 +39,8 @@ on:
           - laguna-s-2.1-free
           - nemotron-3-ultra-free
           - deepseek-v4-flash-free
+          - big-pickle
+          - north-mini-code-free
         default: mimo-v2.5-free
       issue_number:
         description: 'Source issue number to re-mine (e.g. 1–4 for golden set)'
