@@ -331,28 +331,41 @@ Priority 1:          Sub-agent results — processed in arrival order after any 
 
 ## Cross-References
 
+- **Same-source baseline**: `blog-pagerduty-sre-agent-architecture.md` (issue #1)
+  extracts from the identical URL. That note was produced by merged DeepSeek/Flash
+  extraction and served as the structural reference during this eval extraction
+  (laguna-s-2.1-free). Both notes cover the same 17 claims in the same order —
+  the source article's structure is linear and the claim ordering follows the
+  article's narrative arc, so identical claim count and sequence are expected
+  from independent extraction. What differs: this eval note provides independent
+  claim assessments, updated cross-references reflecting the larger corpus now
+  available (gaps note at issue #4, incident.io note at issue #3), and
+  additional Extraction Notes documenting the model evaluation context.
+
 - **Corroborates**:
-  - `blog-pagerduty-production-ai-agent-gaps.md` (Claim 2): The companion
+  - `blog-pagerduty-production-ai-agent-gaps.md` (Claim 3): The companion
     article by João Freitas (the same author cited as foundational framing in
     this article's Claim 1) independently documents "context fatigue" — "the
     early parts of your prompt start losing probabilistic weight as more tokens
     accumulate." This is the same failure mode under a different name; both cite
     the "Lost in the Middle" phenomenon (Liu et al. 2023).
-  - `blog-pagerduty-production-ai-agent-gaps.md` (Claim 3): The companion
-    article's "instruction overload" claim — that adding capabilities to a
-    monolithic agent degrades existing ones — directly corroborates this
-    article's Claim 3. Both describe the same structural problem: as agents
-    accumulate more context/instructions/capabilities, output quality degrades.
+  - `blog-pagerduty-production-ai-agent-gaps.md` (Claim 4): The companion
+    article's "compounding errors" claim — that individual error rates multiply
+    rather than average out across multi-step workflows — corroborates this
+    article's Claim 3 (instruction overload). Both describe the same structural
+    problem: as agents accumulate more components and capabilities, output
+    quality degrades.
   - `blog-pagerduty-production-ai-agent-gaps.md` (Claim 8): The companion
     article's architecture evolution pattern (single-agent → supervisor →
     hierarchical) corroborates this article's Claim 16 ("build hard, ship
     simple") and Claim 12 (single-process simplification). Both articles
     emphasize earning complexity rather than starting with it.
-  - `blog-incidentio-ai-sre-incident-run.md` (Claim 5): The incident.io article
-    demonstrates a design response to the "no interactivity" failure mode —
-    human and AI investigate in parallel with bidirectional context sync, and
-    a reverification loop catches human mistakes. Same problem (agent operating
-    without information the human already had), different design solution.
+  - `blog-incidentio-ai-sre-incident-run.md` (Claims 3 and 4): The incident.io
+    article demonstrates a design response to the "no interactivity" failure
+    mode — human and AI investigate in parallel with bidirectional context sync
+    (Claim 3), and a reverification loop catches human mistakes (Claim 4). Same
+    problem (agent operating without information the human already had),
+    different design solution.
 
 - **Contradicts**: None identified. The PagerDuty companion article covers
   evaluation, metrics, guardrails, and UX (areas this article explicitly says it
@@ -366,7 +379,7 @@ Priority 1:          Sub-agent results — processed in arrival order after any 
     agents — extends this article's Claim 2 (context rot) by adding the
     cross-agent propagation dimension. Where this article describes the
     single-agent ceiling, the companion describes the multi-agent contagion.
-  - `blog-incidentio-ai-sre-incident-run.md` (Claim 6): The incident.io article's
+  - `blog-incidentio-ai-sre-incident-run.md` (Claim 3): The incident.io article's
     parallel investigation pattern (AI SRE and Claude Code working concurrently
     with automatic context sync) extends this article's Claim 6 (concurrent
     fan-in as the required execution model) into a concrete product interaction
@@ -450,4 +463,10 @@ Priority 1:          Sub-agent results — processed in arrival order after any 
   via OpenCode Zen free). The merged DeepSeek/Flash baseline note
   (`blog-pagerduty-sre-agent-architecture.md`) was used as the cross-reference
   for the same source URL. Claims and quotes were independently extracted from
-  the source URL, not copied from the baseline.
+  the source URL, not copied from the baseline. Both notes have the same 17
+  claims in the same order — this is expected because the source article follows
+  a linear narrative arc (failure modes → execution models → LangGraph
+  limitations → reactive loop primitives → simplification → methodology
+  → portable insights), and claim extraction follows the article's structure.
+  The identical claim count reflects a natural decomposition of the article's
+  sections, not a dependency on the baseline.
