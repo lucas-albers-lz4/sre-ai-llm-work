@@ -29,14 +29,20 @@ Do **not** re-enable peak cron until smoke + golden + live all pass.
 
 Miner jobs (production batch + candidate evals) inject lexical
 cross-reference candidates from `registry/claims-index.json` into
-`${RUNNER_TEMP}/miner-related-notes.md` before the agent runs. Kill switch:
+repo-root `miner-related-notes.md` (gitignored; also copied to
+`RUNNER_TEMP`) before the agent runs. Kill switch:
 `disable_candidates=true` on `workflow_dispatch`, or
 `MINER_DISABLE_CANDIDATES=1`. PRs get `has-candidates` / `no-candidates`.
 
-Success bar for free non-Flash models after retrieval lands: ≥3/5 of
-`mimo` / `ling` / `laguna-s` / `nemotron-ultra-free` / `north-mini` pass
-Assayer Cross-refs on golden #1 with quote-accuracy unchanged, plus one
-Flash spot-check. See issue #506.
+**Acceptance (2026-07-26):** golden #1 with retrieval ON cleared ≥3/5
+Cross-refs — **4/5 final pass** (mimo [#509](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/509),
+ling [#510](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/510),
+laguna [#511](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/511),
+nemotron [#512](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/512)
+APPROVE; north-mini [#513](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/513)
+REQUEST CHANGES). Quote accuracy unchanged. Flash live spot-check deferred
+(empty `mining-queued`). Details on [#506](https://github.com/lucas-albers-lz4/sre-ai-llm-work/issues/506).
+Production Miner stays on Flash; peak cron remains off.
 
 ## Workflows
 
