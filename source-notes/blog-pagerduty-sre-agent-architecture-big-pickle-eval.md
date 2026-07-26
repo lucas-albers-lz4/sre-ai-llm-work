@@ -159,7 +159,8 @@ issue: "#1-big-pickle-eval"
   drain loop held a lock while resuming, and the graph signaled through a
   callback when it had actually re-interrupted, releasing the lock.
 - **Confidence**: emerging
-- **Quote**: (no direct quote; see paraphrase in Our assessment)
+- **Quote**: "Concurrent arrivals were serialized. The graph was never resumed
+  twice in flight."
 - **Our assessment**: This is the kind of concurrency edge case that's easy to
   miss until it hits in production. The lock pattern is standard but the
   specific interaction with LangGraph's interrupt/resume lifecycle is a useful
@@ -229,7 +230,8 @@ issue: "#1-big-pickle-eval"
   supervisor reloads its last checkpoint with an empty queue; any sub-agents
   that were still running are simply re-spawned.
 - **Confidence**: emerging
-- **Quote**: (no direct quote; see paraphrase in Our assessment)
+- **Quote**: "each step is atomic and persisted the moment it's applied, the
+  checkpoint never has to capture in-flight mailbox contents"
 - **Our assessment**: This is the critical invariant that makes the
   in-process mailbox safe despite being non-durable. It guarantees the
   checkpoint is always consistent (never mid-mailbox-processing) and that
@@ -244,7 +246,8 @@ issue: "#1-big-pickle-eval"
   answer is "an in-process mailbox — an asyncio.Queue — injected into each
   background task when it's spawned."
 - **Confidence**: emerging
-- **Quote**: (no direct quote; see paraphrase in Our assessment)
+- **Quote**: "No broker to run, no callback endpoint to expose, no network hop
+  to fail."
 - **Our assessment**: The natural consequence of the single-process decision
   and a dramatic simplification. The authors are explicit that this only works
   because sub-agents are guaranteed to live in the same process as their
@@ -380,6 +383,16 @@ Priority 1:          Sub-agent results — processed in arrival order after any 
     mid-run interactivity was a structural failure (Claim 5) corroborates the
     human-centered tooling thesis — agents that can't accept human input mid-run
     are structurally limited for live incidents.
+  - `blog-anthropic-building-effective-agents.md` — Anthropic's Claim 11
+    (orchestrator-workers pattern: central LLM dynamically breaks down tasks,
+    delegates to workers, synthesizes results) maps directly to this note's
+    Claim 6 (concurrent fan-in execution model) — PagerDuty's reactive loop is
+    a specific production instantiation of that general pattern. Anthropic's
+    Claim 1 (most successful agent implementations use simple, composable
+    patterns rather than complex frameworks) corroborates this note's Claim 17
+    (build hard, ship simple) and Claim 18 (three portable primitives that
+    remain true regardless of runtime engine, so you can "extend or replace
+    individual pieces as frameworks evolve").
 
 - **Novel**: Several contributions are new to the corpus beyond the merged
   baseline:
