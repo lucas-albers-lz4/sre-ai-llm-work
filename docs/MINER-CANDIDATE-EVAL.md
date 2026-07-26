@@ -60,7 +60,11 @@ gh workflow run miner-candidate-eval.yml \
 gh workflow run miner-zen-free-eval.yml \
   -f model=mimo-v2.5-free -f issue_number=1
 
-# Live queue trial
+# Live queue trial (OpenCode Zen free — chat-completions only)
+gh workflow run miner-zen-free-batch.yml -f model=deepseek-v4-flash-free
+# optional: -f issue_number=N
+
+# Live queue trial (Claude Code Messages / paid Zen or OpenRouter)
 gh workflow run miner-batch.yml \
   -f backend=openrouter -f model=poolside/laguna-m.1:free
 gh workflow run miner-batch.yml \
@@ -149,30 +153,31 @@ gh workflow run miner-zen-free-eval.yml -f model=mimo-v2.5-free -f issue_number=
 | 2 | `ling-3.0-flash-free` | pass ([run](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30168573200)) | [PR #493](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/493) **REQUEST CHANGES** | — | — | — | — | Fail-fast after #1; proceed to Laguna S |
 | 3 | `laguna-s-2.1-free` | pass ([run](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30168739432)) | [PR #494](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/494) **REQUEST CHANGES** | — | — | — | — | Completed in ~5m (no hang); Assayer still REQUEST CHANGES |
 | 4 | `nemotron-3-ultra-free` | pass ([run](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30171998659)) | [PR #495](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/495) first Assayer **REQUEST CHANGES** (cross-refs); re-review **APPROVE** (same note, no Miner fix) | — | — | — | — | Eval job stream-failed after push; PR salvaged. Fail-fast: do not continue #2–#4 (Assayer variance + stream fragility; peers failed cross-refs cleanly) |
-| 5 | `deepseek-v4-flash-free` | pass ([run](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30178170790)) | [PR #498](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/498) **APPROVE** | [PR #499](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/499) **APPROVE** (eval run timed out after push; PR salvaged) | [PR #502](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/502) **APPROVE** (12m cancel + salvage) | [PR #504](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/504) **APPROVE** (12m cancel + salvage) | — | **4/4 Assayer APPROVE**. Earlier 12m cancels were the `/tmp` permission-ask hang (#500); mitigated by [#561](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/561). Live peak-fill trial still pending. |
+| 5 | `deepseek-v4-flash-free` | pass ([run](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30178170790)) | [PR #498](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/498) **APPROVE** | [PR #499](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/499) **APPROVE** (eval run timed out after push; PR salvaged) | [PR #502](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/502) **APPROVE** (12m cancel + salvage) | [PR #504](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/504) **APPROVE** (12m cancel + salvage) | [PR #569](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/569) **APPROVE** (auto-merged) — live [#567](https://github.com/lucas-albers-lz4/sre-ai-llm-work/issues/567) via [`miner-zen-free-batch.yml`](../.github/workflows/miner-zen-free-batch.yml) ([drain](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30210465311); attempt 1 hallucinated no-op, closed junk [#568](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/568)) | **4/4 golden + live Assayer APPROVE**. Hang mitigated [#561](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/561). Peak cron still **off** — enable as a separate follow-up (#564). |
 
-**Wave C decision (2026-07-25):** First four Zen free candidates failed golden #1
-(cross-refs). Late trial `deepseek-v4-flash-free` cleared **4/4** Assayer
-APPROVE (same family as production Flash). Eval workflow hardened (12m
-timeout + PR salvage) in [#501](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/501); hang root cause fixed in
-[#561](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/561) (#500 closed).
-Next gate for peak-fill: one live `miner-batch` drain via Zen free OpenCode
-path (not just golden eval).
+**Wave C decision (2026-07-26):** First four Zen free candidates failed golden #1
+(cross-refs). `deepseek-v4-flash-free` cleared **4/4** Assayer APPROVE on golden
+and **one live** `mining-queued` drain via OpenCode
+([#564](https://github.com/lucas-albers-lz4/sre-ai-llm-work/issues/564),
+workflow [#566](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/566)).
+Hang root cause fixed in [#561](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/561).
+Peak-cron enablement for zen-free remains a **separate follow-up** (not done here).
 
 
 ## Final decision (2026-07-26)
 
-**Stay on DeepSeek V4 Flash** for production Miner (off-peak cron) until a live
-peak-fill trial. Peak-fill cron remains **off**.
+**Stay on DeepSeek V4 Flash** for production Miner (off-peak cron). Peak-fill
+cron remains **off** until an explicit follow-up enables `miner-zen-free-batch`
+(or equivalent) on a schedule.
 
 - Free OpenRouter / other Zen free: multi-turn fail or Assayer fail on #1
-- Zen `deepseek-v4-flash-free`: **4/4 golden APPROVE** — strongest free
-  candidate; OpenCode `/tmp` hang mitigated (#561); live batch trial still
-  the gate before peak cron
+- Zen `deepseek-v4-flash-free`: **4/4 golden + live Assayer APPROVE** — strongest
+  free candidate; live path is manual `miner-zen-free-batch.yml` (OpenCode).
+  Attempt-1 no-op/hallucination risk remains; one retry cleared the bar.
 - Zen `qwen3.5-plus`: 3/4 golden APPROVE; parked (Messages path)
 - Assayer/Smith/Herald stay on DeepSeek V4 Pro (unchanged)
-- Intermittent Zen free stream failures (`Streaming response failed`) remain;
-  salvage recovers PR+Assayer when the branch was pushed
+- Intermittent Zen free stream failures / early exits remain; salvage recovers
+  PR+Assayer when the branch was pushed
 
 Scorecard detail above; routing: [`MODEL-ROUTING.md`](MODEL-ROUTING.md).
 Related decision history: [#328](https://github.com/lucas-albers-lz4/sre-ai-llm-work/issues/328).
@@ -184,9 +189,9 @@ Related decision history: [#328](https://github.com/lucas-albers-lz4/sre-ai-llm-
 | Wave A `qwen/qwen3-coder:free` | Not in live OpenRouter catalog (2026-07-25) |
 | Wave A `north-mini-code` golden | **Closed 2026-07-25** — PR #496 REQUEST CHANGES (cross-refs); Wave A exhausted |
 | Wave B `qwen3.7-plus` / `claude-haiku-4.5` | Not run — 3.5-plus already cleared golden; staying on Flash |
-| Live `mining-queued` trial (any candidate) | Deferred — queue had been empty; now has issues; gate before peak cron |
+| Live `mining-queued` trial (any candidate) | **Done 2026-07-26** — `deepseek-v4-flash-free` live [#567](https://github.com/lucas-albers-lz4/sre-ai-llm-work/issues/567) / PR [#569](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/569) Assayer APPROVE (#564) |
 | $/note Flash vs Zen/OpenRouter comparison | **Not recorded** (optional follow-up if revisiting peak-fill) |
-| Peak cron re-enable | Correctly not done |
+| Peak cron re-enable | Still off — follow-up after #564 live pass |
 | Assayer skip-merge for `miner-eval` | Done (PR #488 leak fixed) |
 | OpenCode post-push hang (#500) | **Closed 2026-07-26** — headless `external_directory` ask on `/tmp`; fixed [#561](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/561) |
 
