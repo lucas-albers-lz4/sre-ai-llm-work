@@ -198,14 +198,16 @@ jobs:
               git commit -m "source: <slug>-${{ needs.preflight.outputs.slug }}-eval (#${{ inputs.issue_number }})"
               git push -u origin miner/eval-${{ needs.preflight.outputs.slug }}-issue-${{ inputs.issue_number }}-r${{ github.run_id }}
 
-              Write /tmp/miner-eval-pr-body.md via Bash before gh pr create, then:
+              Write .miner-eval-pr-body.md at the repo root (NOT /tmp — OpenCode
+              headless mode hangs forever on external_directory asks) via Bash
+              before gh pr create. Do NOT commit that file. Then:
 
               gh pr create \
                 --repo ${{ github.repository }} \
                 --base main \
                 --head miner/eval-${{ needs.preflight.outputs.slug }}-issue-${{ inputs.issue_number }}-r${{ github.run_id }} \
                 --title "[eval:${{ needs.preflight.outputs.slug }}] source: <slug> (#${{ inputs.issue_number }})" \
-                --body-file /tmp/miner-eval-pr-body.md \
+                --body-file .miner-eval-pr-body.md \
                 --label source-note \
                 --label miner-eval
 
@@ -288,14 +290,16 @@ jobs:
               git commit -m "source: <slug>-${{ needs.preflight.outputs.slug }}-eval (#${{ inputs.issue_number }})"
               git push -u origin miner/eval-${{ needs.preflight.outputs.slug }}-issue-${{ inputs.issue_number }}-r${{ github.run_id }}
 
-              Write /tmp/miner-eval-pr-body.md via Bash before gh pr create, then:
+              Write .miner-eval-pr-body.md at the repo root (NOT /tmp — OpenCode
+              headless mode hangs forever on external_directory asks) via Bash
+              before gh pr create. Do NOT commit that file. Then:
 
               gh pr create \
                 --repo ${{ github.repository }} \
                 --base main \
                 --head miner/eval-${{ needs.preflight.outputs.slug }}-issue-${{ inputs.issue_number }}-r${{ github.run_id }} \
                 --title "[eval:${{ needs.preflight.outputs.slug }}] source: <slug> (#${{ inputs.issue_number }})" \
-                --body-file /tmp/miner-eval-pr-body.md \
+                --body-file .miner-eval-pr-body.md \
                 --label source-note \
                 --label miner-eval
 
@@ -335,7 +339,7 @@ jobs:
           fi
 
           NOTE_SLUG=$(basename "$EVAL_FILE" "-${SLUG}-eval.md")
-          cat > /tmp/miner-eval-pr-body.md <<EOF
+          cat > .miner-eval-pr-body.md <<EOF
           Miner candidate eval (${BACKEND} / \`${MODEL}\`) for golden issue #${ISSUE}.
           Do not merge — compare against the merged DeepSeek/Flash baseline note.
           EOF
@@ -345,7 +349,7 @@ jobs:
             --base main \
             --head "$BRANCH" \
             --title "[eval:${SLUG}] source: ${NOTE_SLUG} (#${ISSUE})" \
-            --body-file /tmp/miner-eval-pr-body.md \
+            --body-file .miner-eval-pr-body.md \
             --label source-note \
             --label miner-eval)
           echo "Opened missing eval PR: $PR_URL"

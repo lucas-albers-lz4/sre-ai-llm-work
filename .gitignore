@@ -8,3 +8,5 @@ mail/
 *.pyc
 .env
 miner-related-notes.md
+.miner-eval-pr-body.md
+.miner-pr-body.md

@@ -379,10 +379,11 @@ jobs:
               git commit -m "source: <slug> (#${{ matrix.issue }})"
               git push -u origin miner/issue-${{ matrix.issue }}-r${{ github.run_id }}
 
-            Then open the PR. Write the body to a file first to avoid
-            shell quoting issues:
+            Then open the PR. Write the body to a file at the repo root
+            (NOT /tmp — OpenCode headless mode hangs forever on
+            external_directory asks). Do NOT commit that file:
 
-              cat > /tmp/miner-pr-body.md <<'PR_BODY_EOF'
+              cat > .miner-pr-body.md <<'PR_BODY_EOF'
               Source note extracted by the Miner agent for #${{ matrix.issue }}.
 
               Miner backend: flash (`deepseek-v4-flash`).
@@ -398,7 +399,7 @@ jobs:
                 --base main \
                 --head miner/issue-${{ matrix.issue }}-r${{ github.run_id }} \
                 --title "source: <slug> (#${{ matrix.issue }})" \
-                --body-file /tmp/miner-pr-body.md \
+                --body-file .miner-pr-body.md \
                 --label source-note
 
             The `source-note` label is what triggers the Assayer
@@ -538,10 +539,11 @@ jobs:
               git commit -m "source: <slug> (#${{ matrix.issue }})"
               git push -u origin miner/issue-${{ matrix.issue }}-r${{ github.run_id }}
 
-            Then open the PR. Write the body to a file first to avoid
-            shell quoting issues:
+            Then open the PR. Write the body to a file at the repo root
+            (NOT /tmp — OpenCode headless mode hangs forever on
+            external_directory asks). Do NOT commit that file:
 
-              cat > /tmp/miner-pr-body.md <<'PR_BODY_EOF'
+              cat > .miner-pr-body.md <<'PR_BODY_EOF'
               Source note extracted by the Miner agent for #${{ matrix.issue }}.
 
               Miner backend: ${{ needs.preflight.outputs.backend }}
@@ -558,7 +560,7 @@ jobs:
                 --base main \
                 --head miner/issue-${{ matrix.issue }}-r${{ github.run_id }} \
                 --title "source: <slug> (#${{ matrix.issue }})" \
-                --body-file /tmp/miner-pr-body.md \
+                --body-file .miner-pr-body.md \
                 --label source-note
 
             The `source-note` label is what triggers the Assayer
@@ -698,10 +700,11 @@ jobs:
               git commit -m "source: <slug> (#${{ matrix.issue }})"
               git push -u origin miner/issue-${{ matrix.issue }}-r${{ github.run_id }}
 
-            Then open the PR. Write the body to a file first to avoid
-            shell quoting issues:
+            Then open the PR. Write the body to a file at the repo root
+            (NOT /tmp — OpenCode headless mode hangs forever on
+            external_directory asks). Do NOT commit that file:
 
-              cat > /tmp/miner-pr-body.md <<'PR_BODY_EOF'
+              cat > .miner-pr-body.md <<'PR_BODY_EOF'
               Source note extracted by the Miner agent for #${{ matrix.issue }}.
 
               Miner backend: zen (`${{ needs.preflight.outputs.model }}` trial).
@@ -717,7 +720,7 @@ jobs:
                 --base main \
                 --head miner/issue-${{ matrix.issue }}-r${{ github.run_id }} \
                 --title "source: <slug> (#${{ matrix.issue }})" \
-                --body-file /tmp/miner-pr-body.md \
+                --body-file .miner-pr-body.md \
                 --label source-note
 
             The `source-note` label is what triggers the Assayer
