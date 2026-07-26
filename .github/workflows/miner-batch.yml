@@ -52,6 +52,11 @@ on:
         required: false
         type: string
         default: ''
+      disable_candidates:
+        description: 'Skip related-note retrieval injection (MINER_DISABLE_CANDIDATES)'
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -121,6 +126,16 @@ jobs:
               --color "f9d0c4" \
               2>/dev/null || true
           done
+          gh label create "has-candidates" \
+            --repo "${{ github.repository }}" \
+            --description "Miner related-note retrieval returned ≥1 candidate (#506)" \
+            --color "1d76db" \
+            2>/dev/null || true
+          gh label create "no-candidates" \
+            --repo "${{ github.repository }}" \
+            --description "Miner related-note retrieval ran but found zero candidates (#506)" \
+            --color "cfd3d7" \
+            2>/dev/null || true
 
       - name: Find mining-queued issues without completion labels
         id: query
@@ -245,6 +260,14 @@ jobs:
             echo 'APPEND_EOF'
           } >> "$GITHUB_ENV"
 
+      - name: Prepare related-note candidates
+        id: candidates
+        uses: ./.github/actions/prepare-miner-candidates
+        with:
+          issue_number: ${{ matrix.issue }}
+          disable_candidates: ${{ github.event_name == 'workflow_dispatch' && inputs.disable_candidates || false }}
+          github_token: ${{ secrets.PROJECT_PAT }}
+
       - name: Run Miner extraction for issue #${{ matrix.issue }} (Flash)
         id: miner
         if: needs.preflight.outputs.backend == 'flash'
@@ -297,7 +320,15 @@ jobs:
                - If the issue has `triaged:text`    → text source extraction
                - If the issue has `triaged:failure`  → failure report extraction
                Use this to guide your extraction approach per MINER.md.
-            e. Existing files under `source-notes/` for cross-references.
+            e0. **MANDATORY when the file exists:** Read
+               `${{ runner.temp }}/miner-related-notes.md` FIRST for
+               cross-reference candidates (pre-computed lexical retrieval).
+               Cite or explicitly dismiss each listed path before writing
+               Cross-References (see MINER.md §4). Candidates are suggestions
+               only — do not invent corroboration. If the file is missing
+               (kill switch), search `source-notes/` yourself as before.
+            e. Existing files under `source-notes/` for additional
+               cross-references beyond the candidate list.
                Do NOT skip this — Cross-References is a hard requirement
                in the Assayer review standards.
 
@@ -447,7 +478,15 @@ jobs:
                - If the issue has `triaged:text`    → text source extraction
                - If the issue has `triaged:failure`  → failure report extraction
                Use this to guide your extraction approach per MINER.md.
-            e. Existing files under `source-notes/` for cross-references.
+            e0. **MANDATORY when the file exists:** Read
+               `${{ runner.temp }}/miner-related-notes.md` FIRST for
+               cross-reference candidates (pre-computed lexical retrieval).
+               Cite or explicitly dismiss each listed path before writing
+               Cross-References (see MINER.md §4). Candidates are suggestions
+               only — do not invent corroboration. If the file is missing
+               (kill switch), search `source-notes/` yourself as before.
+            e. Existing files under `source-notes/` for additional
+               cross-references beyond the candidate list.
                Do NOT skip this — Cross-References is a hard requirement
                in the Assayer review standards.
 
@@ -598,7 +637,15 @@ jobs:
                - If the issue has `triaged:text`    → text source extraction
                - If the issue has `triaged:failure`  → failure report extraction
                Use this to guide your extraction approach per MINER.md.
-            e. Existing files under `source-notes/` for cross-references.
+            e0. **MANDATORY when the file exists:** Read
+               `${{ runner.temp }}/miner-related-notes.md` FIRST for
+               cross-reference candidates (pre-computed lexical retrieval).
+               Cite or explicitly dismiss each listed path before writing
+               Cross-References (see MINER.md §4). Candidates are suggestions
+               only — do not invent corroboration. If the file is missing
+               (kill switch), search `source-notes/` yourself as before.
+            e. Existing files under `source-notes/` for additional
+               cross-references beyond the candidate list.
                Do NOT skip this — Cross-References is a hard requirement
                in the Assayer review standards.
 
@@ -709,6 +756,32 @@ jobs:
             --model ${{ needs.preflight.outputs.model }}
             --max-turns 60
             --allowedTools "Bash(*)" "Read" "Write" "Edit" "Glob" "Grep" "WebFetch"
+
+      - name: Label PR for related-note retrieval
+        if: always() && steps.candidates.outputs.ran_candidates == 'true'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.PROJECT_PAT }}
+          BRANCH: miner/issue-${{ matrix.issue }}-r${{ github.run_id }}
+          HAS_CANDIDATES: ${{ steps.candidates.outputs.has_candidates }}
+        run: |
+          PR_NUM=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number // empty')
+          if [ -z "$PR_NUM" ]; then
+            echo "No PR for $BRANCH — skip candidate labels."
+            exit 0
+          fi
+          if [ "$HAS_CANDIDATES" = "true" ]; then
+            gh pr edit "$PR_NUM" --repo "${{ github.repository }}" \
+              --add-label "has-candidates" \
+              --remove-label "no-candidates" || \
+              gh pr edit "$PR_NUM" --repo "${{ github.repository }}" --add-label "has-candidates"
+          else
+            gh pr edit "$PR_NUM" --repo "${{ github.repository }}" \
+              --add-label "no-candidates" \
+              --remove-label "has-candidates" || \
+              gh pr edit "$PR_NUM" --repo "${{ github.repository }}" --add-label "no-candidates"
+          fi
+          echo "Labeled PR #$PR_NUM (has_candidates=$HAS_CANDIDATES)"
 
       - name: Dispatch Assayer (bypass pull_request rate limit)
         # The Miner just created a PR via gh pr create. The resulting

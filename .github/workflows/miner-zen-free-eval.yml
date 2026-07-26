@@ -34,6 +34,11 @@ on:
         description: 'Source issue number to re-mine (e.g. 1–4 for golden set)'
         required: true
         type: string
+      disable_candidates:
+        description: 'Skip related-note retrieval injection (MINER_DISABLE_CANDIDATES)'
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -79,6 +84,16 @@ jobs:
             --description "Miner candidate eval PR — do not merge" \
             --color "5319e7" \
             2>/dev/null || true
+          gh label create "has-candidates" \
+            --repo "${{ github.repository }}" \
+            --description "Miner related-note retrieval returned ≥1 candidate (#506)" \
+            --color "1d76db" \
+            2>/dev/null || true
+          gh label create "no-candidates" \
+            --repo "${{ github.repository }}" \
+            --description "Miner related-note retrieval ran but found zero candidates (#506)" \
+            --color "cfd3d7" \
+            2>/dev/null || true
 
       - name: Verify source issue exists
         env:
@@ -93,6 +108,14 @@ jobs:
         run: |
           git config user.name  "hitchhiker-miner[bot]"
           git config user.email "hitchhiker-miner@users.noreply.github.com"
+
+      - name: Prepare related-note candidates
+        id: candidates
+        uses: ./.github/actions/prepare-miner-candidates
+        with:
+          issue_number: ${{ inputs.issue_number }}
+          disable_candidates: ${{ inputs.disable_candidates }}
+          github_token: ${{ secrets.PROJECT_PAT }}
 
       - name: Run OpenCode Zen free Miner eval for issue #${{ inputs.issue_number }}
         id: opencode
@@ -151,6 +174,10 @@ jobs:
                     --repo ${{ github.repository }} \
                     --json number,title,body,labels,author,url,comments
             d. Triage type from labels (`triaged:text` / `triaged:failure`).
+            e0. **MANDATORY when the file exists:** Read
+               `${{ runner.temp }}/miner-related-notes.md` FIRST for
+               cross-reference candidates. Cite or dismiss each listed path
+               (MINER.md §4). If missing, search `source-notes/` yourself.
             e. Existing `source-notes/` for cross-references (including the
                merged baseline for this URL — cite it in Cross-References
                but do not edit it).
@@ -231,6 +258,26 @@ jobs:
             --label source-note \
             --label miner-eval)
           echo "Opened missing eval PR: $PR_URL"
+
+      - name: Label PR for related-note retrieval
+        if: always() && steps.candidates.outputs.ran_candidates == 'true' && steps.ensure.outcome == 'success'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.PROJECT_PAT }}
+          BRANCH: miner/eval-${{ needs.preflight.outputs.slug }}-issue-${{ inputs.issue_number }}-r${{ github.run_id }}
+          HAS_CANDIDATES: ${{ steps.candidates.outputs.has_candidates }}
+        run: |
+          PR_NUM=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number // empty')
+          if [ -z "$PR_NUM" ]; then
+            echo "No PR for $BRANCH — skip candidate labels."
+            exit 0
+          fi
+          if [ "$HAS_CANDIDATES" = "true" ]; then
+            gh pr edit "$PR_NUM" --repo "${{ github.repository }}" --add-label "has-candidates" || true
+          else
+            gh pr edit "$PR_NUM" --repo "${{ github.repository }}" --add-label "no-candidates" || true
+          fi
+          echo "Labeled PR #$PR_NUM (has_candidates=$HAS_CANDIDATES)"
 
       - name: Dispatch Assayer for eval PR
         if: always() && steps.ensure.outcome == 'success'

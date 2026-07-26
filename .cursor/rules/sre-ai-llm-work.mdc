@@ -19,7 +19,7 @@ context: [`AGENTS.md`](AGENTS.md).
 |------|-------|----------------|
 | `source-notes/` | Miner | OK to draft/fix notes + PRs |
 | `guide/` | Smith | Only if user asks for guide synthesis |
-| `registry/sources.json` | Generated | Never hand-edit |
+| `registry/sources.json` / `registry/claims-index.json` | Generated | Never hand-edit |
 | `agents/*.md` | Humans | Edit carefully; CI loads these as prompts |
 | `.github/workflows/` | Humans | Prefer `PROJECT_PAT` for push/PR jobs |
 

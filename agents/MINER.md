@@ -89,6 +89,16 @@ Check every extracted claim against existing source notes:
 - **Extends**: Which existing notes does this build on?
 - **Novel**: What here is completely new to our corpus?
 
+If the workflow provides a related-notes candidates file (typically
+`${RUNNER_TEMP}/miner-related-notes.md`), **read it before writing
+Cross-References**. For every listed candidate path, either cite it
+(Corroborates / Contradicts / Extends) or explicitly dismiss it in
+Extraction Notes (one line is enough). Candidates are suggestions only —
+never invent corroboration to “use” a candidate. An empty candidate list
+is a legitimate “none found” signal; you may still discover additional
+cross-refs by searching `source-notes/` yourself. Verification in §4b
+still applies to every citation you write.
+
 ### 4a. File contradictions when you find them
 
 When step 4 surfaces a contradiction — a claim in the new source that

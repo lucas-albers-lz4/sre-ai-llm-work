@@ -49,8 +49,10 @@ Actions prompts).
 
 1. **Do not edit `guide/`** unless implementing Smith-style synthesis or a
    human explicitly asks for a guide edit. Prefer filing/fixing source notes.
-2. **Do not hand-edit `registry/sources.json`** — it is rebuilt from source-note
-   front-matter (`scripts/build_registry.py` / `registry-rebuild.yml`).
+2. **Do not hand-edit `registry/sources.json` or `registry/claims-index.json`**
+   — they are rebuilt from source-note front-matter / claim headings
+   (`scripts/build_registry.py`, `scripts/build_claims_index.py` /
+   `registry-rebuild.yml`).
 3. **Do not merge `miner-eval` / `*-hy3-eval.md` PRs** into the corpus. Eval
    notes are comparison artifacts only.
 4. When changing agent auth/routing, use
