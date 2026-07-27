@@ -5,9 +5,14 @@ name: Miner Zen Free Batch
 # cannot use Claude Code + configure-opencode-zen (Messages-only) — so they
 # cannot run through miner-batch.yml backend=zen.
 #
-# Manual dispatch only. Peak cron stays OFF. Opens a real source-note PR
-# (not miner-eval), updates the source issue (mining-complete / remove
-# mining-queued), and dispatches Assayer.
+# Schedule: DeepSeek peak windows only (UTC 01–04 and 06–10) drain
+# mining-queued via Zen free `deepseek-v4-flash-free` (#571 — peak premise
+# died: N=3 peak golden #1 all extracted successfully). Off-peak Miner stays
+# on paid DeepSeek Flash via miner-batch.yml.
+#
+# Manual workflow_dispatch still available for other Zen free models.
+# Opens a real source-note PR (not miner-eval), updates the source issue
+# (mining-complete / remove mining-queued), and dispatches Assayer.
 #
 # Salvage: if OpenCode fails/cancels after pushing the miner branch, still
 # open the source-note PR, mark the issue complete, and dispatch Assayer —
@@ -21,6 +26,9 @@ name: Miner Zen Free Batch
 # Tracking: #571. Candidate program: docs/MINER-CANDIDATE-EVAL.md Wave C.
 
 on:
+  schedule:
+    # Peak-fill: DeepSeek peak hours (skip off-peak — miner-batch.yml covers those).
+    - cron: '19 1-3,6-9 * * *'
   workflow_dispatch:
     inputs:
       model:
@@ -61,21 +69,37 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       slug: ${{ steps.slug.outputs.slug }}
+      model: ${{ steps.resolve_model.outputs.model }}
       issue: ${{ steps.resolve.outputs.issue }}
       has_work: ${{ steps.resolve.outputs.has_work }}
+      disable_candidates: ${{ steps.resolve_model.outputs.disable_candidates }}
     steps:
+      - name: Resolve model (schedule → deepseek-v4-flash-free)
+        id: resolve_model
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            MODEL="${{ inputs.model }}"
+            DISABLE="${{ inputs.disable_candidates }}"
+          else
+            MODEL=deepseek-v4-flash-free
+            DISABLE=false
+          fi
+          echo "model=$MODEL" >> "$GITHUB_OUTPUT"
+          echo "disable_candidates=$DISABLE" >> "$GITHUB_OUTPUT"
+          echo "Resolved model=$MODEL disable_candidates=$DISABLE event=${{ github.event_name }}"
+
       - name: Derive model slug
         id: slug
         run: |
-          SLUG=$(echo "${{ inputs.model }}" | tr '/:.' '-' | tr '[:upper:]' '[:lower:]' | sed 's/--*/-/g; s/^-//; s/-$//')
+          SLUG=$(echo "${{ steps.resolve_model.outputs.model }}" | tr '/:.' '-' | tr '[:upper:]' '[:lower:]' | sed 's/--*/-/g; s/^-//; s/-$//')
           echo "slug=$SLUG" >> "$GITHUB_OUTPUT"
-          echo "slug=$SLUG model=${{ inputs.model }}"
+          echo "slug=$SLUG model=${{ steps.resolve_model.outputs.model }}"
 
       - name: Resolve target issue
         id: resolve
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ISSUE_OVERRIDE: ${{ inputs.issue_number }}
+          ISSUE_OVERRIDE: ${{ github.event_name == 'workflow_dispatch' && inputs.issue_number || '' }}
           MAX_MINE_ATTEMPTS: '3'
         run: |
           set -euo pipefail
@@ -174,7 +198,7 @@ jobs:
         uses: ./.github/actions/prepare-miner-candidates
         with:
           issue_number: ${{ needs.preflight.outputs.issue }}
-          disable_candidates: ${{ inputs.disable_candidates }}
+          disable_candidates: ${{ needs.preflight.outputs.disable_candidates }}
           github_token: ${{ secrets.PROJECT_PAT }}
 
       - name: Run OpenCode Zen free Miner for issue #${{ needs.preflight.outputs.issue }}
@@ -186,7 +210,7 @@ jobs:
           OPENCODE_ZEN_API_KEY: ${{ secrets.OPENCODE_ZEN_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.PROJECT_PAT }}
         with:
-          model: opencode/${{ inputs.model }}
+          model: opencode/${{ needs.preflight.outputs.model }}
           use_github_token: true
           share: false
           token: ${{ secrets.PROJECT_PAT }}
@@ -197,7 +221,7 @@ jobs:
             will reject PRs that skip its steps.
 
             Runner: OpenCode GitHub Action (native). Backend: OpenCode Zen free
-            chat-completions. Model: `opencode/${{ inputs.model }}`.
+            chat-completions. Model: `opencode/${{ needs.preflight.outputs.model }}`.
             This is a LIVE production-shaped trial (#571) — open a real
             source-note PR (not an eval). Same MINER.md bar; Assayer (DeepSeek
             Pro) is the quality gate.
@@ -284,7 +308,7 @@ jobs:
               cat > .miner-pr-body.md <<'PR_BODY_EOF'
               Source note extracted by the Miner agent for #${{ needs.preflight.outputs.issue }}.
 
-              Miner backend: zen-free (`${{ inputs.model }}` via OpenCode Action).
+              Miner backend: zen-free (`${{ needs.preflight.outputs.model }}` via OpenCode Action).
               Live trial for #571 — production-shaped drain.
 
               See `agents/MINER.md` for the extraction rubric and the
@@ -312,7 +336,7 @@ jobs:
 
               gh issue comment ${{ needs.preflight.outputs.issue }} \
                 --repo ${{ github.repository }} \
-                --body "Miner PR opened (zen-free / `${{ inputs.model }}`): <PR-URL>"
+                --body "Miner PR opened (zen-free / `${{ needs.preflight.outputs.model }}`): <PR-URL>"
               gh issue edit ${{ needs.preflight.outputs.issue }} \
                 --repo ${{ github.repository }} \
                 --add-label "mining-complete" \
@@ -402,7 +426,7 @@ jobs:
           OPENCODE_ZEN_API_KEY: ${{ secrets.OPENCODE_ZEN_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.PROJECT_PAT }}
         with:
-          model: opencode/${{ inputs.model }}
+          model: opencode/${{ needs.preflight.outputs.model }}
           use_github_token: true
           share: false
           token: ${{ secrets.PROJECT_PAT }}
@@ -412,7 +436,7 @@ jobs:
             (no-op / registry-only junk). Do the FULL Miner job now.
 
             You are the Miner agent. Read `agents/MINER.md` first.
-            Model: `opencode/${{ inputs.model }}`. Live trial — real source-note
+            Model: `opencode/${{ needs.preflight.outputs.model }}`. Live trial — real source-note
             PR only (not miner-eval).
 
             Required branch:
@@ -444,7 +468,7 @@ jobs:
           GH_TOKEN: ${{ secrets.PROJECT_PAT }}
           BRANCH: miner/issue-${{ needs.preflight.outputs.issue }}-r${{ github.run_id }}
           ISSUE: ${{ needs.preflight.outputs.issue }}
-          MODEL: ${{ inputs.model }}
+          MODEL: ${{ needs.preflight.outputs.model }}
           OPENCODE_OUTCOME: ${{ steps.opencode.outcome }}
           OPENCODE_RETRY_OUTCOME: ${{ steps.opencode_retry.outcome }}
           NEED_RETRY: ${{ steps.check.outputs.need_retry }}

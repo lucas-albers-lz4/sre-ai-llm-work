@@ -27,7 +27,8 @@ context: [`AGENTS.md`](AGENTS.md).
 
 - Triage/crawl/Miner: DeepSeek Flash (Miner cron off-peak only)
 - Assayer/Smith: DeepSeek Pro
-- Miner OpenRouter peak-fill: **disabled** until agent-reliable free model
+- Miner peak-fill: Zen free `deepseek-v4-flash-free` via `miner-zen-free-batch.yml`
+  (cron UTC `1-3,6-9`; #571). OpenRouter free peak-fill remains off.
 - Details: `docs/MODEL-ROUTING.md`
 
 ## Filing issues (local coding agents only)
