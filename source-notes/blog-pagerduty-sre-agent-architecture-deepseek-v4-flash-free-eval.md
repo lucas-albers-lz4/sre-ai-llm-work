@@ -330,9 +330,9 @@ Priority 1:          Sub-agent results — processed in arrival order
   matching quotes. This is expected — both notes reference the same source URL.
   The complementary PagerDuty article
   ([blog-pagerduty-production-ai-agent-gaps.md](blog-pagerduty-production-ai-agent-gaps.md))
-  corroborates Claims 2 and 3 (context rot/fatigue and instruction overload) via
-  its Claims 3 and 4. It also corroborates Claim 1 (AI-native framing) as the
-  foundational framing article.
+  corroborates Claim 2 (context rot) via its Claim 3 (context fatigue — the same
+  failure mode under a different name). It also corroborates Claim 1
+  (AI-native framing) as the foundational framing article.
 
 - **Contradicts**: None identified. Both notes represent the same source material
   and agree across all claims.
