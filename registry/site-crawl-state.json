@@ -792,24 +792,34 @@
         "filed_at": "2026-07-26T13:06:38.728456+00:00"
       },
       "https://sre.google/spotlight/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:43:43.330178+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:43:43.330178+00:00",
+        "issue": 585,
+        "filed_at": "2026-07-27T14:18:26.605547+00:00"
       },
       "https://sre.google/stpa/teaching/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:43:43.330180+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:43:43.330180+00:00",
+        "issue": 586,
+        "filed_at": "2026-07-27T14:18:28.538589+00:00"
       },
       "https://sre.google/resources/videos/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:43:43.330181+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:43:43.330181+00:00",
+        "issue": 587,
+        "filed_at": "2026-07-27T14:18:30.787064+00:00"
       },
       "https://sre.google/resources/practices-and-processes/ai-engineering-reliable-operations/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:43:43.330182+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:43:43.330182+00:00",
+        "issue": 588,
+        "filed_at": "2026-07-27T14:18:32.727189+00:00"
       },
       "https://sre.google/static/pdf/Anatomy_Of_An_Incident.epub": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:43:43.330183+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:43:43.330183+00:00",
+        "issue": 589,
+        "filed_at": "2026-07-27T14:18:35.108199+00:00"
       },
       "https://sre.google/static/pdf/Anatomy_Of_An_Incident.mobi": {
         "status": "pending",
@@ -1148,7 +1158,7 @@
         "screened_at": "2026-07-18T13:10:30.818325+00:00"
       }
     },
-    "last_scan": "2026-07-26T13:06:06.448602+00:00"
+    "last_scan": "2026-07-27T14:17:57.547772+00:00"
   },
   "opentelemetry": {
     "urls": {},
@@ -1427,16 +1437,22 @@
         "filed_at": "2026-07-26T13:06:44.041440+00:00"
       },
       "https://www.cncf.io/all-cncf/": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:52:53.813874+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:52:53.813874+00:00",
+        "issue": 590,
+        "filed_at": "2026-07-27T14:18:37.078003+00:00"
       },
       "https://www.cncf.io/training/certification/kcsa/": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:52:53.813876+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:52:53.813876+00:00",
+        "issue": 591,
+        "filed_at": "2026-07-27T14:18:39.015682+00:00"
       },
       "https://www.cncf.io/people/ambassadors/program-standards/": {
-        "status": "pending",
-        "screened_at": "2026-07-12T23:52:53.813878+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-12T23:52:53.813878+00:00",
+        "issue": 592,
+        "filed_at": "2026-07-27T14:18:41.022142+00:00"
       },
       "https://www.cncf.io/people/ambassadors/faq/": {
         "status": "pending",
@@ -2449,9 +2465,21 @@
       "https://www.cncf.io/blog/2026/06/04/identity-and-access-management-whitepaper": {
         "status": "pending",
         "screened_at": "2026-07-26T13:06:15.158153+00:00"
+      },
+      "https://www.cncf.io/blog/2026/07/27/federating-clusters-for-zero-downtime-kubernetes": {
+        "status": "pending",
+        "screened_at": "2026-07-27T14:18:06.983785+00:00"
+      },
+      "https://www.cncf.io/blog/2026/06/04/securing-ci-cd-for-an-open-source-project-controlling-who-runs-what": {
+        "status": "pending",
+        "screened_at": "2026-07-27T14:18:06.983805+00:00"
+      },
+      "https://www.cncf.io/blog/2026/06/03/inspektor-gadget-results-from-the-first-security-audit": {
+        "status": "pending",
+        "screened_at": "2026-07-27T14:18:06.983809+00:00"
       }
     },
-    "last_scan": "2026-07-26T13:06:15.158156+00:00"
+    "last_scan": "2026-07-27T14:18:06.983812+00:00"
   },
   "datadog-llm-obs": {
     "urls": {
@@ -2460,7 +2488,7 @@
         "screened_at": "2026-07-12T23:52:56.905756+00:00"
       }
     },
-    "last_scan": "2026-07-26T13:06:16.560444+00:00"
+    "last_scan": "2026-07-27T14:18:08.747585+00:00"
   },
   "langfuse-docs": {
     "urls": {
@@ -2589,7 +2617,7 @@
         "filed_at": "2026-07-23T13:33:58.953513+00:00"
       }
     },
-    "last_scan": "2026-07-26T13:06:17.928543+00:00"
+    "last_scan": "2026-07-27T14:18:10.656351+00:00"
   },
   "litellm-docs": {
     "urls": {
@@ -2868,16 +2896,22 @@
         "filed_at": "2026-07-26T13:06:49.794798+00:00"
       },
       "https://docs.litellm.ai/blog/may-townhall-announcement": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:14:36.852564+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:14:36.852564+00:00",
+        "issue": 593,
+        "filed_at": "2026-07-27T14:18:43.427569+00:00"
       },
       "https://docs.litellm.ai/blog/may-townhall-updates": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:14:36.852566+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:14:36.852566+00:00",
+        "issue": 594,
+        "filed_at": "2026-07-27T14:18:45.453056+00:00"
       },
       "https://docs.litellm.ai/blog/mcp-stdio-command-injection-april-2026": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:14:36.852568+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:14:36.852568+00:00",
+        "issue": 595,
+        "filed_at": "2026-07-27T14:18:47.638624+00:00"
       },
       "https://docs.litellm.ai/blog/minimax_m2_5": {
         "status": "pending",
@@ -3682,9 +3716,21 @@
       "https://docs.litellm.ai/docs/completion/prompt_caching": {
         "status": "pending",
         "screened_at": "2026-07-26T13:06:23.103691+00:00"
+      },
+      "https://docs.litellm.ai/docs/completion/prompt_compression": {
+        "status": "pending",
+        "screened_at": "2026-07-27T14:18:17.750690+00:00"
+      },
+      "https://docs.litellm.ai/docs/completion/prompt_formatting": {
+        "status": "pending",
+        "screened_at": "2026-07-27T14:18:17.750710+00:00"
+      },
+      "https://docs.litellm.ai/docs/completion/provider_specific_params": {
+        "status": "pending",
+        "screened_at": "2026-07-27T14:18:17.750712+00:00"
       }
     },
-    "last_scan": "2026-07-26T13:06:23.103696+00:00"
+    "last_scan": "2026-07-27T14:18:17.750716+00:00"
   },
   "promptfoo-docs": {
     "urls": {
@@ -3953,16 +3999,22 @@
         "filed_at": "2026-07-26T13:06:54.958254+00:00"
       },
       "https://www.promptfoo.dev/blog/owasp-top-10-llms-tldr/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:15:01.445426+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:15:01.445426+00:00",
+        "issue": 596,
+        "filed_at": "2026-07-27T14:18:49.676523+00:00"
       },
       "https://www.promptfoo.dev/blog/page/2/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:15:01.445428+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:15:01.445428+00:00",
+        "issue": 597,
+        "filed_at": "2026-07-27T14:18:51.610303+00:00"
       },
       "https://www.promptfoo.dev/blog/page/3/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:15:01.445430+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:15:01.445430+00:00",
+        "issue": 598,
+        "filed_at": "2026-07-27T14:18:53.760381+00:00"
       },
       "https://www.promptfoo.dev/blog/page/4/": {
         "status": "pending",
@@ -4775,8 +4827,20 @@
       "https://www.promptfoo.dev/docs/configuration/rate-limits": {
         "status": "pending",
         "screened_at": "2026-07-26T13:06:30.899888+00:00"
+      },
+      "https://www.promptfoo.dev/docs/configuration/reference": {
+        "status": "pending",
+        "screened_at": "2026-07-27T14:18:25.228948+00:00"
+      },
+      "https://www.promptfoo.dev/docs/configuration/scenarios": {
+        "status": "pending",
+        "screened_at": "2026-07-27T14:18:25.228966+00:00"
+      },
+      "https://www.promptfoo.dev/docs/configuration/telemetry": {
+        "status": "pending",
+        "screened_at": "2026-07-27T14:18:25.228969+00:00"
       }
     },
-    "last_scan": "2026-07-26T13:06:30.899891+00:00"
+    "last_scan": "2026-07-27T14:18:25.228971+00:00"
   }
 }
