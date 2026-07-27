@@ -2,27 +2,28 @@
 
 Agent workflows use `anthropics/claude-code-action` (and the Claude Code CLI)
 routed to **DeepSeek's Anthropic-compatible API** via
-`.github/actions/configure-deepseek`. OpenRouter / Zen peak-fill wiring remains
-in `miner-batch.yml` for **manual Messages trials** only. Zen free
+`.github/actions/configure-deepseek`. OpenRouter / Zen Messages peak-fill
+wiring remains in `miner-batch.yml` for **manual trials** only. Zen free
 chat-completions live drains use **`miner-zen-free-batch.yml`** (OpenCode
-Action). The **peak cron is disabled**.
-**2026-07-26:** `deepseek-v4-flash-free` cleared golden **and** one live
-Assayer APPROVE ([#564](https://github.com/lucas-albers-lz4/sre-ai-llm-work/issues/564) /
-PR [#569](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/569)); production
-Miner stays on off-peak **DeepSeek V4 Flash** until an explicit peak-cron
-follow-up. Optional parked Messages candidate: Zen `qwen3.5-plus` (3/4 golden).
-See [`docs/MINER-CANDIDATE-EVAL.md`](MINER-CANDIDATE-EVAL.md).
+Action).
+
+**2026-07-27 (#571):** Peak premise died — `deepseek-v4-flash-free` extracted
+successfully on N=3 peak + N=3 off-peak golden #1. **Peak cron enabled** on
+`miner-zen-free-batch.yml` (`:19` at UTC `1-3,6-9`) with default
+`deepseek-v4-flash-free`. Off-peak Miner stays on paid DeepSeek Flash via
+`miner-batch.yml`. Qwen3.5-plus parked (cost). Big Pickle is an alternate free
+candidate (see `MINER-CANDIDATE-EVAL.md`). GPT-5 Nano out of scope.
 
 ```text
 # Default (DeepSeek)
 ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic
 ANTHROPIC_AUTH_TOKEN / ANTHROPIC_API_KEY = DEEPSEEK_API_KEY
 
-# Manual OpenRouter Miner trial only (peak cron OFF)
+# Manual OpenRouter Miner trial only
 ANTHROPIC_BASE_URL=https://openrouter.ai/api
 ANTHROPIC_AUTH_TOKEN = OPENROUTER_API_KEY
 
-# Manual OpenCode Zen Miner trial (peak-fill candidate, paid)
+# Manual OpenCode Zen Miner trial (Messages / paid)
 # Zen auths via x-api-key → ANTHROPIC_API_KEY; AUTH_TOKEN must be empty.
 # Base URL is /zen (Claude Code appends /v1/messages).
 ANTHROPIC_BASE_URL=https://opencode.ai/zen
@@ -37,7 +38,7 @@ ANTHROPIC_API_KEY = OPENCODE_ZEN_API_KEY
 |--------|-------|-------|
 | Pre-screen / Prospector / Scribe / Site-crawl | `deepseek-v4-flash` | Volume / cheap triage |
 | **Miner** | `deepseek-v4-flash` | Direct DeepSeek API; off-peak cron `0,4,5,10–23` UTC |
-| **Miner peak-fill** | — | **Disabled**. Live bar cleared for Zen free `deepseek-v4-flash-free` via manual `miner-zen-free-batch.yml` (#564 / PR #569); peak cron not enabled yet. Manual trials: `backend=openrouter\|zen\|nemotron` (Messages) or `miner-zen-free-batch.yml` (OpenCode free). Parked Messages: Zen `qwen3.5-plus` |
+| **Miner peak-fill** | `deepseek-v4-flash-free` | Zen free via `miner-zen-free-batch.yml` cron `:19` at UTC `1-3,6-9` (#571). Manual: other Zen free models via same workflow. |
 | Assayer / Smith / Herald / Contradiction | `deepseek-v4-pro[1m]` | Heavier review & synthesis |
 
 Site-crawl (`scripts/scan-sites.py`) calls the same Anthropic-compatible
@@ -49,68 +50,56 @@ Messages API with `DEEPSEEK_API_KEY` + `SITE_CRAWL_MODEL=deepseek-v4-flash`.
 |--------|---------|
 | `DEEPSEEK_API_KEY` | **Required** — all agent workflows + site-crawl screener |
 | `PROJECT_PAT` | GitHub Projects + issue/PR events that must trigger workflows |
-| `OPENROUTER_API_KEY` | Optional — manual Miner OpenRouter trials / Hy3 / Nemotron smoke (not required while peak cron is off) |
-| `OPENCODE_ZEN_API_KEY` | Optional — OpenCode Zen trials (`miner-zen-free-batch.yml`, `miner-zen-free-*.yml`, `backend=zen`) |
+| `OPENROUTER_API_KEY` | Optional — manual Miner OpenRouter trials / Hy3 / Nemotron smoke |
+| `OPENCODE_ZEN_API_KEY` | **Required for peak-fill** — `miner-zen-free-batch.yml` schedule + manual Zen free / `backend=zen` |
 | `ANTHROPIC_API_KEY` / `CLAUDE_CODE_OAUTH_TOKEN` | Optional Claude ceiling later (Assayer/Smith quality) |
 
 ## Peak / valley pricing (DeepSeek V4)
 
 DeepSeek may bill **2×** during peak windows (UTC **01:00–04:00** and
-**06:00–10:00**). Scheduled LLM jobs avoid those hours:
+**06:00–10:00**). Off-peak Miner uses paid Flash on the direct API; peak
+uses Zen **free** Flash-free (no 2× surcharge; #571 confirmed extractions
+work in-window):
 
 | Workflow | Cron (UTC) | Backend |
 |----------|------------|---------|
-| `miner-batch.yml` | `:19` at hours `0,4,5,10–23` | DeepSeek Flash |
-| `miner-batch.yml` peak-fill | *(disabled)* | was OpenRouter Nemotron free |
+| `miner-batch.yml` | `:19` at hours `0,4,5,10–23` | DeepSeek Flash (paid) |
+| `miner-zen-free-batch.yml` | `:19` at hours `1-3,6-9` | Zen free `deepseek-v4-flash-free` |
 | `daily-scan.yml` | `12:02` daily | DeepSeek Flash |
 | `smith-on-source-merge.yml` | Sat `15:19`, Thu `00:02` | DeepSeek Pro |
 | `gardener.yml` | Sun `14:02` (Python; Assayer follow-up stays off-peak) | — |
 | `herald-weekly.yml` | Sun `16:02` | DeepSeek Pro |
 
 Minutes are offset from `:00` to reduce top-of-hour Actions contention.
-Manual runs: `gh workflow run miner-batch.yml -f backend=flash` (default).
-`backend=nemotron` is trial-only while peak cron is off.
+Manual runs: `gh workflow run miner-batch.yml -f backend=flash` (default);
+`gh workflow run miner-zen-free-batch.yml -f model=deepseek-v4-flash-free`.
 
 Event-driven jobs (pre-screen, Prospector, Assayer on PR labels) cannot
 defer to off-peak without queueing; keep those prompts short.
 
-## Peak-fill status (disabled)
+## Peak-fill status (enabled 2026-07-27)
 
-**2026-07-23:** OpenRouter `nvidia/nemotron-3-ultra-550b-a55b:free` passed
-`nemotron-smoke-test.yml` (1-turn) but failed real Miner batches with Claude
-Code errors such as empty/malformed HTTP 200 (“proxy/gateway”) and
-unparseable provider bodies mid tool-use. Peak cron removed from
-`miner-batch.yml`. Re-enable only after a free model completes a full
-source-note extraction + Assayer path.
+**2026-07-23:** OpenRouter Nemotron free failed real Miner batches (Claude Code
+gateway errors). Peak cron removed from `miner-batch.yml`.
 
-Smoke (when retrying a candidate model):
+**2026-07-26:** Zen free `deepseek-v4-flash-free` cleared golden + live Assayer
+(#564 / PR #569) via `miner-zen-free-batch.yml`.
 
-```bash
-gh workflow run nemotron-smoke-test.yml   # or a model-specific smoke
-gh workflow run miner-batch.yml -f backend=nemotron  # single manual trial
-```
-
-**Current candidate program (2026-07-26):** Stay on off-peak Flash for
-scheduled Miner. Zen free `deepseek-v4-flash-free` cleared golden **and**
-live Assayer (#564 / PR #569) via `miner-zen-free-batch.yml`; peak cron
-still off pending an explicit enablement follow-up. Scorecard:
-[`docs/MINER-CANDIDATE-EVAL.md`](MINER-CANDIDATE-EVAL.md).
+**2026-07-27 (#571):** Peak premise (free DeepSeek deprioritized in DeepSeek
+peak windows) **died** — N=3 peak + N=3 off-peak golden #1 all extracted.
+Peak cron enabled on `miner-zen-free-batch.yml`. Fail-closed junk-PR + one
+no-op retry shipped in #572. `$/note` for zen-free peak = **$0** (Zen free
+tier); off-peak paid Flash remains the cost floor for scheduled Miner.
 
 ```bash
-gh workflow run miner-candidate-smoke.yml -f backend=zen -f model=qwen3.5-plus
-gh workflow run miner-batch.yml -f backend=zen -f model=qwen3.5-plus
 gh workflow run miner-zen-free-smoke.yml -f model=deepseek-v4-flash-free
 gh workflow run miner-zen-free-eval.yml -f model=deepseek-v4-flash-free -f issue_number=1
 gh workflow run miner-zen-free-batch.yml -f model=deepseek-v4-flash-free
+gh workflow run miner-zen-free-batch.yml -f model=big-pickle   # alternate free
 ```
 
-Requires `OPENROUTER_API_KEY` (Wave A) and/or `OPENCODE_ZEN_API_KEY` (Wave B
-Messages + Wave C OpenCode Action). Zen `/v1/messages` for Claude Code
-(qwen3.5/3.6/3.7 plus/max, claude-*); Zen free chat-completions use
-`anomalyco/opencode/github` (`miner-zen-free-*.yml`).
-
-Peak-cron re-enable bar: already met for `deepseek-v4-flash-free` on quality;
-remaining work is operational (schedule, retry policy for early no-ops).
+Requires `OPENCODE_ZEN_API_KEY` for zen-free schedule. Zen `/v1/messages` for
+Claude Code (qwen3.5/3.6/3.7 plus/max, claude-*) remains manual only.
 
 ## Hy3 note (historical)
 
@@ -132,7 +121,8 @@ OpenRouter candidates (smoke ≠ Miner reliability).
 
 - Bootstrap (~50–100 notes): DeepSeek Flash (triage + off-peak Miner) +
   DeepSeek Pro Assayer/Smith
-- Prefer off-peak Flash; revisit free peak-fill after an agent-reliable model
+- Off-peak paid Flash; peak Zen free Flash-free (`$/note` ≈ $0 on free tier)
 - Steady hybrid month after MVP: roughly **$50–150** (estimate)
 
 Treat these as estimates.
+
