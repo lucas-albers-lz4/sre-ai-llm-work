@@ -342,6 +342,66 @@ Priority 1:          Sub-agent results — processed in arrival order after user
     investigation. Claims 2–3 (context bridge via `/incident` command, parallel
     human-agent investigation) describe a complementary approach to the same
     problem PagerDuty addresses with their reactive loop.
+  - `blog-pagerduty-production-ai-agent-gaps.md` (João Freitas, PagerDuty
+    Engineering — same company, same multi-agent system, **explicitly cited**
+    in this source as foundational framing):
+    - **Claim 3 (Context fatigue)** directly corroborates this note's Claim 2
+      (Context rot) — both describe the same phenomenon of early prompt
+      instructions losing probabilistic weight as the context window fills.
+      The gaps article: "the early parts of your prompt start losing
+      probabilistic weight as more tokens accumulate"; the architecture
+      article: "model performance degrades as the context grows, not because
+      the information isn't there but because the model struggles to weight
+      it correctly."
+    - **Claim 4 (Compounding errors)** corroborates this note's Claim 3
+      (Instruction overload) — both describe the structural degradation of
+      output quality as monolithic agents accumulate more capabilities,
+      instructions, and context.
+    - **Claim 8 (Architecture evolution: single → supervisor → hierarchical)**
+      corroborates this note's Claims 6 (three execution models), 12
+      (single-process simplification for IO-bound workloads), and 16 (build
+      hard, ship simple). Both articles describe the same evolutionary path
+      and emphasize earning complexity rather than starting with it.
+    - The gaps article provides the evaluation, metrics, guardrail, and UX
+      dimensions that the architecture article explicitly says it does not
+      cover, making these two notes direct complements.
+  - `docs-google-sre-prodcast-06-04-zelesko-agentic-sre.md` (Matt Zelesko,
+    Google VP of SRE):
+    - **Claim 5 (Investigation vs mitigation safety boundary)** corroborates
+      this note's Claim 5 (humans must stay on the paging path) — Zelesko
+      frames investigation as non-mutating and AI-safe (encourage broad
+      adoption), while mitigation that changes production requires a human in
+      the loop. Both establish the same boundary from different vantage points
+      (PagerDuty: operational failure mode → human-in-loop requirement;
+      Google: leadership-level design principle).
+    - **Claim 2 (Human-centric to human-supervised shift)** aligns with this
+      note's overall framing of AI agents taking the lead on SRE investigation
+      work while humans retain judgment and oversight.
+  - `docs-google-sre-prodcast-04-09-ai-agents.md` (Ramón Llamas & Swapnil
+    Haria, Google — first-person practitioner account of building production
+    AI agents for SRE):
+    - **Claim 3 (Default guardrail: deny world-mutating actions, require human
+      permission for writes)** corroborates this note's Claim 5 (humans must
+      stay on the paging path) — both establish the read/investigate vs
+      write/mitigate boundary as a hard requirement for production agent
+      systems.
+    - **Claim 5 (Pre-on-caller triage pattern)** describes a similar incident
+      investigation workflow to the PagerDuty SRE Agent — agent steps in
+      first, performs common triage steps before the human arrives, presents
+      a ruled-out set, human owns the write. Different technical stack (Google
+      internal tools vs PagerDuty's LangGraph reactive loop) but converging on
+      the same operational pattern.
+
+- **Complements**:
+  - `docs-google-sre-prodcast-06-04-zelesko-agentic-sre.md`: Zelesko describes
+    Google's "skills on a coding harness" model (Antigravity + specialized
+    capabilities authored bottom-up by SREs) contrasted with PagerDuty's custom
+    LangGraph reactive loop with priority-queue event dispatch. Both solve the
+    same problem (multi-agent SRE investigation) through different architectural
+    philosophies — Google via a general-purpose coding harness with composable
+    skills, PagerDuty via a purpose-built reactive graph with interrupt/resume
+    primitives. This contrast gives the Smith richer context when citing these
+    notes together.
 
 - **Contradicts**: None identified. The source's claims are internally consistent
   and no existing source note makes opposing claims on the specific architectural
