@@ -38,7 +38,7 @@ ANTHROPIC_API_KEY = OPENCODE_ZEN_API_KEY
 |--------|-------|-------|
 | Pre-screen / Prospector / Scribe / Site-crawl | `deepseek-v4-flash` | Volume / cheap triage |
 | **Miner** | `deepseek-v4-flash` | Direct DeepSeek API; off-peak cron `0,4,5,10–23` UTC |
-| **Miner peak-fill** | `deepseek-v4-flash-free` | Zen free via `miner-zen-free-batch.yml` cron `:19` at UTC `1-3,6-9` (#571). Manual: other Zen free models via same workflow. |
+| **Miner peak-fill** | `deepseek-v4-flash-free` | Zen free via `miner-zen-free-batch.yml` cron `:19` at UTC `1-3,6-9` (#571/#606). Validated alternate: `big-pickle` (manual `miner-zen-free-batch.yml` only; live APPROVE #611). |
 | Assayer / Smith / Herald / Contradiction | `deepseek-v4-pro[1m]` | Heavier review & synthesis |
 
 Site-crawl (`scripts/scan-sites.py`) calls the same Anthropic-compatible
