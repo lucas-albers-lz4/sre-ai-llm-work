@@ -273,7 +273,7 @@ Level 3+ (on demand — linked files):
     start simple, add complexity only when needed). The skill format's progressive
     disclosure and filesystem-based design embody the same simplicity principle —
     skills are "a simple concept with a correspondingly simple format."
-    **Claim 8** (ACI tool design is as important as prompt design). Skill name and
+    **Claim 16** (ACI tool design is as important as prompt design). Skill name and
     description as trigger signals (Claim 8 in this note) is a direct application
     of ACI principles to skill design.
 
