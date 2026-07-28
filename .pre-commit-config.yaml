@@ -1,0 +1,8 @@
+# Local secret scan before commit. Enable with: pre-commit install
+# Complements GitHub secret scanning / push protection.
+# Pipeline labels/PRs are unrelated — this is developer local hygiene only.
+repos:
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.1
+    hooks:
+      - id: gitleaks
