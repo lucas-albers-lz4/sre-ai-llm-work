@@ -9,10 +9,10 @@ Action).
 
 **2026-07-27 (#571):** Peak premise died — `deepseek-v4-flash-free` extracted
 successfully on N=3 peak + N=3 off-peak golden #1. **Peak cron enabled** on
-`miner-zen-free-batch.yml` (`:19` at UTC `1-3,6-9`) with default
-`deepseek-v4-flash-free`. Off-peak Miner stays on paid DeepSeek Flash via
-`miner-batch.yml`. Qwen3.5-plus parked (cost). Big Pickle is an alternate free
-candidate (see `MINER-CANDIDATE-EVAL.md`). GPT-5 Nano out of scope.
+`miner-zen-free-batch.yml`. **2026-07-28:** Peak split after #606 live
+validation — UTC `1-3` → `deepseek-v4-flash-free`, UTC `6-9` → `big-pickle`.
+Off-peak Miner stays on paid DeepSeek Flash via `miner-batch.yml`. Qwen3.5-plus
+parked (cost). GPT-5 Nano out of scope.
 
 ```text
 # Default (DeepSeek)
@@ -38,7 +38,7 @@ ANTHROPIC_API_KEY = OPENCODE_ZEN_API_KEY
 |--------|-------|-------|
 | Pre-screen / Prospector / Scribe / Site-crawl | `deepseek-v4-flash` | Volume / cheap triage |
 | **Miner** | `deepseek-v4-flash` | Direct DeepSeek API; off-peak cron `0,4,5,10–23` UTC |
-| **Miner peak-fill** | `deepseek-v4-flash-free` | Zen free via `miner-zen-free-batch.yml` cron `:19` at UTC `1-3,6-9` (#571/#606). Validated alternate: `big-pickle` (manual `miner-zen-free-batch.yml` only; live APPROVE #611). |
+| **Miner peak-fill** | Split zen-free | `miner-zen-free-batch.yml`: UTC `1-3` → `deepseek-v4-flash-free`; UTC `6-9` → `big-pickle` (#606 live APPROVE both). Manual dispatch still accepts any Zen free model. |
 | Assayer / Smith / Herald / Contradiction | `deepseek-v4-pro[1m]` | Heavier review & synthesis |
 
 Site-crawl (`scripts/scan-sites.py`) calls the same Anthropic-compatible
@@ -64,7 +64,8 @@ work in-window):
 | Workflow | Cron (UTC) | Backend |
 |----------|------------|---------|
 | `miner-batch.yml` | `:19` at hours `0,4,5,10–23` | DeepSeek Flash (paid) |
-| `miner-zen-free-batch.yml` | `:19` at hours `1-3,6-9` | Zen free `deepseek-v4-flash-free` |
+| `miner-zen-free-batch.yml` | `:19` at hours `1-3` | Zen free `deepseek-v4-flash-free` |
+| `miner-zen-free-batch.yml` | `:19` at hours `6-9` | Zen free `big-pickle` |
 | `daily-scan.yml` | `12:02` daily | DeepSeek Flash |
 | `smith-on-source-merge.yml` | Sat `15:19`, Thu `00:02` | DeepSeek Pro |
 | `gardener.yml` | Sun `14:02` (Python; Assayer follow-up stays off-peak) | — |
@@ -90,6 +91,9 @@ peak windows) **died** — N=3 peak + N=3 off-peak golden #1 all extracted.
 Peak cron enabled on `miner-zen-free-batch.yml`. Fail-closed junk-PR + one
 no-op retry shipped in #572. `$/note` for zen-free peak = **$0** (Zen free
 tier); off-peak paid Flash remains the cost floor for scheduled Miner.
+
+**2026-07-28:** Peak schedule **split** — UTC `1-3` → `deepseek-v4-flash-free`,
+UTC `6-9` → `big-pickle` (both live Assayer APPROVE in #606).
 
 ```bash
 gh workflow run miner-zen-free-smoke.yml -f model=deepseek-v4-flash-free
