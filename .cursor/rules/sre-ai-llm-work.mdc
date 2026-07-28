@@ -27,9 +27,9 @@ context: [`AGENTS.md`](AGENTS.md).
 
 - Triage/crawl/Miner: DeepSeek Flash (Miner cron off-peak only)
 - Assayer/Smith: DeepSeek Pro
-- Miner peak-fill: Zen free split via `miner-zen-free-batch.yml` — UTC `1-3` →
-  `deepseek-v4-flash-free`, UTC `6-9` → `big-pickle` (#571/#606). OpenRouter
-  free peak-fill remains off.
+- Miner peak-fill: Zen free `big-pickle` via `miner-zen-free-batch.yml`
+  (UTC `1-3,6-9`; #571/#606 Phase 1). `deepseek-v4-flash-free` is
+  manual/dispatch only. OpenRouter free peak-fill remains off.
 - Details: `docs/MODEL-ROUTING.md`
 
 ## Filing issues (local coding agents only)

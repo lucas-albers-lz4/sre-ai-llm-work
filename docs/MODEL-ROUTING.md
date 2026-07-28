@@ -9,10 +9,10 @@ Action).
 
 **2026-07-27 (#571):** Peak premise died — `deepseek-v4-flash-free` extracted
 successfully on N=3 peak + N=3 off-peak golden #1. **Peak cron enabled** on
-`miner-zen-free-batch.yml`. **2026-07-28:** Peak split after #606 live
-validation — UTC `1-3` → `deepseek-v4-flash-free`, UTC `6-9` → `big-pickle`.
-Off-peak Miner stays on paid DeepSeek Flash via `miner-batch.yml`. Qwen3.5-plus
-parked (cost). GPT-5 Nano out of scope.
+`miner-zen-free-batch.yml`. **2026-07-28:** Brief peak split after #606, then
+**Phase 1:** all peak hours → Zen free `big-pickle`; `deepseek-v4-flash-free`
+manual/dispatch only. Off-peak Miner stays on paid DeepSeek Flash via
+`miner-batch.yml`. Qwen3.5-plus parked (cost). GPT-5 Nano out of scope.
 
 ```text
 # Default (DeepSeek)
@@ -38,7 +38,7 @@ ANTHROPIC_API_KEY = OPENCODE_ZEN_API_KEY
 |--------|-------|-------|
 | Pre-screen / Prospector / Scribe / Site-crawl | `deepseek-v4-flash` | Volume / cheap triage |
 | **Miner** | `deepseek-v4-flash` | Direct DeepSeek API; off-peak cron `0,4,5,10–23` UTC |
-| **Miner peak-fill** | Split zen-free | `miner-zen-free-batch.yml`: UTC `1-3` → `deepseek-v4-flash-free`; UTC `6-9` → `big-pickle` (#606 live APPROVE both). Manual dispatch still accepts any Zen free model. |
+| **Miner peak-fill** | Zen free `big-pickle` | `miner-zen-free-batch.yml` cron `:19` at UTC `1-3,6-9` (#606 live APPROVE). `deepseek-v4-flash-free` and other Zen free models remain manual dispatch / eval. |
 | Assayer / Smith / Herald / Contradiction | `deepseek-v4-pro[1m]` | Heavier review & synthesis |
 
 Site-crawl (`scripts/scan-sites.py`) calls the same Anthropic-compatible
@@ -58,14 +58,13 @@ Messages API with `DEEPSEEK_API_KEY` + `SITE_CRAWL_MODEL=deepseek-v4-flash`.
 
 DeepSeek may bill **2×** during peak windows (UTC **01:00–04:00** and
 **06:00–10:00**). Off-peak Miner uses paid Flash on the direct API; peak
-uses Zen **free** Flash-free (no 2× surcharge; #571 confirmed extractions
-work in-window):
+uses Zen free **`big-pickle`** (no 2× surcharge; #571 confirmed free-tier
+extractions work in-window):
 
 | Workflow | Cron (UTC) | Backend |
 |----------|------------|---------|
 | `miner-batch.yml` | `:19` at hours `0,4,5,10–23` | DeepSeek Flash (paid) |
-| `miner-zen-free-batch.yml` | `:19` at hours `1-3` | Zen free `deepseek-v4-flash-free` |
-| `miner-zen-free-batch.yml` | `:19` at hours `6-9` | Zen free `big-pickle` |
+| `miner-zen-free-batch.yml` | `:19` at hours `1-3,6-9` | Zen free `big-pickle` |
 | `daily-scan.yml` | `12:02` daily | DeepSeek Flash |
 | `smith-on-source-merge.yml` | Sat `15:19`, Thu `00:02` | DeepSeek Pro |
 | `gardener.yml` | Sun `14:02` (Python; Assayer follow-up stays off-peak) | — |
@@ -73,7 +72,8 @@ work in-window):
 
 Minutes are offset from `:00` to reduce top-of-hour Actions contention.
 Manual runs: `gh workflow run miner-batch.yml -f backend=flash` (default);
-`gh workflow run miner-zen-free-batch.yml -f model=deepseek-v4-flash-free`.
+`gh workflow run miner-zen-free-batch.yml -f model=big-pickle` (peak default);
+`gh workflow run miner-zen-free-batch.yml -f model=deepseek-v4-flash-free` (eval).
 
 Event-driven jobs (pre-screen, Prospector, Assayer on PR labels) cannot
 defer to off-peak without queueing; keep those prompts short.
@@ -92,14 +92,15 @@ Peak cron enabled on `miner-zen-free-batch.yml`. Fail-closed junk-PR + one
 no-op retry shipped in #572. `$/note` for zen-free peak = **$0** (Zen free
 tier); off-peak paid Flash remains the cost floor for scheduled Miner.
 
-**2026-07-28:** Peak schedule **split** — UTC `1-3` → `deepseek-v4-flash-free`,
-UTC `6-9` → `big-pickle` (both live Assayer APPROVE in #606).
+**2026-07-28:** Peak schedule briefly **split** after #606, then **Phase 1** —
+all peak hours (`19 1-3,6-9 * * *`) → `big-pickle`. `deepseek-v4-flash-free`
+remains manual/dispatch + eval only.
 
 ```bash
-gh workflow run miner-zen-free-smoke.yml -f model=deepseek-v4-flash-free
-gh workflow run miner-zen-free-eval.yml -f model=deepseek-v4-flash-free -f issue_number=1
-gh workflow run miner-zen-free-batch.yml -f model=deepseek-v4-flash-free
-gh workflow run miner-zen-free-batch.yml -f model=big-pickle   # alternate free
+gh workflow run miner-zen-free-smoke.yml -f model=big-pickle
+gh workflow run miner-zen-free-eval.yml -f model=big-pickle -f issue_number=1
+gh workflow run miner-zen-free-batch.yml -f model=big-pickle
+gh workflow run miner-zen-free-batch.yml -f model=deepseek-v4-flash-free   # eval / A-B
 ```
 
 Requires `OPENCODE_ZEN_API_KEY` for zen-free schedule. Zen `/v1/messages` for

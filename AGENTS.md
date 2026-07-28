@@ -30,7 +30,7 @@ See [`docs/MODEL-ROUTING.md`](docs/MODEL-ROUTING.md).
 | Worker | Model |
 |--------|-------|
 | Pre-screen / Prospector / site-crawl | DeepSeek Flash |
-| Miner | DeepSeek Flash (off-peak). Peak-fill split via `miner-zen-free-batch.yml`: UTC `1-3` → `deepseek-v4-flash-free`, UTC `6-9` → `big-pickle` (#571/#606) |
+| Miner | DeepSeek Flash (off-peak). Peak-fill: Zen free `big-pickle` via `miner-zen-free-batch.yml` UTC `1-3,6-9` (#571/#606 Phase 1) |
 | Assayer / Smith / Herald | DeepSeek Pro |
 
 Secrets: `DEEPSEEK_API_KEY`, `PROJECT_PAT`
