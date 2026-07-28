@@ -5,10 +5,9 @@ name: Miner Zen Free Batch
 # cannot use Claude Code + configure-opencode-zen (Messages-only) — so they
 # cannot run through miner-batch.yml backend=zen.
 #
-# Schedule: DeepSeek peak windows only (UTC 01–04 and 06–10). Split models:
-#   UTC 01–04 (`19 1-3 * * *`) → deepseek-v4-flash-free
-#   UTC 06–10 (`19 6-9 * * *`) → big-pickle
-# (#571 peak premise; #606 live validation; split after Big Pickle live APPROVE).
+# Schedule: DeepSeek peak windows only (UTC 01–04 and 06–10) → big-pickle.
+# Phase 1 (#606 live APPROVE): all peak hours use Zen free big-pickle.
+# deepseek-v4-flash-free remains manual/dispatch + eval only.
 # Off-peak Miner stays on paid DeepSeek Flash via miner-batch.yml.
 #
 # Manual workflow_dispatch still available for other Zen free models.
@@ -28,24 +27,22 @@ name: Miner Zen Free Batch
 
 on:
   schedule:
-    # Peak-fill split (skip off-peak — miner-batch.yml covers those).
-    # github.event.schedule selects the model in resolve_model.
-    - cron: '19 1-3 * * *'   # UTC 01–04 → deepseek-v4-flash-free
-    - cron: '19 6-9 * * *'   # UTC 06–10 → big-pickle
+    # Peak-fill: big-pickle (skip off-peak — miner-batch.yml covers those).
+    - cron: '19 1-3,6-9 * * *'   # UTC 01–04 and 06–10 → big-pickle
   workflow_dispatch:
     inputs:
       model:
         description: 'Zen free model id (chat-completions)'
         type: choice
         options:
-          - deepseek-v4-flash-free
           - big-pickle
+          - deepseek-v4-flash-free
           - north-mini-code-free
           - mimo-v2.5-free
           - ling-3.0-flash-free
           - laguna-s-2.1-free
           - nemotron-3-ultra-free
-        default: deepseek-v4-flash-free
+        default: big-pickle
       issue_number:
         description: 'Optional source issue (blank = top of mining-queued)'
         required: false
@@ -77,7 +74,7 @@ jobs:
       has_work: ${{ steps.resolve.outputs.has_work }}
       disable_candidates: ${{ steps.resolve_model.outputs.disable_candidates }}
     steps:
-      - name: Resolve model (schedule split by cron string)
+      - name: Resolve model (schedule = big-pickle)
         id: resolve_model
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
@@ -85,15 +82,7 @@ jobs:
             DISABLE="${{ inputs.disable_candidates }}"
           else
             DISABLE=false
-            SCHEDULE='${{ github.event.schedule }}'
-            case "$SCHEDULE" in
-              '19 1-3 * * *') MODEL=deepseek-v4-flash-free ;;
-              '19 6-9 * * *') MODEL=big-pickle ;;
-              *)
-                echo "::warning::Unknown schedule '$SCHEDULE' — defaulting to deepseek-v4-flash-free"
-                MODEL=deepseek-v4-flash-free
-                ;;
-            esac
+            MODEL=big-pickle
           fi
           echo "model=$MODEL" >> "$GITHUB_OUTPUT"
           echo "disable_candidates=$DISABLE" >> "$GITHUB_OUTPUT"
