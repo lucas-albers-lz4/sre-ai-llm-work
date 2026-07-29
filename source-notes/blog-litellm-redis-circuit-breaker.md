@@ -100,29 +100,29 @@ issue: "#647"
 
 ```python
 class RedisCircuitBreaker:
-def __init__(self, failure_threshold: int, recovery_timeout: int):
-self.failure_threshold = failure_threshold  # default: 5
-self.recovery_timeout = recovery_timeout    # default: 60s
-self._failure_count = 0
-self._state = self.CLOSED
+    def __init__(self, failure_threshold: int, recovery_timeout: int):
+        self.failure_threshold = failure_threshold  # default: 5
+        self.recovery_timeout = recovery_timeout    # default: 60s
+        self._failure_count = 0
+        self._state = self.CLOSED
 
-def is_open(self) -> bool:
-if self._state == self.OPEN:
-if time.time() - self._opened_at > self.recovery_timeout:
-self._state = self.HALF_OPEN
-return False  # this caller is the recovery probe
-return True       # fast-fail
-return False
+    def is_open(self) -> bool:
+        if self._state == self.OPEN:
+            if time.time() - self._opened_at > self.recovery_timeout:
+                self._state = self.HALF_OPEN
+                return False  # this caller is the recovery probe
+            return True       # fast-fail
+        return False
 
-def record_failure(self):
-self._failure_count += 1
-self._opened_at = time.time()
-if self._failure_count >= self.failure_threshold:
-self._state = self.OPEN  # open the circuit
+    def record_failure(self):
+        self._failure_count += 1
+        self._opened_at = time.time()
+        if self._failure_count >= self.failure_threshold:
+            self._state = self.OPEN  # open the circuit
 
-def record_success(self):
-self._failure_count = 0
-self._state = self.CLOSED   # Redis recovered
+    def record_success(self):
+        self._failure_count = 0
+        self._state = self.CLOSED   # Redis recovered
 ```
 
 ### Decorator pattern for async Redis calls (verbatim from the blog post)
