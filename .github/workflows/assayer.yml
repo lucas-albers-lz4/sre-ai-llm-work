@@ -258,7 +258,10 @@ jobs:
       - name: Auto-merge approved source-note / feed / seed PRs
         if: success()
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # PROJECT_PAT (not GITHUB_TOKEN): merges as github-actions suppress
+          # subsequent push workflows — registry-rebuild.yml never ran after
+          # auto-merge, so sources.json / claims-index.json went stale on main.
+          GH_TOKEN: ${{ secrets.PROJECT_PAT }}
           PR_NUMBER: ${{ needs.prepare.outputs.pr_number }}
           PR_HEAD_REF: ${{ needs.prepare.outputs.head_ref }}
         run: |
@@ -296,10 +299,21 @@ jobs:
           # See docs/AUTO-GATE-ROLLOUT.md). `|| true` so a transient merge hiccup
           # can't fail the job and corrupt the verdict check.
           echo "Auto-merging approved PR #$PR_NUMBER"
-          gh pr merge "$PR_NUMBER" \
+          if gh pr merge "$PR_NUMBER" \
             --repo "${{ github.repository }}" \
             --squash \
-            --delete-branch || echo "WARN: merge failed (non-fatal)"
+            --delete-branch; then
+            # Belt-and-suspenders: push from PROJECT_PAT should already trigger
+            # registry-rebuild.yml on source-notes/**, but dispatch explicitly
+            # so a missed path-filter can't leave indexes stale again.
+            if echo "$LABELS" | jq -e 'index("source-note")' > /dev/null 2>&1; then
+              gh workflow run registry-rebuild.yml \
+                --repo "${{ github.repository }}" \
+                || echo "WARN: registry-rebuild dispatch failed (non-fatal)"
+            fi
+          else
+            echo "WARN: merge failed (non-fatal)"
+          fi
 
           # Close the linked source issue
           if [ -n "$ISSUE_NUMBER" ]; then
@@ -311,7 +325,8 @@ jobs:
       - name: Auto-merge approved guide-update PRs (shadow/live gated)
         if: success()
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Same as source-note merge: PROJECT_PAT so push workflows can fire.
+          GH_TOKEN: ${{ secrets.PROJECT_PAT }}
           PR_NUMBER: ${{ needs.prepare.outputs.pr_number }}
           # Repo variable GUIDE_AUTOMERGE controls the published-guide gate:
           #   off    (default) — never auto-merge guide PRs; a human merges.
