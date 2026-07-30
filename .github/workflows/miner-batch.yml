@@ -2,8 +2,8 @@ name: Batch Miner
 
 # Scheduled workflow that processes mining-queued issues.
 #
-# Production schedule: DeepSeek Flash off-peak only (UTC hours 0,4,5,10–23).
-# Peak-fill lives in miner-zen-free-batch.yml (big-pickle, Phase 1).
+# Production schedule: DeepSeek Flash on half the day (UTC hours 12–23).
+# Other half lives in miner-zen-free-batch.yml (big-pickle, Phase 2: 50% crons).
 # Manual trial backends (workflow_dispatch only):
 #   flash      — production DeepSeek Flash
 #   openrouter — OpenRouter Anthropic skin; pass `model` (default poolside/laguna-m.1:free)
@@ -29,13 +29,14 @@ name: Batch Miner
 
 on:
   schedule:
-    # Off-peak DeepSeek V4 Flash (skip UTC 01:00–04:00 and 06:00–10:00).
-    # Minute :19 avoids top-of-hour Actions contention. ~16 slots/day ×
-    # BATCH_SIZE=4 ≈ 64 issues/day ceiling; empty queue exits at preflight
-    # with no tokens spent.
-    - cron: '19 0,4,5,10-23 * * *'
-    # Peak hours (UTC 1-3,6-9) → miner-zen-free-batch.yml (big-pickle).
-    # Historical: OpenRouter Nemotron peak-fill disabled 2026-07-23.
+    # DeepSeek V4 Flash — UTC 12–23 (12/24 Miner cron slots). Covers the
+    # quiet half of the day after both DeepSeek peak windows. Minute :19
+    # avoids top-of-hour Actions contention. 12 slots × BATCH_SIZE=4 ≈ 48
+    # issues/day ceiling; empty queue exits at preflight (no tokens).
+    - cron: '19 12-23 * * *'
+    # UTC 0–11 → miner-zen-free-batch.yml (big-pickle). Historical:
+    # OpenRouter Nemotron peak-fill disabled 2026-07-23; Phase 1 was
+    # peak-only (1-3,6-9); Phase 2 expands big-pickle to half the crons.
   workflow_dispatch:
     inputs:
       backend:

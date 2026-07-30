@@ -30,15 +30,15 @@ See [`docs/MODEL-ROUTING.md`](docs/MODEL-ROUTING.md).
 | Worker | Model |
 |--------|-------|
 | Pre-screen / Prospector / site-crawl | DeepSeek Flash |
-| Miner | DeepSeek Flash (off-peak). Peak-fill: Zen free `big-pickle` via `miner-zen-free-batch.yml` UTC `1-3,6-9` (#571/#606 Phase 1) |
+| Miner | DeepSeek Flash UTC `12–23`. Zen free `big-pickle` UTC `0–11` via `miner-zen-free-batch.yml` (Phase 2: 50% of Miner crons; covers DeepSeek peak) |
 | Assayer / Smith / Herald | DeepSeek Pro |
 
 Secrets: `DEEPSEEK_API_KEY`, `PROJECT_PAT`
 (classic `repo`+`project` — needed so `gh pr create` / issue filing triggers
 downstream workflows). `OPENROUTER_API_KEY` is optional (manual OpenRouter
 trials / Hy3 / Nemotron smoke). `OPENCODE_ZEN_API_KEY` is **required for
-peak-fill** (`miner-zen-free-batch.yml` schedule) and optional for other Zen
-trials (`backend=zen`). Claude OAuth is **not** required.
+the scheduled Zen Miner** (`miner-zen-free-batch.yml`) and optional for other
+Zen trials (`backend=zen`). Claude OAuth is **not** required.
 
 ## Hard rules for local agents
 

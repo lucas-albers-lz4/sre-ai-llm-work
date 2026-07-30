@@ -73,15 +73,17 @@ pipeline does the rest.
 ### Trigger and model per workflow
 
 Canonical map: [`docs/MODEL-ROUTING.md`](../docs/MODEL-ROUTING.md).
-**DeepSeek** (Anthropic-compatible) for production agents. Miner OpenRouter
-peak-fill is **disabled** until a free model is agent-reliable.
+**DeepSeek** (Anthropic-compatible) for most production agents. Miner splits
+cron slots 50/50: Zen free `big-pickle` (UTC `0–11`) + paid DeepSeek Flash
+(UTC `12–23`).
 
 | Workflow file | Agent | Trigger | Model | Notes |
 |---------------|-------|---------|-------|-------|
 | `daily-scan.yml` | Site/feed scanners | Daily cron **12:02 UTC** + workflow_dispatch | DeepSeek Flash (`scan-sites.py`) | Uses `PROJECT_PAT` so filed issues trigger `source-pipeline.yml`; off-peak + `:02` offset |
 | `source-pipeline.yml` (pre-screen job) | Pre-screen | `issues:[opened, labeled]` with `new-source` / `source-submission` / `new-repo` / `new-failure` | DeepSeek Flash | Rejects obvious bad submissions (no URL, paywall, marketing, dupes) before the Prospector |
 | `source-pipeline.yml` (prospector job) | Prospector | After pre-screen passes (job dependency) | DeepSeek Flash | Triages into `triaged:text` / `triaged:repo` / `triaged:failure` / `feed-candidate` / `rejected`. Applies `mining-queued` for text and failure triages. Opens a feed-candidate PR if the source is a feed |
-| `miner-batch.yml` | Miner | Cron `:19` at `0,4,5,10–23` UTC (Flash only) + `workflow_dispatch` (`backend=flash\|nemotron`) | DeepSeek Flash | Peak-fill cron **disabled** (Nemotron Ultra free failed multi-turn Miner 2026-07-23). `backend=nemotron` is manual trial only. Branch `miner/issue-N-r<run_id>` |
+| `miner-batch.yml` | Miner | Cron `:19` at `12–23` UTC + `workflow_dispatch` (`backend=flash\|openrouter\|zen\|nemotron`) | DeepSeek Flash | Half of Miner crons (Phase 2). Manual backends for trials. Branch `miner/issue-N-r<run_id>` |
+| `miner-zen-free-batch.yml` | Miner | Cron `:19` at `0–11` UTC + `workflow_dispatch` | Zen free `big-pickle` | Other half of Miner crons; covers DeepSeek peak windows + shoulders. 1 issue/run. `deepseek-v4-flash-free` manual only |
 | `assayer.yml` | Assayer review | `pull_request:[opened, synchronize, reopened, labeled]` with `source-note` / `guide-update` / `feed-candidate` | DeepSeek Pro | Auto-merges `source-note` PRs on APPROVE. On REQUEST CHANGES for `guide-update` PRs, runs the auto-rework Smith one time (gated by `rework-attempted` label) |
 | `assayer.yml` (auto-rework Smith step) | Smith | Inside Assayer when guide-update PR fails review and `rework-attempted` is absent | DeepSeek Pro | Pushes a fix commit to the PR branch using `PROJECT_PAT` so the resulting `synchronize` event re-triggers Assayer |
 | `smith-on-source-merge.yml` | Smith (batch synthesis) | Twice-weekly cron — Sat **15:19 UTC** and Thu **00:02 UTC** + workflow_dispatch | DeepSeek Pro | Diff-aware synthesis since `smith-last-run` tag; opens `guide-update` PR when chapters change |
@@ -99,7 +101,7 @@ human intervention. The recovery mechanism for each common failure:
 
 | Failure | Agent | Human needed? | Recovery |
 |---------|-------|---------------|----------|
-| Run fails mid-extraction (stream timeout, network blip, Claude `is_error`) | Miner | No (until cap) | Issue keeps `mining-queued`. Next off-peak cron retries. After 3 non-terminal runs, `mine-attempt-3` + `miner-blocked` + close (issue #272). Pre-existing queued issues start at attempt 0 (no backfill). Reopen: remove `miner-blocked` and all `mine-attempt-*`, re-add `mining-queued`. |
+| Run fails mid-extraction (stream timeout, network blip, Claude `is_error`) | Miner | No (until cap) | Issue keeps `mining-queued`. Next Miner cron (Flash or zen-free) retries. After 3 non-terminal runs, `mine-attempt-3` + `miner-blocked` + close (issue #272). Pre-existing queued issues start at attempt 0 (no backfill). Reopen: remove `miner-blocked` and all `mine-attempt-*`, re-add `mining-queued`. |
 | Real source rejected by mistake | Pre-screen | Yes | Issue is closed with `rejected` label. A human can reopen and remove `rejected` to re-run, or file a fresh issue |
 | Triages incorrectly (e.g. should be `triaged:text` not `triaged:repo`) | Prospector | Yes | Human swaps labels — the Miner picks up `triaged:text` + `mining-queued` automatically |
 | Source-note PR fails Assayer review | Miner | Yes | No automated rework path for source-note PRs. Default action: close the PR, requeue the source issue (`mining-queued`, remove `mining-complete`); the next batch re-mines on a fresh `-r<run_id>` branch |
@@ -127,6 +129,6 @@ Most of the pipeline is autonomous. Human action is required for:
 | **Guide-update PR merging** | `auto-merge` only fires for `source-note` PRs (single-file additions). All `guide-update` PRs (Smith batch, Smith rework, Gardener, contradiction-resolver) require a human merge — usually after Assayer APPROVE |
 | **Persistent Assayer rejections on a Smith PR** | If `auto-rework` and one round of human `/rework` both fail to address feedback, judgment-call: comment `/rebase` for fresh synthesis, or close the PR and re-trigger Smith via a forced empty commit on `main` |
 | **Persistent Miner failures on the same source** | If a source issue cycles through 2-3 stuck PRs (e.g., dead-branch state, persistent cross-ref hallucination on a hard-to-cite source), label the issue `miner-blocked` and move on. Loss is acceptable |
-| **Backlog drain** | The hourly Miner cron drains 48 issues/day. If the queue exceeds ~80 issues, dispatch extra batches via `gh workflow run miner-batch.yml` to keep latency reasonable |
+| **Backlog drain** | Flash half drains up to ~48 issues/day (`BATCH_SIZE=4` × 12 slots); zen-free half adds up to ~12 (1/run). If the queue exceeds ~80 issues, dispatch extra batches via `gh workflow run miner-batch.yml` / `miner-zen-free-batch.yml` |
 | **Workflow YAML changes** | Rare — only when adding a new agent, changing triggers, or fixing a bug uncovered by a new failure mode |
 | **Re-triage of an old backlog** | If issues were filed before automation was complete and never triaged, toggle the `source-submission` label off and on each one (with ~30s spacing to avoid rate limits) to re-fire `source-pipeline.yml` |
