@@ -204,6 +204,9 @@ No hang / junk `opencode/dispatch-*`. **Phase 2 (#656):** expand to UTC `0–11`
 `sn-rework-*`, OpenCode hang/salvage rate, and queue lag (zen-free still
 1 issue/run vs Flash `BATCH_SIZE=4`). **Phase 3** (more Big Pickle hours and/or
 zen-free batch sizing) stays deferred until that watch is clean.
+**Peak Flash guard:** `miner-batch.yml` skips paid Flash when the job starts
+in UTC hours `1–3` or `6–9` (Actions schedule drift previously started Flash
+ticks inside DeepSeek 2× windows). Peak drain remains Big Pickle only.
 
 Scorecard detail above; routing: [`MODEL-ROUTING.md`](MODEL-ROUTING.md).
 Related: [#328](https://github.com/lucas-albers-lz4/sre-ai-llm-work/issues/328),

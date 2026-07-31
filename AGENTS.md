@@ -30,7 +30,7 @@ See [`docs/MODEL-ROUTING.md`](docs/MODEL-ROUTING.md).
 | Worker | Model |
 |--------|-------|
 | Pre-screen / Prospector / site-crawl | DeepSeek Flash |
-| Miner | DeepSeek Flash UTC `12–23`. Zen free `big-pickle` UTC `0–11` via `miner-zen-free-batch.yml` (Phase 2: 50% of Miner crons; covers DeepSeek peak) |
+| Miner | DeepSeek Flash UTC `12–23` (fail-closed skip if tick starts in peak hours `1–3`/`6–9`). Zen free `big-pickle` UTC `0–11` via `miner-zen-free-batch.yml` (covers DeepSeek 2× peak) |
 | Assayer / Smith / Herald | DeepSeek Pro |
 
 Secrets: `DEEPSEEK_API_KEY`, `PROJECT_PAT`
