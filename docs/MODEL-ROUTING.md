@@ -97,10 +97,13 @@ tier); off-peak paid Flash remains the cost floor for scheduled Miner.
 all peak hours (`19 1-3,6-9 * * *`) → `big-pickle`. `deepseek-v4-flash-free`
 remains manual/dispatch + eval only.
 
-**2026-07-29 Phase 2:** Expand `big-pickle` to **half of Miner crons** —
-`19 0-11 * * *` on `miner-zen-free-batch.yml`; Flash moves to `19 12-23 * * *`
-on `miner-batch.yml`. Still covers DeepSeek peak; adds shoulder hours for
-free-tier share without touching Flash's quieter half-day.
+**2026-07-29 / merged 2026-07-31 Phase 2 (#656):** Expand `big-pickle` to
+**half of Miner crons** — `19 0-11 * * *` on `miner-zen-free-batch.yml`; Flash
+moves to `19 12-23 * * *` on `miner-batch.yml`. Still covers DeepSeek peak;
+adds shoulder hours for free-tier share without touching Flash's quieter
+half-day. Gate: N=2 intentional live Assayer APPROVE (PRs #698 / #699) after
+empty-queue peak ticks. **Phase 3 deferred** (further hours / zen-free
+`BATCH_SIZE`) until 3–5 day post-merge watch is clean.
 
 ```bash
 gh workflow run miner-zen-free-smoke.yml -f model=big-pickle
@@ -130,9 +133,9 @@ OpenRouter candidates (smoke ≠ Miner reliability).
 
 ## Cost targets (MVP)
 
-- Bootstrap (~50–100 notes): DeepSeek Flash (triage + off-peak Miner) +
+- Bootstrap (~50–100 notes): DeepSeek Flash (triage + Flash-half Miner) +
   DeepSeek Pro Assayer/Smith
-- Off-peak paid Flash; peak Zen free Flash-free (`$/note` ≈ $0 on free tier)
+- UTC `0–11` Zen free `big-pickle` (`$/note` ≈ $0); UTC `12–23` paid Flash
 - Steady hybrid month after MVP: roughly **$50–150** (estimate)
 
 Treat these as estimates.

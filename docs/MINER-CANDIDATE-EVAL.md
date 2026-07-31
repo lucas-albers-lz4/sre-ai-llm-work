@@ -154,7 +154,7 @@ gh workflow run miner-zen-free-eval.yml -f model=mimo-v2.5-free -f issue_number=
 | 3 | `laguna-s-2.1-free` | pass ([run](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30168739432)) | [PR #494](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/494) **REQUEST CHANGES** | — | — | — | — | Completed in ~5m (no hang); Assayer still REQUEST CHANGES |
 | 4 | `nemotron-3-ultra-free` | pass ([run](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30171998659)) | [PR #495](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/495) first Assayer **REQUEST CHANGES** (cross-refs); re-review **APPROVE** (same note, no Miner fix) | — | — | — | — | Eval job stream-failed after push; PR salvaged. Fail-fast: do not continue #2–#4 (Assayer variance + stream fragility; peers failed cross-refs cleanly) |
 | 5 | `deepseek-v4-flash-free` | pass ([run](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30178170790)) | [PR #498](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/498) **APPROVE** | [PR #499](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/499) **APPROVE** (eval run timed out after push; PR salvaged) | [PR #502](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/502) **APPROVE** (12m cancel + salvage) | [PR #504](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/504) **APPROVE** (12m cancel + salvage) | [PR #569](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/569) **APPROVE** (auto-merged) — live [#567](https://github.com/lucas-albers-lz4/sre-ai-llm-work/issues/567) ([drain](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30210465311)); **2nd live** [#608](https://github.com/lucas-albers-lz4/sre-ai-llm-work/issues/608) / [PR #612](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/612) **APPROVE** (merged) via [30328991114](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30328991114) (#606 validation; citation rework on twin [#613](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/613) then closed as dup) | **4/4 golden + 2× live Assayer APPROVE**. Hang mitigated [#561](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/561). Peak premise died (#571). **Manual/dispatch + eval only** (Phase 1: peak cron is Big Pickle). |
-| 6 | `big-pickle` | pass ([run](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30212161336)) | [PR #577](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/577) content pass (Assayer REQUEST CHANGES mainly from close/"do not merge" directive) | [PR #578](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/578) **APPROVE** | [PR #579](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/579) **APPROVE** | [PR #580](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/580) **APPROVE** | [PR #611](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/611) **APPROVE** (auto-merged) — live [#610](https://github.com/lucas-albers-lz4/sre-ai-llm-work/issues/610) via [30328696268](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30328696268) (#606) | Fingerprint: OpenCode `llm.model=big-pickle`. **Live Assayer APPROVE (#606)**. **Phase 2 scheduled** UTC `0–11` (was Phase 1 peak `1-3,6-9`). Privacy: Zen may retain free Big Pickle prompts. |
+| 6 | `big-pickle` | pass ([run](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30212161336)) | [PR #577](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/577) content pass (Assayer REQUEST CHANGES mainly from close/"do not merge" directive) | [PR #578](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/578) **APPROVE** | [PR #579](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/579) **APPROVE** | [PR #580](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/580) **APPROVE** | [PR #611](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/611) **APPROVE** (auto-merged) — live [#610](https://github.com/lucas-albers-lz4/sre-ai-llm-work/issues/610) via [30328696268](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30328696268) (#606); **Phase 2 gate (2026-07-31):** [PR #698](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/698) **APPROVE** ([#691](https://github.com/lucas-albers-lz4/sre-ai-llm-work/issues/691) / [30656039067](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30656039067)); [PR #699](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/699) **APPROVE** ([#697](https://github.com/lucas-albers-lz4/sre-ai-llm-work/issues/697) / [30656040719](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30656040719)) | Fingerprint: OpenCode `llm.model=big-pickle`. **Live Assayer APPROVE (#606 + Phase 2 gate N=2)**. **Phase 2 scheduled** UTC `0–11` (was Phase 1 peak `1-3,6-9`). Privacy: Zen may retain free Big Pickle prompts. |
 
 **Wave C decision (2026-07-26 / updated 2026-07-27):** First four Zen free
 candidates failed golden #1 (cross-refs). `deepseek-v4-flash-free` cleared
@@ -180,8 +180,8 @@ is manual/dispatch + eval only.
 - `$/note` zen-free peak = **$0** (Zen free tier). Qwen3.5-plus parked (Zen
   list price worse than Flash on output). GPT-5 Nano out of scope.
 - `big-pickle`: **Phase 2 scheduled** on half of Miner crons UTC `0–11` (was
-  Phase 1 peak-only `1-3,6-9`; live APPROVE #611 / #606); gateway id distinct
-  from Flash-free (stealth backing may change).
+  Phase 1 peak-only `1-3,6-9`; live APPROVE #611 / #606 + Phase 2 gate); gateway
+  id distinct from Flash-free (stealth backing may change).
 - Assayer/Smith/Herald stay on DeepSeek V4 Pro (unchanged).
 
 **#606 validation (2026-07-28):** Non-empty `mining-queued` drains succeeded for
@@ -189,12 +189,27 @@ both finds — Big Pickle live APPROVE; Flash-free second live APPROVE (merged
 #612). Fail-closed path: no junk `opencode/dispatch-*` / no-op retry needed.
 Peak cron briefly **split**, then **Phase 1** collapsed to `big-pickle` only
 (Flash-free off the schedule for ops simplicity / suspected free-tier quality).
-**Phase 2 (2026-07-29):** expand to UTC `0–11` (12/24 slots).
+**Phase 2 gate (2026-07-31):** Peak cron ticks after #611 were mostly empty-queue
+no-ops; intentional N=2 live drains both Assayer **APPROVE** + merged —
+[#691](https://github.com/lucas-albers-lz4/sre-ai-llm-work/issues/691) /
+[PR #698](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/698) /
+[30656039067](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30656039067);
+[#697](https://github.com/lucas-albers-lz4/sre-ai-llm-work/issues/697) /
+[PR #699](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/699) /
+[30656040719](https://github.com/lucas-albers-lz4/sre-ai-llm-work/actions/runs/30656040719).
+No hang / junk `opencode/dispatch-*`. **Phase 2 (#656):** expand to UTC `0–11`
+(12/24 slots).
+
+**Phase 2 watch (3–5 days) + Phase 3 deferred:** Track Assayer APPROVE vs
+`sn-rework-*`, OpenCode hang/salvage rate, and queue lag (zen-free still
+1 issue/run vs Flash `BATCH_SIZE=4`). **Phase 3** (more Big Pickle hours and/or
+zen-free batch sizing) stays deferred until that watch is clean.
 
 Scorecard detail above; routing: [`MODEL-ROUTING.md`](MODEL-ROUTING.md).
 Related: [#328](https://github.com/lucas-albers-lz4/sre-ai-llm-work/issues/328),
 [#571](https://github.com/lucas-albers-lz4/sre-ai-llm-work/issues/571),
-[#606](https://github.com/lucas-albers-lz4/sre-ai-llm-work/issues/606).
+[#606](https://github.com/lucas-albers-lz4/sre-ai-llm-work/issues/606),
+[#656](https://github.com/lucas-albers-lz4/sre-ai-llm-work/pull/656).
 
 ### Gaps vs original plan (accepted / deferred)
 
