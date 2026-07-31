@@ -912,24 +912,34 @@
         "filed_at": "2026-07-30T13:45:13.749943+00:00"
       },
       "https://sre.google/static/pdf/SloAdoptionAndUsageInSre.pdf": {
-        "status": "pending",
-        "screened_at": "2026-07-13T23:35:46.503793+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T23:35:46.503793+00:00",
+        "issue": 678,
+        "filed_at": "2026-07-31T13:49:27.511251+00:00"
       },
       "https://sre.google/static/pdf/TrainingSiteReliabilityEngineers.epub": {
-        "status": "pending",
-        "screened_at": "2026-07-13T23:35:46.503795+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T23:35:46.503795+00:00",
+        "issue": 679,
+        "filed_at": "2026-07-31T13:49:29.255146+00:00"
       },
       "https://sre.google/static/pdf/TrainingSiteReliabilityEngineers.mobi": {
-        "status": "pending",
-        "screened_at": "2026-07-13T23:35:46.503797+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T23:35:46.503797+00:00",
+        "issue": 680,
+        "filed_at": "2026-07-31T13:49:30.980975+00:00"
       },
       "https://sre.google/static/pdf/TrainingSiteReliabilityEngineers.pdf": {
-        "status": "pending",
-        "screened_at": "2026-07-13T23:35:46.503799+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T23:35:46.503799+00:00",
+        "issue": 681,
+        "filed_at": "2026-07-31T13:49:32.657797+00:00"
       },
       "https://sre.google/static/pdf/enterprise-roadmap-to-sre.epub": {
-        "status": "pending",
-        "screened_at": "2026-07-13T23:35:46.503800+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T23:35:46.503800+00:00",
+        "issue": 682,
+        "filed_at": "2026-07-31T13:49:34.330273+00:00"
       },
       "https://sre.google/static/pdf/enterprise-roadmap-to-sre.pdf": {
         "status": "pending",
@@ -1188,7 +1198,7 @@
         "screened_at": "2026-07-18T13:10:30.818325+00:00"
       }
     },
-    "last_scan": "2026-07-30T13:44:44.273685+00:00"
+    "last_scan": "2026-07-31T13:49:00.608823+00:00"
   },
   "opentelemetry": {
     "urls": {},
@@ -1539,16 +1549,22 @@
         "filed_at": "2026-07-30T13:45:20.363449+00:00"
       },
       "https://www.cncf.io/accessibility-statement/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:14:02.846862+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:14:02.846862+00:00",
+        "issue": 683,
+        "filed_at": "2026-07-31T13:49:36.098058+00:00"
       },
       "https://www.cncf.io/telco-news-signup/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:14:02.846864+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:14:02.846864+00:00",
+        "issue": 684,
+        "filed_at": "2026-07-31T13:49:37.932249+00:00"
       },
       "https://www.cncf.io/training/courses/faq/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:14:02.846866+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:14:02.846866+00:00",
+        "issue": 685,
+        "filed_at": "2026-07-31T13:49:40.215134+00:00"
       },
       "https://www.cncf.io/training/certification/kcna/": {
         "status": "pending",
@@ -2561,9 +2577,21 @@
       "https://www.cncf.io/blog/2026/05/29/building-a-cloud-native-internal-developer-platform-with-kubernetes-gitops-and-supply-chain-security": {
         "status": "pending",
         "screened_at": "2026-07-30T13:44:52.088744+00:00"
+      },
+      "https://www.cncf.io/blog/2026/07/31/scaling-kubernetes-pods-with-keda-based-on-amazon-sqs-queue-depth": {
+        "status": "pending",
+        "screened_at": "2026-07-31T13:49:07.879677+00:00"
+      },
+      "https://www.cncf.io/blog/2026/07/30/runtime-supply-chain-verification-using-the-node-resource-interface-nri": {
+        "status": "pending",
+        "screened_at": "2026-07-31T13:49:07.879697+00:00"
+      },
+      "https://www.cncf.io/blog/2026/05/28/the-kubernetes-integration-tax-prometheus-cilium-and-production-reality": {
+        "status": "pending",
+        "screened_at": "2026-07-31T13:49:07.879701+00:00"
       }
     },
-    "last_scan": "2026-07-30T13:44:52.088747+00:00"
+    "last_scan": "2026-07-31T13:49:07.879703+00:00"
   },
   "datadog-llm-obs": {
     "urls": {
@@ -2572,7 +2600,7 @@
         "screened_at": "2026-07-12T23:52:56.905756+00:00"
       }
     },
-    "last_scan": "2026-07-30T13:44:53.868757+00:00"
+    "last_scan": "2026-07-31T13:49:09.536172+00:00"
   },
   "langfuse-docs": {
     "urls": {
@@ -2701,7 +2729,7 @@
         "filed_at": "2026-07-23T13:33:58.953513+00:00"
       }
     },
-    "last_scan": "2026-07-30T13:44:55.349758+00:00"
+    "last_scan": "2026-07-31T13:49:11.288209+00:00"
   },
   "litellm-docs": {
     "urls": {
@@ -3052,16 +3080,22 @@
         "filed_at": "2026-07-30T13:45:26.359355+00:00"
       },
       "https://docs.litellm.ai/blog/security-townhall-updates": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:44:44.495299+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:44:44.495299+00:00",
+        "issue": 686,
+        "filed_at": "2026-07-31T13:49:42.103118+00:00"
       },
       "https://docs.litellm.ai/blog/security-update-march-2026": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:44:44.495301+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:44:44.495301+00:00",
+        "issue": 687,
+        "filed_at": "2026-07-31T13:49:44.215965+00:00"
       },
       "https://docs.litellm.ai/blog/server-root-path-incident": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:44:44.495302+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:44:44.495302+00:00",
+        "issue": 688,
+        "filed_at": "2026-07-31T13:49:46.093737+00:00"
       },
       "https://docs.litellm.ai/blog/stability": {
         "status": "pending",
@@ -3866,9 +3900,21 @@
       "https://docs.litellm.ai/docs/contact": {
         "status": "pending",
         "screened_at": "2026-07-30T13:45:00.433932+00:00"
+      },
+      "https://docs.litellm.ai/docs/container_files": {
+        "status": "pending",
+        "screened_at": "2026-07-31T13:49:18.508452+00:00"
+      },
+      "https://docs.litellm.ai/docs/containers": {
+        "status": "pending",
+        "screened_at": "2026-07-31T13:49:18.508472+00:00"
+      },
+      "https://docs.litellm.ai/docs/contribute_integration/custom_webhook_api": {
+        "status": "pending",
+        "screened_at": "2026-07-31T13:49:18.508476+00:00"
       }
     },
-    "last_scan": "2026-07-30T13:45:00.433936+00:00"
+    "last_scan": "2026-07-31T13:49:18.508479+00:00"
   },
   "promptfoo-docs": {
     "urls": {
@@ -4209,16 +4255,22 @@
         "filed_at": "2026-07-30T13:45:32.306611+00:00"
       },
       "https://www.promptfoo.dev/blog/red-team-claude/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:45:08.317025+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:45:08.317025+00:00",
+        "issue": 689,
+        "filed_at": "2026-07-31T13:49:47.865432+00:00"
       },
       "https://www.promptfoo.dev/blog/red-team-gemini/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:45:08.317027+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:45:08.317027+00:00",
+        "issue": 690,
+        "filed_at": "2026-07-31T13:49:50.150739+00:00"
       },
       "https://www.promptfoo.dev/blog/red-team-gpt/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:45:08.317029+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:45:08.317029+00:00",
+        "issue": 691,
+        "filed_at": "2026-07-31T13:49:53.254527+00:00"
       },
       "https://www.promptfoo.dev/blog/red-team-huggingface-model/": {
         "status": "pending",
@@ -5031,8 +5083,20 @@
       "https://www.promptfoo.dev/docs/enterprise/guardrails": {
         "status": "pending",
         "screened_at": "2026-07-30T13:45:04.295799+00:00"
+      },
+      "https://www.promptfoo.dev/docs/enterprise/red-teams": {
+        "status": "pending",
+        "screened_at": "2026-07-31T13:49:26.513708+00:00"
+      },
+      "https://www.promptfoo.dev/docs/enterprise/remediation-reports": {
+        "status": "pending",
+        "screened_at": "2026-07-31T13:49:26.513728+00:00"
+      },
+      "https://www.promptfoo.dev/docs/enterprise/service-accounts": {
+        "status": "pending",
+        "screened_at": "2026-07-31T13:49:26.513732+00:00"
       }
     },
-    "last_scan": "2026-07-30T13:45:04.295801+00:00"
+    "last_scan": "2026-07-31T13:49:26.513735+00:00"
   }
 }
