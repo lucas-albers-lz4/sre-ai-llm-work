@@ -28,7 +28,8 @@ context: [`AGENTS.md`](AGENTS.md).
 - Triage/crawl: DeepSeek Flash
 - Assayer/Smith: DeepSeek Pro
 - Miner: Zen free `big-pickle` UTC `0–11` (`miner-zen-free-batch.yml`);
-  paid DeepSeek Flash UTC `12–23` (`miner-batch.yml`) — Phase 2 50% split.
+  paid DeepSeek Flash UTC `12–23` (`miner-batch.yml`) — Phase 2. Flash
+  preflight fail-closes if a tick starts in peak hours `1–3`/`6–9`.
   `deepseek-v4-flash-free` is manual/dispatch only.
 - Details: `docs/MODEL-ROUTING.md`
 

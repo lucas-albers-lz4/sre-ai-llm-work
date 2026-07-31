@@ -2,10 +2,12 @@ name: Batch Miner
 
 # Scheduled workflow that processes mining-queued issues.
 #
-# Production schedule: DeepSeek Flash on half the day (UTC hours 12–23).
-# Other half lives in miner-zen-free-batch.yml (big-pickle, Phase 2: 50% crons).
+# Production schedule: DeepSeek Flash on UTC hours 12–23 only (off-peak).
+# UTC 0–11 (incl. DeepSeek peak 01–04 / 06–10) → miner-zen-free-batch.yml
+# (big-pickle). Fail-closed: if a Flash tick starts inside peak hours
+# (Actions schedule drift), preflight skips mine — never spend Flash at 2×.
 # Manual trial backends (workflow_dispatch only):
-#   flash      — production DeepSeek Flash
+#   flash      — production DeepSeek Flash (still peak-skipped)
 #   openrouter — OpenRouter Anthropic skin; pass `model` (default poolside/laguna-m.1:free)
 #   zen        — OpenCode Zen /v1/messages; pass `model` (default qwen3.7-plus)
 #   nemotron   — legacy OpenRouter Nemotron free (do not retry as primary)
@@ -29,14 +31,13 @@ name: Batch Miner
 
 on:
   schedule:
-    # DeepSeek V4 Flash — UTC 12–23 (12/24 Miner cron slots). Covers the
-    # quiet half of the day after both DeepSeek peak windows. Minute :19
-    # avoids top-of-hour Actions contention. 12 slots × BATCH_SIZE=4 ≈ 48
-    # issues/day ceiling; empty queue exits at preflight (no tokens).
+    # DeepSeek V4 Flash — UTC 12–23 only (after both peak windows). Minute
+    # :19 avoids top-of-hour Actions contention. 12 slots × BATCH_SIZE=4
+    # ≈ 48 issues/day ceiling; empty queue / peak-hour guard exit at
+    # preflight (no Flash tokens).
     - cron: '19 12-23 * * *'
-    # UTC 0–11 → miner-zen-free-batch.yml (big-pickle). Historical:
-    # OpenRouter Nemotron peak-fill disabled 2026-07-23; Phase 1 was
-    # peak-only (1-3,6-9); Phase 2 expands big-pickle to half the crons.
+    # UTC 0–11 (peak + shoulders) → miner-zen-free-batch.yml (big-pickle).
+    # Do not put Flash on hours 1–3 or 6–9 — DeepSeek 2× peak.
   workflow_dispatch:
     inputs:
       backend:
@@ -73,15 +74,16 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       issues: ${{ steps.query.outputs.issues }}
-      has_work: ${{ steps.query.outputs.has_work }}
+      has_work: ${{ steps.peak_guard.outputs.has_work }}
       backend: ${{ steps.backend.outputs.backend }}
       model: ${{ steps.backend.outputs.model }}
     steps:
       - name: Resolve Miner backend
         id: backend
         run: |
-          # Peak cron is disabled; schedule always Flash. workflow_dispatch
-          # may select openrouter / zen / nemotron for manual trials.
+          # Schedule is always Flash (UTC 12–23 cron). workflow_dispatch may
+          # select openrouter / zen / nemotron for manual trials. Peak hours
+          # are fail-closed in peak_guard below — never mine Flash at 2×.
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             BACKEND="${{ inputs.backend }}"
             MODEL_OVERRIDE="${{ inputs.model }}"
@@ -193,6 +195,31 @@ jobs:
             echo "has_work=true" >> "$GITHUB_OUTPUT"
             echo "issues=$QUEUED" >> "$GITHUB_OUTPUT"
           fi
+
+      - name: Skip paid Flash during DeepSeek peak windows
+        id: peak_guard
+        run: |
+          # DeepSeek V4 peak: UTC 01:00–04:00 and 06:00–10:00 → hours 1–3, 6–9.
+          # Cron is already UTC 12–23, but Actions can start a tick hours late
+          # (observed Flash schedule jobs at 03:56 / 07:18 under prior crons).
+          # Billing is when tokens run — fail-closed so Flash never mines in peak.
+          # Peak Miner drain: miner-zen-free-batch.yml (big-pickle).
+          HAS="${{ steps.query.outputs.has_work }}"
+          BACKEND="${{ steps.backend.outputs.backend }}"
+          HOUR=$((10#$(date -u +%H)))
+          SKIP=false
+          if [ "$BACKEND" = "flash" ]; then
+            if { [ "$HOUR" -ge 1 ] && [ "$HOUR" -le 3 ]; } || \
+               { [ "$HOUR" -ge 6 ] && [ "$HOUR" -le 9 ]; }; then
+              SKIP=true
+              HAS=false
+              echo "Skipping paid Flash Miner at UTC hour ${HOUR} (DeepSeek peak 01–04 / 06–10)."
+              echo "Peak drain is miner-zen-free-batch.yml (big-pickle)."
+            fi
+          fi
+          echo "has_work=$HAS" >> "$GITHUB_OUTPUT"
+          echo "peak_skip=$SKIP" >> "$GITHUB_OUTPUT"
+          echo "peak_guard has_work=$HAS peak_skip=$SKIP backend=$BACKEND utc_hour=$HOUR"
 
   mine:
     needs: preflight

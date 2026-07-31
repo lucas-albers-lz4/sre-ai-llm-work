@@ -58,9 +58,12 @@ Messages API with `DEEPSEEK_API_KEY` + `SITE_CRAWL_MODEL=deepseek-v4-flash`.
 ## Miner schedule (Phase 2 — 50% Big Pickle)
 
 DeepSeek may bill **2×** during peak windows (UTC **01:00–04:00** and
-**06:00–10:00**). Scheduled Miner splits the day evenly: Zen free
-**`big-pickle`** owns UTC `0–11` (covers both peak windows + shoulders;
-`$0`/note on free tier); paid Flash owns UTC `12–23`:
+**06:00–10:00**). Scheduled Miner: Zen free **`big-pickle`** owns UTC `0–11`
+(covers both peak windows + shoulders; `$0`/note on free tier); paid Flash
+owns UTC `12–23` only. **`miner-batch.yml` fail-closes** if a Flash tick
+actually starts in hours `1–3` or `6–9` (Actions schedule drift has started
+off-peak Flash crons inside peak — billing is when tokens run). Peak drain
+stays on `miner-zen-free-batch.yml`.
 
 | Workflow | Cron (UTC) | Backend |
 |----------|------------|---------|
