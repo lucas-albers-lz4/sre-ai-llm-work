@@ -5,11 +5,11 @@ name: Miner Zen Free Batch
 # cannot use Claude Code + configure-opencode-zen (Messages-only) — so they
 # cannot run through miner-batch.yml backend=zen.
 #
-# Schedule: UTC 0–11 → big-pickle (Phase 2). Covers DeepSeek peak windows
-# (01–04, 06–10) plus shoulders. Paid Flash must not run in peak — see
-# peak_guard in miner-batch.yml (Actions drift can start Flash ticks late).
-# deepseek-v4-flash-free remains manual/dispatch + eval only.
-# Remaining half (UTC 12–23) stays on paid DeepSeek Flash via miner-batch.yml.
+# Production Miner (Phase 3): all scheduled drains → Zen free big-pickle.
+# Cron :19 and :49 every hour (48 ticks/day; 1 issue/run) offsets losing
+# paid Flash BATCH_SIZE=4. deepseek-v4-flash-free remains manual/dispatch
+# + eval only. Paid Flash Miner is workflow_dispatch-only via miner-batch.yml
+# (peak_guard still fail-closes Flash during DeepSeek 2× windows).
 #
 # Manual workflow_dispatch still available for other Zen free models.
 # Opens a real source-note PR (not miner-eval), updates the source issue
@@ -28,8 +28,8 @@ name: Miner Zen Free Batch
 
 on:
   schedule:
-    # Phase 2: big-pickle on half of Miner crons (UTC 0–11).
-    - cron: '19 0-11 * * *'
+    # Phase 3: big-pickle all day — :19 and :49 (48 slots; 1 issue/run).
+    - cron: '19,49 * * * *'
   workflow_dispatch:
     inputs:
       model:

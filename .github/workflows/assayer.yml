@@ -204,7 +204,7 @@ jobs:
 
             Then exit.
           claude_args: |
-            --model "deepseek-v4-pro[1m]"
+            --model "deepseek-v4-flash[1m]"
             --max-turns 25
             --allowedTools "Bash(*)" "Read" "Glob" "Grep" "WebFetch"
 
@@ -518,7 +518,7 @@ jobs:
           REWORK_EOF
 
           claude -p "$(cat /tmp/smith-rework-prompt.txt)" \
-            --model "deepseek-v4-pro[1m]" \
+            --model "deepseek-v4-flash[1m]" \
             --append-system-prompt "$(cat agents/SMITH.md)" \
             --max-turns 30 \
             --output-format stream-json --verbose \
@@ -649,7 +649,7 @@ jobs:
           REWORK_EOF
 
           claude -p "$(cat /tmp/miner-rework-prompt.txt)" \
-            --model "deepseek-v4-pro[1m]" \
+            --model "deepseek-v4-flash[1m]" \
             --append-system-prompt "$(cat agents/MINER.md)" \
             --max-turns 30 \
             --output-format stream-json --verbose \

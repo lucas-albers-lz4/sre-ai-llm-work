@@ -30,8 +30,8 @@ See [`docs/MODEL-ROUTING.md`](docs/MODEL-ROUTING.md).
 | Worker | Model |
 |--------|-------|
 | Pre-screen / Prospector / site-crawl | DeepSeek Flash |
-| Miner | DeepSeek Flash UTC `12–23` (fail-closed skip if tick starts in peak hours `1–3`/`6–9`). Zen free `big-pickle` UTC `0–11` via `miner-zen-free-batch.yml` (covers DeepSeek 2× peak) |
-| Assayer / Smith / Herald | DeepSeek Pro |
+| Miner | Zen free `big-pickle` 24h via `miner-zen-free-batch.yml` (`:19,:49` hourly). Paid Flash Miner is `miner-batch.yml` dispatch-only (peak-skipped) |
+| Assayer / Smith / Herald / Contradiction | DeepSeek Flash `[1m]` (was Pro; Flash 0731 cutover) |
 
 Secrets: `DEEPSEEK_API_KEY`, `PROJECT_PAT`
 (classic `repo`+`project` — needed so `gh pr create` / issue filing triggers

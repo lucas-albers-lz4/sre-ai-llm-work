@@ -222,7 +222,7 @@ jobs:
 
             Then exit.
           claude_args: |
-            --model "deepseek-v4-pro[1m]"
+            --model "deepseek-v4-flash[1m]"
             --max-turns 15
             --allowedTools "Bash(*)" "Read" "Glob" "Grep"
 
