@@ -124,7 +124,7 @@ jobs:
             deterministic workflow step posts the comment and applies the label
             once you exit. Your ONLY output is /tmp/contradiction-assessment.md.
           claude_args: |
-            --model "deepseek-v4-pro[1m]"
+            --model "deepseek-v4-flash[1m]"
             --max-turns 25
             --allowedTools "Bash(*)" "Read" "Glob" "Grep"
 
@@ -252,7 +252,7 @@ jobs:
             The C-NNN MUST match in both files. That is your entire job — write
             those two files and exit. Do not git, gh, or edit the repo.
           claude_args: |
-            --model "deepseek-v4-pro[1m]"
+            --model "deepseek-v4-flash[1m]"
             --max-turns 25
             --allowedTools "Bash(*)" "Read" "Glob" "Grep"
 

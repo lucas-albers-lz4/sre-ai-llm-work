@@ -23,7 +23,7 @@ name: Smith daily synthesis
 
 on:
   schedule:
-    # Off-peak DeepSeek Pro (avoid UTC 01:00–04:00 / 06:00–10:00). Minutes
+    # Off-peak DeepSeek Flash [1m] (avoid UTC 01:00–04:00 / 06:00–10:00). Minutes
     # offset from :00 to reduce top-of-hour Actions contention.
     - cron: '19 15 * * 6'    # Saturday 15:19 UTC (~8:19am PDT)
     - cron: '2 0 * * 4'      # Thursday 00:02 UTC (Wed 5:02pm PDT)
@@ -410,7 +410,7 @@ jobs:
           PROMPT_EOF
 
           claude -p "$(cat /tmp/smith-prompt.txt)" \
-            --model "deepseek-v4-pro[1m]" \
+            --model "deepseek-v4-flash[1m]" \
             --append-system-prompt "$(cat agents/SMITH.md)" \
             --max-turns 60 \
             --output-format stream-json --verbose \

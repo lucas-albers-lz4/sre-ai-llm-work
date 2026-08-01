@@ -5,7 +5,7 @@ name: Miner Zen Free Eval
 # Claude Code + configure-opencode-zen (Messages-only).
 #
 # Opens an eval PR only — does NOT merge or mutate the source issue.
-# Assayer (DeepSeek Pro) is the quality gate; miner-eval PRs are never
+# Assayer (DeepSeek Flash [1m]) is the quality gate; miner-eval PRs are never
 # auto-merged.
 #
 # Fail-fast: job timeout 12m (clean OpenCode extractions finish in 3-9m, even

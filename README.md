@@ -53,8 +53,8 @@ Local agent context: [`AGENTS.md`](AGENTS.md) / [`CLAUDE.md`](CLAUDE.md).
 
 ## MVP / cost posture
 
-Triage uses DeepSeek Flash; Miner uses OpenRouter Hy3 free (trial through
-2026-07-21); Assayer/Smith use DeepSeek Pro. See
+Triage and Assayer/Smith use DeepSeek Flash (Flash `[1m]` for review);
+production Miner uses Zen free `big-pickle`. See
 [`docs/MODEL-ROUTING.md`](docs/MODEL-ROUTING.md) and
 [`docs/MVP-SETUP.md`](docs/MVP-SETUP.md).
 
