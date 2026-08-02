@@ -1313,6 +1313,19 @@
       "confidence_overall": "settled",
       "status": "current"
     },
+    "docs-google-sre-reliable-data-processing-minimal-toil": {
+      "slug": "docs-google-sre-reliable-data-processing-minimal-toil",
+      "title": "Reliable Data Processing with Minimal Toil",
+      "source_url": "https://sre.google/static/pdf/reliable_data_processing_with_minimal_toil.pdf",
+      "source_type": "docs",
+      "author": "Pieter Coucke and Rita Sodt (Google), with Julia Lee (Slack), Rich Feit (Google), Athena Vawda (Google), Betsy Beyer (Google), and John Lunney",
+      "date_published": "2021-10-12",
+      "date_extracted": "2026-08-02",
+      "issue": "#725",
+      "file": "source-notes/docs-google-sre-reliable-data-processing-minimal-toil.md",
+      "confidence_overall": "settled",
+      "status": "current"
+    },
     "docs-google-sre-reliable-product-launches": {
       "slug": "docs-google-sre-reliable-product-launches",
       "title": "Reliable Product Launches at Scale — SRE Book Chapter 27",

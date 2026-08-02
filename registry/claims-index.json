@@ -7576,6 +7576,104 @@
         }
       ]
     },
+    "docs-google-sre-reliable-data-processing-minimal-toil": {
+      "path": "source-notes/docs-google-sre-reliable-data-processing-minimal-toil.md",
+      "title": "Reliable Data Processing with Minimal Toil",
+      "source_url": "https://sre.google/static/pdf/reliable_data_processing_with_minimal_toil.pdf",
+      "chapters": [
+        "04",
+        "05",
+        "02",
+        "03"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Batch jobs that run reliably for years tend to be forgotten and become unsafe \"haunted graveyards\" — lacking the monitoring, alerting, and rollout framework that user-facing services enjoy",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Freezing all batch-job rollouts backfired — a blanket change stop caused a different outage because dependencies (e.g., deprecated API versions) broke over time and the failures were hard to detect since nothing was deployed",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "A batch job is defined as a job that performs a finite amount of work then terminates; it can be scheduled, one-off (e.g., data-corruption repair), or triggered by another process",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Batch jobs are compute- and cost-efficient — they run off-peak on unused or preemptible resources, making them well-suited for simple transformations like pre-processing a machine learning model",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Batch jobs carry a distinctive risk profile — large blast radius, data corruption, downstream delay propagation, staleness, and overloaded downstream services — and corrupt or delayed output from one job propagates rapidly through dependent systems",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Data processing is reliable when well-reasoned SLOs are met — with two distinct kinds: the freshness SLO (\"Did the job complete in time?\") and the correctness SLO (\"Did the job produce the correct results?\"), and a job meeting freshness is not necessarily safe",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Safety levels (0–3) classify how risky a batch-job change is by how much data a single run modifies — Level 0 modifies the entire dataset, Level 3 is a fully automated phased rollout with no humans involved — and each level's policy sets how much manual verification (toil) is required per change",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Standardizing on a common platform (the Batch Platform) removes duplicated production-setup work — following \"convention over configuration\" — and is already serving over 450 teams at Google",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Batch-job releases go through three release-pipeline stages — Autopush, Staging, Production — promoted on a fixed schedule when release certifications pass, and the code-deployment schedule is deliberately decoupled from the job-run schedule",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "A dry run (job skips its writing phase) contains failures to a single binary — configurable via a script parameter, or via writing to a temp location enforced with dataset permissions",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Promotion stability checks should be automated, and validation design must minimize false positives — counter anomalies, range/percentage (not exact) counter comparisons, read-only data validation, and A/B testing on identical input",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "The two-phase mutation design pattern stages mutations in a temporary location, validates them separately, and applies them only after validation passes — enabling dry-runs, validations, and A/B testing without making actual changes",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "Canarying a batch process must be based on segmented populations (users/customers/any logical object in the data model), not traffic segmentation — implemented via a startup parameter like hash(userid) mod 10 == 0, and idempotent jobs make canary-vs-production comparison possible",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "Soak time and cascading rollouts manage the time cost of gated batch releases — enough verification window for worst-case runtime, or dynamic start times (next run starts after the previous succeeds) to speed promotions at the cost of more complex troubleshooting",
+          "kind": "claim"
+        },
+        {
+          "n": 15,
+          "heading": "Freshness SLOs are operationalized with on-call readiness (\"Hope is not a strategy\"), alerting on schedule overruns, and staggering job start times to avoid resource crunches",
+          "kind": "claim"
+        },
+        {
+          "n": 16,
+          "heading": "Event-based processing produces fresher results but makes correctness harder — and a queue introduces an external dependency that affects your SLO",
+          "kind": "claim"
+        },
+        {
+          "n": 17,
+          "heading": "Slack's async compute — over 60% of Slack application code — improves reliability through criticality-bucketed routing (kindergarten/tier1/tier0) with isolated processing pipelines, delay tolerance, dogfood deploy stages, and a Job Registry for operational control",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-google-sre-reliable-product-launches": {
       "path": "source-notes/docs-google-sre-reliable-product-launches.md",
       "title": "Reliable Product Launches at Scale — SRE Book Chapter 27",
