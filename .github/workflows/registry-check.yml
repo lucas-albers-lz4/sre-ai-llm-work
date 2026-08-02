@@ -2,11 +2,14 @@ name: Check derived registries
 
 # Guard against hand-edits / stale derived indexes (#506).
 # sources.json + claims-index.json must match a fresh rebuild from source-notes/.
+#
+# Do NOT path-filter on source-notes/**: miners only add notes and must not
+# touch the shared indexes (registry-rebuild.yml updates them after merge).
+# Checking every miner PR always failed by design and was red noise.
 
 on:
   pull_request:
     paths:
-      - 'source-notes/**'
       - 'scripts/build_registry.py'
       - 'scripts/build_claims_index.py'
       - 'registry/sources.json'

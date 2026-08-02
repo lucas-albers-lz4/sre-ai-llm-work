@@ -7,6 +7,10 @@ name: Rebuild source registry
 # miner-batch.yml); instead this workflow rebuilds them deterministically from
 # source-notes/*.md whenever notes change on main.
 #
+# Assayer must squash-merge with PROJECT_PAT (not GITHUB_TOKEN) so this push
+# trigger fires; Assayer also workflow_dispatch-es this workflow after a
+# source-note merge as belt-and-suspenders.
+#
 # Loop-safety: the trigger is path-filtered to source-notes/**, and the only
 # files this workflow commits are under registry/, so its own commit does
 # not re-trigger it.
