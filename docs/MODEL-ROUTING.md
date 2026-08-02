@@ -13,6 +13,14 @@ Assayer / Smith / Herald / Contradiction moved from `deepseek-v4-pro[1m]` to
 API id `deepseek-v4-flash`). Pro retired from production routing until a later
 re-eval. `deepseek-v4-flash-free` remains manual/dispatch + eval only.
 
+**2026-08-02 Assayer spot-check ruling (#735):** Flash burned the 25-turn
+review budget re-downloading PDFs (`pip install pypdf`, full-text extract,
+regex every claim) and never wrote a review. `agents/ASSAYER.md` + Assayer
+workflow prompt now require HEAD-only URL checks, at most 2–3 quote
+spot-checks, no primary-source body download / package installs, and writing
+the review promptly. **`--max-turns` stays 25** — do not raise the budget to
+paper over re-mining.
+
 ```text
 # Default (DeepSeek)
 ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic

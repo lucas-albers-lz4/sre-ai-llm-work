@@ -26,10 +26,27 @@ Reject if:
 
 ### Accuracy Check
 
-- Does the source URL resolve?
-- Do quoted passages actually appear in the source? (spot-check 2-3)
+- **URL resolve (cheap):** HTTP HEAD (or status) only. Success if the URL is
+  reachable. Do **not** download the primary source body (PDF/HTML) to mine
+  quotes from it.
+- **Quote spot-check (exactly 2–3):** Pick 2–3 quoted passages from the note
+  and verify them only if you can do so without a full source extract. Then
+  **stop** — do not loop every claim against a dumped source.
+- **Forbidden for quote checks:** `pip install`, installing PDF/HTML tooling,
+  extracting full document text, bulk regex over a source dump, downloading
+  the primary source body "to be thorough."
+- **Binary / PDF sources:** If quote fidelity cannot be checked without those
+  forbidden steps, write under Accuracy: `quote fidelity unverified for PDF
+  (spot-check skipped)` and continue. Do not burn the turn budget re-mining
+  the PDF.
 - Are code examples syntactically plausible? (obvious errors = copy fail)
 - Is the confidence grade defensible given the evidence cited?
+- Prefer `Read` / `Grep` on the PR note and a few cited corpus notes. Use Bash
+  mainly for light `gh` human-comment checks and the required
+  `cat > /tmp/assayer-review.md` heredoc.
+- **Finish:** after depth + limited accuracy + a small cross-ref sample, write
+  the review and exit. A verdict with "PDF spot-check skipped" beats hitting
+  the turn limit with no review file.
 
 ### Completeness Check
 
@@ -42,8 +59,10 @@ Reject if:
 
 - Do cited corroborations actually exist in the referenced source notes?
 - If the note claims "contradicts source-note-X," verify the contradiction is real
-- Are there obvious cross-references the Miner missed?
-  (Search existing notes for overlapping keywords)
+- Sample a few cited notes via `Read` / `Grep` — do **not** scan the whole
+  `source-notes/` corpus with Bash loops looking for every possible overlap.
+- Are there obvious cross-references the Miner missed? Spot-check keywords in
+  a handful of likely peers; do not exhaust the tree.
 
 ## Review Standards for Feed Candidate PRs
 
