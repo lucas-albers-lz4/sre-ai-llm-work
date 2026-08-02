@@ -172,6 +172,26 @@ jobs:
             You may read any file in the repository to verify citations,
             cross-references, and contradictions. Do NOT edit any files.
 
+            ## Hard stops (turn budget — do not burn turns re-mining sources)
+
+            These rules override "be thorough" instincts:
+
+            - Do NOT download the primary source body (PDF/HTML) for quote mining.
+              URL check = HTTP HEAD / status only.
+            - Do NOT `pip install`, install PDF tools, extract full document text,
+              or regex-loop every claim against a source dump.
+            - Quote spot-check: at most 3 quotes from the note, then stop.
+              For PDFs/binaries you cannot check without forbidden steps, write
+              "quote fidelity unverified for PDF (spot-check skipped)" under
+              Accuracy and continue.
+            - Cross-refs: Read/Grep a few cited corpus notes — do NOT Bash-scan
+              the entire source-notes/ tree.
+            - Prefer Read/Grep over Bash Python loops. Bash is for light `gh`
+              human-comment checks and writing the review file.
+            - Once depth + limited accuracy + a small cross-ref sample are done,
+              write /tmp/assayer-review.md and exit. A finished verdict beats
+              hitting max-turns with no review file.
+
             ## Human reviewer context
 
             Before reviewing, check for human reviewer comments on this PR:
