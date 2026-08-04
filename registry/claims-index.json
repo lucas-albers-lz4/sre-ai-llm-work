@@ -4627,6 +4627,84 @@
         }
       ]
     },
+    "docs-google-sre-prodcast-01-09-postmortems": {
+      "path": "source-notes/docs-google-sre-prodcast-01-09-postmortems.md",
+      "title": "Postmortems with Ayelet Sachto (SRE Prodcast S1E09)",
+      "source_url": "https://sre.google/prodcast/transcripts/sre-prodcast-01-09/",
+      "chapters": [
+        "01",
+        "02",
+        "03",
+        "04"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "A postmortem is a written record of an incident whose mandatory contents are mitigation actions, stages, impact, root causes (not just symptoms), and follow-up actions — with the goal of preventing recurrence and reducing impact of future outages",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Postmortem data is the prioritization input for reliability investment — \"postmortem is our tool to learn from our failures\" — and without formalized learning processes, incidents will recur",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Postmortems must be blameless because blame causes people to hide information and not declare incidents out of fear of punishment",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Blamelessness is defined as \"switching responsibility from people to systems and processes\" — the mechanism that enables risk-taking and innovation, with Ben Treynor's framing that an unlearned mistake costs \"the cost of the mistake, but without the benefit of learning from it\"",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Psychological safety — the belief that one will not be punished or humiliated for speaking up with ideas, questions, concerns, or mistakes — is what prevents incident-hiding and unlocks the root-cause questions",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Good postmortems require strong process, standards, systems and tools; the timeline and stages are the most-missed mandatory element; and every postmortem must be reviewed for both technical completeness and blameless language",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Postmortem learnings must be translated into concrete, assigned action items with an ETA — otherwise the organization is not improving",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "One person owns the postmortem — writes it, gets it reviewed/approved, and publicizes it — and action-item ownership is flexible: an assignee may only triage (create a bug, set a meeting) rather than resolve everything, or an explicit \"we don't know the owner\" item creates a bug and starts a cross-team discussion",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Postmortems use a \"what went well / what could be improved / where we got lucky\" analysis structure, and \"got lucky\" items must be converted into action items — e.g., someone happened to look at a dashboard because no alert existed becomes \"create an alert / create a page\"",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "When to write a postmortem extends beyond declared severe incidents — customer impact, SLO breach, data loss without direct customer impact, near-miss, on-caller intervention, rollback before impact, low-priority incident with resolution time above a threshold, and monitor/tooling failure all warrant one",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "A critical mass of postmortems enables pattern identification that reduces both the volume and frequency of incidents — postmortems and incidents feed each other in a learning loop",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "Postmortems are a learning tool from others — organizations write them but fail to share them; a widely-shared postmortem prevented an incident in another team's system, and sharing should be as wide as possible with customer data redacted but never treated as a blocker",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "Blamelessness and psychological safety are cultural transformations that take time — \"more complicated than a checklist\" — so start simple and iterate",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-google-sre-prodcast-02-05-srm-role": {
       "path": "source-notes/docs-google-sre-prodcast-02-05-srm-role.md",
       "title": "SRE Prodcast Episode 5 (Season 2) — Life of an SRE with Stephen Benjamin (The SRM Role)",

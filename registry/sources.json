@@ -845,6 +845,19 @@
       "confidence_overall": "settled",
       "status": "current"
     },
+    "docs-google-sre-prodcast-01-09-postmortems": {
+      "slug": "docs-google-sre-prodcast-01-09-postmortems",
+      "title": "Postmortems with Ayelet Sachto (SRE Prodcast S1E09)",
+      "source_url": "https://sre.google/prodcast/transcripts/sre-prodcast-01-09/",
+      "source_type": "discussion",
+      "author": "Ayelet Sachto (Google SRE, GKE SRE team London, formerly PSO SRE lead EMEA); hosts Viv & MP",
+      "date_published": "2022 (estimated; SRE Prodcast Season 1, Episode 9 — page has no structured publish date)",
+      "date_extracted": "2026-08-04",
+      "issue": "#756",
+      "file": "source-notes/docs-google-sre-prodcast-01-09-postmortems.md",
+      "confidence_overall": "settled",
+      "status": "current"
+    },
     "docs-google-sre-prodcast-02-05-srm-role": {
       "slug": "docs-google-sre-prodcast-02-05-srm-role",
       "title": "SRE Prodcast Episode 5 (Season 2) — Life of an SRE with Stephen Benjamin (The SRM Role)",
