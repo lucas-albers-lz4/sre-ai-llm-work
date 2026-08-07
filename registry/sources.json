@@ -676,6 +676,19 @@
       "confidence_overall": "settled",
       "status": "current"
     },
+    "docs-google-sre-canarying-releases": {
+      "slug": "docs-google-sre-canarying-releases",
+      "title": "Canarying Releases — SRE Workbook Chapter 16",
+      "source_url": "https://sre.google/workbook/canarying-releases/",
+      "source_type": "documentation",
+      "author": "Alec Warner and Štěpán Davidovič, with Alex Hidalgo, Betsy Beyer, Kyle Smith, and Matt Duftler",
+      "date_published": "2018",
+      "date_extracted": "2026-08-07",
+      "issue": "#801",
+      "file": "source-notes/docs-google-sre-canarying-releases.md",
+      "confidence_overall": "settled",
+      "status": "current"
+    },
     "docs-google-sre-creating-production-launch-plan": {
       "slug": "docs-google-sre-creating-production-launch-plan",
       "title": "Creating a Production Launch Plan — O'Reilly SRE Report (Google)",

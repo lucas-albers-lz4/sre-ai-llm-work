@@ -3557,6 +3557,110 @@
         }
       ]
     },
+    "docs-google-sre-canarying-releases": {
+      "path": "source-notes/docs-google-sre-canarying-releases.md",
+      "title": "Canarying Releases — SRE Workbook Chapter 16",
+      "source_url": "https://sre.google/workbook/canarying-releases/",
+      "chapters": [
+        "05",
+        "02",
+        "03",
+        "04",
+        "00"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Canarying is a partial and time-limited deployment of a change to a service plus its evaluation, where the changed portion (\"the canary\") is compared against the rest (\"the control\") to decide whether to proceed — effectively an A/B testing process",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Canarying requires three capabilities — a way to deploy the change to a subset of the service population, an evaluation process that judges the canary \"good\" or \"bad,\" and integration of that evaluation into the release process",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Canaries exist because test environments are never identical to production — canarying exposes changes to real production traffic that unit/load testing miss, enabling defect detection with the smallest possible impact",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "In Google's experience a majority of incidents are triggered by binary or configuration pushes — so instead of avoiding change, measure its reliability impact using SLOs and error budgets",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "A deployment that cannot roll back forces the team to patch and redeploy during the outage, prolonging user impact — a canary with an error-rate evaluation enables pausing and rolling back a \"bad\" deployment instead",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Error-budget impact is directly proportional to the traffic exposed to defects — a 5% canary at a 20% error rate yields a 1% overall error rate, conserving the error budget while learning about the new version",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Use the simplest error-budget model that meets your objectives — over-investing in model correctness leads to \"incessant model tuning for no real benefit\"",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Canary duration should track release cadence, and only one canary deployment should run at a time — overlapping canaries risk signal contamination and add mental effort to track system state",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "A canary population must be representative across size/duration, traffic volume, time of day, and metrics — requirements that are \"mutually at odds\" — so tune parameters from historical canary failure rates rather than hypothetical worst cases",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "For canary metric selection, start with SLIs, stack-rank candidate metrics by how well they indicate user-perceivable problems, and keep no more than ~a dozen — too many metrics bring diminishing returns and erode trust if unmaintained",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Exclude 400-level HTTP codes from canary evaluation and add black-box URL-presence checks to isolate canary metrics from odd user behavior",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "Canary metrics must be attributable to the canaried change and isolated from shared-infrastructure noise — a noisy or flaky canary gets \"disabled or ignored by operators, which can defeat the point of having a canary process\"",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "Before/after (time-segmented) canary evaluation is risky because time is one of the biggest sources of change in observed metrics — it cannot separate the change's degradation from organic variation such as weekday-vs-weekend usage",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "Use a gradual multi-stage canary — a small first stage evaluated on the clearest failure signals (application crashes, request failures), then progressively larger stages to build confidence",
+          "kind": "claim"
+        },
+        {
+          "n": 15,
+          "heading": "Canary and control populations share infrastructure imperfectly — including cross-request client state — so use absolute measures (e.g., defined SLOs) alongside the canary/control comparison, and don't assume the canary is at fault when evaluation flags a problem",
+          "kind": "claim"
+        },
+        {
+          "n": 16,
+          "heading": "Canarying noninteractive (batch/pipeline) systems requires three adaptations — canary duration must span at least one work unit, workers for a unit must come from a single pool (canary or control), and metrics cover end-to-end processing time plus application-specific output quality",
+          "kind": "claim"
+        },
+        {
+          "n": 17,
+          "heading": "Monitoring data must support canary-vs-control breakdowns — whole-service aggregates hide a small canary — and metric aggregation intervals must be the same as or less than the canary duration",
+          "kind": "claim"
+        },
+        {
+          "n": 18,
+          "heading": "Blue/green, artificial load generation, and traffic teeing are related to canarying but are not canaries — synthetic load maximizes code coverage but not state coverage, and teeing is complicated in stateful systems",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-google-sre-creating-production-launch-plan": {
       "path": "source-notes/docs-google-sre-creating-production-launch-plan.md",
       "title": "Creating a Production Launch Plan — O'Reilly SRE Report (Google)",
