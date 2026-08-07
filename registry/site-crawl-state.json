@@ -1122,24 +1122,34 @@
         "filed_at": "2026-08-06T13:49:23.823865+00:00"
       },
       "https://static.googleusercontent.com/media/sre.google/en//static/pdf/CaseStudyInCommunityDrivenSoftwareDevelopment.pdf": {
-        "status": "pending",
-        "screened_at": "2026-07-13T23:35:46.504006+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T23:35:46.504006+00:00",
+        "issue": 799,
+        "filed_at": "2026-08-07T12:47:38.930431+00:00"
       },
       "https://sre.google/workbook/alerting-on-slos": {
-        "status": "pending",
-        "screened_at": "2026-07-14T13:28:05.706900+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T13:28:05.706900+00:00",
+        "issue": 800,
+        "filed_at": "2026-08-07T12:47:40.906380+00:00"
       },
       "https://sre.google/workbook/canarying-releases": {
-        "status": "pending",
-        "screened_at": "2026-07-14T13:28:05.706920+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T13:28:05.706920+00:00",
+        "issue": 801,
+        "filed_at": "2026-08-07T12:47:43.023552+00:00"
       },
       "https://sre.google/workbook/colophon": {
-        "status": "pending",
-        "screened_at": "2026-07-14T13:28:05.706923+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T13:28:05.706923+00:00",
+        "issue": 802,
+        "filed_at": "2026-08-07T12:47:45.023276+00:00"
       },
       "https://sre.google/workbook/conclusion": {
-        "status": "pending",
-        "screened_at": "2026-07-14T13:28:05.706925+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T13:28:05.706925+00:00",
+        "issue": 803,
+        "filed_at": "2026-08-07T12:47:47.186190+00:00"
       },
       "https://sre.google/workbook/configuration-design": {
         "status": "pending",
@@ -1258,7 +1268,7 @@
         "screened_at": "2026-07-18T13:10:30.818325+00:00"
       }
     },
-    "last_scan": "2026-08-06T13:48:47.595234+00:00"
+    "last_scan": "2026-08-07T12:47:14.710393+00:00"
   },
   "opentelemetry": {
     "urls": {},
@@ -1735,16 +1745,22 @@
         "filed_at": "2026-08-06T13:49:29.466406+00:00"
       },
       "https://www.cncf.io/telecom-user-group/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:14:02.846898+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:14:02.846898+00:00",
+        "issue": 804,
+        "filed_at": "2026-08-07T12:47:49.085397+00:00"
       },
       "https://www.cncf.io/enduser/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:14:02.846900+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:14:02.846900+00:00",
+        "issue": 805,
+        "filed_at": "2026-08-07T12:47:51.112630+00:00"
       },
       "https://www.cncf.io/people/ambassadors/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:14:02.846901+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:14:02.846901+00:00",
+        "issue": 806,
+        "filed_at": "2026-08-07T12:47:53.085988+00:00"
       },
       "https://www.cncf.io/people/governing-board/": {
         "status": "pending",
@@ -2757,9 +2773,21 @@
       "https://www.cncf.io/blog/2026/05/14/when-ai-agents-become-contributors-how-kubestellar-reached-81-pr-acceptance": {
         "status": "pending",
         "screened_at": "2026-08-06T13:49:00.052869+00:00"
+      },
+      "https://www.cncf.io/blog/2026/08/07/does-kubernetes-dra-replace-hami": {
+        "status": "pending",
+        "screened_at": "2026-08-07T12:47:22.570606+00:00"
+      },
+      "https://www.cncf.io/blog/2026/08/07/shadow-ai-in-ci-cd-threat-modeling-the-path-from-developer-laptop-to-kubernetes": {
+        "status": "pending",
+        "screened_at": "2026-08-07T12:47:22.570623+00:00"
+      },
+      "https://www.cncf.io/blog/2026/05/13/building-a-cloud-native-platform-from-the-ground-up-with-kairos-k0rdent-and-bindy": {
+        "status": "pending",
+        "screened_at": "2026-08-07T12:47:22.570626+00:00"
       }
     },
-    "last_scan": "2026-08-06T13:49:00.052873+00:00"
+    "last_scan": "2026-08-07T12:47:22.570629+00:00"
   },
   "datadog-llm-obs": {
     "urls": {
@@ -2768,7 +2796,7 @@
         "screened_at": "2026-07-12T23:52:56.905756+00:00"
       }
     },
-    "last_scan": "2026-08-06T13:49:01.460576+00:00"
+    "last_scan": "2026-08-07T12:47:24.383057+00:00"
   },
   "langfuse-docs": {
     "urls": {
@@ -2897,7 +2925,7 @@
         "filed_at": "2026-07-23T13:33:58.953513+00:00"
       }
     },
-    "last_scan": "2026-08-06T13:49:02.866917+00:00"
+    "last_scan": "2026-08-07T12:47:25.846660+00:00"
   },
   "litellm-docs": {
     "urls": {
@@ -3374,16 +3402,22 @@
         "filed_at": "2026-08-06T13:49:35.296293+00:00"
       },
       "https://docs.litellm.ai/blog/tags/claude-code": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:44:44.495330+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:44:44.495330+00:00",
+        "issue": 807,
+        "filed_at": "2026-08-07T12:47:55.052328+00:00"
       },
       "https://docs.litellm.ai/blog/tags/code-interpreter": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:44:44.495332+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:44:44.495332+00:00",
+        "issue": 808,
+        "filed_at": "2026-08-07T12:47:57.014278+00:00"
       },
       "https://docs.litellm.ai/blog/tags/codex": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:44:44.495333+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:44:44.495333+00:00",
+        "issue": 809,
+        "filed_at": "2026-08-07T12:47:58.940348+00:00"
       },
       "https://docs.litellm.ai/blog/tags/completion": {
         "status": "pending",
@@ -4188,9 +4222,21 @@
       "https://docs.litellm.ai/docs/extras/gemini_img_migration": {
         "status": "pending",
         "screened_at": "2026-08-06T13:49:10.109066+00:00"
+      },
+      "https://docs.litellm.ai/docs/files_endpoints": {
+        "status": "pending",
+        "screened_at": "2026-08-07T12:47:33.868178+00:00"
+      },
+      "https://docs.litellm.ai/docs/fine_tuning": {
+        "status": "pending",
+        "screened_at": "2026-08-07T12:47:33.868196+00:00"
+      },
+      "https://docs.litellm.ai/docs/generateContent": {
+        "status": "pending",
+        "screened_at": "2026-08-07T12:47:33.868199+00:00"
       }
     },
-    "last_scan": "2026-08-06T13:49:10.109069+00:00"
+    "last_scan": "2026-08-07T12:47:33.868202+00:00"
   },
   "promptfoo-docs": {
     "urls": {
@@ -4657,16 +4703,22 @@
         "filed_at": "2026-08-06T13:49:41.032076+00:00"
       },
       "https://www.promptfoo.dev/blog/tags/best-practices/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:45:08.317056+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:45:08.317056+00:00",
+        "issue": 810,
+        "filed_at": "2026-08-07T12:48:01.262624+00:00"
       },
       "https://www.promptfoo.dev/blog/tags/best-practices/page/2/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:45:08.317057+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:45:08.317057+00:00",
+        "issue": 811,
+        "filed_at": "2026-08-07T12:48:03.498286+00:00"
       },
       "https://www.promptfoo.dev/blog/tags/blackhat/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:45:08.317058+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:45:08.317058+00:00",
+        "issue": 812,
+        "filed_at": "2026-08-07T12:48:05.472846+00:00"
       },
       "https://www.promptfoo.dev/blog/tags/case-study/": {
         "status": "pending",
@@ -5479,8 +5531,20 @@
       "https://www.promptfoo.dev/docs/guides/evaluate-llm-temperature": {
         "status": "pending",
         "screened_at": "2026-08-06T13:49:14.848300+00:00"
+      },
+      "https://www.promptfoo.dev/docs/guides/evaluate-openai-agents-python": {
+        "status": "pending",
+        "screened_at": "2026-08-07T12:47:37.536914+00:00"
+      },
+      "https://www.promptfoo.dev/docs/guides/evaluate-openai-assistants": {
+        "status": "pending",
+        "screened_at": "2026-08-07T12:47:37.536931+00:00"
+      },
+      "https://www.promptfoo.dev/docs/guides/evaluate-osworld-with-inspect": {
+        "status": "pending",
+        "screened_at": "2026-08-07T12:47:37.536934+00:00"
       }
     },
-    "last_scan": "2026-08-06T13:49:14.848303+00:00"
+    "last_scan": "2026-08-07T12:47:37.536937+00:00"
   }
 }
