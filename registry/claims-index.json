@@ -3744,6 +3744,88 @@
         }
       ]
     },
+    "docs-google-sre-configuration-specifics": {
+      "path": "source-notes/docs-google-sre-configuration-specifics.md",
+      "title": "Configuration Specifics — SRE Workbook Chapter 15",
+      "source_url": "https://sre.google/workbook/configuration-specifics",
+      "chapters": [
+        "05",
+        "04",
+        "03"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Configuration-related toil splits into two kinds — replication toil (the mundane task of managing configuration replicated across a system, especially in microservice architectures) and complexity toil (dealing with the emergent and sometimes undesirable behaviors of complex automation) — and automation built on replicated config shifts toil to complexity toil rather than eliminating it, because the config corpus grows with renewed energy once freed from per-file editing",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "To reduce config-induced toil you have three strategies — remove configuration altogether (rare; only for custom-built applications), automate away the duplication in the config corpus, or adopt/improve a configuration language (DSL) — and removing configuration is \"always your best option\" where possible",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Beyond generic ideal requirements (lightweightness, ease of learning, simplicity, expressive power), an efficient configuration system must have three critical properties — tooling for managing config files (linters, debuggers, formatters, IDE integration), hermetic evaluation of configuration for rollbacks and general replayability, and separation of config from data for easy analysis and a range of configuration interfaces",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Pitfall 1 — failing to recognize configuration as a programming-language problem: data-only formats (JSON/YAML/XML) accrue programming-language features \"through the back door\" (e.g., a `count` attribute on a VM schema, string-interpolation rules) and become an esoteric, complex language that isn't suited to tooling; combining pure-data formats with templating engines (YAML + Jinja) makes the result difficult for both humans and tools to maintain",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Pitfalls 2 and 3 — designing accidental/ad hoc language features (which are more complex, have less expressive power, and risk gotchas because feature interactions weren't considered) and building too much domain-specific optimization (which starves the language of tooling and learning resources because the user base is too small to justify them)",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Pitfall 4 — interleaving \"configuration evaluation\" with \"side effects\" (making changes to external systems, or consulting out-of-band data sources like DNS, VM IDs, or latest build versions during config runs) violates hermeticity and prevents the separation of config from data; the correct order is to evaluate the config first, then make the resulting data available for analysis, and only then allow side effects",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Pitfall 5 — using an existing general-purpose scripting language (Python, Ruby, Lua) for config is a tempting shortcut that fails because implementations are heavyweight and/or need intrusive sandboxing to ensure hermeticity, security considerations may call for sandboxing since general-purpose languages can access the local system, and you can't assume config maintainers know those languages; the recommendation is to use an existing DSL (HOCON, Flabbergast, Dhall, Jsonnet)",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "A configuration language can drive multiple applications from one config corpus — generating different formats from a single evaluation, unifying and synchronizing configs across a fleet (e.g., an Nginx config and a Terraform firewall config from one Jsonnet evaluation that defines a port once), and nesting configs (e.g., a Cassandra config embedded in a Deployment Manager config)",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "YAML (Kubernetes' config UI) falls short at scale because it only provides anchors — rarely useful and not supported by Kubernetes — so the important differences between many near-identical configs are obscured; a configuration language expresses variants as overrides on an abstract template, reducing toil as the number of instantiations grows",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Custom (in-house) applications should be designed to coexist with a config language — consume a single pure data file split via imports; represent collections of named entities as objects keyed by name rather than arrays with a name field; avoid grouping entities by type at the top level (group logically related config in the same subtree); and keep the data representation simple (don't embed language features, don't over-trim verbosity, avoid interpreting custom string-interpolation syntax in the application)",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Validate generated config immediately after configuration execution — syntactic validation alone won't find many bugs; after generic schema validation, check domain-specific properties (required fields present, referenced filenames exist, values within allowed ranges); do not ignore unrecognized field names (they may indicate a typo); and run the same validation in a precommit hook",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "Treat configuration as code — version configuration libraries so consumers migrate independently on breaking changes; check config into source control for history, rollback, and code review; enforce style/lint tooling; and write unit tests for upstream template libraries (e.g., Jsonnet `assert`/`assertEqual`, or the jsonnetunit framework)",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "Hermetic config can be evaluated at any point between update and use — the tradeoffs are when to evaluate: check-in time (earliest, validate before commit; concrete changes reviewable, but generated JSON may be unreadable/large/secret-bearing and merges conflict), build time (Google's commonly favored option; no desync risk, but build is more complex and concrete changes are harder to review), or runtime (simplest; but \"configuration bugs may be discovered at runtime, which is too late\" and untrusted config code requires special care)",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "Configuration execution should quickly terminate — bugs or deliberate attacks can make config consume arbitrary CPU or memory, including nonterminating programs; restricting the language to be non-Turing-complete doesn't prevent resource exhaustion (\"billion laughs\"-style expansion exists even in XML and YAML); untrusted config evaluated in a request handler must be sandboxed, e.g., a separate process with `ulimit`, or the native Go implementation",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-google-sre-creating-production-launch-plan": {
       "path": "source-notes/docs-google-sre-creating-production-launch-plan.md",
       "title": "Creating a Production Launch Plan — O'Reilly SRE Report (Google)",

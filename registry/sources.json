@@ -702,6 +702,19 @@
       "confidence_overall": "settled",
       "status": "current"
     },
+    "docs-google-sre-configuration-specifics": {
+      "slug": "docs-google-sre-configuration-specifics",
+      "title": "Configuration Specifics — SRE Workbook Chapter 15",
+      "source_url": "https://sre.google/workbook/configuration-specifics",
+      "source_type": "documentation",
+      "author": "Dave Cunningham and Misha Brukman, with Christophe Kalt and Betsy Beyer",
+      "date_published": "2018",
+      "date_extracted": "2026-08-08",
+      "issue": "#816",
+      "file": "source-notes/docs-google-sre-configuration-specifics.md",
+      "confidence_overall": "settled",
+      "status": "current"
+    },
     "docs-google-sre-creating-production-launch-plan": {
       "slug": "docs-google-sre-creating-production-launch-plan",
       "title": "Creating a Production Launch Plan — O'Reilly SRE Report (Google)",
