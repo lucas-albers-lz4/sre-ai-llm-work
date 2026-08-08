@@ -715,6 +715,19 @@
       "confidence_overall": "settled",
       "status": "current"
     },
+    "docs-google-sre-eliminating-toil": {
+      "slug": "docs-google-sre-eliminating-toil",
+      "title": "Google SRE: Eliminating Toil — SRE Workbook Chapter 6",
+      "source_url": "https://sre.google/workbook/eliminating-toil",
+      "source_type": "documentation",
+      "author": "David Challoner, Joanna Wijntjes, David Huska, Matthew Sartwell, Chris Coykendall, Chris Schrier, John Looney, and Vivek Rau (Google), with Betsy Beyer, Max Luebbe, Alex Perry, and Murali Suriar",
+      "date_published": "2018",
+      "date_extracted": "2026-08-08",
+      "issue": "#819",
+      "file": "source-notes/docs-google-sre-eliminating-toil.md",
+      "confidence_overall": "settled",
+      "status": "current"
+    },
     "docs-google-sre-handling-overload": {
       "slug": "docs-google-sre-handling-overload",
       "title": "Google SRE: Handling Overload — SRE Book Update Hub (Workbook Ch11 + Load Shedding Blog)",

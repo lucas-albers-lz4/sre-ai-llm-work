@@ -3836,6 +3836,109 @@
         }
       ]
     },
+    "docs-google-sre-eliminating-toil": {
+      "path": "source-notes/docs-google-sre-eliminating-toil.md",
+      "title": "Google SRE: Eliminating Toil — SRE Workbook Chapter 6",
+      "source_url": "https://sre.google/workbook/eliminating-toil",
+      "chapters": [
+        "04",
+        "03",
+        "02",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Toil is \"the repetitive, predictable, constant stream of tasks related to maintaining a service,\" falling on a spectrum of six characteristics — Manual, Repetitive, Automatable, Nontactical/reactive, Lacks enduring value, and Grows at least as fast as its source — each demonstrated with a concrete operational example",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "\"Automatable\" remediation documents — \"log in to X, execute this command, check the output, restart Y if you see…\" — are \"essentially pseudocode to someone with software development skills,\" making runbook content itself the raw material for automation",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Google caps SRE teams' operational work (toil and non-toil alike) at 50% of time; the exact target may not suit other orgs, but placing an upper bound on toil matters because identifying and quantifying it is the first step toward optimization",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Toil identification should be a data-driven measurement exercise, not experience-and-intuition — choose an objective unit of human effort (minutes/hours, applied patch, completed ticket, manual production change, hardware operation), track it continuously before/during/after the reduction effort, and automate the measurement so collecting it doesn't itself become toil",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Toil falls into six common categories — Business Processes (ticket-driven), Production Interrupts, Release Shepherding, Migrations, Cost Engineering/Capacity Planning, and Troubleshooting for Opaque Architectures — a spectrum, not a binary classification",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Ticket-driven business processes are insidious toil — they \"accomplish their goal,\" so the toil accumulates quietly across the team without loudly calling for remediation; even without automation, process simplification/streamlining pays off because it makes the process easier to automate later",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "\"Reject the toil\" should be the first option considered — analyze the cost of responding versus not responding, and intentionally delay/batch toil so tasks accumulate for batch or parallelized processing, which reduces interrupts and reveals patterns to target for elimination",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "SLOs reduce toil by licensing inaction — engineers may ignore operational tasks that don't consume the error budget, and a service-health-focused SLO is more flexible and sustainable than per-device SLOs",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "For complex business problems with many edge cases, use \"human-backed interfaces\" — a partially automated approach where the service receives structured data via a defined API but engineers still handle some operations — as an interim step toward full automation",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "After a typed interface exists, provide self-service methods (web form, script, API, or config-pull-request docs) that degrade gracefully to a ticket on failure — moving 80–90% of requests to self-service is still a huge workload reduction",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Automation safety requires risk assessment before every action and safeguards equivalent to the indirect alerts a human would receive — even read operations can spike device load, and automation should default to human operators when it hits an unsafe condition",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "Don't literally transcribe human workflows into machine workflows — break the documented manual work into separable, composable components for reuse, and don't let automation eliminate human understanding of what's going wrong",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "\"Sometimes imperfect automation is good enough\" — skip verification for low-risk paths, and don't overthink the problem; Google spent three years (2012–2015) collecting data on 650+ memory-error incidents before concluding the diagnosis exercise was overkill",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "Automation is not fire-and-forget — it has a very long lifetime, needs project continuity as people join/leave, and inflexible automation makes systems brittle to change; policy-based automation (separating intent from a generic implementation engine) lets automation evolve more transparently",
+          "kind": "claim"
+        },
+        {
+          "n": 15,
+          "heading": "Start small and improve — don't design the perfect toil-free system; automate a few high-priority items first, then reinvest the gained time and lessons",
+          "kind": "claim"
+        },
+        {
+          "n": 16,
+          "heading": "Case Study 1 (Saturn→Jupiter datacenter network repair) shows automation can replace most human repair work when failure volumes outgrow the team — a software-enforced strike policy (first failure reboots/reinstalls, second triggers hardware replacement), automated drain-risk assessment, and a technician UI — with Jupiter automating switch-wide drain, config install/verify, and repair-verification before undrain",
+          "kind": "claim"
+        },
+        {
+          "n": 17,
+          "heading": "Case Study 2 (Moira — decommissioning NetApp filer-backed home directories) shows data-driven toil rejection at scale: Moonwalk (BigQuery analytics over 2.5 billion files) validated which use cases to retire; a self-service Flask portal handled user communication/migration as \"low-touch as possible\"; tickets served as a \"quick and dirty GUI for automation\" with a manual SRE fallback queue; \"melt snowflakes\" (retool or delete nonconforming shares) enabled near-zero-touch migration; the program reduced home directories from 65,000 to ~50",
+          "kind": "claim"
+        },
+        {
+          "n": 18,
+          "heading": "The legacy-system exit path has four stages — Avoidance, Encapsulation/augmentation, Replacement/refactoring, Retirement/custodial ownership — and decommissioning should start by slowing new adoption (\"It's much more painful to take something away from users than never offer it in the first place\")",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-google-sre-handling-overload": {
       "path": "source-notes/docs-google-sre-handling-overload.md",
       "title": "Google SRE: Handling Overload — SRE Book Update Hub (Workbook Ch11 + Load Shedding Blog)",
