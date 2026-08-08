@@ -1152,24 +1152,34 @@
         "filed_at": "2026-08-07T12:47:47.186190+00:00"
       },
       "https://sre.google/workbook/configuration-design": {
-        "status": "pending",
-        "screened_at": "2026-07-14T13:28:05.706927+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T13:28:05.706927+00:00",
+        "issue": 815,
+        "filed_at": "2026-08-08T12:34:27.490840+00:00"
       },
       "https://sre.google/workbook/configuration-specifics": {
-        "status": "pending",
-        "screened_at": "2026-07-14T13:40:10.092653+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T13:40:10.092653+00:00",
+        "issue": 816,
+        "filed_at": "2026-08-08T12:34:29.012599+00:00"
       },
       "https://sre.google/workbook/data-processing": {
-        "status": "pending",
-        "screened_at": "2026-07-14T13:40:10.092676+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T13:40:10.092676+00:00",
+        "issue": 817,
+        "filed_at": "2026-08-08T12:34:30.645049+00:00"
       },
       "https://sre.google/workbook/editors": {
-        "status": "pending",
-        "screened_at": "2026-07-14T13:40:10.092679+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T13:40:10.092679+00:00",
+        "issue": 818,
+        "filed_at": "2026-08-08T12:34:32.207652+00:00"
       },
       "https://sre.google/workbook/eliminating-toil": {
-        "status": "pending",
-        "screened_at": "2026-07-14T13:40:10.092681+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T13:40:10.092681+00:00",
+        "issue": 819,
+        "filed_at": "2026-08-08T12:34:33.689947+00:00"
       },
       "https://sre.google/workbook/engagement-model": {
         "status": "pending",
@@ -1268,7 +1278,7 @@
         "screened_at": "2026-07-18T13:10:30.818325+00:00"
       }
     },
-    "last_scan": "2026-08-07T12:47:14.710393+00:00"
+    "last_scan": "2026-08-08T12:34:06.709680+00:00"
   },
   "opentelemetry": {
     "urls": {},
@@ -1763,16 +1773,22 @@
         "filed_at": "2026-08-07T12:47:53.085988+00:00"
       },
       "https://www.cncf.io/people/governing-board/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:14:02.846903+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:14:02.846903+00:00",
+        "issue": 820,
+        "filed_at": "2026-08-08T12:34:35.243295+00:00"
       },
       "https://www.cncf.io/people/staff/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:14:02.846905+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:14:02.846905+00:00",
+        "issue": 821,
+        "filed_at": "2026-08-08T12:34:36.736701+00:00"
       },
       "https://www.cncf.io/online-programs/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:14:02.846906+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:14:02.846906+00:00",
+        "issue": 822,
+        "filed_at": "2026-08-08T12:34:38.422435+00:00"
       },
       "https://www.cncf.io/events/": {
         "status": "pending",
@@ -2785,9 +2801,21 @@
       "https://www.cncf.io/blog/2026/05/13/building-a-cloud-native-platform-from-the-ground-up-with-kairos-k0rdent-and-bindy": {
         "status": "pending",
         "screened_at": "2026-08-07T12:47:22.570626+00:00"
+      },
+      "https://www.cncf.io/blog/2026/05/12/a-decade-of-governance-cloud-custodian-at-10-and-its-role-in-the-agentic-ai-era": {
+        "status": "pending",
+        "screened_at": "2026-08-08T12:34:13.292022+00:00"
+      },
+      "https://www.cncf.io/blog/2026/05/11/how-to-get-engineering-time-back-from-kubernetes-upgrades": {
+        "status": "pending",
+        "screened_at": "2026-08-08T12:34:13.292037+00:00"
+      },
+      "https://www.cncf.io/blog/2026/05/08/benchmarking-ai-agent-retrieval-strategies-on-kubernetes-bug-fixes": {
+        "status": "pending",
+        "screened_at": "2026-08-08T12:34:13.292041+00:00"
       }
     },
-    "last_scan": "2026-08-07T12:47:22.570629+00:00"
+    "last_scan": "2026-08-08T12:34:13.292043+00:00"
   },
   "datadog-llm-obs": {
     "urls": {
@@ -2796,7 +2824,7 @@
         "screened_at": "2026-07-12T23:52:56.905756+00:00"
       }
     },
-    "last_scan": "2026-08-07T12:47:24.383057+00:00"
+    "last_scan": "2026-08-08T12:34:14.653567+00:00"
   },
   "langfuse-docs": {
     "urls": {
@@ -2925,7 +2953,7 @@
         "filed_at": "2026-07-23T13:33:58.953513+00:00"
       }
     },
-    "last_scan": "2026-08-07T12:47:25.846660+00:00"
+    "last_scan": "2026-08-08T12:34:15.955633+00:00"
   },
   "litellm-docs": {
     "urls": {
@@ -3420,16 +3448,22 @@
         "filed_at": "2026-08-07T12:47:58.940348+00:00"
       },
       "https://docs.litellm.ai/blog/tags/completion": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:44:44.495335+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:44:44.495335+00:00",
+        "issue": 823,
+        "filed_at": "2026-08-08T12:34:39.917697+00:00"
       },
       "https://docs.litellm.ai/blog/tags/compliance": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:44:44.495336+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:44:44.495336+00:00",
+        "issue": 824,
+        "filed_at": "2026-08-08T12:34:41.488206+00:00"
       },
       "https://docs.litellm.ai/blog/tags/context": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:44:44.495337+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:44:44.495337+00:00",
+        "issue": 825,
+        "filed_at": "2026-08-08T12:34:42.997377+00:00"
       },
       "https://docs.litellm.ai/blog/tags/cost": {
         "status": "pending",
@@ -4234,9 +4268,21 @@
       "https://docs.litellm.ai/docs/generateContent": {
         "status": "pending",
         "screened_at": "2026-08-07T12:47:33.868199+00:00"
+      },
+      "https://docs.litellm.ai/docs/guardrail_providers": {
+        "status": "pending",
+        "screened_at": "2026-08-08T12:34:21.503799+00:00"
+      },
+      "https://docs.litellm.ai/docs/guides": {
+        "status": "pending",
+        "screened_at": "2026-08-08T12:34:21.503815+00:00"
+      },
+      "https://docs.litellm.ai/docs/guides/code_interpreter": {
+        "status": "pending",
+        "screened_at": "2026-08-08T12:34:21.503817+00:00"
       }
     },
-    "last_scan": "2026-08-07T12:47:33.868202+00:00"
+    "last_scan": "2026-08-08T12:34:21.503821+00:00"
   },
   "promptfoo-docs": {
     "urls": {
@@ -4721,16 +4767,22 @@
         "filed_at": "2026-08-07T12:48:05.472846+00:00"
       },
       "https://www.promptfoo.dev/blog/tags/case-study/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:45:08.317059+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:45:08.317059+00:00",
+        "issue": 826,
+        "filed_at": "2026-08-08T12:34:44.501811+00:00"
       },
       "https://www.promptfoo.dev/blog/tags/code-scanning/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:45:08.317061+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:45:08.317061+00:00",
+        "issue": 827,
+        "filed_at": "2026-08-08T12:34:45.986517+00:00"
       },
       "https://www.promptfoo.dev/blog/tags/company-update/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:45:08.317062+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:45:08.317062+00:00",
+        "issue": 828,
+        "filed_at": "2026-08-08T12:34:47.497335+00:00"
       },
       "https://www.promptfoo.dev/blog/tags/compliance-framework/": {
         "status": "pending",
@@ -5543,8 +5595,20 @@
       "https://www.promptfoo.dev/docs/guides/evaluate-osworld-with-inspect": {
         "status": "pending",
         "screened_at": "2026-08-07T12:47:37.536934+00:00"
+      },
+      "https://www.promptfoo.dev/docs/guides/evaluate-rag": {
+        "status": "pending",
+        "screened_at": "2026-08-08T12:34:26.820978+00:00"
+      },
+      "https://www.promptfoo.dev/docs/guides/factuality-eval": {
+        "status": "pending",
+        "screened_at": "2026-08-08T12:34:26.820994+00:00"
+      },
+      "https://www.promptfoo.dev/docs/guides/google-cloud-model-armor": {
+        "status": "pending",
+        "screened_at": "2026-08-08T12:34:26.820996+00:00"
       }
     },
-    "last_scan": "2026-08-07T12:47:37.536937+00:00"
+    "last_scan": "2026-08-08T12:34:26.820998+00:00"
   }
 }
