@@ -689,6 +689,19 @@
       "confidence_overall": "settled",
       "status": "current"
     },
+    "docs-google-sre-configuration-design": {
+      "slug": "docs-google-sre-configuration-design",
+      "title": "Configuration Design and Best Practices — SRE Workbook Chapter 14",
+      "source_url": "https://sre.google/workbook/configuration-design",
+      "source_type": "documentation",
+      "author": "Štěpán Davidovič, with Niall Richard Murphy, Christophe Kalt, and Betsy Beyer",
+      "date_published": "2018",
+      "date_extracted": "2026-08-08",
+      "issue": "#815",
+      "file": "source-notes/docs-google-sre-configuration-design.md",
+      "confidence_overall": "settled",
+      "status": "current"
+    },
     "docs-google-sre-creating-production-launch-plan": {
       "slug": "docs-google-sre-creating-production-launch-plan",
       "title": "Creating a Production Launch Plan — O'Reilly SRE Report (Google)",

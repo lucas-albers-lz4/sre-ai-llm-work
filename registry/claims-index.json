@@ -3661,6 +3661,89 @@
         }
       ]
     },
+    "docs-google-sre-configuration-design": {
+      "path": "source-notes/docs-google-sre-configuration-design.md",
+      "title": "Configuration Design and Best Practices — SRE Workbook Chapter 14",
+      "source_url": "https://sre.google/workbook/configuration-design",
+      "chapters": [
+        "05",
+        "04",
+        "03",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Configuration is \"a human-computer interface for modifying system behavior\" — a low-overhead way to change system functionality distinct from code changes, and the quality of that interface impacts the organization's ability to run the system reliably",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "A good configuration interface allows quick, confident, testable changes — poor config UX increases mistakes, cognitive load, and learning curve, and config changes may need to be made under significant incident pressure",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The configuration-philosophy ideal is \"no configuration at all\" — the system auto-detects the correct configuration from deployment/workload/existing config, and the desirable direction is away from many tunables toward simplicity, reducing both the surface area for error and operator cognitive load",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "User-centric configuration (fewer knobs — answering config questions is a chore) is favored over infrastructure-centric (more knobs — tune to perfection), and limited configuration options can paradoxically lead to better adoption than extremely versatile software",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Minimize the number of mandatory configuration questions — convert them to optional questions with safe defaults — because the life of an engineer is \"an endless chain of individually small steps\" and the principled reduction of those steps dramatically improves productivity",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Defaults can be dynamic rather than static — threads default to the number of execution cores, JVM heap auto-tunes to container memory — so users don't need to be asked; if a significant portion of users report problems with dynamic defaults, the decision logic no longer matches the user base",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Default choice matters because \"most users will use the default\" — the default is both a chance and a responsibility, and designating the wrong default does a lot of harm (opt-in vs. opt-out organ-donor example); remove optional questions with no clear use case rather than accumulating knobs",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "\"Escaping simplicity\" means supporting power users via optional overrides layered on high-level, user-goal-near defaults — not a lowest-common-denominator default — and optimizing for the sum of hours spent configuring across the organization",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Separate the configuration interface from the resulting data — infrastructure operates on plain static data (Protocol Buffers, YAML, JSON) while users interact with a higher-level interface (DSL, Jsonnet, or a UI) that compiles to that data; the static data can then be queried/analyzed (e.g., which config parameters are used and by whom)",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Store provenance metadata about how configuration was ingested (author, source path before compilation) so config authors can be tracked down; avoid tight coupling between the interface data format and the internal data format",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Semantic (not just syntactic) validation can prevent outages — for every possible misconfiguration, ask whether it can be prevented \"at the moment the user commits\" — and tooling (syntax highlighting, linters, autoformatters) is the difference between \"a chaotic nightmare and a sustainable and scalable system\"",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "Each configuration snippet must have a clear owner; configuration must be versioned regardless of how it is ingested (files, web UI, or APIs); and config edits should be logged so that during incident response the full set of config edits in a change can be determined — enabling confident rollbacks and notification of affected parties",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "For a configuration change to be safe it must have three properties — (1) gradual deployment avoiding an all-or-nothing change, (2) the ability to roll back, and (3) automatic rollback (or at minimum stopping progress) if the change leads to loss of operator control; rollability requires hermeticity",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "Configuration design should be purposeful — it \"carries aspects of both API and UI design\" — not a side effect of system implementation; the worked Canary Analysis Service example spent about a month reducing mandatory questions and finding good defaults, producing a widely adopted system with little need for support",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-google-sre-creating-production-launch-plan": {
       "path": "source-notes/docs-google-sre-creating-production-launch-plan.md",
       "title": "Creating a Production Launch Plan — O'Reilly SRE Report (Google)",
