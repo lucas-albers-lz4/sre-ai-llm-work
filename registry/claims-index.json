@@ -3930,6 +3930,109 @@
         }
       ]
     },
+    "docs-google-sre-data-processing-pipelines": {
+      "path": "source-notes/docs-google-sre-data-processing-pipelines.md",
+      "title": "Data Processing Pipelines — SRE Workbook Chapter 13",
+      "source_url": "https://sre.google/workbook/data-processing",
+      "chapters": [
+        "05",
+        "02",
+        "04",
+        "03"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Pipeline data-freshness SLOs come in three standardized formats — \"X% of data processed in Y\", \"the oldest data is no older than Y\", or \"the pipeline job has completed successfully within Y\"",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Data-correctness SLOs need a defined \"correct\" output, and when none exists you generate one — \"golden data\" from test accounts — then compare expected vs actual and alert on discrepancies; backward-looking correctness targets are an alternative",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Data isolation / load balancing — under resource constraints, higher-priority data must be processed before lower-priority data via separate queues or jobs, and work that fails on lower-provisioned workers can be retried on higher-provisioned ones",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Per-stage SLO measurement misses end-to-end corruption — a field dropped at one stage that a downstream stage silently ignores leaves both stages \"correct\" per their own metrics while the user never sees the data",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Plan for dependency failure by designing for at least the largest failure in a dependency's advertised SLA — and Google stages DiRT regional-outage tests; an unplanned manual failover risks continuing to process stale data",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Pipeline documentation has three categories — system diagrams with live per-stage status links, process documentation (document the task, then automate away any manual work), and a playbook entry linked in every alert",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The pipeline development lifecycle runs prototype → 1% dry run on production data → staging (A/B vs known-good output) → canary (skip production writes; two-phase mutation) → partial deployment by data subset (~1%/10%/50%/100%) → production with rollback and mark-bad-data",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The Dressy ML recommender pipeline is a canonical streaming-preprocess → train → accuracy-gated promotion → serve flow, and its >24h stale-model failure gives a three-question diagnostic for ML pipeline health",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Two-phase mutations stage mutations in a temporary location, validate them in a separate verification step, and apply them only after validation passes — the canonical source of the pattern; exactly-once semantics are unneeded when work units are idempotent",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Checkpointing lets long-running pipelines periodically save partial state and resume later — especially important for AI models where each iteration depends on previous calculations, and useful for preemption/rescheduling as well as failure",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Hotspotting mitigation — block fine-grained records so the rest of the pipeline can progress, let the framework dynamically rebalance, and build an emergency-shutdown flag into client logic to skip problematic input",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "Autoscaling and resource planning — don't provision for peak load, do measure end-to-end SLOs but per-stage efficiency/resource usage, and account for cross-region storage/network costs and unused-data pruning",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "The pipeline maturity matrix scores five characteristics (failure tolerance, scalability, monitoring and debugging, transparency/ease of implementation, unit and integration testing) on a 1-5 scale from \"Chaotic\" to \"Continuous improvement\" — a PRR-style rubric for evaluating pipeline technology",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "For delayed data, \"stale data is almost always better than incorrect data\" — a pipeline should stall and wait for data rather than process incomplete/corrupt input, since errors propagate downstream; batch stages wait for predecessors while streaming event-time processing can start partial work",
+          "kind": "claim"
+        },
+        {
+          "n": 15,
+          "heading": "Corrupt-data recovery has two steps — mitigate (prevent further corrupt data entering) then restore from a known-good version or reprocess; selective reprocessing and checkpoints reduce the cost, and the common failure causes are pipeline dependencies, application/config bugs, unexpected resource growth, and region-level outages",
+          "kind": "claim"
+        },
+        {
+          "n": 16,
+          "heading": "Spotify's event delivery system measures health with three SLO types on hourly buckets — timeliness, skewness, completeness — computed from server-side timestamps, with full event-type isolation and deliberately no data-quality SLO (the \"postal service\" model)",
+          "kind": "claim"
+        },
+        {
+          "n": 17,
+          "heading": "Spotify's GCE Autoscaler can scale indefinitely on CPU usage that doesn't correlate with work — fixed with max-instance limits, restricted daemon CPU, and aggressive throttling of no-useful-work CPU; capacity planning keeps a 50% peak-CPU safety margin",
+          "kind": "claim"
+        },
+        {
+          "n": 18,
+          "heading": "Spotify ships via conservative staged deployments with manual approval gates and a testing pyramid, and incident handling forbids new changes mid-incident except rolling back recently deployed code",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-google-sre-dealing-with-interrupts": {
       "path": "source-notes/docs-google-sre-dealing-with-interrupts.md",
       "title": "Google SRE: Dealing with Interrupts — SRE Book Chapter 29 + Interrupt Reduction Projects Paper",

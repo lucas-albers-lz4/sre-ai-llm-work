@@ -728,6 +728,19 @@
       "confidence_overall": "settled",
       "status": "current"
     },
+    "docs-google-sre-data-processing-pipelines": {
+      "slug": "docs-google-sre-data-processing-pipelines",
+      "title": "Data Processing Pipelines — SRE Workbook Chapter 13",
+      "source_url": "https://sre.google/workbook/data-processing",
+      "source_type": "docs",
+      "author": "Rita Sodt and Igor Maravić (Spotify), with Gary Luo, Gary O'Connor, and Kate Ward",
+      "date_published": "2018",
+      "date_extracted": "2026-08-08",
+      "issue": "#817",
+      "file": "source-notes/docs-google-sre-data-processing-pipelines.md",
+      "confidence_overall": "settled",
+      "status": "current"
+    },
     "docs-google-sre-dealing-with-interrupts": {
       "slug": "docs-google-sre-dealing-with-interrupts",
       "title": "Google SRE: Dealing with Interrupts — SRE Book Chapter 29 + Interrupt Reduction Projects Paper",
