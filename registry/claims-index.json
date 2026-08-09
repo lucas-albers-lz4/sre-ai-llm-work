@@ -4207,6 +4207,114 @@
         }
       ]
     },
+    "docs-google-sre-engagement-model": {
+      "path": "source-notes/docs-google-sre-engagement-model.md",
+      "title": "Google SRE: SRE Engagement Model — SRE Workbook Chapter 18",
+      "source_url": "https://sre.google/workbook/engagement-model",
+      "chapters": [
+        "04",
+        "00",
+        "02",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Given a large production landscape, an SRE team cannot cover every service and must decide where to focus its attention to achieve the best results; the microservices movement makes this scarcity acute",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The SRE model is less effective when the domain is too large and overly complex, so engagement focus must be actively managed rather than assumed",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "During Phase 1 (Architecture and Design), SRE can influence design five ways (best practices, infrastructure dos/don'ts, early-engagement consulting, joining the dev team, codesigning) because fixing architectural mistakes becomes more difficult later in the development cycle",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "During Phase 2 (Active Development), SRE productionalizes the service — capacity planning, redundancy, spike/overload handling, load balancing, and sustainable operational practices (monitoring, alerting, performance tuning)",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "SRE strongly recommends defining SLOs before General Availability so service teams have an objective reliability measure, with the product team retaining the option to withdraw a product that can't meet target reliability",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "During Phase 3 (Limited Availability), operational and incident work should be shared between developer and SRE teams so the developer team gains operational experience with the service before GA",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "During Phase 4 (GA), the developer team should continue to field a small part of all operational and incident work so it doesn't lose perspective, and might permanently include one developer in the on-call rotation",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The incentives-alignment mechanism is the explicit pledge \"We will support you in releasing as quickly as is safe\" — where \"safe\" generally means staying within error budget — balanced by the developer team's commitment of a reasonable percentage of engineering time to reliability work",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The New York Times shared-goals model offers two engagement types — a full-time embed of an SRE in a product development team, or part-time engagement on fairly brief and constrained projects — chosen based on SRE bandwidth",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "NYT shared-goal principles: application owners (not SREs) are directly responsible for application changes; new automation/tooling must benefit the whole company (no one-off scripts); SREs are not traditional operations engineers and do not do manual support work",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "NYT engagements begin with a kickoff and planning meeting, define shared goals jointly with milestones (epics/stories), run development cycles and retrospectives, and require a defined feedback loop (e.g., biweekly retrospective or manager check-in) outside Agile sprint reviews",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "The NYT measures engagement impact with a point-in-time maturity assessment (walking a maturity matrix across axes like observability, capacity planning, change management, incident response) before and after the engagement, to verify SREs are doing high-value work",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "Every Google SRE team has two major goals — short-term (operationally stable, available, scaling service) and long-term (optimize operations until ongoing human work is no longer needed, so the team can move on to the next high-value engagement) — supported by agreed cooperation principles (hard limit on operational work, measured SLO, quarterly error budget, developer involvement in daily operations)",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "If a service is in danger of missing its SLO or has exhausted its error budget, both teams work with high priority on tactical and strategic fixes; if a service is well within SLO with ample error budget, the spare budget should be used to increase feature velocity rather than spent on overproportional service improvements",
+          "kind": "claim"
+        },
+        {
+          "n": 15,
+          "heading": "Google generally maintains an SRE-to-developer ratio of < 10%, so one SRE team commonly works with multiple developer teams in its product area; limited SRE resources can scale to many services if the services share a single product, similar tech stacks, and the same (or few) developer teams",
+          "kind": "claim"
+        },
+        {
+          "n": 16,
+          "heading": "With multiple SRE teams, organize SRE teams by technology rather than by developer PA reporting structure to prevent churn during developer reorgs; and when a team has too many services, prefer sharding the existing team over building new teams from scratch",
+          "kind": "claim"
+        },
+        {
+          "n": 17,
+          "heading": "SRE engagements aren't necessarily indefinite — consider handing a service back when it has been optimized to no longer need ongoing SRE engagement, when its importance has diminished, or when it is reaching end of life",
+          "kind": "claim"
+        },
+        {
+          "n": 18,
+          "heading": "Case Study 2 (Data Analysis Pipeline): when the value of an SRE relationship declines, disbanding the SRE team and giving the developer team full control over old and new system work resolved a decade-long tension — but a communication breakdown between the SRE team maintaining the old system and the dev team building the replacement was the proximate cause of the disconnect",
+          "kind": "claim"
+        },
+        {
+          "n": 19,
+          "heading": "The conclusion ties engagement management to reliability outcomes: \"investing in aligning team goals and understanding each other's objectives is as important as defending SLOs\"",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-google-sre-handling-overload": {
       "path": "source-notes/docs-google-sre-handling-overload.md",
       "title": "Google SRE: Handling Overload — SRE Book Update Hub (Workbook Ch11 + Load Shedding Blog)",
