@@ -30,6 +30,13 @@
       "max_per_run": 3
     },
     {
+      "id": "cncf-case-studies",
+      "url": "https://www.cncf.io/case-studies/",
+      "scope": "CNCF case studies with technical substance: cloud-native reliability, platform engineering, SRE practice, AI/ML workload operations, migration and infra patterns — skip vendor-promo fluff and generic company announcements. Favor practitioner evidence (architecture, metrics, incident/failure details) over marketing narrative.",
+      "source_type": "blog-post",
+      "max_per_run": 3
+    },
+    {
       "id": "datadog-llm-obs",
       "url": "https://docs.datadoghq.com/llm_observability/",
       "scope": "LLM tracing, evals, token/cost monitoring, production agent observability — skip general Datadog product setup unrelated to LLM ops",
