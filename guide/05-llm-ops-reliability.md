@@ -76,6 +76,30 @@ framework.
 on migration success; containerized DB migrations need explicit non-root-user
 testing that migration frameworks don't cover.
 
+### Zero-regression commitment as a reliability practice
+
+A reliability commitment is only worth making if it is falsifiable. LiteLLM's
+June townhall commitment named exactly what "zero reported regressions by
+August 29th" means
+[source: blog-litellm-june-townhall-updates, Claim 2] [emerging]:
+
+```
+The goal:
+- Close 20 reported bugs in core functionality.
+- Fix root causes in 3 high-impact components.
+- Ship a public progress report alongside the August 29 release.
+```
+*From [source: blog-litellm-june-townhall-updates, Concrete Artifacts].*
+
+The same report backed the commitment with execution data — 94 bugs fixed across
+five areas (proxy core, UI/auth/SSO, cost/budgets/observability, MCP gateway,
+streaming/realtime APIs)
+[source: blog-litellm-june-townhall-updates, Claim 1] [settled].
+
+**Rule**: State reliability targets with a count, a named component, and a
+public date — "close 20 bugs, fix 3 root causes, publish by August 29" — so the
+commitment can be verified or refuted when the date arrives.
+
 ## Model enablement and the cost-map reload pattern
 
 New LLM models often become available through a gateway config reload rather
@@ -292,6 +316,90 @@ credential or release path
 **Rule**: Isolate CI/CD stages by blast radius. A release should be
 verifiable independently of any single credential that touched the build.
 
+### Prompt compression as a cost-optimization layer
+
+Prompt compression is a distinct cost lever from caching, model selection, and
+batching, and it belongs at the gateway as a fail-open sidecar — not client-side
+tooling. LiteLLM integrates Headroom as a sidecar guardrail invoked via the
+`pre_call` hook; clients and the LLM provider never interact with it directly,
+so adoption is zero-client-change
+[source: blog-litellm-headroom-integration, Claim 1] [settled].
+
+The sidecar fails open: if Headroom goes down, LLM calls are unaffected
+(uncompressed but functional)
+[source: blog-litellm-headroom-integration, Claim 2] [emerging]. That is the
+right posture for a non-critical optimization guardrail — critical guardrails
+(auth, rate limiting) must fail closed instead.
+
+```yaml
+guardrails:
+  - guardrail_name: headroom-compression
+    litellm_params:
+      guardrail: headroom
+      mode: pre_call
+      api_base: https://your-headroom-service
+#     api_key: os.environ/HEADROOM_API_KEY  [OPTIONAL]
+#     default_on: true [OPTIONAL]
+```
+*From [source: blog-litellm-headroom-integration, Concrete Artifacts].*
+
+**Rule**: Deploy compression as a fail-open sidecar behind the gateway's
+pre-call hook, not inline middleware on the request path.
+
+#### Roll out via key binding, not client config
+
+The production rollout pattern is admin-to-developer key handoff: the admin
+binds the compression guardrail to per-developer virtual keys, and developers
+point Claude Code at the proxy via `ANTHROPIC_BASE_URL` with no code changes.
+Individual calls can bypass compression with an `x-headroom-bypass: true` header
+[source: blog-litellm-headroom-integration, Claim 7] [settled].
+
+```bash
+curl -X POST 'http://0.0.0.0:4000/key/generate' \
+  -H 'Authorization: Bearer sk-1234' \
+  -H 'Content-Type: application/json' \
+  -d '{
+        "key_alias": "claude-code-alice",
+        "guardrails": ["headroom-compression"],
+        "models": ["claude-sonnet-4"],
+        "metadata": {"team": "claude-code-rollout"}
+      }'
+```
+*From [source: blog-litellm-headroom-integration, Concrete Artifacts].*
+
+**Rule**: Roll out proxy-level compression by binding the guardrail to virtual
+keys — the admin controls which requests get compressed, developers get it for
+free, and exceptions bypass per-request.
+
+#### Verify the defaults before trusting the savings
+
+Headroom protects two message types by default: `user`/`system` messages are
+not compressed without `HEADROOM_COMPRESS_USER_MESSAGES=1`, and messages with
+Anthropic `cache_control` markers are never compressed
+[source: blog-litellm-headroom-integration, Claim 8] [settled]. Most Claude Code
+traffic is `user` role, so a default deployment compresses none of it.
+
+The headline 60-95% token-reduction range is a vendor claim with no independent
+benchmark methodology disclosed
+[source: blog-litellm-headroom-integration, Claim 4] [anecdotal]. Treat it as a
+directional signal, not a planning figure.
+
+**Rule**: Verify your traffic's role distribution and set
+`HEADROOM_COMPRESS_USER_MESSAGES=1` if you ship `user`-role messages; size the
+expected savings from your own measurement, not the vendor range.
+
+#### Pin the gateway version and check client tool support
+
+The integration carries two user-documented constraints: the guardrail requires
+LiteLLM v1.92.x (earlier versions raise `ValueError: Unsupported guardrail:
+headroom`), and the `retrieve_headroom` full-context-recovery tool is not
+exposed to every client
+[source: blog-litellm-headroom-integration, Claim 9] [settled].
+
+**Rule**: Pin the gateway version when adopting a guardrail integration, and
+verify lossy-compression recovery tools are actually exposed to your clients
+before relying on them.
+
 ## Gateway proxy performance
 
 ### BaseHTTPMiddleware creates 7 objects per request — even on no-ops
@@ -477,5 +585,6 @@ blog-litellm-claude-fable-5-day-0, blog-litellm-agents-are-the-new-llms,
 failure-litellm-wildcard-model-access-desync, blog-promptfoo-asr-not-portable-metric,
 blog-litellm-fastapi-middleware-performance, blog-litellm-claude-opus-4-7-day-0,
 blog-litellm-claude-opus-4-8-day-0, blog-litellm-gemini-3-5-flash-day-0,
-blog-litellm-gemini-3-flash-day-0, failure-litellm-proxy-sql-injection-cve-2026-42208*
-*Last updated: 2026-07-23*
+blog-litellm-gemini-3-flash-day-0, failure-litellm-proxy-sql-injection-cve-2026-42208,
+blog-litellm-headroom-integration, blog-litellm-june-townhall-updates*
+*Last updated: 2026-08-11*
