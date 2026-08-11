@@ -76,86 +76,110 @@ framework.
 on migration success; containerized DB migrations need explicit non-root-user
 testing that migration frameworks don't cover.
 
-## Batch data pipelines
+## Canary and config-change release
 
-LLM-ops data work — eval-data refresh, embedding/index backfills, batch
-inference, training-data preprocessing — is batch work and carries batch-job
-reliability obligations. Google explicitly names ML preprocessing as a
-canonical batch-job use case [source:
-docs-google-sre-reliable-data-processing-minimal-toil, Claim 4] [settled].
-Neglected batch jobs become "haunted graveyards" — reliable for years, then
-unsafe, with no monitoring, alerting, or rollout support [source:
-docs-google-sre-reliable-data-processing-minimal-toil, Claim 1] [settled].
+### A canary is a process, not a traffic fraction
 
-### Correctness vs. freshness SLOs
-
-Data processing is reliable when well-reasoned SLOs are met, and the two
-kinds are distinct: the freshness SLO ("Did the job complete in time?") and
-the correctness SLO ("Did the job produce the correct results?") — a job
-meeting freshness is not necessarily safe [source:
-docs-google-sre-reliable-data-processing-minimal-toil, Claim 6] [settled].
-For LLM eval pipelines this is "did the eval batch complete on time" vs. "did
-it produce correct labels."
-
-**Rule**: Declare both SLOs for every data pipeline. Freshness alone — the
-eval ran on schedule — says nothing about whether the labels are still right
-[source: docs-google-sre-reliable-data-processing-minimal-toil, Claim 6]
+Canarying is "a partial and time-limited deployment of a change in a service
+and its evaluation." A real canary process has three requirements: a method to
+deploy the change to a subset of the population, an evaluation process that
+judges the canary good or bad, and integration of that evaluation into the
+release process [source: docs-google-sre-canarying-releases, Claim 1, Claim 2]
 [settled].
 
-### The safety-level framework for dataset changes
+An LLM model canary that routes 5% of traffic but has no automated evaluation
+or no pipeline integration is only one-third of a canary process.
 
-Change risk is classified by how much data a single run modifies — four
-safety levels, where Level 3 means "no humans are involved in the phased
-rollout" [source: docs-google-sre-reliable-data-processing-minimal-toil,
-Claim 7] [settled]. Changes ship through a three-stage release pipeline —
-Autopush, Staging, Production — promoted on a fixed schedule when release
-certifications pass, and the code-deployment schedule is deliberately
-decoupled from the job-run schedule [source:
-docs-google-sre-reliable-data-processing-minimal-toil, Claim 9] [settled]. A
-dry run — the job skips its writing phase — contains an error to a single
-binary [source: docs-google-sre-reliable-data-processing-minimal-toil,
-Claim 10] [settled].
+**Rule**: Every model/prompt/agent release tier must specify all three
+components — the deploy-to-subset method, the evaluation, and how the
+evaluation feeds the go/no-go decision.
 
-**Rule**: Route dataset and model-promotion changes through the staged
-pipeline with dry-runs. A change that mutates the whole corpus in one run
-(Level 0) is the batch equivalent of a one-shot fleet-wide config push
-[source: docs-google-sre-reliable-data-processing-minimal-toil, Claim 9,
-Claim 10] [settled].
+### Size the canary against the error budget
 
-### Canary on populations, not traffic
+Error-budget impact is directly proportional to the traffic exposed to
+defects: a 5% canary at a 20% error rate yields a 1% overall error rate,
+conserving the budget while learning about the new version
+[source: docs-google-sre-canarying-releases, Claim 6] [settled]. Use the
+simplest sizing model that meets your objectives — over-investing in model
+correctness leads to endless tuning for no real benefit
+[source: docs-google-sre-canarying-releases, Claim 7] [settled].
 
-Batch canarying must be based on segmented populations (users, customers, or
-any logical object in the data model), not traffic segmentation — implemented
-via a startup parameter such as `hash(userid) mod 10 == 0` for a "10% prod"
-canary [source: docs-google-sre-reliable-data-processing-minimal-toil,
-Claim 13] [settled]:
+**Rule**: Price a model promotion as failure rate × exposed traffic fraction
+against the error budget. A new model version with a 20% refusal spike canaried
+to 5% of traffic costs 1% overall error budget.
 
-```
-Startup parameter:  --subset=alpha-users
-Canary filter:      process only records where hash(userid) mod 10 == 0
-                    ("10% prod")
-Target ladder:      canary-for-developers-team → canary-for-employees →
-                    canary-production-1%-free-users
-```
+### Ramp gradually on the clearest signals
 
-**Rule**: Canary an embedding backfill or eval-dataset refresh on a
-hash-defined slice of the corpus before full promotion, and keep jobs
-idempotent so the canary output is comparable to the production run [source:
-docs-google-sre-reliable-data-processing-minimal-toil, Claim 13] [settled].
+Use a gradual multi-stage canary: a small first stage evaluated on the clearest
+failure indicators (application crashes, request failures), then progressively
+larger stages to build confidence [source: docs-google-sre-canarying-releases,
+Claim 14] [settled].
 
-### Automated validation gates must not cry wolf
+**Rule**: Stage model promotion so the tiny first stage watches only
+crash/refusal/error-rate signals, and add the full metric set only at larger
+traffic shares.
 
-Promotion checks should be automated, but validation design must minimize
-false positives — a job incorrectly flagged as unstable requires manual
-investigation and introduces rollout delays. Compare counters with ranges or
-percentages rather than exact numbers, and A/B the new version in dry-run
-mode on the exact same input [source:
-docs-google-sre-reliable-data-processing-minimal-toil, Claim 11] [settled].
+### The monitoring must exist before the canary
 
-**Rule**: Make your eval gate insensitive enough to avoid paging a human on
-every score wobble. An over-sensitive validation produces exactly the manual
-investigation toil the framework is meant to remove [source:
-docs-google-sre-reliable-data-processing-minimal-toil, Claim 11] [settled].
+Canary-vs-control evaluation requires fine-grained metric breakdowns — at
+aggregate level a small canary is indistinguishable from other sources of
+errors — and metric aggregation intervals must be the same as or less than the
+canary duration [source: docs-google-sre-canarying-releases, Claim 17]
+[settled].
+
+**Rule**: Before canarying a model, verify the gateway can break metrics down
+per model version at granularity finer than the canary window. If it can't, a
+5% model canary is invisible.
+
+### One canary at a time
+
+Canary duration should track release cadence, and only one canary deployment
+should run at a time — overlapping canaries increase the risk of signal
+contamination [source: docs-google-sre-canarying-releases, Claim 8] [settled].
+
+**Rule**: Serialize model/prompt promotions. Two overlapping model canaries
+whose error signals can't be attributed to either are worse than none.
+
+### Rollback is a required property, not an option
+
+A deployment that cannot roll back forces patch-and-redeploy during the
+outage, almost certainly prolonging user impact; a canary with an error-rate
+evaluation enables pausing and rolling back a bad deployment
+[source: docs-google-sre-canarying-releases, Claim 5] [settled].
+
+**Rule**: A release tier without a rollback path is implicitly choosing
+patch-during-outage recovery. Rollback must be exercised, not just present.
+
+### Config changes need their own three-property test
+
+For a configuration change to be safe it must have three properties: gradual
+deployment avoiding an all-or-nothing change, the ability to roll back, and
+automatic rollback (or at minimum stopping progress) if the change leads to
+loss of operator control. Rollability requires hermeticity — configuration
+that references external resources that can change outside its hermetic
+environment "can be very hard to roll back"
+[source: docs-google-sre-configuration-design, Claim 13] [settled].
+
+This is the pre-canary prerequisite: the canary mechanics above are the
+rollout layer, and a config change that cannot be applied gradually or rolled
+back cannot be canaried at all.
+
+**Rule**: Run every prompt/model/gateway/flag config change through the
+gradual + rollback + auto-stop test before it enters a canary. A prompt config
+that references a mutable external dataset is not hermetic and therefore not
+safely rollable.
+
+### Evaluation must stay separate from side effects
+
+Interleaving configuration evaluation with side effects — consulting DNS, VM
+IDs, or live build versions during a config run — violates hermeticity and
+prevents separating config from data; the correct order is to evaluate first,
+make the resulting data available for analysis, and only then allow side
+effects [source: docs-google-sre-configuration-specifics, Claim 6] [settled].
+
+**Rule**: Reject prompt/gateway config that embeds live lookup results (a
+freshly fetched model price, today's date, a current token count) at
+generation time. Non-hermetic config is non-replayable and non-rollable.
 
 ## Model enablement and the cost-map reload pattern
 
@@ -377,5 +401,6 @@ verifiable independently of any single credential that touched the build.
 *Sources for this chapter: blog-litellm-april-townhall-updates,
 blog-litellm-claude-fable-5-day-0, blog-litellm-agents-are-the-new-llms,
 failure-litellm-wildcard-model-access-desync, blog-promptfoo-asr-not-portable-metric,
-docs-google-sre-reliable-data-processing-minimal-toil*
-*Last updated: 2026-08-06*
+docs-google-sre-canarying-releases, docs-google-sre-configuration-design,
+docs-google-sre-configuration-specifics*
+*Last updated: 2026-08-08*
