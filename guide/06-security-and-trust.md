@@ -334,9 +334,191 @@ MCP servers were consulted, what sub-agents were invoked — as structured,
 queryable audit records. This is the evidence an auditor or compliance
 questionnaire will ask for.
 
+## Prompt injection: what it is and isn't
+
+### Jailbreaking ≠ prompt injection
+
+Jailbreaking and prompt injection are distinct attack classes that share
+confusable terminology but operate across different trust boundaries
+[source: blog-promptfoo-jailbreaking-vs-prompt-injection, Claim 4] [emerging]:
+
+| Attack type | Target | Mechanism | Trust boundary violated |
+|-------------|--------|-----------|------------------------|
+| Jailbreaking | Model safety training | Persuade model to bypass its own RLHF/refusal training via crafted prompts | Model ↔ safety training |
+| Direct prompt injection | Application prompt | Override system prompt instructions with user input | User input ↔ system prompt |
+| Indirect prompt injection | Application via external data | Inject instructions into content the agent fetches (web pages, emails, docs) | External content ↔ agent tooling |
+
+> The key difference: Jailbreaking stays within the model's text generation.
+> Prompt injection escapes to compromise privileged system components because
+> your application trusts the model's output.
+
+Jailbreaking is a model-safety problem (the model shouldn't generate harmful
+content). Prompt injection is an application-security problem (the system
+shouldn't execute attacker-controlled instructions). Conflating them leads to
+defending the wrong surface: model-level safety training doesn't prevent
+prompt injection, and output filtering doesn't prevent jailbreaks.
+
+**Rule**: Classify every attack finding as jailbreak or injection before acting
+on it. Jailbreak findings go to model selection and guardrail tuning; injection
+findings go to tool permission audits, input sanitization, and egress filtering.
+
+### Prompt injection cannot be sanitized — the output IS the action
+
+Traditional injection (SQL, XSS) can be sanitized at the input boundary: escape
+special characters, use parameterized queries, validate input format. Prompt
+injection resists this pattern because the LLM "launders" untrusted input
+through its own generation into output that "looks and feels safe" but still
+encodes the attack. If an LLM output IS a shell command or database query, you
+cannot sanitize it — "the entire thing is untrusted"
+[source: blog-promptfoo-building-security-scanner-llm-apps, Claim 2] [emerging].
+
+> The LLM "launders" the untrusted input into an output that looks and feels
+> safe, but really isn't.
+
+General security scanners cannot effectively detect LLM injection paths because
+they rely on a sanitization shortcut: flag any string passed unsanitized to a
+privileged action, because best practice is to sanitize every input regardless.
+For LLM apps, this shortcut breaks down — if we flagged every instance of an
+LLM output used for a privileged action without sanitization, "we'd drown
+developers in unhelpful alerts"
+[source: blog-promptfoo-building-security-scanner-llm-apps, Claim 5] [emerging].
+
+The practical consequence: "no model or filter today can reliably distinguish
+instructions from data in untrusted content. Production AI systems need layered
+defenses: privilege restriction, egress filtering, and output validation"
+[source: blog-promptfoo-jailbreaking-vs-prompt-injection, Claim 9] [emerging].
+
+**Rule**: Do not rely on model-level safety training or output filtering to
+prevent prompt injection. The defense must be at the tool/permission layer:
+agents should not have the *capability* to take the actions an injection
+attempts to trigger. An agent that cannot execute shell commands is immune to
+injection attacks that produce shell commands.
+
+### The "deadly duo": untrusted content + privileged actions
+
+Simon Willison's "lethal trifecta" (access to private data + exposure to
+untrusted content + ability to externally communicate) captures data
+exfiltration risk. But destructive actions require only two: "Exposure to
+untrusted content + privileged actions is enough to create a vulnerability even
+without access to private data" — destructive SQL, system compromises, and
+crypto-wallet emptying all fall into this category
+[source: blog-promptfoo-building-security-scanner-llm-apps, Claim 4] [emerging].
+
+**Rule**: Audit agent tool inventories for the deadly duo. Any tool that
+combines untrusted-content exposure with a privileged action (database queries,
+shell commands, API calls with side effects) is a prompt-injection target
+regardless of whether the agent has access to private data.
+
+## Indirect prompt injection in web agents
+
+### Semantic embedding defeats instruction hierarchy
+
+Web-browsing agents face a distinct injection surface: any content on the open
+web becomes a potential attack vector when the agent's `web_fetch` tool ingests
+it. The most effective technique is semantic embedding — the payload is written
+as natural prose that blends with legitimate content, making it structurally
+indistinguishable from "content to summarize" vs. "instructions to follow"
+[source: blog-promptfoo-indirect-prompt-injection-web-agents, Claim 6,
+Claim 7] [emerging].
+
+> This is the hardest for models to defend against. There's no structural
+> signal that it's an injection. The model can't distinguish "content to
+> summarize" from "instructions to follow" when both look like normal prose.
+
+> In our testing, semantic embedding has the highest success rate even against
+> Claude and Gemini — because the payload doesn't look like an injection. It
+> looks like advice.
+
+This challenges the implicit assumption that safety-trained models are broadly
+injection-resistant. They are resistant to *obvious* injection (HTML comments,
+delimited blocks) but not to *subtle* injection (natural-language instructions
+embedded in prose).
+
+**Rule**: Test web-browsing agents against semantic-embedding injection, not
+just delimiter-based injection. An agent that passes "ignore previous
+instructions" tests may still follow prose-embedded directives silently.
+
+### CSS invisible-text injection exploits the preprocessing layer
+
+CSS-hidden content (`display:none` divs containing injection payloads) passes
+through preprocessing pipelines as plain text. The vulnerability is not in the
+model — it's in the content-extraction layer that strips HTML structure but
+retains hidden text
+[source: blog-promptfoo-indirect-prompt-injection-web-agents, Claim 5]
+[emerging].
+
+> This works against nearly every agent pipeline we've tested. It doesn't
+> matter which model you're using if the preprocessing step hands it a
+> display:none div as plain text.
+
+**Rule**: Add CSS-hidden-content stripping to your web-content preprocessing
+pipeline. The agent should never receive content from elements with
+`display:none`, `visibility:hidden`, `opacity:0`, or `aria-hidden="true"`.
+Test this independently of model selection — the defense sits in the tool layer,
+not the model layer.
+
+## Invisible Unicode attacks
+
+### Zero-width character encoding
+
+A deterministic, reversible encoding scheme uses four standard Unicode
+codepoints to embed arbitrary instructions that are invisible to humans but
+processed normally by LLM tokenizers: U+200B (Zero Width Space) as start
+marker, U+200C (Zero Width Non-Joiner) for "0" bits, U+2063 (Invisible
+Separator) for "1" bits, and U+200D (Zero Width Joiner) as end marker
+[source: blog-promptfoo-invisible-unicode-threats, Claim 1] [emerging].
+
+> While these characters are invisible to humans, LLMs see them as distinct,
+> valid Unicode characters in the input stream.
+
+Modern LLM tokenizers do not strip zero-width characters because they are valid
+Unicode. For coding assistants that ingest entire configuration files (CLAUDE.md,
+Cursor `.mdc`), this is directly exploitable: an attacker can embed instructions
+that render as blank space to a human reviewer but read as commands to the model.
+
+Demonstrated payloads against Cursor `.mdc` rules files include: INJECT (add
+malicious instructions to generated code), LEAK (exfiltrate environment
+variables), BYPASS (disable security checks), and SKIP (skip code review)
+[source: blog-promptfoo-invisible-unicode-threats, Claim 4] [emerging].
+
+**Rule**: Strip zero-width Unicode characters (U+200B–U+200F, U+2028, U+2029,
+U+2060–U+2064, U+FEFF) from all untrusted input before it reaches an LLM. Add
+a pre-commit hook that checks configuration files (CLAUDE.md, `.mdc`, agent
+instructions) for invisible characters. A file that looks clean to a human
+reviewer may carry hidden payloads.
+
+## Gateway infrastructure security
+
+### SQL injection in LLM gateway auth paths
+
+CVE-2026-42208 (CVSS 9.3 Critical) demonstrated that LLM API gateways carry the
+same injection vulnerabilities as any web application. A non-parameterized
+database query in LiteLLM's proxy API key validation path allowed an
+unauthenticated attacker to reach the database through a crafted
+`Authorization` header on any LLM API route
+[source: failure-litellm-proxy-sql-injection-cve-2026-42208, Concrete Artifacts]
+[settled].
+
+The injection was reachable through the error-handling path — the proxy's catch
+block received the malformed token and constructed a query from it before
+validating it. Error-handling code paths are the most likely to use
+non-parameterized queries because they're written for diagnostic purposes and
+not scrutinized as attack surface.
+
+**Rule**: Audit every database query in your LLM gateway for parameterization,
+including queries in error handlers, logging paths, and diagnostic code. The
+proxy's database user should use a read-only role scoped to the minimum tables
+needed for auth validation. Separate credential storage to a different database
+that the proxy's hot path does not query.
+
 ---
 *Sources for this chapter: blog-promptfoo-ai-orchestrated-cyberattacks,
 blog-promptfoo-ai-regulation-2025, blog-promptfoo-asr-not-portable-metric,
 blog-litellm-claude-fable-5-day-0, blog-litellm-april-townhall-updates,
-docs-google-sre-prodcast-04-09-ai-agents, docs-datadog-llm-observability*
-*Last updated: 2026-07-15*
+docs-google-sre-prodcast-04-09-ai-agents, docs-datadog-llm-observability,
+blog-promptfoo-jailbreaking-vs-prompt-injection,
+blog-promptfoo-building-security-scanner-llm-apps,
+blog-promptfoo-indirect-prompt-injection-web-agents,
+blog-promptfoo-invisible-unicode-threats,
+failure-litellm-proxy-sql-injection-cve-2026-42208*
+*Last updated: 2026-07-23*
