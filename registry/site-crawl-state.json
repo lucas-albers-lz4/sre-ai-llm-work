@@ -1242,24 +1242,34 @@
         "filed_at": "2026-08-10T12:55:42.976296+00:00"
       },
       "https://sre.google/workbook/on-call": {
-        "status": "pending",
-        "screened_at": "2026-07-15T08:30:54.513165+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-15T08:30:54.513165+00:00",
+        "issue": 866,
+        "filed_at": "2026-08-11T12:48:30.924559+00:00"
       },
       "https://sre.google/workbook/organizational-change": {
-        "status": "pending",
-        "screened_at": "2026-07-16T13:47:09.459704+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-16T13:47:09.459704+00:00",
+        "issue": 867,
+        "filed_at": "2026-08-11T12:48:32.745212+00:00"
       },
       "https://sre.google/workbook/overload": {
-        "status": "pending",
-        "screened_at": "2026-07-16T13:47:09.459727+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-16T13:47:09.459727+00:00",
+        "issue": 868,
+        "filed_at": "2026-08-11T12:48:34.806242+00:00"
       },
       "https://sre.google/workbook/part-I-foundations": {
-        "status": "pending",
-        "screened_at": "2026-07-16T13:47:09.459732+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-16T13:47:09.459732+00:00",
+        "issue": 869,
+        "filed_at": "2026-08-11T12:48:36.629117+00:00"
       },
       "https://sre.google/workbook/part-II-practices": {
-        "status": "pending",
-        "screened_at": "2026-07-16T13:47:09.459734+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-16T13:47:09.459734+00:00",
+        "issue": 870,
+        "filed_at": "2026-08-11T12:48:38.460409+00:00"
       },
       "https://sre.google/workbook/part-III-processes": {
         "status": "pending",
@@ -1298,7 +1308,7 @@
         "screened_at": "2026-07-18T13:10:30.818325+00:00"
       }
     },
-    "last_scan": "2026-08-10T12:54:40.702932+00:00"
+    "last_scan": "2026-08-11T12:48:00.770997+00:00"
   },
   "opentelemetry": {
     "urls": {},
@@ -1847,16 +1857,22 @@
         "filed_at": "2026-08-10T12:55:49.155874+00:00"
       },
       "https://www.cncf.io/training/certification/software-conformance/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:14:02.847079+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:14:02.847079+00:00",
+        "issue": 871,
+        "filed_at": "2026-08-11T12:48:40.353939+00:00"
       },
       "https://www.cncf.io/archived-projects/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:14:02.847080+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:14:02.847080+00:00",
+        "issue": 872,
+        "filed_at": "2026-08-11T12:48:42.160292+00:00"
       },
       "https://www.cncf.io/sandbox-projects/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:14:02.847082+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:14:02.847082+00:00",
+        "issue": 873,
+        "filed_at": "2026-08-11T12:48:43.991115+00:00"
       },
       "https://www.cncf.io/projects/": {
         "status": "pending",
@@ -2869,9 +2885,21 @@
       "https://www.cncf.io/blog/2026/04/29/the-state-of-ai-in-cncf-projects-a-first-look-at-the-data": {
         "status": "pending",
         "screened_at": "2026-08-10T12:55:16.800129+00:00"
+      },
+      "https://www.cncf.io/blog/2026/08/11/a-practical-guide-to-solving-when-zerozerotwo-in-mesh-observability": {
+        "status": "pending",
+        "screened_at": "2026-08-11T12:48:07.510359+00:00"
+      },
+      "https://www.cncf.io/blog/2026/08/10/learning-cloud-native-engineering-beyond-tutorials-through-lfx": {
+        "status": "pending",
+        "screened_at": "2026-08-11T12:48:07.510378+00:00"
+      },
+      "https://www.cncf.io/blog/2026/04/27/kubernetes-for-platform-teams-leveraging-k0s-and-k0rdent": {
+        "status": "pending",
+        "screened_at": "2026-08-11T12:48:07.510382+00:00"
       }
     },
-    "last_scan": "2026-08-10T12:55:16.800131+00:00"
+    "last_scan": "2026-08-11T12:48:07.510385+00:00"
   },
   "datadog-llm-obs": {
     "urls": {
@@ -2880,7 +2908,7 @@
         "screened_at": "2026-07-12T23:52:56.905756+00:00"
       }
     },
-    "last_scan": "2026-08-10T12:55:18.409202+00:00"
+    "last_scan": "2026-08-11T12:48:08.959440+00:00"
   },
   "langfuse-docs": {
     "urls": {
@@ -3009,7 +3037,7 @@
         "filed_at": "2026-07-23T13:33:58.953513+00:00"
       }
     },
-    "last_scan": "2026-08-10T12:55:20.253299+00:00"
+    "last_scan": "2026-08-11T12:48:10.654356+00:00"
   },
   "litellm-docs": {
     "urls": {
@@ -3558,16 +3586,22 @@
         "filed_at": "2026-08-10T12:55:55.465795+00:00"
       },
       "https://docs.litellm.ai/blog/tags/elasticache": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:44:44.495511+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:44:44.495511+00:00",
+        "issue": 874,
+        "filed_at": "2026-08-11T12:48:45.687958+00:00"
       },
       "https://docs.litellm.ai/blog/tags/embeddings": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:44:44.495513+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:44:44.495513+00:00",
+        "issue": 875,
+        "filed_at": "2026-08-11T12:48:47.346172+00:00"
       },
       "https://docs.litellm.ai/blog/tags/engineering": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:44:44.495514+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:44:44.495514+00:00",
+        "issue": 876,
+        "filed_at": "2026-08-11T12:48:49.039906+00:00"
       },
       "https://docs.litellm.ai/blog/tags/fable-5": {
         "status": "pending",
@@ -4372,9 +4406,21 @@
       "https://docs.litellm.ai/docs/guides/reliability_testing_spend": {
         "status": "pending",
         "screened_at": "2026-08-10T12:55:25.938279+00:00"
+      },
+      "https://docs.litellm.ai/docs/guides/retrieval_knowledge": {
+        "status": "pending",
+        "screened_at": "2026-08-11T12:48:22.357159+00:00"
+      },
+      "https://docs.litellm.ai/docs/guides/security_network": {
+        "status": "pending",
+        "screened_at": "2026-08-11T12:48:22.357178+00:00"
+      },
+      "https://docs.litellm.ai/docs/guides/security_settings": {
+        "status": "pending",
+        "screened_at": "2026-08-11T12:48:22.357182+00:00"
       }
     },
-    "last_scan": "2026-08-10T12:55:25.938283+00:00"
+    "last_scan": "2026-08-11T12:48:22.357185+00:00"
   },
   "promptfoo-docs": {
     "urls": {
@@ -4913,16 +4959,22 @@
         "filed_at": "2026-08-10T12:56:01.579915+00:00"
       },
       "https://www.promptfoo.dev/blog/tags/defcon/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:45:08.317204+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:45:08.317204+00:00",
+        "issue": 877,
+        "filed_at": "2026-08-11T12:48:50.792857+00:00"
       },
       "https://www.promptfoo.dev/blog/tags/enterprise-security/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:45:08.317206+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:45:08.317206+00:00",
+        "issue": 878,
+        "filed_at": "2026-08-11T12:48:52.635982+00:00"
       },
       "https://www.promptfoo.dev/blog/tags/eu-ai-act/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:45:08.317207+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:45:08.317207+00:00",
+        "issue": 879,
+        "filed_at": "2026-08-11T12:48:54.411660+00:00"
       },
       "https://www.promptfoo.dev/blog/tags/evaluation/": {
         "status": "pending",
@@ -5735,8 +5787,20 @@
       "https://www.promptfoo.dev/docs/guides/llm-as-a-judge": {
         "status": "pending",
         "screened_at": "2026-08-10T12:55:33.352161+00:00"
+      },
+      "https://www.promptfoo.dev/docs/guides/llm-redteaming": {
+        "status": "pending",
+        "screened_at": "2026-08-11T12:48:29.660570+00:00"
+      },
+      "https://www.promptfoo.dev/docs/guides/mixtral-vs-gpt": {
+        "status": "pending",
+        "screened_at": "2026-08-11T12:48:29.660610+00:00"
+      },
+      "https://www.promptfoo.dev/docs/guides/multimodal-red-team": {
+        "status": "pending",
+        "screened_at": "2026-08-11T12:48:29.660613+00:00"
       }
     },
-    "last_scan": "2026-08-10T12:55:33.352163+00:00"
+    "last_scan": "2026-08-11T12:48:29.660616+00:00"
   }
 }
