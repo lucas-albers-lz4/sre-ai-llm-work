@@ -1,78 +1,118 @@
 # On-call and Toil
 
 > Cutting repetitive on-call work with AI without inventing new pages or
-> hiding risk.
+> hiding risk. Google's toil playbook supplies the taxonomy, the objective
+> measurement methodology, and the strategy set that agent-driven toil
+> reduction must operate under.
 
-## Auto-remediation candidates vs. always-manual work
+## What counts as toil
 
-The toil-vs-safety tradeoff is a ladder, not a binary. Google classifies
-batch-job changes by how much data a single run modifies — four safety levels
-where "the lower the safety level, the more manual verifications we ask a
-team to perform for a change" [source:
-docs-google-sre-reliable-data-processing-minimal-toil, Claim 7] [settled]:
+Toil is "the repetitive, predictable, constant stream of tasks related to
+maintaining a service," falling on a spectrum of six characteristics — Manual,
+Repetitive, Automatable, Nontactical/reactive, Lacks enduring value, and Grows
+at least as fast as its source — each demonstrated with a concrete operational
+example [source: docs-google-sre-eliminating-toil, Claim 1] [settled].
 
-```
-Level 0   The entire dataset is affected in a single run.
-Level 1   Changes are canaried (manual or automated).
-Level 2   Changes are gradually rolled out, first to less risky populations,
-          then globally.
-Level 3   Level 1 and 2 criteria are met and no humans are involved in the
-          phased rollout.
-```
+The sixth characteristic is the one that defeats backlog-clearing plans:
+many classes of operational work grow as fast as (or faster than) the size of
+the underlying infrastructure, so infra-linked toil will not shrink on its
+own.
 
-Level 3 is the canonical auto-remediation candidate — automation that removes
-the manual verification, and the framework is designed to incentivize teams
-to climb to it [source: docs-google-sre-reliable-data-processing-minimal-toil,
-Claim 7] [settled].
+**Rule**: Classify candidate work against the six characteristics before
+calling it toil. Automatable, infra-linked work is the highest-leverage
+reduction target.
 
-The always-manual class is what automation leaves behind: investigating false
-positives from automated validation, and troubleshooting cascading rollouts
-[source: docs-google-sre-reliable-data-processing-minimal-toil, Claim 11,
-Claim 14] [settled].
+## Measuring toil reduction
 
-**Rule**: For each remediation you'd automate, ask which safety level it
-unlocks and what residual manual work it leaves behind. Budget for that
-residual — it is the toil automation does not remove [editorial].
+Toil identification should be data-driven, not experiential: choose an
+objective unit of human effort — minutes/hours, an applied patch, a completed
+ticket, a manual production change, a hardware operation — track it
+continuously before, during, and after the reduction effort, and automate the
+measurement so collecting it doesn't itself become toil
+[source: docs-google-sre-eliminating-toil, Claim 4] [settled].
 
-## The toil/on-call boundary for data pipelines
+The countable units are exactly what an agent layer can tally: tickets, manual
+production changes, and patches can be counted with no new instrumentation,
+only a ledger.
 
-Freshness SLOs — "time since the last successful completion of the job" — are
-operationalized with on-call readiness: alert on schedule overrun and mitigate
-before the freshness SLO is violated; the paper's motto is "Hope is not a
-strategy" [source: docs-google-sre-reliable-data-processing-minimal-toil,
-Claim 15] [settled].
+**Rule**: Pick an objective unit of human effort per toil class and track it
+continuously. If collecting the measurement is itself manual work, automate
+it or you have swapped toil for meta-toil.
 
-**Rule**: A silently stale pipeline (eval data, embeddings, indexes) is a
-toil generator precisely because nobody pages on it. Give every batch job a
-freshness SLO and an on-call rotation that pages before the SLO is violated
-[source: docs-google-sre-reliable-data-processing-minimal-toil, Claim 15]
+Google caps SRE teams' operational work (toil and non-toil alike) at 50% of
+time; the exact target may not suit other orgs, but placing an upper bound on
+toil matters because identifying and quantifying it is the first step toward
+optimization [source: docs-google-sre-eliminating-toil, Claim 3] [settled].
+
+**Rule**: Set an explicit toil ceiling for the team. Any plan that grows the
+toil share of on-call time is a regression even if total work falls.
+
+## Agent-appropriate vs always-manual work
+
+Toil falls into six common categories — Business Processes (ticket-driven),
+Production Interrupts, Release Shepherding, Migrations, Cost Engineering /
+Capacity Planning, and Troubleshooting for Opaque Architectures — a spectrum,
+not a binary classification [source: docs-google-sre-eliminating-toil,
+Claim 5] [settled].
+
+Ticket-driven business processes are insidious: they usually accomplish their
+goal, and because the toil is dispersed evenly across the team it "doesn't
+loudly and obviously call for remediation"
+[source: docs-google-sre-eliminating-toil, Claim 6] [settled].
+
+**Rule**: Map your toil classes onto the six categories before assigning
+agents. Release Shepherding, Migrations, and ticket-driven Business Processes
+are the high-leverage agent classes; the taxonomy itself warns against
+spending effort on recurring (automatable) failures instead of novel ones, so
+novel-failure troubleshooting stays a human class
+[source: docs-google-sre-eliminating-toil, Claim 5] [settled].
+
+## The toil-management playbook
+
+### Reject the toil first
+
+Analyzing the cost of responding versus not responding should be the first
+option you consider — working with toil in larger aggregates reduces interrupts
+and reveals patterns to target for elimination
+[source: docs-google-sre-eliminating-toil, Claim 7] [settled].
+
+**Rule**: Before automating a task, ask whether it should be done at all.
+Batching non-urgent toil into scheduled aggregates is cheaper than automation
+and exposes the pattern to eliminate.
+
+### Human-backed interfaces are the agent on-ramp
+
+For complex problems with many edge cases, use human-backed interfaces — a
+partially automated approach where the service receives structured data via a
+defined API but engineers still handle some operations — as an interim step
+toward full automation [source: docs-google-sre-eliminating-toil, Claim 9]
 [settled].
 
-## Action items: the follow-through loop
+**Rule**: Stand up the typed interface with a human fallback before full
+automation. This is the predecessor of the human-in-the-loop agent pattern:
+the engineer stays behind the curtain until the domain is mapped.
 
-Postmortem data is the prioritization input for reliability investment —
-"Postmortem is our tool to learn from our failures" — and learnings become
-fixes only through action items that are concrete, assigned, and ideally
-ETA'd [source: docs-google-sre-prodcast-01-09-postmortems, Claim 2, Claim 7]
-[settled]. Ownership is flexible: an assignee may triage (create the bug, set
-the meeting) rather than resolve everything, and "we don't know the owner" is
-a valid item that starts a cross-team discussion [source:
-docs-google-sre-prodcast-01-09-postmortems, Claim 8] [settled].
+### Self-service that degrades to a ticket
 
-**Rule**: Unresolved action items are repeated incidents. Follow through to a
-closed bug or an explicit "we don't know the owner" discussion — not a
-forgotten document [source: docs-google-sre-prodcast-01-09-postmortems,
-Claim 2, Claim 7, Claim 8] [settled].
+After a typed interface exists, provide self-service methods (web form,
+script, API) that degrade gracefully to a ticket on failure — moving 80–90% of
+requests to self-service is still a huge workload reduction
+[source: docs-google-sre-eliminating-toil, Claim 10] [settled].
 
-## Open topics
+**Rule**: Agent ticket deflection needs the same graceful-degradation design:
+when the automation cannot handle a request, fail forward into the human queue
+rather than erroring.
 
-Still unsourced targets for this chapter:
+### Start small and improve
 
-- Ticket / alert summarization for handoffs
-- Measuring toil reduction (and review-time debt)
-- Handoff quality when AI drafts the narrative
+Don't design the perfect toil-free system — automate a few high-priority items
+first, then improve using the time you gained, with clear metrics
+[source: docs-google-sre-eliminating-toil, Claim 15] [settled].
+
+**Rule**: Scope the first toil-reduction pass to a few high-priority classes
+with a defined metric. Both of Google's toil case studies followed phased,
+incremental paths rather than big-bang redesigns.
 
 ---
-*Sources for this chapter: docs-google-sre-reliable-data-processing-minimal-toil,
-docs-google-sre-prodcast-01-09-postmortems*
-*Last updated: 2026-08-06*
+*Sources for this chapter: docs-google-sre-eliminating-toil*
+*Last updated: 2026-08-08*

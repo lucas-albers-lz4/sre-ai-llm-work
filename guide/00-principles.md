@@ -27,6 +27,13 @@
 5. **LLM services need SLOs too.** Latency, error rate, eval drift, and cost
    are first-class reliability signals. `[editorial]`
 
+6. **Change is the dominant incident source — make it safe, don't freeze it.**
+   "In Google's experience, a majority of incidents are triggered by binary
+   or configuration pushes," and the answer is SLOs, error budgets, and
+   canarying — measuring change's reliability impact rather than avoiding
+   change [source: docs-google-sre-canarying-releases, Claim 4] [settled].
+   `[editorial + sourced]`
+
 ## SRE is engineering, not ops
 
 SRE is not an operational function at its core — it is about what engineering
@@ -141,5 +148,6 @@ modes is overclaiming.
 ---
 *Sources for this chapter: docs-google-sre-prodcast-02-07-sabrina-farmer,
 docs-google-sre-prodcast-04-09-ai-agents, blog-promptfoo-ai-regulation-2025,
-docs-google-sre-prodcast-03-04-observability-spectrum*
-*Last updated: 2026-07-15*
+docs-google-sre-prodcast-03-04-observability-spectrum,
+docs-google-sre-canarying-releases*
+*Last updated: 2026-08-08*
