@@ -4753,6 +4753,98 @@
         }
       ]
     },
+    "docs-google-sre-on-call": {
+      "path": "source-notes/docs-google-sre-on-call.md",
+      "title": "Google SRE: On-Call — SRE Workbook Chapter 8",
+      "source_url": "https://sre.google/workbook/on-call",
+      "chapters": [
+        "04",
+        "03",
+        "01"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Google SRE on-call strives for a balance — at least 50% of SRE time on project work — and a maximum of two incidents per 12-hour on-call shift, to ensure adequate follow-up time and prevent reliability from being bought at the cost of an on-call engineer's health",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Pager load — the number of paging incidents per shift — is influenced by three main factors: bugs in production, alerting, and human processes, each with several sub-inputs",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Response-time expectations are tiered by incident severity — a revenue-impacting network outage warrants 5 minutes, a stuck customer-order batch process 30 minutes, and failing backups of a pre-launch service a ticket — so not every page needs an immediate response",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Alerting hygiene — every paging alert must be immediately actionable with a high signal-to-noise ratio; under SLO-based/symptom-based alerting, relaxing alert thresholds is rarely an appropriate response to being paged",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "New paging alerts must be introduced through a gated process — reviewed by the whole team, tested in author-email mode for roughly a week under typical production conditions, with the test-period trigger rate used to predict pager-budget consumption and an explicit team approve/disallow decision",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Playbook policy is a genuine tension (general entries vs step-by-step entries); the chapter's arbiters are (a) agree on minimal structured details, and (b) if a playbook is a deterministic list of commands run every time an alert fires, implement automation",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Follow-up rigor requires identifying the root cause of every page — rarely concluding \"cause unknown\" — fixing bugs in priority order (point fix vs systemic fix vs monitoring fix), and having on-call engineers work on production bugs rather than projects during shifts",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "A concrete toil-reduction prioritization heuristic — a fix that takes 3 working weeks (120 working hours) to implement pays for itself against 4-working-hour pages at the break-even point of 30 pages",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Data quality for pager-load management comes from structured bug tracking — file a placeholder bug per paging alert and link each alert to its root-cause bug, producing \"which bugs cause the most pages\" reports; monitor pager load with a 21-day trailing average and warning-level ticket alerts",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Because humans are error-prone, all changes to production systems should be made by automation informed by human-developed intent configuration — the Connection team's manual changes went wrong and caused pages, while automation could pre-check safety before a change entered production",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Minimum staffing for sustainable on-call is five people per site in a multisite 24/7 configuration and eight in a single-site 24/7 configuration, with one extra engineer per site as buffer — six per site (multisite) or nine per site (single-site)",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "Shift lengths should be capped at 12 hours — 24 hours of on-call without reprieve is unsustainable — with \"3 days on, 4 days off\" as a shorter-shift alternative; out-of-hours on-call work should be compensated (time-off-in-lieu or cash, capped)",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "On-call scheduling should be automated with a tool that rearranges shifts for changing needs, rebalances load, factors in personal preferences and historical load — and never changes an already generated schedule; short-term swaps need a documented policy, and peer review of changes balances safety and flexibility",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "Evernote's outside-Google model — three event classes (P1 pages the on-call, P2 next business day, P3 informational), Sev1–3 incident triage with a paged incident manager and assembled incident team, SLO-based reframing of paging, CRE paged alongside for SLO-impacting events, and on-call explicitly freed from project work",
+          "kind": "claim"
+        },
+        {
+          "n": 15,
+          "heading": "On-call team dynamics are a first-class design concern — \"empower your ops engineers\" (give ops real ownership of reliability, not just a retitle) and a \"fun budget\" with co-location strengthen relationships so teammates protect each other from mistakes",
+          "kind": "claim"
+        },
+        {
+          "n": 16,
+          "heading": "A new SRE team can bootstrap itself to on-call readiness within three months (vs the normal 3–9 months for new hires) using a two-dozen-item training checklist, starter projects, impromptu teaching sessions, lab drills, deep dives, Wheel of Misfortune, and shadowing the outgoing team before becoming primary with them as backup",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-google-sre-prodcast-01-03-alerting": {
       "path": "source-notes/docs-google-sre-prodcast-01-03-alerting.md",
       "title": "Effective alerting on SLOs with Amelia Harrison (SRE Prodcast S1E3)",
