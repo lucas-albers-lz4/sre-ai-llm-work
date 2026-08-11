@@ -76,6 +76,87 @@ framework.
 on migration success; containerized DB migrations need explicit non-root-user
 testing that migration frameworks don't cover.
 
+## Batch data pipelines
+
+LLM-ops data work — eval-data refresh, embedding/index backfills, batch
+inference, training-data preprocessing — is batch work and carries batch-job
+reliability obligations. Google explicitly names ML preprocessing as a
+canonical batch-job use case [source:
+docs-google-sre-reliable-data-processing-minimal-toil, Claim 4] [settled].
+Neglected batch jobs become "haunted graveyards" — reliable for years, then
+unsafe, with no monitoring, alerting, or rollout support [source:
+docs-google-sre-reliable-data-processing-minimal-toil, Claim 1] [settled].
+
+### Correctness vs. freshness SLOs
+
+Data processing is reliable when well-reasoned SLOs are met, and the two
+kinds are distinct: the freshness SLO ("Did the job complete in time?") and
+the correctness SLO ("Did the job produce the correct results?") — a job
+meeting freshness is not necessarily safe [source:
+docs-google-sre-reliable-data-processing-minimal-toil, Claim 6] [settled].
+For LLM eval pipelines this is "did the eval batch complete on time" vs. "did
+it produce correct labels."
+
+**Rule**: Declare both SLOs for every data pipeline. Freshness alone — the
+eval ran on schedule — says nothing about whether the labels are still right
+[source: docs-google-sre-reliable-data-processing-minimal-toil, Claim 6]
+[settled].
+
+### The safety-level framework for dataset changes
+
+Change risk is classified by how much data a single run modifies — four
+safety levels, where Level 3 means "no humans are involved in the phased
+rollout" [source: docs-google-sre-reliable-data-processing-minimal-toil,
+Claim 7] [settled]. Changes ship through a three-stage release pipeline —
+Autopush, Staging, Production — promoted on a fixed schedule when release
+certifications pass, and the code-deployment schedule is deliberately
+decoupled from the job-run schedule [source:
+docs-google-sre-reliable-data-processing-minimal-toil, Claim 9] [settled]. A
+dry run — the job skips its writing phase — contains an error to a single
+binary [source: docs-google-sre-reliable-data-processing-minimal-toil,
+Claim 10] [settled].
+
+**Rule**: Route dataset and model-promotion changes through the staged
+pipeline with dry-runs. A change that mutates the whole corpus in one run
+(Level 0) is the batch equivalent of a one-shot fleet-wide config push
+[source: docs-google-sre-reliable-data-processing-minimal-toil, Claim 9,
+Claim 10] [settled].
+
+### Canary on populations, not traffic
+
+Batch canarying must be based on segmented populations (users, customers, or
+any logical object in the data model), not traffic segmentation — implemented
+via a startup parameter such as `hash(userid) mod 10 == 0` for a "10% prod"
+canary [source: docs-google-sre-reliable-data-processing-minimal-toil,
+Claim 13] [settled]:
+
+```
+Startup parameter:  --subset=alpha-users
+Canary filter:      process only records where hash(userid) mod 10 == 0
+                    ("10% prod")
+Target ladder:      canary-for-developers-team → canary-for-employees →
+                    canary-production-1%-free-users
+```
+
+**Rule**: Canary an embedding backfill or eval-dataset refresh on a
+hash-defined slice of the corpus before full promotion, and keep jobs
+idempotent so the canary output is comparable to the production run [source:
+docs-google-sre-reliable-data-processing-minimal-toil, Claim 13] [settled].
+
+### Automated validation gates must not cry wolf
+
+Promotion checks should be automated, but validation design must minimize
+false positives — a job incorrectly flagged as unstable requires manual
+investigation and introduces rollout delays. Compare counters with ranges or
+percentages rather than exact numbers, and A/B the new version in dry-run
+mode on the exact same input [source:
+docs-google-sre-reliable-data-processing-minimal-toil, Claim 11] [settled].
+
+**Rule**: Make your eval gate insensitive enough to avoid paging a human on
+every score wobble. An over-sensitive validation produces exactly the manual
+investigation toil the framework is meant to remove [source:
+docs-google-sre-reliable-data-processing-minimal-toil, Claim 11] [settled].
+
 ## Model enablement and the cost-map reload pattern
 
 New LLM models often become available through a gateway config reload rather
@@ -277,138 +358,6 @@ agent API and fast-harness-serving layers are explicitly unsolved
 lifecycles (stateful, long-running, tool-heavy), not just model-call volume.
 But do not assume a turnkey multi-runtime agent control plane exists yet.
 
-### Five-lever cost optimization at the proxy layer
-
-Five composable proxy-level levers reduce Claude Code input-token spend
-without client-side changes — each targets a different cost dimension
-[source: blog-litellm-save-claude-code-costs, Claim 8] [emerging]:
-
-1. **Budget windows + fallback chains**: Stacked spend caps (e.g., $10/day +
-   $100/month) prevent a short burst from exhausting a monthly budget. When a
-   per-model budget exhausts, fallback chains silently reroute to cheaper
-   models instead of erroring — Opus → Sonnet → Haiku
-   [source: blog-litellm-save-claude-code-costs, Claim 1, Claim 2] [settled].
-
-2. **Automatic prompt caching injection**: The proxy injects `cache_control`
-   markers at configurable points (system message, second-to-last user turn),
-   enabling Claude's prompt cache without client-side edits
-   [source: blog-litellm-save-claude-code-costs, Claim 3] [settled].
-
-3. **MCP Tool Search**: Replaces the full MCP tool catalog with two virtual
-   tools (`mcp_tool_search`, `mcp_tool_call`), collapsing token overhead from
-   hundreds of tool schemas to two. Uses token-overlap ranking with no
-   embedding dependency; only returns tools the key was already allowed to
-   call [source: blog-litellm-save-claude-code-costs, Claim 4, Claim 5]
-   [settled].
-
-4. **Auto routing by complexity**: A rule-based complexity router classifies
-   requests into four tiers (SIMPLE → MEDIUM → COMPLEX → REASONING) and
-   routes to the appropriate model with zero external API calls
-   [source: blog-litellm-save-claude-code-costs, Claim 6] [settled].
-
-5. **Prompt compression**: Headroom compresses the dynamic middle of the
-   payload — "Prompt cache trims the static prefix; Headroom trims the
-   dynamic middle"
-   [source: blog-litellm-save-claude-code-costs, Claim 9] [anecdotal].
-
-All five levers are enabled through virtual key configuration and
-`config.yaml` — developers only need `ANTHROPIC_BASE_URL` pointed at the
-proxy [source: blog-litellm-save-claude-code-costs, Claim 10] [settled].
-
-```bash
-# Budget windows with stacked durations
-curl 'http://0.0.0.0:4000/key/generate' \
-  --header 'Authorization: Bearer <your-master-key>' \
-  --header 'Content-Type: application/json' \
-  --data-raw '{
-    "budget_limits": [
-      {"budget_duration": "24h", "max_budget": 10},
-      {"budget_duration": "30d", "max_budget": 100}
-    ]
-  }'
-
-# Budget fallback chains with per-model limits
-curl -X POST http://localhost:4000/key/generate \
-  -H "Authorization: Bearer $ADMIN_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "model_max_budget": {
-      "claude-opus-4-8":   {"budget_limit": 20.0, "time_period": "1d"},
-      "claude-sonnet-5":   {"budget_limit": 10.0, "time_period": "1d"},
-      "claude-haiku-4-5":  {"budget_limit": 5.0,  "time_period": "1d"}
-    },
-    "budget_fallbacks": {
-      "claude-opus-4-8":  ["claude-sonnet-5", "claude-haiku-4-5"],
-      "claude-sonnet-5":  ["claude-haiku-4-5"]
-    }
-  }'
-```
-*From [source: blog-litellm-save-claude-code-costs, Concrete Artifacts].*
-
-**Rule**: Treat cost optimization as a multi-dimensional, composable concern
-at the proxy layer. Enable all levers that apply — they target different cost
-dimensions (spend caps, token price, payload size, schema overhead, model
-selection) and compose additively.
-
-### Proxy overhead measurement methodology
-
-"Proxy overhead" is the latency the LLM gateway itself introduces, independent
-of the upstream provider
-[source: blog-litellm-sub-millisecond-proxy-overhead, Claim 2] [settled].
-
-Measure it by running the same workload directly against the provider and
-through the gateway at identical QPS, with the load generator, gateway, and
-a mock LLM endpoint all on the same machine — the latency delta is overhead,
-excluding network noise
-[source: blog-litellm-sub-millisecond-proxy-overhead, Claim 3] [settled].
-
-**Rule**: A proxy-overhead figure is only meaningful with its measurement
-setup stated. Report QPS, hardware, and whether the measurement was
-same-machine (gateway overhead) or cross-network (includes network latency).
-
-### Control-plane / hot-path split for gateway capacity
-
-When per-request Python work becomes expensive at high QPS, extract the hot
-path to a sidecar rather than rewriting the system: Python owns the control
-plane (validation/normalization, model & provider selection, callbacks) while
-the sidecar owns the hot path (request forwarding, connection reuse/pooling,
-timeout/limit enforcement, high-frequency metric aggregation)
-[source: blog-litellm-sub-millisecond-proxy-overhead, Claim 6, Claim 7]
-[settled].
-
-The sidecar should be optional at first — bundled, auto-started, and
-disableable — so it can be validated under real workloads before becoming
-a hard dependency
-[source: blog-litellm-sub-millisecond-proxy-overhead, Claim 8] [emerging].
-
-**Rule**: When gateway latency becomes the bottleneck, carve out the
-per-request hot path rather than rewriting the whole system. Ship the
-accelerator as an optional sidecar and prove it under production load before
-making it a requirement.
-
-### Encrypted content affinity for multi-region load balancing
-
-When load balancing LLM API requests across deployments with different API
-keys (different regions or organizations), follow-up requests containing
-encrypted content items can fail because the items are cryptographically
-tied to the creating organization's key
-[source: failure-litellm-encrypted-content-affinity, Lesson 1] [settled].
-
-Traditional affinity mechanisms (session affinity, deployment affinity,
-`previous_response_id`-based routing) are insufficient — they either pin
-all traffic to one deployment (reducing effective quota) or depend on client
-cooperation. Encode the originating deployment's identity directly into the
-response payload (item IDs, encrypted content body) with upstream-transparent
-restoration — no Redis, no TTL, no cache required
-[source: failure-litellm-encrypted-content-affinity, Lesson 2, Lesson 3]
-[settled].
-
-**Rule**: Design affinity at the request-content level, not the user/session
-level, when the binding constraint is per-item (encrypted content, signed
-payloads). Verify both streaming and non-streaming response paths — they are
-often implemented in separate components
-[source: failure-litellm-encrypted-content-affinity, Lesson 4] [settled].
-
 ### CI/CD supply-chain isolation
 
 LiteLLM's CI/CD v2 organizes around four supply-chain goals: limit per-stage
@@ -421,24 +370,12 @@ Independent verification of release artifacts reduces reliance on any single
 credential or release path
 [source: blog-litellm-april-townhall-updates, Claim 3] [emerging].
 
-Three anti-patterns enabled LiteLLM's March 2026 supply-chain compromise: a
-shared CI/CD environment across stages, static long-lived release credentials
-in env vars, and an unpinned security-scan dependency
-[source: failure-litellm-supply-chain-incident-march-2026, Claim 3, Claim 4,
-Claim 5] [settled].
-
-**Rule**: Isolate CI/CD stages by blast radius. Use ephemeral release
-credentials that cannot outlive a single pipeline run. Pin every CI
-dependency — including security scanners — to verified SHAs. A release
-should be verifiable independently of any single credential that touched
-the build.
+**Rule**: Isolate CI/CD stages by blast radius. A release should be
+verifiable independently of any single credential that touched the build.
 
 ---
 *Sources for this chapter: blog-litellm-april-townhall-updates,
 blog-litellm-claude-fable-5-day-0, blog-litellm-agents-are-the-new-llms,
 failure-litellm-wildcard-model-access-desync, blog-promptfoo-asr-not-portable-metric,
-blog-litellm-save-claude-code-costs,
-blog-litellm-sub-millisecond-proxy-overhead,
-failure-litellm-encrypted-content-affinity,
-failure-litellm-supply-chain-incident-march-2026*
-*Last updated: 2026-08-01*
+docs-google-sre-reliable-data-processing-minimal-toil*
+*Last updated: 2026-08-06*

@@ -173,6 +173,36 @@ topic clusters. Analyze over the past week
 and topic-cluster-level signals. A single aggregate error rate hides the
 regression.
 
+## Batch-pipeline health signals
+
+LLM data work (eval refresh, embedding backfills, index rebuilds) is batch
+work, and batch health is a different signal shape than request health.
+
+### Freshness as the primary batch health metric
+
+A batch pipeline's health is measured by freshness — "time since the last
+successful completion of the job" — and a job that overruns its schedule is a
+paging event, mitigated by an on-call rotation before the freshness SLO is
+violated [source: docs-google-sre-reliable-data-processing-minimal-toil,
+Claim 15] [settled].
+
+**Rule**: Every batch pipeline needs a freshness SLO and a schedule-overrun
+alert. The silent failure mode of a data pipeline is not an error — it is a
+job that quietly stops completing on time [source:
+docs-google-sre-reliable-data-processing-minimal-toil, Claim 15] [settled].
+
+### The two-phase mutation as a continuous health monitor
+
+The two-phase mutation pattern — stage candidate IDs, validate them
+separately, apply only after validation passes — can run continuously in
+production as a health monitor, not just during changes [source:
+docs-google-sre-reliable-data-processing-minimal-toil, Claim 12] [settled].
+
+**Rule**: Run your data-validation pass as a standing production monitor, so
+corruption that would break a backfill is caught by a health check rather
+than by the next scheduled run [source:
+docs-google-sre-reliable-data-processing-minimal-toil, Claim 12] [settled].
+
 ## AI-assisted observability
 
 ### AI as copilot, not driver
@@ -212,5 +242,6 @@ can distinguish real problems from cosmetic ones
 ---
 *Sources for this chapter: docs-datadog-llm-observability,
 docs-google-sre-prodcast-03-04-observability-spectrum,
-blog-honeycomb-instrumenting-ai-agents-opentelemetry*
-*Last updated: 2026-07-15*
+blog-honeycomb-instrumenting-ai-agents-opentelemetry,
+docs-google-sre-reliable-data-processing-minimal-toil*
+*Last updated: 2026-08-06*
