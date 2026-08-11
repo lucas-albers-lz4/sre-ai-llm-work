@@ -672,6 +672,149 @@ before writing to any telemetry sink, and treat observability backends that can
 receive request-derived metadata as sensitive-data stores with least-privilege
 access.
 
+## MCP transport security
+
+### CVE-2026-30623: MCP stdio command injection
+
+An authenticated user with MCP server creation permissions in LiteLLM could
+execute arbitrary OS commands on the proxy host because the `command` field
+flowed directly into `StdioServerParameters` without validation — the MCP
+SDK's stdio transport runs whatever `command` it's handed
+[source: failure-litellm-mcp-stdio-command-injection, Vulnerability Detail A,
+Vulnerability Detail D] [settled].
+
+This is an authenticated RCE — the attacker needed a valid API key, but
+post-authentication authorization was insufficient: any user with MCP creation
+permission could trigger it, not just admins
+[source: failure-litellm-mcp-stdio-command-injection, Vulnerability Detail B]
+[settled].
+
+Three affected surfaces: MCP server creation/update endpoints, the
+`/mcp-rest/test/*` preview endpoints (the easiest trigger — no persistence
+needed), and servers rehydrated from config or DB at runtime
+[source: failure-litellm-mcp-stdio-command-injection, Vulnerability Detail C]
+[settled].
+
+### The four-layer defense-in-depth fix
+
+LiteLLM's patch (commit `7b7f304`, PR #25343) applies four layers
+[source: failure-litellm-mcp-stdio-command-injection, Fix Layer 1-4] [settled]:
+
+```
+Layer 1 — Allowlist at request parse time:
+  MCP_STDIO_ALLOWED_COMMANDS = frozenset(
+      {"npx", "uvx", "python", "python3", "node", "docker", "deno"}
+  )
+  Extensible via LITELLM_MCP_STDIO_EXTRA_COMMANDS env var.
+
+Layer 2 — Pydantic validation on request models:
+  NewMCPServerRequest and UpdateMCPServerRequest reject commands
+  whose basename is not in the allowlist.
+
+Layer 3 — Runtime re-validation at client instantiation:
+  _create_mcp_client re-validates the command, so servers
+  reconstructed from older DB rows or config files are blocked.
+
+Layer 4 — PROXY_ADMIN role gating on test endpoints:
+  /mcp-rest/test/connection and /mcp-rest/test/tools/list
+  now require PROXY_ADMIN role.
+```
+
+The four-layer approach catches the malicious command at three different
+entry points: API request (layers 1-2), runtime instantiation (layer 3), and
+unauthorized access to test surfaces (layer 4). No single layer alone would
+be sufficient — config rehydration from older DB rows would bypass layers 1-2,
+and test endpoints were an unauthenticated bypass vector for layers 1-3.
+
+### Operator impact of the fix
+
+The allowlist is a breaking change: pre-existing MCP stdio servers whose
+`command` basename is not in the allowlist will now fail to start. Operators
+must either update configs to use allowed launchers (`npx`, `uvx`, `python`)
+or add custom binaries via `LITELLM_MCP_STDIO_EXTRA_COMMANDS`
+[source: failure-litellm-mcp-stdio-command-injection, Recovery Path] [settled].
+
+**Rule**: Any LLM gateway implementing MCP stdio transport must validate
+the `command` field against an allowlist of known MCP launcher binaries.
+Enforce at three points: request parsing, runtime instantiation, and config
+rehydration. Gate MCP test/preview endpoints behind an admin role — they are
+the easiest vector for triggering command execution without persisting
+evidence.
+
+## Action-boundary security for browser-capable agents
+
+### The trust boundary is the action boundary, not model alignment
+
+A controlled lab demonstrated that indirect prompt injection via a malicious
+webpage induced a browser-capable local agent (OpenClaw) to enumerate its
+capabilities, read and write local files, and broadcast false incident messages
+to SMS, email, and social channels
+[source: blog-promptfoo-openclaw-at-work, Claim 1, Claim 2] [emerging].
+
+The central architectural insight: "The right question is not whether the
+model seems aligned enough. It is where the action boundary sits." When
+browsing, local file access, and outbound actions share one trust boundary,
+a malicious webpage becomes an endpoint-security problem — the agent is "a
+privileged endpoint that happens to speak natural language"
+[source: blog-promptfoo-openclaw-at-work, Claim 1] [emerging].
+
+The exploit chain proceeds in three phases
+[source: blog-promptfoo-openclaw-at-work, Claim 2] [emerging]:
+
+1. **Capability discovery** — the agent enumerates its own file access, shell
+   execution, and session context, giving the attacker a capability map.
+2. **Artifact creation** — the agent writes durable local files derived from
+   company documents, including "a durable handoff file containing exact
+   passwords, a token, and contact details."
+3. **Unauthorized outbound action** — the agent broadcasts false incident
+   messages to SMS, email, and social channels.
+
+### Artifact creation is a distinct failure mode
+
+Most prompt injection discussion focuses on data exfiltration or immediate
+destructive actions. Artifact creation — injected instructions producing
+persistent local files — is a third failure mode: "A compromised retrieval
+step does not end with a bad answer. It can become a durable local artifact
+that other prompts, users, or workflows may later trust"
+[source: blog-promptfoo-openclaw-at-work, Claim 3] [emerging].
+
+### Verify actions, not just model output
+
+"Prompt output tells you what the model said. It does not tell you what the
+agent actually did." The lab verified side effects independently from model
+output by inspecting loopback sink logs and local file artifacts
+[source: blog-promptfoo-openclaw-at-work, Claim 5] [settled].
+
+This is a critical methodological distinction for agent security testing:
+model-output assertions ("did the model refuse?") are insufficient — the agent
+may output a refusal while still executing an action via its tools.
+
+### Deployment recommendations
+
+From the lab results [source: blog-promptfoo-openclaw-at-work, Claim 6]
+[emerging]:
+
+1. Separate browsing from high-trust actions into distinct trust boundaries.
+2. Treat all external content (web pages, emails, documents) as hostile.
+3. Require explicit human confirmation for outbound messages.
+4. Keep sensitive files out of default agent reach.
+5. Monitor artifact creation as closely as network actions.
+
+### Agent Skills carry a security model
+
+Anthropic's Agent Skills security guidance reinforces the trust-boundary
+principle: install skills only from trusted sources, audit all bundled files
+before use, and pay attention to instructions that direct the agent to connect
+to untrusted external network sources
+[source: blog-anthropic-agent-skills, Claim 10] [settled].
+
+**Rule**: Draw the action boundary between untrusted input and privileged
+tools before the agent is deployed — not in the prompt. If browsing, file
+access, and outbound messaging share one agent context, a malicious webpage
+inherits all three privileges. Separate these into distinct trust boundaries,
+require user confirmation for outbound actions, and monitor file creation
+as a security signal.
+
 ---
 *Sources for this chapter: blog-promptfoo-ai-orchestrated-cyberattacks,
 blog-promptfoo-ai-regulation-2025, blog-promptfoo-asr-not-portable-metric,
@@ -683,5 +826,7 @@ blog-promptfoo-indirect-prompt-injection-web-agents,
 blog-promptfoo-invisible-unicode-threats,
 failure-litellm-proxy-sql-injection-cve-2026-42208, blog-promptfoo-mckinsey-lilli-appsec,
 blog-promptfoo-model-upgrades-break-agent-safety, blog-litellm-lap-internal-agent-30-percent,
-blog-litellm-june-townhall-updates, failure-litellm-guardrail-logging-secret-exposure*
+blog-litellm-june-townhall-updates, failure-litellm-guardrail-logging-secret-exposure,
+blog-promptfoo-openclaw-at-work, failure-litellm-mcp-stdio-command-injection,
+blog-anthropic-agent-skills*
 *Last updated: 2026-08-11*

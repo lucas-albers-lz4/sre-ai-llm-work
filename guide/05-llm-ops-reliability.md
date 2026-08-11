@@ -100,6 +100,41 @@ streaming/realtime APIs)
 public date — "close 20 bugs, fix 3 root causes, publish by August 29" — so the
 commitment can be verified or refuted when the date arrives.
 
+## Release validation beyond CI
+
+### Long-running tests catch what CI misses
+
+LiteLLM's Observatory is a long-running release-validation system that
+complements standard CI. It triggers 3-hour load tests via API, cycling
+through real model providers with a pass/fail threshold of <1% failure rate
+[source: blog-litellm-observatory, Claim 1, Claim 4] [settled].
+
+The key design choices:
+- **Same HTTP client reused for the entire run** — designed to catch
+  lifecycle bugs that only surface under prolonged reuse, such as the v1.81.3
+  HTTP client bug (40% failure rate dropping to 0.001% after fix)
+  [source: blog-litellm-observatory, Claim 5, Claim 6] [settled].
+- **Smart queueing with deduplication** — identical concurrent test requests
+  are rejected to avoid wasting resources on duplicate runs
+  [source: blog-litellm-observatory, Claim 2] [settled].
+- **Async API** — the API responds in milliseconds even though tests run
+  for hours; results post to Slack on completion
+  [source: blog-litellm-observatory, Claim 3] [settled].
+
+Unit tests miss four failure classes that long-running tests catch: real
+provider behavior, long-lived network interactions, resource lifecycle edge
+cases, and time-dependent regressions
+[source: blog-litellm-observatory, Claim 8] [settled].
+
+Four use cases: pre-deployment validation, routine validation (daily/weekly),
+issue investigation (on-demand), and long-running failure detection
+[source: blog-litellm-observatory, Claim 9] [settled].
+
+**Rule**: Add a long-running release-validation test against live providers
+to your LLM gateway release pipeline. The 3-hour duration and <1% threshold
+from LiteLLM are reasonable defaults. The same HTTP client must be reused
+across the run to surface lifecycle bugs invisible to CI.
+
 ## Model enablement and the cost-map reload pattern
 
 New LLM models often become available through a gateway config reload rather
@@ -400,6 +435,144 @@ exposed to every client
 verify lossy-compression recovery tools are actually exposed to your clients
 before relying on them.
 
+## Dependency degradation patterns
+
+### Silent fallback to stale data is worse than failing loudly
+
+LiteLLM suffered an incident where malformed JSON in a remote model-pricing
+config file (fetched at import time) caused a silent fallback to a stale local
+backup. Users on older package versions lost cost tracking for newer models —
+`cost=0` was the only observable symptom, with no warning logged
+[source: failure-litellm-model-cost-map-silent-fallback, Symptom 1, Symptom 2]
+[emerging].
+
+Three lessons for LLM infrastructure operators:
+
+1. **CI must validate upstream config files before merge.** The malformed JSON
+   (a single extra `{` bracket from a contributor PR) bypassed all runtime
+   error handling because no CI check caught it
+   [source: failure-litellm-model-cost-map-silent-fallback, Lesson 1] [emerging].
+
+2. **Every fallback to cached/stale data must log a structured warning.**
+   Treat "no warning on fallback" as a reliability bug
+   [source: failure-litellm-model-cost-map-silent-fallback, Lesson 2] [emerging].
+
+3. **Out-of-band subsystems (cost calculation, audit logging) need separate
+   health probes.** If the failure is invisible to request success metrics,
+   you won't detect it through standard p95 latency or error-rate alerts
+   [source: failure-litellm-model-cost-map-silent-fallback, Lesson 3] [emerging].
+
+**Rule**: Catalog every external runtime dependency by impact and fallback
+behavior. For each: what breaks if it's unavailable, what fallback exists,
+and whether the fallback degrades gracefully or silently
+[source: failure-litellm-model-cost-map-silent-fallback, Lesson 5] [emerging].
+
+### Redis circuit breaker: slow is worse than down
+
+LiteLLM's AI Gateway uses Redis in the hot path for rate limiting, caching,
+and spend tracking. A fully down Redis is manageable (fast-fail, fall through
+to Postgres). A *slow* Redis — still accepting connections but timing out
+after 20-30 seconds per operation — is catastrophic: 100 pods each hanging
+30 seconds on every auth check produces threadpool exhaustion and 100× normal
+database load [source: blog-litellm-redis-circuit-breaker, Claim 2, Claim 3]
+[settled].
+
+The fix is a three-state circuit breaker (CLOSED/OPEN/HALF-OPEN) with a
+5-consecutive-failure threshold and 60-second recovery timeout
+[source: blog-litellm-redis-circuit-breaker, Claim 4] [settled]:
+
+```
+CLOSED    normal               → OPEN after 5 consecutive failures
+OPEN      fast-fail at 0ms     → HALF-OPEN after 60s timeout
+HALF-OPEN one probe request    → CLOSED on success, OPEN on failure
+```
+
+When OPEN, auth and rate limiting fall back to Postgres — slower but bounded,
+avoiding the 100× spike that would occur without the breaker
+[source: blog-litellm-redis-circuit-breaker, Claim 5] [settled].
+
+Critically, **retry logic amplifies slow-Redis damage** — every retry waits
+for the full 30-second timeout. The circuit breaker cuts the connection
+immediately at 0ms [source: blog-litellm-redis-circuit-breaker, Claim 7]
+[settled].
+
+The circuit breaker ships on by default since LiteLLM v1.82.0, configurable
+via two environment variables (`REDIS_CIRCUIT_BREAKER_FAILURE_THRESHOLD=5`,
+`REDIS_CIRCUIT_BREAKER_RECOVERY_TIMEOUT=60`)
+[source: blog-litellm-redis-circuit-breaker, Claim 8] [settled].
+
+```python
+class RedisCircuitBreaker:
+    def __init__(self, failure_threshold: int, recovery_timeout: int):
+        self.failure_threshold = failure_threshold  # default: 5
+        self.recovery_timeout = recovery_timeout    # default: 60s
+        self._failure_count = 0
+        self._state = self.CLOSED
+
+    def is_open(self) -> bool:
+        if self._state == self.OPEN:
+            if time.time() - self._opened_at > self.recovery_timeout:
+                self._state = self.HALF_OPEN
+                return False  # this caller is the recovery probe
+            return True       # fast-fail
+        return False
+
+    def record_failure(self):
+        self._failure_count += 1
+        self._opened_at = time.time()
+        if self._failure_count >= self.failure_threshold:
+            self._state = self.OPEN
+
+    def record_success(self):
+        self._failure_count = 0
+        self._state = self.CLOSED
+```
+*Extracted from [source: blog-litellm-redis-circuit-breaker, Concrete Artifacts].*
+
+**Rule**: If your AI gateway uses Redis in the hot path, deploy a circuit
+breaker with default-on configuration. The "slow Redis" failure mode is
+more dangerous than "down Redis" because it triggers cascading threadpool
+exhaustion. Replace retry logic with circuit breaking — retries amplify
+the damage.
+
+## Async event-loop safety
+
+### Don't trust async def for third-party shutdown paths
+
+LiteLLM's Prisma-based Postgres reconnect path froze the entire asyncio event
+loop for 30–120 seconds because `prisma-client-py`'s `Engine.aclose()` is
+`async` in name only — the implementation calls `self.process.wait()`
+synchronously, blocking the event loop
+[source: failure-litellm-prisma-reconnect-event-loop-blocking, Claim 1]
+[settled].
+
+The `asyncio.wait_for()` safety timeout wrapped around the reconnect logic
+could not fire: `wait_for` can only cancel at `await` points, and there is
+no `await` inside `subprocess.wait()`. `/health/liveliness` froze, Kubernetes
+liveness probes timed out, and the kubelet SIGKILLed pods — converting a
+transient DB outage into a full proxy restart
+[source: failure-litellm-prisma-reconnect-event-loop-blocking, Claim 2, Claim 3]
+[settled].
+
+The bug only manifests under partial failure (unresponsive DB where TCP close
+hangs), not under healthy or hard-down conditions — making it invisible to
+standard testing
+[source: failure-litellm-prisma-reconnect-event-loop-blocking, Claim 6]
+[settled].
+
+The fix: replace `await self.db.disconnect()` with direct PID-based signaling:
+`os.kill(pid, SIGTERM)` → `await asyncio.sleep(0.5)` (a real `await` point) →
+`os.kill(pid, SIGKILL)` if still alive. Verification: 10006ms → 52.7ms max
+liveness latency, ~190× improvement
+[source: failure-litellm-prisma-reconnect-event-loop-blocking, Claim 4, Claim 5]
+[settled].
+
+**Rule**: Verify third-party async library shutdown paths under partial-failure
+conditions (Docker pause, network partition), not just healthy or hard-down.
+An `async def` signature does not guarantee the method yields. For wedged
+subprocesses, use process-level signals with interleaved `await` points instead
+of library-level cleanup.
+
 ## Gateway proxy performance
 
 ### BaseHTTPMiddleware creates 7 objects per request — even on no-ops
@@ -586,5 +759,8 @@ failure-litellm-wildcard-model-access-desync, blog-promptfoo-asr-not-portable-me
 blog-litellm-fastapi-middleware-performance, blog-litellm-claude-opus-4-7-day-0,
 blog-litellm-claude-opus-4-8-day-0, blog-litellm-gemini-3-5-flash-day-0,
 blog-litellm-gemini-3-flash-day-0, failure-litellm-proxy-sql-injection-cve-2026-42208,
-blog-litellm-headroom-integration, blog-litellm-june-townhall-updates*
+blog-litellm-headroom-integration, blog-litellm-june-townhall-updates,
+blog-litellm-observatory, blog-litellm-redis-circuit-breaker,
+failure-litellm-model-cost-map-silent-fallback,
+failure-litellm-prisma-reconnect-event-loop-blocking*
 *Last updated: 2026-08-11*
