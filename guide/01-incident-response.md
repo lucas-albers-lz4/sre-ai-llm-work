@@ -3,7 +3,11 @@
 > How Google's IRT (Tech Incident Response Team) operates — from threshold-based
 > activation through incident-command psychological safety to the cascading
 > failure mitigation hierarchy. AI/LLMs enter as pre-on-caller triage assistants
-> and anomaly-detection amplifiers, not as autonomous responders.
+> and anomaly-detection amplifiers, not as autonomous responders. For
+> AI-specific incidents, the chapter covers the read-only AI Alert enrichment
+> agent, the PagerDuty SRE Agent triage loop, measured MTTM reductions from
+> AI-assisted investigation, and the rules for what an incident-response agent
+> must never do.
 
 ## The IRT escalation model
 
@@ -258,8 +262,162 @@ dashboards, correlate anomalies, and summarize the situation. Do not delegate
 incident command to an AI. The "summarize, triage, route" pattern is the
 highest-confidence AI use case in incident response today.
 
+### The AI Alert pattern: read-only, time-bounded, evidence-based
+
+Google's AI Alert system intercepts alerts before they reach a human, operating
+within a tight 2-minute budget using massive parallelism to query monitoring
+systems, logging platforms, production change logs, and dependency graphs.
+Findings are linked back to source data and appended to the original alert
+[source: docs-google-sre-ai-engineering-reliable-operations, Claim 9] [settled].
+
+> AI Alert focuses on providing verifiable facts and evidence-based insights
+> rather than speculative conclusions.
+
+The design constraints matter: read-only mode, a 2-minute bound, and
+verifiable facts only — not speculative root-cause guesses.
+
+**Rule**: Start AI incident response at L1 (read-only enrichment). An
+enrichment agent should have a hard time budget, produce evidence-linked
+findings, and never mutate production state.
+
+### AI incident triage loop
+
+PagerDuty's SRE Agent implements a concrete AI-incident triage workflow
+[source: blog-pagerduty-sre-agent-triage, Claim 2] [emerging]:
+
+```
+Monitor breach (eval threshold exceeded)
+        │
+        ▼
+SRE Agent checks monitor status (resolved already?)
+        │
+        ▼
+Pulls failing traces from AI observability (e.g., Arize)
+        │
+        ▼
+Reviews eval explanations and summarizes trace patterns
+        │
+        ▼
+Checks recent code changes (via GitHub connector)
+        │
+        ▼
+Produces diagnosis + ranked next steps
+        │
+        ▼
+Learnings feed back into the system
+```
+*Triage loop from [source: blog-pagerduty-sre-agent-triage, Concrete Artifacts].*
+
+The triage loop connects to AI-specific data sources — observability traces,
+not just logs and metrics — and produces a diagnosis with ranked actions
+rather than raw data dumps
+[source: blog-pagerduty-sre-agent-triage, Claim 4] [emerging].
+
+**Rule**: Wire your triage agent to AI observability traces, not just
+traditional monitoring. An LLM eval alert means "something might be wrong
+according to the model" — not "something is broken" in the traditional sense.
+The diagnostic path is different (prompt change, retrieval tweak, model swap)
+from a traditional infrastructure incident (rollback, restart, scale)
+[source: blog-pagerduty-sre-agent-triage, Claim 1] [emerging].
+
+### Measured impact of AI-assisted investigation
+
+Google's Incident Hypothesis system uses RAG to analyze real-time monitoring
+anomalies, service playbooks, application logs, incident management data, and
+patterns from similar past incidents. Analysis confirmed a measurable 10%
+reduction in Mean Time to Mitigate (MTTM) — from informational assistance
+alone, at L1 autonomy
+[source: docs-google-sre-ai-engineering-reliable-operations, Claim 10] [settled].
+
+Google's Investigation Dashboards generate an incident-specific single pane
+of glass on demand. ML-based anomaly detection increased overall findings by
+195%, and the dashboards delivered a 44% MTTM reduction across supported
+incidents
+[source: docs-google-sre-ai-engineering-reliable-operations, Claim 11] [settled].
+
+**Rule**: L1 AI assistance (recommendation only, no actuation) delivers
+measurable value — the 10% and 44% MTTM reductions are the strongest published
+evidence for AI-investigation ROI. Start here before advancing to higher
+autonomy levels.
+
+### Generic mitigations: fix symptoms first
+
+Google's incident response doctrine: apply "generic mitigations" (roll back,
+drain traffic, add capacity) as the first action on impact — fix symptoms,
+not causes, to buy time for root-cause analysis
+[source: docs-google-sre-anatomy-of-an-incident, Claim 5] [settled].
+
+> A generic mitigation is an action that you can take to reduce the impact of
+> a wide variety of outages while you're figuring out what needs to be fixed.
+> Your first priority should always be to stop or lessen the user impact, not
+> to figure out what's causing the issue.
+
+**Rule**: Build a catalog of generic mitigations (rollback, drain, add-capacity)
+that agents can recommend without understanding root cause. The first AI action
+should be "which generic mitigation fits the symptoms?" — not "what caused this?"
+
+### The human floor: 20–30 minutes
+
+Once a human is involved in outage response, the outage will last at least
+20 to 30 minutes. Automation and self-healing are the primary levers to reduce
+this floor [source: docs-google-sre-anatomy-of-an-incident, Claim 4] [settled].
+
+This is the strongest quantitative argument for AI-assisted incident response:
+human involvement sets a minimum TTR of 20–30 minutes. Pre-on-caller triage,
+AI Alert enrichment, and Investigation Dashboards all target compressing the
+pre-human response phase and accelerating the human's time-to-clue once they
+arrive.
+
+**Rule**: Measure AI incident-response impact against the 20–30 minute human
+floor. Any AI assistance that reduces time-to-clue below this threshold is
+reducing the irreducible human component of TTR.
+
+## What NOT to do during AI-assisted incidents
+
+### Don't paste secrets or PII into a model
+
+Incident responders under time pressure can paste logs, configs, and database
+output into an LLM without sanitizing. Models are external services — data
+shared with them leaves your tenant.
+[editorial]
+
+**Rule**: Gate the incident-response agent behind a data-sanitization layer.
+The agent should receive structured alert context (service, SLO, recent
+deploys, error budget status) — not raw log dumps that may contain secrets.
+[editorial]
+
+### Don't let the agent act without human approval
+
+Google's production AI agents default-deny all world-mutating actions and
+require explicit human permission before writes
+[source: docs-google-sre-prodcast-04-09-ai-agents, Claim 3] [settled].
+
+PagerDuty's AI incident response taxonomy captures this as three actions:
+classify whether escalation is needed, run only pre-approved remediations,
+and file follow-up tickets for the owning team — never invent a remediation
+[source: blog-pagerduty-sre-agent-triage, Claim 6] [emerging].
+
+**Rule**: An incident-response agent can classify, recommend, and ticket.
+It should never execute a remediation that hasn't been pre-approved by a human.
+
+### Don't treat AI eval alerts like infrastructure alerts
+
+A drop in a relevance metric is not the same as a broken service. The fix
+is typically a prompt change, retrieval tweak, model swap, or eval re-tune
+— not a rollback or restart. However, the same low-relevance alert can also
+be caused by an upstream service failure. The agent must distinguish between
+these two root causes by checking traces against code and recent changes
+[source: blog-pagerduty-sre-agent-triage, Claim 10] [emerging].
+
+**Rule**: Separate AI-eval alerts from infrastructure alerts in your paging
+taxonomy. An eval-driven alert should not necessarily wake a human at 2 a.m.
+PagerDuty's planned approach is to automatically re-check noisy eval scores
+on small samples before paging
+[source: blog-pagerduty-sre-agent-triage, Claim 7] [anecdotal].
+
 ---
 *Sources for this chapter: docs-google-sre-prodcast-06-09-irt-incident-response,
 docs-google-sre-address-cascading-failures, docs-google-sre-handling-overload,
-docs-google-sre-prodcast-04-09-ai-agents*
-*Last updated: 2026-07-23*
+docs-google-sre-prodcast-04-09-ai-agents, docs-google-sre-ai-engineering-reliable-operations,
+docs-google-sre-anatomy-of-an-incident, blog-pagerduty-sre-agent-triage*
+*Last updated: 2026-08-11*
