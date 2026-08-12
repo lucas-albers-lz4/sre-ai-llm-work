@@ -172,7 +172,7 @@ exceptions. There are very few exceptions."
 ```
 - Missing context          Background/Glossary blank; audience extends beyond the team
 - Key details omitted      no impact numbers, shallow root cause, empty Recovery Efforts
-- Missing AI characteristics  mitigative not preventative; "make humans less error-prone";
+- Key action item characteristics missing  mitigative not preventative; "make humans less error-prone";
                           vague verbs ("Improve", "Make better"); equal priorities;
                           only one tracking bug
 - Counterproductive finger pointing  individuals called out; blameful narrative
