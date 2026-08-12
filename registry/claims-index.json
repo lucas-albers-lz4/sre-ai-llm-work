@@ -8329,6 +8329,80 @@
         }
       ]
     },
+    "docs-google-sre-reaching-beyond-walls": {
+      "path": "source-notes/docs-google-sre-reaching-beyond-walls.md",
+      "title": "Google SRE: Reaching Beyond Your Walls — SRE Workbook Chapter 19",
+      "source_url": "https://sre.google/workbook/reaching-beyond",
+      "chapters": [
+        "00",
+        "02",
+        "04",
+        "01",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Reliability is the most important feature of any system — because users won't trust (then won't use) an unreliable system, network effects make a userless system worthless, and \"you are what you measure, so choose your metrics carefully\"",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Your users, not your monitoring, decide your reliability — the only reliability measure that matters is the user's experienced reliability; telling a worried user \"our monitoring looks fine\" doesn't change their perception (the peak-end rule), and monitoring/logs/alerting are valuable only insofar as they notice problems before customers do",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "If you run a platform, reliability is a partnership — once you add an API, your users' experienced reliability is not limited to your choices; a customer system at 99% availability caps their best-case experience at 98.99901% even when the platform itself runs at 99.999%",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Everything important eventually becomes a platform — machine-consumable APIs are inevitable; if you never build an official API, someone will wrap your UI into one, and you'll have no control over the outcome",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "When customers have a hard time, you have to slow down — energy spent helping users through difficult moments is energy not invested in advancing your system; teams that let time be \"slowly absorbed\" by break/fix customer problems are \"consumed by toil,\" and this applies doubly to internal platform teams",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "You will need to practice SRE with your customers — you must teach customers to design and operate reliable systems on your platform, and \"do SRE\" with at least a representative sample of users: undertake most of the work leading up to pager handoff (minimum viable reliability requirements) without necessarily taking the pagers",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Step 1 — SLOs and SLIs are how you speak to customers: in the absence of a stated SLO, a customer will inevitably invent one and not tell you until you don't meet it; the fix is to sit down, explain SLOs/SLIs/error budgets, and help customers describe their critical applications in those terms",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Step 2 — Audit the customer's monitoring and build shared dashboards: up to half of the things a customer measures (and alerts on) have zero impact on their SLOs; the remaining measurements are candidate SLIs, uncovered SLO dimensions need new measurements, and a shared SLO dashboard should make SLO-threatened conversations information-free",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Step 3 — Measure and renegotiate: customers who believe they're operating at \"five 9s\" usually measure only 99.5%–99.9% against real SLOs; if users are happy and no evidence shows availability/performance gains would increase adoption, retention, or usage, the renegotiation is done",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Step 4 — Design reviews and risk analysis: audit the customer's application for hidden SPOFs and manual rollouts/rollbacks, rank the findings by error-budget consumption, and watch which fixes the customer chooses to \"earn back the 9s\" — the choices reveal how customers consume the platform",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Step 5 — Practice, practice, practice: run Wheel of Misfortune exercises, disaster-recovery tests, and paper game days with customers; build cross-team crisis-communication muscle memory (builds trust, lowers MTTR, surfaces edge cases to fold into platform features); and conduct joint postmortems rather than just sharing yours",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "Be thoughtful and disciplined about customer selection — it becomes impossible to run these steps with more than a small percentage of customers; pick one coverage framework (revenue / feature / workload coverage) and stick to it, because mixing approaches confuses stakeholders and overwhelms the team",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-google-sre-reliable-data-processing-minimal-toil": {
       "path": "source-notes/docs-google-sre-reliable-data-processing-minimal-toil.md",
       "title": "Reliable Data Processing with Minimal Toil",

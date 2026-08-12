@@ -1417,6 +1417,19 @@
       "confidence_overall": "settled",
       "status": "current"
     },
+    "docs-google-sre-reaching-beyond-walls": {
+      "slug": "docs-google-sre-reaching-beyond-walls",
+      "title": "Google SRE: Reaching Beyond Your Walls — SRE Workbook Chapter 19",
+      "source_url": "https://sre.google/workbook/reaching-beyond",
+      "source_type": "documentation",
+      "author": "Dave Rensin, with Betsy Beyer, Niall Richard Murphy, and Liz Fong-Jones",
+      "date_published": "2018",
+      "date_extracted": "2026-08-12",
+      "issue": "#885",
+      "file": "source-notes/docs-google-sre-reaching-beyond-walls.md",
+      "confidence_overall": "settled",
+      "status": "current"
+    },
     "docs-google-sre-reliable-data-processing-minimal-toil": {
       "slug": "docs-google-sre-reliable-data-processing-minimal-toil",
       "title": "Reliable Data Processing with Minimal Toil",
