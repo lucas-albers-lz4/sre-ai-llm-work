@@ -871,6 +871,19 @@
       "confidence_overall": "settled",
       "status": "current"
     },
+    "docs-google-sre-postmortem-analysis": {
+      "slug": "docs-google-sre-postmortem-analysis",
+      "title": "Results of Postmortem Analysis — SRE Workbook Appendix C",
+      "source_url": "https://sre.google/workbook/postmortem-analysis",
+      "source_type": "documentation",
+      "author": "Google SRE",
+      "date_published": "2018",
+      "date_extracted": "2026-08-12",
+      "issue": "#882",
+      "file": "source-notes/docs-google-sre-postmortem-analysis.md",
+      "confidence_overall": "settled",
+      "status": "current"
+    },
     "docs-google-sre-prodcast-01-03-alerting": {
       "slug": "docs-google-sre-prodcast-01-03-alerting",
       "title": "Effective alerting on SLOs with Amelia Harrison (SRE Prodcast S1E3)",

@@ -4845,6 +4845,49 @@
         }
       ]
     },
+    "docs-google-sre-postmortem-analysis": {
+      "path": "source-notes/docs-google-sre-postmortem-analysis.md",
+      "title": "Results of Postmortem Analysis — SRE Workbook Appendix C",
+      "source_url": "https://sre.google/workbook/postmortem-analysis",
+      "chapters": [
+        "01",
+        "00",
+        "05",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Google's standard postmortem template consistently captures the incident root cause and trigger, and this consistent capture is what enables trend analysis across postmortems",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Google uses the trend analysis to target improvements at systemic root-cause types, such as faulty software interface design or immature change deployment planning",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The trigger distribution covers thousands of postmortems over 2010–2017, so the percentages are historical and directional, not a current-state benchmark",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The top eight outage triggers are dominated by pushes — binary push 37%, configuration push 31%, user behavior change 9%, processing pipeline 6%, service provider change 5%, performance decay 5%, capacity management 5%, hardware 2% — i.e., binary + configuration pushes together account for 68% of the trigger distribution",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The top five root-cause categories are software 41.35%, development process failure 20.23%, complex system behaviors 16.90%, deployment planning 6.74%, and network failure 2.75% — so software plus the software-development process account for over 61% of root causes",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "\"Complex system behaviors\" is Google's third-largest named root-cause category (16.90%), giving empirical, quantified weight to the complexity-reduces-reliability theme",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-google-sre-prodcast-01-03-alerting": {
       "path": "source-notes/docs-google-sre-prodcast-01-03-alerting.md",
       "title": "Effective alerting on SLOs with Amelia Harrison (SRE Prodcast S1E3)",
