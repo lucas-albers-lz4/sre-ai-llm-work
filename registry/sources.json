@@ -1521,6 +1521,19 @@
       "confidence_overall": "settled",
       "status": "current"
     },
+    "docs-google-sre-team-lifecycles": {
+      "slug": "docs-google-sre-team-lifecycles",
+      "title": "Google SRE: SRE Team Lifecycles — SRE Workbook Chapter 20",
+      "source_url": "https://sre.google/workbook/team-lifecycles",
+      "source_type": "documentation",
+      "author": "David Ferguson and Prashant Labhane, with Shylaja Nukala (Google); 'Transforming an Existing Team into an SRE Team' by Brian Balser",
+      "date_published": "2018",
+      "date_extracted": "2026-08-13",
+      "issue": "#907",
+      "file": "source-notes/docs-google-sre-team-lifecycles.md",
+      "confidence_overall": "settled",
+      "status": "current"
+    },
     "docs-google-sre-twenty-years-lessons": {
       "slug": "docs-google-sre-twenty-years-lessons",
       "title": "Lessons Learned from Two Decades of Site Reliability Engineering",

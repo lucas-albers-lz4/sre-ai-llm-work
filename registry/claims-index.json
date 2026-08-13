@@ -8970,6 +8970,99 @@
         }
       ]
     },
+    "docs-google-sre-team-lifecycles": {
+      "path": "source-notes/docs-google-sre-team-lifecycles.md",
+      "title": "Google SRE: SRE Team Lifecycles — SRE Workbook Chapter 20",
+      "source_url": "https://sre.google/workbook/team-lifecycles",
+      "chapters": [
+        "00",
+        "04",
+        "05",
+        "03"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "SRE practices can be adopted without a single SRE by using SLOs — Principle #1 \"SRE needs SLOs with consequences\" — where the error budget guides both tactical mitigation and longer-term reliability prioritization, and even SRE-less organizations should set SLOs because an implicit 100% SLO makes a team permanently reactive",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The first SRE should be hired against five interview areas — operations, software engineering, monitoring systems, production automation, system architecture — and will occupy a difficult, ambiguous position between velocity and reliability",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The first SRE can be embedded three ways — in a product development team, in an operations team, or in a horizontal consulting role across teams — selected on five factors (sphere of influence, immediate challenges, 12-month outlook, org-change plans, the person); experimentation is fine early, but stick with one stable model long-term",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The first SRE's initial mission is to get up to speed on the service — its problems, its required toil, and the engineering needed to stay within SLOs — which leads to Principle #2 \"SREs must have time to make tomorrow better than today\"; three warning signs mark a failing first-SRE role",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Organizations with distributed SREs (no discrete team) should build a community that advocates the SRE's distinctive role and drives consistent reliability change, because without a social grouping individual SREs feel isolated",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The first SRE team can be formed three ways, from least to most complex — a new team as part of a major project, a horizontal SRE team, or converting an existing team (e.g., operations) in place — with an explicit warning against renaming Ops→SRE without first applying SRE practices",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Principle #3 \"SRE teams have the ability to regulate their workload\" is the most subtle and most organizationally difficult of the three principles, and most teams cannot embrace it from day one",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Team formation is staged with Tuckman's forming/storming/norming/performing model; forming requires a specific skill mix (app-software reliability changes, detection/mitigation + automation tooling, strong software practices, methodical operational changes, system architecture) and benefits from seeding with internal transfers",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "For a team created as part of a major project, the storming phase carries six risks (spreading too thin, SLO-perfectionist introspection, not examining work, abandoning principles for product milestones, conflict with existing teams, insufficient skill breadth) with named mitigations — engage on a single service, engage at design stage, no day-one operational responsibility, and keep new hires below a third of the team",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Horizontal SRE teams and converted-in-place teams have distinct storming risks — horizontal teams risk being perceived as a value-less \"gating\" org (mitigate: respected seeds, tools benefiting ≥2 teams, celebrating wins, \"enablers, not gatekeepers\"); converted teams risk job-loss fear, no slack, and missing automation skills (mitigate: leadership support, renegotiated slack, head-on job-loss communication, training, changed performance metrics, adding an experienced SRE)",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Case study (New York Times, Brian Balser): converting a ticket-driven, interrupt-flooded configuration-support team in place worked by inverting the responsibility model — embedding an SRE in the dev team, splitting config into team-based repos, moving to a GitHub-driven Drone CI/CD pipeline, and holding daily office hours to batch review interrupts — reaching >50% project work",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "The norming phase has explicit maturity criteria — SLOs/error budgets in place and exercised after incidents, sustainable compensated on-call with tooling/docs/training, toil documented/bounded/managed, established postmortem culture, most DevOps tenets, regular training exercises (Wheel of Misfortune, DiRT), the product team remaining in the on-call rotation, and regular stakeholder reports",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "At the performing stage, the SRE team partners on all architecture design and change and has complete workload self-determination — it chooses if/when to onboard a service, reduces toil by lowering the SLO or transferring operational work, and can hand a service back; without that self-regulation the team risks attrition that \"can put production at risk\"",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "Forming more SRE teams is motivated by service complexity, SRE rollout success, or geographic split; the creation checklist is to read prior teams' postmortems, seed the new team from the existing one, standardize the team/onboarding framework, and change on-call responsibilities slowly (keep team members on-call for the old system transitionally; wait three to six months before splitting rotations)",
+          "kind": "claim"
+        },
+        {
+          "n": 15,
+          "heading": "Splitting teams — service-complexity splits run along architectural, language, or location lines, with a designated responsible team plus a senior technical lead to prevent orphaned components; geographic splits work best 6–8 time zones apart, require active parity management to prevent a \"night shift\" office, and three-site splits are a known failure mode",
+          "kind": "claim"
+        },
+        {
+          "n": 16,
+          "heading": "For running many SRE teams, Google uses named programs — Mission Control (six-month product-engineer embeds), SRE Exchange (one-week team swaps), SRE EDU training, horizontal project teams, SRE Mobility (free transfer), LCE teams for low-engagement services, and Production Excellence senior reviews — and funds SRE like product engineering, keeping the SRE-to-engineer ratio at roughly 1:5–1:50 (about 1:10 for most services)",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-google-sre-twenty-years-lessons": {
       "path": "source-notes/docs-google-sre-twenty-years-lessons.md",
       "title": "Lessons Learned from Two Decades of Site Reliability Engineering",
