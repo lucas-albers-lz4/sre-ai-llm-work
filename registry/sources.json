@@ -1495,6 +1495,19 @@
       "confidence_overall": "settled",
       "status": "current"
     },
+    "docs-google-sre-slo-engineering-case-studies": {
+      "slug": "docs-google-sre-slo-engineering-case-studies",
+      "title": "SLO Engineering Case Studies — SRE Workbook Chapter 3",
+      "source_url": "https://sre.google/workbook/slo-engineering-case-studies",
+      "source_type": "documentation",
+      "author": "Ben McCormack (Evernote) and William Bonnell (The Home Depot), with Garrett Plasky, Alex Hidalgo, Betsy Beyer, and Dave Rensin",
+      "date_published": "2018",
+      "date_extracted": "2026-08-13",
+      "issue": "#906",
+      "file": "source-notes/docs-google-sre-slo-engineering-case-studies.md",
+      "confidence_overall": "settled",
+      "status": "current"
+    },
     "docs-google-sre-stpa-teaching": {
       "slug": "docs-google-sre-stpa-teaching",
       "title": "STPA (System Theoretic Process Analysis) — Teaching a new way to prevent outages at Google",

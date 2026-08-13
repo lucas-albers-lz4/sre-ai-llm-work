@@ -8815,6 +8815,99 @@
         }
       ]
     },
+    "docs-google-sre-slo-engineering-case-studies": {
+      "path": "source-notes/docs-google-sre-slo-engineering-case-studies.md",
+      "title": "SLO Engineering Case Studies — SRE Workbook Chapter 3",
+      "source_url": "https://sre.google/workbook/slo-engineering-case-studies",
+      "chapters": [
+        "00",
+        "02",
+        "04",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Evernote's SLO adoption was embedded in a wider technology revamp — stop running physical datacenters and move to a public cloud, revise the ops/dev working model for feature velocity, and revamp how SLAs are viewed — at a scale of 220M+ users, 12B+ stored items, and 750+ MySQL instances",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Evernote failed at \"You wrote it, you run it\" and \"You wrote it, we run it for you\" before settling on SLO-centric SRE, which embraces rather than erases the ops/dev difference and gives both teams a common frame of reference — the error budget removes subjectivity so both teams make similar decisions from the same facts",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Evernote started SLO design from the customers' point of view and deliberately kept its first pass simple — one uptime SLO of 99.95% over a calendar-month window for \"certain services and methods,\" written into a document that specified the definition, what/how to measure, and how to calculate the SLO from monitoring data",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Evernote's SLO measurement used an external third-party prober (Pingdom) polling frontend nodes every minute from multiple probes across North America and Europe, with a node marked \"down\" only after two geographically separate probe failures — and maintenance windows were treated as downtime because uninformed users experience them as unexplained downtime",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Evernote used SLO/error budgets to allocate resources — missed-SLO last month prioritizes fixes at a monthly Evernote/Google SLO review with outage deep dives — and governed SLO evolution with the principle \"Perfect is the enemy of good\": two revisions in nine months, a six-month review cycle, and a 2017 compressed-release case where SLO quantification cut release windows from five to two",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Evernote broke the \"SLO wall\" between customer and cloud provider: a provider's global SLO rollup can hide region-isolated outages for a small-footprint tenant (GCP's 99.95% Compute Engine SLO \"lost\" Evernote's regional outages in the global rollup), so Evernote shared real-time SLO performance and dashboards with the Google CRE team, received SLO-impact-quantified notifications, and treated high-SLO-impact incidents as mutual P1s on a shared conference bridge",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "THD moved from centralized support teams for monolithic software to small, independently operated microservice teams under a \"freedom and responsibility culture\" of full-stack ownership — developers free to push code but jointly responsible for operations — requiring SLOs as the common language; before the program, monitoring was scattered, the root service of an outage was unidentifiable, and support tickets were the closest thing to a customer-facing SLO",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "THD's \"SLO Culture Project\" spanned four areas — common vernacular, evangelism, automation, incentive — grounded in an inventory of existing metrics that mapped to Google's Four Golden Signals (volume, latency, errors, utilization) but were \"inconsistently monitored, were named differently, or had insufficient data\"",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "THD's first SLOs were per-microservice availability and latency SLOs for internal API calls, published so dependents could consult them; THD explicitly declined utilization SLOs (users don't care about utilization if traffic is handled) and set traffic-volume SLOs sized to expected peak capacity for retailer peaks like Black Friday",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "THD's latency SLOs required percentiles over arithmetic averages (minimum 90th percentile; user-facing services 95th and/or 99th) plus a black-box supplement to white-box monitoring; THD standardized errors on HTTP codes (no errors in 2xx bodies; 4xx = client, 5xx = service), tracked both 4xx and 5xx but set SLOs on 5xx only; the five categories were summed into the VALET acronym (Volume, Availability, Latency, Errors, Tickets)",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "THD evangelized SLOs top-down — the education campaign started with senior leadership to secure executive backing, then moved team-by-team; a weekly SLO report in VALET format went to senior leadership with reliability commentary; workshops later became the FiRE Academy training program; and SLO implementation officially factored into annual performance reviews for development managers",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "THD automated VALET data collection with TPS Reports (a BigQuery-based framework: all web-serving frontend logs fed to BigQuery, transformed into hourly VALET metrics, new services auto-registered, with a chatbot for in-chat VALET reporting) and built a VALET service/dashboard for trending at daily, weekly, and monthly granularity — deliberately decoupled from monitoring/alerting systems",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "THD's SLO adoption scaled from ~50 services to 800 services in less than a year (~50 new services/month registered with VALET) — but automation was not a prerequisite: \"there are benefits to just writing SLOs in the first place\"",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "THD adapted VALET beyond web services — batch applications map to records processed (Volume), percent-complete-by-time (Availability), job runtime (Latency), failed records (Errors), and manual fix/reprocess count (Tickets) — and used TPS Reports to run automated destructive (chaos) testing in staging with impact recorded against a service's VALET data",
+          "kind": "claim"
+        },
+        {
+          "n": 15,
+          "heading": "THD's stated future is an error-budget culture \"similar to Google\" (stop pushing non-reliability features when a service is out of SLO), it is \"weighing the pros and cons of rolling windows versus fixed windows,\" and it wants SLOs set by the business owner based on criticality — with simplified business-facing VALET tiers (99.5% / 99.9% / 99.95% / 99.99%) and deployment-gating by automated VALET verification before rollout",
+          "kind": "claim"
+        },
+        {
+          "n": 16,
+          "heading": "The chapter's conclusion: SLO culture is an ongoing process, not a one-time fix; THD's and Evernote's measurement styles, SLIs, SLOs, and implementation details are markedly different despite shared philosophical underpinnings; and SLO implementation \"need not be Google-specific\"",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-google-sre-stpa-teaching": {
       "path": "source-notes/docs-google-sre-stpa-teaching.md",
       "title": "STPA (System Theoretic Process Analysis) — Teaching a new way to prevent outages at Google",
