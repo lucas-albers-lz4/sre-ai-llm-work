@@ -832,6 +832,19 @@
       "confidence_overall": "settled",
       "status": "current"
     },
+    "docs-google-sre-incident-response": {
+      "slug": "docs-google-sre-incident-response",
+      "title": "Google SRE: Incident Response — SRE Workbook Chapter 9",
+      "source_url": "https://sre.google/workbook/incident-response",
+      "source_type": "documentation",
+      "author": "Jennifer Mace, Jelena Oertel, Stephen Thorne, and Arup Chakrabarti (PagerDuty), with Jian Ma and Jessie Yang",
+      "date_published": "2018",
+      "date_extracted": "2026-08-10",
+      "issue": "#852",
+      "file": "source-notes/docs-google-sre-incident-response.md",
+      "confidence_overall": "settled",
+      "status": "current"
+    },
     "docs-google-sre-infrastructure-change-management": {
       "slug": "docs-google-sre-infrastructure-change-management",
       "title": "Case Studies in Infrastructure Change Management: How Google Rebuilds the Jet While Flying It",

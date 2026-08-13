@@ -4615,6 +4615,84 @@
         }
       ]
     },
+    "docs-google-sre-incident-response": {
+      "path": "source-notes/docs-google-sre-incident-response.md",
+      "title": "Google SRE: Incident Response — SRE Workbook Chapter 9",
+      "source_url": "https://sre.google/workbook/incident-response",
+      "chapters": [
+        "01",
+        "03",
+        "04",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Incident response splits into two activities — resolving the incident (mitigating impact/restoring service) and managing it (coordinating responders and ensuring communication flows)",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The basic principles of incident response are: maintain a clear line of command, designate clearly defined roles, keep a working record as you go, and declare incidents early and often",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "ICS-based incident response frameworks share the \"three Cs\" — Coordinate, Communicate, and Control — and when incident response goes wrong, the culprit is likely in one of these three areas",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The IMAG role hierarchy is IC/CL/OL — the IC leads, the CL and OL report to the IC; by default the IC assumes all roles that have not been delegated yet, and the CL/OL teams expand or contract as needed",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Declaring an incident early makes incidents resolve faster — it prevents miscommunication, speeds root-cause identification, and gets relevant teams and external communications looped in earlier; the Google Home incident shows the cost of late declaration",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Incident command should be handed off to whoever is best suited — the GKE CreateCluster case study shows the IC handing command to a more experienced responder mid-incident, and the GCE case study shows the IC retaining command because their team had the best customer-impact visibility",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Generic mitigations — pre-prepared actions that stop user pain before the root cause is understood — are crucial for fast recovery; the GKE incident was prolonged because the service had none",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "First responders must prioritize mitigation above all else — the active-incident sequence is assess impact, mitigate impact, perform root-cause analysis, then fix and write a postmortem",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "PagerDuty's major-incident response rotates the on-call engineers and the Incident Commander every four hours, to encourage rest and bring fresh ideas — demonstrated on a 10-hour NTP incident with minimal customer impact",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "PagerDuty's ICS-derived Incident Response process is purposefully non-static and trained via Failure Friday failure-injection drills, time-bound simulation games, and open postmortem culture",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "PagerDuty's incident-response tooling stack pairs a source-of-truth metadata tool with a dedicated scribe-led war-room channel and a static conference call where coordination decisions are made and recorded",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "Incident-response preparation should be done before an incident — pre-decide the communication channel, prepare a contact list, establish incident criteria from past outages/high-risk areas, and keep ready-to-use communication templates",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "Incident-response drills — DiRT company-wide resilience testing, Wheel of Misfortune, inventing outages from postmortems, and breaking the test environment — build response muscle memory and reveal gaps",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-google-sre-infrastructure-change-management": {
       "path": "source-notes/docs-google-sre-infrastructure-change-management.md",
       "title": "Case Studies in Infrastructure Change Management: How Google Rebuilds the Jet While Flying It",
