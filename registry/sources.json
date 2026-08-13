@@ -1482,6 +1482,19 @@
       "confidence_overall": "settled",
       "status": "current"
     },
+    "docs-google-sre-simplicity": {
+      "slug": "docs-google-sre-simplicity",
+      "title": "Google SRE: Simplicity — SRE Workbook Chapter 7",
+      "source_url": "https://sre.google/workbook/simplicity",
+      "source_type": "documentation",
+      "author": "John Lunney, Robert van Gent, and Scott Ritchie (Google SRE), with Diane Bates and Niall Richard Murphy; Case Study 4 by Mike Curtis",
+      "date_published": "2018",
+      "date_extracted": "2026-08-13",
+      "issue": "#904",
+      "file": "source-notes/docs-google-sre-simplicity.md",
+      "confidence_overall": "settled",
+      "status": "current"
+    },
     "docs-google-sre-stpa-teaching": {
       "slug": "docs-google-sre-stpa-teaching",
       "title": "STPA (System Theoretic Process Analysis) — Teaching a new way to prevent outages at Google",

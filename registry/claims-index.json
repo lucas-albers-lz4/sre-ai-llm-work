@@ -8721,6 +8721,100 @@
         }
       ]
     },
+    "docs-google-sre-simplicity": {
+      "path": "source-notes/docs-google-sre-simplicity.md",
+      "title": "Google SRE: Simplicity — SRE Workbook Chapter 7",
+      "source_url": "https://sre.google/workbook/simplicity",
+      "chapters": [
+        "04",
+        "03",
+        "05",
+        "00",
+        "01"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Simplicity strongly correlates with reliability — simple software breaks less often and is easier and faster to fix; for SREs, simplicity is an end-to-end goal extending beyond code to system architecture and the tools/processes used to manage the software lifecycle",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Code complexity is objectively measurable (cyclomatic complexity is the best-known standard), but teams are less adept at judging whether measured complexity is necessary or accidental, how one method's complexity influences a larger system, or which refactoring approaches work best",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Formal system-level complexity measurement is rare and CCN-type counting (entities × communication paths) \"grows hopelessly large\" for sizable systems — so practical proxies are training time, explanation time, administrative diversity, diversity of deployed configurations, and age (Hyrum's Law)",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "\"In general, complexity will increase in living software systems unless there is a countervailing effort,\" and providing that effort is worthwhile — two observations with \"no serious opposition\"",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The cost of complexity is an externality — it does not hit the individual/team/role that introduces it but those who work in and around the system afterward — so a champion for end-to-end simplicity is needed, and SREs are the natural fit because their work requires treating the system as a whole",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Product developers work in narrow subsystems and lack a system mental model, so the SRE team usually draws the system-level architecture diagrams; reader actions: have engineers draw (and redraw) system diagrams before first on-call and keep canonical diagrams in docs, and have SREs review all major design docs",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Case Study 1 (abstract key/value `bag` API vs Protocol Buffers/Thrift) — abstract general-purpose APIs shift complexity to clients, who must document and maintain key/value contracts informally; structured data types force upfront design decisions and documentation, yielding simpler end-to-end solutions",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Case Study 2 (Borg→Omega rewrite) — compare a rewrite against improving the current system, not against today's status quo; the rewrite chased a moving target, migration cost was underestimated, and wide APIs with lots of users are very hard to migrate",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Simplification is efficiency — it saves engineering time and cognitive load rather than compute/network — so leadership must celebrate and explicitly prioritize it: treat simplification projects like feature launches and \"measure and celebrate code addition and removal equally\"",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Simplification is a feature that must be prioritized and staffed — create a dedicated bucket of time, for example \"reserve 10% of engineering project time for 'simplicity' projects,\" and make simplicity an explicit goal for complex systems or overloaded teams",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "As a system grows complex, resist splitting SRE teams into narrower scopes — a small rotating group of SREs who maintain working knowledge of the entire stack (likely with less depth) can push for conformity and simplification across it",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "Diagramming your system surfaces two named design problems: amplification (multi-level retries multiply the total number of RPCs) and cyclic dependencies (a component depending on itself, often indirectly, can make a cold start of the whole system impossible)",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "Case Study 3 (Display Ads \"spiderweb\") — uniformity standards (single way to copy large data sets, single way to perform external data lookups, common monitoring/provisioning/config templates) plus incremental consolidation into unified backends removed redundant lookups, and \"redundant lookups in a single request represent a 'system smell'\"",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "Case Study 4 (hundreds of microservices on a shared platform) — bespoke per-service production stacks incur significant overhead, and a standardized managed microservices platform that bundles best practices lets developer teams \"run hundreds of services without any deep SRE engagement,\" enabling tiered SRE engagement",
+          "kind": "claim"
+        },
+        {
+          "n": 15,
+          "heading": "Case Study 5 (pDNS self-dependency) — a transitive circular dependency broke cold start (\"cave dwellers who could only light fires by running with a torch lit from the last campfire\"); the fix was a low-level local copy of Svelte server IPs plus an explicit whitelist of services allowed to communicate with pDNS",
+          "kind": "claim"
+        },
+        {
+          "n": 16,
+          "heading": "Conclusion — SREs are in an excellent position to identify, prevent, and fix sources of complexity across software design, architecture, configuration, and deployment; they should be involved in design discussions early, proactively develop standards to homogenize production, and treat pushing for simplicity as part of the job — because systems \"inevitably creep toward complexity\"",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-google-sre-stpa-teaching": {
       "path": "source-notes/docs-google-sre-stpa-teaching.md",
       "title": "STPA (System Theoretic Process Analysis) — Teaching a new way to prevent outages at Google",
