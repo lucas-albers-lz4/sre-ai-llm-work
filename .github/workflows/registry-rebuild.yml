@@ -66,4 +66,7 @@ jobs:
           git config user.email "hitchhiker-registry@users.noreply.github.com"
           git add registry/sources.json registry/claims-index.json
           git commit -m "registry: rebuild indexes from source-notes [skip ci]"
+          # Rebase onto any concurrent main push (rebuild + Smith/source PRs
+          # can race) so the push is always a fast-forward.
+          git pull --rebase origin main
           git push origin main
