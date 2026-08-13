@@ -1302,23 +1302,31 @@
         "filed_at": "2026-08-12T12:54:59.286061+00:00"
       },
       "https://sre.google/workbook/simplicity": {
-        "status": "pending",
-        "screened_at": "2026-07-17T13:24:54.956488+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-17T13:24:54.956488+00:00",
+        "issue": 904,
+        "filed_at": "2026-08-13T12:56:23.156304+00:00"
       },
       "https://sre.google/workbook/slo-document": {
-        "status": "pending",
-        "screened_at": "2026-07-18T13:10:30.818306+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-18T13:10:30.818306+00:00",
+        "issue": 905,
+        "filed_at": "2026-08-13T12:56:24.978088+00:00"
       },
       "https://sre.google/workbook/slo-engineering-case-studies": {
-        "status": "pending",
-        "screened_at": "2026-07-18T13:10:30.818322+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-18T13:10:30.818322+00:00",
+        "issue": 906,
+        "filed_at": "2026-08-13T12:56:26.839090+00:00"
       },
       "https://sre.google/workbook/team-lifecycles": {
-        "status": "pending",
-        "screened_at": "2026-07-18T13:10:30.818325+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-18T13:10:30.818325+00:00",
+        "issue": 907,
+        "filed_at": "2026-08-13T12:56:28.715514+00:00"
       }
     },
-    "last_scan": "2026-08-12T12:54:24.448225+00:00"
+    "last_scan": "2026-08-13T12:55:57.107580+00:00"
   },
   "opentelemetry": {
     "urls": {},
@@ -1903,16 +1911,22 @@
         "filed_at": "2026-08-12T12:55:04.867991+00:00"
       },
       "https://www.cncf.io/training/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:14:02.847088+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:14:02.847088+00:00",
+        "issue": 908,
+        "filed_at": "2026-08-13T12:56:30.607510+00:00"
       },
       "https://www.cncf.io/training/certification/ckad/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:14:02.847090+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:14:02.847090+00:00",
+        "issue": 909,
+        "filed_at": "2026-08-13T12:56:32.574670+00:00"
       },
       "https://www.cncf.io/about/members/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:14:02.847092+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:14:02.847092+00:00",
+        "issue": 910,
+        "filed_at": "2026-08-13T12:56:34.394460+00:00"
       },
       "https://www.cncf.io/about/join/": {
         "status": "pending",
@@ -2925,9 +2939,21 @@
       "https://www.cncf.io/blog/2026/04/23/from-ingress-nginx-to-higress-migrating-60-resources-in-30-minutes-with-ai": {
         "status": "pending",
         "screened_at": "2026-08-12T12:54:31.797372+00:00"
+      },
+      "https://www.cncf.io/blog/2026/08/13/lightweight-dragonfly-deployment-p2p-distribution-without-the-database-stack": {
+        "status": "pending",
+        "screened_at": "2026-08-13T12:56:08.154427+00:00"
+      },
+      "https://www.cncf.io/blog/2026/08/13/llmops-and-platform-engineering-who-should-own-the-ai-pipeline": {
+        "status": "pending",
+        "screened_at": "2026-08-13T12:56:08.154446+00:00"
+      },
+      "https://www.cncf.io/blog/2026/04/21/auto-diagnosing-kubernetes-alerts-with-holmesgpt-and-cncf-tools": {
+        "status": "pending",
+        "screened_at": "2026-08-13T12:56:08.154450+00:00"
       }
     },
-    "last_scan": "2026-08-12T12:54:31.797374+00:00"
+    "last_scan": "2026-08-13T12:56:08.154453+00:00"
   },
   "datadog-llm-obs": {
     "urls": {
@@ -2936,7 +2962,7 @@
         "screened_at": "2026-07-12T23:52:56.905756+00:00"
       }
     },
-    "last_scan": "2026-08-12T12:54:33.350985+00:00"
+    "last_scan": "2026-08-13T12:56:09.850188+00:00"
   },
   "langfuse-docs": {
     "urls": {
@@ -3065,7 +3091,7 @@
         "filed_at": "2026-07-23T13:33:58.953513+00:00"
       }
     },
-    "last_scan": "2026-08-12T12:54:34.941369+00:00"
+    "last_scan": "2026-08-13T12:56:11.547842+00:00"
   },
   "litellm-docs": {
     "urls": {
@@ -3650,16 +3676,22 @@
         "filed_at": "2026-08-12T12:55:11.040004+00:00"
       },
       "https://docs.litellm.ai/blog/tags/google-ai-studio": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:44:44.495520+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:44:44.495520+00:00",
+        "issue": 911,
+        "filed_at": "2026-08-13T12:56:36.267501+00:00"
       },
       "https://docs.litellm.ai/blog/tags/gpt-5-3-codex": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:44:44.495521+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:44:44.495521+00:00",
+        "issue": 912,
+        "filed_at": "2026-08-13T12:56:38.103243+00:00"
       },
       "https://docs.litellm.ai/blog/tags/gpt-5-4": {
-        "status": "pending",
-        "screened_at": "2026-07-13T23:36:32.157583+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T23:36:32.157583+00:00",
+        "issue": 913,
+        "filed_at": "2026-08-13T12:56:39.927071+00:00"
       },
       "https://docs.litellm.ai/blog/tags/gpt-5-4-mini": {
         "status": "pending",
@@ -4464,9 +4496,21 @@
       "https://docs.litellm.ai/docs/image_generation": {
         "status": "pending",
         "screened_at": "2026-08-12T12:54:41.023219+00:00"
+      },
+      "https://docs.litellm.ai/docs/image_variations": {
+        "status": "pending",
+        "screened_at": "2026-08-13T12:56:17.201753+00:00"
+      },
+      "https://docs.litellm.ai/docs/integrations": {
+        "status": "pending",
+        "screened_at": "2026-08-13T12:56:17.201772+00:00"
+      },
+      "https://docs.litellm.ai/docs/integrations/community": {
+        "status": "pending",
+        "screened_at": "2026-08-13T12:56:17.201775+00:00"
       }
     },
-    "last_scan": "2026-08-12T12:54:41.023223+00:00"
+    "last_scan": "2026-08-13T12:56:17.201779+00:00"
   },
   "promptfoo-docs": {
     "urls": {
@@ -5041,16 +5085,22 @@
         "filed_at": "2026-08-12T12:55:21.156827+00:00"
       },
       "https://www.promptfoo.dev/blog/tags/foundation-models/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:45:08.317211+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:45:08.317211+00:00",
+        "issue": 914,
+        "filed_at": "2026-08-13T12:56:42.025525+00:00"
       },
       "https://www.promptfoo.dev/blog/tags/garak/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:45:08.317213+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:45:08.317213+00:00",
+        "issue": 915,
+        "filed_at": "2026-08-13T12:56:43.986924+00:00"
       },
       "https://www.promptfoo.dev/blog/tags/getting-started/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:45:08.317214+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:45:08.317214+00:00",
+        "issue": 916,
+        "filed_at": "2026-08-13T12:56:45.980533+00:00"
       },
       "https://www.promptfoo.dev/blog/tags/google/": {
         "status": "pending",
@@ -5863,8 +5913,20 @@
       "https://www.promptfoo.dev/docs/guides/sandboxed-code-evals": {
         "status": "pending",
         "screened_at": "2026-08-12T12:54:49.231437+00:00"
+      },
+      "https://www.promptfoo.dev/docs/guides/test-agent-skills": {
+        "status": "pending",
+        "screened_at": "2026-08-13T12:56:21.868875+00:00"
+      },
+      "https://www.promptfoo.dev/docs/guides/testing-guardrails": {
+        "status": "pending",
+        "screened_at": "2026-08-13T12:56:21.868895+00:00"
+      },
+      "https://www.promptfoo.dev/docs/guides/text-to-sql-evaluation": {
+        "status": "pending",
+        "screened_at": "2026-08-13T12:56:21.868898+00:00"
       }
     },
-    "last_scan": "2026-08-12T12:54:49.231439+00:00"
+    "last_scan": "2026-08-13T12:56:21.868901+00:00"
   }
 }
