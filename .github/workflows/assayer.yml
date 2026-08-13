@@ -225,7 +225,7 @@ jobs:
             Then exit.
           claude_args: |
             --model "deepseek-v4-flash[1m]"
-            --max-turns 25
+            --max-turns 30
             --allowedTools "Bash(*)" "Read" "Glob" "Grep" "WebFetch"
 
       - name: Post review and set check verdict
