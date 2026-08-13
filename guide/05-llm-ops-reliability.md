@@ -397,10 +397,78 @@ credential or release path
 **Rule**: Isolate CI/CD stages by blast radius. A release should be
 verifiable independently of any single credential that touched the build.
 
+## Platform reliability is a partnership with tenants
+
+### The reliability ceiling is a product of both sides
+
+Once you add an API, your users' experienced reliability is not limited to
+your choices: "if your users build or operate a system on your platform that
+never achieves better than 99% availability—even if you're running your
+platform at 99.999% availability—then their best-case experience is
+98.99901%." Reliability becomes a partnership [source:
+docs-google-sre-reaching-beyond-walls, Claim 3] [settled]. The multiplier
+logic transfers directly to an LLM inference provider: a downstream app's
+wrapper reliability caps its users' experience regardless of how many nines
+the model endpoint holds, so the provider's reliability ceiling is partly
+owned by tenants' systems.
+
+**Rule**: If you run an LLM platform, do SRE with your tenants rather than
+only with your own serving stack: you "do need to undertake most of the work
+that normally leads up to pager handoff… with at least a representative
+sample of your users" [source: docs-google-sre-reaching-beyond-walls,
+Claim 6] [settled].
+
+### The five-step customer-SRE methodology
+
+Google's platform-tenant program is a five-step methodology:
+
+1. **SLOs and SLIs are how you speak.** "In the absence of a stated SLO, your
+   customer will inevitably invent one and not tell you until you don't meet
+   it!" — state model quality, latency, and availability expectations to
+   tenants explicitly [source: docs-google-sre-reaching-beyond-walls,
+   Claim 7] [settled].
+2. **Audit the monitoring and build shared dashboards.** "Up to half of the
+   things your customer is measuring (and alerting on) have zero impact on
+   their SLOs" [source: docs-google-sre-reaching-beyond-walls, Claim 8]
+   [settled].
+3. **Measure and renegotiate.** Customers who believe they're operating at
+   "five 9s" usually measure only 99.5%–99.9% against real SLOs; you're done
+   when users are happy and no evidence shows availability gains would
+   increase adoption, retention, or usage [source:
+   docs-google-sre-reaching-beyond-walls, Claim 9] [settled].
+4. **Design reviews and risk analysis.** Audit the customer's application for
+   hidden SPOFs and manual rollouts, and "rank the issues you find by how
+   much of their error budget each item consumes"; watch which fixes the
+   customer chooses to "earn back the 9s" [source:
+   docs-google-sre-reaching-beyond-walls, Claim 10] [settled].
+5. **Practice, practice, practice.** Run Wheel of Misfortune and
+   disaster-recovery games with customers, and "when an incident does occur,
+   don't just share your postmortems with your customer. Actually conduct
+   some joint postmortems" [source: docs-google-sre-reaching-beyond-walls,
+   Claim 11] [settled].
+
+**Rule**: Run this five-step program with a representative sample of LLM
+tenants — quality/latency/cost SLO alignment, tenant monitoring audit, shared
+dashboards, error-budget-ranked design reviews, and joint game days.
+
+### Selection: which tenants get the full program
+
+"It will quickly become impossible to carry out these steps with more than a
+small percentage of your customers." Pick one coverage framework and stick to
+it — revenue coverage (largest tenant spend), feature coverage (diverse
+platforms), or workload coverage (sample one or two customers per usage
+cohort) — because "mixing and matching will confuse your stakeholders and
+quickly overwhelm your team" [source: docs-google-sre-reaching-beyond-walls,
+Claim 12] [settled].
+
+**Rule**: Choose revenue or workload (agent-traffic cohort) coverage for LLM
+tenants and do not mix. The customer-SRE engagement is a scarce resource,
+exactly like the internal engagement model.
+
 ---
 *Sources for this chapter: blog-litellm-april-townhall-updates,
 blog-litellm-claude-fable-5-day-0, blog-litellm-agents-are-the-new-llms,
 failure-litellm-wildcard-model-access-desync, blog-promptfoo-asr-not-portable-metric,
 docs-google-sre-canarying-releases, docs-google-sre-configuration-design,
-docs-google-sre-configuration-specifics*
-*Last updated: 2026-08-08*
+docs-google-sre-configuration-specifics, docs-google-sre-reaching-beyond-walls*
+*Last updated: 2026-08-13*

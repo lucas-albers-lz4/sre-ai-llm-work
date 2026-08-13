@@ -4,6 +4,104 @@
 > to keep the human accountable for blast radius, and how postmortems close
 > the loop.
 
+## The incident-response doctrine
+
+Incident response splits into two activities — resolving the incident
+(mitigating impact, restoring service) and managing it (coordinating
+responders, ensuring communication flows)
+[source: docs-google-sre-incident-response, Claim 1] [settled]. The basic
+principles: maintain a clear line of command, designate clearly defined
+roles, keep a working record as you go, and declare incidents early and
+often [source: docs-google-sre-incident-response, Claim 2] [settled].
+
+**Rule**: Split an AI incident responder the same way — one capability that
+mitigates, one that coordinates. A responder that only "understands the
+incident" and never drives communication is not an incident responder.
+
+### Roles follow knowledge, not reporting chains
+
+The IMAG role hierarchy is IC / CL / OL: the Incident Commander leads, and
+the Communications Lead and Operations Lead report to the IC. "By default,
+the IC assumes all roles that have not been delegated yet," and both CL and
+OL may lead teams that "expand or contract as needed"; if the incident
+becomes small enough, the CL role can be subsumed back into the IC
+[source: docs-google-sre-incident-response, Claim 4] [settled]. Command is a
+context-dependent role: the GKE CreateCluster case study shows the IC handing
+command to a more experienced responder mid-incident, while the GCE
+Persistent Disk case study shows the IC retaining it because their team had
+the best visibility into customer impact [source:
+docs-google-sre-incident-response, Claim 6] [settled].
+
+**Rule**: An AI copilot should identify who is best positioned to lead and
+support a role handoff, not assume the first responder stays IC.
+
+### Declare early and often
+
+Declaring an incident early makes it resolve faster: it prevents
+miscommunication, speeds root-cause identification, and gets relevant teams
+and external communications looped in earlier. The Google Home case study is
+the counterfactual — the team never declared an incident, relied on repeated
+quota increases and heroic weekend effort, and users "lost half of their
+requests during the weekend of June 3, 2017" before resolution
+[source: docs-google-sre-incident-response, Claim 5] [settled].
+
+**Rule**: Default to declaring. The cost of an unnecessary declared incident
+is small; the cost of a late-declared one is a prolonged heroic-effort
+incident. An AI triage agent that declines to declare should justify that
+decision explicitly.
+
+### Mitigate first, understand later
+
+First responders must prioritize mitigation above all else — "customers do
+not care whether or not you fully understand what caused an outage. What
+they want is to stop receiving errors." The active-incident sequence: assess
+the impact, mitigate the impact, perform root-cause analysis, and after the
+incident is over, fix what caused it and write a postmortem
+[source: docs-google-sre-incident-response, Claim 8] [settled].
+
+Generic mitigations — pre-prepared actions that stop user pain before the
+root cause is understood — are crucial for fast recovery, and they must be
+built before the incident, not during it. The GKE CreateCluster outage was
+prolonged because the service had none: a generic mitigation after the
+plausible cause was identified at 9:56 a.m. would have ended a 6h40m outage
+by 10 a.m. [source: docs-google-sre-incident-response, Claim 7] [settled].
+
+**Rule**: Give an AI responder a pre-built catalog of generic mitigations
+(rollback, drain, scale-out) and order its behavior mitigate → diagnose →
+root-cause. A responder that insists on understanding the root cause before
+acting is a root-cause analyst, not a first responder.
+
+### The three Cs
+
+ICS-based incident response frameworks share the "three Cs" — Coordinate,
+Communicate, and Control — and when incident response goes wrong, the culprit
+is likely in one of these three areas [source: docs-google-sre-incident-response,
+Claim 3] [settled].
+
+**Rule**: Structure an AI incident assistant's outputs around the three Cs —
+does it coordinate the response, keep communication flowing, and maintain
+control?
+
+### Prepare before the incident
+
+Pre-incident preparation: pre-decide the communication channel ("no Incident
+Commander wants to make this decision during an incident"), prepare a contact
+list, establish incident criteria from past outages and known high-risk
+areas, and keep ready-to-use communication templates [source:
+docs-google-sre-incident-response, Claim 12] [settled].
+
+Drills build response muscle memory and reveal gaps: DiRT company-wide
+resilience testing, Wheel of Misfortune, inventing outages from postmortems,
+and breaking the test environment to troubleshoot with real tools — "the most
+valuable part of running a drill is examining their outcomes, which can
+reveal a lot about any gaps in incident management" [source:
+docs-google-sre-incident-response, Claim 13] [settled].
+
+**Rule**: Pre-load the decision surface — channel, contact list, incident
+criteria, comms templates — before the incident. For AI responders, reuse the
+same drill catalog: postmortem-derived outages and a broken test environment
+are the natural eval harnesses for an incident agent.
+
 ## Postmortems
 
 ### The mandatory contents
@@ -97,6 +195,27 @@ blocker [source: docs-google-sre-prodcast-01-09-postmortems, Claim 12]
 natural human checkpoint for AI-drafted postmortems. Keep it mandatory
 [editorial].
 
+### Trend analysis: the point of the corpus
+
+A standard postmortem template that consistently captures the incident's root
+cause and trigger is what makes trend analysis possible, and the value of a
+postmortem program is the consistent, machine-aggregatable schema, not the
+individual documents [source: docs-google-sre-postmortem-analysis, Claim 1]
+[settled]. Google uses the resulting trend analysis to target improvements at
+systemic root-cause types, "such as faulty software interface design or
+immature change deployment planning" [source:
+docs-google-sre-postmortem-analysis, Claim 2] [settled]. The taxonomy it
+aggregates into: software (41.35%), development process failure (20.23%),
+complex system behaviors (16.90%), deployment planning (6.74%), and network
+failure (2.75%) — software plus the software-development process account for
+over 61% of root causes [source: docs-google-sre-postmortem-analysis,
+Claim 5] [settled].
+
+**Rule**: Prompt an AI postmortem drafter to fill root cause and trigger as
+distinct structured fields, and classify incidents into the taxonomy above.
+Consistent capture is the prerequisite for the meta-retrospective that
+targets systemic fixes.
+
 ## Open topics
 
 Still unsourced targets for this chapter:
@@ -107,5 +226,6 @@ Still unsourced targets for this chapter:
 - Pairing AI hypotheses with graph/trace checks
 
 ---
-*Sources for this chapter: docs-google-sre-prodcast-01-09-postmortems*
-*Last updated: 2026-08-06*
+*Sources for this chapter: docs-google-sre-prodcast-01-09-postmortems,
+docs-google-sre-incident-response, docs-google-sre-postmortem-analysis*
+*Last updated: 2026-08-13*

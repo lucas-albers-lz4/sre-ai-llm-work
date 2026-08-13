@@ -133,6 +133,27 @@ can surface a hidden error via large-context "needle in a haystack" search
 AI integration for on-call — the agent reads, summarizes, and recommends;
 the human decides and acts.
 
+## The human incident-tooling baseline an agent populates
+
+PagerDuty's incident-response tooling is a three-part topology an AI incident
+agent should populate rather than replace [source:
+docs-google-sre-incident-response, Claim 11] [settled]:
+
+- **Source of truth**: "We store all of our on-call information, service
+  ownership, postmortems, incident metadata, and the like, in PagerDuty. This
+  allows us to rapidly assemble the right team when something goes wrong."
+- **Scribe-led ledger**: a dedicated `#incident-war-room` channel "used mostly
+  as an information ledger for the scribe, who captures actions, owners, and
+  timestamps."
+- **Decision bridge**: "We prefer that all coordination decisions are made in
+  the conference call, and that decision outcomes are recorded in Slack" —
+  with every call recorded so the timeline can be recreated.
+
+**Rule**: An AI incident agent is most useful as the scribe and timeline
+reconstructor of this topology — read the metadata source of truth, write the
+action ledger, keep the decision record complete. Don't let the agent replace
+the human decision bridge.
+
 ## Agent evaluation in production
 
 ### Golden labels from historical incidents
@@ -279,5 +300,6 @@ not production-ready.
 ---
 *Sources for this chapter: docs-google-sre-prodcast-04-09-ai-agents,
 blog-litellm-agents-are-the-new-llms, blog-promptfoo-ai-orchestrated-cyberattacks,
-blog-promptfoo-ai-regulation-2025, docs-google-sre-eliminating-toil*
-*Last updated: 2026-08-08*
+blog-promptfoo-ai-regulation-2025, docs-google-sre-eliminating-toil,
+docs-google-sre-incident-response*
+*Last updated: 2026-08-13*
