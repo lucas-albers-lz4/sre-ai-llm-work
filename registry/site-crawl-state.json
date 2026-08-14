@@ -1326,7 +1326,7 @@
         "filed_at": "2026-08-13T12:56:28.715514+00:00"
       }
     },
-    "last_scan": "2026-08-13T12:55:57.107580+00:00"
+    "last_scan": "2026-08-14T12:49:56.298947+00:00"
   },
   "opentelemetry": {
     "urls": {},
@@ -1929,16 +1929,22 @@
         "filed_at": "2026-08-13T12:56:34.394460+00:00"
       },
       "https://www.cncf.io/about/join/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T02:14:02.847093+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T02:14:02.847093+00:00",
+        "issue": 921,
+        "filed_at": "2026-08-14T12:50:22.898123+00:00"
       },
       "https://www.cncf.io/about/faq/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:44:15.310492+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:44:15.310492+00:00",
+        "issue": 922,
+        "filed_at": "2026-08-14T12:50:24.883912+00:00"
       },
       "https://www.cncf.io/about/contact/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:44:15.310509+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:44:15.310509+00:00",
+        "issue": 923,
+        "filed_at": "2026-08-14T12:50:27.854678+00:00"
       },
       "https://www.cncf.io/projects/zot/": {
         "status": "pending",
@@ -2951,9 +2957,21 @@
       "https://www.cncf.io/blog/2026/04/21/auto-diagnosing-kubernetes-alerts-with-holmesgpt-and-cncf-tools": {
         "status": "pending",
         "screened_at": "2026-08-13T12:56:08.154450+00:00"
+      },
+      "https://www.cncf.io/blog/2026/08/14/eleven-minutes-zero-humans-building-a-self-healing-kubernetes-upgrade-pipeline-on-kairos": {
+        "status": "pending",
+        "screened_at": "2026-08-14T12:50:03.608795+00:00"
+      },
+      "https://www.cncf.io/blog/2026/04/20/from-public-static-void-main-to-golden-kubestronaut-the-art-of-unlearning": {
+        "status": "pending",
+        "screened_at": "2026-08-14T12:50:03.608813+00:00"
+      },
+      "https://www.cncf.io/blog/2026/04/17/k3s-on-on-prem-infrastructures-the-gitops-way-writing-a-custom-k0rdent-template-from-scratch": {
+        "status": "pending",
+        "screened_at": "2026-08-14T12:50:03.608816+00:00"
       }
     },
-    "last_scan": "2026-08-13T12:56:08.154453+00:00"
+    "last_scan": "2026-08-14T12:50:03.608819+00:00"
   },
   "datadog-llm-obs": {
     "urls": {
@@ -2962,7 +2980,7 @@
         "screened_at": "2026-07-12T23:52:56.905756+00:00"
       }
     },
-    "last_scan": "2026-08-13T12:56:09.850188+00:00"
+    "last_scan": "2026-08-14T12:50:05.560689+00:00"
   },
   "langfuse-docs": {
     "urls": {
@@ -3091,7 +3109,7 @@
         "filed_at": "2026-07-23T13:33:58.953513+00:00"
       }
     },
-    "last_scan": "2026-08-13T12:56:11.547842+00:00"
+    "last_scan": "2026-08-14T12:50:07.154657+00:00"
   },
   "litellm-docs": {
     "urls": {
@@ -3694,16 +3712,22 @@
         "filed_at": "2026-08-13T12:56:39.927071+00:00"
       },
       "https://docs.litellm.ai/blog/tags/gpt-5-4-mini": {
-        "status": "pending",
-        "screened_at": "2026-07-13T23:36:32.157598+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T23:36:32.157598+00:00",
+        "issue": 924,
+        "filed_at": "2026-08-14T12:50:30.303341+00:00"
       },
       "https://docs.litellm.ai/blog/tags/gpt-5-4-nano": {
-        "status": "pending",
-        "screened_at": "2026-07-13T23:36:32.157600+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T23:36:32.157600+00:00",
+        "issue": 925,
+        "filed_at": "2026-08-14T12:50:32.349969+00:00"
       },
       "https://docs.litellm.ai/blog/tags/gpt-5-5": {
-        "status": "pending",
-        "screened_at": "2026-07-13T23:36:32.157603+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T23:36:32.157603+00:00",
+        "issue": 926,
+        "filed_at": "2026-08-14T12:50:34.444625+00:00"
       },
       "https://docs.litellm.ai/blog/tags/gpt-5-5-pro": {
         "status": "pending",
@@ -4508,9 +4532,21 @@
       "https://docs.litellm.ai/docs/integrations/community": {
         "status": "pending",
         "screened_at": "2026-08-13T12:56:17.201775+00:00"
+      },
+      "https://docs.litellm.ai/docs/integrations/letta": {
+        "status": "pending",
+        "screened_at": "2026-08-14T12:50:15.750908+00:00"
+      },
+      "https://docs.litellm.ai/docs/integrations/observability_integrations": {
+        "status": "pending",
+        "screened_at": "2026-08-14T12:50:15.750925+00:00"
+      },
+      "https://docs.litellm.ai/docs/integrations/websearch_interception": {
+        "status": "pending",
+        "screened_at": "2026-08-14T12:50:15.750928+00:00"
       }
     },
-    "last_scan": "2026-08-13T12:56:17.201779+00:00"
+    "last_scan": "2026-08-14T12:50:15.750932+00:00"
   },
   "promptfoo-docs": {
     "urls": {
@@ -5103,16 +5139,22 @@
         "filed_at": "2026-08-13T12:56:45.980533+00:00"
       },
       "https://www.promptfoo.dev/blog/tags/google/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:45:08.317215+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:45:08.317215+00:00",
+        "issue": 927,
+        "filed_at": "2026-08-14T12:50:36.565452+00:00"
       },
       "https://www.promptfoo.dev/blog/tags/huggingface/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T23:36:51.782561+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T23:36:51.782561+00:00",
+        "issue": 928,
+        "filed_at": "2026-08-14T12:50:38.475965+00:00"
       },
       "https://www.promptfoo.dev/blog/tags/integration/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T23:36:51.782576+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T23:36:51.782576+00:00",
+        "issue": 929,
+        "filed_at": "2026-08-14T12:50:40.347839+00:00"
       },
       "https://www.promptfoo.dev/blog/tags/jailbreak/": {
         "status": "pending",
@@ -5925,8 +5967,20 @@
       "https://www.promptfoo.dev/docs/guides/text-to-sql-evaluation": {
         "status": "pending",
         "screened_at": "2026-08-13T12:56:21.868898+00:00"
+      },
+      "https://www.promptfoo.dev/docs/installation": {
+        "status": "pending",
+        "screened_at": "2026-08-14T12:50:21.661041+00:00"
+      },
+      "https://www.promptfoo.dev/docs/integrations/agent-skill": {
+        "status": "pending",
+        "screened_at": "2026-08-14T12:50:21.661057+00:00"
+      },
+      "https://www.promptfoo.dev/docs/integrations/aws-codecommit": {
+        "status": "pending",
+        "screened_at": "2026-08-14T12:50:21.661061+00:00"
       }
     },
-    "last_scan": "2026-08-13T12:56:21.868901+00:00"
+    "last_scan": "2026-08-14T12:50:21.661063+00:00"
   }
 }
