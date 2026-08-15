@@ -239,9 +239,32 @@ can distinguish real problems from cosmetic ones
 [source: docs-google-sre-prodcast-03-04-observability-spectrum, Claim 12]
 [emerging].
 
+## Platform-side observability: shared SLO dashboards
+
+For any platform with tenants, observability extends across the
+platform/tenant boundary. Google's platform-SRE doctrine: audit the
+customer's monitoring and build shared dashboards. "Up to half of the things
+your customer is measuring (and alerting on) have zero impact on their SLOs" —
+the remaining measurements are candidate SLIs, uncovered SLO dimensions need
+new measurements, and the goal is a shared SLO dashboard so that whenever a
+customer contacts you because their SLO seems threatened, "you shouldn't have
+to swap much additional information" [source:
+docs-google-sre-reaching-beyond-walls, Claim 8] [settled].
+
+This is the observability corollary of "your users, not your monitoring,
+decide your reliability": "your monitoring, logs, and alerting are valuable
+only insofar as they help you notice problems before your customers do"
+[source: docs-google-sre-reaching-beyond-walls, Claim 2] [settled].
+
+**Rule**: For an LLM platform, audit tenant telemetry against tenant
+quality/latency/cost SLIs and build a shared SLO dashboard. Much of what
+tenants alert on (token counts, generic p95) may not track their stated app
+SLOs — turn off the SLO-irrelevant alerting on both sides.
+
 ---
 *Sources for this chapter: docs-datadog-llm-observability,
 docs-google-sre-prodcast-03-04-observability-spectrum,
 blog-honeycomb-instrumenting-ai-agents-opentelemetry,
-docs-google-sre-reliable-data-processing-minimal-toil*
-*Last updated: 2026-08-06*
+docs-google-sre-reliable-data-processing-minimal-toil,
+docs-google-sre-reaching-beyond-walls*
+*Last updated: 2026-08-13*

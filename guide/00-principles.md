@@ -32,7 +32,27 @@
    or configuration pushes," and the answer is SLOs, error budgets, and
    canarying — measuring change's reliability impact rather than avoiding
    change [source: docs-google-sre-canarying-releases, Claim 4] [settled].
+   The figures behind that claim: binary push 37% and configuration push 31%
+   account for 68% of Google's outage triggers, and software plus the
+   software-development process account for over 61% of root causes
+   [source: docs-google-sre-postmortem-analysis, Claim 4, Claim 5] [settled].
    `[editorial + sourced]`
+
+## Your users, not your monitoring, decide your reliability
+
+The only reliability measure that matters is the user's experienced
+reliability. "Your monitoring, logs, and alerting are valuable only insofar
+as they help you notice problems before your customers do" — and telling a
+worried user "our monitoring looks fine" changes nothing, because the
+peak-end rule means they remember the worst moment and the last moment, not
+the average [source: docs-google-sre-reaching-beyond-walls, Claim 2]
+[settled]. "You are what you measure, so choose your metrics carefully"
+[source: docs-google-sre-reaching-beyond-walls, Claim 1] [settled].
+
+**Rule**: For LLM applications this is decisive: a tenant's app can be
+failing on quality or latency in ways the provider's serving dashboards never
+see. Choose metrics by what the user experiences, not by what your stack
+measures easily.
 
 ## SRE is engineering, not ops
 
@@ -116,6 +136,19 @@ the room when the agent architecture is designed — not called in when it
 breaks. The tool inventory, permission model, and rollback path are
 reliability decisions that get frozen at design time.
 
+## Align incentives with an explicit safety pledge
+
+Google's canonical dev/SRE alignment mechanism is an explicit pledge: "We
+will support you in releasing as quickly as is safe," where "safe" generally
+means staying within the error budget — balanced by the developer team's
+commitment of a reasonable percentage of engineering time to reliability work
+[source: docs-google-sre-engagement-model, Claim 8] [settled].
+
+**Rule**: State the reliability team's support contract with the LLM product
+team explicitly, with the error budget as the definition of "safe." Product
+gets velocity within budget; the reliability team gets product engineering
+time committed to reliability in return.
+
 ## Publish decision criteria so teams can self-steer
 
 Leaders should publish *how* they make decisions — strategy plus guardrail
@@ -149,5 +182,6 @@ modes is overclaiming.
 *Sources for this chapter: docs-google-sre-prodcast-02-07-sabrina-farmer,
 docs-google-sre-prodcast-04-09-ai-agents, blog-promptfoo-ai-regulation-2025,
 docs-google-sre-prodcast-03-04-observability-spectrum,
-docs-google-sre-canarying-releases*
-*Last updated: 2026-08-08*
+docs-google-sre-canarying-releases, docs-google-sre-postmortem-analysis,
+docs-google-sre-reaching-beyond-walls, docs-google-sre-engagement-model*
+*Last updated: 2026-08-13*
