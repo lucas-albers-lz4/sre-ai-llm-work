@@ -173,6 +173,43 @@ topic clusters. Analyze over the past week
 and topic-cluster-level signals. A single aggregate error rate hides the
 regression.
 
+## SLI measurement design
+
+Two first-party SLO-adoption journeys supply the design rules for *how* to
+measure an SLI — directly transferable to LLM service SLIs.
+
+### Evernote: external prober, two-location "down", maintenance as downtime
+
+Evernote measured availability with an external third-party prober
+(Pingdom) that was "located completely outside of and independent from our
+environment so we could test all our components, including our load
+balancing stack." A node was marked down for SLO purposes only after a
+second geographically separate prober confirmed the first failure, and
+maintenance windows were treated as downtime: "Uninformed users would
+therefore experience these windows as generic and unexplained downtime"
+[source: docs-google-sre-slo-engineering-case-studies, Claim 4] [settled].
+
+**Rule**: Measure user-experienced availability from outside the stack,
+require multi-location confirmation before declaring an outage, and count
+announced maintenance as downtime — your users' experience, not your
+operational announcements, defines the SLI.
+
+### THD: percentiles, 5xx-only errors, no utilization
+
+THD's SLI rules: latency as percentiles over arithmetic averages ("at
+minimum, services needed to hit a 90th percentile target; user-facing
+services had a preferred target of 95th and/or 99th percentile"), a
+black-box supplement to white-box monitoring, error classification
+standardized on HTTP codes with SLOs set on 5xx only (4xx tracked but
+excluded), and an explicit decision against utilization SLOs — "your users
+don't really care about utilization as long as you can handle the traffic
+volume" [source: docs-google-sre-slo-engineering-case-studies, Claim 9,
+Claim 10] [settled].
+
+**Rule**: Latency SLIs are percentiles, not averages; error SLOs count
+service-side (5xx) failures with client errors still tracked; and leave
+utilization out of the user-facing SLO.
+
 ## Batch-pipeline health signals
 
 LLM data work (eval refresh, embedding backfills, index rebuilds) is batch
@@ -261,10 +298,27 @@ quality/latency/cost SLIs and build a shared SLO dashboard. Much of what
 tenants alert on (token counts, generic p95) may not track their stated app
 SLOs — turn off the SLO-irrelevant alerting on both sides.
 
+The failure mode a shared dashboard exists to prevent: a provider's global
+SLO rollup can hide region-isolated outages for a small-footprint tenant.
+Because Evernote's VM footprint was "only a small percentage of the global
+GCP number," outages isolated to its region could be lost in the overall
+rollup to a global level even while the provider's graphs stayed green —
+which is why Evernote shared real-time SLO dashboards with the provider's
+CRE team, received SLO-impact-quantified notifications ("this issue is
+causing a 5% impact to Evernote's SLO"), and treated high-SLO-impact
+incidents as mutual P1s on a shared bridge [source:
+docs-google-sre-slo-engineering-case-studies, Claim 6] [settled].
+
+**Rule**: For an LLM platform, a global model-quality SLO can mask a region-
+or tenant-specific degradation. Share tenant-scoped SLO dashboards and
+quantify impact in the tenant's terms — the aggregate number will not show
+it.
+
 ---
 *Sources for this chapter: docs-datadog-llm-observability,
 docs-google-sre-prodcast-03-04-observability-spectrum,
 blog-honeycomb-instrumenting-ai-agents-opentelemetry,
 docs-google-sre-reliable-data-processing-minimal-toil,
-docs-google-sre-reaching-beyond-walls*
-*Last updated: 2026-08-13*
+docs-google-sre-reaching-beyond-walls,
+docs-google-sre-slo-engineering-case-studies*
+*Last updated: 2026-08-15*

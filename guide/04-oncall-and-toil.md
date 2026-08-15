@@ -47,6 +47,29 @@ optimization [source: docs-google-sre-eliminating-toil, Claim 3] [settled].
 **Rule**: Set an explicit toil ceiling for the team. Any plan that grows the
 toil share of on-call time is a regression even if total work falls.
 
+### Measuring complexity reduction
+
+Complexity has no objective CCN-style count at system level — counting
+entities and communication paths "can grow hopelessly large very quickly" —
+so Google measures complexity reduction with five practical proxies:
+training time (how long to get a new team member on-call), explanation time
+(how long to whiteboard the architecture for a new team member),
+administrative diversity (how many ways there are to configure similar
+settings), diversity of deployed configurations (how many unique
+binaries/versions/flags/environments run in production), and age (Hyrum's
+Law — users come to depend on every aspect of an API's implementation)
+[source: docs-google-sre-simplicity, Claim 3, Concrete Artifacts] [settled].
+
+The first two are countable human-effort proxies; the next two are directly
+countable from a config corpus and deployment inventory — the same
+ledger-able units as the toil measurement above, and just as talliable by an
+agent layer.
+
+**Rule**: Track complexity reduction with the five proxies, parallel to your
+objective toil unit. Falling training time, explanation time, and
+config/deploy diversity mean the system is getting simpler even if no code
+metric moves.
+
 ## Agent-appropriate vs always-manual work
 
 Toil falls into six common categories — Business Processes (ticket-driven),
@@ -112,6 +135,48 @@ first, then improve using the time you gained, with clear metrics
 **Rule**: Scope the first toil-reduction pass to a few high-priority classes
 with a defined metric. Both of Google's toil case studies followed phased,
 incremental paths rather than big-bang redesigns.
+
+### Error-budget-driven prioritization
+
+SLOs allocate *which* work gets done, not just how it is measured. Evernote
+uses the error budget "as a method to allocate resources going forward" — a
+missed-SLO last month "helps us prioritize relevant fixes, improvements, and
+bug fixes" at a monthly Evernote/Google SLO review, governed by "Perfect is
+the enemy of good" and a six-month review cycle that strikes "the right
+balance between changing SLOs too often and letting them become stale"
+[source: docs-google-sre-slo-engineering-case-studies, Claim 5] [settled].
+
+**Rule**: Let a missed-SLO last month drive this month's prioritization —
+the error budget is the objective tie-breaker for the fix queue, and the
+SLOs themselves get revisited on a fixed cadence.
+
+### Simplification is the non-automation lever
+
+Toil reduction reads as "automate more," but removal is the first-class
+lever: "In general, complexity will increase in living software systems
+unless there is a countervailing effort" [source: docs-google-sre-simplicity,
+Claim 4] [settled]. Simplification saves engineering time and cognitive load
+rather than compute or network, so it needs manufactured incentives: "Treat
+successful simplification projects just as you treat useful feature
+launches, and measure and celebrate code addition and removal equally" —
+Google's intranet even runs a "Zombie Code Slayer" badge for engineers who
+delete significant amounts of code [source: docs-google-sre-simplicity,
+Claim 9] [settled].
+
+Because "Simplification is a feature," it must be prioritized and staffed
+like one: Google's example mechanism is to reserve "10% of engineering
+project time" for simplicity projects — a budget, not a license to
+introduce complexity with the other 90% [source: docs-google-sre-simplicity,
+Claim 10] [settled]. And resist carving the reliability team into narrower
+scopes as the system grows: "Consider designating a small rotating group of
+SREs who maintain working knowledge of the entire stack (likely with less
+depth), and can push for conformity and simplification across it"
+[source: docs-google-sre-simplicity, Claim 11] [settled].
+
+**Rule**: Before automating a toil class, ask whether it can be removed.
+Fund simplification like a feature — a named time budget, celebrated code
+deletion, a whole-stack owner — because removal beats automation with no
+liability to maintain.
 
 ## Running the on-call rotation
 
@@ -254,5 +319,6 @@ coverage.
 ---
 *Sources for this chapter: docs-google-sre-eliminating-toil,
 docs-google-sre-on-call, docs-google-sre-incident-response,
-docs-google-sre-engagement-model, docs-google-sre-reaching-beyond-walls*
-*Last updated: 2026-08-13*
+docs-google-sre-engagement-model, docs-google-sre-reaching-beyond-walls,
+docs-google-sre-simplicity, docs-google-sre-slo-engineering-case-studies*
+*Last updated: 2026-08-15*
