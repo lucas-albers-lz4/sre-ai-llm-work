@@ -334,6 +334,145 @@ Before citing or publishing a red-team result, answer
 a deploy/no-deploy decision. If a published paper doesn't answer these,
 treat its ASR as directional, not comparable.
 
+## SLO programs for LLM services
+
+Two first-party SLO-adoption journeys — Evernote and The Home Depot — give
+the LLM-ops chapter its adoption playbook: start coarse, automate SLI
+collection, keep trending and paging separate, let the business own the
+targets, and share SLOs across the provider boundary.
+
+### Start coarse, document the first SLO, iterate
+
+Evernote's first pass was deliberately simple: one uptime SLO — 99.95% over
+a calendar-month window, chosen to keep monthly service reviews organized —
+for "certain services and methods," written into a document specifying the
+definition, what to measure, how to measure, and how to calculate the SLO
+from monitoring data. The governing principle was "Perfect is the enemy of
+good": two revisions in nine months on a six-month review cycle [source:
+docs-google-sre-slo-engineering-case-studies, Claim 3, Claim 5] [settled].
+
+**Rule**: Stand up an LLM-service SLO program with one coarse user-facing
+SLO, a written definition/measurement/calculation document, and a fixed
+revisit cadence. Analysis paralysis at SLO v1 is the only failure mode that
+matters.
+
+### Automate SLI collection — the scale prerequisite
+
+THD went from ~50 to 800 SLO-covered services in less than a year (~50 new
+services/month) on top of TPS Reports, a BigQuery framework that fed all
+web-serving frontend logs in, transformed them into hourly VALET metrics,
+and auto-registered new services as they deployed — but automation was not
+the prerequisite to start: "there are benefits to just writing SLOs in the
+first place" [source: docs-google-sre-slo-engineering-case-studies,
+Claim 12, Claim 13] [settled].
+
+**Rule**: Per-service SLO coverage for a many-model/agent fleet only scales
+if SLI collection is automatic. Write the first SLOs before you build the
+collection pipeline, not after.
+
+### Decouple SLO trending from alerting
+
+THD kept SLOs as "a trending tool that we can use for error budgets" that
+"aren't directly connected to our monitoring systems" — deliberately
+accepting that alerting thresholds are not integrated with SLOs, in
+exchange for the flexibility to change monitoring systems and the absence
+of page-on-every-breach alerting [source:
+docs-google-sre-slo-engineering-case-studies, Claim 12] [settled].
+
+**Rule**: Run the SLO/error-budget layer as a trending and prioritization
+tool, separate from symptom alerting. An SLO program that pages on every
+out-of-SLO state is an SLO program that pages itself to death.
+
+### Business-owner-set reliability tiers
+
+THD's stated design is that "the SLOs for a service should be set by the
+business owner of the service (often called a product manager) based on its
+criticality to the business," with a short business-facing ladder — 99.5%
+for non-selling/MVP services, 99.9% for most nonselling systems, 99.95% for
+selling systems, 99.99% for shared infrastructure [source:
+docs-google-sre-slo-engineering-case-studies, Claim 15, Concrete Artifacts]
+[emerging].
+
+**Rule**: Let the product owner set each LLM service's reliability target
+from a short criticality ladder, not a uniform default. One target for every
+model is the failure mode the ladder exists to avoid.
+
+### Shared SLOs across the provider boundary
+
+A tenant of a hosted model platform sits where Evernote sat with GCP: the
+provider's global SLO rollup hides region-isolated outages for a
+small-footprint tenant, so Evernote shared real-time SLO performance and
+dashboards with the provider's CRE team, received SLO-impact-quantified
+notifications ("this issue is causing a 5% impact to Evernote's SLO"), and
+treated high-SLO-impact incidents as mutual P1s on a shared bridge [source:
+docs-google-sre-slo-engineering-case-studies, Claim 6] [settled].
+
+**Rule**: If you run LLM products on a hosted model provider, set up the
+shared-SLO relationship: tenant-scoped SLIs the global rollup cannot see,
+shared dashboards, and SLO-impact-quantified notifications — with a mutual
+P1 when a degradation eats the tenant's error budget.
+
+## Standing up an AI reliability team
+
+The team-lifecycle chapter is the org-design substrate for building a
+reliability function around LLM/agent infrastructure.
+
+### Hire the first SRE against five skill areas
+
+The first reliability engineer "will likely occupy a difficult and ambiguous
+position between velocity and reliability goals," so hire against five
+areas — operations, software engineering, monitoring systems, production
+automation, and system architecture — each with a stated rationale, e.g.
+"Scaling operations requires automation" and "Scaling the application
+requires good architecture" [source: docs-google-sre-team-lifecycles,
+Claim 2, Concrete Artifacts] [settled].
+
+**Rule**: Screen a first AI/LLM reliability hire against the same five
+areas — ops, software engineering, monitoring, production automation, and
+system architecture. A candidate strong in one or two is a subject-matter
+expert, not yet the first SRE.
+
+### Don't rename Ops to SRE
+
+The chapter's explicit warning when forming the first team: avoid renaming a
+team from "Operations" to "SRE" without first applying the SRE practices
+and principles. Retitling a toil-heavy ops team "AI SRE" without changing
+practice is the org-level version of checkbox SRE [source:
+docs-google-sre-team-lifecycles, Claim 6] [settled].
+
+**Rule**: The name follows the practice — SLOs with consequences, time to
+make tomorrow better, and workload regulation must be in place before the
+title means anything.
+
+### Size the team against the SRE-to-engineer ratio
+
+Google funds SRE like product engineering, keeping the ratio of SREs to
+product engineers "around 1:5 (e.g., low-level infrastructure services) to
+around 1:50 (e.g., consumer-facing applications with a large number of
+microservices built using standard frameworks)," most services near 1:10 —
+and "you should have fewer SREs than the organization would like, and only
+enough SREs to accomplish their specialized work" [source:
+docs-google-sre-team-lifecycles, Claim 16] [settled].
+
+**Rule**: Staff an LLM-platform reliability team at roughly 1:5–1:50
+SREs-to-engineers (~1:10 typical), scaled by how standard the serving
+framework is. Under-staffing is a promise the team cannot keep; over-staffing
+is the "you should have fewer" cost Google warns about.
+
+### Workload self-regulation and hand-back
+
+A mature reliability team "chooses if and when to onboard a service," can
+reduce toil by lowering the SLO or transferring operational work, and can
+hand a service back when it "becomes impossible to operate a service at SLO
+within agreed toil constraints." Without that self-regulation, "your team
+risks attrition as SREs move on to more interesting opportunities" [source:
+docs-google-sre-team-lifecycles, Claim 13] [settled].
+
+**Rule**: Grant the AI reliability team the hand-back and self-regulation
+levers — it decides when to onboard a service, when to lower the SLO, and
+when to hand an unhealthy agentic service back. A team that cannot refuse
+or hand back work bleeds out and puts production at risk.
+
 ## Cost, capacity, and fallback patterns
 
 ### Silent model fallback breaks attribution
@@ -470,5 +609,6 @@ exactly like the internal engagement model.
 blog-litellm-claude-fable-5-day-0, blog-litellm-agents-are-the-new-llms,
 failure-litellm-wildcard-model-access-desync, blog-promptfoo-asr-not-portable-metric,
 docs-google-sre-canarying-releases, docs-google-sre-configuration-design,
-docs-google-sre-configuration-specifics, docs-google-sre-reaching-beyond-walls*
-*Last updated: 2026-08-13*
+docs-google-sre-configuration-specifics, docs-google-sre-reaching-beyond-walls,
+docs-google-sre-slo-engineering-case-studies, docs-google-sre-team-lifecycles*
+*Last updated: 2026-08-15*

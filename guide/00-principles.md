@@ -136,6 +136,45 @@ the room when the agent architecture is designed — not called in when it
 breaks. The tool inventory, permission model, and rollback path are
 reliability decisions that get frozen at design time.
 
+Evernote tried the two classic wall-fixes before finding the mechanism:
+after "You wrote it, you run it" (development) and "You wrote it, we run it
+for you" (operations) both failed, it settled on an SLO-centric SRE model
+that "does not try to transform operations engineers into application
+developers, or vice versa" — the error budget gives both teams a common
+frame of reference, and "an error budget/SLO approach has led both teams to
+make similar decisions when presented with the same facts, as it removes a
+good deal of subjectivity from the conversation"
+[source: docs-google-sre-slo-engineering-case-studies, Claim 2] [settled].
+
+**Rule**: The error budget is the mechanism that breaks the dev/SRE wall —
+the shared fact base that lets dev and ops make the same decisions without
+merging their roles.
+
+## Complexity is an externality — designate a whole-system champion
+
+The cost of complexity does not hit the team that introduces it:
+
+> Frequently, the cost of complexity does not directly affect the
+> individual, team, or role that introduces it—in economic terms, complexity
+> is an externality. Instead, complexity impacts those who continue to work
+> in and around it. Thus, it is important to have a champion for end-to-end
+> system simplicity.
+
+The single retry-in-one-component that later overloads the database is a
+locally-simple change landing as system-level complexity its introducer
+never pays for. Because the introducer doesn't bear the cost, the fix is
+structural: a designated champion with whole-system scope, and SREs are the
+natural fit because their work requires treating the system as a whole
+[source: docs-google-sre-simplicity, Claim 5] [settled].
+
+The end-state is bounded by Gall's Law: "A complex system that works is
+invariably found to have evolved from a simple system that worked"
+[source: docs-google-sre-simplicity, Concrete Artifacts] [settled].
+
+**Rule**: Assign a designated whole-system reliability owner for an AI/LLM
+toolchain's simplification. The team that introduces complexity won't remove
+it — they never pay its cost.
+
 ## Align incentives with an explicit safety pledge
 
 Google's canonical dev/SRE alignment mechanism is an explicit pledge: "We
@@ -183,5 +222,6 @@ modes is overclaiming.
 docs-google-sre-prodcast-04-09-ai-agents, blog-promptfoo-ai-regulation-2025,
 docs-google-sre-prodcast-03-04-observability-spectrum,
 docs-google-sre-canarying-releases, docs-google-sre-postmortem-analysis,
-docs-google-sre-reaching-beyond-walls, docs-google-sre-engagement-model*
-*Last updated: 2026-08-13*
+docs-google-sre-reaching-beyond-walls, docs-google-sre-engagement-model,
+docs-google-sre-simplicity, docs-google-sre-slo-engineering-case-studies*
+*Last updated: 2026-08-15*

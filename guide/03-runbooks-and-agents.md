@@ -100,6 +100,23 @@ Agent capabilities split into two categories
 explicit human approval. Run writes in a sandbox; actions that escape the
 sandbox need a second permission check.
 
+## Structured tool contracts over free-form interfaces
+
+A maximally-flexible agent-facing interface — a generic key/value "bag," an
+untyped dict, a free-text tool schema — looks simple but shifts the design
+burden onto every client that must document and maintain the informal
+contract. Google's case study of an abstract API vs structured types makes
+the trade explicit: "Structured data types like Google's Protocol Buffers or
+Apache Thrift might seem more complex than their abstract general-purpose
+alternatives, but they result in simpler end-to-end solutions because they
+force upfront design decisions and documentation"
+[source: docs-google-sre-simplicity, Claim 7] [settled].
+
+**Rule**: Define agent-facing tool and service contracts as structured,
+typed schemas that force design decisions at definition time. A tool schema
+that says "here's a dict, figure it out" transfers its complexity to every
+agent that calls it.
+
 ## The pre-on-caller triage pattern
 
 ### Agent as first responder
@@ -301,5 +318,5 @@ not production-ready.
 *Sources for this chapter: docs-google-sre-prodcast-04-09-ai-agents,
 blog-litellm-agents-are-the-new-llms, blog-promptfoo-ai-orchestrated-cyberattacks,
 blog-promptfoo-ai-regulation-2025, docs-google-sre-eliminating-toil,
-docs-google-sre-incident-response*
-*Last updated: 2026-08-13*
+docs-google-sre-incident-response, docs-google-sre-simplicity*
+*Last updated: 2026-08-15*
