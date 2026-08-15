@@ -1326,7 +1326,7 @@
         "filed_at": "2026-08-13T12:56:28.715514+00:00"
       }
     },
-    "last_scan": "2026-08-14T12:49:56.298947+00:00"
+    "last_scan": "2026-08-15T12:24:18.874078+00:00"
   },
   "opentelemetry": {
     "urls": {},
@@ -1947,16 +1947,22 @@
         "filed_at": "2026-08-14T12:50:27.854678+00:00"
       },
       "https://www.cncf.io/projects/zot/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:44:15.310511+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:44:15.310511+00:00",
+        "issue": 930,
+        "filed_at": "2026-08-15T12:24:44.365609+00:00"
       },
       "https://www.cncf.io/projects/youki/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:44:15.310513+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:44:15.310513+00:00",
+        "issue": 931,
+        "filed_at": "2026-08-15T12:24:46.124119+00:00"
       },
       "https://www.cncf.io/projects/xregistry/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:44:15.310515+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:44:15.310515+00:00",
+        "issue": 932,
+        "filed_at": "2026-08-15T12:24:47.850132+00:00"
       },
       "https://www.cncf.io/projects/wasmcloud/": {
         "status": "pending",
@@ -2969,9 +2975,21 @@
       "https://www.cncf.io/blog/2026/04/17/k3s-on-on-prem-infrastructures-the-gitops-way-writing-a-custom-k0rdent-template-from-scratch": {
         "status": "pending",
         "screened_at": "2026-08-14T12:50:03.608816+00:00"
+      },
+      "https://www.cncf.io/blog/2026/04/16/the-ai-driven-shift-in-vulnerability-discovery-what-maintainers-and-bug-finders-need-to-know": {
+        "status": "pending",
+        "screened_at": "2026-08-15T12:24:26.818842+00:00"
+      },
+      "https://www.cncf.io/blog/2026/04/15/how-to-measure-the-roi-of-developer-tools": {
+        "status": "pending",
+        "screened_at": "2026-08-15T12:24:26.818864+00:00"
+      },
+      "https://www.cncf.io/blog/2026/04/13/ingress-nginx-to-envoy-gateway-migration-on-cncf-internal-services-cluster": {
+        "status": "pending",
+        "screened_at": "2026-08-15T12:24:26.818867+00:00"
       }
     },
-    "last_scan": "2026-08-14T12:50:03.608819+00:00"
+    "last_scan": "2026-08-15T12:24:26.818870+00:00"
   },
   "datadog-llm-obs": {
     "urls": {
@@ -2980,7 +2998,7 @@
         "screened_at": "2026-07-12T23:52:56.905756+00:00"
       }
     },
-    "last_scan": "2026-08-14T12:50:05.560689+00:00"
+    "last_scan": "2026-08-15T12:24:28.321951+00:00"
   },
   "langfuse-docs": {
     "urls": {
@@ -3109,7 +3127,7 @@
         "filed_at": "2026-07-23T13:33:58.953513+00:00"
       }
     },
-    "last_scan": "2026-08-14T12:50:07.154657+00:00"
+    "last_scan": "2026-08-15T12:24:29.671406+00:00"
   },
   "litellm-docs": {
     "urls": {
@@ -3730,16 +3748,22 @@
         "filed_at": "2026-08-14T12:50:34.444625+00:00"
       },
       "https://docs.litellm.ai/blog/tags/gpt-5-5-pro": {
-        "status": "pending",
-        "screened_at": "2026-07-13T23:36:32.157605+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T23:36:32.157605+00:00",
+        "issue": 933,
+        "filed_at": "2026-08-15T12:24:49.660221+00:00"
       },
       "https://docs.litellm.ai/blog/tags/gpt-5-6": {
-        "status": "pending",
-        "screened_at": "2026-07-13T23:36:32.157607+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T23:36:32.157607+00:00",
+        "issue": 934,
+        "filed_at": "2026-08-15T12:24:51.240719+00:00"
       },
       "https://docs.litellm.ai/blog/tags/gpt-5-6-luna": {
-        "status": "pending",
-        "screened_at": "2026-07-13T23:36:32.157608+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T23:36:32.157608+00:00",
+        "issue": 935,
+        "filed_at": "2026-08-15T12:24:52.949426+00:00"
       },
       "https://docs.litellm.ai/blog/tags/gpt-5-6-sol": {
         "status": "pending",
@@ -4544,9 +4568,21 @@
       "https://docs.litellm.ai/docs/integrations/websearch_interception": {
         "status": "pending",
         "screened_at": "2026-08-14T12:50:15.750928+00:00"
+      },
+      "https://docs.litellm.ai/docs/interactions": {
+        "status": "pending",
+        "screened_at": "2026-08-15T12:24:37.539500+00:00"
+      },
+      "https://docs.litellm.ai/docs/langchain": {
+        "status": "pending",
+        "screened_at": "2026-08-15T12:24:37.539521+00:00"
+      },
+      "https://docs.litellm.ai/docs/learn": {
+        "status": "pending",
+        "screened_at": "2026-08-15T12:24:37.539524+00:00"
       }
     },
-    "last_scan": "2026-08-14T12:50:15.750932+00:00"
+    "last_scan": "2026-08-15T12:24:37.539528+00:00"
   },
   "promptfoo-docs": {
     "urls": {
@@ -5157,16 +5193,22 @@
         "filed_at": "2026-08-14T12:50:40.347839+00:00"
       },
       "https://www.promptfoo.dev/blog/tags/jailbreak/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T23:36:51.782579+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T23:36:51.782579+00:00",
+        "issue": 936,
+        "filed_at": "2026-08-15T12:24:54.544058+00:00"
       },
       "https://www.promptfoo.dev/blog/tags/mcp/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T23:36:51.782581+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T23:36:51.782581+00:00",
+        "issue": 937,
+        "filed_at": "2026-08-15T12:24:56.178924+00:00"
       },
       "https://www.promptfoo.dev/blog/tags/meta/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T23:36:51.782583+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T23:36:51.782583+00:00",
+        "issue": 938,
+        "filed_at": "2026-08-15T12:24:57.772419+00:00"
       },
       "https://www.promptfoo.dev/blog/tags/model-security/": {
         "status": "pending",
@@ -5979,8 +6021,20 @@
       "https://www.promptfoo.dev/docs/integrations/aws-codecommit": {
         "status": "pending",
         "screened_at": "2026-08-14T12:50:21.661061+00:00"
+      },
+      "https://www.promptfoo.dev/docs/integrations/azure-pipelines": {
+        "status": "pending",
+        "screened_at": "2026-08-15T12:24:43.117325+00:00"
+      },
+      "https://www.promptfoo.dev/docs/integrations/bitbucket-pipelines": {
+        "status": "pending",
+        "screened_at": "2026-08-15T12:24:43.117346+00:00"
+      },
+      "https://www.promptfoo.dev/docs/integrations/burp": {
+        "status": "pending",
+        "screened_at": "2026-08-15T12:24:43.117349+00:00"
       }
     },
-    "last_scan": "2026-08-14T12:50:21.661063+00:00"
+    "last_scan": "2026-08-15T12:24:43.117351+00:00"
   }
 }
