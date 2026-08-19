@@ -350,7 +350,7 @@ jobs:
 
       - name: Upload OpenCode logs and hang diagnostics
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: opencode-diag-${{ inputs.model }}-issue-${{ inputs.issue_number }}-r${{ github.run_id }}
           path: ${{ runner.temp }}/opencode-diag/
