@@ -49,7 +49,7 @@ jobs:
           # push does not trigger registry-rebuild.
           token: ${{ secrets.PROJECT_PAT }}
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
 

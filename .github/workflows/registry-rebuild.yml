@@ -42,7 +42,7 @@ jobs:
           # commit still prevents a re-trigger loop. See docs/AUTO-GATE-ROLLOUT.md.
           token: ${{ secrets.PROJECT_PAT }}
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
 
