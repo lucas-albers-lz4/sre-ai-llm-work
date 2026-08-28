@@ -71,6 +71,7 @@ _usage_run_totals: dict[str, int] = {
     "input_tokens": 0,
     "output_tokens": 0,
     "cache_read": 0,
+    "cache_miss": 0,
     "cache_creation": 0,
     "unparsed_urls": 0,
 }
@@ -93,14 +94,13 @@ def _usage_from_response(result: dict) -> dict[str, int]:
         return 0
 
     return {
-        "input_tokens": pick("input_tokens"),
-        "output_tokens": pick("output_tokens"),
-        # Anthropic: cache_read_input_tokens; DeepSeek console: prompt_cache_hit_tokens
-        "cache_read": pick("cache_read_input_tokens", "prompt_cache_hit_tokens"),
-        # Anthropic: cache_creation_input_tokens; DeepSeek: prompt_cache_miss_tokens
-        "cache_creation": pick(
-            "cache_creation_input_tokens", "prompt_cache_miss_tokens"
-        ),
+        "input_tokens": pick("input_tokens", "prompt_tokens"),
+        "output_tokens": pick("output_tokens", "completion_tokens"),
+        # Prefer DeepSeek console names on this client; Anthropic names second.
+        "cache_read": pick("prompt_cache_hit_tokens", "cache_read_input_tokens"),
+        # DeepSeek miss = uncached prompt input (not Anthropic cache_creation).
+        "cache_miss": pick("prompt_cache_miss_tokens"),
+        "cache_creation": pick("cache_creation_input_tokens"),
     }
 
 
@@ -126,6 +126,7 @@ def _log_site_crawl_usage(
                 f"input_tokens={usage['input_tokens']}",
                 f"output_tokens={usage['output_tokens']}",
                 f"cache_read={usage['cache_read']}",
+                f"cache_miss={usage['cache_miss']}",
                 f"cache_creation={usage['cache_creation']}",
                 f"unparsed_urls={unparsed_urls}",
             ]
@@ -134,11 +135,12 @@ def _log_site_crawl_usage(
         _usage_run_totals["input_tokens"] += usage["input_tokens"]
         _usage_run_totals["output_tokens"] += usage["output_tokens"]
         _usage_run_totals["cache_read"] += usage["cache_read"]
+        _usage_run_totals["cache_miss"] += usage["cache_miss"]
         _usage_run_totals["cache_creation"] += usage["cache_creation"]
         _usage_run_totals["unparsed_urls"] += unparsed_urls
     elif status == "error":
         _usage_run_totals["errors"] += 1
-        err = (error or "unknown").replace("\n", " ")[:200]
+        err = json.dumps((error or "unknown")[:200])
         parts.append(f"error={err}")
     print(" ".join(parts))
 
@@ -153,6 +155,7 @@ def _log_site_crawl_usage_total() -> None:
         f" input_tokens={_usage_run_totals['input_tokens']}"
         f" output_tokens={_usage_run_totals['output_tokens']}"
         f" cache_read={_usage_run_totals['cache_read']}"
+        f" cache_miss={_usage_run_totals['cache_miss']}"
         f" cache_creation={_usage_run_totals['cache_creation']}"
         f" unparsed_urls={_usage_run_totals['unparsed_urls']}"
     )
@@ -383,7 +386,14 @@ When in doubt, mark as RELEVANT — the Prospector will do the deep evaluation l
         )
         resp.raise_for_status()
         result = resp.json()
-        text = result["content"][0]["text"]
+        if not isinstance(result, dict):
+            raise ValueError(f"unexpected response type: {type(result).__name__}")
+        content = result.get("content") or []
+        if not content or not isinstance(content[0], dict):
+            raise ValueError("missing content block in Messages response")
+        text = content[0].get("text")
+        if not isinstance(text, str):
+            raise ValueError(f"unexpected content text type: {type(text).__name__}")
     except Exception as e:
         print(f"  ERROR calling screener model for screening: {e}", file=sys.stderr)
         _log_site_crawl_usage(
@@ -394,44 +404,55 @@ When in doubt, mark as RELEVANT — the Prospector will do the deep evaluation l
         )
         return {url: "pending" for url in urls}
 
-    # Parse the response
-    verdicts = {}
-    for line in text.strip().split("\n"):
-        line = line.strip()
-        if not line or "|" not in line:
-            continue
-        parts = [p.strip() for p in line.split("|", 2)]
-        if len(parts) < 2:
-            continue
-        url = parts[0]
-        verdict = parts[1].upper()
-        # Match URL back to our list (model might slightly mangle URLs)
-        matched_url = None
-        for u in urls:
-            if u in url or url in u:
-                matched_url = u
-                break
-        if matched_url:
-            if "RELEV" in verdict:
-                verdicts[matched_url] = "pending"
-            else:
-                verdicts[matched_url] = "rejected"
+    try:
+        usage = _usage_from_response(result)
 
-    # Any URL not in the response defaults to pending (screen again next time)
-    unparsed_urls = 0
-    for url in urls:
-        if url not in verdicts:
-            verdicts[url] = "pending"
-            unparsed_urls += 1
+        # Parse the response
+        verdicts = {}
+        for line in text.strip().split("\n"):
+            line = line.strip()
+            if not line or "|" not in line:
+                continue
+            parts = [p.strip() for p in line.split("|", 2)]
+            if len(parts) < 2:
+                continue
+            url = parts[0]
+            verdict = parts[1].upper()
+            # Match URL back to our list (model might slightly mangle URLs)
+            matched_url = None
+            for u in urls:
+                if u in url or url in u:
+                    matched_url = u
+                    break
+            if matched_url:
+                if "RELEV" in verdict:
+                    verdicts[matched_url] = "pending"
+                else:
+                    verdicts[matched_url] = "rejected"
 
-    usage = _usage_from_response(result)
-    _log_site_crawl_usage(
-        seed_id=seed.get("id", "unknown"),
-        url_count=len(urls),
-        status="ok",
-        unparsed_urls=unparsed_urls,
-        usage=usage,
-    )
+        # URLs with no matching model line → pending (filed like other pending)
+        unparsed_urls = 0
+        for url in urls:
+            if url not in verdicts:
+                verdicts[url] = "pending"
+                unparsed_urls += 1
+
+        _log_site_crawl_usage(
+            seed_id=seed.get("id", "unknown"),
+            url_count=len(urls),
+            status="ok",
+            unparsed_urls=unparsed_urls,
+            usage=usage,
+        )
+    except Exception as e:
+        print(f"  ERROR parsing screener response: {e}", file=sys.stderr)
+        _log_site_crawl_usage(
+            seed_id=seed.get("id", "unknown"),
+            url_count=len(urls),
+            status="error",
+            error=str(e),
+        )
+        return {url: "pending" for url in urls}
 
     relevant = sum(1 for v in verdicts.values() if v == "pending")
     rejected = sum(1 for v in verdicts.values() if v == "rejected")

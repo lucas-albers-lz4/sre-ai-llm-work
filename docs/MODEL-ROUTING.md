@@ -153,21 +153,22 @@ Phase C (Assayer off-peak): [#1042](https://github.com/lucas-albers-lz4/sre-ai-l
 | Caller | Workflow / script | Model | Trigger | Peak exposure |
 |--------|-------------------|-------|---------|---------------|
 | Pre-screen | `source-pipeline.yml` | `deepseek-v4-flash` | `issues: opened` | Event-driven |
-| Prospector | `source-pipeline.yml` | `deepseek-v4-flash` | label `pre-screen:pass` | Event-driven |
-| Scribe | `scribe.yml` | `deepseek-v4-flash` | dispatch | Manual |
+| Prospector | `source-pipeline.yml` (after pre-screen job) | `deepseek-v4-flash` | same workflow, pre-screen pass | Event-driven |
+| Scribe | `scribe.yml` | `deepseek-v4-flash` | `issues: labeled` (`sticky-notes`) | Event-driven |
 | Site-crawl screener | `scan-sites.py` via `daily-scan.yml` | `deepseek-v4-flash` | cron `12:02` UTC | Off-peak |
 | Assayer review | `assayer.yml` | `deepseek-v4-flash[1m]` | PR + dispatch | **Peak risk** |
 | Assayer Smith/Miner rework | `assayer.yml` | `deepseek-v4-flash[1m]` | on REQUEST CHANGES | Peak risk |
 | Smith synthesis | `smith-on-source-merge.yml` | `deepseek-v4-flash[1m]` | Sat/Thu cron | Thu `00:02` spill watch |
-| Smith rework | `smith-rework.yml` | `deepseek-v4-flash[1m]` | dispatch | Event |
+| Smith rework | `smith-rework.yml` | `deepseek-v4-flash[1m]` | PR comment `/rework` or `/rebase` | Event-driven |
 | Herald | `herald-weekly.yml` | `deepseek-v4-flash[1m]` | Sun cron | Off-peak |
-| Contradiction | `contradiction-resolver.yml` | `deepseek-v4-flash[1m]` | dispatch | Event |
+| Contradiction assess + resolve | `contradiction-resolver.yml` | `deepseek-v4-flash[1m]` | `issues: labeled` (two jobs) | Event-driven |
 | Manual Flash Miner | `miner-batch.yml` | `deepseek-v4-flash` | dispatch only | peak_guard skip |
 | Smoke | `claude-smoke-test.yml` | `deepseek-v4-flash` | manual | Negligible |
 
-**Site-crawl input:** `scan-sites.py` sends **URL path strings** to Flash for
-relevance screening (“you cannot read the pages”). It does **not** send page
-HTML. Main-content extract / content-hash skip ([#658](https://github.com/lucas-albers-lz4/sre-ai-llm-work/issues/658))
+**Site-crawl input:** `scan-sites.py` sends **full URL strings** (scheme + host +
+path) to Flash for relevance screening from path/name only (“you cannot read the
+pages”). It does **not** fetch or send page HTML. Main-content extract /
+content-hash skip ([#658](https://github.com/lucas-albers-lz4/sre-ai-llm-work/issues/658))
 only saves tokens if the screener is redesigned to send page text.
 
 **Claude Code Action jobs** (Assayer, Smith, Prospector, etc.) may not expose
@@ -179,19 +180,23 @@ the instrumented direct Messages API path** (see below).
 After each Flash screening call, `scan-sites.py` prints structured lines:
 
 ```text
-SITE_CRAWL_USAGE status=ok model=deepseek-v4-flash seed=<id> urls=<n> input_tokens=... output_tokens=... cache_read=... cache_creation=... unparsed_urls=...
+SITE_CRAWL_USAGE status=ok model=deepseek-v4-flash seed=<id> urls=<n> input_tokens=... output_tokens=... cache_read=... cache_miss=... cache_creation=... unparsed_urls=...
 SITE_CRAWL_USAGE_TOTAL calls=... errors=... input_tokens=... ...
 ```
 
 Field mapping (Messages `usage` block):
 
-| Log field | Anthropic API | DeepSeek console alias |
-|-----------|---------------|------------------------|
-| `cache_read` | `cache_read_input_tokens` | `prompt_cache_hit_tokens` |
-| `cache_creation` | `cache_creation_input_tokens` | `prompt_cache_miss_tokens` |
+| Log field | Primary API fields | Notes |
+|-----------|-------------------|-------|
+| `input_tokens` | `input_tokens`, `prompt_tokens` | |
+| `output_tokens` | `output_tokens`, `completion_tokens` | |
+| `cache_read` | `prompt_cache_hit_tokens`, `cache_read_input_tokens` | DeepSeek hit / Anthropic read |
+| `cache_miss` | `prompt_cache_miss_tokens` | DeepSeek uncached prompt input only |
+| `cache_creation` | `cache_creation_input_tokens` | Anthropic cache write; usually 0 on DeepSeek |
 
-`unparsed_urls` counts URLs defaulted to `pending` because the model response
-had no matching line (parse fallback — may rescreen next run).
+`unparsed_urls` counts input URLs with **no matching model output line** after
+substring URL match. Those URLs still become `pending` and may be **filed** on
+the same run — not deferred to a later rescreen.
 
 Grep after `daily-scan.yml`:
 
@@ -202,8 +207,8 @@ gh run view <run_id> --log | rg 'SITE_CRAWL_USAGE'
 
 ### Prompt cache hygiene
 
-Production workflows load **byte-stable** role files into the system-prompt
-prefix (no run IDs or timestamps in the cached block):
+Production workflows that use Claude Code load **byte-stable** role files into
+the system-prompt prefix (no run IDs or timestamps in the cached block):
 
 | Workflow | Mechanism | Role file |
 |----------|-----------|-----------|
@@ -214,6 +219,10 @@ prefix (no run IDs or timestamps in the cached block):
 | `contradiction-resolver.yml` | `APPEND_SYSTEM_PROMPT` | `agents/ASSAYER.md` |
 | `smith-on-source-merge.yml` | `--append-system-prompt` | `agents/SMITH.md` |
 | `smith-rework.yml`, Assayer rework steps | `--append-system-prompt` | `agents/SMITH.md` / `MINER.md` |
+
+Not covered here (different stack / no role append): production Miner
+(`miner-zen-free-batch.yml`, OpenCode), pre-screen in `source-pipeline.yml`
+(inline prompt), `scribe.yml` (inline prompt).
 
 Rules:
 
