@@ -64,6 +64,98 @@ DEFAULT_MAX_PER_RUN = 3
 # raises DEFAULT — keep Flash API costs bounded.
 MAX_SCREEN_PER_SEED = 50
 
+# Accumulated Flash API usage for SITE_CRAWL_USAGE_TOTAL (reset each run).
+_usage_run_totals: dict[str, int] = {
+    "calls": 0,
+    "errors": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cache_read": 0,
+    "cache_creation": 0,
+    "unparsed_urls": 0,
+}
+
+
+def _reset_usage_run_totals() -> None:
+    for key in _usage_run_totals:
+        _usage_run_totals[key] = 0
+
+
+def _usage_from_response(result: dict) -> dict[str, int]:
+    """Normalize Messages API usage (Anthropic + DeepSeek field aliases)."""
+    usage = result.get("usage") or {}
+
+    def pick(*keys: str) -> int:
+        for key in keys:
+            val = usage.get(key)
+            if val is not None:
+                return int(val)
+        return 0
+
+    return {
+        "input_tokens": pick("input_tokens"),
+        "output_tokens": pick("output_tokens"),
+        # Anthropic: cache_read_input_tokens; DeepSeek console: prompt_cache_hit_tokens
+        "cache_read": pick("cache_read_input_tokens", "prompt_cache_hit_tokens"),
+        # Anthropic: cache_creation_input_tokens; DeepSeek: prompt_cache_miss_tokens
+        "cache_creation": pick(
+            "cache_creation_input_tokens", "prompt_cache_miss_tokens"
+        ),
+    }
+
+
+def _log_site_crawl_usage(
+    *,
+    seed_id: str,
+    url_count: int,
+    status: str = "ok",
+    error: str | None = None,
+    unparsed_urls: int = 0,
+    usage: dict[str, int] | None = None,
+) -> None:
+    parts = [
+        "SITE_CRAWL_USAGE",
+        f"status={status}",
+        f"model={SCREEN_MODEL}",
+        f"seed={seed_id}",
+        f"urls={url_count}",
+    ]
+    if status == "ok" and usage is not None:
+        parts.extend(
+            [
+                f"input_tokens={usage['input_tokens']}",
+                f"output_tokens={usage['output_tokens']}",
+                f"cache_read={usage['cache_read']}",
+                f"cache_creation={usage['cache_creation']}",
+                f"unparsed_urls={unparsed_urls}",
+            ]
+        )
+        _usage_run_totals["calls"] += 1
+        _usage_run_totals["input_tokens"] += usage["input_tokens"]
+        _usage_run_totals["output_tokens"] += usage["output_tokens"]
+        _usage_run_totals["cache_read"] += usage["cache_read"]
+        _usage_run_totals["cache_creation"] += usage["cache_creation"]
+        _usage_run_totals["unparsed_urls"] += unparsed_urls
+    elif status == "error":
+        _usage_run_totals["errors"] += 1
+        err = (error or "unknown").replace("\n", " ")[:200]
+        parts.append(f"error={err}")
+    print(" ".join(parts))
+
+
+def _log_site_crawl_usage_total() -> None:
+    if _usage_run_totals["calls"] == 0 and _usage_run_totals["errors"] == 0:
+        return
+    print(
+        "SITE_CRAWL_USAGE_TOTAL"
+        f" calls={_usage_run_totals['calls']}"
+        f" errors={_usage_run_totals['errors']}"
+        f" input_tokens={_usage_run_totals['input_tokens']}"
+        f" output_tokens={_usage_run_totals['output_tokens']}"
+        f" cache_read={_usage_run_totals['cache_read']}"
+        f" cache_creation={_usage_run_totals['cache_creation']}"
+        f" unparsed_urls={_usage_run_totals['unparsed_urls']}"
+    )
 
 def filter_urls_to_seed_prefix(urls: list[str], seed_url: str) -> list[str]:
     """Keep only URLs under the seed's path prefix; drop TOC/index stubs.
@@ -294,6 +386,12 @@ When in doubt, mark as RELEVANT — the Prospector will do the deep evaluation l
         text = result["content"][0]["text"]
     except Exception as e:
         print(f"  ERROR calling screener model for screening: {e}", file=sys.stderr)
+        _log_site_crawl_usage(
+            seed_id=seed.get("id", "unknown"),
+            url_count=len(urls),
+            status="error",
+            error=str(e),
+        )
         return {url: "pending" for url in urls}
 
     # Parse the response
@@ -320,9 +418,20 @@ When in doubt, mark as RELEVANT — the Prospector will do the deep evaluation l
                 verdicts[matched_url] = "rejected"
 
     # Any URL not in the response defaults to pending (screen again next time)
+    unparsed_urls = 0
     for url in urls:
         if url not in verdicts:
             verdicts[url] = "pending"
+            unparsed_urls += 1
+
+    usage = _usage_from_response(result)
+    _log_site_crawl_usage(
+        seed_id=seed.get("id", "unknown"),
+        url_count=len(urls),
+        status="ok",
+        unparsed_urls=unparsed_urls,
+        usage=usage,
+    )
 
     relevant = sum(1 for v in verdicts.values() if v == "pending")
     rejected = sum(1 for v in verdicts.values() if v == "rejected")
@@ -538,6 +647,8 @@ def main():
     parser.add_argument("--seed", help="Only scan the seed with this id.")
     args = parser.parse_args()
 
+    _reset_usage_run_totals()
+
     seeds_data = load_seeds()
     state = load_state()
 
@@ -575,6 +686,7 @@ def main():
     print(f"\nScan complete: {total_new} new URLs discovered, {filed} issue(s) filed, "
           f"{total_pending - filed} still pending")
     print(f"Final budget: {scan_budget.status_summary()}")
+    _log_site_crawl_usage_total()
 
 
 if __name__ == "__main__":

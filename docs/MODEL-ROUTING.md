@@ -144,3 +144,82 @@ OpenRouter candidates (smoke ≠ Miner reliability).
   removed from production path
 
 Treat these as estimates.
+
+## Flash caller inventory (production)
+
+Cost program umbrella: [#767](https://github.com/lucas-albers-lz4/sre-ai-llm-work/issues/767).
+Phase C (Assayer off-peak): [#1042](https://github.com/lucas-albers-lz4/sre-ai-llm-work/issues/1042).
+
+| Caller | Workflow / script | Model | Trigger | Peak exposure |
+|--------|-------------------|-------|---------|---------------|
+| Pre-screen | `source-pipeline.yml` | `deepseek-v4-flash` | `issues: opened` | Event-driven |
+| Prospector | `source-pipeline.yml` | `deepseek-v4-flash` | label `pre-screen:pass` | Event-driven |
+| Scribe | `scribe.yml` | `deepseek-v4-flash` | dispatch | Manual |
+| Site-crawl screener | `scan-sites.py` via `daily-scan.yml` | `deepseek-v4-flash` | cron `12:02` UTC | Off-peak |
+| Assayer review | `assayer.yml` | `deepseek-v4-flash[1m]` | PR + dispatch | **Peak risk** |
+| Assayer Smith/Miner rework | `assayer.yml` | `deepseek-v4-flash[1m]` | on REQUEST CHANGES | Peak risk |
+| Smith synthesis | `smith-on-source-merge.yml` | `deepseek-v4-flash[1m]` | Sat/Thu cron | Thu `00:02` spill watch |
+| Smith rework | `smith-rework.yml` | `deepseek-v4-flash[1m]` | dispatch | Event |
+| Herald | `herald-weekly.yml` | `deepseek-v4-flash[1m]` | Sun cron | Off-peak |
+| Contradiction | `contradiction-resolver.yml` | `deepseek-v4-flash[1m]` | dispatch | Event |
+| Manual Flash Miner | `miner-batch.yml` | `deepseek-v4-flash` | dispatch only | peak_guard skip |
+| Smoke | `claude-smoke-test.yml` | `deepseek-v4-flash` | manual | Negligible |
+
+**Site-crawl input:** `scan-sites.py` sends **URL path strings** to Flash for
+relevance screening (“you cannot read the pages”). It does **not** send page
+HTML. Main-content extract / content-hash skip ([#658](https://github.com/lucas-albers-lz4/sre-ai-llm-work/issues/658))
+only saves tokens if the screener is redesigned to send page text.
+
+**Claude Code Action jobs** (Assayer, Smith, Prospector, etc.) may not expose
+cache hit/miss in Actions logs. For Phase A attribution, **`scan-sites.py` is
+the instrumented direct Messages API path** (see below).
+
+### Site-crawl usage logging
+
+After each Flash screening call, `scan-sites.py` prints structured lines:
+
+```text
+SITE_CRAWL_USAGE status=ok model=deepseek-v4-flash seed=<id> urls=<n> input_tokens=... output_tokens=... cache_read=... cache_creation=... unparsed_urls=...
+SITE_CRAWL_USAGE_TOTAL calls=... errors=... input_tokens=... ...
+```
+
+Field mapping (Messages `usage` block):
+
+| Log field | Anthropic API | DeepSeek console alias |
+|-----------|---------------|------------------------|
+| `cache_read` | `cache_read_input_tokens` | `prompt_cache_hit_tokens` |
+| `cache_creation` | `cache_creation_input_tokens` | `prompt_cache_miss_tokens` |
+
+`unparsed_urls` counts URLs defaulted to `pending` because the model response
+had no matching line (parse fallback — may rescreen next run).
+
+Grep after `daily-scan.yml`:
+
+```bash
+gh run list --workflow daily-scan.yml --limit 1
+gh run view <run_id> --log | rg 'SITE_CRAWL_USAGE'
+```
+
+### Prompt cache hygiene
+
+Production workflows load **byte-stable** role files into the system-prompt
+prefix (no run IDs or timestamps in the cached block):
+
+| Workflow | Mechanism | Role file |
+|----------|-----------|-----------|
+| `assayer.yml` (review) | `APPEND_SYSTEM_PROMPT` | `agents/ASSAYER.md` |
+| `source-pipeline.yml` (Prospector) | `APPEND_SYSTEM_PROMPT` | `agents/PROSPECTOR.md` |
+| `herald-weekly.yml` | `APPEND_SYSTEM_PROMPT` | `agents/HERALD.md` |
+| `miner-batch.yml` | `APPEND_SYSTEM_PROMPT` | `agents/MINER.md` |
+| `contradiction-resolver.yml` | `APPEND_SYSTEM_PROMPT` | `agents/ASSAYER.md` |
+| `smith-on-source-merge.yml` | `--append-system-prompt` | `agents/SMITH.md` |
+| `smith-rework.yml`, Assayer rework steps | `--append-system-prompt` | `agents/SMITH.md` / `MINER.md` |
+
+Rules:
+
+- Cached prefix = file contents only (`cat agents/*.md`).
+- Variable content (PR diff, issue body, labels) stays in the **user** prompt.
+- Do **not** prepend timestamps, run IDs, or SHA to `APPEND_SYSTEM_PROMPT`.
+
+Audit (2026-08-28): all production `APPEND_SYSTEM_PROMPT` heredocs use plain
+`cat agents/<ROLE>.md` with no dynamic prefix. No workflow changes required.
