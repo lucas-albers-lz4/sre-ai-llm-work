@@ -425,10 +425,11 @@ When in doubt, mark as RELEVANT — the Prospector will do the deep evaluation l
                     matched_url = u
                     break
             if matched_url:
-                if "RELEV" in verdict:
+                if "RELEV" in verdict and "REJECT" not in verdict:
                     verdicts[matched_url] = "pending"
-                else:
+                elif "REJECT" in verdict:
                     verdicts[matched_url] = "rejected"
+                # Other verdict labels stay out of verdicts → unparsed_urls
 
         # URLs with no matching model line → pending (filed like other pending)
         unparsed_urls = 0
