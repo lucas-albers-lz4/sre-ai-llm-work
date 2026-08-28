@@ -9131,6 +9131,78 @@
         }
       ]
     },
+    "docs-langfuse-agent-skill": {
+      "path": "source-notes/docs-langfuse-agent-skill.md",
+      "title": "Langfuse Agent Skill",
+      "source_url": "https://langfuse.com/docs/api-and-data-platform/features/agent-skill",
+      "chapters": [
+        "03",
+        "02",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The Langfuse Agent Skill is a documented implementation of the open Agent Skills standard, shipped by an observability vendor for coding agents (Claude Code, Cursor, Windsurf, and other compatible agents), and is open source on GitHub",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The skill's stated rationale is conditioning — a coding agent with the skill installed is conditioned to follow Langfuse's best practices, which the vendor asserts produces significantly better results",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The skill is a self-contained folder with a SKILL.md entrypoint and a references/ folder of per-workflow reference docs filled with specific best practices",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The skill uses a progressive disclosure model — the frontmatter is always loaded into the agent's context so it knows when the skill applies, while the full instructions and reference docs load only on demand, keeping context usage low",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The primary install surface is the npm skills CLI — `npx skills add langfuse/skills --skill \"langfuse\"` — optionally targeting a specific agent with `--agent \"<agent-id>\"`",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "For agents without the skills CLI, the documented alternative is a manual install — clone the repo to a stable path, create the agent's skills root, then symlink the skill folder into it",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Langfuse ships a Cursor Plugin that includes the skill automatically, and also supports agent-driven self-install by pointing the agent at the GitHub repository",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The documented example agent prompts are agent-run observability and prompt-management operations — trace-level score queries, dataset construction, and migrating a prompt out of the codebase into Langfuse prompt management",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Langfuse frames its own CLI as what the skill uses \"under the hood\" and its MCP server as an \"alternative protocol-based approach for agents\" — i.e., skill and MCP are parallel agent-access surfaces with the skill positioned for agents that can run CLI tools",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The skill's SKILL.md carries an `allowed-tools` frontmatter field that scopes the exact tool calls the agent may use to Langfuse surfaces — WebFetch on langfuse.com, curl to langfuse.com, and a bounded set of `npx langfuse-cli api ...` patterns",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The SKILL.md encodes \"Documentation First\" as its first core principle — agents must never implement Langfuse integration from memory and must fetch current docs before writing code, because Langfuse updates frequently",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "The skill encodes a three-method documentation-retrieval workflow — llms.txt index for orientation, page-as-markdown (.md suffix or `Accept: text/markdown`) for a known page, and the semantic `search-docs` API as a fallback — with the practical rule that changelog posts confirm features but must never be implemented from",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-langfuse-compatibility": {
       "path": "source-notes/docs-langfuse-compatibility.md",
       "title": "Versions & Compatibility — Langfuse",

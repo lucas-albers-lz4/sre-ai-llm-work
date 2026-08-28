@@ -1547,6 +1547,19 @@
       "confidence_overall": "settled",
       "status": "current"
     },
+    "docs-langfuse-agent-skill": {
+      "slug": "docs-langfuse-agent-skill",
+      "title": "Langfuse Agent Skill",
+      "source_url": "https://langfuse.com/docs/api-and-data-platform/features/agent-skill",
+      "source_type": "docs",
+      "author": "Langfuse",
+      "date_published": "unknown (Langfuse vendor docs; page footer © 2022–2026)",
+      "date_extracted": "2026-08-28",
+      "issue": "#1056",
+      "file": "source-notes/docs-langfuse-agent-skill.md",
+      "confidence_overall": "settled",
+      "status": "current"
+    },
     "docs-langfuse-compatibility": {
       "slug": "docs-langfuse-compatibility",
       "title": "Versions & Compatibility — Langfuse",
