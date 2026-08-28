@@ -152,7 +152,7 @@ Phase C (Assayer off-peak): [#1042](https://github.com/lucas-albers-lz4/sre-ai-l
 
 | Caller | Workflow / script | Model | Trigger | Peak exposure |
 |--------|-------------------|-------|---------|---------------|
-| Pre-screen | `source-pipeline.yml` | `deepseek-v4-flash` | `issues: opened` | Event-driven |
+| Pre-screen | `source-pipeline.yml` | `deepseek-v4-flash` | `issues: opened`, `issues: labeled` | Event-driven |
 | Prospector | `source-pipeline.yml` (after pre-screen job) | `deepseek-v4-flash` | same workflow, pre-screen pass | Event-driven |
 | Scribe | `scribe.yml` | `deepseek-v4-flash` | `issues: labeled` (`sticky-notes`) | Event-driven |
 | Site-crawl screener | `scan-sites.py` via `daily-scan.yml` | `deepseek-v4-flash` | cron `12:02` UTC | Off-peak |
