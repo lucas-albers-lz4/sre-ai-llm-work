@@ -76,8 +76,10 @@ issue: "#1057"
   that only print human-readable errors. The exact numeric scheme (2/3/4/5/6) is
   Langfuse-specific, but the *design contract* — "failures are machine-
   classifiable at the process boundary" — generalizes to any agent-toolable CLI.
-  No existing source note documents this pattern (confirmed against the guide
-  and corpus), so it is novel here.
+  The only comparable scheme in the corpus is #553's ModelAudit exit codes
+  (0/1/2), but those are scan-result semantics (clean/findings/operational
+  error) for a CI/CD scanner, not a failure-class taxonomy for an agent-driven
+  CLI; Langfuse's error-class classification is the novel part here.
 
 ### Claim 4: The CLI authenticates with the same project API-key pair as the SDKs and public API, exposed via environment variables, with no separate login step
 - **Evidence**: The Authentication section: it reuses the project key pair
@@ -225,11 +227,15 @@ without parsing stderr: usage (2), configuration (3), network (4), HTTP failure
   - **Machine-readable exit-code taxonomy for an agent-toolable CLI** (Claim 3)
     — a vendor-space, fixed error-class→exit-code mapping (`usage(2)/
     configuration(3)/network(4)/HTTP(5)/local(6)`) explicitly designed so an
-    agent can classify failure "without parsing stderr." No prior source note or
-    guide section documents structured process-exit signaling as an
-    agent-ops/runbook pattern (verified by search: no existing note covers
-    exit-code/agent-toolable-CLI design). This is the page's central novel
-    contribution.
+    agent can classify failure "without parsing stderr." The corpus does contain
+    one comparable scheme — `blog-promptfoo-open-sourcing-modelaudit.md` (#553)
+    documents a fixed CI/CD exit-code contract (0 = no issues, 1 = findings,
+    2 = operational errors, in its Concrete Artifacts → "CI/CD integration exit
+    codes" section) — but those are scan-result/pass-fail semantics, not a
+    failure-class taxonomy. The novel part here is classifying *what kind* of
+    failure occurred (usage vs config vs network vs HTTP vs local) so an agent
+    can branch on error class at the process boundary, rather than just pass/
+    fail/operational. This is the page's central novel contribution.
   - **OpenAPI-generated CLI-to-data-plane coverage** (Claim 2) — a CLI whose
     command surface is mechanically generated from the full OpenAPI spec so CLI
     coverage mirrors the API exactly. Extends the corpus's existing
@@ -327,9 +333,11 @@ without parsing stderr: usage (2), configuration (3), network (4), HTTP failure
   - `docs-langfuse-evaluation-core-concepts.md` (#195) — **Dismissed**. Eval
     closed-loop/scores; the CLI page's eval relevance is indirect (batch-scoring
     via CLI), not a claim-level overlap.
-  Additional manual search of `source-notes/`: only the four Langfuse sibling
-  notes above plus the MCP/skill pair were substantive cross-refs; the
-  `failure-*` and `blog-*` notes were checked and have no CLI-surface claims to
-  compare.
+  Additional manual search of `source-notes/`: the four Langfuse sibling notes
+  above plus the MCP/skill pair were the substantive cross-refs. The `failure-*`
+  notes have no CLI-surface claims to compare. One `blog-*` note does: #553
+  (ModelAudit) documents a fixed CI/CD exit-code scheme (0/1/2) in its Concrete
+  Artifacts that is directly comparable to Claim 3 — cited in the Novel entry,
+  where it is distinguished from Langfuse's error-class taxonomy.
 - No contradiction with existing notes surfaced (see Contradicts), so no
   contradiction issue was filed.
