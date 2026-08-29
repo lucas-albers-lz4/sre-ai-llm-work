@@ -1560,6 +1560,19 @@
       "confidence_overall": "settled",
       "status": "current"
     },
+    "docs-langfuse-alerts": {
+      "slug": "docs-langfuse-alerts",
+      "title": "Alerts — Langfuse",
+      "source_url": "https://langfuse.com/docs/observability/features/alerts",
+      "source_type": "docs",
+      "author": "Langfuse",
+      "date_published": "n.d. (living documentation; current as of 2026-08-29)",
+      "date_extracted": "2026-08-29",
+      "issue": "#1069",
+      "file": "source-notes/docs-langfuse-alerts.md",
+      "confidence_overall": "settled",
+      "status": "current"
+    },
     "docs-langfuse-compatibility": {
       "slug": "docs-langfuse-compatibility",
       "title": "Versions & Compatibility — Langfuse",

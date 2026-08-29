@@ -9203,6 +9203,69 @@
         }
       ]
     },
+    "docs-langfuse-alerts": {
+      "path": "source-notes/docs-langfuse-alerts.md",
+      "title": "Alerts — Langfuse",
+      "source_url": "https://langfuse.com/docs/observability/features/alerts",
+      "chapters": [
+        "02",
+        "03",
+        "04",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Alerts in Langfuse are driven by either observation-level operational metrics (e.g. `avg latency`, `count`, `p95 cost`) or by score metrics — including aggregating boolean scores where the average equals the share of scores that are `true` — with filters (model, tags, user ID, environment, Boolean value)",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Alerts use a two-threshold ladder — an optional warning threshold plus a required alert threshold, compared via operators (`>`, `≥`, `<`, `≤`, `=`, `≠`) over a time window (e.g. 1 hour, 1 day, 1 week)",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Langfuse maintains an explicit severity state machine — `UNKNOWN / OK / WARNING / ALERT / NO_DATA / PAUSED` — with defined notification semantics: breach always notifies, recovery always notifies, no-data notifies only under the notify-after-sustained-NO_DATA mode, and sustained severity notifies only when Renotify is enabled",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "No-data is a handled first-class state with four modes — treat-missing-as-0 (default), keep-previous-severity, show-NO_DATA (record, no notify), and notify-after-sustained-NO_DATA (record + notify after configurable delay) — addressing the alert-storm-vs-page-fatigue tradeoff under sparse sampling",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Renotify is an explicit, opt-in mechanism — off by default (notify once per severity transition); when enabled, re-notifies every N minutes (1–10,080) while an elevated severity persists",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Alert evaluability is bounded by a pause/resume mechanism — a paused alert skips all evaluations and freezes its severity at `PAUSED`; resuming sets it back to `ACTIVE` and schedules the next evaluation",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Notifications route through automations that pair a trigger (an alert severity change) with an external action — Slack message, HMAC-signed webhook JSON POST, or a GitHub Actions `workflow_dispatch` event",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "After 5 consecutive delivery failures, Langfuse automatically disables the automation's trigger; it must be manually re-enabled from the Automations page once the endpoint is restored",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The webhook delivers a versioned, HMAC-signed JSON payload that preserves the legacy `monitor` naming (`type`, `monitorId`, `permalink`) for backward compatibility, so existing integrations continue to work unchanged",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "On Langfuse Cloud, the number of alerts per organization is tiered by plan — 2 (Hobby), 20 (Core), 50 (Pro), 100 (Enterprise)",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-langfuse-compatibility": {
       "path": "source-notes/docs-langfuse-compatibility.md",
       "title": "Versions & Compatibility — Langfuse",
