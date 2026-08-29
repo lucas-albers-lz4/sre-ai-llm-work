@@ -75,6 +75,7 @@ hours `1–3` or `6–9`.
 | `miner-batch.yml` | *(none — dispatch only)* | Manual Flash / trials |
 | `daily-scan.yml` | `12:02` daily | DeepSeek Flash |
 | `smith-on-source-merge.yml` | Sat `15:19`, Thu `00:02` | DeepSeek Flash `[1m]` |
+| `assayer-drain.yml` | `:05` hours `0,4,5,10–23` UTC | Assayer Flash `[1m]` (drain-only) |
 | `gardener.yml` | Sun `14:02` (Python) | — |
 | `herald-weekly.yml` | Sun `16:02` | DeepSeek Flash `[1m]` |
 
@@ -83,9 +84,9 @@ Manual runs: `gh workflow run miner-zen-free-batch.yml -f model=big-pickle`;
 `gh workflow run miner-batch.yml -f backend=flash` (trial);
 `gh workflow run miner-zen-free-batch.yml -f model=deepseek-v4-flash-free` (eval).
 
-Event-driven jobs (pre-screen, Prospector, Assayer on PR labels) cannot
-defer to off-peak without queueing; keep those prompts short. Assayer now
-uses Flash `[1m]` (cheaper than Pro; still subject to peak if surcharge is live).
+Event-driven jobs (pre-screen, Prospector) cannot defer to off-peak without
+queueing; keep those prompts short. **Assayer** is drain-only (#1042): events
+enqueue; Flash runs from `assayer-drain.yml` off-peak cron only.
 
 ## Peak-fill history → Phase 3
 
@@ -148,7 +149,8 @@ Treat these as estimates.
 ## Flash caller inventory (production)
 
 Cost program umbrella: [#767](https://github.com/lucas-albers-lz4/sre-ai-llm-work/issues/767).
-Phase C (Assayer off-peak): [#1042](https://github.com/lucas-albers-lz4/sre-ai-llm-work/issues/1042).
+Phase C (Assayer drain-only): [#1042](https://github.com/lucas-albers-lz4/sre-ai-llm-work/issues/1042).
+Orthogonal OR fp8 lane (next): [#1113](https://github.com/lucas-albers-lz4/sre-ai-llm-work/issues/1113).
 
 | Caller | Workflow / script | Model | Trigger | Peak exposure |
 |--------|-------------------|-------|---------|---------------|
@@ -156,14 +158,35 @@ Phase C (Assayer off-peak): [#1042](https://github.com/lucas-albers-lz4/sre-ai-l
 | Prospector | `source-pipeline.yml` (after pre-screen job) | `deepseek-v4-flash` | same workflow, pre-screen pass | Event-driven |
 | Scribe | `scribe.yml` | `deepseek-v4-flash` | `issues: labeled` (`sticky-notes`) | Event-driven |
 | Site-crawl screener | `scan-sites.py` via `daily-scan.yml` | `deepseek-v4-flash` | cron `12:02` UTC | Off-peak |
-| Assayer review | `assayer.yml` | `deepseek-v4-flash[1m]` | PR + dispatch | **Peak risk** |
-| Assayer Smith/Miner rework | `assayer.yml` | `deepseek-v4-flash[1m]` | on REQUEST CHANGES | Peak risk |
+| Assayer review | `assayer.yml` via `assayer-drain.yml` | `deepseek-v4-flash[1m]` | off-peak drain cron (`force=true`) | **Off-peak only** |
+| Assayer enqueue | `assayer.yml` prepare | — (no Flash) | PR / Miner / Smith dispatch | Queue only |
+| Assayer Smith/Miner rework | `assayer.yml` | `deepseek-v4-flash[1m]` | post-rework `force=true` | Follows drain / force |
 | Smith synthesis | `smith-on-source-merge.yml` | `deepseek-v4-flash[1m]` | Sat/Thu cron | Thu `00:02` spill watch |
-| Smith rework | `smith-rework.yml` | `deepseek-v4-flash[1m]` | PR comment `/rework` or `/rebase` | Event-driven |
+| Smith rework | `smith-rework.yml` | `deepseek-v4-flash[1m]` | PR comment `/rework` or `/rebase` | Event-driven (`force=true` Assayer) |
 | Herald | `herald-weekly.yml` | `deepseek-v4-flash[1m]` | Sun cron | Off-peak |
 | Contradiction assess + resolve | `contradiction-resolver.yml` | `deepseek-v4-flash[1m]` | `issues: labeled` (two jobs) | Event-driven |
 | Manual Flash Miner | `miner-batch.yml` | `deepseek-v4-flash` | dispatch only | peak_guard skip |
 | Smoke | `claude-smoke-test.yml` | `deepseek-v4-flash` | manual | Negligible |
+
+### Assayer drain-only (#1042)
+
+Event-driven Assayer (PR open/sync/label, Miner/Smith `workflow_dispatch` with
+`pr_number` only) **does not call Flash**. It applies `assayer-queued` and a
+sticky `<!-- assayer-queue: sha=… -->` comment. Reviews run from
+`assayer-drain.yml`:
+
+| | |
+|--|--|
+| Cron (UTC) | `5 0,4,5,10-23 * * *` — never hours 1–3 or 6–9 (DeepSeek peak) |
+| Cap | 5 PRs/tick (bump to 8 if queue age grows; never cut Miner) |
+| Dispatch | `assayer.yml` with `force=true` via `PROJECT_PAT` |
+| Urgent | Manual `gh workflow run assayer.yml -f pr_number=N -f force=true` |
+| Dedupe | Review comments carry `<!-- assayer-verdict: sha=… -->` |
+
+Peak control is **schedule only** — no runtime peak helper. Orthogonal cost
+cut ([#1113](https://github.com/lucas-albers-lz4/sre-ai-llm-work/issues/1113)):
+static OpenRouter fp8 lane for some Flash callers; do not double-count Assayer
+dollars until Assayer is explicitly moved to OR.
 
 **Site-crawl input:** `scan-sites.py` sends **full URL strings** (scheme + host +
 path) to Flash for relevance screening from path/name only (“you cannot read the

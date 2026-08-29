@@ -4,25 +4,20 @@ name: Assayer (PR Quality Gate)
 # standards in agents/ASSAYER.md. Posts a review comment with the verdict
 # and pass/fails the check based on whether the Assayer approved.
 #
+# Drain-only Flash (#1042): event / Miner / Smith dispatches enqueue the PR
+# (`assayer-queued` + sticky SHA) and do NOT call DeepSeek. Reviews run from
+# `assayer-drain.yml` (off-peak cron) via workflow_dispatch with force=true.
+#
 # Triggered two ways:
 #
-#   1. pull_request events (opened/synchronize/reopened/labeled) — for
-#      PRs created or pushed by humans or via GITHUB_TOKEN paths that
-#      reliably trigger workflows.
+#   1. pull_request events (opened/synchronize/reopened/labeled) — enqueue
+#      only (unless force is somehow not applicable — PR events never force).
 #
-#   2. workflow_dispatch with a pr_number input — invoked explicitly
-#      by the Miner / Smith / etc. after they create or push to a PR.
-#      This is the primary path for bot-created PRs because GitHub
-#      silently rate-limits pull_request webhook delivery when many
-#      events come from the same user/PAT in close succession (we hit
-#      this constantly in steady state; ~35% stuck rate, observed
-#      directly: pos-2-of-2 PRs in a batch stuck 47% of the time,
-#      and synchronize events from empty-commit pushes were also
-#      dropped). Explicit workflow_dispatch is not subject to webhook
-#      rate-limiting.
+#   2. workflow_dispatch with pr_number — Miner/Smith pass pr_number only
+#      (enqueue). Drain / humans pass force=true to run the review now.
 #
-# Branch protection should require the "assayer" check to pass before
-# merging any PR with the source-note, guide-update, or feed-candidate label.
+# Branch protection / auto-merge still rely on a completed Assayer review
+# (approve-only merge), not a required check attached to dispatch runs.
 
 on:
   pull_request:
@@ -33,6 +28,11 @@ on:
         description: 'PR number to review'
         required: true
         type: string
+      force:
+        description: 'Run review now (bypass queue). Drain and humans only.'
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -66,56 +66,144 @@ jobs:
       base_ref: ${{ steps.pr.outputs.base_ref }}
       labels: ${{ steps.pr.outputs.labels }}
       should_run: ${{ steps.pr.outputs.should_run }}
+      should_review: ${{ steps.pr.outputs.should_review }}
     steps:
-      - name: Resolve PR data
+      - name: Resolve PR data and queue or review
         id: pr
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
         run: |
+          set -euo pipefail
+
+          FORCE=false
           if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
             PR_NUM="${{ inputs.pr_number }}"
+            # Boolean inputs arrive as the string "true" / "false".
+            if [[ "${{ inputs.force }}" == "true" ]]; then
+              FORCE=true
+            fi
           else
             PR_NUM="${{ github.event.pull_request.number }}"
           fi
 
+          echo "should_run=false" >> "$GITHUB_OUTPUT"
+          echo "should_review=false" >> "$GITHUB_OUTPUT"
+
           if [[ -z "$PR_NUM" ]]; then
             echo "No PR number to resolve."
-            echo "should_run=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
-          DATA=$(gh api "repos/${{ github.repository }}/pulls/$PR_NUM")
+          # Ignore non-gate labeled events (especially assayer-queued).
+          if [[ "${{ github.event_name }}" == "pull_request" && \
+                "${{ github.event.action }}" == "labeled" ]]; then
+            ADDED="${{ github.event.label.name }}"
+            case "$ADDED" in
+              source-note|guide-update|feed-candidate|site-seed-candidate) ;;
+              *)
+                echo "Ignoring labeled event for non-gate label: $ADDED"
+                exit 0
+                ;;
+            esac
+          fi
+
+          DATA=$(gh api "repos/$REPO/pulls/$PR_NUM")
           HEAD_SHA=$(echo "$DATA" | jq -r .head.sha)
           HEAD_REF=$(echo "$DATA" | jq -r .head.ref)
           BASE_REF=$(echo "$DATA" | jq -r .base.ref)
           LABELS=$(echo "$DATA" | jq -c '[.labels[].name]')
           STATE=$(echo "$DATA" | jq -r .state)
 
-          if [[ "$STATE" != "open" ]]; then
-            echo "PR #$PR_NUM is $STATE, skipping."
-            echo "should_run=false" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-
-          # Only review PRs that carry one of the labels we gate on.
-          SHOULD_RUN=false
-          if echo "$LABELS" | jq -e 'any(.[]; . == "source-note" or . == "guide-update" or . == "feed-candidate" or . == "site-seed-candidate")' >/dev/null; then
-            SHOULD_RUN=true
-          fi
-
-          echo "Resolved PR #$PR_NUM head=$HEAD_REF@${HEAD_SHA:0:8} base=$BASE_REF state=$STATE should_run=$SHOULD_RUN"
-          echo "Labels: $LABELS"
-
           echo "pr_number=$PR_NUM" >> "$GITHUB_OUTPUT"
           echo "head_sha=$HEAD_SHA" >> "$GITHUB_OUTPUT"
           echo "head_ref=$HEAD_REF" >> "$GITHUB_OUTPUT"
           echo "base_ref=$BASE_REF" >> "$GITHUB_OUTPUT"
           echo "labels=$LABELS" >> "$GITHUB_OUTPUT"
-          echo "should_run=$SHOULD_RUN" >> "$GITHUB_OUTPUT"
+
+          if [[ "$STATE" != "open" ]]; then
+            echo "PR #$PR_NUM is $STATE, skipping."
+            exit 0
+          fi
+
+          if ! echo "$LABELS" | jq -e 'any(.[]; . == "source-note" or . == "guide-update" or . == "feed-candidate" or . == "site-seed-candidate")' >/dev/null; then
+            echo "PR #$PR_NUM missing gate label; skipping."
+            exit 0
+          fi
+
+          echo "should_run=true" >> "$GITHUB_OUTPUT"
+
+          ensure_queued_label() {
+            gh label create "assayer-queued" \
+              --repo "$REPO" \
+              --description "Queued for off-peak Assayer drain" \
+              --color "c5def5" \
+              2>/dev/null || true
+            gh pr edit "$PR_NUM" --repo "$REPO" --add-label "assayer-queued" >/dev/null 2>&1 || true
+          }
+
+          remove_queued_label() {
+            gh pr edit "$PR_NUM" --repo "$REPO" --remove-label "assayer-queued" >/dev/null 2>&1 || true
+          }
+
+          # Upsert sticky queue comment for this head SHA.
+          upsert_queue_sticky() {
+            local body marker comment_id
+            marker="<!-- assayer-queue: sha=${HEAD_SHA} -->"
+            body="${marker}
+**Assayer queued** for off-peak drain (\`assayer-drain.yml\`).
+
+Head: \`${HEAD_SHA:0:8}\`. No Flash call on this event — reviews run from the drain cron (or \`workflow_dispatch\` with \`force=true\`).
+"
+            comment_id=$(gh api "repos/$REPO/issues/$PR_NUM/comments" --paginate \
+              --jq '.[] | select(.body | contains("<!-- assayer-queue:")) | .id' | head -1)
+            if [[ -n "$comment_id" ]]; then
+              gh api -X PATCH "repos/$REPO/issues/comments/$comment_id" \
+                -f body="$body" >/dev/null
+            else
+              gh pr comment "$PR_NUM" --repo "$REPO" --body "$body" >/dev/null
+            fi
+          }
+
+          delete_queue_sticky() {
+            local comment_id
+            comment_id=$(gh api "repos/$REPO/issues/$PR_NUM/comments" --paginate \
+              --jq '.[] | select(.body | contains("<!-- assayer-queue:")) | .id' | head -1)
+            if [[ -n "$comment_id" ]]; then
+              gh api -X DELETE "repos/$REPO/issues/comments/$comment_id" >/dev/null 2>&1 || true
+            fi
+          }
+
+          # Already reviewed this SHA?
+          VERDICT_COUNT=$(gh api "repos/$REPO/issues/$PR_NUM/comments" --paginate \
+            --jq "[.[] | select(.body | contains(\"<!-- assayer-verdict: sha=${HEAD_SHA} -->\"))] | length")
+          if [[ "${VERDICT_COUNT:-0}" -gt 0 ]]; then
+            echo "PR #$PR_NUM already has Assayer verdict for $HEAD_SHA; skipping review."
+            remove_queued_label
+            delete_queue_sticky
+            exit 0
+          fi
+
+          if [[ "$FORCE" == "true" ]]; then
+            echo "force=true — will run Assayer review for PR #$PR_NUM @$HEAD_SHA"
+            remove_queued_label
+            echo "should_review=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "Enqueueing PR #$PR_NUM @$HEAD_SHA for off-peak Assayer drain (no Flash)."
+          ensure_queued_label
+          upsert_queue_sticky
+          echo "should_review=false" >> "$GITHUB_OUTPUT"
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "prepare: should_run=${{ steps.pr.outputs.should_run }} should_review=${{ steps.pr.outputs.should_review }} pr=${{ steps.pr.outputs.pr_number }}" >> "$GITHUB_STEP_SUMMARY"
 
   assayer:
     needs: prepare
-    if: needs.prepare.outputs.should_run == 'true'
+    if: needs.prepare.outputs.should_run == 'true' && needs.prepare.outputs.should_review == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -232,6 +320,8 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_NUMBER: ${{ needs.prepare.outputs.pr_number }}
+          HEAD_SHA: ${{ needs.prepare.outputs.head_sha }}
+          REPO: ${{ github.repository }}
         run: |
           if [ ! -s /tmp/assayer-review.md ]; then
             echo "Assayer did not produce a review file. Failing check."
@@ -264,7 +354,21 @@ jobs:
             } >> /tmp/assayer-review.md
           fi
 
+          # SHA marker for drain-only dedupe (#1042).
+          {
+            echo ""
+            echo "<!-- assayer-verdict: sha=${HEAD_SHA} -->"
+          } >> /tmp/assayer-review.md
+
           gh pr comment "$PR_NUMBER" --body-file /tmp/assayer-review.md
+
+          # Clear queue state after a real verdict.
+          gh pr edit "$PR_NUMBER" --repo "$REPO" --remove-label "assayer-queued" >/dev/null 2>&1 || true
+          STICKY_ID=$(gh api "repos/$REPO/issues/$PR_NUMBER/comments" --paginate \
+            --jq '.[] | select(.body | contains("<!-- assayer-queue:")) | .id' | head -1)
+          if [[ -n "$STICKY_ID" ]]; then
+            gh api -X DELETE "repos/$REPO/issues/comments/$STICKY_ID" >/dev/null 2>&1 || true
+          fi
 
           if grep -Eq '^\*\*Verdict\*\*:[[:space:]]*APPROVE' /tmp/assayer-review.md; then
             echo "Assayer verdict: APPROVE"
@@ -566,7 +670,8 @@ jobs:
           echo "Dispatching Assayer for the post-rework review"
           gh workflow run assayer.yml \
             --repo "${{ github.repository }}" \
-            --field pr_number="$PR_NUMBER"
+            --field pr_number="$PR_NUMBER" \
+            --field force=true
 
       # Source-note rework OR auto-reject. No human exception queue: the Miner
       # gets a few rounds to fix a flagged source note; if it's a hard REJECT or
@@ -693,4 +798,5 @@ jobs:
           echo "Dispatching Assayer for the post-rework review"
           gh workflow run assayer.yml \
             --repo "$REPO" \
-            --field pr_number="$PR_NUMBER"
+            --field pr_number="$PR_NUMBER" \
+            --field force=true
