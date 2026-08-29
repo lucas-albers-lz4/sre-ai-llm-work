@@ -45,14 +45,14 @@ jobs:
 
           # Open PRs with assayer-queued + a gate label, oldest first.
           mapfile -t PRS < <(
-            gh pr list --repo "$REPO" --state open --label assayer-queued --limit 50 \
+            gh pr list --repo "$REPO" --state open --limit 50 \
+              --search "label:assayer-queued sort:created-asc" \
               --json number,labels,createdAt \
               --jq '
                 [.[]
                  | select(.labels | map(.name)
                           | any(. == "source-note" or . == "guide-update"
                                 or . == "feed-candidate" or . == "site-seed-candidate"))]
-                | sort_by(.createdAt)
                 | .[].number
               '
           )

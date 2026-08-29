@@ -232,6 +232,7 @@ jobs:
           } >> "$GITHUB_ENV"
 
       - name: Run Assayer review
+        id: assayer_agent
         uses: anthropics/claude-code-action@v1
         with:
           # Bypass Claude GitHub App OIDC (not installed on this fork).
@@ -315,7 +316,33 @@ jobs:
             --max-turns 30
             --allowedTools "Bash(*)" "Read" "Glob" "Grep" "WebFetch"
 
+      - name: Re-queue if Assayer agent failed before a verdict
+        if: failure() && steps.assayer_agent.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ needs.prepare.outputs.pr_number }}
+          HEAD_SHA: ${{ needs.prepare.outputs.head_sha }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          # Do not requeue if a verdict for this SHA was already posted.
+          VERDICT_COUNT=$(gh api "repos/$REPO/issues/$PR_NUMBER/comments" --paginate \
+            --jq "[.[] | select(.body | contains(\"<!-- assayer-verdict: sha=${HEAD_SHA} -->\"))] | length")
+          if [[ "${VERDICT_COUNT:-0}" -gt 0 ]]; then
+            echo "Verdict already exists for $HEAD_SHA; not re-queuing."
+            exit 0
+          fi
+          echo "Assayer agent failed — re-queuing PR #$PR_NUMBER for drain."
+          gh pr comment "$PR_NUMBER" --body "⚠️ **Assayer agent failed** before writing a review. Re-queued for \`assayer-drain.yml\` (not a quality REJECT)." || true
+          gh label create "assayer-queued" \
+            --repo "$REPO" \
+            --description "Queued for off-peak Assayer drain" \
+            --color "c5def5" \
+            2>/dev/null || true
+          gh pr edit "$PR_NUMBER" --repo "$REPO" --add-label "assayer-queued" || true
+
       - name: Post review and set check verdict
+        if: success()
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_NUMBER: ${{ needs.prepare.outputs.pr_number }}
