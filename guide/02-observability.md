@@ -276,6 +276,23 @@ can distinguish real problems from cosmetic ones
 [source: docs-google-sre-prodcast-03-04-observability-spectrum, Claim 12]
 [emerging].
 
+## Scripting the observability data plane
+
+Observability vendors expose the data plane to automation, not just the UI and
+SDKs. Langfuse's CLI wraps the entire API — traces, observations, prompts,
+datasets, scores, sessions, metrics — generated from the OpenAPI spec so every
+endpoint is a command [source: docs-langfuse-cli, Claim 2] [settled], and it
+authenticates with the same project API-key pair as the SDKs via environment
+variables, with no separate login step [source: docs-langfuse-cli, Claim 4]
+[settled]. The stated scripting use cases are agent-managed data operations and
+CI/CD automation: "exporting traces, batch-scoring, or syncing prompts across
+environments in CI/CD or bash scripts" [source: docs-langfuse-cli, Claim 6]
+[settled].
+
+**Rule**: Script your telemetry data plane — batch exports, re-scoring, and
+cross-environment prompt sync should be CLI-automatable with the same env-var
+credentials as the SDKs, not locked behind the UI.
+
 ## Platform-side observability: shared SLO dashboards
 
 For any platform with tenants, observability extends across the
@@ -320,5 +337,5 @@ docs-google-sre-prodcast-03-04-observability-spectrum,
 blog-honeycomb-instrumenting-ai-agents-opentelemetry,
 docs-google-sre-reliable-data-processing-minimal-toil,
 docs-google-sre-reaching-beyond-walls,
-docs-google-sre-slo-engineering-case-studies*
-*Last updated: 2026-08-15*
+docs-google-sre-slo-engineering-case-studies, docs-langfuse-cli*
+*Last updated: 2026-08-29*
