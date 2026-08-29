@@ -42,7 +42,7 @@
     },
     "xerj-org/xerj": {
       "first_seen": "2026-07-14T13:38:39.835289+00:00",
-      "last_scanned": "2026-08-28T21:38:40.185985+00:00",
+      "last_scanned": "2026-08-29T16:00:42.942903+00:00",
       "config_files": [
         "demo/DEMO_RUNBOOK.md"
       ],
@@ -258,7 +258,7 @@
     },
     "Lore-Hex/quill-router": {
       "first_seen": "2026-07-21T13:23:23.035211+00:00",
-      "last_scanned": "2026-07-28T13:47:46.065327+00:00",
+      "last_scanned": "2026-08-29T16:01:17.707646+00:00",
       "config_files": [
         "docs/runbook.md"
       ],
@@ -495,7 +495,387 @@
         "docs/RUNBOOK.md"
       ],
       "stars": 2
+    },
+    "clockworklabs/SpacetimeDB": {
+      "first_seen": "2026-08-29T16:00:34.060808+00:00",
+      "last_scanned": "2026-08-29T16:00:34.060816+00:00",
+      "config_files": [
+        "tools/llm-sequential-upgrade/RUNBOOK.md"
+      ],
+      "stars": 25082
+    },
+    "kzinmr/ai-topics": {
+      "first_seen": "2026-08-29T16:00:35.303039+00:00",
+      "last_scanned": "2026-08-29T16:00:35.303047+00:00",
+      "config_files": [
+        "config/hermes/skills/_overrides/llm-wiki/references/llm-pricing-monitor-runbook.md"
+      ],
+      "stars": 7
+    },
+    "onyx-dot-app/onyx": {
+      "first_seen": "2026-08-29T16:00:36.399361+00:00",
+      "last_scanned": "2026-08-29T16:00:36.399369+00:00",
+      "config_files": [
+        "docs/craft/kubernetes/craft-eks-runbook.md"
+      ],
+      "stars": 31820
+    },
+    "ModelEngine-Group/nexent": {
+      "first_seen": "2026-08-29T16:00:37.539677+00:00",
+      "last_scanned": "2026-08-29T16:00:37.539685+00:00",
+      "config_files": [
+        "sdk/benchmark/eventqa_eval/RUNBOOK.md"
+      ],
+      "stars": 5842
+    },
+    "dora-rs/dora": {
+      "first_seen": "2026-08-29T16:00:38.699841+00:00",
+      "last_scanned": "2026-08-29T16:00:38.699848+00:00",
+      "config_files": [
+        "docs/qa-runbook.md"
+      ],
+      "stars": 3905
+    },
+    "garrytan/gbrain": {
+      "first_seen": "2026-08-29T16:00:40.146563+00:00",
+      "last_scanned": "2026-08-29T16:00:40.146570+00:00",
+      "config_files": [
+        "docs/guides/queue-operations-runbook.md"
+      ],
+      "stars": 29277
+    },
+    "koala73/worldmonitor": {
+      "first_seen": "2026-08-29T16:00:41.321129+00:00",
+      "last_scanned": "2026-08-29T16:00:41.321136+00:00",
+      "config_files": [
+        "docs/railway-seed-consolidation-runbook.md"
+      ],
+      "stars": 84814
+    },
+    "elizaOS/eliza": {
+      "first_seen": "2026-08-29T16:00:42.942817+00:00",
+      "last_scanned": "2026-08-29T16:00:42.942825+00:00",
+      "config_files": [
+        "plugins/plugin-local-inference/src/services/voice/research/VOICE_VALIDATION_RUNBOOK.md"
+      ],
+      "stars": 19207
+    },
+    "EverMind-AI/EverOS": {
+      "first_seen": "2026-08-29T16:00:44.277653+00:00",
+      "last_scanned": "2026-08-29T16:00:44.277660+00:00",
+      "config_files": [
+        "docs/cascade_runbook.md"
+      ],
+      "stars": 12539
+    },
+    "harvard-edge/cs249r_book": {
+      "first_seen": "2026-08-29T16:00:45.605750+00:00",
+      "last_scanned": "2026-08-29T16:00:45.605757+00:00",
+      "config_files": [
+        "interviews/vault/docs/MASSIVE_BUILD_RUNBOOK.md"
+      ],
+      "stars": 28051
+    },
+    "noonghunna/club-3090": {
+      "first_seen": "2026-08-29T16:00:46.871009+00:00",
+      "last_scanned": "2026-08-29T16:00:46.871015+00:00",
+      "config_files": [
+        "docs/NIGHTLY_BUMP_RUNBOOK.md"
+      ],
+      "stars": 2117
+    },
+    "stephenschoettler/hermes-lcm": {
+      "first_seen": "2026-08-29T16:00:47.980395+00:00",
+      "last_scanned": "2026-08-29T16:00:47.980403+00:00",
+      "config_files": [
+        "bench/RUNBOOK.md"
+      ],
+      "stars": 1087
+    },
+    "RichmondAlake/agent_harness_course": {
+      "first_seen": "2026-08-29T16:00:49.277449+00:00",
+      "last_scanned": "2026-08-29T16:00:49.277457+00:00",
+      "config_files": [
+        "part_1/advanced/INSTRUCTOR_RUNBOOK.md"
+      ],
+      "stars": 21
+    },
+    "MiroShark/MiroShark": {
+      "first_seen": "2026-08-29T16:00:50.379237+00:00",
+      "last_scanned": "2026-08-29T16:00:50.379245+00:00",
+      "config_files": [
+        "docs/plans/2026-05-24-railway-deployment-runbook.md"
+      ],
+      "stars": 1444
+    },
+    "flashinfer-ai/flashinfer": {
+      "first_seen": "2026-08-29T16:00:51.653261+00:00",
+      "last_scanned": "2026-08-29T16:00:51.653268+00:00",
+      "config_files": [
+        "docs/design_docs/moe_ep_runbook.md"
+      ],
+      "stars": 6281
+    },
+    "Micrurus-Ai/Corvid-lang": {
+      "first_seen": "2026-08-29T16:00:52.828119+00:00",
+      "last_scanned": "2026-08-29T16:00:52.828125+00:00",
+      "config_files": [
+        "examples/rag_qa_bot/docs/runbook.md",
+        "examples/provider_routing_demo/docs/runbook.md",
+        "examples/code_review_agent/docs/runbook.md",
+        "examples/local_model_demo/docs/runbook.md"
+      ],
+      "stars": 257
+    },
+    "Tracer-Cloud/opensre": {
+      "first_seen": "2026-08-29T16:00:53.960265+00:00",
+      "last_scanned": "2026-08-29T16:00:53.960272+00:00",
+      "config_files": [
+        "docs/terminal_metrics_runbook.md",
+        "docs/hermes_runbook.mdx"
+      ],
+      "stars": 10963
+    },
+    "Osmantic/ODS": {
+      "first_seen": "2026-08-29T16:00:55.461569+00:00",
+      "last_scanned": "2026-08-29T16:00:55.461576+00:00",
+      "config_files": [
+        "ods/docs/MAINTAINER_RUNBOOK.md"
+      ],
+      "stars": 4817
+    },
+    "nex-agi/sglang": {
+      "first_seen": "2026-08-29T16:00:56.868799+00:00",
+      "last_scanned": "2026-08-29T16:00:56.868806+00:00",
+      "config_files": [
+        ".claude/skills/llm-serving-auto-benchmark/references/container-runbook.md"
+      ],
+      "stars": 2
+    },
+    "bitcast-network/bitcast-x": {
+      "first_seen": "2026-08-29T16:00:58.061635+00:00",
+      "last_scanned": "2026-08-29T16:00:58.061642+00:00",
+      "config_files": [
+        "docs/operator-runbook.md"
+      ],
+      "stars": 4
+    },
+    "ma-abdellaoui/anonymice": {
+      "first_seen": "2026-08-29T16:00:59.598894+00:00",
+      "last_scanned": "2026-08-29T16:00:59.598901+00:00",
+      "config_files": [
+        "code/engine/litellm-proxy-extras/migration_runbook.md"
+      ],
+      "stars": 8
+    },
+    "mergecrew/mergecrew": {
+      "first_seen": "2026-08-29T16:01:00.846467+00:00",
+      "last_scanned": "2026-08-29T16:01:00.846475+00:00",
+      "config_files": [
+        "docs/03-infrastructure/05-operator-runbook.md"
+      ],
+      "stars": 9
+    },
+    "ROCm/rocm-systems": {
+      "first_seen": "2026-08-29T16:01:02.130043+00:00",
+      "last_scanned": "2026-08-29T16:01:02.130054+00:00",
+      "config_files": [
+        "experimental/python/perfxpert/docs/audit_gate_runbook.md"
+      ],
+      "stars": 475
+    },
+    "HurricaHjz/obsidian-llm-wiki-assistant": {
+      "first_seen": "2026-08-29T16:01:03.236156+00:00",
+      "last_scanned": "2026-08-29T16:01:03.236163+00:00",
+      "config_files": [
+        ".claude/skills/export-template/RUNBOOK.md"
+      ],
+      "stars": 7
+    },
+    "NVIDIA-AI-Blueprints/Multi-Agent-Intelligent-Warehouse": {
+      "first_seen": "2026-08-29T16:01:04.752153+00:00",
+      "last_scanned": "2026-08-29T16:01:04.752160+00:00",
+      "config_files": [
+        "docs/demo/DEMO_RUNBOOK.md"
+      ],
+      "stars": 125
+    },
+    "jkf87/jkf87.github.io": {
+      "first_seen": "2026-08-29T16:01:06.364917+00:00",
+      "last_scanned": "2026-08-29T16:01:06.364924+00:00",
+      "config_files": [
+        "scripts/runbooks/daily-blog-publish-v2-runbook.md"
+      ],
+      "stars": 6
+    },
+    "NVIDIA/NeMo-Relay": {
+      "first_seen": "2026-08-29T16:01:07.524420+00:00",
+      "last_scanned": "2026-08-29T16:01:07.524428+00:00",
+      "config_files": [
+        "docs/resources/troubleshooting/trace-incident-runbook.mdx"
+      ],
+      "stars": 132
+    },
+    "octos-org/octos-one": {
+      "first_seen": "2026-08-29T16:01:08.839971+00:00",
+      "last_scanned": "2026-08-29T16:01:08.839978+00:00",
+      "config_files": [
+        "lab/demo/RUNBOOK.md"
+      ],
+      "stars": 4
+    },
+    "poojakira/mcp-agent-security-gateway": {
+      "first_seen": "2026-08-29T16:01:09.898885+00:00",
+      "last_scanned": "2026-08-29T16:01:09.898893+00:00",
+      "config_files": [
+        "RUNBOOK.md"
+      ],
+      "stars": 17
+    },
+    "mpolatcan/hermes-setup": {
+      "first_seen": "2026-08-29T16:01:11.360287+00:00",
+      "last_scanned": "2026-08-29T16:01:11.360294+00:00",
+      "config_files": [
+        "docs/13-deployment-runbook.md"
+      ],
+      "stars": 7
+    },
+    "chipi/podcast_scraper": {
+      "first_seen": "2026-08-29T16:01:12.951877+00:00",
+      "last_scanned": "2026-08-29T16:01:12.951884+00:00",
+      "config_files": [
+        "docs/guides/OBSERVABILITY_RUNBOOK.md"
+      ],
+      "stars": 7
+    },
+    "lx-0/SunoFlow": {
+      "first_seen": "2026-08-29T16:01:14.388410+00:00",
+      "last_scanned": "2026-08-29T16:01:14.388417+00:00",
+      "config_files": [
+        "docs/deployment-runbook.md"
+      ],
+      "stars": 8
+    },
+    "abundant-ai/oddish": {
+      "first_seen": "2026-08-29T16:01:15.487960+00:00",
+      "last_scanned": "2026-08-29T16:01:15.487968+00:00",
+      "config_files": [
+        "docs/swe-marathon-eval-runbook.md"
+      ],
+      "stars": 19
+    },
+    "red-hat-data-services/rhai-org-pulse": {
+      "first_seen": "2026-08-29T16:01:16.530842+00:00",
+      "last_scanned": "2026-08-29T16:01:16.530850+00:00",
+      "config_files": [
+        "docs/RUNBOOK.md"
+      ],
+      "stars": 14
+    },
+    "MicrosoftDocs/SupportArticles-docs": {
+      "first_seen": "2026-08-29T16:01:17.707583+00:00",
+      "last_scanned": "2026-08-29T16:01:17.707590+00:00",
+      "config_files": [
+        "support/azure/automation/runbooks/error-running-powershell-runbook.md"
+      ],
+      "stars": 247
+    },
+    "openclaw/shellbench": {
+      "first_seen": "2026-08-29T16:01:17.707896+00:00",
+      "last_scanned": "2026-08-29T16:01:17.707900+00:00",
+      "config_files": [
+        ".agents/skills/shellbench-research-runbook/references/runbook.md"
+      ],
+      "stars": 138
+    },
+    "tvproductions/gzkit": {
+      "first_seen": "2026-08-29T16:01:17.708267+00:00",
+      "last_scanned": "2026-08-29T16:01:17.708272+00:00",
+      "config_files": [
+        "docs/user/runbook.md"
+      ],
+      "stars": 9
+    },
+    "HCAI-Lab-GT/wopr": {
+      "first_seen": "2026-08-29T16:01:17.708603+00:00",
+      "last_scanned": "2026-08-29T16:01:17.708608+00:00",
+      "config_files": [
+        "nuclear_war/docs/pilot_experiment_runbook.md"
+      ],
+      "stars": 4
+    },
+    "agentydragon/ducktape": {
+      "first_seen": "2026-08-29T16:01:17.708964+00:00",
+      "last_scanned": "2026-08-29T16:01:17.708970+00:00",
+      "config_files": [
+        "debug/agent_fleet/codex_orchestration_runbook.md"
+      ],
+      "stars": 4
+    },
+    "grafana/tempo": {
+      "first_seen": "2026-08-29T16:01:17.709455+00:00",
+      "last_scanned": "2026-08-29T16:01:17.709462+00:00",
+      "config_files": [
+        "operations/tempo-mixin/runbook.md"
+      ],
+      "stars": 5458
+    },
+    "Aadhithya-balu/Saksha_Datathon": {
+      "first_seen": "2026-08-29T16:01:17.710207+00:00",
+      "last_scanned": "2026-08-29T16:01:17.710214+00:00",
+      "config_files": [
+        "docs/operations/runbook.md"
+      ],
+      "stars": 4
+    },
+    "qf-studio/pilot": {
+      "first_seen": "2026-08-29T16:01:17.710742+00:00",
+      "last_scanned": "2026-08-29T16:01:17.710749+00:00",
+      "config_files": [
+        ".agent/sops/demos/bot-demo-runbook.md"
+      ],
+      "stars": 663
+    },
+    "andrei649/jarvis-hub": {
+      "first_seen": "2026-08-29T16:01:17.711270+00:00",
+      "last_scanned": "2026-08-29T16:01:17.711277+00:00",
+      "config_files": [
+        "docs/GPU_RUNBOOK.md"
+      ],
+      "stars": 4
+    },
+    "varun29ankuS/shodh-memory": {
+      "first_seen": "2026-08-29T16:01:17.775111+00:00",
+      "last_scanned": "2026-08-29T16:01:17.775127+00:00",
+      "config_files": [
+        "docs/demo-runbook.md"
+      ],
+      "stars": 275
+    },
+    "bcorfman/freytag-forge": {
+      "first_seen": "2026-08-29T16:01:17.775645+00:00",
+      "last_scanned": "2026-08-29T16:01:17.775649+00:00",
+      "config_files": [
+        "docs/testing-runbook.md"
+      ],
+      "stars": 12
+    },
+    "currentai-org/os-ai-map": {
+      "first_seen": "2026-08-29T16:01:17.776040+00:00",
+      "last_scanned": "2026-08-29T16:01:17.776044+00:00",
+      "config_files": [
+        "docs/operations/phase5-execution-runbook.md"
+      ],
+      "stars": 62
+    },
+    "quarto-dev/q2": {
+      "first_seen": "2026-08-29T16:01:17.776446+00:00",
+      "last_scanned": "2026-08-29T16:01:17.776450+00:00",
+      "config_files": [
+        "claude-notes/instructions/release-runbook.md"
+      ],
+      "stars": 245
     }
   },
-  "last_scan": "2026-08-28T21:38:40.187139+00:00"
+  "last_scan": "2026-08-29T16:01:17.776506+00:00"
 }
