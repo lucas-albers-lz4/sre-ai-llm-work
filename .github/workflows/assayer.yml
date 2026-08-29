@@ -409,12 +409,13 @@ jobs:
           echo "assayer_passed=false" >> "$GITHUB_OUTPUT"
           exit 1
 
-      # Any infra failure before Post review (checkout, configure, agent, …)
-      # leaves the PR unlabeled after drain claim. Re-queue only when Post
-      # review never ran — quality REQUEST CHANGES / REJECT must not requeue.
+      # Infra / post failures after drain claim can leave the PR unlabeled.
+      # Re-queue whenever Post review did not succeed AND no GitHub verdict
+      # exists for this SHA. Quality REQUEST CHANGES / REJECT post a verdict
+      # first, so the script below skips requeue for those.
       - name: Re-queue if review failed before a verdict
         id: requeue_infra
-        if: failure() && steps.post_review.outcome == 'skipped'
+        if: failure() && steps.post_review.outcome != 'success'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_NUMBER: ${{ needs.prepare.outputs.pr_number }}
