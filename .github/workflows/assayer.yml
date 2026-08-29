@@ -200,6 +200,30 @@ jobs:
         run: |
           echo "prepare: should_run=${{ steps.pr.outputs.should_run }} should_review=${{ steps.pr.outputs.should_review }} pr=${{ steps.pr.outputs.pr_number }}" >> "$GITHUB_STEP_SUMMARY"
 
+      # Drain claims (removes assayer-queued) before this job finishes. If
+      # prepare fails on a force=true dispatch, re-queue so the PR is not
+      # orphaned outside the drain list with no review.
+      - name: Re-queue on prepare failure (force path)
+        if: failure() && github.event_name == 'workflow_dispatch' && inputs.force == true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ inputs.pr_number }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${PR_NUMBER}" ]]; then
+            echo "No PR number; cannot re-queue."
+            exit 0
+          fi
+          echo "Prepare failed on force=true — re-queuing PR #$PR_NUMBER for drain."
+          gh pr comment "$PR_NUMBER" --body "⚠️ **Assayer prepare failed** on force review. Re-queued for \`assayer-drain.yml\` (not a quality REJECT)." || true
+          gh label create "assayer-queued" \
+            --repo "$REPO" \
+            --description "Queued for off-peak Assayer drain" \
+            --color "c5def5" \
+            2>/dev/null || true
+          gh pr edit "$PR_NUMBER" --repo "$REPO" --add-label "assayer-queued" || true
+
   assayer:
     needs: prepare
     if: needs.prepare.outputs.should_run == 'true' && needs.prepare.outputs.should_review == 'true'
@@ -316,32 +340,8 @@ jobs:
             --max-turns 30
             --allowedTools "Bash(*)" "Read" "Glob" "Grep" "WebFetch"
 
-      - name: Re-queue if Assayer agent failed before a verdict
-        if: failure() && steps.assayer_agent.outcome == 'failure'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: ${{ needs.prepare.outputs.pr_number }}
-          HEAD_SHA: ${{ needs.prepare.outputs.head_sha }}
-          REPO: ${{ github.repository }}
-        run: |
-          set -euo pipefail
-          # Do not requeue if a verdict for this SHA was already posted.
-          VERDICT_COUNT=$(gh api "repos/$REPO/issues/$PR_NUMBER/comments" --paginate \
-            --jq "[.[] | select(.body | contains(\"<!-- assayer-verdict: sha=${HEAD_SHA} -->\"))] | length")
-          if [[ "${VERDICT_COUNT:-0}" -gt 0 ]]; then
-            echo "Verdict already exists for $HEAD_SHA; not re-queuing."
-            exit 0
-          fi
-          echo "Assayer agent failed — re-queuing PR #$PR_NUMBER for drain."
-          gh pr comment "$PR_NUMBER" --body "⚠️ **Assayer agent failed** before writing a review. Re-queued for \`assayer-drain.yml\` (not a quality REJECT)." || true
-          gh label create "assayer-queued" \
-            --repo "$REPO" \
-            --description "Queued for off-peak Assayer drain" \
-            --color "c5def5" \
-            2>/dev/null || true
-          gh pr edit "$PR_NUMBER" --repo "$REPO" --add-label "assayer-queued" || true
-
       - name: Post review and set check verdict
+        id: post_review
         if: success()
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -408,6 +408,35 @@ jobs:
           echo "Assayer verdict: REQUEST CHANGES or REJECT"
           echo "assayer_passed=false" >> "$GITHUB_OUTPUT"
           exit 1
+
+      # Any infra failure before Post review (checkout, configure, agent, …)
+      # leaves the PR unlabeled after drain claim. Re-queue only when Post
+      # review never ran — quality REQUEST CHANGES / REJECT must not requeue.
+      - name: Re-queue if review failed before a verdict
+        id: requeue_infra
+        if: failure() && steps.post_review.outcome == 'skipped'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ needs.prepare.outputs.pr_number }}
+          HEAD_SHA: ${{ needs.prepare.outputs.head_sha }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          # Do not requeue if a verdict for this SHA was already posted.
+          VERDICT_COUNT=$(gh api "repos/$REPO/issues/$PR_NUMBER/comments" --paginate \
+            --jq "[.[] | select(.body | contains(\"<!-- assayer-verdict: sha=${HEAD_SHA} -->\"))] | length")
+          if [[ "${VERDICT_COUNT:-0}" -gt 0 ]]; then
+            echo "Verdict already exists for $HEAD_SHA; not re-queuing."
+            exit 0
+          fi
+          echo "Assayer failed before a verdict — re-queuing PR #$PR_NUMBER for drain."
+          gh pr comment "$PR_NUMBER" --body "⚠️ **Assayer infra failure** before writing a review. Re-queued for \`assayer-drain.yml\` (not a quality REJECT)." || true
+          gh label create "assayer-queued" \
+            --repo "$REPO" \
+            --description "Queued for off-peak Assayer drain" \
+            --color "c5def5" \
+            2>/dev/null || true
+          gh pr edit "$PR_NUMBER" --repo "$REPO" --add-label "assayer-queued" || true
 
       - name: Auto-merge approved source-note / feed / seed PRs
         if: success()
