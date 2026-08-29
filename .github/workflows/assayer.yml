@@ -150,11 +150,10 @@ jobs:
           upsert_queue_sticky() {
             local body marker comment_id
             marker="<!-- assayer-queue: sha=${HEAD_SHA} -->"
-            body="${marker}
-**Assayer queued** for off-peak drain (\`assayer-drain.yml\`).
-
-Head: \`${HEAD_SHA:0:8}\`. No Flash call on this event — reviews run from the drain cron (or \`workflow_dispatch\` with \`force=true\`).
-"
+            body=$(printf '%s\n\n%s\n\n%s\n' \
+              "$marker" \
+              "**Assayer queued** for off-peak drain (\`assayer-drain.yml\`)." \
+              "Head: \`${HEAD_SHA:0:8}\`. No Flash call on this event — reviews run from the drain cron (or \`workflow_dispatch\` with \`force=true\`).")
             comment_id=$(gh api "repos/$REPO/issues/$PR_NUM/comments" --paginate \
               --jq '.[] | select(.body | contains("<!-- assayer-queue:")) | .id' | head -1)
             if [[ -n "$comment_id" ]]; then
@@ -323,15 +322,19 @@ Head: \`${HEAD_SHA:0:8}\`. No Flash call on this event — reviews run from the 
           HEAD_SHA: ${{ needs.prepare.outputs.head_sha }}
           REPO: ${{ github.repository }}
         run: |
+          set -euo pipefail
           if [ ! -s /tmp/assayer-review.md ]; then
-            echo "Assayer did not produce a review file. Failing check."
-            {
-              echo "## Assayer Review"
-              echo ""
-              echo "**Verdict**: REJECT"
-              echo ""
-              echo "The Assayer agent failed to produce a review. Check the workflow logs."
-            } > /tmp/assayer-review.md
+            # Do NOT synthesize Verdict: REJECT — that triggers auto-close /
+            # extraction-rejected. Infra failure → re-queue for drain.
+            echo "Assayer did not produce a review file. Re-queuing; not a quality REJECT."
+            gh pr comment "$PR_NUMBER" --body "⚠️ **Assayer infra failure** — no review file produced. Re-queued for \`assayer-drain.yml\` (not a quality REJECT)."
+            gh label create "assayer-queued" \
+              --repo "$REPO" \
+              --description "Queued for off-peak Assayer drain" \
+              --color "c5def5" \
+              2>/dev/null || true
+            gh pr edit "$PR_NUMBER" --repo "$REPO" --add-label "assayer-queued" || true
+            exit 1
           fi
 
           # Append a command cheatsheet on non-approve verdicts so the

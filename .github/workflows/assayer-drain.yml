@@ -75,22 +75,18 @@ jobs:
             fi
             COUNT=$((COUNT + 1))
 
-            echo "Claiming PR #$PR_NUM"
-            if ! gh pr edit "$PR_NUM" --repo "$REPO" --remove-label "assayer-queued"; then
-              echo "Failed to remove assayer-queued on #$PR_NUM; skipping."
-              FAILED=$((FAILED + 1))
-              continue
-            fi
-
+            # Dispatch first; only claim (remove label) after successful dispatch.
+            # Avoid orphaning a PR if workflow_run never starts.
             echo "Dispatching assayer.yml force=true for PR #$PR_NUM"
             if GH_TOKEN="$PROJECT_PAT" gh workflow run assayer.yml \
                  --repo "$REPO" \
                  --field pr_number="$PR_NUM" \
                  --field force=true; then
+              echo "Claiming PR #$PR_NUM (removing assayer-queued)"
+              gh pr edit "$PR_NUM" --repo "$REPO" --remove-label "assayer-queued" || true
               DISPATCHED=$((DISPATCHED + 1))
             else
-              echo "Dispatch failed for #$PR_NUM — re-queueing."
-              gh pr edit "$PR_NUM" --repo "$REPO" --add-label "assayer-queued" || true
+              echo "Dispatch failed for #$PR_NUM — leaving assayer-queued."
               FAILED=$((FAILED + 1))
             fi
           done
