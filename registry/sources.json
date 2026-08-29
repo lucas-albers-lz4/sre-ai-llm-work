@@ -1573,6 +1573,19 @@
       "confidence_overall": "settled",
       "status": "current"
     },
+    "docs-langfuse-cli": {
+      "slug": "docs-langfuse-cli",
+      "title": "Langfuse CLI",
+      "source_url": "https://langfuse.com/docs/api-and-data-platform/features/cli",
+      "source_type": "docs",
+      "author": "Langfuse",
+      "date_published": "unknown (Langfuse vendor docs; page footer © 2022–2026; feature shipped 2026-02-17 per changelog image on page)",
+      "date_extracted": "2026-08-29",
+      "issue": "#1057",
+      "file": "source-notes/docs-langfuse-cli.md",
+      "confidence_overall": "settled",
+      "status": "current"
+    },
     "docs-langfuse-compatibility": {
       "slug": "docs-langfuse-compatibility",
       "title": "Versions & Compatibility — Langfuse",
