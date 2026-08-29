@@ -195,11 +195,13 @@ without parsing stderr: usage (2), configuration (3), network (4), HTTP failure
     documented here is the realized version of that planned surface; the roadmap
     frames the CLI as a strategic agent-facing automation layer rather than a
     niche dev tool.
-  - `docs-langfuse-sdk-overview.md` (#302) — the CLI reuses the SDK's exact
-    credential model (`LANGFUSE_PUBLIC_KEY` / `LANGFUSE_SECRET_KEY` /
-    `LANGFUSE_BASE_URL`, region-specific hosts). The CLI and SDK share an auth
-    surface; this note's Claim 4 explicitly says "the same project API-key pair
-    you use for the Langfuse SDKs and public API."
+  - `docs-langfuse-sdk-overview.md` (#302) **Concrete Artifacts → Credentials /
+    data regions configuration** — the SDK overview's credential snippet uses the
+    same `LANGFUSE_SECRET_KEY` / `LANGFUSE_PUBLIC_KEY` / `LANGFUSE_BASE_URL` env
+    vars and the same EU/US/Japan/HIPAA region hosts that the CLI page documents
+    (this note's Claim 4). The CLI and SDK share an auth surface; the CLI page
+    states "the same project API-key pair you use for the Langfuse SDKs and
+    public API."
 
 - **Contradicts**: None. The CLI page describes the shipped terminal surface and
   asserts no claim opposing any existing note; the three-way surface framing
