@@ -334,7 +334,8 @@ jobs:
           echo "Dispatching Assayer for PR #${{ steps.pr.outputs.pr_number }}"
           gh workflow run assayer.yml \
             --repo "${{ github.repository }}" \
-            --field pr_number="${{ steps.pr.outputs.pr_number }}"
+            --field pr_number="${{ steps.pr.outputs.pr_number }}" \
+            --field force=true
 
       - name: Notify success
         if: success()
