@@ -41,9 +41,10 @@ issue: "#1069"
   guardrails (see #321).
 - **Sub-pages followed**: The page is self-contained. It links to the prompt-webhook
   page for the HMAC verification code ("Signature verification works identically
-  to prompt webhooks"), which is already documented in the security-and-guardrails
-  note (#321) — no additional fetch needed. The Automations page referenced by
-  navigation was not a separate substantive sub-source for the claims here.
+  to prompt webhooks"). No existing corpus note documents Langfuse prompt-webhook
+  HMAC verification, so that linked page was not fetched here and is a candidate
+  for future extraction. The Automations page referenced by navigation was not a
+  separate substantive sub-source for the claims here.
 
 ## Extracted Claims
 
@@ -145,7 +146,7 @@ issue: "#1069"
   requires human re-enablement. This prevents an unreachable webhook/Slack from
   silently accumulating failed deliveries while also forcing an explicit operator
   acknowledgement (avoiding silent re-enable loops). Directly relevant to Ch03/Ch04
-  notification-infrastructure reliability and to the #321 delivery/HMAC discussion.
+  notification-infrastructure reliability.
 
 ### Claim 9: The webhook delivers a versioned, HMAC-signed JSON payload that preserves the legacy `monitor` naming (`type`, `monitorId`, `permalink`) for backward compatibility, so existing integrations continue to work unchanged
 - **Evidence**: The "Webhook payload" section shows the full schema and the
@@ -298,12 +299,6 @@ verbatim.
     monitorable signals). This note supplies the alerting layer that turns online
     eval scores into threshold-based notifications, completing the monitoring half
     of the closed eval loop.
-  - `docs-langfuse-security-and-guardrails.md` (#321) (HMAC-signed webhook /
-    prompt-webhook verification). The Alerts webhook uses the same HMAC signature
-    verification as prompt webhooks (this note, Claim 9 and its "Signature
-    verification works identically to prompt webhooks" note); #321 documents the
-    HMAC verification mechanics. This note does not re-extract the HMAC code — it
-    extends the delivery-automation contract to the alerting feature.
 
 - **Novel** (first appearances in the corpus):
   - **Boolean-score-average = share-of-true rate alerting** (Claim 1) — alerting on
@@ -323,6 +318,11 @@ verbatim.
     severity change triggering a CI/CD event; the alert→runbook bridge.
   - **The full webhook payload schema** (Concrete Artifacts) — the JSON contract
     with legacy `monitor` naming preserved for backward compat (Claim 9).
+  - **HMAC-signed webhook delivery, though not the verification mechanics** (Claims
+    7, 9) — the webhook payload is HMAC-signed and the page defers the signing code
+    to the prompt-webhook page ("Signature verification works identically to prompt
+    webhooks"), but no corpus note documents prompt-webhook HMAC verification
+    itself; that remains an unextracted gap.
 
 ## Guide Impact
 
@@ -388,13 +388,22 @@ verbatim.
   would ship; this confirms it did). Per MINER.md §4a I did **not** file a
   contradiction issue; I documented the reconciliation in Cross-References and the
   shipped spec here extends/updates #320's Claim 6.
+- **Corpus gap (HMAC verification not yet covered)**: The Alerts webhook is
+  HMAC-signed and the page points to the prompt-webhook page for the signing code
+  ("Signature verification works identically to prompt webhooks"), but no existing
+  source note documents Langfuse prompt-webhook HMAC verification.
+  `docs-langfuse-security-and-guardrails.md` (#321) does NOT cover it — that note
+  is guardrail-library coverage only (PII anonymization, scanner composition,
+  Lakera Guard). The linked prompt-webhook page is a candidate for a future
+  extraction.
 - Candidate notes from `miner-related-notes.md` were each reviewed: the ones with
   substance for cross-references were `docs-langfuse-metrics-overview.md` (#284,
   metric/score query backend), `docs-langfuse-roadmap.md` (#320, alerting planned →
-  shipped), `docs-langfuse-security-and-guardrails.md` (#321, HMAC webhook
-  parallels), `docs-langfuse-glossary.md` (#255, score types), and the generic
+  shipped), `docs-langfuse-glossary.md` (#255, score types), and the generic
   `docs-google-sre-prodcast-01-03-alerting.md` (#36, alerting philosophy). The
-  remaining candidates were dismissed for this note: `docs-langfuse-mcp-server.md`
+  remaining candidates were dismissed for this note: `docs-langfuse-security-and-guardrails.md`
+  (#321, guardrail libraries only — PII anonymization, scanner composition, Lakera
+  Guard; no HMAC/webhook content), `docs-langfuse-mcp-server.md`
   (MCP surface, unrelated to alerts), `docs-langfuse-agent-skill.md` (agent
   conditioning skill, unrelated), `docs-langfuse-sdk-overview.md` (SDK
   instrumentation, no alerting claims), `docs-google-sre-data-processing-pipelines.md`,
