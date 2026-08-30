@@ -36,15 +36,29 @@ import scan_budget
 import scan_dedup
 
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
-# Prefer DeepSeek Anthropic-compatible routing; fall back to ANTHROPIC_API_KEY.
-ANTHROPIC_API_KEY = (
-    os.environ.get("DEEPSEEK_API_KEY")
-    or os.environ.get("ANTHROPIC_API_KEY")
-)
 ANTHROPIC_BASE_URL = os.environ.get(
     "ANTHROPIC_BASE_URL", "https://api.deepseek.com/anthropic"
 ).rstrip("/")
+# When pointed at OpenRouter, prefer OR tokens so a co-present DEEPSEEK_API_KEY
+# cannot override the OR arm of an A/B run.
+if "openrouter.ai" in ANTHROPIC_BASE_URL:
+    ANTHROPIC_API_KEY = (
+        os.environ.get("ANTHROPIC_AUTH_TOKEN")
+        or os.environ.get("OPENROUTER_API_KEY")
+        or os.environ.get("ANTHROPIC_API_KEY")
+        or os.environ.get("DEEPSEEK_API_KEY")
+    )
+else:
+    ANTHROPIC_API_KEY = (
+        os.environ.get("DEEPSEEK_API_KEY")
+        or os.environ.get("ANTHROPIC_API_KEY")
+        or os.environ.get("ANTHROPIC_AUTH_TOKEN")
+    )
 SCREEN_MODEL = os.environ.get("SITE_CRAWL_MODEL", "deepseek-v4-flash")
+# Optional OpenRouter provider prefs JSON, e.g.
+# {"quantizations":["fp8"],"allow_fallbacks":false,"only":["DeepInfra"]}
+# Empty / unset → omit provider object (DeepSeek direct / default OR routing).
+SITE_CRAWL_PROVIDER_JSON = os.environ.get("SITE_CRAWL_PROVIDER_JSON", "").strip()
 REPO_URL = os.environ.get("GITHUB_REPOSITORY", "steveash/hitchhiker-guide")
 
 SEEDS_PATH = Path(__file__).parent.parent / "registry" / "site-crawl-seeds.json"
@@ -83,7 +97,7 @@ def _reset_usage_run_totals() -> None:
 
 
 def _usage_from_response(result: dict) -> dict[str, int]:
-    """Normalize Messages API usage (Anthropic + DeepSeek field aliases)."""
+    """Normalize Messages API usage (Anthropic + DeepSeek + OR field aliases)."""
     usage = result.get("usage") or {}
 
     def pick(*keys: str) -> int:
@@ -93,14 +107,112 @@ def _usage_from_response(result: dict) -> dict[str, int]:
                 return int(val)
         return 0
 
+    # Nested Anthropic-style cache details (some OR hosts).
+    cache_read_details = 0
+    details = usage.get("prompt_tokens_details") or usage.get("input_tokens_details")
+    if isinstance(details, dict):
+        for key in ("cached_tokens", "cache_read_input_tokens", "prompt_cache_hit_tokens"):
+            if details.get(key) is not None:
+                cache_read_details = int(details[key])
+                break
+
+    cache_read = pick("prompt_cache_hit_tokens", "cache_read_input_tokens")
+    if cache_read == 0 and cache_read_details:
+        cache_read = cache_read_details
+
     return {
         "input_tokens": pick("input_tokens", "prompt_tokens"),
         "output_tokens": pick("output_tokens", "completion_tokens"),
         # Prefer DeepSeek console names on this client; Anthropic names second.
-        "cache_read": pick("prompt_cache_hit_tokens", "cache_read_input_tokens"),
+        "cache_read": cache_read,
         # DeepSeek miss = uncached prompt input (not Anthropic cache_creation).
         "cache_miss": pick("prompt_cache_miss_tokens"),
         "cache_creation": pick("cache_creation_input_tokens"),
+    }
+
+
+def _text_from_content_blocks(content) -> str:
+    """Return the first text block from a Messages `content` array.
+
+    Flash / thinking models may put non-text blocks first; do not assume
+    content[0] is a string text block.
+    """
+    if not isinstance(content, list) or not content:
+        raise ValueError("missing content block in Messages response")
+    for block in content:
+        if not isinstance(block, dict):
+            continue
+        if block.get("type") == "text" and isinstance(block.get("text"), str):
+            return block["text"]
+        # Some gateways omit type but still send text.
+        if "text" in block and isinstance(block.get("text"), str) and block.get("type") in (
+            None,
+            "text",
+        ):
+            return block["text"]
+    raise ValueError(
+        f"no text content block in Messages response "
+        f"(block types={[b.get('type') if isinstance(b, dict) else type(b).__name__ for b in content]})"
+    )
+
+
+def _provider_prefs_from_env() -> dict | None:
+    """Parse SITE_CRAWL_PROVIDER_JSON; return None if unset/empty."""
+    raw = SITE_CRAWL_PROVIDER_JSON
+    if not raw:
+        return None
+    prefs = json.loads(raw)
+    if not isinstance(prefs, dict):
+        raise ValueError("SITE_CRAWL_PROVIDER_JSON must be a JSON object")
+    return prefs
+
+
+def _serving_meta_from_response(result: dict, resp_headers) -> dict[str, str]:
+    """Best-effort serving provider / quant / generation id from OR or DS."""
+    provider = "unknown"
+    quantization = "unknown"
+    generation_id = "unknown"
+
+    for key in ("provider", "provider_name", "served_by"):
+        val = result.get(key)
+        if isinstance(val, str) and val.strip():
+            provider = val.strip()
+            break
+        if isinstance(val, dict):
+            name = val.get("name") or val.get("slug") or val.get("id")
+            if isinstance(name, str) and name.strip():
+                provider = name.strip()
+            quant = val.get("quantization") or val.get("quant")
+            if isinstance(quant, str) and quant.strip():
+                quantization = quant.strip()
+            break
+
+    for key in ("quantization", "quant"):
+        val = result.get(key)
+        if isinstance(val, str) and val.strip():
+            quantization = val.strip()
+            break
+
+    gen = result.get("id")
+    if isinstance(gen, str) and gen.strip():
+        generation_id = gen.strip()
+
+    if resp_headers is not None:
+        for hk, dest in (
+            ("x-openrouter-provider", "provider"),
+            ("x-provider", "provider"),
+            ("x-openrouter-quantization", "quantization"),
+        ):
+            hv = resp_headers.get(hk)
+            if hv and dest == "provider" and provider == "unknown":
+                provider = hv.strip()
+            elif hv and dest == "quantization" and quantization == "unknown":
+                quantization = hv.strip()
+
+    return {
+        "provider": provider,
+        "quantization": quantization,
+        "generation_id": generation_id,
     }
 
 
@@ -112,6 +224,7 @@ def _log_site_crawl_usage(
     error: str | None = None,
     unparsed_urls: int = 0,
     usage: dict[str, int] | None = None,
+    serving: dict[str, str] | None = None,
 ) -> None:
     parts = [
         "SITE_CRAWL_USAGE",
@@ -120,6 +233,14 @@ def _log_site_crawl_usage(
         f"seed={seed_id}",
         f"urls={url_count}",
     ]
+    if serving:
+        parts.extend(
+            [
+                f"provider={serving.get('provider', 'unknown')}",
+                f"quantization={serving.get('quantization', 'unknown')}",
+                f"generation_id={serving.get('generation_id', 'unknown')}",
+            ]
+        )
     if status == "ok" and usage is not None:
         parts.extend(
             [
@@ -369,31 +490,39 @@ that are purely mechanical, pure AI coding-agent lifestyle content with no ops a
 and marketing/careers pages.
 When in doubt, mark as RELEVANT — the Prospector will do the deep evaluation later."""
 
+    serving: dict[str, str] | None = None
     try:
+        body: dict = {
+            "model": SCREEN_MODEL,
+            "max_tokens": 4096,
+            "messages": [{"role": "user", "content": prompt}],
+        }
+        provider_prefs = _provider_prefs_from_env()
+        if provider_prefs is not None:
+            body["provider"] = provider_prefs
+
+        headers = {
+            "x-api-key": ANTHROPIC_API_KEY,
+            "anthropic-version": "2023-06-01",
+            "content-type": "application/json",
+        }
+        if "openrouter.ai" in ANTHROPIC_BASE_URL:
+            headers["Authorization"] = f"Bearer {ANTHROPIC_API_KEY}"
+            headers["HTTP-Referer"] = f"https://github.com/{REPO_URL}"
+            headers["X-Title"] = "sre-ai-llm-work-site-crawl"
+
         resp = requests.post(
             f"{ANTHROPIC_BASE_URL}/v1/messages",
-            headers={
-                "x-api-key": ANTHROPIC_API_KEY,
-                "anthropic-version": "2023-06-01",
-                "content-type": "application/json",
-            },
-            json={
-                "model": SCREEN_MODEL,
-                "max_tokens": 4096,
-                "messages": [{"role": "user", "content": prompt}],
-            },
+            headers=headers,
+            json=body,
             timeout=60,
         )
         resp.raise_for_status()
         result = resp.json()
         if not isinstance(result, dict):
             raise ValueError(f"unexpected response type: {type(result).__name__}")
-        content = result.get("content") or []
-        if not content or not isinstance(content[0], dict):
-            raise ValueError("missing content block in Messages response")
-        text = content[0].get("text")
-        if not isinstance(text, str):
-            raise ValueError(f"unexpected content text type: {type(text).__name__}")
+        serving = _serving_meta_from_response(result, resp.headers)
+        text = _text_from_content_blocks(result.get("content") or [])
     except Exception as e:
         print(f"  ERROR calling screener model for screening: {e}", file=sys.stderr)
         _log_site_crawl_usage(
@@ -401,6 +530,7 @@ When in doubt, mark as RELEVANT — the Prospector will do the deep evaluation l
             url_count=len(urls),
             status="error",
             error=str(e),
+            serving=serving,
         )
         return {url: "pending" for url in urls}
 
@@ -444,6 +574,7 @@ When in doubt, mark as RELEVANT — the Prospector will do the deep evaluation l
             status="ok",
             unparsed_urls=unparsed_urls,
             usage=usage,
+            serving=serving,
         )
     except Exception as e:
         print(f"  ERROR parsing screener response: {e}", file=sys.stderr)
@@ -452,6 +583,7 @@ When in doubt, mark as RELEVANT — the Prospector will do the deep evaluation l
             url_count=len(urls),
             status="error",
             error=str(e),
+            serving=serving,
         )
         return {url: "pending" for url in urls}
 
@@ -526,8 +658,21 @@ Unknown — Prospector to determine.
         return None
 
 
-def scan_seed(seed: dict, state: dict, dry_run: bool = False) -> tuple[int, int, int]:
-    """Scan one seed. Returns (new_urls_found, issues_filed, pending_count)."""
+def scan_seed(
+    seed: dict,
+    state: dict,
+    dry_run: bool = False,
+    *,
+    measure_only: bool = False,
+    rescreen: bool = False,
+) -> tuple[int, int, int]:
+    """Scan one seed. Returns (new_urls_found, issues_filed, pending_count).
+
+    dry_run: skip Flash + skip filing (legacy discovery-only).
+    measure_only: run Flash, log usage; do not file or persist state updates
+      (caller skips save_state). Used for #1113 Phase 0 A/B.
+    rescreen: screen already-known URLs too (needed when state is warm).
+    """
     seed_id = seed["id"]
     print(f"\nScanning seed: {seed_id} ({seed['url']})")
 
@@ -568,32 +713,61 @@ def scan_seed(seed: dict, state: dict, dry_run: bool = False) -> tuple[int, int,
         print("  No URLs discovered")
         return (0, 0, 0)
 
-    # Filter to new URLs only
+    # Filter to new URLs only (unless rescreen for measurement A/B)
     new_urls = [u for u in urls if u not in known_urls]
     print(f"  {len(new_urls)} new URLs (of {len(urls)} total)")
 
-    if not new_urls:
+    if not new_urls and not rescreen:
         seed_state["last_scan"] = datetime.now(timezone.utc).isoformat()
-        return (0, 0, sum(1 for v in known_urls.values() if isinstance(v, dict) and v.get("status") == "pending"))
+        return (
+            0,
+            0,
+            sum(
+                1
+                for v in known_urls.values()
+                if isinstance(v, dict) and v.get("status") == "pending"
+            ),
+        )
 
     # Cap screening per seed (max_per_run), with global MAX_SCREEN_PER_SEED ceiling
     max_per_run = min(
         int(seed.get("max_per_run", DEFAULT_MAX_PER_RUN)),
         MAX_SCREEN_PER_SEED,
     )
-    to_screen = new_urls[:max_per_run]
-    if len(new_urls) > max_per_run:
-        print(
-            f"  Capping screening at {max_per_run}/seed; "
-            f"remaining {len(new_urls) - max_per_run} next run"
-        )
-
-    # Phase 2: DeepSeek Flash screening
-    if not dry_run:
-        verdicts = screen_urls_with_flash(to_screen, seed)
+    if rescreen:
+        candidates = new_urls + [u for u in urls if u in known_urls]
+        seen: set[str] = set()
+        ordered: list[str] = []
+        for u in candidates:
+            if u not in seen:
+                seen.add(u)
+                ordered.append(u)
+        to_screen = ordered[:max_per_run]
+        print(f"  [rescreen] screening {len(to_screen)} URL(s) (cap={max_per_run})")
     else:
+        to_screen = new_urls[:max_per_run]
+        if len(new_urls) > max_per_run:
+            print(
+                f"  Capping screening at {max_per_run}/seed; "
+                f"remaining {len(new_urls) - max_per_run} next run"
+            )
+
+    # Phase 2: Flash screening
+    # dry_run skips Flash; measure_only still bills Flash (no file/persist).
+    if dry_run and not measure_only:
         verdicts = {url: "pending" for url in to_screen}
-        print(f"  [DRY-RUN] skipping Flash screening, marking all as pending")
+        print("  [DRY-RUN] skipping Flash screening, marking all as pending")
+    else:
+        verdicts = screen_urls_with_flash(to_screen, seed)
+
+    if measure_only:
+        # Do not mutate crawl state during A/B measurement.
+        pending = sum(
+            1
+            for v in known_urls.values()
+            if isinstance(v, dict) and v.get("status") == "pending"
+        )
+        return (len(new_urls), 0, pending)
 
     # Update state with screening results
     for url, verdict in verdicts.items():
@@ -605,7 +779,11 @@ def scan_seed(seed: dict, state: dict, dry_run: bool = False) -> tuple[int, int,
     seed_state["last_scan"] = datetime.now(timezone.utc).isoformat()
 
     new_found = len(new_urls)
-    pending = sum(1 for v in known_urls.values() if isinstance(v, dict) and v.get("status") == "pending")
+    pending = sum(
+        1
+        for v in known_urls.values()
+        if isinstance(v, dict) and v.get("status") == "pending"
+    )
     return (new_found, 0, pending)
 
 
@@ -665,8 +843,24 @@ def file_pending(state: dict, seeds_by_id: dict, dry_run: bool = False) -> int:
 
 def main():
     parser = argparse.ArgumentParser(description="Scan documentation site seeds for new relevant pages.")
-    parser.add_argument("--dry-run", action="store_true", help="Discover and screen but don't file issues.")
+    parser.add_argument("--dry-run", action="store_true", help="Discover only; skip Flash and filing.")
+    parser.add_argument(
+        "--measure-only",
+        action="store_true",
+        help="Run Flash screening and usage logs; skip filing and state writes (A/B).",
+    )
+    parser.add_argument(
+        "--rescreen",
+        action="store_true",
+        help="Re-screen known URLs (for billed A/B when state is warm).",
+    )
     parser.add_argument("--seed", help="Only scan the seed with this id.")
+    parser.add_argument(
+        "--max-seeds",
+        type=int,
+        default=0,
+        help="Limit number of seeds processed (0 = all). Useful for A/B cost control.",
+    )
     args = parser.parse_args()
 
     _reset_usage_run_totals()
@@ -680,17 +874,30 @@ def main():
         if not seeds:
             print(f"ERROR: no seed with id={args.seed} in {SEEDS_PATH}", file=sys.stderr)
             sys.exit(1)
+    if args.max_seeds and args.max_seeds > 0:
+        seeds = seeds[: args.max_seeds]
 
     seeds_by_id = {s["id"]: s for s in seeds_data.get("seeds", [])}
 
-    print(f"scan-sites starting: {len(seeds)} seed(s), {scan_budget.status_summary()}")
+    print(
+        f"scan-sites starting: {len(seeds)} seed(s), {scan_budget.status_summary()}"
+        f", model={SCREEN_MODEL}, base={ANTHROPIC_BASE_URL}"
+        f", provider_json={'set' if SITE_CRAWL_PROVIDER_JSON else 'unset'}"
+        f", measure_only={args.measure_only}, rescreen={args.rescreen}"
+    )
 
     # Phase 1+2: Discover and screen new URLs
     total_new = 0
     total_pending = 0
     for i, seed in enumerate(seeds):
         try:
-            new, _, pending = scan_seed(seed, state, dry_run=args.dry_run)
+            new, _, pending = scan_seed(
+                seed,
+                state,
+                dry_run=args.dry_run,
+                measure_only=args.measure_only,
+                rescreen=args.rescreen,
+            )
             total_new += new
             total_pending += pending
         except Exception as e:
@@ -698,15 +905,20 @@ def main():
         if i < len(seeds) - 1:
             time.sleep(INTER_REQUEST_SLEEP)
 
-    # Phase 3: File issues from pending queue
-    print(f"\nFiling issues from pending queue ({total_pending} pending)...")
-    filed = file_pending(state, seeds_by_id, dry_run=args.dry_run)
+    # Phase 3: File issues from pending queue (skipped for measure-only A/B)
+    if args.measure_only:
+        print("\n[measure-only] skipping issue filing and state save")
+        filed = 0
+    else:
+        print(f"\nFiling issues from pending queue ({total_pending} pending)...")
+        filed = file_pending(state, seeds_by_id, dry_run=args.dry_run)
+        if not args.dry_run:
+            save_state(state)
 
-    if not args.dry_run:
-        save_state(state)
-
-    print(f"\nScan complete: {total_new} new URLs discovered, {filed} issue(s) filed, "
-          f"{total_pending - filed} still pending")
+    print(
+        f"\nScan complete: {total_new} new URLs discovered, {filed} issue(s) filed, "
+        f"{total_pending - filed} still pending"
+    )
     print(f"Final budget: {scan_budget.status_summary()}")
     _log_site_crawl_usage_total()
 

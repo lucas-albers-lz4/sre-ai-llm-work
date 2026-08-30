@@ -1,0 +1,153 @@
+name: OR Flash fp8 CCA Smoke (#1113 Phase 0)
+
+# Measurement-only: can Claude Code Action forward OpenRouter provider prefs
+# (quantizations=["fp8"], allow_fallbacks=false) for deepseek-v4-flash-0731?
+# Also runs a direct Messages probe so we can compare serving metadata.
+# Does NOT change production routing. See issue #1113.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Configure OpenRouter for Claude Code
+        uses: ./.github/actions/configure-openrouter-hy3
+        with:
+          api_key: ${{ secrets.OPENROUTER_API_KEY }}
+          model: deepseek/deepseek-v4-flash-0731
+
+      - name: Attempt CCA provider-pref surfaces (document for Phase 0)
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: |
+          set -euo pipefail
+          MODEL=deepseek/deepseek-v4-flash-0731
+          PROVIDER_JSON='{"quantizations":["fp8"],"allow_fallbacks":false}'
+          echo "::notice::Phase 0 CCA attempt: model=${MODEL} provider=${PROVIDER_JSON}"
+          # Documented attempt surfaces (none are official CCA knobs today):
+          # 1) Env vars that some gateways forward as extra body
+          # 2) Extra headers OpenRouter documents for rankings (not provider routing)
+          {
+            echo "OPENROUTER_PROVIDER_JSON=${PROVIDER_JSON}"
+            echo "OR_PROVIDER_PREFS=${PROVIDER_JSON}"
+            echo "HTTP_REFERER=https://github.com/${{ github.repository }}"
+            echo "X_TITLE=sre-ai-llm-work-1113-phase0"
+          } >> "$GITHUB_ENV"
+          echo "CCA_PROVIDER_PREF_ATTEMPT=env:OPENROUTER_PROVIDER_JSON+OR_PROVIDER_PREFS" >> "$GITHUB_STEP_SUMMARY"
+          echo "Expect: CCA likely does not forward \`provider\` — proof requires response/logs." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Run Flash via Claude Code Action (OR)
+        id: cca
+        continue-on-error: true
+        uses: anthropics/claude-code-action@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          anthropic_api_key: ${{ secrets.OPENROUTER_API_KEY }}
+          prompt: |
+            Print exactly one line: "or-fp8-cca-smoke ok".
+            Do not edit any files. Do not run any tools beyond what
+            is needed to print that line. Then exit.
+          claude_args: |
+            --model deepseek/deepseek-v4-flash-0731
+            --max-turns 2
+            --allowedTools "Bash(*)"
+
+      - name: Grep CCA logs for provider / quant / cache hints
+        if: always()
+        run: |
+          set +e
+          echo "## CCA log scrape" >> "$GITHUB_STEP_SUMMARY"
+          echo "CCA step outcome=${{ steps.cca.outcome }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "No dedicated CCA provider-pref flag exists in claude_args; env attempt was OPENROUTER_PROVIDER_JSON." >> "$GITHUB_STEP_SUMMARY"
+          echo "If serving provider/quant does not appear below, treat CCA prefs as unproven." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Direct Messages probe with provider prefs (control proof)
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: |
+          set -euo pipefail
+          python3 <<'PY'
+          import json, os, sys
+          import requests
+
+          key = os.environ["OPENROUTER_API_KEY"]
+          model = "deepseek/deepseek-v4-flash-0731"
+          provider = {
+              "quantizations": ["fp8"],
+              "allow_fallbacks": False,
+              "only": ["DeepInfra"],
+          }
+          body = {
+              "model": model,
+              "max_tokens": 64,
+              "messages": [
+                  {
+                      "role": "user",
+                      "content": "Reply with exactly: or-fp8-direct-ok",
+                  }
+              ],
+              "provider": provider,
+          }
+          resp = requests.post(
+              "https://openrouter.ai/api/v1/messages",
+              headers={
+                  "Authorization": f"Bearer {key}",
+                  "x-api-key": key,
+                  "anthropic-version": "2023-06-01",
+                  "content-type": "application/json",
+                  "HTTP-Referer": "https://github.com/lucas-albers-lz4/sre-ai-llm-work",
+                  "X-Title": "sre-ai-llm-work-1113-phase0",
+              },
+              json=body,
+              timeout=90,
+          )
+          print(f"HTTP {resp.status_code}")
+          print("response_headers_of_interest=")
+          for k, v in resp.headers.items():
+              lk = k.lower()
+              if "provider" in lk or "openrouter" in lk or "generation" in lk:
+                  print(f"  {k}: {v}")
+          try:
+              data = resp.json()
+          except Exception as e:
+              print(resp.text[:2000])
+              raise SystemExit(f"non-JSON response: {e}")
+          usage = data.get("usage") or {}
+          meta = {
+              "id": data.get("id"),
+              "model": data.get("model"),
+              "provider": data.get("provider"),
+              "provider_name": data.get("provider_name"),
+              "quantization": data.get("quantization"),
+              "usage": usage,
+              "content_types": [
+                  (b.get("type") if isinstance(b, dict) else type(b).__name__)
+                  for b in (data.get("content") or [])
+              ],
+          }
+          print("DIRECT_MESSAGES_META " + json.dumps(meta, default=str))
+          summary = os.environ.get("GITHUB_STEP_SUMMARY")
+          if summary:
+              with open(summary, "a") as f:
+                  f.write("\n## Direct Messages probe\n")
+                  f.write(f"```json\n{json.dumps(meta, indent=2, default=str)}\n```\n")
+          if resp.status_code >= 400:
+              print(json.dumps(data, indent=2)[:3000])
+              sys.exit(1)
+          print("or-fp8-direct-ok")
+          PY

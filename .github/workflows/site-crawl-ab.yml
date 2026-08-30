@@ -1,0 +1,128 @@
+name: Site-crawl A/B (#1113 Phase 0)
+
+# Measurement-only billed A/B for scan-sites.py:
+# DeepSeek direct Flash vs OpenRouter Flash-0731 with fp8 provider prefs.
+# Prefer measure-only (no issue filing / no state commit).
+# Does NOT change production daily-scan routing. See issue #1113.
+
+on:
+  workflow_dispatch:
+    inputs:
+      backend:
+        description: 'LLM gateway'
+        type: choice
+        options:
+          - deepseek
+          - openrouter
+        default: deepseek
+      seed:
+        description: 'Optional seed id (empty = first max_seeds seeds)'
+        required: false
+        default: ''
+        type: string
+      max_seeds:
+        description: 'Max seeds to process (cost control)'
+        required: false
+        default: '3'
+        type: string
+      measure_only:
+        description: 'Skip filing + state write (recommended for A/B)'
+        type: boolean
+        default: true
+      rescreen:
+        description: 'Re-screen known URLs so warm state still bills Flash'
+        type: boolean
+        default: true
+      pin_deepinfra:
+        description: 'OR only: add provider.only=["DeepInfra"]'
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: site-crawl-ab-${{ github.event.inputs.backend }}
+  cancel-in-progress: false
+
+jobs:
+  ab:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Configure DeepSeek direct
+        if: inputs.backend == 'deepseek'
+        run: |
+          {
+            echo "ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic"
+            echo "SITE_CRAWL_MODEL=deepseek-v4-flash"
+            echo "SITE_CRAWL_PROVIDER_JSON="
+          } >> "$GITHUB_ENV"
+
+      - name: Configure OpenRouter fp8
+        if: inputs.backend == 'openrouter'
+        env:
+          PIN_DEEPINFRA: ${{ inputs.pin_deepinfra }}
+        run: |
+          set -euo pipefail
+          if [ -z "${{ secrets.OPENROUTER_API_KEY }}" ]; then
+            echo "::error::OPENROUTER_API_KEY secret is empty"
+            exit 1
+          fi
+          if [ "${PIN_DEEPINFRA}" = "true" ]; then
+            PROVIDER='{"quantizations":["fp8"],"allow_fallbacks":false,"only":["DeepInfra"]}'
+          else
+            PROVIDER='{"quantizations":["fp8"],"allow_fallbacks":false}'
+          fi
+          {
+            echo "ANTHROPIC_BASE_URL=https://openrouter.ai/api"
+            echo "ANTHROPIC_AUTH_TOKEN=${{ secrets.OPENROUTER_API_KEY }}"
+            echo "ANTHROPIC_API_KEY="
+            echo "SITE_CRAWL_MODEL=deepseek/deepseek-v4-flash-0731"
+            echo "SITE_CRAWL_PROVIDER_JSON=${PROVIDER}"
+          } >> "$GITHUB_ENV"
+          echo "OR provider prefs: ${PROVIDER}"
+
+      - name: Run site-crawl measurement
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          # Only inject the key for the selected backend (avoid cross-auth).
+          DEEPSEEK_API_KEY: ${{ inputs.backend == 'deepseek' && secrets.DEEPSEEK_API_KEY || '' }}
+          OPENROUTER_API_KEY: ${{ inputs.backend == 'openrouter' && secrets.OPENROUTER_API_KEY || '' }}
+        run: |
+          set -euo pipefail
+          ARGS=(--max-seeds "${{ inputs.max_seeds }}")
+          if [ "${{ inputs.measure_only }}" = "true" ]; then
+            ARGS+=(--measure-only)
+          fi
+          if [ "${{ inputs.rescreen }}" = "true" ]; then
+            ARGS+=(--rescreen)
+          fi
+          SEED="${{ inputs.seed }}"
+          if [ -n "${SEED}" ]; then
+            ARGS+=(--seed "${SEED}")
+          fi
+          echo "backend=${{ inputs.backend }} args=${ARGS[*]}"
+          echo "model=${SITE_CRAWL_MODEL} base=${ANTHROPIC_BASE_URL}"
+          python scripts/scan-sites.py "${ARGS[@]}"
+
+      - name: Summarize SITE_CRAWL_USAGE
+        if: always()
+        run: |
+          echo "## site-crawl A/B (${{ inputs.backend }})" >> "$GITHUB_STEP_SUMMARY"
+          echo "- model: \`${SITE_CRAWL_MODEL:-}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- base: \`${ANTHROPIC_BASE_URL:-}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- provider_json: \`${SITE_CRAWL_PROVIDER_JSON:-unset}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Grep the job log for \`SITE_CRAWL_USAGE\` / \`SITE_CRAWL_USAGE_TOTAL\`." >> "$GITHUB_STEP_SUMMARY"
+          echo "Compare billed in/cache/out, provider, quantization, errors, unparsed_urls vs the other backend." >> "$GITHUB_STEP_SUMMARY"

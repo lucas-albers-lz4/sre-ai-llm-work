@@ -203,7 +203,7 @@ the instrumented direct Messages API path** (see below).
 After each Flash screening call, `scan-sites.py` prints structured lines:
 
 ```text
-SITE_CRAWL_USAGE status=ok model=deepseek-v4-flash seed=<id> urls=<n> input_tokens=... output_tokens=... cache_read=... cache_miss=... cache_creation=... unparsed_urls=...
+SITE_CRAWL_USAGE status=ok model=deepseek-v4-flash seed=<id> urls=<n> provider=... quantization=... generation_id=... input_tokens=... output_tokens=... cache_read=... cache_miss=... cache_creation=... unparsed_urls=...
 SITE_CRAWL_USAGE_TOTAL calls=... errors=... input_tokens=... ...
 ```
 
@@ -213,13 +213,17 @@ Field mapping (Messages `usage` block):
 |-----------|-------------------|-------|
 | `input_tokens` | `input_tokens`, `prompt_tokens` | |
 | `output_tokens` | `output_tokens`, `completion_tokens` | |
-| `cache_read` | `prompt_cache_hit_tokens`, `cache_read_input_tokens` | DeepSeek hit / Anthropic read |
+| `cache_read` | `prompt_cache_hit_tokens`, `cache_read_input_tokens`, nested `cached_tokens` | DeepSeek hit / Anthropic / OR |
 | `cache_miss` | `prompt_cache_miss_tokens` | DeepSeek uncached prompt input only |
 | `cache_creation` | `cache_creation_input_tokens` | Anthropic cache write; usually 0 on DeepSeek |
+| `provider` / `quantization` / `generation_id` | response body / OR headers | `#1113` Phase 0; `unknown` if absent |
 
 `unparsed_urls` counts input URLs with **no matching model output line** after
 substring URL match. Those URLs still become `pending` and may be **filed** on
 the same run — not deferred to a later rescreen.
+
+The screener picks the first Messages content block with `type=text` (Flash may
+emit non-text blocks first).
 
 Grep after `daily-scan.yml`:
 
@@ -227,6 +231,19 @@ Grep after `daily-scan.yml`:
 gh run list --workflow daily-scan.yml --limit 1
 gh run view <run_id> --log | rg 'SITE_CRAWL_USAGE'
 ```
+
+### #1113 Phase 0 measurement (no production OR routing)
+
+Dispatch-only:
+
+| Workflow | Purpose |
+|----------|---------|
+| `or-fp8-cca-smoke.yml` | CCA + direct Messages probe for `provider.quantizations=["fp8"]` |
+| `site-crawl-ab.yml` | Billed `scan-sites.py` A/B (`backend=deepseek\|openrouter`, `--measure-only --rescreen`) |
+
+Env knobs on `scan-sites.py` (A/B only; `daily-scan.yml` stays DeepSeek):
+`SITE_CRAWL_MODEL`, `SITE_CRAWL_PROVIDER_JSON`, `ANTHROPIC_BASE_URL`,
+`ANTHROPIC_AUTH_TOKEN` / `OPENROUTER_API_KEY`.
 
 ### Prompt cache hygiene
 
