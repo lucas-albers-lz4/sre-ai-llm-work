@@ -468,6 +468,78 @@
         }
       ]
     },
+    "blog-litellm-auto-router-v2": {
+      "path": "source-notes/blog-litellm-auto-router-v2.md",
+      "title": "Auto Router v2: one router for complexity, semantic, and adaptive routing",
+      "source_url": "https://docs.litellm.ai/blog/autorouter-v2",
+      "chapters": [
+        "05",
+        "02",
+        "04"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Auto Router v2 collapses complexity, semantic, and adaptive routing into a single `auto_router/complexity_router` config, shipping in v1.94.x",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The collapse into one router was community-pushed — discussion #32168 argued the three routing strategies should converge so users are not forced to pick a mode up front",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The operational rationale is \"predictable beats clever for debuggability\" — a fixed, versioned capability→model mapping is what makes \"why did this response cost 4x today\" answerable after the fact",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The optional LLM classifier (`classifier_type: llm`) runs through the same `Router` instance (so credentials, budgets, and fallbacks apply) and falls back to the heuristic scorer on timeout, empty content, or schema mismatch",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Keyword rules run before the scorer; multiple matches escalate to the highest matched tier (SIMPLE < MEDIUM < COMPLEX < REASONING) so rule order does not silently change behavior; semantic matching uses MAX aggregation (was MEAN)",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "`adaptive: true` turns tier pools into Thompson-sampled learning pools — cold requests sample only inside the classified tier instead of collapsing on the cheapest model, and feedback attributes to the model that actually served the previous turn",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Opt-in `session_affinity` pins the first-turn model for a session and skips reclassification on later turns, preserving provider-side prompt caches keyed to that model (TTL defaults to 3600s; `session_id` from request metadata)",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The decision log emits one greppable line per request with a `cause=` marker (`complexity_scorer | literal_keyword_match | semantic_keyword_match | session_affinity_pin`), plus tier, score/signals, and routed model",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "`litellm_params` set on the auto router alias (e.g. `drop_params`, `cache_control_injection_points`) used to be silently dropped when a tier was picked; v2 merges them into the outbound request without overriding anything the caller passed explicitly",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The same PR (#32974) fixes an Anthropic `/v1/messages`→Responses API `tool_choice` shape bug that broke Bedrock-backed complexity routers",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Roadmap: escalation ceilings with cooldown on fallback chains (\"a bad upstream cannot cascade into a bill\"), and attributable decisions (stamp routed model + routing-table version on every response; export structured decision traces via logging integrations)",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "v2 is backward compatible and additive — existing complexity router configs keep working; v2 features are new keys (`keyword_tier_rules`, `classifier_type: llm`, `adaptive: true`, `session_affinity: true`, or a list value on a tier)",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-litellm-claude-fable-5-day-0": {
       "path": "source-notes/blog-litellm-claude-fable-5-day-0.md",
       "title": "Day 0 Support: Claude Fable 5",

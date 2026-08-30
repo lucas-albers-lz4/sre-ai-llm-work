@@ -78,6 +78,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "blog-litellm-auto-router-v2": {
+      "slug": "blog-litellm-auto-router-v2",
+      "title": "Auto Router v2: one router for complexity, semantic, and adaptive routing",
+      "source_url": "https://docs.litellm.ai/blog/autorouter-v2",
+      "source_type": "blog-post",
+      "author": "Krrish Dholakia",
+      "date_published": "2026-07-13",
+      "date_extracted": "2026-08-30",
+      "issue": "#1143",
+      "file": "source-notes/blog-litellm-auto-router-v2.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-litellm-claude-fable-5-day-0": {
       "slug": "blog-litellm-claude-fable-5-day-0",
       "title": "Day 0 Support: Claude Fable 5",
