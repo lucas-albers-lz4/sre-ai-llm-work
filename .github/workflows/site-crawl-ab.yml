@@ -41,9 +41,8 @@ on:
 permissions:
   contents: read
 
-concurrency:
-  group: site-crawl-ab-${{ github.event.inputs.backend }}
-  cancel-in-progress: false
+# No shared concurrency group — Phase 0 fires many parallel measure runs.
+# (A shared backend group cancelled queued siblings under Actions limits.)
 
 jobs:
   ab:
