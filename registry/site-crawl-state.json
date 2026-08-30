@@ -1326,7 +1326,7 @@
         "filed_at": "2026-08-13T12:56:28.715514+00:00"
       }
     },
-    "last_scan": "2026-08-29T16:02:21.787190+00:00"
+    "last_scan": "2026-08-30T15:51:09.486584+00:00"
   },
   "opentelemetry": {
     "urls": {},
@@ -2217,16 +2217,22 @@
         "filed_at": "2026-08-28T21:40:30.297545+00:00"
       },
       "https://www.cncf.io/projects/ratify/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:44:15.310571+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:44:15.310571+00:00",
+        "issue": 1139,
+        "filed_at": "2026-08-30T15:51:29.549969+00:00"
       },
       "https://www.cncf.io/projects/rook/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:44:15.310573+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:44:15.310573+00:00",
+        "issue": 1140,
+        "filed_at": "2026-08-30T15:51:31.224138+00:00"
       },
       "https://www.cncf.io/projects/rkt/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T09:44:15.310574+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T09:44:15.310574+00:00",
+        "issue": 1141,
+        "filed_at": "2026-08-30T15:51:32.946956+00:00"
       },
       "https://www.cncf.io/projects/radius/": {
         "status": "pending",
@@ -3251,9 +3257,21 @@
       "https://www.cncf.io/blog/2026/03/18/understanding-kubernetes-metrics-best-practices-for-effective-monitoring": {
         "status": "pending",
         "screened_at": "2026-08-29T16:02:29.917352+00:00"
+      },
+      "https://www.cncf.io/blog/2026/03/17/kubecon-cloudnativecon-europe-2026-co-located-event-deep-dive-kyvernocon": {
+        "status": "pending",
+        "screened_at": "2026-08-30T15:51:15.103792+00:00"
+      },
+      "https://www.cncf.io/blog/2026/03/17/when-kubernetes-restarts-your-pod-and-when-it-doesnt": {
+        "status": "pending",
+        "screened_at": "2026-08-30T15:51:15.103811+00:00"
+      },
+      "https://www.cncf.io/blog/2026/03/16/kubecon-cloudnativecon-europe-2026-co-located-event-deep-dive-open-sovereign-cloud-day": {
+        "status": "pending",
+        "screened_at": "2026-08-30T15:51:15.103814+00:00"
       }
     },
-    "last_scan": "2026-08-29T16:02:29.917354+00:00"
+    "last_scan": "2026-08-30T15:51:15.103816+00:00"
   },
   "datadog-llm-obs": {
     "urls": {
@@ -3262,7 +3280,7 @@
         "screened_at": "2026-07-12T23:52:56.905756+00:00"
       }
     },
-    "last_scan": "2026-08-29T16:02:31.250768+00:00"
+    "last_scan": "2026-08-30T15:51:16.511211+00:00"
   },
   "langfuse-docs": {
     "urls": {
@@ -3415,7 +3433,7 @@
         "filed_at": "2026-08-28T21:40:32.591184+00:00"
       }
     },
-    "last_scan": "2026-08-29T16:02:32.474521+00:00"
+    "last_scan": "2026-08-30T15:51:18.136432+00:00"
   },
   "litellm-docs": {
     "urls": {
@@ -4306,16 +4324,22 @@
         "filed_at": "2026-08-28T21:40:38.541558+00:00"
       },
       "https://docs.litellm.ai/blog/tags/reliability": {
-        "status": "pending",
-        "screened_at": "2026-07-13T23:36:32.157680+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T23:36:32.157680+00:00",
+        "issue": 1142,
+        "filed_at": "2026-08-30T15:51:34.612713+00:00"
       },
       "https://docs.litellm.ai/blog/autorouter-v2": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:24:46.963588+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:24:46.963588+00:00",
+        "issue": 1143,
+        "filed_at": "2026-08-30T15:51:36.365102+00:00"
       },
       "https://docs.litellm.ai/blog/tags/adaptive": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:24:46.963605+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:24:46.963605+00:00",
+        "issue": 1144,
+        "filed_at": "2026-08-30T15:51:38.246135+00:00"
       },
       "https://docs.litellm.ai/blog/tags/complexity-router": {
         "status": "pending",
@@ -5132,9 +5156,21 @@
       "https://docs.litellm.ai/docs/observability/braintrust": {
         "status": "pending",
         "screened_at": "2026-08-29T16:02:38.867850+00:00"
+      },
+      "https://docs.litellm.ai/docs/observability/callbacks": {
+        "status": "pending",
+        "screened_at": "2026-08-30T15:51:22.346866+00:00"
+      },
+      "https://docs.litellm.ai/docs/observability/cloudzero": {
+        "status": "pending",
+        "screened_at": "2026-08-30T15:51:22.346884+00:00"
+      },
+      "https://docs.litellm.ai/docs/observability/custom_callback": {
+        "status": "pending",
+        "screened_at": "2026-08-30T15:51:22.346887+00:00"
       }
     },
-    "last_scan": "2026-08-29T16:02:38.867853+00:00"
+    "last_scan": "2026-08-30T15:51:22.346890+00:00"
   },
   "promptfoo-docs": {
     "urls": {
@@ -6015,16 +6051,22 @@
         "filed_at": "2026-08-28T21:40:45.591935+00:00"
       },
       "https://www.promptfoo.dev/guardrails/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T23:36:51.782657+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T23:36:51.782657+00:00",
+        "issue": 1145,
+        "filed_at": "2026-08-30T15:51:39.933465+00:00"
       },
       "https://www.promptfoo.dev/llm-vulnerability-scanner/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T23:36:51.782659+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T23:36:51.782659+00:00",
+        "issue": 1146,
+        "filed_at": "2026-08-30T15:51:41.722897+00:00"
       },
       "https://www.promptfoo.dev/mcp/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T23:36:51.782661+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T23:36:51.782661+00:00",
+        "issue": 1147,
+        "filed_at": "2026-08-30T15:51:43.430153+00:00"
       },
       "https://www.promptfoo.dev/model-security/": {
         "status": "pending",
@@ -6849,8 +6891,20 @@
       "https://www.promptfoo.dev/docs/providers/custom-api": {
         "status": "pending",
         "screened_at": "2026-08-29T16:02:43.193792+00:00"
+      },
+      "https://www.promptfoo.dev/docs/providers/custom-script": {
+        "status": "pending",
+        "screened_at": "2026-08-30T15:51:28.334017+00:00"
+      },
+      "https://www.promptfoo.dev/docs/providers/databricks": {
+        "status": "pending",
+        "screened_at": "2026-08-30T15:51:28.334034+00:00"
+      },
+      "https://www.promptfoo.dev/docs/providers/deepseek": {
+        "status": "pending",
+        "screened_at": "2026-08-30T15:51:28.334037+00:00"
       }
     },
-    "last_scan": "2026-08-29T16:02:43.193793+00:00"
+    "last_scan": "2026-08-30T15:51:28.334040+00:00"
   }
 }
