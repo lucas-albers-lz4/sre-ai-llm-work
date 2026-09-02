@@ -1747,6 +1747,66 @@
         }
       ]
     },
+    "blog-litellm-valkey-semantic-caching": {
+      "path": "source-notes/blog-litellm-valkey-semantic-caching.md",
+      "title": "Semantic Caching on Valkey and AWS ElastiCache",
+      "source_url": "https://docs.litellm.ai/blog/valkey_semantic_caching",
+      "chapters": [
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "LiteLLM now supports semantic prompt caching on Valkey via a new `cache_params.type: valkey-semantic` backend, giving embedding-based cache hits without Redis Stack or a separate vector database",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Semantic caching stores responses by prompt meaning rather than exact string match, so a reworded request can still hit the cache and skip a paid model call",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "LiteLLM's previous semantic cache required RedisVL, which depends on RediSearch's `FT.*` vector API — unavailable on Redis OSS or ElastiCache for Redis OSS, forcing teams to stand up Redis Stack or Qdrant just for semantic caching",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The migration driver is Redis moving to a source-available license — more teams are standing up Valkey instead, and ElastiCache for Valkey is a common managed target",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Valkey provides vector search through the valkey-search module, exposed by ElastiCache for Valkey, and the new backend talks to it directly over the Redis protocol — so semantic caching on ElastiCache for Valkey works without RediSearch, Redis Stack, or Qdrant in the path",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The `valkey-semantic` backend builds its own vector index from valkey-search field types — a tag field that isolates each cache key's scope plus an HNSW vector field for the prompt embedding — then runs a KNN query at lookup time and returns the cached response when cosine similarity clears a configurable threshold",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Prompt extraction, embedding generation, and response handling are shared with the existing Redis semantic cache, so behavior matches the Redis path including per-request scope isolation",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Connections resolve from `VALKEY_HOST`, `VALKEY_PORT`, and `VALKEY_PASSWORD`, falling back to the `REDIS_*` equivalents, and passwordless clusters are supported for IAM or no-auth setups",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "For ElastiCache with encryption in transit, you pass a `rediss://` URL through `cache_params.redis_url` instead of host and port",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "To try valkey-search locally, the bundled Docker image with the module ready is `valkey/valkey-bundle:8.1`",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-pagerduty-production-ai-agent-gaps": {
       "path": "source-notes/blog-pagerduty-production-ai-agent-gaps.md",
       "title": "Production AI Agents: Closing the Gaps Between Idea and Reality",

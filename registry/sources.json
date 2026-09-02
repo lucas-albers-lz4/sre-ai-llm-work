@@ -364,6 +364,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "blog-litellm-valkey-semantic-caching": {
+      "slug": "blog-litellm-valkey-semantic-caching",
+      "title": "Semantic Caching on Valkey and AWS ElastiCache",
+      "source_url": "https://docs.litellm.ai/blog/valkey_semantic_caching",
+      "source_type": "blog-post",
+      "author": "Yassin Kortam",
+      "date_published": "2026-06-17",
+      "date_extracted": "2026-09-02",
+      "issue": "#1176",
+      "file": "source-notes/blog-litellm-valkey-semantic-caching.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-pagerduty-production-ai-agent-gaps": {
       "slug": "blog-pagerduty-production-ai-agent-gaps",
       "title": "Production AI Agents: Closing the Gaps Between Idea and Reality",
