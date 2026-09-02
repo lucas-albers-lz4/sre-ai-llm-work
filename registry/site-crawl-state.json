@@ -1326,7 +1326,7 @@
         "filed_at": "2026-08-13T12:56:28.715514+00:00"
       }
     },
-    "last_scan": "2026-09-01T15:53:39.708781+00:00"
+    "last_scan": "2026-09-02T15:46:43.962124+00:00"
   },
   "opentelemetry": {
     "urls": {},
@@ -2271,16 +2271,22 @@
         "filed_at": "2026-09-01T15:54:05.677132+00:00"
       },
       "https://www.cncf.io/projects/pixie/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T23:36:08.365665+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T23:36:08.365665+00:00",
+        "issue": 1171,
+        "filed_at": "2026-09-02T15:47:25.481843+00:00"
       },
       "https://www.cncf.io/projects/piraeus-datastore/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T23:36:08.365667+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T23:36:08.365667+00:00",
+        "issue": 1172,
+        "filed_at": "2026-09-02T15:47:27.504226+00:00"
       },
       "https://www.cncf.io/projects/podman-container-tools/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T23:36:08.365668+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T23:36:08.365668+00:00",
+        "issue": 1173,
+        "filed_at": "2026-09-02T15:47:29.904538+00:00"
       },
       "https://www.cncf.io/projects/perses/": {
         "status": "pending",
@@ -3305,9 +3311,21 @@
       "https://www.cncf.io/blog/2026/03/12/making-etcd-incidents-easier-to-debug-in-production-kubernetes": {
         "status": "pending",
         "screened_at": "2026-09-01T15:53:45.980115+00:00"
+      },
+      "https://www.cncf.io/blog/2026/09/02/metal3-meets-kubevirtbmc-provisioning-kubevirt-vms-like-bare-metal": {
+        "status": "rejected",
+        "screened_at": "2026-09-02T15:46:57.249514+00:00"
+      },
+      "https://www.cncf.io/blog/2026/03/12/japans-cncf-devstats-2025": {
+        "status": "rejected",
+        "screened_at": "2026-09-02T15:46:57.249531+00:00"
+      },
+      "https://www.cncf.io/blog/2026/03/10/sustaining-open-source-in-the-age-of-generative-ai": {
+        "status": "rejected",
+        "screened_at": "2026-09-02T15:46:57.249534+00:00"
       }
     },
-    "last_scan": "2026-09-01T15:53:45.980117+00:00"
+    "last_scan": "2026-09-02T15:46:57.249536+00:00"
   },
   "datadog-llm-obs": {
     "urls": {
@@ -3316,7 +3334,7 @@
         "screened_at": "2026-07-12T23:52:56.905756+00:00"
       }
     },
-    "last_scan": "2026-09-01T15:53:47.417246+00:00"
+    "last_scan": "2026-09-02T15:46:58.759154+00:00"
   },
   "langfuse-docs": {
     "urls": {
@@ -3475,7 +3493,7 @@
         "filed_at": "2026-09-01T15:54:07.622689+00:00"
       }
     },
-    "last_scan": "2026-09-01T15:53:50.543154+00:00"
+    "last_scan": "2026-09-02T15:47:00.413654+00:00"
   },
   "litellm-docs": {
     "urls": {
@@ -4420,16 +4438,22 @@
         "filed_at": "2026-09-01T15:54:13.484503+00:00"
       },
       "https://docs.litellm.ai/blog/tags/sdk": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:24:46.963620+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:24:46.963620+00:00",
+        "issue": 1174,
+        "filed_at": "2026-09-02T15:47:31.748582+00:00"
       },
       "https://docs.litellm.ai/blog/tags/security": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:24:46.963622+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:24:46.963622+00:00",
+        "issue": 1175,
+        "filed_at": "2026-09-02T15:47:33.683442+00:00"
       },
       "https://docs.litellm.ai/blog/tags/semantic-cache": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:24:46.963623+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:24:46.963623+00:00",
+        "issue": 1176,
+        "filed_at": "2026-09-02T15:47:36.296246+00:00"
       },
       "https://docs.litellm.ai/blog/tags/semantic-router": {
         "status": "pending",
@@ -5246,9 +5270,21 @@
       "https://docs.litellm.ai/docs/observability/grafana_cloud": {
         "status": "pending",
         "screened_at": "2026-09-01T15:53:54.104552+00:00"
+      },
+      "https://docs.litellm.ai/docs/observability/greenscale_integration": {
+        "status": "pending",
+        "screened_at": "2026-09-02T15:47:03.745013+00:00"
+      },
+      "https://docs.litellm.ai/docs/observability/helicone_integration": {
+        "status": "pending",
+        "screened_at": "2026-09-02T15:47:03.745028+00:00"
+      },
+      "https://docs.litellm.ai/docs/observability/humanloop": {
+        "status": "pending",
+        "screened_at": "2026-09-02T15:47:03.745031+00:00"
       }
     },
-    "last_scan": "2026-09-01T15:53:54.104554+00:00"
+    "last_scan": "2026-09-02T15:47:03.745035+00:00"
   },
   "promptfoo-docs": {
     "urls": {
@@ -6183,16 +6219,22 @@
         "filed_at": "2026-09-01T15:54:20.552089+00:00"
       },
       "https://www.promptfoo.dev/releases/authors/": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:25:12.358803+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:25:12.358803+00:00",
+        "issue": 1177,
+        "filed_at": "2026-09-02T15:47:38.739476+00:00"
       },
       "https://www.promptfoo.dev/responsible-disclosure-policy/": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:25:12.358805+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:25:12.358805+00:00",
+        "issue": 1178,
+        "filed_at": "2026-09-02T15:47:41.079069+00:00"
       },
       "https://www.promptfoo.dev/search/": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:25:12.358806+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:25:12.358806+00:00",
+        "issue": 1179,
+        "filed_at": "2026-09-02T15:47:43.313852+00:00"
       },
       "https://www.promptfoo.dev/security/": {
         "status": "pending",
@@ -7017,8 +7059,20 @@
       "https://www.promptfoo.dev/docs/providers/fal": {
         "status": "pending",
         "screened_at": "2026-09-01T15:54:00.306313+00:00"
+      },
+      "https://www.promptfoo.dev/docs/providers/fireworks": {
+        "status": "pending",
+        "screened_at": "2026-09-02T15:47:23.986175+00:00"
+      },
+      "https://www.promptfoo.dev/docs/providers/github": {
+        "status": "pending",
+        "screened_at": "2026-09-02T15:47:23.986200+00:00"
+      },
+      "https://www.promptfoo.dev/docs/providers/go": {
+        "status": "pending",
+        "screened_at": "2026-09-02T15:47:23.986203+00:00"
       }
     },
-    "last_scan": "2026-09-01T15:54:00.306315+00:00"
+    "last_scan": "2026-09-02T15:47:23.986205+00:00"
   }
 }
