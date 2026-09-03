@@ -1326,7 +1326,7 @@
         "filed_at": "2026-08-13T12:56:28.715514+00:00"
       }
     },
-    "last_scan": "2026-09-02T15:46:43.962124+00:00"
+    "last_scan": "2026-09-03T15:37:02.332262+00:00"
   },
   "opentelemetry": {
     "urls": {},
@@ -2289,16 +2289,22 @@
         "filed_at": "2026-09-02T15:47:29.904538+00:00"
       },
       "https://www.cncf.io/projects/perses/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T23:36:08.365671+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T23:36:08.365671+00:00",
+        "issue": 1182,
+        "filed_at": "2026-09-03T15:37:26.018059+00:00"
       },
       "https://www.cncf.io/projects/pipecd/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T23:36:08.365672+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T23:36:08.365672+00:00",
+        "issue": 1183,
+        "filed_at": "2026-09-03T15:37:27.961830+00:00"
       },
       "https://www.cncf.io/projects/parsec/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T23:36:08.365674+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T23:36:08.365674+00:00",
+        "issue": 1184,
+        "filed_at": "2026-09-03T15:37:30.537634+00:00"
       },
       "https://www.cncf.io/projects/oxia/": {
         "status": "pending",
@@ -3323,9 +3329,21 @@
       "https://www.cncf.io/blog/2026/03/10/sustaining-open-source-in-the-age-of-generative-ai": {
         "status": "rejected",
         "screened_at": "2026-09-02T15:46:57.249534+00:00"
+      },
+      "https://www.cncf.io/blog/2026/09/03/join-ospology-ospo-summit-china-2026-in-shanghai": {
+        "status": "rejected",
+        "screened_at": "2026-09-03T15:37:08.650273+00:00"
+      },
+      "https://www.cncf.io/blog/2026/09/03/migrating-a-critical-kubernetes-deployment-from-the-default-namespace-without-any-downtime": {
+        "status": "pending",
+        "screened_at": "2026-09-03T15:37:08.650292+00:00"
+      },
+      "https://www.cncf.io/blog/2026/03/09/kubecon-cloudnativecon-europe-2026-co-located-event-deep-dive-opentofu-day": {
+        "status": "rejected",
+        "screened_at": "2026-09-03T15:37:08.650295+00:00"
       }
     },
-    "last_scan": "2026-09-02T15:46:57.249536+00:00"
+    "last_scan": "2026-09-03T15:37:08.650297+00:00"
   },
   "datadog-llm-obs": {
     "urls": {
@@ -3334,7 +3352,7 @@
         "screened_at": "2026-07-12T23:52:56.905756+00:00"
       }
     },
-    "last_scan": "2026-09-02T15:46:58.759154+00:00"
+    "last_scan": "2026-09-03T15:37:10.588263+00:00"
   },
   "langfuse-docs": {
     "urls": {
@@ -3491,9 +3509,15 @@
         "screened_at": "2026-09-01T15:53:50.543138+00:00",
         "issue": 1164,
         "filed_at": "2026-09-01T15:54:07.622689+00:00"
+      },
+      "https://langfuse.com/docs/evaluation/get-started/online": {
+        "status": "filed",
+        "screened_at": "2026-09-03T15:37:14.502926+00:00",
+        "issue": 1185,
+        "filed_at": "2026-09-03T15:37:32.594301+00:00"
       }
     },
-    "last_scan": "2026-09-02T15:47:00.413654+00:00"
+    "last_scan": "2026-09-03T15:37:14.502944+00:00"
   },
   "litellm-docs": {
     "urls": {
@@ -4456,16 +4480,22 @@
         "filed_at": "2026-09-02T15:47:36.296246+00:00"
       },
       "https://docs.litellm.ai/blog/tags/semantic-router": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:24:46.963625+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:24:46.963625+00:00",
+        "issue": 1186,
+        "filed_at": "2026-09-03T15:37:34.626197+00:00"
       },
       "https://docs.litellm.ai/blog/tags/sonnet-4-6": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:24:46.963627+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:24:46.963627+00:00",
+        "issue": 1187,
+        "filed_at": "2026-09-03T15:37:36.654773+00:00"
       },
       "https://docs.litellm.ai/blog/tags/sonnet-5": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:24:46.963629+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:24:46.963629+00:00",
+        "issue": 1188,
+        "filed_at": "2026-09-03T15:37:39.154210+00:00"
       },
       "https://docs.litellm.ai/blog/tags/stability": {
         "status": "pending",
@@ -5282,9 +5312,21 @@
       "https://docs.litellm.ai/docs/observability/humanloop": {
         "status": "pending",
         "screened_at": "2026-09-02T15:47:03.745031+00:00"
+      },
+      "https://docs.litellm.ai/docs/auto_router": {
+        "status": "pending",
+        "screened_at": "2026-09-03T15:37:19.409208+00:00"
+      },
+      "https://docs.litellm.ai/docs/auto_router/benchmarks": {
+        "status": "pending",
+        "screened_at": "2026-09-03T15:37:19.409224+00:00"
+      },
+      "https://docs.litellm.ai/docs/auto_router/evaluate": {
+        "status": "pending",
+        "screened_at": "2026-09-03T15:37:19.409227+00:00"
       }
     },
-    "last_scan": "2026-09-02T15:47:03.745035+00:00"
+    "last_scan": "2026-09-03T15:37:19.409229+00:00"
   },
   "promptfoo-docs": {
     "urls": {
@@ -6237,16 +6279,22 @@
         "filed_at": "2026-09-02T15:47:43.313852+00:00"
       },
       "https://www.promptfoo.dev/security/": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:25:12.358808+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:25:12.358808+00:00",
+        "issue": 1189,
+        "filed_at": "2026-09-03T15:37:41.159317+00:00"
       },
       "https://www.promptfoo.dev/solutions/finance/": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:25:12.358810+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:25:12.358810+00:00",
+        "issue": 1190,
+        "filed_at": "2026-09-03T15:37:43.191086+00:00"
       },
       "https://www.promptfoo.dev/solutions/insurance/": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:25:12.358812+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:25:12.358812+00:00",
+        "issue": 1191,
+        "filed_at": "2026-09-03T15:37:45.747234+00:00"
       },
       "https://www.promptfoo.dev/solutions/real-estate/": {
         "status": "pending",
@@ -7071,8 +7119,20 @@
       "https://www.promptfoo.dev/docs/providers/go": {
         "status": "pending",
         "screened_at": "2026-09-02T15:47:23.986203+00:00"
+      },
+      "https://www.promptfoo.dev/docs/providers/google": {
+        "status": "rejected",
+        "screened_at": "2026-09-03T15:37:24.462872+00:00"
+      },
+      "https://www.promptfoo.dev/docs/providers/groq": {
+        "status": "rejected",
+        "screened_at": "2026-09-03T15:37:24.462889+00:00"
+      },
+      "https://www.promptfoo.dev/docs/providers/helicone": {
+        "status": "rejected",
+        "screened_at": "2026-09-03T15:37:24.462891+00:00"
       }
     },
-    "last_scan": "2026-09-02T15:47:23.986205+00:00"
+    "last_scan": "2026-09-03T15:37:24.462893+00:00"
   }
 }
