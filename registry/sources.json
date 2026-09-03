@@ -1638,6 +1638,19 @@
       "confidence_overall": "settled",
       "status": "current"
     },
+    "docs-langfuse-evaluate-production-traffic": {
+      "slug": "docs-langfuse-evaluate-production-traffic",
+      "title": "Evaluate Production Traffic — Langfuse",
+      "source_url": "https://langfuse.com/docs/evaluation/get-started/online",
+      "source_type": "docs",
+      "author": "Langfuse",
+      "date_published": "n.d. (living documentation; copyright footer 2022–2026, current as of 2026-09-03)",
+      "date_extracted": "2026-09-03",
+      "issue": "#1185",
+      "file": "source-notes/docs-langfuse-evaluate-production-traffic.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-langfuse-evaluation-core-concepts": {
       "slug": "docs-langfuse-evaluation-core-concepts",
       "title": "Langfuse Evaluation — Core Concepts",

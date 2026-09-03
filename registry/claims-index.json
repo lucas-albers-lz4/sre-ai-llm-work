@@ -9594,6 +9594,62 @@
         }
       ]
     },
+    "docs-langfuse-evaluate-production-traffic": {
+      "path": "source-notes/docs-langfuse-evaluate-production-traffic.md",
+      "title": "Evaluate Production Traffic — Langfuse",
+      "source_url": "https://langfuse.com/docs/evaluation/get-started/online",
+      "chapters": [
+        "05",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "A Rule is the production scoring-deployment primitive — it defines which incoming observations get scored via filters, a sampling rate, and one or more evaluators",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Before enabling an online rule, review the matching volume from the past seven days; for LLM-as-a-Judge also review the estimated cost and lower the sampling rate if needed — sampling rate is the primary cost-control dial for always-on judging",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The recommended production rollout is create-evaluator → test/iterate on representative sample observations → then attach a rule — the judge is validated against real production observations before it ever scores live traffic",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "New matching observations receive scores as they arrive once a rule is attached; scored observations can be inspected and the metric watched over time via score analytics or a custom dashboard",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The same evaluator can be run over selected historical observations via batch evaluation, as a complement to always-on online scoring",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "A documented troubleshooting path addresses \"why is my observation-level evaluator not executing?\" — a rule/observation-scope mismatch footgun",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Other ways to score live traffic beyond automated evaluators are Scores via UI / annotation queues, user feedback, and Scores via API/SDK — a menu Langfuse presents as alternatives to continuous automated scoring",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The manual setup path treats the evaluator as a reusable artifact — you create it and can save it, then either create a rule from the filters you used while testing or attach it to an existing rule",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Online evaluation can be set up agentically — via the Langfuse Agent Skill (or Cursor plugin which includes it) by prompting a coding agent, or by installing the skill via the npm skills CLI",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-langfuse-evaluation-core-concepts": {
       "path": "source-notes/docs-langfuse-evaluation-core-concepts.md",
       "title": "Langfuse Evaluation — Core Concepts",
