@@ -15,6 +15,11 @@ on:
           - deepseek
           - openrouter
         default: deepseek
+      model:
+        description: 'OpenRouter model slug (only used when backend=openrouter)'
+        required: false
+        default: 'deepseek/deepseek-v4-flash-0731'
+        type: string
       seed:
         description: 'Optional seed id (empty = first max_seeds seeds)'
         required: false
@@ -85,7 +90,7 @@ jobs:
             echo "ANTHROPIC_BASE_URL=https://openrouter.ai/api"
             echo "ANTHROPIC_AUTH_TOKEN=${{ secrets.OPENROUTER_API_KEY }}"
             echo "ANTHROPIC_API_KEY="
-            echo "SITE_CRAWL_MODEL=deepseek/deepseek-v4-flash-0731"
+            echo "SITE_CRAWL_MODEL=${{ inputs.model }}"
             echo "SITE_CRAWL_PROVIDER_JSON=${PROVIDER}"
           } >> "$GITHUB_ENV"
           echo "OR provider prefs: ${PROVIDER}"
