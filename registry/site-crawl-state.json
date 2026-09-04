@@ -1326,7 +1326,7 @@
         "filed_at": "2026-08-13T12:56:28.715514+00:00"
       }
     },
-    "last_scan": "2026-09-03T15:37:02.332262+00:00"
+    "last_scan": "2026-09-04T15:35:23.142820+00:00"
   },
   "opentelemetry": {
     "urls": {},
@@ -2307,16 +2307,22 @@
         "filed_at": "2026-09-03T15:37:30.537634+00:00"
       },
       "https://www.cncf.io/projects/oxia/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T23:36:08.365676+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T23:36:08.365676+00:00",
+        "issue": 1199,
+        "filed_at": "2026-09-04T15:35:52.841286+00:00"
       },
       "https://www.cncf.io/projects/paralus/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T23:36:08.365678+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T23:36:08.365678+00:00",
+        "issue": 1200,
+        "filed_at": "2026-09-04T15:35:54.795576+00:00"
       },
       "https://www.cncf.io/projects/oscal-compass/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T23:36:08.365679+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T23:36:08.365679+00:00",
+        "issue": 1201,
+        "filed_at": "2026-09-04T15:35:56.444073+00:00"
       },
       "https://www.cncf.io/projects/oras/": {
         "status": "pending",
@@ -3341,9 +3347,21 @@
       "https://www.cncf.io/blog/2026/03/09/kubecon-cloudnativecon-europe-2026-co-located-event-deep-dive-opentofu-day": {
         "status": "rejected",
         "screened_at": "2026-09-03T15:37:08.650295+00:00"
+      },
+      "https://www.cncf.io/blog/2026/09/04/kubernetes-isnt-new-but-ai-makes-it-scary-again": {
+        "status": "pending",
+        "screened_at": "2026-09-04T15:35:32.086084+00:00"
+      },
+      "https://www.cncf.io/blog/2026/09/04/cpu-gpu-why-ai-platform-engineering-is-a-heterogeneous-infrastructure-problem": {
+        "status": "pending",
+        "screened_at": "2026-09-04T15:35:32.086109+00:00"
+      },
+      "https://www.cncf.io/blog/2026/03/09/registry-mirror-authentication-with-kubernetes-secrets": {
+        "status": "rejected",
+        "screened_at": "2026-09-04T15:35:32.086111+00:00"
       }
     },
-    "last_scan": "2026-09-03T15:37:08.650297+00:00"
+    "last_scan": "2026-09-04T15:35:32.086113+00:00"
   },
   "datadog-llm-obs": {
     "urls": {
@@ -3352,7 +3370,7 @@
         "screened_at": "2026-07-12T23:52:56.905756+00:00"
       }
     },
-    "last_scan": "2026-09-03T15:37:10.588263+00:00"
+    "last_scan": "2026-09-04T15:35:33.645504+00:00"
   },
   "langfuse-docs": {
     "urls": {
@@ -3517,7 +3535,7 @@
         "filed_at": "2026-09-03T15:37:32.594301+00:00"
       }
     },
-    "last_scan": "2026-09-03T15:37:14.502944+00:00"
+    "last_scan": "2026-09-04T15:35:35.275501+00:00"
   },
   "litellm-docs": {
     "urls": {
@@ -4498,16 +4516,22 @@
         "filed_at": "2026-09-03T15:37:39.154210+00:00"
       },
       "https://docs.litellm.ai/blog/tags/stability": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:24:46.963631+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:24:46.963631+00:00",
+        "issue": 1202,
+        "filed_at": "2026-09-04T15:35:58.161138+00:00"
       },
       "https://docs.litellm.ai/blog/tags/supernova": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:24:46.963633+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:24:46.963633+00:00",
+        "issue": 1203,
+        "filed_at": "2026-09-04T15:35:59.995143+00:00"
       },
       "https://docs.litellm.ai/blog/tags/supply-chain": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:24:46.963634+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:24:46.963634+00:00",
+        "issue": 1204,
+        "filed_at": "2026-09-04T15:36:01.774746+00:00"
       },
       "https://docs.litellm.ai/blog/tags/support": {
         "status": "pending",
@@ -5324,9 +5348,21 @@
       "https://docs.litellm.ai/docs/auto_router/evaluate": {
         "status": "pending",
         "screened_at": "2026-09-03T15:37:19.409227+00:00"
+      },
+      "https://docs.litellm.ai/docs/auto_router/feature_history": {
+        "status": "rejected",
+        "screened_at": "2026-09-04T15:35:39.562668+00:00"
+      },
+      "https://docs.litellm.ai/docs/auto_router/prompt_caching": {
+        "status": "pending",
+        "screened_at": "2026-09-04T15:35:39.562690+00:00"
+      },
+      "https://docs.litellm.ai/docs/auto_router/recommended_configurations": {
+        "status": "pending",
+        "screened_at": "2026-09-04T15:35:39.562692+00:00"
       }
     },
-    "last_scan": "2026-09-03T15:37:19.409229+00:00"
+    "last_scan": "2026-09-04T15:35:39.562695+00:00"
   },
   "promptfoo-docs": {
     "urls": {
@@ -6297,16 +6333,22 @@
         "filed_at": "2026-09-03T15:37:45.747234+00:00"
       },
       "https://www.promptfoo.dev/solutions/real-estate/": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:25:12.358814+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:25:12.358814+00:00",
+        "issue": 1205,
+        "filed_at": "2026-09-04T15:36:03.550426+00:00"
       },
       "https://www.promptfoo.dev/solutions/telecom/": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:25:12.358816+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:25:12.358816+00:00",
+        "issue": 1206,
+        "filed_at": "2026-09-04T15:36:05.456901+00:00"
       },
       "https://www.promptfoo.dev/store/": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:25:12.358817+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:25:12.358817+00:00",
+        "issue": 1207,
+        "filed_at": "2026-09-04T15:36:07.362068+00:00"
       },
       "https://www.promptfoo.dev/terms-of-service/": {
         "status": "pending",
@@ -7131,8 +7173,20 @@
       "https://www.promptfoo.dev/docs/providers/helicone": {
         "status": "rejected",
         "screened_at": "2026-09-03T15:37:24.462891+00:00"
+      },
+      "https://www.promptfoo.dev/docs/providers/http": {
+        "status": "rejected",
+        "screened_at": "2026-09-04T15:35:51.600017+00:00"
+      },
+      "https://www.promptfoo.dev/docs/providers/huggingface": {
+        "status": "rejected",
+        "screened_at": "2026-09-04T15:35:51.600036+00:00"
+      },
+      "https://www.promptfoo.dev/docs/providers/hyperbolic": {
+        "status": "rejected",
+        "screened_at": "2026-09-04T15:35:51.600038+00:00"
       }
     },
-    "last_scan": "2026-09-03T15:37:24.462893+00:00"
+    "last_scan": "2026-09-04T15:35:51.600039+00:00"
   }
 }
