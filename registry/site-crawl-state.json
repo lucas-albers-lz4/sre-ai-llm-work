@@ -1326,7 +1326,7 @@
         "filed_at": "2026-08-13T12:56:28.715514+00:00"
       }
     },
-    "last_scan": "2026-09-05T14:22:38.297378+00:00"
+    "last_scan": "2026-09-06T14:45:11.241580+00:00"
   },
   "opentelemetry": {
     "urls": {},
@@ -2343,16 +2343,22 @@
         "filed_at": "2026-09-05T14:23:02.069446+00:00"
       },
       "https://www.cncf.io/projects/opentracing/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T23:36:08.365687+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T23:36:08.365687+00:00",
+        "issue": 1218,
+        "filed_at": "2026-09-06T14:45:31.668419+00:00"
       },
       "https://www.cncf.io/projects/operator-framework/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T23:36:08.365689+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T23:36:08.365689+00:00",
+        "issue": 1219,
+        "filed_at": "2026-09-06T14:45:33.570431+00:00"
       },
       "https://www.cncf.io/projects/openyurt/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T23:36:08.365691+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T23:36:08.365691+00:00",
+        "issue": 1220,
+        "filed_at": "2026-09-06T14:45:35.499718+00:00"
       },
       "https://www.cncf.io/projects/openmetrics/": {
         "status": "pending",
@@ -3377,9 +3383,21 @@
       "https://www.cncf.io/blog/2026/03/04/scaling-organizational-structure-with-mesherys-expanding-ecosystem": {
         "status": "pending",
         "screened_at": "2026-09-05T14:22:45.158440+00:00"
+      },
+      "https://www.cncf.io/blog/2026/03/04/ospology-day-cloud-native-at-kubecon-cloudnativecon-europe": {
+        "status": "rejected",
+        "screened_at": "2026-09-06T14:45:16.432225+00:00"
+      },
+      "https://www.cncf.io/blog/2026/03/03/how-to-get-the-most-out-of-kubecon-cloudnativecon-europe-2026": {
+        "status": "rejected",
+        "screened_at": "2026-09-06T14:45:16.432245+00:00"
+      },
+      "https://www.cncf.io/blog/2026/03/02/kubecon-cloudnativecon-europe-2026-co-located-event-deep-dive-kubernetes-on-edge-day": {
+        "status": "rejected",
+        "screened_at": "2026-09-06T14:45:16.432249+00:00"
       }
     },
-    "last_scan": "2026-09-05T14:22:45.158442+00:00"
+    "last_scan": "2026-09-06T14:45:16.432251+00:00"
   },
   "datadog-llm-obs": {
     "urls": {
@@ -3388,7 +3406,7 @@
         "screened_at": "2026-07-12T23:52:56.905756+00:00"
       }
     },
-    "last_scan": "2026-09-05T14:22:46.731153+00:00"
+    "last_scan": "2026-09-06T14:45:17.836219+00:00"
   },
   "langfuse-docs": {
     "urls": {
@@ -3553,7 +3571,7 @@
         "filed_at": "2026-09-03T15:37:32.594301+00:00"
       }
     },
-    "last_scan": "2026-09-05T14:22:48.262779+00:00"
+    "last_scan": "2026-09-06T14:45:19.241738+00:00"
   },
   "litellm-docs": {
     "urls": {
@@ -4570,16 +4588,22 @@
         "filed_at": "2026-09-05T14:23:07.041242+00:00"
       },
       "https://docs.litellm.ai/blog/tags/townhall": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:24:46.963641+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:24:46.963641+00:00",
+        "issue": 1221,
+        "filed_at": "2026-09-06T14:45:37.193917+00:00"
       },
       "https://docs.litellm.ai/blog/tags/ui": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:24:46.963688+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:24:46.963688+00:00",
+        "issue": 1222,
+        "filed_at": "2026-09-06T14:45:38.897240+00:00"
       },
       "https://docs.litellm.ai/blog/tags/valkey": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:24:46.963690+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:24:46.963690+00:00",
+        "issue": 1223,
+        "filed_at": "2026-09-06T14:45:40.954107+00:00"
       },
       "https://docs.litellm.ai/blog/tags/vertex-ai": {
         "status": "pending",
@@ -5396,9 +5420,21 @@
       "https://docs.litellm.ai/docs/observability/langfuse_integration": {
         "status": "pending",
         "screened_at": "2026-09-05T14:22:52.842575+00:00"
+      },
+      "https://docs.litellm.ai/docs/mcp_authentication": {
+        "status": "pending",
+        "screened_at": "2026-09-06T14:45:24.500129+00:00"
+      },
+      "https://docs.litellm.ai/docs/mcp_id_jag": {
+        "status": "pending",
+        "screened_at": "2026-09-06T14:45:24.500147+00:00"
+      },
+      "https://docs.litellm.ai/docs/observability/langsmith_integration": {
+        "status": "pending",
+        "screened_at": "2026-09-06T14:45:24.500150+00:00"
       }
     },
-    "last_scan": "2026-09-05T14:22:52.842577+00:00"
+    "last_scan": "2026-09-06T14:45:24.500154+00:00"
   },
   "promptfoo-docs": {
     "urls": {
@@ -6405,16 +6441,22 @@
         "filed_at": "2026-09-05T14:23:12.202733+00:00"
       },
       "https://www.promptfoo.dev/docs/tags/changelog/": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:25:12.358825+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:25:12.358825+00:00",
+        "issue": 1224,
+        "filed_at": "2026-09-06T14:45:42.824790+00:00"
       },
       "https://www.promptfoo.dev/docs/tags/custom/": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:25:12.358826+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:25:12.358826+00:00",
+        "issue": 1225,
+        "filed_at": "2026-09-06T14:45:44.825449+00:00"
       },
       "https://www.promptfoo.dev/docs/tags/features/": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:25:12.358828+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:25:12.358828+00:00",
+        "issue": 1226,
+        "filed_at": "2026-09-06T14:45:46.482540+00:00"
       },
       "https://www.promptfoo.dev/docs/tags/multi-turn/": {
         "status": "pending",
@@ -7239,8 +7281,20 @@
       "https://www.promptfoo.dev/docs/providers/litellm": {
         "status": "pending",
         "screened_at": "2026-09-05T14:22:57.260553+00:00"
+      },
+      "https://www.promptfoo.dev/docs/providers/llama.cpp": {
+        "status": "pending",
+        "screened_at": "2026-09-06T14:45:30.568061+00:00"
+      },
+      "https://www.promptfoo.dev/docs/providers/llamaApi": {
+        "status": "pending",
+        "screened_at": "2026-09-06T14:45:30.568080+00:00"
+      },
+      "https://www.promptfoo.dev/docs/providers/llamafile": {
+        "status": "pending",
+        "screened_at": "2026-09-06T14:45:30.568083+00:00"
       }
     },
-    "last_scan": "2026-09-05T14:22:57.260554+00:00"
+    "last_scan": "2026-09-06T14:45:30.568086+00:00"
   }
 }
