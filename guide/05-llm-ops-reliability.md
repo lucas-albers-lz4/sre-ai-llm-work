@@ -412,6 +412,52 @@ shared-SLO relationship: tenant-scoped SLIs the global rollup cannot see,
 shared dashboards, and SLO-impact-quantified notifications — with a mutual
 P1 when a degradation eats the tenant's error budget.
 
+## Alerting on LLM quality signals
+
+LLM alerting splits into two families: the operational metrics an SRE already
+understands (latency, count, cost) and the quality signals unique to LLM ops —
+eval and guardrail scores. A shipped vendor implementation alerts on both:
+observation-level metrics (`avg latency`, `count`, `p95 cost`) or score metrics
+across numeric, categorical, and boolean score types
+[source: docs-langfuse-alerts, Claim 1] [settled].
+
+The boolean-score trick turns a rate into a threshold: for boolean scores,
+"the average value is the share of scores that are `true`" — alert on
+policy-check pass rate or detected-hallucination rate as a single numeric
+threshold [source: docs-langfuse-alerts, Claim 1] [settled].
+
+```
+# Alert on a rate, not just a latency
+# Boolean score per trace: "was this response policy-compliant?" (0/1)
+Metric      : avg of boolean score      # = share of true = pass rate
+Window      : 1 hour
+Warning thr.: < 0.98                    # heads-up, sets WARNING
+Alert thr.  : < 0.95                    # sets ALERT
+```
+*Extracted from [source: docs-langfuse-alerts, Concrete Artifacts].*
+
+Alerts follow a two-threshold ladder — an optional warning threshold then a
+required alert threshold, compared with operators over a time window
+[source: docs-langfuse-alerts, Claim 2] [settled] — over an explicit severity
+state machine (`UNKNOWN / OK / WARNING / ALERT / NO_DATA / PAUSED`) whose
+notify rules are defined per transition: breach and recovery always notify,
+sustained severity notifies only when renotify is enabled, and no-data
+notifies only under a sustained-NO_DATA mode [source: docs-langfuse-alerts,
+Claim 3] [settled].
+
+Sparse or bursty LLM traffic makes no-data a first-class state, with four
+modes: treat-missing-as-0 (the default), keep-previous-severity, record
+NO_DATA without notifying, and notify-after-sustained-NO_DATA
+[source: docs-langfuse-alerts, Claim 4] [settled]. The default is the
+lowest-signal option — a silent gap reads as "fine" — so when the *absence* of
+data is itself meaningful (an eval that stopped being emitted, a generation
+that stopped being called), choose sustained-NO_DATA notification.
+
+**Rule**: Alert on score rates alongside latency and cost — the boolean-score
+average thresholds a policy-check or hallucination rate. Give every alert a
+two-threshold ladder and choose the no-data mode deliberately: treat-missing-
+as-0 is silent; sustained-NO_DATA pages when missing data is the signal.
+
 ## Standing up an AI reliability team
 
 The team-lifecycle chapter is the org-design substrate for building a
@@ -610,5 +656,6 @@ blog-litellm-claude-fable-5-day-0, blog-litellm-agents-are-the-new-llms,
 failure-litellm-wildcard-model-access-desync, blog-promptfoo-asr-not-portable-metric,
 docs-google-sre-canarying-releases, docs-google-sre-configuration-design,
 docs-google-sre-configuration-specifics, docs-google-sre-reaching-beyond-walls,
-docs-google-sre-slo-engineering-case-studies, docs-google-sre-team-lifecycles*
-*Last updated: 2026-08-15*
+docs-google-sre-slo-engineering-case-studies, docs-google-sre-team-lifecycles,
+docs-langfuse-alerts*
+*Last updated: 2026-08-29*

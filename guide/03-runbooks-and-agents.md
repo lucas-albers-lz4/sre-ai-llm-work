@@ -19,6 +19,62 @@ script), to submitting a patch so the software never breaks that way again.
 named steps, explicit decision points. A runbook only a human can parse is not
 an automation input.
 
+## Skills are the packaging unit for runbook knowledge
+
+Runbook knowledge reaches agents as skills — a self-contained directory with a
+`SKILL.md` entrypoint describing general rules and a `references/` folder of
+per-workflow docs filled with specific best practices
+[source: docs-langfuse-agent-skill, Claim 3] [settled]. The open Agent Skills
+standard has third-party implementations: Langfuse ships an open-source skill
+for Claude Code, Cursor, and Windsurf [source: docs-langfuse-agent-skill,
+Claim 1] [settled].
+
+Vendors frame skills as conditioning — an agent with the skill installed is
+"conditioned to follow best practices," which Langfuse asserts makes coding
+agents "produce significantly better results" — an effectiveness claim with no
+metrics attached, so take the mechanism, not the magnitude [source:
+docs-langfuse-agent-skill, Claim 2] [emerging].
+
+A skill loads progressively: the frontmatter is always in the agent's context
+so it knows when the skill applies; the full instructions and reference docs
+load only on demand, keeping context usage low [source: docs-langfuse-agent-skill,
+Claim 4] [settled].
+
+```
+skills/langfuse/            # github.com/langfuse/skills (MIT)
+├── SKILL.md                # frontmatter + core principles — always loaded
+└── references/             # loaded on demand — one file per workflow
+    ├── instrumentation.md
+    ├── prompt-migration.md
+    ├── setting-up-evals.md
+    ├── judge-calibration.md
+    ├── error-analysis.md
+    ├── ci-cd.md
+    └── ... (15 reference files total)
+```
+*Extracted from [source: docs-langfuse-agent-skill, Concrete Artifacts].*
+
+Install is a directory operation — the npm skills CLI, a Cursor plugin, or a
+manual clone + symlink:
+
+```bash
+npx skills add langfuse/skills --skill "langfuse"      # --agent <id> targets one agent
+# or manual install:
+git clone https://github.com/langfuse/skills.git /path/to/langfuse-skills
+ln -s /path/to/langfuse-skills/skills/langfuse /path/to/<agent-skill-root>/skills/langfuse
+```
+*Extracted from [source: docs-langfuse-agent-skill, Concrete Artifacts].*
+
+The prompts such skills enable are agent-run ops work — "Show me the last 10
+traces with a score below 0.5", "Migrate the system prompt in src/agent.ts to
+Langfuse prompt management" [source: docs-langfuse-agent-skill, Concrete
+Artifacts] [settled].
+
+**Rule**: Package operational knowledge as a skill — a frontmatter `SKILL.md`
+plus per-workflow reference files — so the agent always knows when the
+procedure applies and loads the details on demand. A skill is just a
+directory: install by copy, symlink, or a skills CLI.
+
 ## Automation-safety baseline for agents
 
 ### Risk assessment before every action
@@ -117,6 +173,25 @@ typed schemas that force design decisions at definition time. A tool schema
 that says "here's a dict, figure it out" transfers its complexity to every
 agent that calls it.
 
+### Failure class at the process boundary
+
+Structured contracts extend to exit codes. Langfuse's CLI wraps the entire
+Langfuse API — generated from the full OpenAPI spec so every endpoint is a
+CLI command [source: docs-langfuse-cli, Claim 2] [settled] — and its failures
+exit with a machine-readable code so agents "can tell what went wrong without
+parsing stderr": usage (2), configuration (3), network (4), HTTP failure (5),
+local errors (6) [source: docs-langfuse-cli, Claim 3] [settled].
+
+```
+2  usage error          4  network failure
+3  configuration error  5  HTTP failure
+6  local error
+```
+
+**Rule**: A CLI an agent or an automated runbook invokes should signal failure
+*class* at the process boundary — usage vs config vs network vs HTTP vs local —
+so automation branches on the exit code instead of scraping free-text stderr.
+
 ## The pre-on-caller triage pattern
 
 ### Agent as first responder
@@ -149,6 +224,25 @@ can surface a hidden error via large-context "needle in a haystack" search
 **Rule**: Start with summarization. It is the lowest-risk, highest-payoff
 AI integration for on-call — the agent reads, summarizes, and recommends;
 the human decides and acts.
+
+### Alerts that dispatch runbooks
+
+An alert can also trigger a runbook directly, with no agent in the loop.
+Langfuse automations pair a trigger (an alert severity change) with an
+external action — a Slack message, an HMAC-signed webhook POST, or a GitHub
+Actions `workflow_dispatch` event [source: docs-langfuse-alerts, Claim 7]
+[settled]. A severity change firing `workflow_dispatch` is the alert→CI/CD
+bridge: the runbook (a self-healing action, dataset refresh, experiment
+re-run) starts on the alert, not on human reaction.
+
+Notification plumbing needs a circuit breaker of its own: after five
+consecutive delivery failures, Langfuse disables the automation's trigger and
+requires manual re-enablement once the endpoint is restored [source:
+docs-langfuse-alerts, Claim 8] [settled].
+
+**Rule**: Wire high-signal alert classes to a CI/CD `workflow_dispatch`
+runbook, and give every notification channel a delivery-failure circuit
+breaker that stops retrying a dead endpoint and demands a human re-enable.
 
 ## The human incident-tooling baseline an agent populates
 
@@ -318,5 +412,6 @@ not production-ready.
 *Sources for this chapter: docs-google-sre-prodcast-04-09-ai-agents,
 blog-litellm-agents-are-the-new-llms, blog-promptfoo-ai-orchestrated-cyberattacks,
 blog-promptfoo-ai-regulation-2025, docs-google-sre-eliminating-toil,
-docs-google-sre-incident-response, docs-google-sre-simplicity*
-*Last updated: 2026-08-15*
+docs-google-sre-incident-response, docs-google-sre-simplicity,
+docs-langfuse-agent-skill, docs-langfuse-alerts, docs-langfuse-cli*
+*Last updated: 2026-08-29*
