@@ -1924,6 +1924,19 @@
       "confidence_overall": "settled",
       "status": "current"
     },
+    "failure-litellm-vllm-embeddings-encoding-format": {
+      "slug": "failure-litellm-vllm-embeddings-encoding-format",
+      "title": "Incident Report: vLLM Embeddings Broken by encoding_format Parameter",
+      "source_url": "https://docs.litellm.ai/blog/vllm-embeddings-incident",
+      "source_type": "failure-report",
+      "author": "Sameer Kankute (SWE @ LiteLLM, LLM Translation), Krrish Dholakia (CEO, LiteLLM), Ishaan Jaffer",
+      "date_published": "2026-02-18",
+      "date_extracted": "2026-09-07",
+      "issue": "#1232",
+      "file": "source-notes/failure-litellm-vllm-embeddings-encoding-format.md",
+      "confidence_overall": "settled",
+      "status": "current"
+    },
     "failure-litellm-wildcard-model-access-desync": {
       "slug": "failure-litellm-wildcard-model-access-desync",
       "title": "Incident Report: Wildcard Blocking New Models After Cost Map Reload",

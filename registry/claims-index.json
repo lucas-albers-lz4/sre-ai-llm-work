@@ -10707,6 +10707,53 @@
         }
       ]
     },
+    "failure-litellm-vllm-embeddings-encoding-format": {
+      "path": "source-notes/failure-litellm-vllm-embeddings-encoding-format.md",
+      "title": "Incident Report: vLLM Embeddings Broken by encoding_format Parameter",
+      "source_url": "https://docs.litellm.ai/blog/vllm-embeddings-incident",
+      "chapters": [
+        "05",
+        "02",
+        "01"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "A gateway fix that stops one provider's SDK from injecting a default can break a stricter sibling provider by passing an explicit `None` instead of omitting the parameter",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "`Some providers treat omitted and explicitly-null parameter values differently` — present-but-null versus omitted is a compatibility surface, not an implementation detail",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The impact was scoped — complete failure of vLLM embeddings for ~3 hours while OpenAI and other providers, and other vLLM operations, were unaffected",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The fix is to filter `None`/empty-string values out of `optional_params` before forwarding to OpenAI-like providers — omit the parameter entirely rather than pass an explicit falsy value",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The filter is applied specifically in the OpenAI-like embedding handler, and all valid parameter values still pass through",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The regression defense is tests that assert the exact JSON payload sent to the vLLM endpoint — unit, transformation, and E2E layers",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The incident was ~3 hours and resolved — a much faster cycle than the other LiteLLM gateway regressions in this corpus",
+          "kind": "claim"
+        }
+      ]
+    },
     "failure-litellm-wildcard-model-access-desync": {
       "path": "source-notes/failure-litellm-wildcard-model-access-desync.md",
       "title": "Incident Report: Wildcard Blocking New Models After Cost Map Reload",
