@@ -224,7 +224,7 @@ Attribution: https://docs.litellm.ai/blog/two-week-stability-update, Appendix
     resolver with exhaustive match + fail-closed). The June claim describes the
     "what"; this July source describes the "how" and "why." They are consistent
     and complementary.
-  - `blog-litellm-june-townhall-updates.md` **Claim 8** (zero-regression
+  - `blog-litellm-june-townhall-updates.md` **Claim 2** (zero-regression
     commitment with Aug 29 target) — this July note's admission that "most of
     these 134 bugs were caught late, in staging or from a user report" is the
     diagnostic that explains *why* the zero-regression commitment exists: the
@@ -247,14 +247,16 @@ Attribution: https://docs.litellm.ai/blog/two-week-stability-update, Appendix
     complementary to the stdio allowlist: one hardens what commands the gateway
     runs, the other hardens which credentials the gateway attaches.
   - `failure-litellm-guardrail-logging-secret-exposure.md` — that note covers
-    upstream URLs and secrets appearing in logs via the guardrail logging path.
-    This July note names "upstream URLs and secrets showing up in logs" as one
-    of the five bug classes caused by the inferred-auth approach. The July
-    source is the *design fix* for the credential-resolution path that caused
-    the symptom documented in the guardrail-logging note. The guardrail-logging
-    note covers the observability-side fix (sanitization before emission); this
-    July note covers the auth-side fix (typed resolver so wrong credentials
-    are never attached in the first place). Complementary, not redundant.
+    plaintext `Authorization`-header/secret exposure via incomplete
+    sanitization in the guardrail logging path — an observability-side defect
+    at the logging output boundary. This July note independently names
+    "upstream URLs and secrets showing up in logs" as one of the five bug
+    classes caused by the inferred-auth approach. The two share only a symptom
+    class — secrets appearing in logs — but have distinct root causes: the
+    guardrail incident was a sanitization gap that emitted already-present
+    request data, while this July leak was a credential-resolution defect that
+    attached the wrong credentials upstream. They are independent leak
+    vectors, not cause and effect. Complementary, not redundant.
   - `blog-litellm-june-townhall-updates.md` — extends the June townhall's
     stability report with the next monthly installment. The June note covers
     Rust benchmarks, zero-regression commitment, and root-cause fixes; this
