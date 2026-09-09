@@ -28,7 +28,7 @@ issue: "#1250"
   is authored by Yuneng Jiang, Senior SWE at LiteLLM (BerriAI), describing the
   vendor's own release-support window. It is a companion post to the June
   townhall's one-line policy announcement (`blog-litellm-june-townhall-updates.md`
-  Claim 11) and is dated the day before it (2026-06-20 vs 2026-06-26), making it
+  Claim 11) and is dated six days before it (2026-06-20 vs 2026-06-26), making it
   the first published version of the policy with the operational mechanics.
 - **Scope**: Covers (1) the effective date of the four-minor-line support window,
   (2) the definition of a "minor line," (3) the supported set at publish time and
@@ -50,7 +50,7 @@ issue: "#1250"
 - **Our assessment**: A concrete, dated vendor policy statement — not marketing.
   The effective date (June 29, 2026) predates extraction, so the claim is a
   retrospective fact about LiteLLM's support posture that an SRE can plan
-  against. The June townhall announced the identical policy one week later
+  against. The June townhall announced the identical policy six days later
   (Claim 11 of that note), confirming this post is the canonical source.
 
 ### Claim 2: A "minor line" is a release series written as 1.89.x, covering every patch in it — the supported unit is the line, not individual patch releases
@@ -181,7 +181,7 @@ Attribution: "What this means for you" section.
   - `blog-litellm-june-townhall-updates.md` **Claim 11** (LiteLLM will maintain
     only the four most recent stable minor releases, effective June 29) — the
     townhall announced the identical policy with the same effective date; this
-    post (dated four days earlier) is the canonical statement the townhall
+    post (dated six days earlier) is the canonical statement the townhall
     summarized. No conflict — this note supplies the mechanics the townhall
     one-liner lacked.
   - `blog-litellm-may-townhall-updates.md` **Claim 11** (security roadmap
