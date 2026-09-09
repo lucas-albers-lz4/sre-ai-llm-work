@@ -390,6 +390,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "blog-litellm-version-support": {
+      "slug": "blog-litellm-version-support",
+      "title": "LiteLLM version support: focusing on the four most recent stable lines",
+      "source_url": "https://docs.litellm.ai/blog/version-support",
+      "source_type": "blog-post",
+      "author": "Yuneng Jiang",
+      "date_published": "2026-06-20",
+      "date_extracted": "2026-09-09",
+      "issue": "#1250",
+      "file": "source-notes/blog-litellm-version-support.md",
+      "confidence_overall": "settled",
+      "status": "current"
+    },
     "blog-pagerduty-production-ai-agent-gaps": {
       "slug": "blog-pagerduty-production-ai-agent-gaps",
       "title": "Production AI Agents: Closing the Gaps Between Idea and Reality",

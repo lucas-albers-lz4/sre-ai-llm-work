@@ -1863,6 +1863,63 @@
         }
       ]
     },
+    "blog-litellm-version-support": {
+      "path": "source-notes/blog-litellm-version-support.md",
+      "title": "LiteLLM version support: focusing on the four most recent stable lines",
+      "source_url": "https://docs.litellm.ai/blog/version-support",
+      "chapters": [
+        "05",
+        "04",
+        "03"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Starting Monday June 29, 2026, LiteLLM actively supports only the four most recent stable minor lines",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "A \"minor line\" is a release series written as 1.89.x, covering every patch in it — the supported unit is the line, not individual patch releases",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "At publish time (June 20, 2026) the supported lines were 1.89.x–1.86.x; everything 1.85.x and earlier had reached end of life and no longer receives active updates",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The support window rolls forward on each new minor release — when 1.90.x ships, 1.86.x drops out of the supported set",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "At ~one new line per week, the window works out to roughly a month of coverage per line",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The maintenance-burden rationale — carrying fixes back to older lines scales with the number of lines kept alive, not the number of fixes made",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The recommended operator posture is to pin to a line and take its patches (drop-in within a line), and to move up a line only after checking the release notes — planning the move before the line ages out",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Exceptions exist — enterprise customers can buy longer coverage, and rare high-severity issues may be patched outside the window at LiteLLM's discretion",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The release-notes page is the canonical, always-current tracker of the rolling window — the latest stable line plus the three behind it",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-pagerduty-production-ai-agent-gaps": {
       "path": "source-notes/blog-pagerduty-production-ai-agent-gaps.md",
       "title": "Production AI Agents: Closing the Gaps Between Idea and Reality",
