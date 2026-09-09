@@ -234,6 +234,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "blog-litellm-july-stability-update": {
+      "slug": "blog-litellm-july-stability-update",
+      "title": "July stability update: hardening MCP auth and cutting pass-through memory",
+      "source_url": "https://docs.litellm.ai/blog/two-week-stability-update",
+      "source_type": "blog-post",
+      "author": "Ishaan Jaffer (CTO, LiteLLM), Tin Lo (AI Engineer), Mateo Wang (AI Engineer), Yassin Kortam",
+      "date_published": "2026-07-11",
+      "date_extracted": "2026-09-08",
+      "issue": "#1241",
+      "file": "source-notes/blog-litellm-july-stability-update.md",
+      "confidence_overall": "settled",
+      "status": "current"
+    },
     "blog-litellm-june-townhall-updates": {
       "slug": "blog-litellm-june-townhall-updates",
       "title": "June Townhall Updates: 94 Bug Fixes, OCR + Realtime are in Rust, and a Zero-Regression Commitment",

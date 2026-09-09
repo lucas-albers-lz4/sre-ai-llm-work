@@ -1125,6 +1125,62 @@
         }
       ]
     },
+    "blog-litellm-july-stability-update": {
+      "path": "source-notes/blog-litellm-july-stability-update.md",
+      "title": "July stability update: hardening MCP auth and cutting pass-through memory",
+      "source_url": "https://docs.litellm.ai/blog/two-week-stability-update",
+      "chapters": [
+        "06",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The MCP Gateway previously inferred the auth method from whichever credential fields were set, with no single resolver and no error on ambiguity — ambiguity resolved to \"attach a credential anyway\" instead of \"stop\"",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The inferred-auth approach caused five specific classes of bugs — tokens to wrong upstream, duplicate/stale Authorization headers, MCP requests skipping team/route/key checks, stale/cross-user cached OAuth tokens, and upstream URLs/secrets leaking into logs",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The fix replaces inference with an explicit user-declared auth method in a typed credential-resolver class, with exhaustive match so adding a mode without handling it fails the type checker, and unhandled cases raise instead of silently attaching no auth",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Large non-JSON pass-through downloads (batch-result files, binary/octet-stream) were previously buffered whole in memory before being forwarded; the fix streams responses chunk-by-chunk so memory stays flat regardless of file size",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "JSON responses still buffer by design so spend logging and guardrails can inspect the body — a deliberate memory-vs-inspectability trade-off",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Prometheus skips budget-metric DB lookups entirely when gauges are no-ops (nothing is scraping them)",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The complexity router builds its semantic route index once under concurrent cold-start, instead of rebuilding it per request",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "134 bug fixes shipped in two weeks, with the largest area being MCP Gateway (50 fixes), followed by LLM Providers (27), Proxy Core/Reliability (23), UI/Dashboard (20), Logging/Observability (9), and Guardrails (5)",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Most of the 134 bugs were caught late — in staging or from user reports — and the next goal is 95% end-to-end test coverage, citing Meta's fix-fast approach",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-litellm-june-townhall-updates": {
       "path": "source-notes/blog-litellm-june-townhall-updates.md",
       "title": "June Townhall Updates: 94 Bug Fixes, OCR + Realtime are in Rust, and a Zero-Regression Commitment",
