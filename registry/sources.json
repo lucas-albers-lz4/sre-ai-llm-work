@@ -1781,6 +1781,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-code-scan-github-action": {
+      "slug": "docs-promptfoo-code-scan-github-action",
+      "title": "Promptfoo Code Scanning — GitHub Action",
+      "source_url": "https://www.promptfoo.dev/docs/code-scanning/github-action/",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-09-10",
+      "date_extracted": "2026-09-10",
+      "issue": "#1265",
+      "file": "source-notes/docs-promptfoo-code-scan-github-action.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "failure-litellm-bedrock-invoke-prompt-cache": {
       "slug": "failure-litellm-bedrock-invoke-prompt-cache",
       "title": "Incident Report: Prompt Cache Invalidation for Claude Code on Bedrock Invoke",

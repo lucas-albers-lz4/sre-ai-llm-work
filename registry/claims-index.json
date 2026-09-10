@@ -10299,6 +10299,57 @@
         }
       ]
     },
+    "docs-promptfoo-code-scan-github-action": {
+      "path": "source-notes/docs-promptfoo-code-scan-github-action.md",
+      "title": "Promptfoo Code Scanning — GitHub Action",
+      "source_url": "https://www.promptfoo.dev/docs/code-scanning/github-action/",
+      "chapters": [
+        "06",
+        "03"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Intra-job environment-state persistence allows a PR-controlled code step to compromise a later security scan step within the same CI job",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The action installs an exact, release-pinned CLI version with `--ignore-scripts` and publishes a signed build-provenance attestation for the artifact bytes",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The hardening boundary is post-v0.1.8 — releases before v0.1.8 resolved `promptfoo@latest` at runtime and predate the provenance attestation",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Fork-PR scanning is disabled by default — a maintainer override via `@promptfoo-scanner` comment or `enable-fork-prs: true` is required",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "SARIF output is only published when a scan actually completes — an intentionally skipped scan does not publish a clean Code Scanning result",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Two authentication paths with different trust properties — GitHub App (OIDC keyless) vs manual install (API key required)",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Severity threshold input with deprecated alias precedence rules, and exact-version-only enforcement for `promptfoo-version`",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The documented workflow pins third-party actions to full commit SHAs and recommends pinning the scanner action itself via `gh api` resolution",
+          "kind": "claim"
+        }
+      ]
+    },
     "failure-litellm-bedrock-invoke-prompt-cache": {
       "path": "source-notes/failure-litellm-bedrock-invoke-prompt-cache.md",
       "title": "Incident Report: Prompt Cache Invalidation for Claude Code on Bedrock Invoke",
