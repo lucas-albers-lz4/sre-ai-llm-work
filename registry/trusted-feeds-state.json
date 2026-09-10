@@ -103,7 +103,7 @@
         "https://www.datadoghq.com/blog/engineering/what-product-designers-can-learn-from-explanatory-journalism/",
         "https://www.datadoghq.com/blog/engineering/workload-protection-ebpf-fim/"
       ],
-      "last_scan": "2026-09-09T15:42:27.692137+00:00"
+      "last_scan": "2026-09-10T15:37:32.948460+00:00"
     },
     "honeycomb": {
       "seen": [
@@ -181,7 +181,7 @@
         "https://www.honeycomb.io/blog/your-questions-about-ai-agents-production-feedback-answered",
         "https://www.honeycomb.io/blog/your-questions-about-ai-assisted-development-answered"
       ],
-      "last_scan": "2026-09-09T15:42:30.860340+00:00"
+      "last_scan": "2026-09-10T15:37:35.166045+00:00"
     },
     "grafana": {
       "seen": [
@@ -205,6 +205,7 @@
         "https://grafana.com/blog/how-to-build-a-trust-platform-for-your-agent-with-grafana-agent-observability/",
         "https://grafana.com/blog/how-to-generate-real-world-load-tests-using-grafana-cloud-k6-and-production-telemetry/",
         "https://grafana.com/blog/how-to-measure-and-improve-instrumentation-quality-for-better-full-stack-observability/",
+        "https://grafana.com/blog/how-to-monitor-cypress-tests-with-grafana-cloud/",
         "https://grafana.com/blog/how-to-monitor-hcp-terraform-and-terraform-enterprise-with-grafana-cloud/",
         "https://grafana.com/blog/how-to-scale-access-control-in-grafana-cloud/",
         "https://grafana.com/blog/how-to-scale-alloy-as-a-central-telemetry-gateway-capacity-planning-load-testing-and-production-lessons/",
@@ -221,7 +222,7 @@
         "https://grafana.com/blog/the-grafana-ai-sdk-for-go-a-shared-foundation-for-building-ai-applications/",
         "https://grafana.com/blog/visual-playback-of-the-user-journey-introducing-session-replay-in-grafana-cloud-frontend-observability/"
       ],
-      "last_scan": "2026-09-09T15:42:33.013042+00:00"
+      "last_scan": "2026-09-10T15:37:40.305357+00:00"
     },
     "pagerduty": {
       "seen": [
@@ -240,7 +241,7 @@
         "https://www.pagerduty.com/eng/production-ai-agents-closing-the-gaps-between-idea-and-reality/",
         "https://www.pagerduty.com/eng/watchtower-and-journey-gated-rollouts/"
       ],
-      "last_scan": "2026-09-09T15:42:35.133157+00:00"
+      "last_scan": "2026-09-10T15:37:42.439905+00:00"
     },
     "incident-io": {
       "seen": [
@@ -686,7 +687,7 @@
         "https://incident.io/blog/zapier-integration",
         "https://incident.io/blog/zendesk"
       ],
-      "last_scan": "2026-09-09T15:42:37.780699+00:00"
+      "last_scan": "2026-09-10T15:37:45.035735+00:00"
     },
     "netflix-tech": {
       "seen": [
@@ -718,7 +719,7 @@
         "https://netflixtechblog.com/thinking-fast-slow-for-a-personalized-notification-system-4d89b26525cd?source=rss----2615bd06b42e---4",
         "https://netflixtechblog.com/toward-more-controllable-ai-video-editing-an-early-research-exploration-at-netflix-eb8160ed60a2?source=rss----2615bd06b42e---4"
       ],
-      "last_scan": "2026-09-09T15:42:44.284359+00:00"
+      "last_scan": "2026-09-10T15:37:50.541235+00:00"
     },
     "anthropic-eng": {
       "seen": [
@@ -748,7 +749,7 @@
         "https://www.anthropic.com/engineering/swe-bench-sonnet",
         "https://www.anthropic.com/engineering/writing-tools-for-agents"
       ],
-      "last_scan": "2026-09-09T15:42:46.409813+00:00"
+      "last_scan": "2026-09-10T15:37:52.571192+00:00"
     },
     "simon-willison": {
       "seen": [
@@ -829,9 +830,10 @@
         "https://simonwillison.net/2026/Jul/8/rewriting-bun-in-rust/#atom-everything",
         "https://simonwillison.net/2026/Jul/9/gpt-5-6/#atom-everything",
         "https://simonwillison.net/2026/Jul/9/llm/#atom-everything",
-        "https://simonwillison.net/2026/Sep/1/python-315-rc-2/"
+        "https://simonwillison.net/2026/Sep/1/python-315-rc-2/",
+        "https://simonwillison.net/2026/Sep/1/tarn-adams/"
       ],
-      "last_scan": "2026-09-09T15:42:49.280976+00:00"
+      "last_scan": "2026-09-10T15:37:55.207041+00:00"
     },
     "thenewstack": {
       "seen": [
@@ -911,10 +913,11 @@
         "https://thenewstack.io/tide-raziel-emergent-authority/",
         "https://thenewstack.io/torvalds-linux-ai-stance/",
         "https://thenewstack.io/truefoundry-trueforge-claude-managed-agents/",
+        "https://thenewstack.io/unicode-ascii-smuggling-ai-pipelines/",
         "https://thenewstack.io/voice-ai-openai-anthropic/",
         "https://thenewstack.io/why-cpus-still-matter-in-the-age-of-ai-agents/"
       ],
-      "last_scan": "2026-09-09T15:42:52.339198+00:00"
+      "last_scan": "2026-09-10T15:37:57.811221+00:00"
     },
     "meta-eng": {
       "seen": [
@@ -946,7 +949,7 @@
         "https://engineering.fb.com/?p=24221",
         "https://engineering.fb.com/?p=24251"
       ],
-      "last_scan": "2026-09-09T15:42:54.435736+00:00"
+      "last_scan": "2026-09-10T15:37:59.967879+00:00"
     },
     "sentry": {
       "seen": [
@@ -994,7 +997,7 @@
         "https://blog.sentry.io/two-years-without-cookies-on-the-site/",
         "https://blog.sentry.io/unreal-engine-performance-metrics/"
       ],
-      "last_scan": "2026-09-09T15:42:56.620101+00:00"
+      "last_scan": "2026-09-10T15:38:02.128199+00:00"
     },
     "slack-engineering": {
       "seen": [
@@ -1016,7 +1019,7 @@
         "https://slack.engineering/slack-ai-the-path-to-multi-cloud/",
         "https://slack.engineering/streamlining-security-investigations-with-agents/"
       ],
-      "last_scan": "2026-09-09T15:42:58.698758+00:00"
+      "last_scan": "2026-09-10T15:38:04.446803+00:00"
     },
     "litellm-blog": {
       "seen": [
@@ -1070,7 +1073,7 @@
         "https://docs.litellm.ai/blog/valkey_semantic_caching",
         "https://docs.litellm.ai/blog/version-support"
       ],
-      "last_scan": "2026-09-09T15:42:41.934708+00:00"
+      "last_scan": "2026-09-10T15:37:48.362025+00:00"
     },
     "promptfoo-blog": {
       "seen": [
@@ -1095,7 +1098,7 @@
         "https://www.promptfoo.dev/blog/top-llm-safety-bias-benchmarks/",
         "https://www.promptfoo.dev/blog/will-agents-hack-everything/"
       ],
-      "last_scan": "2026-09-09T15:43:01.273298+00:00"
+      "last_scan": "2026-09-10T15:38:06.667337+00:00"
     },
     "github-engineering": {
       "seen": [
@@ -1116,7 +1119,7 @@
         "https://github.blog/engineering/using-the-github-copilot-sdk-for-java/",
         "https://github.blog/security/supply-chain-security/tame-dependabot-group-your-updates-slow-the-cadence-keep-security-fast/"
       ],
-      "last_scan": "2026-09-09T15:43:03.677506+00:00"
+      "last_scan": "2026-09-10T15:38:09.199072+00:00"
     },
     "aws-architecture": {
       "seen": [
@@ -1159,10 +1162,12 @@
         "https://aws.amazon.com/blogs/architecture/serverless-vehicle-tracking-at-scale-bosch-l-os-on-aws/",
         "https://aws.amazon.com/blogs/architecture/sp-globals-innovative-disaster-recovery-strategy-using-amazon-fsx-for-netapp-ontap-snapshots/",
         "https://aws.amazon.com/blogs/architecture/specification-driven-composition-for-flexible-data-workflows/",
+        "https://aws.amazon.com/blogs/architecture/testing-application-resilience-with-amazon-sqs-and-aws-fault-injection-service/",
         "https://aws.amazon.com/blogs/architecture/track-generative-ai-costs-with-amazon-bedrock-inference-profiles/",
-        "https://aws.amazon.com/blogs/architecture/unlocking-the-future-of-video-data-march-networks-cloud-storage-on-aws/"
+        "https://aws.amazon.com/blogs/architecture/unlocking-the-future-of-video-data-march-networks-cloud-storage-on-aws/",
+        "https://aws.amazon.com/blogs/architecture/validating-multi-region-dr-for-terraform-enterprise-with-aws-fis/"
       ],
-      "last_scan": "2026-09-09T15:43:05.770582+00:00"
+      "last_scan": "2026-09-10T15:38:12.167732+00:00"
     },
     "nvidia-developer": {
       "seen": [
@@ -1295,9 +1300,10 @@
         "https://developer.nvidia.com/blog/?p=121028",
         "https://developer.nvidia.com/blog/?p=121045",
         "https://developer.nvidia.com/blog/?p=121110",
-        "https://developer.nvidia.com/blog/?p=121211"
+        "https://developer.nvidia.com/blog/?p=121211",
+        "https://developer.nvidia.com/blog/?p=121323"
       ],
-      "last_scan": "2026-09-09T15:43:08.394400+00:00"
+      "last_scan": "2026-09-10T15:38:15.307102+00:00"
     },
     "docker": {
       "seen": [
@@ -1336,7 +1342,7 @@
         "https://www.docker.com/blog/why-ai-agents-need-isolation/",
         "https://www.docker.com/blog/your-laptop-is-the-new-production-environment/"
       ],
-      "last_scan": "2026-09-09T15:43:11.085907+00:00"
+      "last_scan": "2026-09-10T15:38:17.466765+00:00"
     },
     "together-ai": {
       "seen": [
@@ -1435,6 +1441,7 @@
         "https://www.together.ai/blog/speech-to-text-whisper-apis",
         "https://www.together.ai/blog/the-fastest-inference-for-realtime-voice-ai-agents",
         "https://www.together.ai/blog/the-frontier-is-open",
+        "https://www.together.ai/blog/the-open-source-ai-stack",
         "https://www.together.ai/blog/the-production-platform-for-open-weight-ai-inference",
         "https://www.together.ai/blog/thunderagent",
         "https://www.together.ai/blog/together-ai-and-meta-partner-to-bring-pytorch-reinforcement-learning-to-the-ai-native-cloud",
@@ -1457,7 +1464,7 @@
         "https://www.together.ai/blog/what-llms-think",
         "https://www.together.ai/blog/yaqa"
       ],
-      "last_scan": "2026-09-09T15:43:13.350375+00:00"
+      "last_scan": "2026-09-10T15:38:19.958664+00:00"
     },
     "mongodb-engineering": {
       "seen": [
@@ -1512,8 +1519,8 @@
         "https://www.mongodb.com/company/blog/technical/top-considerations-when-choosing-hybrid-search-solution",
         "https://www.mongodb.com/company/blog/technical/vision-rag-enabling-search-on-any-documents"
       ],
-      "last_scan": "2026-09-09T15:43:16.023546+00:00"
+      "last_scan": "2026-09-10T15:38:22.307827+00:00"
     }
   },
-  "last_scan": "2026-09-09T15:43:16.023564+00:00"
+  "last_scan": "2026-09-10T15:38:22.307846+00:00"
 }
