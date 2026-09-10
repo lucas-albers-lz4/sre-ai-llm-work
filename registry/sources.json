@@ -1781,6 +1781,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-code-scan-cli": {
+      "slug": "docs-promptfoo-code-scan-cli",
+      "title": "Promptfoo Code Scanning — CLI Command",
+      "source_url": "https://www.promptfoo.dev/docs/code-scanning/cli/",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-09-10",
+      "date_extracted": "2026-09-10",
+      "issue": "#1264",
+      "file": "source-notes/docs-promptfoo-code-scan-cli.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-code-scan-github-action": {
       "slug": "docs-promptfoo-code-scan-github-action",
       "title": "Promptfoo Code Scanning — GitHub Action",

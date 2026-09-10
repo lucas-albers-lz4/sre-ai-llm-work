@@ -10299,6 +10299,73 @@
         }
       ]
     },
+    "docs-promptfoo-code-scan-cli": {
+      "path": "source-notes/docs-promptfoo-code-scan-cli.md",
+      "title": "Promptfoo Code Scanning — CLI Command",
+      "source_url": "https://www.promptfoo.dev/docs/code-scanning/cli/",
+      "chapters": [
+        "06",
+        "03",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The `promptfoo code-scans` command scans code changes for LLM-specific security vulnerabilities (prompt injection, jailbreaks, PII exposure) before they reach production",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "A bare CLI scan runs against the Promptfoo-hosted API and requires Promptfoo account authentication — the scanner is SaaS-dependent, not standalone",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "A typical PR scan runs 3–10 minutes, with a minute-or-two floor and 20+ minute ceiling for large codebases",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The CLI's diff base auto-detects `main`/`master` and the scan target defaults to `HEAD`, making bare `promptfoo code-scans run` a compare-against-branch scan",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "`--diffs-only` (default false = full-repo exploration) is the documented cost/coverage tradeoff control",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The `.promptfoo-code-scan.yaml` config schema exposes `minSeverity` (both spellings accepted), `diffsOnly`, `guidance`/`guidanceFile`, and `apiHost`, with the severity threshold as the alert-fatigue/CI-gating knob",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Authentication is resolved by a documented precedence chain — `--api-key` → `PROMPTFOO_API_KEY` env → `promptfoo auth login` → GitHub OIDC (GitHub Action only)",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "`--json` output follows a documented schema — a response object `{success, review, comments[], commentsPosted, skipReason, error}` with per-finding `Comment` objects `{file, line, startLine, finding, fix, severity, aiAgentPrompt}`",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "`skipReason` is set when a scan is intentionally skipped (e.g. fork PR awaiting maintainer approval), in which case `comments` is empty — an empty result is not a clean result",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Each finding ships an `aiAgentPrompt` — a machine-consumable fix prompt for AI coding agents",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "`--format sarif` emits location-backed findings that GitHub Code Scanning can display — the reuse route for the existing security toolchain",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-code-scan-github-action": {
       "path": "source-notes/docs-promptfoo-code-scan-github-action.md",
       "title": "Promptfoo Code Scanning — GitHub Action",
