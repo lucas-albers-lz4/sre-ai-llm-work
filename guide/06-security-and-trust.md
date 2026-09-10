@@ -421,6 +421,37 @@ MCP servers were consulted, what sub-agents were invoked — as structured,
 queryable audit records. This is the evidence an auditor or compliance
 questionnaire will ask for.
 
+## Gateway credential routing: declare, don't infer
+
+An MCP gateway that infers which credential to attach from whichever fields
+happen to be set has no single decision point and no error on ambiguity.
+LiteLLM's postmortem of that design: "there was no single place that decided
+which credential to attach, and no error when the decision was ambiguous" —
+so "Ambiguity resolved to 'attach a credential anyway' instead of 'stop'"
+[source: blog-litellm-july-stability-update, Claim 1] [settled].
+
+The bug classes that inference produced are the argument for fail-closed
+routing [source: blog-litellm-july-stability-update, Claim 2] [settled]:
+
+> Tokens sent to the wrong upstream server. Duplicate or stale `Authorization`
+> headers slipping through. MCP requests skipping the normal team, route, and
+> key checks. Cached OAuth tokens going stale or crossing between users.
+> Upstream URLs and secrets showing up in logs.
+
+The replacement makes the caller declare the auth mode and dispatches through a
+single typed resolver [source: blog-litellm-july-stability-update, Claim 3]
+[settled]:
+
+> Each mode has its own fully typed config, so there is no guessing from which
+> fields are set and no precedence order. The match is exhaustive, so adding a
+> mode without handling it fails the type checker, and an unhandled case raises
+> instead of quietly attaching no auth.
+
+**Rule**: Make credential selection explicit and fail closed — a declared auth
+mode per MCP server, one typed resolver, an exhaustive match that fails at
+type-check time when a mode is added, and an unhandled case that raises rather
+than attaching a fallback credential. Ambiguity must resolve to "stop."
+
 ## Supply-chain security for LLM infrastructure
 
 ### Pin everything; verify releases
@@ -513,10 +544,11 @@ clients see no change, but code and data stay inside your perimeter.
 *Sources for this chapter: blog-promptfoo-ai-orchestrated-cyberattacks,
 blog-promptfoo-ai-regulation-2025, blog-promptfoo-asr-not-portable-metric,
 blog-litellm-claude-fable-5-day-0, blog-litellm-april-townhall-updates,
+blog-litellm-july-stability-update,
 docs-google-sre-prodcast-04-09-ai-agents, docs-datadog-llm-observability,
 blog-promptfoo-red-team-claude, blog-promptfoo-red-team-gemini,
 blog-promptfoo-red-team-gpt,
 failure-litellm-supply-chain-compromise-march-2026,
 failure-litellm-supply-chain-incident-march-2026,
 blog-litellm-swap-openai-code-interpreter*
-*Last updated: 2026-08-01*
+*Last updated: 2026-09-10*
