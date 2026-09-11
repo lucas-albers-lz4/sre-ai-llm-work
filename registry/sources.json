@@ -1781,6 +1781,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-chat-threads": {
+      "slug": "docs-promptfoo-chat-threads",
+      "title": "Promptfoo Docs — Chat Conversations and Multi-Turn Threads",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/chat/",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-09-11",
+      "date_extracted": "2026-09-11",
+      "issue": "#1276",
+      "file": "source-notes/docs-promptfoo-chat-threads.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-code-scan-cli": {
       "slug": "docs-promptfoo-code-scan-cli",
       "title": "Promptfoo Code Scanning — CLI Command",

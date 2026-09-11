@@ -10299,6 +10299,57 @@
         }
       ]
     },
+    "docs-promptfoo-chat-threads": {
+      "path": "source-notes/docs-promptfoo-chat-threads.md",
+      "title": "Promptfoo Docs — Chat Conversations and Multi-Turn Threads",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/chat/",
+      "chapters": [
+        "05",
+        "03"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "When a prompt references `_conversation` as a Nunjucks variable, the eval runs single-threaded (concurrency of 1) — a silent parallelism loss with no config knob to restore it",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The `_conversation` variable is typed as `Conversation = Completion[]`, where `Completion = {prompt, input, output}` — `prompt` holds the prior turns, `input` is the last user message, and `output` the prior assistant response",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "In a `_conversation`-driven suite, later turns are built from the model's own earlier outputs rather than fixture data, so a degraded or cached prior turn cascades into every subsequent turn",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "`storeOutputAs` records an LLM output as a variable usable in subsequent test cases, and `transform` can mutate it before storage — an explicit mechanism that chains test cases into a sequential dependency",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Conversation history is isolated (or shared) by explicit config — each unique `conversationId` in test metadata maintains its own history, and scenarios isolate conversations by default, so unrelated tests without an id otherwise share one context",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "A shared conversation-history fixture can be defined once in `defaultTest.vars` and reused across follow-up test cases — each case tests a different follow-up question against the same fixed prior turns",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "JSON prompt files auto-escape vars containing quotes/newlines, while non-JSON (Nunjucks) template files must use the built-in `dump` filter to stringify values — a silent-corruption class of bug for hand-written prompt configs",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Stateless multishot conversations (fixed `{role, content}` message lists rendered with `{{ messages | dump }}`) are the non-serializing alternative — only `_conversation` triggers single-threaded execution",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-code-scan-cli": {
       "path": "source-notes/docs-promptfoo-code-scan-cli.md",
       "title": "Promptfoo Code Scanning — CLI Command",
