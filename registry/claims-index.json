@@ -10468,6 +10468,72 @@
         }
       ]
     },
+    "docs-promptfoo-configuration-caching": {
+      "path": "source-notes/docs-promptfoo-configuration-caching.md",
+      "title": "Promptfoo Configuration: Caching — Runtime",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/caching/",
+      "chapters": [
+        "05",
+        "03"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "promptfoo caches LLM provider API results by default on disk at `~/.promptfoo/cache`, managed by `cache-manager` with `keyv` and `keyv-file`",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Cache entries are keyed by provider-scoped composite keys — provider identifier, a deterministic digest of prompt/request content, provider configuration, and context variables — and sensitive request payloads and headers are hashed rather than embedded",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Cache key formats are versioned implementation details that may change between versions, so a key-format bump silently invalidates prior cached entries",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Cached entries expire by TTL (default 14 days) or manual clearing only — cached responses can be replayed for up to two weeks after a provider silently changes model behavior",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Error responses and empty responses are not cached — so retries and nondeterminism concentrate exactly on failing cases",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Memory storage is used automatically when `NODE_ENV=test`, with the default `PROMPTFOO_CACHE_TYPE` being `memory` under test and `disk` otherwise",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Rate limit responses (HTTP 429) are handled automatically with exponential backoff; HTTP 500 responses are retried only when `PROMPTFOO_RETRY_5XX=true` — retry behavior sits directly beside caching in the same pipeline",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "For `--repeat` / `evaluateOptions.repeat` greater than 1, each repeat index gets a separate cache namespace — re-running an eval replays the per-repeat cached responses, and `--no-cache` combined with `--repeat` is required for every run to make fresh LLM calls",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The env-var control surface is `PROMPTFOO_CACHE_ENABLED` (default true), `PROMPTFOO_CACHE_TYPE` (disk/memory), `PROMPTFOO_CACHE_PATH` (default `~/.promptfoo/cache`), and `PROMPTFOO_CACHE_TTL` (default 14 days); the cache can also be disabled via CLI `--no-cache` / Node `evaluateOptions.cache: false`",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "For jest/vitest/mocha and other external-framework integrations, promptfoo's own CI recommendation is `PROMPTFOO_CACHE_TYPE=disk` with an explicit `PROMPTFOO_CACHE_PATH` — making the eval cache an explicit, deliberately-placed pipeline decision",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The cache can be cleared via `promptfoo cache clear`, `promptfoo.cache.clearCache()` in the Node API, or `rm -rf ~/.promptfoo/cache`, and a cache miss can be forced with `--no-cache` or a `true` last-argument to `fetchWithCache`",
+          "kind": "claim"
+        }
+      ]
+    },
     "failure-litellm-bedrock-invoke-prompt-cache": {
       "path": "source-notes/failure-litellm-bedrock-invoke-prompt-cache.md",
       "title": "Incident Report: Prompt Cache Invalidation for Claude Code on Bedrock Invoke",
