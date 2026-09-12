@@ -10299,6 +10299,83 @@
         }
       ]
     },
+    "docs-promptfoo-assertions-metrics": {
+      "path": "source-notes/docs-promptfoo-assertions-metrics.md",
+      "title": "Promptfoo Configuration: Assertions and Metrics",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/expected-outputs/",
+      "chapters": [
+        "05",
+        "03",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "A test case's final score is the weighted average of its assertions' scores (per-assertion `weight` defaults to 1), and — when a test-case `threshold` is set — pass/fail is \"combined weighted score ≥ threshold\"",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The documented worked example shows the partial-credit model in numbers: `equals` (w=2) failing plus `contains` (w=1) passing scores 0.33, which fails a 0.5 threshold but would pass a 0.2 threshold",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "A test-case `threshold` of `0` makes the case pass regardless of how many assertions fail — a silent-green-gate configuration that collects scores but cannot fail",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "An assertion `weight` of `0` makes that assertion automatically pass — a second config value that removes an assertion's check from the gate",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "`assert-set` groups assertions under one pass condition with its own `threshold` — all-pass by default, partial-pass when a threshold is set (e.g., 0.5 for 1-of-2, or 0.25 for 1-of-4 equal-weight assertions)",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Custom scoring via `assertScoringFunction` replaces weighted averaging only when every assertion carries a `metric` name — JS/Python `file://` functions returning `{pass, score, reason}`, with weighted named scores pre-normalized and `namedScoreWeights` emitted for downstream reconstruction",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "`derivedMetrics` are computed in order per prompt, missing metric names silently default to 0, and there is no circular-dependency protection — a typo corrupts the composite score without any failure signal beyond `LOG_LEVEL=debug`",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "`__count` provides the per-prompt-provider test count so derived metrics can express averages across test cases (e.g., MAPE), with each provider tracked independently",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Already-captured LLM outputs can be scored offline via `promptfoo eval --assertions asserts.yaml --model-outputs outputs.json` — a post-hoc replay path for running a gate over production traffic that was recorded, not generated at eval time",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The assertion-type surface splits into a deterministic family (\"programmatic tests\") and a model-assisted family (\"rely on LLMs or other machine learning models\"), with every type negatable via a `not-` prefix and `is-refusal` providing deterministic refusal detection",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "promptfoo can assert directly over agent telemetry — `trace-span-count`, `trace-span-duration` (percentile support), `trace-error-spans`, `skill-used`, the `trajectory:*` family (`tool-used`, `tool-args-match`, `tool-sequence`, `step-count`), and model-judged `trajectory:goal-success`, plus a `guardrails` assertion on normalized guardrail signal",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "Assertion string syntax (`type:value` / `type(threshold):value`, bare values default to `equals`, `not-` negation) and the CSV `__expected` contract (exactly one assertion per column, `__expected1..N` for multiple; a provided `__expected` switches summary statistics to expected-criteria mode) let assertions be expressed without YAML objects",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "`assertionTemplates` + `$ref` de-duplicate repeated assertion sets and `metric` tags aggregate related assertions into named metrics visible in the UI — the reuse/aggregation layer on top of per-case assertions",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-chat-threads": {
       "path": "source-notes/docs-promptfoo-chat-threads.md",
       "title": "Promptfoo Docs — Chat Conversations and Multi-Turn Threads",

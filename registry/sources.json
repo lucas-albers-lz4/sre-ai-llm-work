@@ -1781,6 +1781,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-assertions-metrics": {
+      "slug": "docs-promptfoo-assertions-metrics",
+      "title": "Promptfoo Configuration: Assertions and Metrics",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/expected-outputs/",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-09-12",
+      "date_extracted": "2026-09-12",
+      "issue": "#1287",
+      "file": "source-notes/docs-promptfoo-assertions-metrics.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-chat-threads": {
       "slug": "docs-promptfoo-chat-threads",
       "title": "Promptfoo Docs — Chat Conversations and Multi-Turn Threads",
