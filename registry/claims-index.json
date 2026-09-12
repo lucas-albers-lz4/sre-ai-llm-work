@@ -10714,6 +10714,93 @@
         }
       ]
     },
+    "docs-promptfoo-deterministic-metrics": {
+      "path": "source-notes/docs-promptfoo-deterministic-metrics.md",
+      "title": "Promptfoo Deterministic Metrics for LLM Output Validation",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/expected-outputs/deterministic/",
+      "chapters": [
+        "02",
+        "03",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Promptfoo itself draws the deterministic/model-graded line — `classifier`, `pi`, `select-best`, and `similar` are listed separately as checks that \"use an additional model or external inference service\"",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "\"Deterministic\" in promptfoo's sense means *no model judge*, not *no external dependency* — configured scripts, webhooks, and grouped assertions may still depend on external services",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Every assertion type can be negated with a `not-` prefix (`not-equals`, `not-regex`), making absence assertions a first-class surface",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "`assert-set` groups assertions under a configurable pass threshold — \"N of M structured checks green\" gating expressed declaratively, mixable with model-graded checks",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "`contains`/`icontains` coerce numbers to strings, so `value: 0` matches any output containing `0` — a literal-match integer footgun; the CSV/XLSX/Sheets compact form needs quoting for values containing commas",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The `cost` assertion can only gate provider-reported cost — an \"unknown cost cannot be checked,\" and response-cache cost reporting means fresh-cost gating requires `--no-cache`",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "JSON assertions optionally validate against a JSON Schema, and a schema can be imported from a file — `is-json` validates the whole output, `contains-json` the embedded JSON, with `file://` keeping schemas version-controlled beside the config",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "`is-xml` fails closed — it rejects documents with a DTD internal subset (unvalidatable entity replacement) and loads no external resources during validation, and it requires the whole output to be well-formed XML",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "`is-sql` validates that output is a non-empty valid SQL statement, treating `SELECT a b FROM t` as a likely missing comma rather than implicit aliasing, and supports an optional database-type plus table/column authority allowlist",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "`tool-call-f1` fails closed on malformed output — when parsing work exceeds limits or JSON delimiters are unmatched, the assertion fails with an explanation instead of reporting a partial F1 — and it scores unordered tool-name sets only",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "`trajectory:tool-args-match` strips declared `defaults` before matching, so listing the same key in both `args` and `defaults` makes an otherwise-matching call fail — a documented config footgun with explicit pass/fail tables",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "The trace/trajectory assertion family requires trace data — the assertions throw an error when traces are unavailable rather than failing, so an eval suite built on them has an explicit observability dependency that is itself an operational risk",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "`trace-error-spans` detects errors automatically across status codes (≥400), error attributes, and OTel status conventions — with `max_count` and `max_percentage` error-rate limits",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "Budget/precondition gates carry hidden requirements — `latency` requires `--no-cache` to be measuring the target call at all, and `perplexity`/`perplexity-score` require provider `logprobs` support that only recent OpenAI GPT/Azure APIs provide",
+          "kind": "claim"
+        },
+        {
+          "n": 15,
+          "heading": "F-score is not an assertion type on this page — it is a derived metric built from named JavaScript assertions over `derivedMetrics`, a categorization the page states explicitly",
+          "kind": "claim"
+        }
+      ]
+    },
     "failure-litellm-bedrock-invoke-prompt-cache": {
       "path": "source-notes/failure-litellm-bedrock-invoke-prompt-cache.md",
       "title": "Incident Report: Prompt Cache Invalidation for Claude Code on Bedrock Invoke",
