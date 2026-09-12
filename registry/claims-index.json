@@ -10427,6 +10427,67 @@
         }
       ]
     },
+    "docs-promptfoo-classifier-grading": {
+      "path": "source-notes/docs-promptfoo-classifier-grading.md",
+      "title": "Promptfoo Configuration: Classifier Grading",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/expected-outputs/classifier/",
+      "chapters": [
+        "05",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The `classifier` assert type runs the LLM output through a compatible HuggingFace text classifier (or token classifier for entity-level checks), passing when the score for a chosen class meets a threshold",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "A Hub repository does not guarantee hosted inference — check that HF Inference serves the model for the required task, or deploy your own compatible endpoint and wire it via `config.apiEndpoint`",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Token-classification detectors (e.g., starpii for PII in source code) require obtaining gated access, deploying a compatible token-classification endpoint, and setting the endpoint URL in an env var that the config interpolates",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The flagship prompt-injection detector used in the docs (`protectai/deberta-v3-base-prompt-injection`) — and its v2 successor — is archived and no longer maintained; switching detectors requires validating labels and recalibrating scores on your own data",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Thresholds are label-bound and non-portable — the worked thresholds (0.5 / 0.75 / 0.9) are meaningful only for the specific model and label set, and switching detectors requires recalibration",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "`not-classifier` inverts the classifier result — asserting the absence of a property by negating a detector trained to find it",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The `defaultTest` + `options.provider` pattern applies one classifier rule across all test cases — the supported way to make a single classification gate global without repeating it per test",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Setup credentials differ by deployment mode — `HF_TOKEN` (or `HF_API_TOKEN`) for hosted Inference Providers with Inference Providers permissions, a deployment-authorized token plus `config.apiEndpoint` for a dedicated endpoint",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The docs select a model \"fine-tuned for your use case\" as the general guidance, and note that model-graded evals remain an alternative \"if you want to quickly tune the eval to your use case\" — the classifier rung is one choice among a spectrum, not a plug-in default",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "A `classifier` gate is a dependency on a remotely-hosted, mutable model endpoint — the eval config references an external artifact whose hosted behavior can change or disappear, so the gate's verdict is not hermetic with the repo",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-code-scan-cli": {
       "path": "source-notes/docs-promptfoo-code-scan-cli.md",
       "title": "Promptfoo Code Scanning — CLI Command",
