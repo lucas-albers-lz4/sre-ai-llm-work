@@ -10534,6 +10534,48 @@
         }
       ]
     },
+    "docs-promptfoo-dataset-generation": {
+      "path": "source-notes/docs-promptfoo-dataset-generation.md",
+      "title": "Promptfoo Configuration: Dataset Generation",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/datasets/",
+      "chapters": [
+        "05",
+        "02",
+        "03"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "`promptfoo generate dataset` is a distinct, design-time step that reads the config's `prompts` and any existing `tests` and emits new, unique test cases — the resulting fixture must then be wired back into the `tests:` block before it gates anything",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The generation provider is explicitly separate from the providers under test — `--provider` selects the LLM that writes test cases while the config's `providers` block lists the targets being tested, and generation defaults to OpenAI via `OPENAI_API_KEY`",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The generation provider can be given a full provider config via `file://synthesis-provider.yaml` (with `reasoning.effort` and `max_output_tokens`) or a Python provider via `file://synthesis-provider.py`",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The only documented breadth and cost levers are `--numPersonas` × `--numTestCasesPerPersona` plus free-text `--instructions` — nothing in the documented surface bounds generation toward failure modes the authoring model doesn't already anticipate",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Generated test cases are non-deterministic by construction and the documented surface offers no pinning, versioning, or seed story for a generated dataset — the reproducibility-feature absence is itself the finding",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The vendor's own framing — the dataset \"should closely represent true inputs into your LLM app\" — sits in tension with a mechanism that synthesizes rather than samples inputs from production",
+          "kind": "claim"
+        }
+      ]
+    },
     "failure-litellm-bedrock-invoke-prompt-cache": {
       "path": "source-notes/failure-litellm-bedrock-invoke-prompt-cache.md",
       "title": "Incident Report: Prompt Cache Invalidation for Claude Code on Bedrock Invoke",

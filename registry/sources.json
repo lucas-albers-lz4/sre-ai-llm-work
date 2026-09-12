@@ -1833,6 +1833,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-dataset-generation": {
+      "slug": "docs-promptfoo-dataset-generation",
+      "title": "Promptfoo Configuration: Dataset Generation",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/datasets/",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-09-11",
+      "date_extracted": "2026-09-11",
+      "issue": "#1277",
+      "file": "source-notes/docs-promptfoo-dataset-generation.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "failure-litellm-bedrock-invoke-prompt-cache": {
       "slug": "failure-litellm-bedrock-invoke-prompt-cache",
       "title": "Incident Report: Prompt Cache Invalidation for Claude Code on Bedrock Invoke",
