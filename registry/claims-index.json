@@ -10299,6 +10299,37 @@
         }
       ]
     },
+    "docs-litellm-helicone-integration": {
+      "path": "source-notes/docs-litellm-helicone-integration.md",
+      "title": "Helicone — liteLLM Documentation",
+      "source_url": "https://docs.litellm.ai/docs/observability/helicone_integration",
+      "chapters": [
+        "02",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "LiteLLM offers two integration paths for Helicone telemetry — Helicone as a provider (requests route through Helicone's AI Gateway via a `helicone/...` model prefix or an `api_base` rewrite, putting the vendor inside the request path) vs. Helicone as a `success_callback` (out-of-path, provider-agnostic logging)",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Helicone session correlation is a manual, per-request application-context layer — the app must set `Helicone-Session-Id` (groups related requests) and `Helicone-Session-Path` (hierarchical `parent/child` traces) on every request; nothing auto-propagates them",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Helicone headers re-implement caching, rate limiting, retries, and fallbacks at the vendor boundary underneath a LiteLLM router that also exposes these controls, and the page's own examples stack two fallback authorities on one request path with no documented precedence",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The page is explicitly community-maintained, so its config snippets carry no production-validation warranty",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-assertions-metrics": {
       "path": "source-notes/docs-promptfoo-assertions-metrics.md",
       "title": "Promptfoo Configuration: Assertions and Metrics",

@@ -1781,6 +1781,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-helicone-integration": {
+      "slug": "docs-litellm-helicone-integration",
+      "title": "Helicone — liteLLM Documentation",
+      "source_url": "https://docs.litellm.ai/docs/observability/helicone_integration",
+      "source_type": "docs",
+      "author": "LiteLLM",
+      "date_published": "unknown (living vendor docs; current as of 2026-09-12)",
+      "date_extracted": "2026-09-12",
+      "issue": "#1284",
+      "file": "source-notes/docs-litellm-helicone-integration.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-assertions-metrics": {
       "slug": "docs-promptfoo-assertions-metrics",
       "title": "Promptfoo Configuration: Assertions and Metrics",
