@@ -10890,6 +10890,79 @@
         }
       ]
     },
+    "docs-promptfoo-guardrails-assertions": {
+      "path": "source-notes/docs-promptfoo-guardrails-assertions.md",
+      "title": "Promptfoo Configuration: Guardrails Assertion",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/expected-outputs/guardrails/",
+      "chapters": [],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The `guardrails` assertion is a verdict reader, not a guardrail runner — it grades a safety decision by reading a normalized top-level `guardrails` field off the provider response and does not inspect the text",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "A pass means \"no `flagged: true` was received\", not \"a guardrail ran\" — the vendor frames the assertion's green result as absence of a signal, not evidence of enforcement",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Fail-open on a missing signal — when the response omits `guardrails`, promptfoo treats it as `flagged: false` so the `guardrails` assertion passes with score 1, a silent false pass on a gate whose job is to catch unsafe traffic",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "`flagged` drives the whole verdict — `flagged: true` fails `guardrails` and passes `not-guardrails`; unflagged or omitted responses pass `guardrails` and fail `not-guardrails`, so the assertion can never expose \"ambiguous\" as a state",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The `purpose: redteam` override force-passes the entire test when `flagged: true` — with reason \"Content failed guardrail safety checks\" — superseding the vulnerability grader and every other assertion regardless of score",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Many guardrails are detect-only / inspect-only — they set a signal but still return the unsafe output, so the redteam override converts a real bypass into a reported success (`success: true`, run exits 0)",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Applying `guardrails` as a `defaultTest` in a mixed suite backfires — promptfoo adds default assertions to `not-guardrails` attack cases too, so the all-benign default breaks attack cases",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "`flaggedInput` / `flaggedOutput` only refine the reason (input vs output side) — they do not fail the assertion unless `flagged` is also `true`, and a custom `reason` overrides the default",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Guardrail data is read in a fixed order — `providerResponse.guardrails`, then the final `redteamHistory` entry's `guardrails`, then a default unflagged response when neither is present",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Provider normalization of guardrail signals is endpoint- and mode-specific — \"a vendor name alone is not enough to determine support\", with documented gaps for Azure Responses, Bedrock streaming/cached/Agents, OpenAI Responses (`isRefusal`), and Anthropic ordinary refusals",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "A provider error skips assertions rather than failing them, and an intervention is not always a transport error — AWS `ApplyGuardrail` returns HTTP 200 with an action, Azure can return a successful completion with `finish_reason: content_filter`, Anthropic a successful message with `stop_reason: refusal`",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "Custom targets must fail closed — keep category scores / policy IDs under `metadata` or `raw`, and return a provider error (tracked as indeterminate) for guardrail timeout, partial evaluation, or filter error, because \"mapping any of those states to `flagged: false` creates a false pass\"",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "The programmatic `guardrails.guard()` / `pii()` / `harm()` helpers return classifier results under `results[]`, not the flat provider-response shape, so a custom target must map `results[0].flagged` into `guardrails.flagged`",
+          "kind": "claim"
+        }
+      ]
+    },
     "failure-litellm-bedrock-invoke-prompt-cache": {
       "path": "source-notes/failure-litellm-bedrock-invoke-prompt-cache.md",
       "title": "Incident Report: Prompt Cache Invalidation for Claude Code on Bedrock Invoke",

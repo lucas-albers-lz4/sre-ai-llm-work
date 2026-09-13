@@ -1924,6 +1924,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-guardrails-assertions": {
+      "slug": "docs-promptfoo-guardrails-assertions",
+      "title": "Promptfoo Configuration: Guardrails Assertion",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/expected-outputs/guardrails/",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-09-13",
+      "date_extracted": "2026-09-13",
+      "issue": "#1303",
+      "file": "source-notes/docs-promptfoo-guardrails-assertions.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "failure-litellm-bedrock-invoke-prompt-cache": {
       "slug": "failure-litellm-bedrock-invoke-prompt-cache",
       "title": "Incident Report: Prompt Cache Invalidation for Claude Code on Bedrock Invoke",
