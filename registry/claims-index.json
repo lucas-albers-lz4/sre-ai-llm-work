@@ -10356,6 +10356,38 @@
         }
       ]
     },
+    "docs-litellm-supabase-integration": {
+      "path": "source-notes/docs-litellm-supabase-integration.md",
+      "title": "Supabase — liteLLM Documentation",
+      "source_url": "https://docs.litellm.ai/docs/observability/supabase_integration",
+      "chapters": [
+        "02",
+        "05",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "LiteLLM's Supabase integration is a dual-outcome request ledger — both `success_callback` and `failure_callback` write to the same `request_logs` table, so successful and failed requests land in one sink",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The `request_logs` schema is fixed and pairs per-request cost, latency, and outcome in one row — `model`, `messages`, `response`, `end_user`, `status`, `error`, `response_time`, `total_cost`, `additional_details`, and a `litellm_call_id text unique` dedup key — and the only overridable part of the integration is the table name, not the column names",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "End-user attribution is manual request metadata — the caller passes `user` to `litellm.completion` on each call; nothing upstream derives it",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The page is explicitly community-maintained, thin on operational depth, and demonstrates no reliability behavior — it cannot support claims about what happens to telemetry when the sink fails",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-assertions-metrics": {
       "path": "source-notes/docs-promptfoo-assertions-metrics.md",
       "title": "Promptfoo Configuration: Assertions and Metrics",

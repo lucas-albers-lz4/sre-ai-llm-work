@@ -1807,6 +1807,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-supabase-integration": {
+      "slug": "docs-litellm-supabase-integration",
+      "title": "Supabase — liteLLM Documentation",
+      "source_url": "https://docs.litellm.ai/docs/observability/supabase_integration",
+      "source_type": "docs",
+      "author": "LiteLLM",
+      "date_published": "unknown (living vendor docs; current as of 2026-09-13)",
+      "date_extracted": "2026-09-13",
+      "issue": "#1285",
+      "file": "source-notes/docs-litellm-supabase-integration.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-assertions-metrics": {
       "slug": "docs-promptfoo-assertions-metrics",
       "title": "Promptfoo Configuration: Assertions and Metrics",
