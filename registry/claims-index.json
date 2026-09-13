@@ -10330,6 +10330,32 @@
         }
       ]
     },
+    "docs-litellm-streaming-token-usage": {
+      "path": "source-notes/docs-litellm-streaming-token-usage.md",
+      "title": "Streaming Responses & Async Completion",
+      "source_url": "https://docs.litellm.ai/stream",
+      "chapters": [
+        "02",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "A streaming completion does not report token usage unless the client opts in with `stream_options={\"include_usage\": True}` — the account of a streamed request is usage-blind by default",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Wire format — the usage chunk is an additional chunk streamed before `data: [DONE]` carrying the entire request's token totals with an empty `choices` array, while all other chunks carry `usage: null`",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "LiteLLM asserts the streaming-usage mechanism is \"supported across all providers\" and \"works the same as openai\"",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-assertions-metrics": {
       "path": "source-notes/docs-promptfoo-assertions-metrics.md",
       "title": "Promptfoo Configuration: Assertions and Metrics",
