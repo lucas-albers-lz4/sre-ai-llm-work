@@ -66,7 +66,7 @@ issue: "#1285"
   columns all sit on the same row). The page makes neither that observation nor
   any reliability claim — it simply wires both sinks to one table.
 
-### Claim 2: The `request_logs` schema is fixed and pairs per-request cost, latency, and outcome in one row — `model`, `messages`, `response`, `end_user`, `status`, `error`, `response_time`, `total_cost`, `additional_details` — and the only overridable part of the integration is the table name, not the column names
+### Claim 2: The `request_logs` schema is fixed and pairs per-request cost, latency, and outcome in one row — `model`, `messages`, `response`, `end_user`, `status`, `error`, `response_time`, `total_cost`, `additional_details`, and a `litellm_call_id text unique` dedup key — and the only overridable part of the integration is the table name, not the column names
 - **Evidence**: The "Create a supabase table" section gives the full Postgres DDL
   (Artifact 1), and the constraint that accompanies it.
 - **Confidence**: settled (the DDL and the "don't change the column names" note
@@ -84,7 +84,12 @@ issue: "#1285"
   (see Cross-References to the guardrail-logging-secret-exposure and Honeycomb
   notes). A duplicate `success_callback` follow-up row would double-write the
   same request, so operators should treat the callback set as the ledger's
-  write path.
+  write path. The schema's one dedup affordance is `litellm_call_id text unique`
+  (Artifact 1): *if* the callback populates that column, a double-write surfaces
+  as an insert conflict rather than silent duplication. The page never says when
+  or whether it is populated, and the column is nullable (in Postgres a unique
+  index permits multiple NULLs), so we treat it as a latent dedup guard that the
+  operator must verify, not a documented guarantee.
 
 ### Claim 3: End-user attribution is manual request metadata — the caller passes `user` to `litellm.completion` on each call; nothing upstream derives it
 - **Evidence**: The "Additional Controls → Identify end-user" section.
@@ -110,6 +115,14 @@ issue: "#1285"
   impact, delivery guarantees when Supabase is down or slow) — it asserts none.
   It is a reference for the API surface (callback registration + per-request
   attribution + table-name override) and the ledger schema, and nothing more.
+  On grading: Claims 1–4 are all `settled` because they describe a fixed, published
+  API surface and a fixed DDL that we verified character-for-character — there is
+  nothing inferential in them to grade `emerging`. The frontmatter's
+  `confidence_overall: emerging` is the *other* axis: every claim here is settled
+  **at the documented-surface level**, while the integration's behaviour in
+  production is `emerging` because a community-maintained page carrying no
+  production evidence is the only support for it. Both grades are correct; they
+  answer different questions.
 
 ## Concrete Artifacts
 
@@ -145,7 +158,7 @@ litellm.failure_callback=["supabase"]
 Advertised as "Use just 2 lines of code, to instantly see costs and log your
 responses **across all providers** with Supabase:".
 
-### Artifact 3: Complete runnable example (from "Complete code", verbatim per rendered page)
+### Artifact 3: Complete example (from "Complete code", verbatim per rendered page — incomplete as pasted: `import os` and `import litellm` are absent at the source, so this will not run as-is)
 ```python
 from litellm import completion
 
@@ -255,6 +268,30 @@ litellm.modify_integration("supabase",{"table_name": "litellm_logs"})
     self-hosted per-request `total_cost` column operators can query directly instead of
     relying on cost-map lookups that silently degrade. The interplay is our synthesis;
     the page itself never discusses cost-map failures.
+  - `source-notes/failure-litellm-prisma-reconnect-event-loop-blocking.md` **Claim 1**
+    (a synchronous `subprocess.Popen.wait()` hidden behind an async library method
+    blocks the whole asyncio event loop, defeating `asyncio.wait_for()`) and **Claim 6**
+    (the blockage manifests only under partial failure — an unresponsive database, not a
+    hard-down one). This is the reliability counterweight to this note's Claim 4: the
+    Supabase page documents a request-log sink and asserts *nothing* about sink failure,
+    while the Prisma incident is the corpus's LiteLLM-stack-native evidence that a
+    degraded (not stopped) Postgres dependency freezes the proxy's event loop, takes
+    `/health/liveliness` down with it, and gets the pod SIGKILLed — "converting a
+    transient DB outage into a full proxy restart." Read together, adopting the
+    self-hosted `request_logs` ledger adds a Postgres write path to a gateway whose own
+    Postgres layer has already produced a full-outage incident; the page cannot supply
+    that risk analysis, and this note does not pretend it does. (Not a contradiction —
+    the Prisma note says nothing about telemetry sinks, and Claim 4's bounding stands
+    unchanged; this is purely the missing pointer to the peer that *does* cover the
+    ground.)
+  - `source-notes/blog-litellm-redis-circuit-breaker.md` **Claim 2** (the slow-Redis
+    case is the dangerous one: "the one that takes down gateways — is a slow Redis")
+    and **Claim 3**
+    ("A slow Redis becomes a database outage becomes a full gateway outage."). The
+    second, vendor-authored instance of the same pattern as the Prisma incident — an
+    out-of-path dependency that *degrades* rather than fails is what takes the gateway
+    down — which is exactly the failure shape this page's new ledger sink would need
+    analysed before adoption.
 - **Novel** (first appearances in the corpus):
   - The **self-hosted dual-outcome request ledger**: both `success_callback` and
     `failure_callback` writing to one queryable SQL table that pairs `total_cost` and
@@ -269,8 +306,13 @@ litellm.modify_integration("supabase",{"table_name": "litellm_logs"})
 - **Chapter 02 (Observability)**: Add the `request_logs` schema (Artifact 1) as a
   concrete reference shape for a **self-hosted per-request LLM ledger** — the column
   set (`model`, `messages`, `response`, `end_user`, `status`, `error`, `response_time`,
-  `total_cost`, `additional_details`) is the pairing of cost/latency/outcome/tenant in
-  one row that vendor callbacks often split across endpoints. Also add Claim 3
+  `total_cost`, `additional_details`, `litellm_call_id`) is the pairing of
+  cost/latency/outcome/tenant in one row that vendor callbacks often split across
+  endpoints, and `litellm_call_id text unique` is the candidate dedup key for it.
+  Pair the shape with the sink-risk citation, since the schema alone reads as free:
+  `failure-litellm-prisma-reconnect-event-loop-blocking.md` (Claim 1, Claim 6) is the
+  corpus evidence that a degrading Postgres dependency in this same stack is what
+  freezes the proxy event loop. Also add Claim 3
   (`user=` kwarg) as another concrete instance of the already-stated "auto-instrumentation
   covers the framework layer; application context is manual" rule (alongside Datadog
   Claim 11 and Honeycomb Claim 4): end-user identity is request metadata the caller
@@ -280,9 +322,19 @@ litellm.modify_integration("supabase",{"table_name": "litellm_logs"})
   attributable per request and per `end_user` — the concrete replacement for
   environment-specific vendor dashboards, and the queryable surface that mitigates the
   silent cost-attribution failures in `failure-litellm-model-cost-map-silent-fallback.md`.
-  Do **not** cite this source for any callback write-path reliability property
-  (backpressure, delivery guarantees, sink-failure behavior) — the page asserts none
-  (Claim 4).
+  The recommendation must carry the sink-degradation caveat with a citation, because
+  this page cannot supply it: source the write-path risk to
+  `failure-litellm-prisma-reconnect-event-loop-blocking.md` (Claim 1 — a blocking
+  library call inside the async path froze the loop for 30–120 s and the kubelet killed
+  the pod, "converting a transient DB outage into a full proxy restart"; Claim 6 — it
+  only manifests under partial failure, i.e. an *unresponsive* DB), with
+  `blog-litellm-redis-circuit-breaker.md` (Claim 2, Claim 3) as the adjacent second
+  instance of degradation-not-outage dependency failure. Recommend the ledger and that
+  note's partial-failure validation together, so a reader is not told to add a Postgres
+  write path without being pointed at the evidence that this stack's Postgres layer can
+  take the gateway down. Do **not** cite this source for any callback write-path
+  reliability property (backpressure, delivery guarantees, sink-failure behavior) — the
+  page asserts none (Claim 4).
 - **Chapter 06 (Security and Trust)**: Add the raw-payload-at-rest caveat: adopting
   this documented schema as-is stores full `messages`/`response`/`error` JSON in
   Postgres with no page-provided redaction, retention, or RLS guidance — pair the
@@ -315,7 +367,24 @@ litellm.modify_integration("supabase",{"table_name": "litellm_logs"})
 - **Cross-references verified per MINER.md §4b**: Datadog Claim 11 (auto/manual
   instrumentation boundary), Honeycomb Claims 4 and 8, and Helicone Claims 1, 3, and 4
   were re-read in their notes and match the citations above. Failure-note citations use
-  section names (Extracted Lessons), not claim numbers.
+  section names (Extracted Lessons), not claim numbers. The two reliability notes added
+  on rework were re-read and their numbered claims confirmed before citing:
+  `failure-litellm-prisma-reconnect-event-loop-blocking.md` Claim 1 (blocking sync call
+  in the async path) and Claim 6 (partial-failure-only manifestation), and
+  `blog-litellm-redis-circuit-breaker.md` Claim 2 (slow Redis worse than down Redis) and
+  Claim 3 (slow Redis → DB outage → gateway outage). Quoted fragments were copied
+  verbatim from those notes.
+- **Confidence reconciliation**: four `settled` claims against
+  `confidence_overall: emerging` is intentional and not lazy grading. The claims are
+  `settled` because they assert the *documented surface* (callback names, DDL, kwarg,
+  disclaimer) which was re-fetched and checked character-for-character; the overall
+  grade is `emerging` because the source carries no production evidence for the
+  integration's runtime behaviour. Settled-at-the-documented-surface / emerging-at-the-
+  production-behaviour level. See Claim 4's assessment for the same statement in place.
+- **Artifact 3 fidelity**: the source's "Complete code" block genuinely omits
+  `import os` and `import litellm` while using both; the artifact is reproduced verbatim
+  with the defect disclosed in its label rather than silently repaired, consistent with
+  the `{{openai_small}}` disclosure above.
 - **No contradiction issue filed**: no existing source note is opposed by any claim
   here. The legacy-vs-canonical schema difference (one variant has `status` and
   `litellm_call_id`, the other does not) is a superseded-docs alias hazard within a
@@ -323,4 +392,9 @@ litellm.modify_integration("supabase",{"table_name": "litellm_logs"})
   canonicalization note, consistent with the #1284 precedent. The Helicone in-path
   header surface and this page's out-of-path Postgres sink occupy opposite ends of the
   placement spectrum already documented in the Helicone note; they agree rather than
-  conflict.
+  conflict. Likewise the newly cited
+  `failure-litellm-prisma-reconnect-event-loop-blocking.md` does not contradict this
+  page — that note is about the proxy's Prisma metadata store, not telemetry sinks, and
+  this page makes no sink-reliability claim for it to oppose. It is additive: the peer
+  that covers the write-path risk this page is silent on. No contradiction issue filed
+  on rework either.
