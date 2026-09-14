@@ -75,7 +75,7 @@ issue: "#1305"
   mechanism: the judge is ambient, not pinned. For an eval gate this is a
   reproducibility hazard of the worst kind: an unset `OPENAI_API_KEY` (or a new
   `ANTHROPIC_API_KEY` added to a runner) silently swaps the grader mid-life of a
-  config that is otherwise untouched. The Clrepermancy is asymmetric too — a CI
+  config that is otherwise untouched. The exposure is asymmetric too — a CI
   gate that pins the *target* model but not the *judge* is half-pinned, and the
   judge is the half that decides the verdict. Any Ch05 gate-review rule that
   requires pinning must explicitly cover grader selection.
@@ -294,15 +294,15 @@ issue: "#1305"
   `method: average` / `threshold: 0.7` under a `contains`+`llm-rubric` row.
 - **Confidence**: settled (documented product behavior)
 - **Quote**: "The `select-best` assertion type is used to compare multiple outputs in the same TestCase row and select the one that best meets a specified criterion." and "The `max-score` assertion type is used to objectively select the output with the highest score from other assertions:"
-- **Our assessment**: Opposite selections, one family: `select-best` starts from
-  "there is a best," `max-score` starts from "there is an objectivity." The
-  `max-score` gate is the model-graded compose point — it turns several
-  per-assertion scores (including `llm-rubric`) into one pass/fail on their
-  aggregate, which is the sub-page expression of the hub note's weighted-average
-  model (#1287 Claims 1-2) as a single assert. Per Claim 5 the catch is that
-  `select-best` "can read a scratchpad number as the winning index" on a
-  self-hosted thinking judge — the comparison types are exposed to the same
-  misparse surface.
+- **Our assessment**: Two ends of one family: `select-best` asks a judge to name
+  the winner, while `max-score` assumes the scores already exist and aggregates
+  them arithmetically. The `max-score` gate is the model-graded compose point —
+  it turns several per-assertion scores (including `llm-rubric`) into one
+  pass/fail on their aggregate, which is the sub-page expression of the hub
+  note's weighted-average model (#1287 Claims 1-2) as a single assert. Per
+  Claim 5 the catch is that `select-best` "can read a scratchpad number as the
+  winning index" on a self-hosted thinking judge — the comparison types are
+  exposed to the same misparse surface.
 
 ## Concrete Artifacts
 
@@ -551,6 +551,28 @@ promptfoo eval
     frame from the config side; #261 supplies the empirical reason it matters.
     (Verified: #261 Claim 8 = 14-pp TPR/FPR example; Claim 11 = specific-rubric
     convergence.)
+  - `source-notes/blog-promptfoo-model-upgrades-break-agent-safety.md` **Claim
+    15** (benchmark limitations, including "Judge model bias: LLM-as-judge
+    evaluations inherit the judge's blind spots" and "Eval drift: attack
+    techniques evolve faster than benchmarks update") **and Claim 2**
+    ("Pin model IDs and safety settings — do not ship 'latest'"; re-run
+    prompt-injection and tool-abuse tests on every upgrade) — the empirical
+    counterpart to this page's config findings. Claim 1's ambient judge is
+    exactly a grader with no pinned ID, so a model or credential change swaps
+    it silently; Claim 7's determinism knobs (`temperature=0` built in, ignored
+    on GPT-5-series) are the judge-tier version of that note's pin-and-re-run
+    rule. This page supplies the *mechanism* (credential-driven selection) for
+    the judge-drift risk #482 catalogues. (Verified: #482 Claims 2 and 15.)
+  - `source-notes/blog-promptfoo-indirect-prompt-injection-web-agents.md`
+    **Claim 10** ("Detection here uses an LLM grader that evaluates whether the
+    agent's response violated the plugin's criteria.") **and Claim 11** (the
+    "lethal trifecta" — private data access, untrusted content, external
+    communication) — this page's `agent-rubric` grader (Claim 11) has the
+    trifecta shape: it processes untrusted target output and may read untrusted
+    workspace content while holding the shell/network/MCP reach the vendor
+    therefore confines to read-only, disposable environments. #401 documents the
+    same trifecta from the *tested*-agent side and the same LLM-grader
+    dependence from the *detection* side. (Verified: #401 Claims 10/11.)
 
 - **Contradicts**: None identified, and no new contradiction issue filed.
   Checked `CONTRADICTIONS.md` (no open `C-NNN` entries) and open
@@ -590,8 +612,8 @@ promptfoo eval
     this page supplies those semantics: `threshold` behavior (Claim 10), the
     `rubricPrompt` override surface (Claims 8-9), and the judge-pinning
     requirement (Claims 1-2) that a red-team config carrying `llm-rubric` should
-    honor. (Verified: #690/#482 Issue reference — read Claim 10 of the Claude
-    red-team note directly.)
+    honor. (Verified: #689 — read Claim 10 of the Claude red-team note directly;
+    #690 is the Gemini red-team note.)
   - `source-notes/docs-promptfoo-configuration-caching.md` **Claim 8**
     (per-repeat cache namespaces; `--no-cache` + `--repeat` needed for fresh
     runs) — this page's `search-rubric` fresh-search requirement ("use
@@ -603,7 +625,10 @@ promptfoo eval
 - **Novel**: First corpus coverage of the **model-graded (LLM-judge) assertion
   tier** as a config surface — the sibling notes covered aggregation (#1287),
   the classifier rung (#1288), and the deterministic tier (#1289), but none
-  documented the judge itself:
+  documented the judge itself. The *risk frame* is not new: judge bias and
+  drift are already in the corpus (#482 Claims 2/15, #261 Claims 8/11), and
+  this page is what supplies the config-level mechanisms behind them. What is
+  new here:
   1. **Ambient grader selection** (Claim 1) — the judge model is a function of
      whatever credentials are in the environment; the config does not pin it.
   2. **The grader-override precedence chain and the shorthand-provider
@@ -732,12 +757,22 @@ promptfoo eval
     `docs-promptfoo-configuration-caching.md` #1275) plus
     `blog-promptfoo-asr-not-portable-metric.md` (#261) overlap-listed in the
     triage and found in `source-notes/` per MINER.md §4.
+  - `blog-promptfoo-model-upgrades-break-agent-safety.md` (#482) and
+    `blog-promptfoo-indirect-prompt-injection-web-agents.md` (#401) — not in the
+    candidate list as written, but surfaced by searching `source-notes/` for
+    judge-bias/drift and untrusted-content material; both are **cited**
+    (Corroborates) above rather than dismissed.
 - **Cross-ref verification (§4b)**: every cited claim was located in the cited
   note before writing — #1287 Claims 10/11, #1288 Claim 9, #1289 Claim 1,
-  #261 Claims 8/11, #1275 Claim 8, and `blog-promptfoo-red-team-claude.md`
-  Claim 10 were all read and confirmed; claims cited for corroboration
-  (trajectory catalogue row, deterministic boundary, judge-variance examples)
-  match their one-line content in the cited notes. No claim numbers invented.
+  #261 Claims 8/11, #1275 Claim 8, #482 Claims 2/15, #401 Claims 10/11, and
+  `blog-promptfoo-red-team-claude.md` Claim 10 were all read and confirmed;
+  claims cited for corroboration (trajectory catalogue row, deterministic
+  boundary, judge-variance examples, judge-bias/drift, lethal-trifecta LLM
+  grader) match their one-line content in the cited notes. No claim numbers
+  invented. Source-note issue numbers were read from each cited note's
+  frontmatter `issue:` field rather than inferred — `blog-promptfoo-red-team-claude.md`
+  is #689 (an earlier draft annotation citing #690 was corrected; #690 is the
+  Gemini red-team note).
 - **No contradiction issue filed**: the page opposes no existing source-note
   claim (verified against `CONTRADICTIONS.md` and open `contradiction`-labeled
   issues). The adjacent open contradiction #1307 (missing-trace semantics) is
@@ -750,7 +785,7 @@ promptfoo eval
   settled-for-product-behavior and directly checkable against an installed CLI,
   but this is vendor documentation with no measured gate-failure, judge-
   agreement, or cost figures and no independent practitioner validation — the
-  operational-consequence framing (jugde non-hermeticity, silent misgrade,
+  operational-consequence framing (judge non-hermeticity, silent misgrade,
   vacuous-context questions) is the Miner's synthesis on top of documented
   behavior.
 - `registry/sources.json` and `registry/claims-index.json` were NOT edited;
