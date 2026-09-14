@@ -11120,6 +11120,51 @@
         }
       ]
     },
+    "docs-promptfoo-model-graded-context-faithfulness": {
+      "path": "source-notes/docs-promptfoo-model-graded-context-faithfulness.md",
+      "title": "Promptfoo Configuration: Model-Graded — Context Faithfulness",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/context-faithfulness/",
+      "chapters": [
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "`context-faithfulness` grades a response by claim-support ratio against the provided context — \"Score = supported claims / total claims\" — demonstrated with a worked example where only the capital claim is supported, scoring 0.5",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The page documents `threshold` with \"(default: 0)\" — at default config a `context-faithfulness` assert is score-blind and passes a response with zero supported claims (score 0 ≥ threshold 0)",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The assert takes two required inputs — `query` (\"User's question (in test vars)\") and `context` (\"Reference text (in vars or via `contextTransform`)\") — making it a RAG-specific gate that grades the response against retrieved context, not against a rubric",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "`context` can be an array of documents, and can be extracted dynamically from the provider response via `contextTransform` (worked form: `contextTransform: 'output.context'`) — the RAG plumbing this page contributes to the parent note's class-level coverage",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The per-assertion judge can be overridden inline via `provider: gpt-5`, so the faithfulness judge is a config-swappable model — and, per the parent note, an *unpinned* one when the override is absent",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The vendor documents three limitations — \"Depends on judge LLM quality\", \"May miss implicit claims\", \"Performance degrades with very long contexts\" — the middle of which is a false-negative bound on the gate",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The page states no behavior for an empty or fallback context — the parent note's open question is subsumed at default config (score-blind per Claim 2) but remains unanswered for any explicitly-thresholded gate",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-model-graded-metrics": {
       "path": "source-notes/docs-promptfoo-model-graded-metrics.md",
       "title": "Promptfoo Configuration: Model-Graded Metrics",
