@@ -1781,6 +1781,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-a2a-agent-gateway": {
+      "slug": "docs-litellm-a2a-agent-gateway",
+      "title": "Agent Gateway (A2A Protocol) - Overview — LiteLLM Documentation",
+      "source_url": "https://docs.litellm.ai/docs/a2a",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs; current as of 2026-09-13)",
+      "date_extracted": "2026-09-13",
+      "issue": "#1302",
+      "file": "source-notes/docs-litellm-a2a-agent-gateway.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-helicone-integration": {
       "slug": "docs-litellm-helicone-integration",
       "title": "Helicone — liteLLM Documentation",

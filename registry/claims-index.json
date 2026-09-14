@@ -10299,6 +10299,64 @@
         }
       ]
     },
+    "docs-litellm-a2a-agent-gateway": {
+      "path": "source-notes/docs-litellm-a2a-agent-gateway.md",
+      "title": "Agent Gateway (A2A Protocol) - Overview — LiteLLM Documentation",
+      "source_url": "https://docs.litellm.ai/docs/a2a",
+      "chapters": [
+        "03",
+        "02",
+        "05",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "LiteLLM's Agent Gateway registers and invokes A2A-protocol agents through the gateway with logging, load balancing, streaming, and iteration budgets, across A2A, Vertex AI Agent Engine, LangGraph, Azure AI Foundry, Bedrock AgentCore, and Pydantic AI",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Trace grouping and per-agent spend attribution are a forwarding obligation, not a gateway guarantee — when LiteLLM invokes an A2A agent it sets `X-LiteLLM-Trace-Id` and `X-LiteLLM-Agent-Id`, but grouping and attribution only materialize if the agent server forwards those headers on its own calls back to LiteLLM",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The caller's virtual key and end-user ID are not propagated to the backend agent / sub-agents — identity re-propagation is a manual, explicit obligation via `extra_headers` or the `x-a2a-{agent_name_or_id}-{header}` convention",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Protocol-version pinning is a footgun — the proxied agent card defaults to 1.0 when `protocolVersion` is unset, but legacy `message/send` callers without an `a2a-version` header receive 0.3-shaped responses, so card and responses can disagree; only \"0.3\" and \"1.0\" are accepted (HTTP 400 at registration), and the unpinned served version is inferred from client signals",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Declarative agents defined in `config.yaml` have different behavior from DB agents — they require both `agent_name` and `agent_card_params` or are silently skipped at startup, are not stored in the database (so not editable/deletable in the Admin UI), survive the periodic DB reload, and lose name collisions to a same-named DB record; pre-`v1.95.0` they are read via `agent_list` and are dropped entirely on DB-attached gateways",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Only `message/send` and `message/stream` traverse the gateway's A2A client path (logging, guardrails, spend) — all other JSON-RPC methods (`tasks/get`, `tasks/list`, `tasks/cancel`, push-notification config, `agent/getAuthenticatedExtendedCard`) are forwarded to the upstream agent URL unchanged, so task and monitoring APIs bypass gateway controls",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Per-agent authorization is a separate check after virtual-key authentication — key/team permission intersection → HTTP 403; optional per-agent trace-ID enforcement rejects requests missing trace or session IDs with HTTP 400 (inbound and outbound variants)",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The agent registry supports semantic search over `GET /v1/agents?query=` — cosine-similarity ranking subject to configuration and visibility constraints: requires `agent_search_embedding_model` else HTTP 400 `agent_search_not_configured`; embedding failure → HTTP 503 `agent_search_unavailable`; results always scoped to the key's visible agents; `top_k` defaults to 5 and caps at 100; embeddings are computed once per process and reused until the agent card changes",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Agent-call authentication accepts the virtual key via `Authorization: Bearer` or `x-litellm-api-key`, with the latter preferred when the inbound `Authorization` header may carry a token destined for the backend agent; backend-agent credentials can be static, client-forwarded, or convention-based, and static headers always win on conflicts",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-helicone-integration": {
       "path": "source-notes/docs-litellm-helicone-integration.md",
       "title": "Helicone — liteLLM Documentation",
