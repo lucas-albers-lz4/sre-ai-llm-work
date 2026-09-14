@@ -10446,6 +10446,42 @@
         }
       ]
     },
+    "docs-litellm-token-usage-helpers": {
+      "path": "source-notes/docs-litellm-token-usage-helpers.md",
+      "title": "Token Usage helpers (token_counter / cost_per_token / completion_cost) — liteLLM",
+      "source_url": "https://docs.litellm.ai/token_usage",
+      "chapters": [
+        "05",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "LiteLLM exposes three public client-side helpers (`token_counter`, `cost_per_token`, `completion_cost`) that compute token counts and USD cost from local inputs only — a tokenizer and the bundled `model_cost` map — with no provider-side reconciliation",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "`token_counter` counts tokens locally using the model's tokenizer, falling back to tiktoken when no model-specific tokenizer is available — so locally computed counts can diverge from provider-reported `usage`",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "`cost_per_token` computes USD for prompt (input) and completion (output) tokens entirely from LiteLLM's bundled `model_cost` map — living in `__init__.py` and mirrored as the `model_prices_and_context_window.json` community resource — with no provider-side billing input",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "`completion_cost` returns the overall per-call USD figure by composing `token_counter` and `cost_per_token` — meaning it re-tokenizes the prompt and completion locally and prices them from the map, rather than reading provider-reported usage",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The page's default claim — \"By default LiteLLM returns token usage in all completion requests\" — is about what the *response payload* carries; the companion streaming page makes usage in streamed responses an opt-in (`stream_options={\"include_usage\": True}`)",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-assertions-metrics": {
       "path": "source-notes/docs-promptfoo-assertions-metrics.md",
       "title": "Promptfoo Configuration: Assertions and Metrics",
