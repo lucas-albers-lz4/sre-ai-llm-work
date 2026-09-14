@@ -11021,6 +11021,69 @@
         }
       ]
     },
+    "docs-promptfoo-javascript-assertions": {
+      "path": "source-notes/docs-promptfoo-javascript-assertions.md",
+      "title": "Promptfoo Configuration: Javascript Assertions",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/expected-outputs/javascript/",
+      "chapters": [
+        "05",
+        "02",
+        "03",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The `javascript` assertion lets an operator provide a custom JS function against the LLM output — the gate accepts `true`/`false`, a number treated as a score, or a `GradingResult`, so the gate's pass/fail semantics are redefined in user code",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "If the JS function throws, the assertion fails (fail-closed) and the error message is included in the failure reason — an unhandled exception in a custom assertion is a hard red, not a skip",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "`not-javascript` inverts the final pass/fail result while preserving the returned score, and numeric scores are compared against `threshold` BEFORE inversion — so the score that lands in the report and the pass/fail verdict can diverge under negation",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The page makes two conflicting statements about the injected `output` variable's type — YAML-config \"Handling objects\" says a JSON-object output is already parsed as an object, while \"Inline assertions\" says \"Output will always be a string\" and prescribes `JSON.parse(output)` — so a JS assertion written against the wrong assumption throws, and per Claim 2 a throw is a hard fail",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The full `AssertionValueFunctionContext` surface is `prompt`, `vars`, `test`, `logProbs`, `config`, `provider`, `providerResponse`, `trace`, and `metadata` — with `logProbs` available only when the provider emits them and `trace` `undefined` unless tracing is enabled",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Custom JS over `context.trace` asserts the *execution flow* — error spans (`statusCode >= 400`), wall-clock latency budget, per-trace API-call count, span-hierarchy depth cap, and causal span ordering (retrieval must start before generation) — the \"gate on agent behaviour, not just output\" pattern, and the page's canonical example fails open when tracing is off",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "For reusing one script with different parameters, the page recommends assertion-level `config` over test `vars` — vars are shared across all assertions and surface as report columns, while `config` stays attached to one assertion and arrives as `context.config`",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "External scripts load via `file://path/script.js` with an optional `:functionName` selector, must `module.exports` an assertion function (or a named export), and ES modules must be `.mjs` — committed repo code that executes inside the eval runner",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The vendor's own async external-validation example is broken — it logs an undefined `testResult` (a `ReferenceError`, which per Claim 2 fails the assertion) and returns the parsed response body as a raw value interpreted as a score rather than a `{pass, score, reason}` verdict — an official example that violates the page's own return contract",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "`GradingResult` supports nested `componentResults` that render as an assertion-details table in the Eval view modal, plus `namedScores` in the worked example — nested sub-results are inspectable rather than opaque",
+          "kind": "claim"
+        }
+      ]
+    },
     "failure-litellm-bedrock-invoke-prompt-cache": {
       "path": "source-notes/failure-litellm-bedrock-invoke-prompt-cache.md",
       "title": "Incident Report: Prompt Cache Invalidation for Claude Code on Bedrock Invoke",
