@@ -11084,6 +11084,89 @@
         }
       ]
     },
+    "docs-promptfoo-model-graded-metrics": {
+      "path": "source-notes/docs-promptfoo-model-graded-metrics.md",
+      "title": "Promptfoo Configuration: Model-Graded Metrics",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/",
+      "chapters": [
+        "05",
+        "06",
+        "03",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "By default, the judge behind every model-graded assertion is unpinned — promptfoo's built-in grading provider picks its model from whichever credentials happen to be present in the environment, so the judge can change when the environment changes without any config edit",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Grader overrides resolve by precedence `--grader` CLI → `test.options`/`defaultTest.options.provider` → `assertion.provider` — and an assertion-level *shorthand* provider quietly blocks inheritance of the global provider object's `config` (`apiBaseUrl`, `apiKey`, `temperature`, `showThinking`)",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "`trajectory:goal-success` is the trajectory-based model-graded assert — it requires trace data, summarizes the traced run and its final output, and asks a grading model whether the specified goal was achieved, with `threshold`/`provider`/`rubricPrompt` supported like other model-graded assertions",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "`not-` inversion of `trajectory:goal-success` is fail-closed — inversion only flips real grader verdicts, so a judge transport/parse failure still reports as a failure instead of silently passing the \"did not achieve forbidden goal\" check; but this fail-closed property is documented only for the inverted form, not as a general property of all model-graded assertions",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Self-hosted OpenAI-compatible judges (vLLM, LocalAI, llamafile) need `showThinking: false` so promptfoo grades only the final `content`, and the misparse risk is not `llm-rubric`-specific — JSON-first metrics, `answer-relevance`, RAG metrics, and `select-best` can all read scratchpad/thinking text as if it were the verdict",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The vLLM caveat — `showThinking: false` only strips reasoning *after* vLLM parses it into a separate field, so too-small `max_tokens`/context can leave an unfinished ` thinking` block inside `content` that then parses as a verdict",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The built-in OpenAI grader already runs at `temperature=0`, and GPT-5-series reasoning models ignore `temperature` entirely — so the usual \"pin temperature=0 for determinism\" reflex does not apply to the OpenAI judge path",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "A custom `rubricPrompt` under `defaultTest.options` is the documented route for multilingual grading, but it can only be swapped uniformly for `llm-rubric`, `g-eval`, and `model-graded-closedqa` — `factuality` and `context-recall` require assertion-specific prompts and specific output formats",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Test `vars` can be interpolated inside the LLM rubric text — e.g. quoting the `question` variable back at the grader to detect hallucinations — and objects in `{{output}}`/`{{rubric}}` are JSON-stringified by default unless `PROMPTFOO_DISABLE_OBJECT_STRINGIFY=true` enables property access",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "`llm-rubric` pass/fail is score-blind without a `threshold` — PASS depends only on the grader's `pass` field (defaulting to `true` when omitted), so a rubric that asks for a 0/1 score but omits `threshold` passes everything the judge doesn't explicitly flag",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "`agent-rubric` upgrades the rubric grader to a coding agent — it requires a coding-agent provider (default `openai:codex-sdk`, run isolated/read-only/no-approvals; alternatively Codex app-server, Claude Agent SDK, or OpenCode SDK), rejects plain-text providers, processes untrusted output/workspace content, and records `metadata.agentProvider`",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "`search-rubric` is an `llm-rubric` equivalent whose grader can do live web search — the judge's ability to verify current information is the point, and it carries a real per-call cost tier (roughly $10–45 per 1,000 search calls depending on provider) plus default-on caching that must be opted out of (`--no-cache`) for fresh searches",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "Context-based RAG assertions (`context-recall`, `context-relevance`, `context-faithfulness`) are a special model-graded class that grades against context defined statically via `vars` or dynamically via `contextTransform`, which must return a non-empty string — with a documented null-fallback and a `JSON.stringify` debugging idiom",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "The comparison types complete the model-graded gate: `select-best` picks a winner across prompts in one row by a criterion, and `max-score` aggregates other assertions' scores via `method`/`threshold` (worked gate: `method: average`, `threshold: 0.7`) — the aggregate-gate pattern that ties back to the hub's weighted-averaging model",
+          "kind": "claim"
+        }
+      ]
+    },
     "failure-litellm-bedrock-invoke-prompt-cache": {
       "path": "source-notes/failure-litellm-bedrock-invoke-prompt-cache.md",
       "title": "Incident Report: Prompt Cache Invalidation for Claude Code on Bedrock Invoke",

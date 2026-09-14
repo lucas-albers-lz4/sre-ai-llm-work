@@ -1963,6 +1963,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-model-graded-metrics": {
+      "slug": "docs-promptfoo-model-graded-metrics",
+      "title": "Promptfoo Configuration: Model-Graded Metrics",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-09-14",
+      "date_extracted": "2026-09-14",
+      "issue": "#1305",
+      "file": "source-notes/docs-promptfoo-model-graded-metrics.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "failure-litellm-bedrock-invoke-prompt-cache": {
       "slug": "failure-litellm-bedrock-invoke-prompt-cache",
       "title": "Incident Report: Prompt Cache Invalidation for Claude Code on Bedrock Invoke",
