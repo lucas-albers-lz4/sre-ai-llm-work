@@ -90,26 +90,43 @@ issue: "#1300"
 - **Our assessment**: The composition is the mechanism that ties the previous
   two claims together into a single number. Because it re-uses `token_counter`,
   a stale/absent map entry does not cause an error — it silently yields a zero
-  or wrong USD figure. The page's own `completion_cost` example is also visibly
-  malformed (`completion_cost(...))` with a stray `)`), a sign this helper page
-  receives little upkeep relative to the responsibilities it documents.
+  or wrong USD figure. The page's own `completion_cost` example is also
+  malformed: it ends `completion_cost(model="gpt-3.5-turbo", prompt=prompt,
+  completion=completion))` with a stray closing paren.
 
-### Claim 5: The page's blanket default claim — "By default LiteLLM returns token usage in all completion requests" — only holds for non-streamed calls; the companion streaming page requires `stream_options={"include_usage": True}` as an opt-in
+### Claim 5: The page's default claim — "By default LiteLLM returns token usage in all completion requests" — is about what the *response payload* carries; the companion streaming page makes usage in streamed responses an opt-in (`stream_options={"include_usage": True}`)
 - **Evidence**: This page's opening sentence states the default; the LiteLLM
   `/stream` page ("Streaming Token Usage" section) documents that a streaming
   completion reports usage only when `stream_options={"include_usage": True}` is
   set.
 - **Confidence**: emerging (the default statement is verbatim on this page and
   the opt-in requirement is verbatim on the streaming page; the reconciliation —
-  "default only holds for non-streamed traffic" — is the Miner's synthesis)
+  "the payload default holds for non-streamed traffic" — is the Miner's
+  synthesis)
 - **Quote**: "By default LiteLLM returns token usage in all completion requests"
-- **Our assessment**: For a gateway that meters spend, the "on by default"
-  promise holds for non-streamed calls only. A streamed request without
-  `include_usage` returns no token counts to price — so the local helpers have
-  nothing to multiply. This is a conditioning variable (streaming vs.
-  non-streaming), not a material contradiction; it is recorded here as a doc-
-  level caveat, and the streaming note's Claim 1 covers the same boundary from
-  the wire side.
+- **Our assessment**: Read precisely, the default sentence is about the `usage`
+  field on the response, so it governs any component that meters spend **from
+  response payloads** — a logger or callback reading `response.usage`, a
+  proxy-side spend tracker. For streamed traffic that path needs
+  `stream_options={"include_usage": True}`; without it there is no usage field
+  to read. It is *not* a statement about the local helpers, whose inputs are
+  text and token counts (Claims 2-4), not the wire `usage` field.
+  **On the triage key question — is local computation a substitute for
+  `stream_options={"include_usage": True}`, or only an SDK convenience? — this
+  page is silent.** A string search for `stream` over the fetched page returns
+  zero hits: the page never mentions streaming, `stream_options`, or
+  `include_usage`, so it neither claims nor denies substitution. What the note
+  can support is the distinction, not the substitution: the payload-metering
+  path and the local-estimator path are independent. Our inference (from the
+  documented signatures, *not* a source claim) is that the helpers can price a
+  streamed call from text the caller accumulates out of SSE deltas, because
+  `completion_cost` takes `prompt`/`completion` strings and `token_counter`
+  takes `messages` — so `include_usage` is a precondition for reading usage off
+  a streamed *response*, not for pricing locally. Do not carry that inference
+  into the guide as if LiteLLM asserted it. This is a conditioning variable
+  (streaming vs. non-streaming; payload-reader vs. local estimator), not a
+  material contradiction, so per MINER.md §4a no contradiction issue was filed;
+  the streaming note's Claim 1 covers the wire side.
 
 ## Concrete Artifacts
 
@@ -118,8 +135,7 @@ only the three helper definitions (extracted as Claims 1-4) and three
 `gpt-3.5-turbo` hello-world snippets. Per the triage bounding (#1300), the
 snippets carry no ops content and were **not** extracted. The one observable
 artifact worth recording is that the page's `completion_cost` example is
-malformed, ending `completion_cost(model="gpt-3.5-turbo", prompt=prompt, completion=completion))` with a stray closing paren — consistent with the page
-being lightly maintained.
+malformed, ending `completion_cost(model="gpt-3.5-turbo", prompt=prompt, completion=completion))` with a stray closing paren.
 
 ## Cross-References
 
@@ -160,8 +176,9 @@ listed in the candidates file is addressed):
 **Primary cross-references:**
 
 - **Corroborates**:
-  - `source-notes/docs-datadog-llm-observability.md` **Claim 3** (LLM spans carry
-    `input_tokens`/`output_tokens` as metrics) and **Claim 5** (out-of-the-box
+  - `source-notes/docs-datadog-llm-observability.md` **Claim 3** (span/trace
+    structure — the `input_tokens`/`output_tokens`-as-metrics detail appears in
+    that claim's *Evidence* line, not its title) and **Claim 5** (out-of-the-box
     dashboards monitor cost/latency/usage trends). The Datadog note establishes
     token counts → cost as a first-class observability dimension; this page
     supplies the LiteLLM-side estimator that turns token counts into a USD
@@ -215,12 +232,19 @@ listed in the candidates file is addressed):
   `completion_cost` output as a billed figure.
 
 - **Chapter 02 (Observability)**: Where token counts → cost appear on dashboards
-  (per `docs-datadog-llm-observability`, Claims 3/5), note that in a LiteLLM stack
-  that conversion is a local estimator reading the bundled pricing map, and that
-  its input (token counts) is only guaranteed present for non-streamed calls —
-  streamed traffic must opt in with `stream_options={"include_usage": True}`
-  (per `docs-litellm-streaming-token-usage`, Claim 1) or there is nothing to
-  price.
+  (per `docs-datadog-llm-observability`, Claim 3's evidence line and Claim 5),
+  keep the two metering paths distinct rather than collapsing them into one
+  sentence. (i) **Payload metering** — a logger, callback, or proxy-side spend
+  tracker that reads the `usage` field off the response — sees token counts on
+  non-streamed calls by default, but on streamed traffic only if the client
+  opts in with `stream_options={"include_usage": True}` (per
+  `docs-litellm-streaming-token-usage`, Claim 1). (ii) **Local estimation** —
+  `token_counter`/`cost_per_token`/`completion_cost` over prompt and completion
+  text (Claims 2-4) — is not gated by that flag; it prices from text the caller
+  holds and reads the bundled `model_cost` map. Recommend the guide state the
+  streaming caveat against path (i) only: "streamed traffic must opt in or there
+  is nothing to price" is true of a payload reader and false of the local
+  helpers.
 
 ## Extraction Notes
 
@@ -233,6 +257,14 @@ listed in the candidates file is addressed):
   prose, copied character-for-character from the rendered HTML (re-verified via
   raw HTML fetch this session); no splicing across non-adjacent sentences. Claims
   1-4 quote the page's own bullets; Claim 5 quotes the page's opening sentence.
+- Triage key question answered explicitly in Claim 5: whether the page presents
+  local computation as a *substitute* for
+  `stream_options={"include_usage": True}` or only as an SDK convenience. The
+  page is **silent** — a string search for `stream` over the fetched page
+  returns zero hits (no mention of streaming, `stream_options`, or
+  `include_usage`). The note states the distinction it does support
+  (payload-reader vs. local-estimator metering) and labels the substitution
+  reading as our inference, explicitly not as a source claim.
 - Triage bounding honored (`priority:low`): the `gpt-3.5-turbo` hello-world
   snippets were skipped (no ops content, per triage). The `model_cost` map
   staleness incident was not re-extracted — it is already covered by
