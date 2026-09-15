@@ -10299,6 +10299,74 @@
         }
       ]
     },
+    "docs-litellm-a2a-agent-card": {
+      "path": "source-notes/docs-litellm-a2a-agent-card.md",
+      "title": "A2A Agent Card — LiteLLM Documentation",
+      "source_url": "https://docs.litellm.ai/docs/a2a_agent_card",
+      "chapters": [
+        "06",
+        "03",
+        "02",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The gateway serves a curated, reduced agent card — LiteLLM's support for A2A v1.0 §4.4 agent-card objects is a per-field ✅/❌ matrix, not a passthrough",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The served card carries no signatures — `AgentCard.signatures` and the entire `AgentCardSignature` (§4.4.7) object are dropped, so a client cannot verify agent-card authenticity or provenance through the gateway",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Per-skill security scoping is dropped — `AgentSkill.securityRequirements` (§4.4.5) is ❌ while every other skill field (`id`, `name`, `description`, `tags`, `examples`, `inputModes`, `outputModes`) is ✅, so per-skill security requirements are invisible to clients even though the skill itself is exposed",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "`capabilities.pushNotifications` is dropped (§4.4.3 ❌) while every push-notification RPC method is routed to upstream — capability advertisement and the routed method surface disagree",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Skill selection is forwarded, not enforced — clients pick a skill via `params.message.metadata.skillId` and LiteLLM forwards the entire message envelope unchanged, leaving routing and any skill-level authorization to the upstream agent",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The curated card drifts from the upstream agent — re-sync is a manual, selective UI action, so new upstream skills/capabilities stay invisible until a human re-syncs, and locally curated edits persist against upstream changes",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Task and push-notification methods require a real upstream A2A JSON-RPC server — LiteLLM forwards the request body unchanged (aside from auth headers) to `agent_card_params.url`, and `agent/getAuthenticatedExtendedCard`'s `result.url` is rewritten to the proxy",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Completion-bridge-only agents have a narrower capability surface — LangGraph / Bedrock AgentCore agents with `custom_llm_provider` and no `url` support `message/send` and `message/stream` only; task APIs return an error when no upstream URL is configured",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "`message/send` and `message/stream` may strip LiteLLM-specific keys from `params` (e.g. `guardrails`), while task-method `params` are forwarded as-is so A2A fields like `id` are preserved",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Protocol conversion is per-agent and bidirectional — LiteLLM converts upstream agent responses to the `protocolVersion` pinned on each agent, clients always see the chosen version, `\"1.0\"` is the default on new cards, and unsupported versions are rejected with HTTP 400",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "LiteLLM accepts PascalCase SDK aliases for every A2A method — the wire methods are all reachable through the aliases (`SendMessage`→`message/send`, `GetTask`→`tasks/get`, `SubscribeToTask`→`tasks/resubscribe`, `GetExtendedAgentCard`→`agent/getAuthenticatedExtendedCard`, etc.)",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-a2a-agent-gateway": {
       "path": "source-notes/docs-litellm-a2a-agent-gateway.md",
       "title": "Agent Gateway (A2A Protocol) - Overview — LiteLLM Documentation",
