@@ -74,8 +74,12 @@ issue: "#1315"
   is fetched then curated by a human in the UI), and with the signature fields
   dropped there is nothing a client can verify against the upstream agent.
   "Verify the agent card" checks therefore have to run on a path that bypasses
-  the proxy, or against the upstream agent directly. This is Claim 9's Serviciul
-  gap in the overview note made concrete at the field level — see Contradicts/Extends.
+  the proxy, or against the upstream agent directly. This is the field-level
+  evidence behind the overview note's general point that the gateway serves a
+  card it authors rather than a verbatim upstream passthrough (`docs-litellm-a2a-agent-gateway.md`
+  Claim 4, `protocolVersion` pinning on the proxied card); that note makes no
+  signature or authenticity claim, so the signature gap named here is novel to
+  this page — see Contradicts/Extends.
 
 ### Claim 3: Per-skill security scoping is dropped — `AgentSkill.securityRequirements` (§4.4.5) is ❌ while every other skill field (`id`, `name`, `description`, `tags`, `examples`, `inputModes`, `outputModes`) is ✅, so per-skill security requirements are invisible to clients even though the skill itself is exposed
 - **Evidence**: §4.4.5 field-support table.
@@ -186,7 +190,7 @@ issue: "#1315"
   note deliberately restates nothing about unpinned negotiation.
 
 ### Claim 11: LiteLLM accepts PascalCase SDK aliases for every A2A method — the wire methods are all reachable through the aliases (`SendMessage`→`message/send`, `GetTask`→`tasks/get`, `SubscribeToTask`→`tasks/resubscribe`, `GetExtendedAgentCard`→`agent/getAuthenticatedExtendedCard`, etc.)
-- **Evidence**: "PascalCase aliases (SDK)" table (12 rows) and the intro sentence
+- **Evidence**: "PascalCase aliases (SDK)" table (11 rows) and the intro sentence
   to "Supported A2A methods".
 - **Confidence**: emerging (documented vendor surface; page states nothing about
   whether alias handling differs on gateway controls)
@@ -465,7 +469,7 @@ path is addressed):
   treat the proxy card as advisory. Also state the path ambiguity from
   contradiction #1322 (both `/.well-known/agent.json` and
   `/.well-known/agent-card.json`) so Ch06 checks target the right URL.
-- **Chapter 03 (Runbooks and Agents)** — §"The emerging agent control plane":
+- **Chapter 03 (Runbooks and Agents)** — "The emerging agent control plane":
   Add the skill-routing finding (Claim 5) and the curated-card drift model
   (Claim 6) as the "governed-agent artifact" example: the curated card's skill
   roster is visibility, not access control — `metadata.skillId` is forwarded
