@@ -1807,6 +1807,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-a2a-agent-permissions": {
+      "slug": "docs-litellm-a2a-agent-permissions",
+      "title": "Agent Permission Management — LiteLLM Documentation",
+      "source_url": "https://docs.litellm.ai/docs/a2a_agent_permissions",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs; current as of 2026-09-14)",
+      "date_extracted": "2026-09-15",
+      "issue": "#1317",
+      "file": "source-notes/docs-litellm-a2a-agent-permissions.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-helicone-integration": {
       "slug": "docs-litellm-helicone-integration",
       "title": "Helicone — liteLLM Documentation",

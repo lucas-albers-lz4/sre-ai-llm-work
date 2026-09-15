@@ -10425,6 +10425,57 @@
         }
       ]
     },
+    "docs-litellm-a2a-agent-permissions": {
+      "path": "source-notes/docs-litellm-a2a-agent-permissions.md",
+      "title": "Agent Permission Management — LiteLLM Documentation",
+      "source_url": "https://docs.litellm.ai/docs/a2a_agent_permissions",
+      "chapters": [
+        "06",
+        "03"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "A2A agent permission resolution is two-level (Key, Team) with a fail-open default — when neither the key nor the team sets agent restrictions, the key can access all agents",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "When both a key and a team set agent permissions, the intersection applies — most restrictive wins",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "When a key has both a direct `agents` list and `agent_access_groups`, the union of those is computed first, then the team-level intersection is applied",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Agent access groups let you tag agents with logical labels in the dashboard, then grant the group to a key or team — new agents tagged into the group automatically become reachable",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Tagging an agent with access groups is a dashboard-only operation — `POST /v1/agents` does not expose `agent_access_groups` as a top-level field; tags persist via the underlying DB column",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "`GET /v1/agents` only returns agents the key/team can access, and `POST /a2a/{agent_id}` returns HTTP 403 Forbidden if access is denied",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "MCP's permission hierarchy extends to End-user / Agent / Org additionally — A2A agent permissions are a narrower model today",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The `agent_access_groups` field is valid on both a key's and a team's `object_permission` — groups resolve to concrete agent IDs at permission time",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-helicone-integration": {
       "path": "source-notes/docs-litellm-helicone-integration.md",
       "title": "Helicone — liteLLM Documentation",
