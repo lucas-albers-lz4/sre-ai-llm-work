@@ -1326,7 +1326,7 @@
         "filed_at": "2026-08-13T12:56:28.715514+00:00"
       }
     },
-    "last_scan": "2026-09-14T17:23:19.707111+00:00"
+    "last_scan": "2026-09-15T16:02:04.115198+00:00"
   },
   "opentelemetry": {
     "urls": {},
@@ -2505,16 +2505,22 @@
         "filed_at": "2026-09-14T17:23:47.536724+00:00"
       },
       "https://www.cncf.io/projects/modelpack/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T23:36:08.365753+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T23:36:08.365753+00:00",
+        "issue": 1326,
+        "filed_at": "2026-09-15T16:02:23.048580+00:00"
       },
       "https://www.cncf.io/projects/microcks/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T23:36:08.365755+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T23:36:08.365755+00:00",
+        "issue": 1327,
+        "filed_at": "2026-09-15T16:02:24.999591+00:00"
       },
       "https://www.cncf.io/projects/loxilb/": {
-        "status": "pending",
-        "screened_at": "2026-07-13T23:36:08.365757+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-13T23:36:08.365757+00:00",
+        "issue": 1328,
+        "filed_at": "2026-09-15T16:02:26.883478+00:00"
       },
       "https://www.cncf.io/projects/merbridge/": {
         "status": "pending",
@@ -3539,9 +3545,21 @@
       "https://www.cncf.io/blog/2026/02/05/dragonfly-v2-4-0-is-released": {
         "status": "rejected",
         "screened_at": "2026-09-14T17:23:27.023043+00:00"
+      },
+      "https://www.cncf.io/blog/2026/02/04/conversing-with-large-language-models-using-dapr": {
+        "status": "pending",
+        "screened_at": "2026-09-15T16:02:10.698949+00:00"
+      },
+      "https://www.cncf.io/blog/2026/02/04/cncf-celebrates-successful-mentees-from-lfx-mentorship-2025-term-3": {
+        "status": "rejected",
+        "screened_at": "2026-09-15T16:02:10.698966+00:00"
+      },
+      "https://www.cncf.io/blog/2026/02/03/the-best-of-kubecon-cloudnativecon-watch-the-video": {
+        "status": "rejected",
+        "screened_at": "2026-09-15T16:02:10.698970+00:00"
       }
     },
-    "last_scan": "2026-09-14T17:23:27.023045+00:00"
+    "last_scan": "2026-09-15T16:02:10.698973+00:00"
   },
   "datadog-llm-obs": {
     "urls": {
@@ -3550,7 +3568,7 @@
         "screened_at": "2026-07-12T23:52:56.905756+00:00"
       }
     },
-    "last_scan": "2026-09-14T17:23:28.787534+00:00"
+    "last_scan": "2026-09-15T16:02:12.087313+00:00"
   },
   "langfuse-docs": {
     "urls": {
@@ -3715,7 +3733,7 @@
         "filed_at": "2026-09-03T15:37:32.594301+00:00"
       }
     },
-    "last_scan": "2026-09-14T17:23:30.242209+00:00"
+    "last_scan": "2026-09-15T16:02:13.353871+00:00"
   },
   "litellm-docs": {
     "urls": {
@@ -4902,16 +4920,22 @@
         "filed_at": "2026-09-14T17:23:53.247809+00:00"
       },
       "https://docs.litellm.ai/docs/a2a_cost_tracking": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:24:46.963734+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:24:46.963734+00:00",
+        "issue": 1329,
+        "filed_at": "2026-09-15T16:02:28.704743+00:00"
       },
       "https://docs.litellm.ai/docs/a2a_invoking_agents": {
-        "status": "pending",
-        "screened_at": "2026-07-14T13:08:57.048296+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T13:08:57.048296+00:00",
+        "issue": 1330,
+        "filed_at": "2026-09-15T16:02:30.610103+00:00"
       },
       "https://docs.litellm.ai/docs/a2a_iteration_budgets": {
-        "status": "pending",
-        "screened_at": "2026-07-14T13:08:57.048314+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T13:08:57.048314+00:00",
+        "issue": 1331,
+        "filed_at": "2026-09-15T16:02:33.478615+00:00"
       },
       "https://docs.litellm.ai/docs/adaptive_router": {
         "status": "pending",
@@ -5720,9 +5744,21 @@
       "https://docs.litellm.ai/docs/observability/slack_integration": {
         "status": "pending",
         "screened_at": "2026-09-14T17:23:33.814361+00:00"
+      },
+      "https://docs.litellm.ai/docs/observability/splunk_observability_cloud": {
+        "status": "pending",
+        "screened_at": "2026-09-15T16:02:17.124558+00:00"
+      },
+      "https://docs.litellm.ai/docs/observability/sumologic_integration": {
+        "status": "pending",
+        "screened_at": "2026-09-15T16:02:17.124577+00:00"
+      },
+      "https://docs.litellm.ai/docs/observability/supabase_integration": {
+        "status": "pending",
+        "screened_at": "2026-09-15T16:02:17.124581+00:00"
       }
     },
-    "last_scan": "2026-09-14T17:23:33.814365+00:00"
+    "last_scan": "2026-09-15T16:02:17.124585+00:00"
   },
   "promptfoo-docs": {
     "urls": {
@@ -6891,16 +6927,22 @@
         "filed_at": "2026-09-14T17:23:59.294275+00:00"
       },
       "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/context-recall/": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:25:12.358891+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:25:12.358891+00:00",
+        "issue": 1332,
+        "filed_at": "2026-09-15T16:02:35.131733+00:00"
       },
       "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/context-relevance/": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:25:12.358893+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:25:12.358893+00:00",
+        "issue": 1333,
+        "filed_at": "2026-09-15T16:02:36.923122+00:00"
       },
       "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/conversation-relevance/": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:25:12.358895+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:25:12.358895+00:00",
+        "issue": 1334,
+        "filed_at": "2026-09-15T16:02:38.698673+00:00"
       },
       "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/factuality/": {
         "status": "pending",
@@ -7725,8 +7767,20 @@
       "https://www.promptfoo.dev/docs/providers/openinterpreter": {
         "status": "pending",
         "screened_at": "2026-09-14T17:23:42.396463+00:00"
+      },
+      "https://www.promptfoo.dev/docs/providers/openai-live": {
+        "status": "rejected",
+        "screened_at": "2026-09-15T16:02:21.865739+00:00"
+      },
+      "https://www.promptfoo.dev/docs/providers/openllm": {
+        "status": "rejected",
+        "screened_at": "2026-09-15T16:02:21.865755+00:00"
+      },
+      "https://www.promptfoo.dev/docs/providers/openrouter": {
+        "status": "rejected",
+        "screened_at": "2026-09-15T16:02:21.865758+00:00"
       }
     },
-    "last_scan": "2026-09-14T17:23:42.396465+00:00"
+    "last_scan": "2026-09-15T16:02:21.865760+00:00"
   }
 }
