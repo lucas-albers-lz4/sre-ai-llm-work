@@ -1963,6 +1963,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-conversation-relevance": {
+      "slug": "docs-promptfoo-conversation-relevance",
+      "title": "Promptfoo Configuration: Model-graded conversation-relevance",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/conversation-relevance/",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-09-15",
+      "date_extracted": "2026-09-15",
+      "issue": "#1334",
+      "file": "source-notes/docs-promptfoo-conversation-relevance.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-dataset-generation": {
       "slug": "docs-promptfoo-dataset-generation",
       "title": "Promptfoo Configuration: Dataset Generation",

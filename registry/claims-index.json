@@ -11004,6 +11004,42 @@
         }
       ]
     },
+    "docs-promptfoo-conversation-relevance": {
+      "path": "source-notes/docs-promptfoo-conversation-relevance.md",
+      "title": "Promptfoo Configuration: Model-graded conversation-relevance",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/conversation-relevance/",
+      "chapters": [
+        "05",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The `conversation-relevance` metric scores a dialogue as the proportion of sliding windows (default size 5) in which the assistant response was deemed relevant — a quantized `k/windows` score, not a smooth one",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The page documents a non-zero default threshold for the first time in the family — `0.5` when omitted, with an explicit `0` \"accept any score\" escape hatch",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Conversations shorter than `windowSize` are evaluated as a single window — a degenerate case where the \"proportion of windows\" score collapses to a binary 0 or 1",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "`_conversation` content is treated as literal runtime data and is NOT rendered as a Nunjucks template — template syntax like `{{ vars.value }}` or `{{ env.API_KEY }}` is preserved verbatim \"for security\"",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The custom `rubricPrompt` for `conversation-relevance` must output JSON with `verdict` (yes/no) and `reason` fields — a rubric contract that diverges from the pass/score shape of the hub's `llm-rubric`",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-dataset-generation": {
       "path": "source-notes/docs-promptfoo-dataset-generation.md",
       "title": "Promptfoo Configuration: Dataset Generation",
