@@ -13,12 +13,12 @@ issue: "#1319"
 
 # Promptfoo Configuration: Answer Relevance
 
-> The vendor reference for the only hybrid grader in promptfoo's model-graded
-> assertion family — `answer-relevance` puts two independently-configurable
-> provider classes (an LLM for question generation, an embedding model for
-> similarity scoring) behind one verdict, making it non-deterministic by
-> construction: the comparison corpus is re-generated per call, so the score
-> moves run-to-run even when the judge is pinned.
+> The vendor reference for promptfoo's dual-provider model-graded assertion —
+> `answer-relevance` puts two independently-configurable provider classes (an
+> LLM for question generation, an embedding model for similarity scoring)
+> behind one verdict, making it non-deterministic by construction: the
+> comparison corpus is generated per call, so the score moves run-to-run even
+> when the judge is pinned.
 
 ## Source Context
 
@@ -42,28 +42,53 @@ issue: "#1319"
 
 ## Extracted Claims
 
-### Claim 1: `answer-relevance` is the only hybrid grader in the model-graded family — it uses two separate providers (an LLM text provider for question generation plus an embedding provider for similarity scoring) rather than a single judge model, making it non-deterministic by construction
-- **Evidence**: The "How it works" section's three-step pipeline and the
-  "Overriding the Providers" section's explicit two-slot split.
-- **Confidence**: settled (documented product behavior)
-- **Quote**: "The answer relevance checker: Uses an LLM to generate potential questions that the output could be answering. Compares these questions with the original query using embedding similarity. Calculates a relevance score based on the similarity scores."
+### Claim 1: `answer-relevance` grades with two separately-configurable provider classes behind one verdict — an LLM text provider that generates candidate questions and an embedding provider that scores similarity against the original query — rather than a single judge model
+- **Evidence**: The "How it works" section's three-step pipeline (LLM generates
+  candidate questions → embedding similarity against the original query →
+  aggregate relevance score) and the "Overriding the Providers" section, which
+  names the two classes explicitly and shows a separate override slot for each.
+- **Confidence**: settled (documented product behavior — the two-provider
+  split is stated outright on the page, not inferred)
+- **Quote**: "Answer relevance uses two types of providers:" followed by the
+  page's two verbatim bullets, "A text provider for generating questions" and
+  "An embedding provider for calculating similarity". The pipeline bullets read
+  verbatim: "Uses an LLM to generate potential questions that the output could
+  be answering", "Compares these questions with the original query using
+  embedding similarity", "Calculates a relevance score based on the similarity
+  scores".
 - **Our assessment**: This is the finding that extends the hub note's (#1305)
-  ambient-judge finding from one provider slot to two. Every other model-graded
-  assertion puts a single judge behind the verdict; `answer-relevance` puts
-  *two independently unpinned* models behind it. The non-determinism is not a
-  bug but a design consequence: the text provider regenerates the comparison
-  corpus on each call, so even with both providers pinned, the embedding
-  similarity scores will vary across runs because the generated questions are
-  different. A gate built on this assertion cannot guarantee identical
-  pass/fail across replays — a harder hermeticity problem than the single-
-  judge model-graded family.
+  ambient-judge finding from one provider slot to two. Where the rest of the
+  model-graded family documented in #1305 puts a single judge behind the
+  verdict, `answer-relevance` has two independently-configurable provider
+  classes, and this page documents no default for either slot. The
+  non-determinism is a design consequence rather than a bug: the text provider
+  generates the comparison questions at evaluation time, so even with both
+  providers pinned, the embedding similarity scores will vary across runs
+  because the generated questions are different. A gate built on this assertion
+  cannot guarantee identical pass/fail across replays — a harder hermeticity
+  problem than the single-judge model-graded family.
+
+  **Inference (not established by this page)**: that `answer-relevance` is the
+  *only* assertion in the model-graded family with this two-slot shape. A
+  per-type page documenting only `answer-relevance` cannot establish
+  exclusivity over its siblings, and the sibling evidence cuts against a strong
+  version of it — #1289 Claim 1 lists `similar` as another assertion type whose
+  requirement is "An embedding model", i.e. at least one other type in the
+  family depends on a model artifact beyond a text judge. What would settle the
+  question is a hub-level survey of per-type provider shapes across the family;
+  #1305 does not enumerate them. Until then the guide should state the
+  two-slot shape as documented for `answer-relevance` and treat "only" as an
+  open hypothesis, not a fact.
 
 ### Claim 2: The two-slot provider override shape (`provider: { text: ..., embedding: ... }`) is a different override surface from the single `provider`/`options.provider` override the hub note's precedence chain describes
 - **Evidence**: The "Overriding the Providers" section's nested YAML structure
   at both `defaultTest.options.provider` and assertion level, with separate
   `id` and `config` keys under each slot.
 - **Confidence**: settled (documented product behavior)
-- **Quote**: "Answer relevance uses two types of providers: A text provider for generating questions. An embedding provider for calculating similarity." and the nested override configs:
+- **Quote**: "You can override either or both:" — the page's framing of the
+  two slots, following its two verbatim provider-type bullets ("A text provider
+  for generating questions", "An embedding provider for calculating
+  similarity") — and the nested override configs:
   ```yaml
   defaultTest:
     options:
@@ -130,6 +155,29 @@ All artifacts copied character-for-character from
 https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/answer-relevance/
 (sections as noted).
 
+### Pipeline description (verbatim from "How it works")
+
+```text
+The answer relevance checker:
+
+- Uses an LLM to generate potential questions that the output could be answering
+- Compares these questions with the original query using embedding similarity
+- Calculates a relevance score based on the similarity scores
+
+A higher threshold requires the output to be more closely related to the original query.
+```
+
+### Provider classes (verbatim from "Overriding the Providers")
+
+```text
+Answer relevance uses two types of providers:
+
+- A text provider for generating questions
+- An embedding provider for calculating similarity
+
+You can override either or both:
+```
+
 ### Basic assertion syntax (verbatim from "How to use it")
 
 ```yaml
@@ -195,8 +243,9 @@ defaultTest:
   - `source-notes/docs-promptfoo-model-graded-metrics.md` **Claim 1** (ambient
     judge selection — the judge model is picked from environment credentials,
     not pinned by default) — this page extends the ambient-judge finding from
-    one provider slot to *two*: `answer-relevance` has a text provider and an
-    embedding provider, both unpinned by default. (Verified: #1305 Claim 1.)
+    one provider slot to *two*: `answer-relevance` documents a text provider
+    and an embedding provider as separately overridable slots, and this page
+    states no default for either. (Verified: #1305 Claim 1.)
   - `source-notes/docs-promptfoo-model-graded-metrics.md` **Claim 5** (self-
     hosted thinking judges can leak reasoning into graded content; `answer-
     relevance` is explicitly named in the cross-type misparse warning) —
@@ -239,15 +288,25 @@ defaultTest:
   - `source-notes/docs-promptfoo-deterministic-metrics.md` **Claim 1** (the
     vendor-drawn deterministic/model-graded boundary) — this page is the
     model-graded side of that boundary, and `answer-relevance` is the strongest
-    example of non-determinism in the family: unlike `llm-rubric` (which is
-    non-deterministic only if the judge temperature > 0), `answer-relevance`
-    regenerates its comparison corpus on every call regardless of temperature
-    settings. (Verified: #1289 Claim 1.)
+    example of non-determinism in the family. Note the contrast with the
+    *sampling-based* determinism knobs the hub note documents: #1305 Claim 7
+    records that promptfoo's built-in OpenAI grader already runs at
+    `temperature=0` (and that GPT-5-series reasoning models ignore
+    `temperature` entirely), so a single-judge assertion is reachable at
+    temperature-pinned determinism. `answer-relevance` has no equivalent knob
+    on this page — its comparison corpus is generated at evaluation time and
+    the page documents no seeding or caching control, so pinning the providers
+    pins *which models run*, not *what they are asked*. (Verified: #1289
+    Claim 1; #1305 Claim 7 for the temperature=0 baseline.)
 
 - **Novel**: First corpus coverage of the **dual-provider hybrid grader**
   pattern:
-  1. **Two-slot provider surface, both unpinned by default** (Claims 1-2) —
-     extends the hub note's ambient-judge finding from one provider slot to two.
+  1. **Two-slot provider surface, independently overridable, no default
+     documented on this page** (Claims 1-2) — extends the hub note's
+     ambient-judge finding from one provider slot to two. (Whether the page's
+     silence on defaults means the slots inherit ambient credentials the way
+     the hub note's judge does is an open question, flagged in Claim 1's
+     assessment rather than asserted.)
   2. **Non-deterministic-by-construction scoring** (Claim 1) — the comparison
      corpus is regenerated per call, so the score moves even with pinned
      providers; this is a harder hermeticity problem than single-judge model-
@@ -264,9 +323,12 @@ defaultTest:
 
 - **Chapter 05 (LLM Ops Reliability) — evaluation and measurement methodology**:
   Add `answer-relevance` as the case study for the non-hermetic judge gate:
-  (a) state that `answer-relevance` is the only model-graded assertion with
-  two independently-unpinned provider slots (Claim 1), so the ambient-judge
-  risk (#1305 Claim 1) is doubled; (b) add the score-comparability rule —
+  (a) state that `answer-relevance` documents two independently-overridable
+  provider slots behind one verdict (Claim 1) with no default documented for
+  either, so the ambient-judge risk (#1305 Claim 1) applies to two slots rather
+  than one — and state the "only assertion with this shape" generalization, if
+  at all, as an unverified hypothesis (Claim 1's inference note); (b) add the
+  score-comparability rule —
   swapping the embedding model silently rebases every prior threshold (Claim 3),
   so a pinned gate must pin the embedding provider alongside the text provider
   and the threshold must be re-calibrated when the embedding model changes;
@@ -275,12 +337,25 @@ defaultTest:
   so teams cannot uniformly copy `rubricPrompt` configs across assertion types.
   This is the concrete "Metrics without a unit are noise" example for
   similarity-score gates.
-- **Chapter 06 (Security and Trust) — judge trust**: The non-deterministic
-  scoring of `answer-relevance` (Claim 1) is the strongest example of why
-  "pin everything" (#1305 Claim 1, `guide/06-security-and-trust.md:426`) must
-  cover both the judge model and the embedding model: a gate that pins the text
-  provider but not the embedding provider is half-pinned, and the embedding
-  half controls the similarity score that the threshold gates.
+- **Chapter 05 (LLM Ops Reliability) — judge and provider pinning**: The
+  non-deterministic scoring of `answer-relevance` (Claim 1) is the strongest
+  example of why the judge-pinning rule (#1305 Claim 1) must cover both the
+  judge model and the embedding model: a gate that pins the text provider but
+  not the embedding provider is half-pinned, and the embedding half controls
+  the similarity score that the threshold gates. The correct anchor is §"Judge
+  calibration before judge trust"
+  (`guide/05-llm-ops-reliability.md:285`), which already carries the
+  judge-variance material.
+- **Anchor correction for editors**: the earlier pointer to
+  `guide/06-security-and-trust.md:426` was wrong. That line is
+  `### Pin everything; verify releases`, under `## Supply-chain security for
+  LLM infrastructure`, and it is about *package-version* pinning
+  (`requirements.txt`, the LiteLLM supply-chain incident) — not about pinning a
+  judge or embedding provider. The imperative phrasing ("pin everything")
+  is similar, so the two sections are easy to conflate, but this source's
+  provider-pinning evidence belongs in Ch05's judge-calibration material. If a
+  Ch06 pointer is wanted at all, cite the section by name and say explicitly
+  that it covers dependency pinning, which is a different exposure class.
 
 ## Extraction Notes
 
@@ -316,6 +391,29 @@ defaultTest:
     dismissed.
   - `docs-promptfoo-javascript-assertions.md` (#1304 sibling) — custom-JS
     assertion; no model-graded-judge semantics; dismissed.
+- **Rework (2026-09-15)**: re-fetched the live page and re-verified every
+  quote after Assayer review. Two corrections: (1) Claim 1's headline asserted
+  `answer-relevance` was "*the only* hybrid grader in the model-graded family"
+  and graded it `settled (documented product behavior)`. The per-type page
+  documents only `answer-relevance` and cannot establish exclusivity, so the
+  headline is now scoped to the documented two-slot shape and the exclusivity
+  generalization lives in Claim 1's `Our assessment` as an explicit inference,
+  with the `similar` counter-evidence from #1289 Claim 1 recorded. (2) The
+  Chapter 06 anchor `guide/06-security-and-trust.md:426` pointed at the
+  supply-chain package-pinning section; re-anchored to Ch05 §"Judge calibration
+  before judge trust". Also added "How it works" and "Overriding the
+  Providers" prose artifacts, which is where Claim 3's quote ("A higher
+  threshold requires the output to be more closely related to the original
+  query.") is now auditable — the quote was already on the page but had no
+  corresponding artifact block. Claim 1's and Claim 2's bullet-list quotes were
+  also reformatted from period-spliced run-on strings into their verbatim
+  bullet form; no wording changed. One adjacent fix while verifying: the
+  Extends bullet contrasted `answer-relevance` with "`llm-rubric` (which is
+  non-deterministic only if the judge temperature > 0)" — that temperature
+  characterization was not supported by the claim it sat next to, and #1305
+  Claim 7 documents promptfoo's built-in OpenAI grader as already
+  `temperature=0`. The bullet now cites Claim 7 for that baseline and states
+  the contrast as "no documented seeding/caching control on this page".
 - **Cross-ref verification (§4b)**: every cited claim was located in the cited
   note before writing — #1305 Claims 1, 5, 8; #1288 Claims 1, 5; #1289 Claim 1
   were all read and confirmed. No claim numbers invented. The `answer-relevance`
