@@ -1872,6 +1872,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-answer-relevance": {
+      "slug": "docs-promptfoo-answer-relevance",
+      "title": "Promptfoo Configuration: Answer Relevance",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/answer-relevance/",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-09-15",
+      "date_extracted": "2026-09-15",
+      "issue": "#1319",
+      "file": "source-notes/docs-promptfoo-answer-relevance.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-assertions-metrics": {
       "slug": "docs-promptfoo-assertions-metrics",
       "title": "Promptfoo Configuration: Assertions and Metrics",

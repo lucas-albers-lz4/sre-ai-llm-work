@@ -10601,6 +10601,36 @@
         }
       ]
     },
+    "docs-promptfoo-answer-relevance": {
+      "path": "source-notes/docs-promptfoo-answer-relevance.md",
+      "title": "Promptfoo Configuration: Answer Relevance",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/answer-relevance/",
+      "chapters": [
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "`answer-relevance` grades with two separately-configurable provider classes behind one verdict — an LLM text provider that generates candidate questions and an embedding provider that scores similarity against the original query — rather than a single judge model",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The two-slot provider override shape (`provider: { text: ..., embedding: ... }`) is a different override surface from the single `provider`/`options.provider` override the hub note's precedence chain describes",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The score is a cosine-similarity aggregate, not a calibrated relevance probability — the threshold (e.g. 0.7, 0.8) gates a floating-point similarity score whose absolute meaning shifts when the embedding model or the question-generation prompt changes",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "`rubricPrompt` is repurposed for question generation (not rubric grading) — customizing it changes the questions that get embedded and compared, so a fixed threshold does not mean the same thing across two configs",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-assertions-metrics": {
       "path": "source-notes/docs-promptfoo-assertions-metrics.md",
       "title": "Promptfoo Configuration: Assertions and Metrics",
