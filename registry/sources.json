@@ -2080,6 +2080,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-model-graded-context-recall": {
+      "slug": "docs-promptfoo-model-graded-context-recall",
+      "title": "Promptfoo Configuration: Model-Graded — Context Recall",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/context-recall/",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-09-16",
+      "date_extracted": "2026-09-16",
+      "issue": "#1332",
+      "file": "source-notes/docs-promptfoo-model-graded-context-recall.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-model-graded-metrics": {
       "slug": "docs-promptfoo-model-graded-metrics",
       "title": "Promptfoo Configuration: Model-Graded Metrics",

@@ -11516,6 +11516,51 @@
         }
       ]
     },
+    "docs-promptfoo-model-graded-context-recall": {
+      "path": "source-notes/docs-promptfoo-model-graded-context-recall.md",
+      "title": "Promptfoo Configuration: Model-Graded — Context Recall",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/context-recall/",
+      "chapters": [
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "`context-recall` grades the *retrieval* side of a RAG pair — it breaks the expected answer into statements and checks whether each can be attributed to the retrieved context, scoring by \"attributable statements / total statements\", demonstrated with a worked 0.5 partial example",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The page documents `threshold` as \"(default: 0)\" — at default config a bare `context-recall` assert is score-blind and passes at score 0, the third independently documented per-assert member of the fail-open family (after `llm-rubric`'s score-blind pass and `context-faithfulness`'s documented 0 default)",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The required-field contract is `value` (Expected answer/ground truth) + `context` — *not* `query`+`context` as on the `context-faithfulness` sibling — so a config swapping one RAG assert type for the other silently loses the other's required field",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The gate direction is the *mirror* of `context-faithfulness` — recall asks \"does the context contain what a correct answer needs?\" (retrieval completeness) while faithfulness asks \"does the output stay within the context?\" (output fidelity); two different failures, two different assertions",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "`contextTransform: 'output.context'` extraction with a `0.8` threshold is the per-type instance of the hub's context-based class contract — for RAG systems that return context alongside the response, the transform supplies the grading context dynamically",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The page contains a genuine ambiguity — the Limitations list's \"Binary attribution (no partial credit)\" reads as if scores are all-or-nothing while the same page's worked example scores 0.5; the reconciliation the vendor never spells out is that attribution is binary *per statement* while the aggregate score is the fraction of attributable statements",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The recall-specific Limitations set — \"Works best with factual statements\" and \"Requires known correct answers\" — the latter a hard applicability bound: no ground truth, no gate; both are absent from the faithfulness sibling's limitation set",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-model-graded-metrics": {
       "path": "source-notes/docs-promptfoo-model-graded-metrics.md",
       "title": "Promptfoo Configuration: Model-Graded Metrics",
