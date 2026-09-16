@@ -1846,6 +1846,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-a2a-iteration-budgets": {
+      "slug": "docs-litellm-a2a-iteration-budgets",
+      "title": "Agent Iteration Budgets — LiteLLM Documentation",
+      "source_url": "https://docs.litellm.ai/docs/a2a_iteration_budgets",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs; current as of 2026-09-16)",
+      "date_extracted": "2026-09-16",
+      "issue": "#1331",
+      "file": "source-notes/docs-litellm-a2a-iteration-budgets.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-helicone-integration": {
       "slug": "docs-litellm-helicone-integration",
       "title": "Helicone — liteLLM Documentation",

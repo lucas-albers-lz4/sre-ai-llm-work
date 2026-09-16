@@ -10585,6 +10585,63 @@
         }
       ]
     },
+    "docs-litellm-a2a-iteration-budgets": {
+      "path": "source-notes/docs-litellm-a2a-iteration-budgets.md",
+      "title": "Agent Iteration Budgets — LiteLLM Documentation",
+      "source_url": "https://docs.litellm.ai/docs/a2a_iteration_budgets",
+      "chapters": [
+        "05",
+        "03",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "LiteLLM's A2A gateway exposes two per-session agent-loop cost controls — `max_iterations` (hard cap on LLM calls per session) and `max_budget_per_session` (dollar cap per session, keyed on `x-litellm-trace-id`) — and both require a `session_id` to track calls within a session",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Session tracking is enabled by two independent trace-id flags in the agent's `litellm_params` — `require_trace_id_on_calls_to_agent` (inbound: callers must include `x-litellm-trace-id`, 400 if missing) and `require_trace_id_on_calls_by_agent` (outbound: all LLM/MCP calls made by the agent via its virtual key must carry the trace id, 400 if missing) — and the outbound flag is what actually enables `max_iterations` / `max_budget_per_session` tracking",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The iteration control is a per-call counter — when `max_iterations` is set in agent `litellm_params`, each LLM call for a session increments a counter, and a request that pushes the counter over the cap receives a 429 Too Many Requests",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The budget control has asymmetric timing — spend is accumulated *after* each successful LLM call and checked *before* each call, so a single over-budget call reaches the provider and the excess is only rejected on the next call",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Over-cap responses are HTTP 429 with `\"type\": \"budget_exceeded\"` and a message that embeds the session id, current spend, and the configured cap — a *cost* cap surfaces as the same status class as ordinary rate limiting and cannot be distinguished by status code alone",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Both counters are TTL-windowed, not lifetime — iteration counters and session-spend counters expire after 1 hour by default (`LITELLM_MAX_ITERATIONS_TTL` and `LITELLM_MAX_BUDGET_PER_SESSION_TTL`, default `3600`), so a \"$5 per session\" cap is really a \"$5 per rolling hour\" cap and a long-running session silently gets its counters reset and budget replenished",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Session identity is entirely caller-supplied via `x-litellm-trace-id` or `metadata.session_id`, and the page does not document any validation that the trace id is bound to the calling key or the agent — the cap is bypassable by varying the session identifier if callers control the header",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The page contradicts itself on where the budget controls are stored — the \"Configuring via UI\" section says they live in the virtual key's metadata, while the \"Configuring via API\" section says they live on the agent's `litellm_params` (not on individual keys, applying across all keys) — determining whether the cap is per-agent or per-key",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The controls are configured through the same `litellm_params` block as the trace-id flags via `POST /v1/agents`, with `max_iterations` and `max_budget_per_session` set alongside `require_trace_id_on_calls_by_agent` — the page's documented configurable form is agent-creation-time, not per-call",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-helicone-integration": {
       "path": "source-notes/docs-litellm-helicone-integration.md",
       "title": "Helicone — liteLLM Documentation",
