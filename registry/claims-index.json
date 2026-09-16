@@ -10642,6 +10642,73 @@
         }
       ]
     },
+    "docs-litellm-adaptive-router": {
+      "path": "source-notes/docs-litellm-adaptive-router.md",
+      "title": "[BETA] Adaptive Router — LiteLLM Documentation",
+      "source_url": "https://docs.litellm.ai/docs/adaptive_router",
+      "chapters": [
+        "05",
+        "02",
+        "04"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The standalone Adaptive Router is a separate config surface from Auto Router v2 — `model: auto_router/adaptive_router` with its own `adaptive_router_config` (`available_models`, `weights`) and per-model `adaptive_router_preferences` (`quality_tier` 1|2|3, `strengths`)",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The router balances quality against cost per request type using a multi-armed-bandit-style mechanism — \"tracks which model performs best for each type of request and routes accordingly\"",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Postgres is a hard requirement for learned state — \"Without a database the router works but forgets everything learned on restart\"",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "`weights.quality` + `weights.cost` must sum to 1.0; published presets span 0.3/0.7 (cost-first) to 0.9/0.1 (quality non-negotiable), with quality-first 0.7/0.3 as the default",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Cold-start is explicit — \"For the first ~10 requests per model, it relies on the tiers you declared. After that, real performance data takes over\"",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The router classifies every request into one of 7 types and tracks each model's performance per type independently — a model can win factual requests and lose code requests",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Learning is driven by satisfaction signals on courtesy turns (\"thanks!\") that \"move the bandit\"; the signal design is regex-based and English-biased with no LLM judge, inspired by academic trajectory-sampling work",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Two escape hatches — `x-litellm-min-quality-tier` request header / `min_quality_tier` metadata forces a quality floor regardless of cost, and the `x-litellm-adaptive-router-model` response header reveals which model actually served",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "`GET /adaptive_router/{router_name}/state` exposes per-request-type × per-model cells of `quality_mean` and `samples`, where `samples` counts only real observations (cold-start prior mass excluded, starts at 0)",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Known limitations (vendor-stated): latency is not scored; signals are regex-based/English-biased with no LLM judge; a hard cap of 200 observations per cell with no decay; and only the session-selected model's turns contribute to learning",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The feature is explicitly beta — \"Beta feature\"",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-helicone-integration": {
       "path": "source-notes/docs-litellm-helicone-integration.md",
       "title": "Helicone — liteLLM Documentation",

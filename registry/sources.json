@@ -1859,6 +1859,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-adaptive-router": {
+      "slug": "docs-litellm-adaptive-router",
+      "title": "[BETA] Adaptive Router — LiteLLM Documentation",
+      "source_url": "https://docs.litellm.ai/docs/adaptive_router",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs; current as of 2026-09-16)",
+      "date_extracted": "2026-09-16",
+      "issue": "#1345",
+      "file": "source-notes/docs-litellm-adaptive-router.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-helicone-integration": {
       "slug": "docs-litellm-helicone-integration",
       "title": "Helicone — liteLLM Documentation",
