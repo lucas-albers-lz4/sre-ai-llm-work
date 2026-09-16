@@ -10476,6 +10476,58 @@
         }
       ]
     },
+    "docs-litellm-a2a-cost-tracking": {
+      "path": "source-notes/docs-litellm-a2a-cost-tracking.md",
+      "title": "A2A Agent Cost Tracking — LiteLLM Documentation",
+      "source_url": "https://docs.litellm.ai/docs/a2a_cost_tracking",
+      "chapters": [
+        "05",
+        "02",
+        "03"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "LiteLLM's A2A gateway supports custom per-agent cost tracking in two modes — a flat cost charged for each agent request, and a variable cost based on input/output token usage",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The per-agent \"Cost Configuration\" panel exposes two-and-three price fields — Cost Per Query ($), Input Cost Per Token ($), Output Cost Per Token ($) — with page guidance that a flat cost per query is simplest and token-based pricing is for when agent cost varies significantly with input/output length",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The flat per-query cost is a gateway-declared synthetic charge — the operator enters a dollar figure in the UI and \"each request to this agent\" bills at that rate, with no documented linkage to the agent's measured token usage or upstream model cost",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Configured agent cost lands in the gateway request log (Logs cost column) and is attributed to the API key that made the request — the chargeback axis is per-team / per-project (the caller pays), not attribution to the agent's own backend spend",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "A dedicated Agent Usage dashboard in the Admin UI provides agent-level spend analytics separate from the model-level spend views — total spend per agent, daily spend trends, model usage breakdown, and activity metrics (requests, tokens, success rates), filterable by agent ID",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The documented verification path bills through the A2A *message* path, not task methods — the Playground tests cost by selecting the `/v1/a2a/message/send` Endpoint Type for the agent, and the agent request is \"logged with the cost you configured\"",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The cost configuration surface is Admin-UI-only — the page documents the three price fields exclusively through the UI \"Cost Configuration\" panel and never shows a config.yaml / API form, so the per-agent price is not liftable into declarative config or IaC from this page",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The page gives no reconciliation between the configured cost and the overview page's header-forwarding spend-attribution contract — it neither mentions `X-LiteLLM-Agent-Id` nor states that configured costs bypass the forwarding requirement, so per-agent cost accounting in LiteLLM's docs is split across two unconnected mechanisms",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-helicone-integration": {
       "path": "source-notes/docs-litellm-helicone-integration.md",
       "title": "Helicone — liteLLM Documentation",

@@ -1820,6 +1820,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-a2a-cost-tracking": {
+      "slug": "docs-litellm-a2a-cost-tracking",
+      "title": "A2A Agent Cost Tracking — LiteLLM Documentation",
+      "source_url": "https://docs.litellm.ai/docs/a2a_cost_tracking",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs; current as of 2026-09-15)",
+      "date_extracted": "2026-09-15",
+      "issue": "#1329",
+      "file": "source-notes/docs-litellm-a2a-cost-tracking.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-helicone-integration": {
       "slug": "docs-litellm-helicone-integration",
       "title": "Helicone — liteLLM Documentation",
