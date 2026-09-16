@@ -10528,6 +10528,63 @@
         }
       ]
     },
+    "docs-litellm-a2a-invoking-agents": {
+      "path": "source-notes/docs-litellm-a2a-invoking-agents.md",
+      "title": "Invoking A2A Agents — LiteLLM Documentation",
+      "source_url": "https://docs.litellm.ai/docs/a2a_invoking_agents",
+      "chapters": [
+        "03",
+        "05",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "A2A agents registered with LiteLLM are invocable through the OpenAI-compatible `POST /v1/chat/completions` surface by prefixing the agent name with `a2a/` — `model: \"a2a/my-agent\"` — from Python, TypeScript, and cURL clients, streaming and non-streaming",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The OpenAI bridge collapses a task-shaped agent into a single `chat.completions` round-trip whose only result surface is `choices[0].message.content` — task state, artifacts, and context management are structurally unavailable on that path",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The page documents no gateway-control semantics for the `a2a/` chat-completions bridge — it is silent on whether bridge calls are logged, spend-attributed, or guardrailed, and documents no error/timeout or non-terminal-state mapping for the path",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "a2a-sdk 1.x is a breaking *client* change — `A2AClient` + dict `MessageSendParams` are replaced by `ClientFactory` + protobuf `Message`/`Part` types, and `send_message` becomes an async generator of stream events, with a matching client floor of `a2a-sdk>=1.1.0,<2.0`",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The same `send_message` API serves streaming and non-streaming — selected by `ClientConfig(streaming=...)`, with clients declaring `supported_protocol_bindings: [JSONRPC, HTTP_JSON]` and discovering the card via `A2ACardResolver` at `{base}/a2a/{agent_id}`",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The page restates the protocol-version pinning advice from the client side — pin `protocolVersion: \"1.0\"` on the agent so responses match the a2a-sdk 1.x wire format, or `\"0.3\"` for legacy callers",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The two invocation paths address the agent by different-looking identifiers — the OpenAI path uses the registered agent *name* (`a2a/my-agent`) while the SDK path uses the `{agent_id}` path segment — but both resolve the same registry entry, since `{agent_id}` accepts the UUID or the registered name",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Task-shaped agents require client-side polling — an agent that returns a `submitted` task from `message/send` expects the client to poll `tasks/get` against the same `{base}/a2a/{agent_id}` JSON-RPC URL, which LiteLLM forwards upstream",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Client-side card discovery on the SDK path resolves the agent card from the proxy — the 1.x examples call `A2ACardResolver(base_url=\"{base}/a2a/{agent_id}\")` and build the client from the resolved card via `ClientFactory`, exercising the SDK's default well-known card path against the proxy's `/a2a/{agent_id}` base",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-helicone-integration": {
       "path": "source-notes/docs-litellm-helicone-integration.md",
       "title": "Helicone — liteLLM Documentation",

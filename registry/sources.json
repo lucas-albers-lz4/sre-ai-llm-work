@@ -1833,6 +1833,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-a2a-invoking-agents": {
+      "slug": "docs-litellm-a2a-invoking-agents",
+      "title": "Invoking A2A Agents — LiteLLM Documentation",
+      "source_url": "https://docs.litellm.ai/docs/a2a_invoking_agents",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs; current as of 2026-09-16)",
+      "date_extracted": "2026-09-16",
+      "issue": "#1330",
+      "file": "source-notes/docs-litellm-a2a-invoking-agents.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-helicone-integration": {
       "slug": "docs-litellm-helicone-integration",
       "title": "Helicone — liteLLM Documentation",
