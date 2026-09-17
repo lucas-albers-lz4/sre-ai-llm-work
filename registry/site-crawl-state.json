@@ -1326,7 +1326,7 @@
         "filed_at": "2026-08-13T12:56:28.715514+00:00"
       }
     },
-    "last_scan": "2026-09-16T15:55:25.578949+00:00"
+    "last_scan": "2026-09-17T16:01:39.731801+00:00"
   },
   "opentelemetry": {
     "urls": {},
@@ -2541,16 +2541,22 @@
         "filed_at": "2026-09-16T15:55:59.702813+00:00"
       },
       "https://www.cncf.io/projects/meshery/": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:24:16.126840+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:24:16.126840+00:00",
+        "issue": 1356,
+        "filed_at": "2026-09-17T16:02:12.020798+00:00"
       },
       "https://www.cncf.io/projects/longhorn/": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:24:16.126844+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:24:16.126844+00:00",
+        "issue": 1357,
+        "filed_at": "2026-09-17T16:02:14.026656+00:00"
       },
       "https://www.cncf.io/projects/logging-operator-kube-logging/": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:24:16.126846+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:24:16.126846+00:00",
+        "issue": 1358,
+        "filed_at": "2026-09-17T16:02:16.035937+00:00"
       },
       "https://www.cncf.io/projects/litmus/": {
         "status": "pending",
@@ -3575,9 +3581,21 @@
       "https://www.cncf.io/blog/2026/02/02/opentelemetry-collector-vs-agent-how-to-choose-the-right-telemetry-approach": {
         "status": "pending",
         "screened_at": "2026-09-16T15:55:32.275715+00:00"
+      },
+      "https://www.cncf.io/blog/2026/09/17/opentelemetry-everywhere-migrating-a-metrics-platform-at-scale": {
+        "status": "pending",
+        "screened_at": "2026-09-17T16:01:45.168596+00:00"
+      },
+      "https://www.cncf.io/blog/2026/01/29/from-global-stages-to-a-local-landmark-organizing-kcd-sri-lanka-2025": {
+        "status": "rejected",
+        "screened_at": "2026-09-17T16:01:45.168614+00:00"
+      },
+      "https://www.cncf.io/blog/2026/01/28/introducing-kthena-llm-inference-for-the-cloud-native-era": {
+        "status": "pending",
+        "screened_at": "2026-09-17T16:01:45.168618+00:00"
       }
     },
-    "last_scan": "2026-09-16T15:55:32.275716+00:00"
+    "last_scan": "2026-09-17T16:01:45.168620+00:00"
   },
   "datadog-llm-obs": {
     "urls": {
@@ -3586,7 +3604,7 @@
         "screened_at": "2026-07-12T23:52:56.905756+00:00"
       }
     },
-    "last_scan": "2026-09-16T15:55:33.877625+00:00"
+    "last_scan": "2026-09-17T16:01:46.979207+00:00"
   },
   "langfuse-docs": {
     "urls": {
@@ -3751,7 +3769,7 @@
         "filed_at": "2026-09-03T15:37:32.594301+00:00"
       }
     },
-    "last_scan": "2026-09-16T15:55:35.412601+00:00"
+    "last_scan": "2026-09-17T16:01:48.485522+00:00"
   },
   "litellm-docs": {
     "urls": {
@@ -4974,16 +4992,22 @@
         "filed_at": "2026-09-16T15:56:06.136385+00:00"
       },
       "https://docs.litellm.ai/docs/adding_provider/generic_guardrail_api": {
-        "status": "pending",
-        "screened_at": "2026-07-14T13:28:22.160065+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T13:28:22.160065+00:00",
+        "issue": 1359,
+        "filed_at": "2026-09-17T16:02:17.988150+00:00"
       },
       "https://docs.litellm.ai/docs/adding_provider/generic_prompt_management_api": {
-        "status": "pending",
-        "screened_at": "2026-07-14T13:40:24.969551+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T13:40:24.969551+00:00",
+        "issue": 1360,
+        "filed_at": "2026-09-17T16:02:19.890653+00:00"
       },
       "https://docs.litellm.ai/docs/adding_provider/new_rerank_provider": {
-        "status": "pending",
-        "screened_at": "2026-07-14T13:40:24.969571+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T13:40:24.969571+00:00",
+        "issue": 1361,
+        "filed_at": "2026-09-17T16:02:21.904977+00:00"
       },
       "https://docs.litellm.ai/docs/adding_provider/simple_guardrail_tutorial": {
         "status": "pending",
@@ -5792,9 +5816,21 @@
       "https://docs.litellm.ai/docs/ocr": {
         "status": "rejected",
         "screened_at": "2026-09-16T15:55:40.421242+00:00"
+      },
+      "https://docs.litellm.ai/docs/oidc": {
+        "status": "pending",
+        "screened_at": "2026-09-17T16:01:55.743655+00:00"
+      },
+      "https://docs.litellm.ai/docs/old_guardrails": {
+        "status": "pending",
+        "screened_at": "2026-09-17T16:01:55.743672+00:00"
+      },
+      "https://docs.litellm.ai/docs/pass_through/anthropic_completion": {
+        "status": "pending",
+        "screened_at": "2026-09-17T16:01:55.743674+00:00"
       }
     },
-    "last_scan": "2026-09-16T15:55:40.421244+00:00"
+    "last_scan": "2026-09-17T16:01:55.743677+00:00"
   },
   "promptfoo-docs": {
     "urls": {
@@ -6999,16 +7035,22 @@
         "filed_at": "2026-09-16T15:56:12.736390+00:00"
       },
       "https://www.promptfoo.dev/docs/tags": {
-        "status": "pending",
-        "screened_at": "2026-07-14T13:09:08.388544+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T13:09:08.388544+00:00",
+        "issue": 1362,
+        "filed_at": "2026-09-17T16:02:23.998161+00:00"
       },
       "https://www.promptfoo.dev/docs/tags/changelog": {
-        "status": "pending",
-        "screened_at": "2026-07-14T13:09:08.388547+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T13:09:08.388547+00:00",
+        "issue": 1363,
+        "filed_at": "2026-09-17T16:02:26.101772+00:00"
       },
       "https://www.promptfoo.dev/docs/tags/custom": {
-        "status": "pending",
-        "screened_at": "2026-07-14T13:28:27.705994+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T13:28:27.705994+00:00",
+        "issue": 1364,
+        "filed_at": "2026-09-17T16:02:28.004506+00:00"
       },
       "https://www.promptfoo.dev/docs/tags/features": {
         "status": "pending",
@@ -7833,8 +7875,20 @@
       "https://www.promptfoo.dev/docs/providers/python": {
         "status": "pending",
         "screened_at": "2026-09-16T15:55:53.788932+00:00"
+      },
+      "https://www.promptfoo.dev/docs/providers/quiverai": {
+        "status": "rejected",
+        "screened_at": "2026-09-17T16:02:10.541003+00:00"
+      },
+      "https://www.promptfoo.dev/docs/providers/replicate": {
+        "status": "rejected",
+        "screened_at": "2026-09-17T16:02:10.541021+00:00"
+      },
+      "https://www.promptfoo.dev/docs/providers/ruby": {
+        "status": "rejected",
+        "screened_at": "2026-09-17T16:02:10.541023+00:00"
       }
     },
-    "last_scan": "2026-09-16T15:55:53.788934+00:00"
+    "last_scan": "2026-09-17T16:02:10.541026+00:00"
   }
 }
