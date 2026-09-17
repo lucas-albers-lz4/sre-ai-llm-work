@@ -679,7 +679,8 @@ right steps in the right order". The trajectory assertion family reads the same
 OTel-shaped span data the observability pipeline emits — `trajectory:tool-used`,
 `:tool-sequence`, `:step-count`, `tool-args-match`, `skill-used`,
 `trace-span-count`, `trace-span-duration`, `trace-error-spans`
-[source: docs-promptfoo-deterministic-metrics, Claim 11] [emerging].
+[source: docs-promptfoo-deterministic-metrics, Claim 11, Claim 12, Claim 13]
+[emerging].
 
 ```js
 // Ensure retrieval happened before response generation
@@ -1050,19 +1051,19 @@ Four documented properties change what the cap actually enforces:
    calls made **by** this agent (via its virtual key) to include
    `x-litellm-trace-id`. This is what enables `max_iterations` and
    `max_budget_per_session` tracking."
-   [source: docs-litellm-a2a-iteration-budgets, Claim 2].
+   [source: docs-litellm-a2a-iteration-budgets, Claim 2] [emerging].
 2. **One call late.** Spend is accumulated after each successful call and
    checked before each call, so the call that crosses the line completes and
    the rejection lands on the next one
-   [source: docs-litellm-a2a-iteration-budgets, Claim 4].
+   [source: docs-litellm-a2a-iteration-budgets, Claim 4] [emerging].
 3. **The over-cap error shares a status code with rate limiting.** HTTP 429
    with `"type": "budget_exceeded"` — callers that treat 429 as transient
    retryable backoff will retry a session that cannot succeed until its
-   counters reset [source: docs-litellm-a2a-iteration-budgets, Claim 5].
+   counters reset [source: docs-litellm-a2a-iteration-budgets, Claim 5] [emerging].
 4. **TTL-windowed, not lifetime.** "Counters expire after 1 hour by default
    (configurable via `LITELLM_MAX_ITERATIONS_TTL` env var)", so "$5 per
    session" is "$5 per rolling hour" — a long-running agent loop gets a fresh
-   budget each hour [source: docs-litellm-a2a-iteration-budgets, Claim 6].
+   budget each hour [source: docs-litellm-a2a-iteration-budgets, Claim 6] [emerging].
 
 **Debated: who owns the cap**
 
@@ -1119,11 +1120,11 @@ The second metering path is separate and does not have this precondition:
 LiteLLM's `token_counter` / `cost_per_token` / `completion_cost` helpers
 compute usage and USD locally from the running package's bundled `model_cost`
 map, with no provider-side reconciliation — `completion_cost` "combines
-token_counter and cost_per_token to return the cost for that query"
-[source: docs-litellm-token-usage-helpers, Claim 4] [emerging]. That is the
-same map whose staleness produced the silent `cost=0` fallback above, so a
-logged figure from these helpers is an estimate bounded by the installed
-package's map version, not a billed number.
+token_counter and cost_per_token to return the cost for that query" — and a
+stale or absent map entry yields a zero or wrong USD figure rather than an
+error, so a logged figure from these helpers is an estimate bounded by the
+installed package's map version, not a billed number
+[source: docs-litellm-token-usage-helpers, Claim 3, Claim 4] [emerging].
 
 **Rule**: Pass `stream_options={"include_usage": True}` on every streamed
 request the gateway meters, read totals from the final usage chunk rather than
