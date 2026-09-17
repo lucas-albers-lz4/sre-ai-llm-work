@@ -1872,6 +1872,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-generic-guardrail-api": {
+      "slug": "docs-litellm-generic-guardrail-api",
+      "title": "[BETA] Generic Guardrail API — Integrate Without a PR (LiteLLM Docs)",
+      "source_url": "https://docs.litellm.ai/docs/adding_provider/generic_guardrail_api",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs; BETA as of 2026-09-17)",
+      "date_extracted": "2026-09-17",
+      "issue": "#1359",
+      "file": "source-notes/docs-litellm-generic-guardrail-api.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-helicone-integration": {
       "slug": "docs-litellm-helicone-integration",
       "title": "Helicone — liteLLM Documentation",

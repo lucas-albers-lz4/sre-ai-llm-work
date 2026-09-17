@@ -10709,6 +10709,71 @@
         }
       ]
     },
+    "docs-litellm-generic-guardrail-api": {
+      "path": "source-notes/docs-litellm-generic-guardrail-api.md",
+      "title": "[BETA] Generic Guardrail API — Integrate Without a PR (LiteLLM Docs)",
+      "source_url": "https://docs.litellm.ai/docs/adding_provider/generic_guardrail_api",
+      "chapters": [
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "LiteLLM offers a PR-less guardrail integration contract — a provider implements `POST /beta/litellm_basic_guardrail_api` and attaches it under `litellm_settings.guardrails` with `guardrail: generic_guardrail_api`, avoiding PR review/merge and provider-specific code in LiteLLM's codebase",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The generic guardrail API intercepts an explicitly enumerated surface of the model path — `/v1/chat/completions`, `/v1/completions`, `/v1/responses`, `/v1/images/generations`, `/v1/audio/transcriptions`, `/v1/audio/speech`, `/v1/messages`, `/v1/rerank`, plus pass-through endpoints — so one guardrail config spans chat, image, audio, and rerank traffic",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The webhook returns one of three verdicts — `BLOCKED` (LiteLLM raises an error and blocks the request), `NONE` (request proceeds unchanged), or `GUARDRAIL_INTERVENED` (request proceeds with modified texts/images) — so a guardrail decision is a body substitute, not just a pass/fail flag",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The rewrite contract has two paths with asymmetric failure semantics — a per-message rewrite must be returned via `structured_messages` (one row per received row, in order; an echoed row counts as unchanged; an all-unchanged array makes LiteLLM apply `texts`), a length-changed array is read as whole-conversation replacement, and a per-message `texts` array on `/v1/responses` is a contract violation the gateway surfaces as an error instead of degrading to pass-through",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Tool-aware guardrails are the concrete gateway-side enforcement surface for function-calling authorization — `tools` (definitions/schemas) and `tool_calls` (invocations with arguments) are both forwarded, on request and response scans, with documented use cases for per-user/team tool permission policies, argument validation/redaction, and dangerous-parameter blocking; but tool forwarding is limited to `/v1/chat/completions`, `/v1/responses`, and `/v1/messages`, so tool-level enforcement is *not* universal despite the page's \"Universal Support\" key-benefit claim",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The outbound payload is data-minimized at the boundary — `request_data` carries only identity attributes of the calling virtual key (hash, alias, user id/email, team id/alias, end-user id, org id) plus `litellm_version`, `input_type`, `litellm_call_id`, and `litellm_trace_id`, and `request_headers` is allowlist-only: listed header names show their value, all other headers render as the literal `[present]`",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Header egress from proxy to guardrail is allowlist-only and split into static vs dynamic — `headers` is a fixed key/value map sent with every request to the guardrail, while `extra_headers` is a list of client-request header names whose values are forwarded (plus a small default allowlist such as `x-litellm-*`); everything else is sent as `[present]`",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Fail behavior sits on a two-knob spectrum, both defaults closed — `unreachable_fallback` (default `fail_closed`) reacts *only* to endpoint unreachability (network errors, timeouts, HTTP 502/503/504 from an upstream proxy/load balancer), while `fail_on_error` (default `true`) is the broader control governing *any* guardrail error: non-2xx, malformed/unparseable body, network failure, or internal serialization/validation error",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "`fail_on_error: false` is a complete bypass, not graceful degradation — any guardrail error downgrades to a critical-level log line and the request proceeds as if the guardrail were not configured; on the response path fail-open returns the already-generated model output while fail-closed turns a successful generation into an error; and every fail-open bypass is logged at critical level (`Generic Guardrail API error (fail-open) ...`) with the call id and trace id \"so you can alert on it and audit how often it happens\"",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The vendor's own guidance anchors the fail-open/fail-closed choice in security-vs-availability tradeoffs — fail open only when \"availability and operational constraints are stronger than your security constraints,\" and keep the default when the guardrail is \"a hard security boundary\"",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The contract is version-sensitive by the vendor's own framing — the page is an explicitly BETA API under active iteration, and the one worked vendor example (Pillar Security) is a config shape (modes `[pre_call, post_call]`, `default_on: true`, provider-specific params like `plr_mask`) with no efficacy or latency data on the page",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-helicone-integration": {
       "path": "source-notes/docs-litellm-helicone-integration.md",
       "title": "Helicone — liteLLM Documentation",
