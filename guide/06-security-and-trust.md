@@ -448,6 +448,36 @@ Verify release artifacts against an immutable signing key before deployment.
 Repo integrity is not release integrity — the publishing pipeline is an
 independent attack surface.
 
+### A SHA pin says what you have; an attestation says who built it
+
+Pinning and provenance answer different questions. A commit SHA identifies the
+artifact; a signed build-provenance attestation binds those exact bytes to the
+release workflow that produced them. For the Promptfoo code-scan action the
+verification step is a single command
+[source: docs-promptfoo-code-scan-github-action, Claim 2] [settled]:
+
+```bash
+gh attestation verify dist/index.js --repo promptfoo/promptfoo
+```
+
+Resolve a tag to its commit before pinning it — "Tags such as `v0` are
+convenient but mutable; a commit SHA is the only immutable reference"
+[source: docs-promptfoo-code-scan-github-action, Claim 8] [settled]:
+
+```bash
+gh api repos/promptfoo/code-scan-action/commits/<tag> --jq .sha
+```
+
+Hardening is also versioned, so the pin's *value* matters: for this action the
+release-pinned CLI install with npm lifecycle scripts disabled and the
+provenance attestation both apply only to releases after v0.1.8 — earlier
+releases resolved `promptfoo@latest` at runtime
+[source: docs-promptfoo-code-scan-github-action, Claim 2, Claim 3] [settled].
+
+**Rule**: For a security tool in CI, pin the resolved commit SHA *and* verify
+its provenance attestation. Treat pre-hardening versions of the tool as
+unpinned, whatever the tag says.
+
 ### Three CI/CD anti-patterns that enabled a supply-chain compromise
 
 1. **Shared CI/CD environment across stages** — a compromised step in one
@@ -486,6 +516,22 @@ Artifacts].*
 credentials. Pin every CI dependency to verified SHAs — including security
 scanners. Verify release artifacts with `cosign` against a pinned-commit key.
 
+### Job-level isolation is not step-level isolation
+
+Stage boundaries do not protect steps from each other within a stage. A step
+that executes pull-request-controlled code earlier in the same job (`npm ci`, a
+build) can persist `$GITHUB_PATH`, `$GITHUB_ENV`, or `$HOME` writes that later
+steps inherit — and that step already runs with the job's token
+[source: docs-promptfoo-code-scan-github-action, Claim 1] [emerging].
+
+The documented mitigation is structural, not a feature of the scanner: keep the
+scan in a job that only checks out and scans the PR, and run untrusted build
+steps in a separate job.
+
+**Rule**: Treat the job, not the stage, as the isolation boundary for untrusted
+code. Any step that executes PR-controlled code belongs in a different job from
+any step holding a credential worth stealing.
+
 ### Gateway-level code-execution interception
 
 Model-generated code must not execute on opaque vendor-hosted containers.
@@ -509,6 +555,71 @@ egress denied by default — network access requires explicit configuration
 sandboxes with deny-by-default egress. The gateway intercepts transparently —
 clients see no change, but code and data stay inside your perimeter.
 
+## Gating on LLM security scans
+
+A diff-scoped scanner is the concrete form of the CI security gate: it compares
+a base ref (auto-detected as `main` or `master`) against a commit (`HEAD` by
+default), so it runs on exactly the change under review with no required
+arguments [source: docs-promptfoo-code-scan-cli, Claim 4] [settled].
+
+Two levers decide whether the gate is worth its cost — where it runs and what it
+blocks on. Full-repo exploration is the default and it is not cheap: the
+documented envelope runs from a minute or two to 20+ minutes per scan, with most
+PRs landing at 3–10 minutes
+[source: docs-promptfoo-code-scan-cli, Claim 3] [anecdotal]. `--diffs-only`
+trades coverage for runtime, which is the per-PR-gate versus nightly-scan
+decision [source: docs-promptfoo-code-scan-cli, Claim 5] [settled].
+The severity threshold is the alert-fatigue control
+[source: docs-promptfoo-code-scan-cli, Claim 6] [settled]:
+
+```yaml
+# .promptfoo-code-scan.yaml
+# Minimum severity level to report (low|medium|high|critical)
+# Both minSeverity and minimumSeverity are supported
+minSeverity: medium
+
+# Scan only PR diffs without filesystem exploration (default: false = explore full repo)
+diffsOnly: false
+```
+*Excerpted from [source: docs-promptfoo-code-scan-cli, Concrete Artifacts]; the
+optional `guidance` and `apiHost` keys are omitted.*
+
+**Rule**: Set `minSeverity` deliberately — it decides how much noise reaches
+developers — and choose `diffsOnly` from placement: `true` for a blocking per-PR
+gate, `false` for a nightly full scan.
+
+A scan that did not run produces the same empty finding set as a scan that found
+nothing. The CLI signals the difference with `skipReason`, set when a scan is
+intentionally skipped (for example a fork PR awaiting maintainer approval), in
+which case `comments` is empty
+[source: docs-promptfoo-code-scan-cli, Claim 9] [settled]. The Action mirrors it:
+`sarif-path` is set only when a scan actually completes, so an unguarded upload
+step publishes a zero-finding SARIF file that reads as a clean result
+[source: docs-promptfoo-code-scan-github-action, Claim 5] [settled].
+
+```yaml
+- name: Upload SARIF to GitHub Code Scanning
+  if: ${{ steps.promptfoo-code-scan.outputs.sarif-path != '' }}
+  uses: github/codeql-action/upload-sarif@<pinned-sha>
+  with:
+    sarif_file: ${{ steps.promptfoo-code-scan.outputs.sarif-path }}
+```
+*Conditional-upload pattern extracted from [source:
+docs-promptfoo-code-scan-github-action, Concrete Artifacts]; the action SHA is
+elided to `<pinned-sha>`.*
+
+**Rule**: Gate on the scan's completion signal, never on its findings count. A
+zero-finding result and a skipped scan must be distinguishable at every step
+that consumes scanner output — including the SARIF upload.
+
+Fork PRs are untrusted by definition, so scanning is disabled for them by
+default; scanning one requires a maintainer `@promptfoo-scanner` comment or a
+deliberate `enable-fork-prs: true` in the workflow
+[source: docs-promptfoo-code-scan-github-action, Claim 4] [settled].
+
+**Rule**: Default-deny security scanning on fork PRs, and make the override an
+explicit maintainer action rather than an ambient workflow setting.
+
 ---
 *Sources for this chapter: blog-promptfoo-ai-orchestrated-cyberattacks,
 blog-promptfoo-ai-regulation-2025, blog-promptfoo-asr-not-portable-metric,
@@ -518,5 +629,6 @@ blog-promptfoo-red-team-claude, blog-promptfoo-red-team-gemini,
 blog-promptfoo-red-team-gpt,
 failure-litellm-supply-chain-compromise-march-2026,
 failure-litellm-supply-chain-incident-march-2026,
-blog-litellm-swap-openai-code-interpreter*
-*Last updated: 2026-08-01*
+blog-litellm-swap-openai-code-interpreter,
+docs-promptfoo-code-scan-cli, docs-promptfoo-code-scan-github-action*
+*Last updated: 2026-09-12*

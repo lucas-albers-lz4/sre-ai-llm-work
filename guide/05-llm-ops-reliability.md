@@ -169,6 +169,44 @@ gradual + rollback + auto-stop test before it enters a canary. A prompt config
 that references a mutable external dataset is not hermetic and therefore not
 safely rollable.
 
+### A generated dataset is the mutable external reference
+
+The hermeticity rule has a concrete counter-example in eval tooling. `promptfoo
+generate dataset` reads your prompts and existing tests and synthesizes "new,
+unique test cases" per invocation, writing to stdout, to a file (`-o
+tests.yaml`), or back into the config in place (`-w`)
+[source: docs-promptfoo-dataset-generation, Claim 1] [settled]. Nothing in the
+documented surface pins, versions, or seeds the emitted cases; only the
+*synthesis* provider is pinnable, via `file://synthesis-provider.yaml`
+[source: docs-promptfoo-dataset-generation, Claim 3, Claim 5] [emerging].
+
+That makes the generator itself the mutable external dataset the rule above
+prohibits, and `-w` is the sharp end: regenerating between a canary and its
+control rewrites the gate's inputs, so the comparison measures input-set drift
+rather than the model change it was meant to isolate
+[source: docs-promptfoo-dataset-generation, Claim 1, Claim 5] [emerging].
+
+```yaml
+# Committed fixture — reproducible
+tests:
+  - file://tests.csv
+  - vars:
+      location: 'San Francisco'
+
+# promptfoo generate dataset -w   ← rewrites tests: in place; not reproducible
+```
+*Fixture form from [source: docs-promptfoo-dataset-generation, Concrete
+Artifacts]; the `-w` line is the anti-pattern, not a documented example.*
+
+Synthesis is also a separate spend line: `--numPersonas` ×
+`--numTestCasesPerPersona` bills the generation provider, not the providers
+under test, and an unpinned synthesis model is a drifting author of the gate's
+inputs [source: docs-promptfoo-dataset-generation, Claim 2, Claim 4] [settled].
+
+**Rule**: Treat a generated dataset as a build artifact — emit it with `-o`,
+commit it, reference it as `- file://<file>`, and record the synthesis model
+alongside it. Never `-w` a dataset that gates a deploy.
+
 ### Evaluation must stay separate from side effects
 
 Interleaving configuration evaluation with side effects — consulting DNS, VM
@@ -333,6 +371,95 @@ Before citing or publishing a red-team result, answer
 **Rule**: Gate internal red-team results on this checklist before they inform
 a deploy/no-deploy decision. If a published paper doesn't answer these,
 treat its ASR as directional, not comparable.
+
+### A green eval is not evidence until you can name what it measured
+
+An eval harness that caches provider responses by default can report a pass that
+is a replay rather than a measurement. `promptfoo` stores provider API results
+on disk at `~/.promptfoo/cache` and invalidates them only on TTL expiry —
+default 14 days — or a manual clear
+[source: docs-promptfoo-configuration-caching, Claim 1, Claim 4] [settled]. A
+regression that passes inside that window may be replaying responses captured
+before the model or prompt changed.
+
+The variance case is the sharpest. With `--repeat` greater than 1 each repeat
+index gets its own cache namespace, so re-running an eval reuses the per-repeat
+outputs; the vendor's own remediation is `--no-cache` with `--repeat`
+[source: docs-promptfoo-configuration-caching, Claim 8] [settled]. A flake rate
+computed on a warm cache measures replay, not model variance.
+
+```bash
+promptfoo eval --no-cache --repeat 5           # fresh samples every run
+PROMPTFOO_CACHE_ENABLED=false promptfoo eval   # or uncache the whole job
+promptfoo cache clear                          # invalidate before a post-upgrade run
+```
+
+*Control surface: `PROMPTFOO_CACHE_ENABLED`, `PROMPTFOO_CACHE_TYPE`,
+`PROMPTFOO_CACHE_PATH`, `PROMPTFOO_CACHE_TTL`
+[source: docs-promptfoo-configuration-caching, Claim 9] [settled]. Cache keys are
+provider-scoped composites whose formats are, per the vendor, "implementation
+details and may change between versions." A tool upgrade can therefore silently
+empty the cache [source: docs-promptfoo-configuration-caching, Claim 3]
+[settled].*
+
+**Rule**: Invalidate the eval cache before any post-upgrade run, any variance
+run, and any canary-vs-control comparison. Cache is a cost control, not a
+correctness control — decide it deliberately instead of inheriting the default.
+
+Errors and empty responses are never cached, so a green run can be entirely
+memoised while the failing tail re-hits the provider on every attempt
+[source: docs-promptfoo-configuration-caching, Claim 5] [settled].
+
+**Rule**: Size CI timeout and spend for the failing tail, not the cached
+majority, and treat `PROMPTFOO_RETRY_5XX=true` as an explicit flake-tolerance
+decision rather than a default
+[source: docs-promptfoo-configuration-caching, Claim 7] [settled].
+
+### Multi-turn evals serialize, and their failures do not localise
+
+Referencing the `_conversation` built-in forces the entire eval to run
+single-threaded: "When a prompt references `_conversation` as a Nunjucks
+variable, the eval will run single-threaded (concurrency of 1)"
+[source: docs-promptfoo-chat-threads, Claim 1] [settled]. No documented knob
+raises it, so suite wall-clock scales with test count.
+
+The same mechanism removes case independence — later turns are built from the
+model's own earlier outputs, so a degraded or cached prior turn feeds every
+downstream verdict and a mid-suite failure does not localise
+[source: docs-promptfoo-chat-threads, Claim 3] [emerging]. History grouping is
+opt-in: each unique `metadata.conversationId` gets its own history, and the
+no-id default is one shared context stream
+[source: docs-promptfoo-chat-threads, Claim 5] [settled].
+
+A fixed history fixture removes both properties — prior turns are pinned in
+`defaultTest.vars.messages` and each case asks a different follow-up question,
+so history is data rather than live replay
+[source: docs-promptfoo-chat-threads, Claim 6, Claim 8] [settled].
+
+```yaml
+# Set up the conversation history
+defaultTest:
+  vars:
+    system_message: Answer concisely
+    messages:
+      - user: Who founded Facebook?
+      - assistant: Mark Zuckerberg
+      - user: What's his favorite food?
+      - assistant: Pizza
+
+# Test multiple follow-ups
+tests:
+  - vars:
+      question: Did he create any other companies?
+  - vars:
+      question: What is his role at Internet.org?
+  - vars:
+      question: Will he let me borrow $5?
+```
+*Extracted from [source: docs-promptfoo-chat-threads, Concrete Artifacts].*
+
+**Rule**: Gate a conversational agent on a pinned history fixture, and budget CI
+wall-clock for concurrency 1 if live `_conversation` replay is unavoidable.
 
 ## SLO programs for LLM services
 
@@ -610,5 +737,7 @@ blog-litellm-claude-fable-5-day-0, blog-litellm-agents-are-the-new-llms,
 failure-litellm-wildcard-model-access-desync, blog-promptfoo-asr-not-portable-metric,
 docs-google-sre-canarying-releases, docs-google-sre-configuration-design,
 docs-google-sre-configuration-specifics, docs-google-sre-reaching-beyond-walls,
-docs-google-sre-slo-engineering-case-studies, docs-google-sre-team-lifecycles*
-*Last updated: 2026-08-15*
+docs-google-sre-slo-engineering-case-studies, docs-google-sre-team-lifecycles,
+docs-promptfoo-configuration-caching, docs-promptfoo-chat-threads,
+docs-promptfoo-dataset-generation*
+*Last updated: 2026-09-12*
