@@ -80,6 +80,44 @@ custom business spans. Those require manual instrumentation
 manually propagate conversation ID, agent identity, and custom span context
 through your application code.
 
+### Correlation survives an agent hop only if the hop re-sends it
+
+The manual-context rule above gets sharper at a gateway→agent→model boundary,
+because the gateway can set the correlation headers and still lose them. When
+LiteLLM invokes an A2A agent it sets `X-LiteLLM-Trace-Id` (links all LLM calls
+to one execution flow) and `X-LiteLLM-Agent-Id` (attributes spend to the
+agent) — but they only continue if the agent server forwards them
+[source: docs-litellm-a2a-agent-gateway, Claim 2] [emerging]:
+
+> To enable these features, your A2A server must forward these headers to any
+> LLM calls it makes back to LiteLLM.
+
+The failure is silent. An operator who wires the agent gateway without
+auditing the agent server gets no agent-level trace grouping and no per-agent
+cost rows — and no error, because the request itself succeeded. The docs ship
+the extraction helper rather than an automatic mechanism:
+
+```python
+def get_litellm_headers(request) -> dict:
+    """Extract X-LiteLLM-* headers from incoming A2A request."""
+    all_headers = request.call_context.state.get('headers', {})
+    return {
+        k: v for k, v in all_headers.items()
+        if k.lower().startswith('x-litellm-')
+    }
+```
+*Extracted from [source: docs-litellm-a2a-agent-gateway, Concrete Artifacts].*
+
+Caller identity is a further hop: the virtual key and end-user ID are not
+automatically forwarded, and must be threaded explicitly via `extra_headers`
+or the `x-a2a-{agent_name_or_id}-{header}` convention
+[source: docs-litellm-a2a-agent-gateway, Claim 3] [emerging].
+
+**Rule**: For every agent hop in the path, audit the agent server for
+correlation-header forwarding and end-user propagation before trusting
+agent-level trace grouping or spend attribution. A successful response is not
+evidence that the headers came back.
+
 ## Observability as a spectrum
 
 ### From monitoring to on-demand analysis
@@ -351,5 +389,6 @@ blog-honeycomb-instrumenting-ai-agents-opentelemetry,
 failure-litellm-vllm-embeddings-encoding-format,
 docs-google-sre-reliable-data-processing-minimal-toil,
 docs-google-sre-reaching-beyond-walls,
-docs-google-sre-slo-engineering-case-studies, docs-langfuse-cli*
-*Last updated: 2026-09-10*
+docs-google-sre-slo-engineering-case-studies, docs-langfuse-cli,
+docs-litellm-a2a-agent-gateway*
+*Last updated: 2026-09-17*
