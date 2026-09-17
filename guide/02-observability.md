@@ -173,6 +173,19 @@ topic clusters. Analyze over the past week
 and topic-cluster-level signals. A single aggregate error rate hides the
 regression.
 
+### Break error rates down by provider and operation
+
+A regression scoped to one provider and one operation is nearly invisible to a
+fleet-wide error monitor. When a parameter change broke vLLM embeddings through
+LiteLLM's gateway, every vLLM embedding call was rejected for ~3 hours while
+OpenAI and all other vLLM operations stayed green
+[source: failure-litellm-vllm-embeddings-encoding-format, Claim 3] [settled].
+In a large traffic mix that registers as a small dip, not an outage.
+
+**Rule**: Treat each provider/model × operation pair as its own population in
+error-rate dashboards and anomaly detection. A provider-subset failure only
+surfaces when that subset is monitored separately from the fleet rollup.
+
 ## SLI measurement design
 
 Two first-party SLO-adoption journeys supply the design rules for *how* to
@@ -318,7 +331,8 @@ it.
 *Sources for this chapter: docs-datadog-llm-observability,
 docs-google-sre-prodcast-03-04-observability-spectrum,
 blog-honeycomb-instrumenting-ai-agents-opentelemetry,
+failure-litellm-vllm-embeddings-encoding-format,
 docs-google-sre-reliable-data-processing-minimal-toil,
 docs-google-sre-reaching-beyond-walls,
 docs-google-sre-slo-engineering-case-studies*
-*Last updated: 2026-08-15*
+*Last updated: 2026-09-10*

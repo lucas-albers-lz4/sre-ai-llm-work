@@ -76,6 +76,50 @@ framework.
 on migration success; containerized DB migrations need explicit non-root-user
 testing that migration frameworks don't cover.
 
+### Pin to a supported line; separate patching from line moves
+
+LiteLLM bounds active support to the four most recent stable minor lines —
+effective June 29, 2026 — and support is granted at line granularity: a minor
+line is a release series written as `1.89.x`, covering every patch in it
+[source: blog-litellm-version-support, Claim 1, Claim 2] [settled]. The window
+rolls forward rather than blessing a fixed set: "when 1.90.x ships, 1.86.x
+rolls out and the supported set becomes 1.90.x, 1.89.x, 1.88.x, and 1.87.x"
+[source: blog-litellm-version-support, Claim 4] [settled]. At a ~weekly minor
+cadence that works out to "roughly a month of coverage per line"
+[source: blog-litellm-version-support, Claim 5] [settled]. The stated reason is
+backport economics — carrying every fix back to keep lines in parity "grows
+with the number of lines we keep alive, not the number of fixes we make"
+[source: blog-litellm-version-support, Claim 6] [settled].
+
+```
+Supported today      1.89.x  1.88.x  1.87.x  1.86.x
+After 1.90.x ships   1.90.x  1.89.x  1.88.x  1.87.x   ← 1.86.x evicted
+Coverage per line    ≈ 1 month at a ~weekly minor cadence
+```
+*From [source: blog-litellm-version-support, Concrete Artifacts] — the vendor's
+roll-forward example and per-line coverage math.*
+
+> To stay supported, pin to a line and take its patches, then move up before
+> it ages out. Patching within a line is a drop-in; moving up a line is where
+> you'd check the release notes for changes.
+
+That is the operator discipline: patch-within-a-line is the drop-in, line moves
+are where behavior can change [source: blog-litellm-version-support, Claim 7]
+[settled]. Out-of-window remediation is not a default — longer coverage is an
+enterprise arrangement and outside-window patching happens only at the vendor's
+discretion for rare high-severity issues [source: blog-litellm-version-support,
+Claim 8] [settled]. Because the set rolls, any static supported-version list
+goes stale; the release-notes page is the canonical tracker of the current
+window [source: blog-litellm-version-support, Claim 9] [settled]. That matters
+more than usual for a fast-cadence gateway: the vendor reports that most of its
+bug fixes were caught late, in staging or from a user report, which is the
+motivation behind its end-to-end coverage investment
+[source: blog-litellm-july-stability-update, Claim 9] [emerging].
+
+**Rule**: Pin a minor line and take every PATCH in it as a drop-in; budget the
+MINOR line move — release-notes review, staged rollout, exercised rollback —
+roughly monthly, before the pinned line drops out of the four-line window.
+
 ## Canary and config-change release
 
 ### A canary is a process, not a traffic fraction
@@ -257,6 +301,49 @@ and switching to `reasoning_effort` / `output_config.effort`.
 request parameters against the model's supported set before routing
 production traffic. Parameters valid on earlier models may be silently
 ignored or explicitly rejected.
+
+## Provider parity in the shared forwarding path
+
+A gateway change validated against one provider's SDK behavior can break a
+stricter sibling that shares the same forwarding path. LiteLLM set
+`encoding_format=None` to stop the OpenAI SDK injecting its `"float"` default;
+vLLM accepts only `"float"`, `"base64"`, or complete omission, so every
+embedding request through the gateway was rejected for ~3 hours while OpenAI
+and every other vLLM operation stayed green
+[source: failure-litellm-vllm-embeddings-encoding-format, Claim 1, Claim 2,
+Claim 3] [settled]. Present-but-null and omitted are not equivalent across
+"OpenAI-compatible" backends — how a parameter's absence is expressed is a
+compatibility surface, not an implementation detail.
+
+The fix is filter-to-omit at the shared boundary:
+
+```python
+# Before (broken): an explicit None reaches every OpenAI-like provider
+data = {"model": model, "input": input, **optional_params}
+
+# After (fixed): falsy params are omitted rather than forwarded
+filtered_optional_params = {k: v for k, v in optional_params.items() if v not in (None, '')}
+data = {"model": model, "input": input, **filtered_optional_params}
+```
+*Extracted from [source: failure-litellm-vllm-embeddings-encoding-format,
+Concrete Artifacts]. Valid values (`"float"`, `"base64"`) still pass through
+[source: failure-litellm-vllm-embeddings-encoding-format, Claim 5] [settled].*
+
+**Rule**: When normalizing a provider SDK's default injection in a shared
+forwarding path, filter-to-omit — never forward an explicitly-falsy parameter
+to a backend whose validation contract you have not tested. Filtering at the
+shared boundary protects every OpenAI-compatible backend, not just the one that
+broke.
+
+The regression guard for this class is an exact-wire assertion: the remediation
+added unit, transformation, and E2E tests that verify the exact JSON sent to the
+endpoint, and the transformation tests alone would have passed the breaking
+commit [source: failure-litellm-vllm-embeddings-encoding-format, Claim 6]
+[settled]. This is the provider-dimension analog of testing the environment you
+ship.
+
+**Rule**: Assert the exact wire payload per backend family, and test the
+non-default provider — not just the one the change was written for.
 
 ## Evaluation and measurement methodology
 
@@ -505,6 +592,30 @@ sub-second chat completions.
 chat-completion traffic. Agent sessions are stateful, long-lived, and their
 latency profile is driven by tool-call chains, not token generation speed.
 
+### Bound pass-through memory; skip work nobody consumes
+
+Proxy pass-through routes are where a gateway's memory profile is decided.
+Large non-JSON pass-through downloads (batch-result files, binary and
+octet-stream) were previously buffered whole before being forwarded; the fix
+streams them chunk by chunk so memory stays flat regardless of file size
+[source: blog-litellm-july-stability-update, Claim 4] [settled]. JSON responses
+still buffer by design, so spend logging and guardrails can inspect the body
+[source: blog-litellm-july-stability-update, Claim 5] [settled].
+
+That boundary generalizes: stream the bodies nothing downstream inspects,
+buffer the bodies your spend logger and guardrails must read. The same
+don't-pay-for-work-nobody-needs principle appears twice more in the same
+release — Prometheus skips budget-metric DB lookups entirely when the gauges
+are no-ops [source: blog-litellm-july-stability-update, Claim 6] [settled], and
+the complexity router builds its semantic route index once at concurrent
+cold-start instead of rebuilding it per request
+[source: blog-litellm-july-stability-update, Claim 7] [settled].
+
+**Rule**: Audit pass-through routes for unbounded buffering and pick the
+stream/buffer split by whether anything downstream reads the body. A
+multi-gigabyte batch-result download that no guardrail inspects should never be
+materialized in the proxy.
+
 ### The gateway is shifting from routing model calls to governing agent sessions
 
 The AI gateway pattern is expanding: today's gateways route model calls
@@ -607,8 +718,10 @@ exactly like the internal engagement model.
 ---
 *Sources for this chapter: blog-litellm-april-townhall-updates,
 blog-litellm-claude-fable-5-day-0, blog-litellm-agents-are-the-new-llms,
+blog-litellm-version-support, blog-litellm-july-stability-update,
+failure-litellm-vllm-embeddings-encoding-format,
 failure-litellm-wildcard-model-access-desync, blog-promptfoo-asr-not-portable-metric,
 docs-google-sre-canarying-releases, docs-google-sre-configuration-design,
 docs-google-sre-configuration-specifics, docs-google-sre-reaching-beyond-walls,
 docs-google-sre-slo-engineering-case-studies, docs-google-sre-team-lifecycles*
-*Last updated: 2026-08-15*
+*Last updated: 2026-09-10*
