@@ -276,6 +276,38 @@ observe, govern). But the cross-runtime agent API layer is explicitly unsolved �
 plan for fragmentation, not turnkey unification
 [source: blog-litellm-agents-are-the-new-llms, Claim 8] [emerging].
 
+That "unsolved" framing has since narrowed, narrowly. LiteLLM's A2A Agent
+Gateway registers and invokes agents across six runtimes — A2A, Vertex AI
+Agent Engine, LangGraph, Azure AI Foundry, Bedrock AgentCore, Pydantic AI —
+with logging, load balancing, streaming, and iteration budgets, and per-agent
+authorization on top
+[source: docs-litellm-a2a-agent-gateway, Claim 1, Claim 7] [emerging]:
+
+> LiteLLM follows the A2A (Agent-to-Agent) Protocol for invoking agents.
+
+Read it as one protocol family, not a turnkey control plane. Three sharp edges
+are documented rather than solved: `tasks/*` and push-notification methods
+bypass the gateway's client path entirely
+[source: docs-litellm-a2a-agent-gateway, Claim 6]; config-declared agents are
+skipped at startup when a required field is missing and lose name collisions
+to same-named DB records, so the canonical source of a given agent is
+ambiguous [source: docs-litellm-a2a-agent-gateway, Claim 5]; and the
+permission model is two-level (Key, Team) where MCP's extends further — "MCP's
+permission hierarchy extends to End-user / Agent / Org additionally; agent
+permissions are a narrower model today"
+[source: docs-litellm-a2a-agent-permissions, Claim 7] [emerging].
+
+```json
+{"object_permission": {"agents": ["agent-123"]}}
+```
+*Per-agent scoping on a key or team. Extracted from [source: docs-litellm-a2a-agent-permissions, Concrete Artifacts].*
+
+**Rule**: Treat "agent control plane" as a per-protocol property rather than a
+product category. Verify what a given gateway actually governs — which
+methods reach its log/guardrail/spend paths, which runtimes and protocol
+families it covers, how deep its permission model goes — before letting its
+registry stand in for its control surface.
+
 ### The "harnesses" layer
 
 Between raw models and deployed runtimes sits a distinct layer of agent
@@ -317,6 +349,7 @@ not production-ready.
 ---
 *Sources for this chapter: docs-google-sre-prodcast-04-09-ai-agents,
 blog-litellm-agents-are-the-new-llms, blog-promptfoo-ai-orchestrated-cyberattacks,
-blog-promptfoo-ai-regulation-2025, docs-google-sre-eliminating-toil,
+blog-promptfoo-ai-regulation-2025, docs-litellm-a2a-agent-gateway,
+docs-litellm-a2a-agent-permissions, docs-google-sre-eliminating-toil,
 docs-google-sre-incident-response, docs-google-sre-simplicity*
-*Last updated: 2026-08-15*
+*Last updated: 2026-09-17*
