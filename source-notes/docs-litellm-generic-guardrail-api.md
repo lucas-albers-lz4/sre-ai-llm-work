@@ -93,13 +93,16 @@ issue: "#1359"
   `action=BLOCKED`) is also the only failure detail the caller gets — it must
   be assumed to contain whatever the third-party guardrail decides to echo.
 
-### Claim 4: The rewrite contract is strict — on `/v1/responses` a `texts` array that counts one entry per message does not match what LiteLLM extracted, so the request is rejected with a 500 naming the guardrail rather than sent unrewritten; per-message rewrites instead go through `structured_messages`, one row per received row in order, where an echoed-unchanged row counts as unchanged, an all-unchanged response makes LiteLLM apply `texts`, and a length-mismatched array replaces the conversation as a whole
-- **Evidence**: The "Rewriting per message" paragraph and the "Returning
-  rewritten messages" section, both under the response-format contract, plus
-  the longer `structured_messages` availability note.
+### Claim 4: The rewrite contract has two paths with asymmetric failure semantics — a per-message rewrite must be returned via `structured_messages` (one row per received row, in order; an echoed row counts as unchanged; an all-unchanged array makes LiteLLM apply `texts`), a length-changed array is read as whole-conversation replacement, and a per-message `texts` array on `/v1/responses` is a contract violation the gateway surfaces as an error instead of degrading to pass-through
+- **Evidence**: The "**Rewriting per message:**" paragraph and the
+  "Returning rewritten messages" section, both under the response-format
+  contract (the 500-on-`/v1/responses` behavior is stated in the former; the
+  `structured_messages` row mechanics in the latter).
 - **Confidence**: settled (explicit documented behavior with a named error
   surface and two distinct rewrite paths)
-- **Quote**: "On `/v1/responses` a `texts` array that counts one entry per message does not match what LiteLLM extracted, so the request is rejected with a 500 naming the guardrail rather than sent unrewritten"
+- **Quote**: "**Rewriting per message:** `texts` must line up one to one with the `texts` array LiteLLM sent. When your endpoint rewrites the request per chat message instead, return the rewritten rows as `structured_messages` (see Returning rewritten messages). On `/v1/responses` a `texts` array that counts one entry per message does not match what LiteLLM extracted, so the request is rejected with a 500 naming the guardrail rather than sent unrewritten"
+- **Quote**: "To rewrite the request per message, return `structured_messages` in the response with one row per row you received, in the same order, keeping each row's `role` and shape and changing only the content you want rewritten."
+- **Quote**: "A row you return exactly as you received it counts as unchanged, so you can echo the rows you did not touch; when every row comes back unchanged, LiteLLM applies `texts` instead."
 - **Quote**: "A returned array whose length differs from the one you received replaces the conversation as a whole"
 - **Our assessment**: A request-breaking failure mode introduced by a
   third-party service, surfacing to the user as a gateway 500 that only names
@@ -554,7 +557,18 @@ cited notes before writing):**
   200, no paywall), then quotes and code blocks verified against that fetch.
   All `Quote` fields are contiguous verbatim strings from the page prose;
   code blocks in Concrete Artifacts are copied from the page's own fenced
-  blocks (including inline comments) character-for-character. The page is
+  blocks (including inline comments) character-for-character. Quote locations
+  for the page's most load-bearing passages, for re-verification:
+  Claim 4's 500-on-`/v1/responses` quote is the full sentence in the
+  "**Rewriting per message:**" paragraph under the response-format contract
+  (the paragraph closing "… rather than sent unrewritten" — quoted through its
+  leading clause so the passage is self-evidently source prose rather than an
+  echo of the claim heading); Claim 4's `structured_messages` row-mechanics and
+  echo-unchanged quotes are contiguous sentences from "Returning rewritten
+  messages"; Claims 8-9's quotes are the "Error handling: `unreachable_fallback`
+  and `fail_on_error`" section body and its `fail_on_error` table row. Claims 1,
+  3, 5, 6, 7, 10 and 11 quotes were re-checked against the same fetch on
+  2026-09-17 and each matched verbatim. The page is
   self-contained; no sub-pages were needed (the linked `mock_bedrock_guardrail_server.py`
   reference implementation and the on-page FastAPI example are both
   illustrative-only and recorded as such). The page is explicitly BETA — treat
