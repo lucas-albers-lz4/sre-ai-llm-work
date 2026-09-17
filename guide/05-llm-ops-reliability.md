@@ -334,6 +334,44 @@ Before citing or publishing a red-team result, answer
 a deploy/no-deploy decision. If a published paper doesn't answer these,
 treat its ASR as directional, not comparable.
 
+### Always-on evaluation: attach a judge to production traffic with a rule
+
+Judge calibration above makes a judge trustworthy in a test harness; running it
+continuously against live traffic is a separate deployment problem. Langfuse's
+online-eval model scopes that deployment with a Rule — filters, a sampling
+rate, and one or more evaluators — that defines which incoming observations get
+scored, so an always-on judge is bound to a filtered stream rather than the
+whole trace volume [source: docs-langfuse-evaluate-production-traffic, Claim 1]
+[settled]. The recommended rollout validates the judge before it can score live
+traffic: create the evaluator, run it on representative production observations
+and iterate until the result matches expectation, and only then attach it to a
+rule [source: docs-langfuse-evaluate-production-traffic, Claim 3] [emerging].
+The attach step can reuse the exact filters you validated against, keeping the
+live-scoring population identical to the tested one [source:
+docs-langfuse-evaluate-production-traffic, Claim 8] [emerging].
+
+**Rule**: Deploy an always-on evaluator as a scoped rule (filters + sampling +
+evaluators), and test it against representative production observations before
+it scores live traffic.
+
+### Sampling rate is the cost dial for an always-on judge
+
+An online LLM-as-a-Judge costs in proportion to the traffic it scores, so
+Langfuse fronts rule-enablement with a review step: check matching volume over
+the past seven days and, for LLM-as-a-Judge, the estimated cost, lowering the
+sampling rate if needed [source: docs-langfuse-evaluate-production-traffic,
+Claim 2] [emerging]. Once a rule is live, new matching observations receive
+scores as they arrive — each carrying the judge's reasoning — and the metric is
+watched over time via score analytics or a dashboard [source:
+docs-langfuse-evaluate-production-traffic, Claim 4] [emerging]. The same
+evaluator also runs in batch over selected historical observations, the backfill
+path for re-scoring a population after a rubric change [source:
+docs-langfuse-evaluate-production-traffic, Claim 5] [emerging].
+
+**Rule**: Before enabling an online rule, review trailing volume and estimated
+judge cost and set the sampling rate to fit; keep batch evaluation of historical
+observations for rubric-change re-scoring.
+
 ## SLO programs for LLM services
 
 Two first-party SLO-adoption journeys — Evernote and The Home Depot — give
@@ -610,5 +648,6 @@ blog-litellm-claude-fable-5-day-0, blog-litellm-agents-are-the-new-llms,
 failure-litellm-wildcard-model-access-desync, blog-promptfoo-asr-not-portable-metric,
 docs-google-sre-canarying-releases, docs-google-sre-configuration-design,
 docs-google-sre-configuration-specifics, docs-google-sre-reaching-beyond-walls,
-docs-google-sre-slo-engineering-case-studies, docs-google-sre-team-lifecycles*
-*Last updated: 2026-08-15*
+docs-google-sre-slo-engineering-case-studies, docs-google-sre-team-lifecycles,
+docs-langfuse-evaluate-production-traffic*
+*Last updated: 2026-09-05*
