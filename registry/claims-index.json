@@ -11402,6 +11402,47 @@
         }
       ]
     },
+    "docs-promptfoo-factuality": {
+      "path": "source-notes/docs-promptfoo-factuality.md",
+      "title": "Promptfoo Configuration: Factuality",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/factuality/",
+      "chapters": [
+        "05",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "`factuality` grades factual consistency of an LLM output against a reference answer via a five-category judge taxonomy — A (subset), B (superset), C (agree), D (disagree), E (differ-but-factual) — using a structured prompt that is \"based on OpenAI's evals\" (the `evals/registry/modelgraded/fact.yaml` model-graded definition), so the taxonomy is inherited, not a promptfoo invention",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The default pass-set is permissive — options A (subset), B (superset), C (agree), and E (differ-but-factual) are passing by default and only D (disagree) fails — so a bare `type: factuality` assert passes an output that is consistent with the reference *and adds unverified claims* (the superset case) and passes E on the judge's own judgment that the differences \"don't matter\"",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The pass-set is explicit config — per-category scores under `defaultTest.options.factuality.{subset, superset, agree, disagree, differButFactual}` with documented defaults `1, 1, 1, 0, 1` — and this per-category grade override is the only documented lever for making the gate stricter than the default pass-set",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The factuality grader is overridable at three levels (\"Like other model-graded assertions\" — CLI `--grader`, `defaultTest.options.provider`, assertion-level `provider`), but — unlike the g-eval per-type page, which a sibling contradiction says pins `gpt-4.1-2025-04-14` — this page names no default judge model, so the default grader remains the ambient credential-selected one from the model-graded hub (#1305 Claim 1)",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The custom rubric contract uses a family-specific Nunjucks template set — `{{input}}` (original prompt/question), `{{ideal}}` (reference from `value`), `{{completion}}` (LLM response) — and the checker's parser accepts exactly two formats, a single letter `\"A\"` / `\"(A)\"` or a JSON object `{\"category\": \"...\", \"reason\": \"...\"}`, so a custom `rubricPrompt` whose output satisfies the reader but not the parser silently cannot gate correctly",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "`factuality` cases can be authored in CSV form via the `factuality:` prefix in an `__expected` column — with the reference answer as the column value — the mass-case authoring path for reference-based grading",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-guardrails-assertions": {
       "path": "source-notes/docs-promptfoo-guardrails-assertions.md",
       "title": "Promptfoo Configuration: Guardrails Assertion",

@@ -2054,6 +2054,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-factuality": {
+      "slug": "docs-promptfoo-factuality",
+      "title": "Promptfoo Configuration: Factuality",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/factuality/",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-09-17",
+      "date_extracted": "2026-09-17",
+      "issue": "#1348",
+      "file": "source-notes/docs-promptfoo-factuality.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-g-eval": {
       "slug": "docs-promptfoo-g-eval",
       "title": "Promptfoo Configuration: Model-Graded — G-Eval",
