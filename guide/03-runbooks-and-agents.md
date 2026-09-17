@@ -288,10 +288,11 @@ authorization on top
 Read it as one protocol family, not a turnkey control plane. Three sharp edges
 are documented rather than solved: `tasks/*` and push-notification methods
 bypass the gateway's client path entirely
-[source: docs-litellm-a2a-agent-gateway, Claim 6]; config-declared agents are
-skipped at startup when a required field is missing and lose name collisions
-to same-named DB records, so the canonical source of a given agent is
-ambiguous [source: docs-litellm-a2a-agent-gateway, Claim 5]; and the
+[source: docs-litellm-a2a-agent-gateway, Claim 6] [emerging]; config-declared
+agents are skipped at startup when a required field is missing and lose name
+collisions to same-named DB records, so the canonical source of a given agent
+is ambiguous
+[source: docs-litellm-a2a-agent-gateway, Claim 5] [emerging]; and the
 permission model is two-level (Key, Team) where MCP's extends further — "MCP's
 permission hierarchy extends to End-user / Agent / Org additionally; agent
 permissions are a narrower model today"
