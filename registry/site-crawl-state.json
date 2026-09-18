@@ -1326,7 +1326,7 @@
         "filed_at": "2026-08-13T12:56:28.715514+00:00"
       }
     },
-    "last_scan": "2026-09-17T16:01:39.731801+00:00"
+    "last_scan": "2026-09-18T15:35:51.691349+00:00"
   },
   "opentelemetry": {
     "urls": {},
@@ -2559,16 +2559,22 @@
         "filed_at": "2026-09-17T16:02:16.035937+00:00"
       },
       "https://www.cncf.io/projects/litmus/": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:24:16.126848+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:24:16.126848+00:00",
+        "issue": 1367,
+        "filed_at": "2026-09-18T15:36:30.310705+00:00"
       },
       "https://www.cncf.io/projects/llm-d/": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:24:16.126850+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:24:16.126850+00:00",
+        "issue": 1368,
+        "filed_at": "2026-09-18T15:36:32.026904+00:00"
       },
       "https://www.cncf.io/projects/linkerd/": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:24:16.126852+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:24:16.126852+00:00",
+        "issue": 1369,
+        "filed_at": "2026-09-18T15:36:33.775007+00:00"
       },
       "https://www.cncf.io/projects/lima/": {
         "status": "pending",
@@ -3593,9 +3599,21 @@
       "https://www.cncf.io/blog/2026/01/28/introducing-kthena-llm-inference-for-the-cloud-native-era": {
         "status": "pending",
         "screened_at": "2026-09-17T16:01:45.168618+00:00"
+      },
+      "https://www.cncf.io/blog/2026/01/27/navigating-the-ingress-nginx-archival-why-now-is-the-time-to-move-to-cilium": {
+        "status": "pending",
+        "screened_at": "2026-09-18T15:36:01.064944+00:00"
+      },
+      "https://www.cncf.io/blog/2026/01/26/k0s-in-2025-a-year-of-community-growth-governance-and-kubernetes-innovation": {
+        "status": "rejected",
+        "screened_at": "2026-09-18T15:36:01.064959+00:00"
+      },
+      "https://www.cncf.io/blog/2026/01/23/the-autonomous-enterprise-and-the-four-pillars-of-platform-control-2026-forecast": {
+        "status": "pending",
+        "screened_at": "2026-09-18T15:36:01.064962+00:00"
       }
     },
-    "last_scan": "2026-09-17T16:01:45.168620+00:00"
+    "last_scan": "2026-09-18T15:36:01.064964+00:00"
   },
   "datadog-llm-obs": {
     "urls": {
@@ -3604,7 +3622,7 @@
         "screened_at": "2026-07-12T23:52:56.905756+00:00"
       }
     },
-    "last_scan": "2026-09-17T16:01:46.979207+00:00"
+    "last_scan": "2026-09-18T15:36:02.480212+00:00"
   },
   "langfuse-docs": {
     "urls": {
@@ -3769,7 +3787,7 @@
         "filed_at": "2026-09-03T15:37:32.594301+00:00"
       }
     },
-    "last_scan": "2026-09-17T16:01:48.485522+00:00"
+    "last_scan": "2026-09-18T15:36:03.834250+00:00"
   },
   "litellm-docs": {
     "urls": {
@@ -5010,16 +5028,22 @@
         "filed_at": "2026-09-17T16:02:21.904977+00:00"
       },
       "https://docs.litellm.ai/docs/adding_provider/simple_guardrail_tutorial": {
-        "status": "pending",
-        "screened_at": "2026-07-14T13:40:24.969574+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T13:40:24.969574+00:00",
+        "issue": 1370,
+        "filed_at": "2026-09-18T15:36:35.500066+00:00"
       },
       "https://docs.litellm.ai/docs/agent_sdks": {
-        "status": "pending",
-        "screened_at": "2026-07-14T13:53:45.398177+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T13:53:45.398177+00:00",
+        "issue": 1371,
+        "filed_at": "2026-09-18T15:36:37.213292+00:00"
       },
       "https://docs.litellm.ai/docs/ai_tools": {
-        "status": "pending",
-        "screened_at": "2026-07-14T13:53:45.398196+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T13:53:45.398196+00:00",
+        "issue": 1372,
+        "filed_at": "2026-09-18T15:36:39.106979+00:00"
       },
       "https://docs.litellm.ai/docs/aiohttp_benchmarks": {
         "status": "pending",
@@ -5828,9 +5852,21 @@
       "https://docs.litellm.ai/docs/pass_through/anthropic_completion": {
         "status": "pending",
         "screened_at": "2026-09-17T16:01:55.743674+00:00"
+      },
+      "https://docs.litellm.ai/docs/pass_through/assembly_ai": {
+        "status": "pending",
+        "screened_at": "2026-09-18T15:36:20.968819+00:00"
+      },
+      "https://docs.litellm.ai/docs/pass_through/azure_passthrough": {
+        "status": "pending",
+        "screened_at": "2026-09-18T15:36:20.968839+00:00"
+      },
+      "https://docs.litellm.ai/docs/pass_through/bedrock": {
+        "status": "pending",
+        "screened_at": "2026-09-18T15:36:20.968843+00:00"
       }
     },
-    "last_scan": "2026-09-17T16:01:55.743677+00:00"
+    "last_scan": "2026-09-18T15:36:20.968846+00:00"
   },
   "promptfoo-docs": {
     "urls": {
@@ -7053,16 +7089,22 @@
         "filed_at": "2026-09-17T16:02:28.004506+00:00"
       },
       "https://www.promptfoo.dev/docs/tags/features": {
-        "status": "pending",
-        "screened_at": "2026-07-14T13:28:27.706015+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T13:28:27.706015+00:00",
+        "issue": 1373,
+        "filed_at": "2026-09-18T15:36:40.945929+00:00"
       },
       "https://www.promptfoo.dev/docs/tags/multi-turn": {
-        "status": "pending",
-        "screened_at": "2026-07-14T13:28:27.706018+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T13:28:27.706018+00:00",
+        "issue": 1374,
+        "filed_at": "2026-09-18T15:36:42.740054+00:00"
       },
       "https://www.promptfoo.dev/docs/tags/red-team": {
-        "status": "pending",
-        "screened_at": "2026-07-14T13:40:29.587218+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T13:40:29.587218+00:00",
+        "issue": 1375,
+        "filed_at": "2026-09-18T15:36:44.698375+00:00"
       },
       "https://www.promptfoo.dev/docs/tags/releases": {
         "status": "pending",
@@ -7887,8 +7929,20 @@
       "https://www.promptfoo.dev/docs/providers/ruby": {
         "status": "rejected",
         "screened_at": "2026-09-17T16:02:10.541023+00:00"
+      },
+      "https://www.promptfoo.dev/docs/providers/sagemaker": {
+        "status": "rejected",
+        "screened_at": "2026-09-18T15:36:29.121671+00:00"
+      },
+      "https://www.promptfoo.dev/docs/providers/sequence": {
+        "status": "rejected",
+        "screened_at": "2026-09-18T15:36:29.121685+00:00"
+      },
+      "https://www.promptfoo.dev/docs/providers/simulated-user": {
+        "status": "pending",
+        "screened_at": "2026-09-18T15:36:29.121688+00:00"
       }
     },
-    "last_scan": "2026-09-17T16:02:10.541026+00:00"
+    "last_scan": "2026-09-18T15:36:29.121690+00:00"
   }
 }
