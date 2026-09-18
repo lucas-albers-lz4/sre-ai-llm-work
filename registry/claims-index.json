@@ -10774,6 +10774,62 @@
         }
       ]
     },
+    "docs-litellm-generic-prompt-management-api": {
+      "path": "source-notes/docs-litellm-generic-prompt-management-api.md",
+      "title": "[BETA] Generic Prompt Management API — Integrate Without a PR (LiteLLM Docs)",
+      "source_url": "https://docs.litellm.ai/docs/adding_provider/generic_prompt_management_api",
+      "chapters": [
+        "06",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "LiteLLM offers a PR-less prompt-management integration contract — a provider implements a single `GET /beta/litellm_prompt_management` endpoint and attaches it under a `prompts:` block in `config.yaml` with `prompt_integration: \"generic_prompt_management\"`, avoiding PR review/merge and provider-specific code in LiteLLM's codebase",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The gateway fetches the prompt from the external store on the request path — the endpoint receives a GET with `prompt_id` plus any `provider_specific_query_params` at request time — and the page documents *no* failure behavior (no timeout, retry, stale-serve, or fallback) for a prompt-fetch error; the page's in-memory caching means the external service is a hard dependency only on a cache miss",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The default model-override contract is on — `prompt_template_model` in the prompt-store response overrides the client's requested model unless `ignore_prompt_manager_model: true` is set (default `false`); a remote prompt store can therefore silently redirect traffic to a different (potentially more expensive) model with no code change in the caller",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Assigning parameter precedence to the prompt: `prompt_template_optional_params` are merged with the client's params with the *prompt's* values winning on collision — e.g. prompt `temperature 0.7` beats client `temperature 0.9` — unless `ignore_prompt_manager_optional_params: true` is set (default `false`)",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "`provider_specific_query_params` is an out-of-band config channel — arbitrary key/value pairs declared in `config.yaml` are forwarded as query parameters on the gateway's HTTP call to the third-party prompt store, alongside `prompt_id`",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The integration adds a config-declared credential surface — `api_key` is an optional bearer credential the gateway presents to the prompt store (`sent as `Bearer` token`), and the page's only security guidance is generic (HTTPS, secrets in env vars, rate limiting, input validation)",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The integration is explicitly beta — the endpoint lives under `/beta/` and the page closes with an explicit \"This is a **beta API**\" status, so the contract (endpoints, defaults, response fields) is version-sensitive",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The prompt-store contract is a fetch-and-substitute pipeline — the gateway fetches the prompt template, substitutes `{variable}` / `{{variable}}` placeholders from `prompt_variables` (case-sensitive), and makes the model request using the store-provided model and optional params",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The page documents no way to detect that a prompt-store override was applied — no log line, response header, or metric proving the request was served on the store's model/params, so an operator cannot tell from the request path whether the prompt store (not the router) re-routed the traffic",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-helicone-integration": {
       "path": "source-notes/docs-litellm-helicone-integration.md",
       "title": "Helicone — liteLLM Documentation",

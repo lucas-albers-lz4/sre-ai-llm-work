@@ -1885,6 +1885,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-generic-prompt-management-api": {
+      "slug": "docs-litellm-generic-prompt-management-api",
+      "title": "[BETA] Generic Prompt Management API — Integrate Without a PR (LiteLLM Docs)",
+      "source_url": "https://docs.litellm.ai/docs/adding_provider/generic_prompt_management_api",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs; BETA as of 2026-09-17)",
+      "date_extracted": "2026-09-17",
+      "issue": "#1360",
+      "file": "source-notes/docs-litellm-generic-prompt-management-api.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-helicone-integration": {
       "slug": "docs-litellm-helicone-integration",
       "title": "Helicone — liteLLM Documentation",
