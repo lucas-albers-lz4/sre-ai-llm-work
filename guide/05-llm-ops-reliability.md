@@ -334,6 +334,136 @@ Before citing or publishing a red-team result, answer
 a deploy/no-deploy decision. If a published paper doesn't answer these,
 treat its ASR as directional, not comparable.
 
+### A gate that cannot fail is not a gate
+
+Promptfoo's documented defaults give an eval suite six independent ways to
+report green while verifying nothing. Every one is a property of the config,
+reviewable before the run — not of the run's output
+[source: docs-promptfoo-assertions-metrics, docs-promptfoo-model-graded-metrics,
+docs-promptfoo-model-graded-context-faithfulness,
+docs-promptfoo-model-graded-context-recall, docs-promptfoo-guardrails-assertions,
+docs-promptfoo-javascript-assertions] [emerging]:
+
+| Config | What makes it incapable of failing |
+|---|---|
+| Test-case or `assert-set` `threshold: 0` | "A `threshold` of `0` makes the test case pass regardless of individual assertion failures, since the combined score is always at least 0" [source: docs-promptfoo-assertions-metrics, Claim 3] |
+| Assertion `weight: 0` | "If weight is set to 0, the assertion automatically passes" [source: docs-promptfoo-assertions-metrics, Claim 4] |
+| `llm-rubric` with no explicit `threshold` | "Without threshold: PASS depends only on the grader's `pass` field (defaults to `true` if omitted)" — the vendor's own example `{"pass": true, "score": 0}` passes [source: docs-promptfoo-model-graded-metrics, Claim 10] |
+| Bare `context-faithfulness` or `context-recall` | Both pages document `threshold` as "Minimum score 0-1 (default: 0)", so a fully-unsupported answer at score 0 passes [source: docs-promptfoo-model-graded-context-faithfulness, docs-promptfoo-model-graded-context-recall, Claim 2] |
+| `guardrails` against a response with no normalized signal | "When the response omits `guardrails`, Promptfoo currently treats it as `flagged: false`, so `guardrails` passes with score 1" [source: docs-promptfoo-guardrails-assertions, Claim 3] |
+| Custom-JS trace gate written with the vendor's own guard | `if (!context.trace) return true;` — the suite passes green when tracing was never enabled [source: docs-promptfoo-javascript-assertions, Claim 6] |
+
+The defaults are per-assert-type, so they cannot be memorized as one rule:
+`context-faithfulness` and `context-recall` default to `0`, while
+`conversation-relevance` documents the opposite — "The threshold defaults to
+`0.5` when omitted. Set it explicitly to `0` to accept any score."
+[source: docs-promptfoo-conversation-relevance, Claim 2] [emerging]. Each page
+has to be read on its own.
+
+```
+# Decorative: threshold defaults to 0, so a score-0 response passes
+assert:
+  - type: context-faithfulness
+
+# Gating: the assert can fail
+assert:
+  - type: context-faithfulness
+    threshold: 0.9   # Require 90% of claims to be supported
+```
+*Extracted from [source: docs-promptfoo-model-graded-context-faithfulness, Concrete Artifacts].*
+
+**Rule**: Every score-producing assertion carries an explicit non-zero
+`threshold`, at both the per-assert and the test-case/`assert-set` level, and
+every suite carries a negative control — one deliberately-wrong case that must
+fail — to prove the gate discriminates. "Can this gate fail?" is a grep of the
+config, not a property of the last green run.
+
+### The judge behind a model-graded assertion is unpinned by default
+
+The judge-calibration rule above assumes you know which model graded the run.
+By default you do not: the grading provider is selected from ambient
+credentials, so adding one API key to a CI runner can swap the grader mid-life
+of an otherwise untouched config
+[source: docs-promptfoo-model-graded-metrics, Claim 1] [emerging].
+
+> By default, model-graded asserts use promptfoo's built-in grading provider.
+> Promptfoo chooses that provider from the credentials available in the
+> environment; for example, OpenAI, Anthropic, Gemini, Mistral, Azure OpenAI,
+> and Codex login credentials can each activate a different default.
+
+Three further pinning traps are documented on the same page:
+
+- An assertion-level *shorthand* `provider:` blocks inheritance of a global
+  provider object's `config` — `apiBaseUrl`, `apiKey`, `temperature`,
+  `showThinking`. The judge still runs; it silently grades from the wrong
+  endpoint [source: docs-promptfoo-model-graded-metrics, Claim 2].
+- A self-hosted OpenAI-compatible judge needs `showThinking: false`, and the
+  scratchpad-misparse risk is family-wide, not `llm-rubric`-specific: RAG
+  metrics "can score scratchpad sentences or attribution markers, and
+  `select-best` can read a scratchpad number as the winning index"
+  [source: docs-promptfoo-model-graded-metrics, Claim 5] [emerging].
+- Pinning `temperature=0` on a GPT-5-series judge pins nothing — the built-in
+  OpenAI grader already runs at `temperature=0`, and GPT-5-series reasoning
+  models ignore the parameter entirely
+  [source: docs-promptfoo-model-graded-metrics, Claim 7] [emerging].
+
+`answer-relevance` is the harder case: it puts two independently overridable
+provider slots — a text provider that generates candidate questions, an
+embedding provider that scores similarity — behind one verdict, and the
+comparison questions are generated at eval time, so the score moves run to run
+even with both providers pinned. Swapping the embedding model rebases every
+prior threshold with no config error
+[source: docs-promptfoo-answer-relevance, Claim 1, Claim 3] [emerging].
+
+**Rule**: Pin the judge explicitly (`--grader`,
+`defaultTest.options.provider`, or the assertion's own `provider:`) and grep
+every level for assertion-level shorthand overrides. Pin *every* model artifact
+behind a verdict, not just the text judge — a gate that pins the embedding
+provider ("half-pinned") is gating on a score that moved.
+
+### Grade the route, not just the reply
+
+An eval suite that only checks output text cannot express "did the agent do the
+right steps in the right order". The trajectory assertion family reads the same
+OTel-shaped span data the observability pipeline emits — `trajectory:tool-used`,
+`:tool-sequence`, `:step-count`, `tool-args-match`, `skill-used`,
+`trace-span-count`, `trace-span-duration`, `trace-error-spans`
+[source: docs-promptfoo-deterministic-metrics, Claim 11, Claim 12, Claim 13]
+[emerging].
+
+```js
+// Ensure retrieval happened before response generation
+if (context.trace) {
+  const retrievalSpan = context.trace.spans.find(s => s.name.includes('retrieval'));
+  const generationSpan = context.trace.spans.find(s => s.name.includes('generation'));
+  if (retrievalSpan && generationSpan) {
+    return retrievalSpan.startTime < generationSpan.startTime;
+  }
+}
+return true;
+```
+*Extracted from [source: docs-promptfoo-javascript-assertions, Concrete Artifacts].*
+
+**Debated: what a trace-coupled gate does when trace data is missing**
+
+The built-in family fails loud — "If trace data is not available, the
+assertion will throw an error rather than failing, indicating that the
+assertion could not be evaluated"
+[source: docs-promptfoo-deterministic-metrics, Claim 12] [emerging]. The
+custom-JS route, as the vendor's own flagship example documents it, fails
+silently — the `if (!context.trace) return true;` guard above passes green
+[source: docs-promptfoo-javascript-assertions, Claim 6] [emerging]. Same tool,
+same missing-trace condition, opposite verdicts.
+
+**Our take** [editorial]: Never write the fail-open guard into a release gate.
+Because the gate consumes the tracing pipeline, a trace-coupled suite's
+availability is part of its correctness — monitor tracing liveness alongside
+the eval, and make a missing trace a red, not a skip.
+
+**Rule**: Assert on the action path, not just the output, and make trace
+absence fail the run. A green trajectory gate on a pipeline with tracing
+disabled proves nothing at all.
+
 ## SLO programs for LLM services
 
 Two first-party SLO-adoption journeys — Evernote and The Home Depot — give
@@ -505,6 +635,126 @@ sub-second chat completions.
 chat-completion traffic. Agent sessions are stateful, long-lived, and their
 latency profile is driven by tool-call chains, not token generation speed.
 
+### Agent-loop cost caps fail open and expire
+
+LiteLLM's A2A gateway exposes the two controls for the "the agent is not
+failing — it is succeeding repeatedly and expensively" failure mode:
+`max_iterations` (hard cap on LLM calls per session) and
+`max_budget_per_session` (dollar cap keyed on `x-litellm-trace-id`)
+[source: docs-litellm-a2a-iteration-budgets, Claim 1] [emerging].
+
+Four documented properties change what the cap actually enforces:
+
+1. **Fail-open unless an outbound flag is set.** The control that enables
+   tracking is `require_trace_id_on_calls_by_agent` — "Requires all LLM/MCP
+   calls made **by** this agent (via its virtual key) to include
+   `x-litellm-trace-id`. This is what enables `max_iterations` and
+   `max_budget_per_session` tracking."
+   [source: docs-litellm-a2a-iteration-budgets, Claim 2] [emerging].
+2. **One call late.** Spend is accumulated after each successful call and
+   checked before each call, so the call that crosses the line completes and
+   the rejection lands on the next one
+   [source: docs-litellm-a2a-iteration-budgets, Claim 4] [emerging].
+3. **The over-cap error shares a status code with rate limiting.** HTTP 429
+   with `"type": "budget_exceeded"` — callers that treat 429 as transient
+   retryable backoff will retry a session that cannot succeed until its
+   counters reset [source: docs-litellm-a2a-iteration-budgets, Claim 5] [emerging].
+4. **TTL-windowed, not lifetime.** "Counters expire after 1 hour by default
+   (configurable via `LITELLM_MAX_ITERATIONS_TTL` env var)", so "$5 per
+   session" is "$5 per rolling hour" — a long-running agent loop gets a fresh
+   budget each hour [source: docs-litellm-a2a-iteration-budgets, Claim 6] [emerging].
+
+**Debated: who owns the cap**
+
+The same page states two incompatible storage models. The UI section says
+budget controls "are stored in the virtual key's metadata"; the API section
+says "Budget controls are set on the agent's `litellm_params` (not on
+individual keys), so they apply across all keys for the agent"
+[source: docs-litellm-a2a-iteration-budgets, Claim 8] [emerging]. Per-agent
+storage bounds every caller of that agent; per-key storage is independently
+exhaustible by minting another key.
+
+**Our take** [editorial]: Treat the blast radius as unknown until you test it
+against your own deployment. Either way, note that a caller that can choose
+its own `x-litellm-trace-id` presents a fresh session — and therefore a fresh
+budget — unless the gateway validates that identity against the calling key,
+which the docs do not state [source: docs-litellm-a2a-iteration-budgets,
+Claim 7].
+
+```json
+{
+  "error": {
+    "message": "Session budget exceeded for session session-abc-123. Current spend: $5.0032, max_budget_per_session: $5.00.",
+    "type": "budget_exceeded",
+    "code": 429
+  }
+}
+```
+*Extracted from [source: docs-litellm-a2a-iteration-budgets, Concrete Artifacts].*
+
+**Rule**: Alert on `error.type == "budget_exceeded"` separately from your
+rate-limit 429s, and read the cap as a rolling-window rejection rather than a
+hard spend ceiling. Before trusting it, confirm the outbound trace-id flag is
+set — without it the cap is documentation, not enforcement.
+
+### Streamed traffic is usage-blind by default
+
+LiteLLM's streaming page documents one precondition the spend accounting
+depends on: a streaming completion reports token usage only when the client
+opts in, and the totals arrive as a single extra chunk
+[source: docs-litellm-streaming-token-usage, Claim 1, Claim 2] [emerging].
+
+> The usage field on this chunk shows the token usage statistics for the
+> entire request, and the choices field will always be an empty array. All
+> other chunks will also include a usage field, but with a null value.
+
+A consumer that sums per-chunk `usage` therefore records nulls or zeros, and
+the page's own SDK example (`chunk['choices'][0]['delta']`) index-errors on the
+usage chunk because `choices` is empty there. The docs also assert the
+mechanism is "supported across all providers" without a provider matrix —
+verify per provider rather than taking the uniformity claim as settled
+[source: docs-litellm-streaming-token-usage, Claim 3] [anecdotal].
+
+The second metering path is separate and does not have this precondition:
+LiteLLM's `token_counter` / `cost_per_token` / `completion_cost` helpers
+compute usage and USD locally from the running package's bundled `model_cost`
+map, with no provider-side reconciliation — `completion_cost` "combines
+token_counter and cost_per_token to return the cost for that query" — and a
+stale or absent map entry yields a zero or wrong USD figure rather than an
+error, so a logged figure from these helpers is an estimate bounded by the
+installed package's map version, not a billed number
+[source: docs-litellm-token-usage-helpers, Claim 3, Claim 4] [emerging].
+
+**Rule**: Pass `stream_options={"include_usage": True}` on every streamed
+request the gateway meters, read totals from the final usage chunk rather than
+summing deltas, and label `completion_cost` output as estimator output.
+Reconcile a sample of streamed requests against provider billing after deploy
+— a gateway that logs spend from streaming without the opt-in logs nothing and
+raises no error.
+
+### Learned routing state is forgotten silently on restart
+
+LiteLLM's standalone adaptive router balances quality against cost per request
+type with a satisfaction-signal bandit, and its learned quality estimates live
+outside the request path: "Quality estimates are stored in Postgres and loaded
+on startup. Without a database the router works but forgets everything learned
+on restart." [source: docs-litellm-adaptive-router, Claim 3] [emerging].
+
+`GET /adaptive_router/{router_name}/state` is the check that makes this
+visible — its `samples` field "counts how many real observations have moved
+the prior (starts at 0; the cold-start prior mass is excluded)"
+[source: docs-litellm-adaptive-router, Claim 9] [emerging]. The bandit's
+learning is also bounded by its own documented limits: "Latency isn't scored;
+a slow model can still win on quality + cost" and "Hard cap of 200
+observations per cell; no decay yet"
+[source: docs-litellm-adaptive-router, Claim 10] [emerging] — so a
+non-stationary workload leaves stale priors locked in.
+
+**Rule**: Treat Postgres as a hard requirement for any learned routing surface
+and add a scheduled `/state` check that asserts `samples > 0` on active cells.
+A restart that silently resets a bandit to cold-start priors is a routing
+behavior change no request-level alert will fire for.
+
 ### The gateway is shifting from routing model calls to governing agent sessions
 
 The AI gateway pattern is expanding: today's gateways route model calls
@@ -517,9 +767,33 @@ This is a directional signal, not a deployable pattern — the cross-runtime
 agent API and fast-harness-serving layers are explicitly unsolved
 [source: blog-litellm-agents-are-the-new-llms, Claim 8] [emerging].
 
+Where a gateway does invoke agents today, its controls are per-*method*, not
+per-agent. In LiteLLM's A2A gateway only `message/send` and `message/stream`
+traverse the gateway's client path (logging, guardrails, spend); every other
+method is "forwarded to the upstream URL in `agent_card_params.url`"
+[source: docs-litellm-a2a-agent-gateway, Claim 6] [emerging].
+
+```
+message/send         Routed through LiteLLM A2A SDK (asend_message) — logging, guardrails, cost tracking
+message/stream       Routed through LiteLLM streaming handler — NDJSON/SSE response
+tasks/get            JSON-RPC forwarded to the agent's agent_card_params.url
+tasks/list|cancel|resubscribe        JSON-RPC forwarded to upstream
+tasks/pushNotificationConfig/set|get|list|delete    JSON-RPC forwarded to upstream
+```
+*Method handles from [source: docs-litellm-a2a-agent-card, Concrete Artifacts]; routing rule from [source: docs-litellm-a2a-agent-gateway, Claim 6].*
+
+Task polling and cancellation — the traffic an operations team most wants a
+record of — is exactly what bypasses the gateway's logs, guardrails, and spend
+rows. The docs are also silent on whether the OpenAI-compatible `a2a/`
+chat-completions bridge inherits those controls at all, and on how a
+non-terminal task maps onto a single `choices[0].message.content`
+[source: docs-litellm-a2a-invoking-agents, Claim 2, Claim 3] [emerging].
+
 **Rule**: Plan gateway capacity and observability for agent-session
-lifecycles (stateful, long-running, tool-heavy), not just model-call volume.
-But do not assume a turnkey multi-runtime agent control plane exists yet.
+lifecycles (stateful, long-running, tool-heavy), not just model-call volume,
+and model a gateway's agent governance per-method rather than per-agent —
+verify which methods actually reach its log, guardrail, and spend paths
+before assuming the registry implies the control surface.
 
 ### CI/CD supply-chain isolation
 
@@ -608,7 +882,16 @@ exactly like the internal engagement model.
 *Sources for this chapter: blog-litellm-april-townhall-updates,
 blog-litellm-claude-fable-5-day-0, blog-litellm-agents-are-the-new-llms,
 failure-litellm-wildcard-model-access-desync, blog-promptfoo-asr-not-portable-metric,
+docs-litellm-a2a-agent-gateway, docs-litellm-a2a-agent-card,
+docs-litellm-a2a-iteration-budgets,
+docs-litellm-adaptive-router, docs-litellm-streaming-token-usage,
+docs-litellm-token-usage-helpers, docs-litellm-a2a-invoking-agents,
+docs-promptfoo-answer-relevance, docs-promptfoo-assertions-metrics,
+docs-promptfoo-conversation-relevance, docs-promptfoo-deterministic-metrics,
+docs-promptfoo-guardrails-assertions, docs-promptfoo-javascript-assertions,
+docs-promptfoo-model-graded-context-faithfulness,
+docs-promptfoo-model-graded-context-recall, docs-promptfoo-model-graded-metrics,
 docs-google-sre-canarying-releases, docs-google-sre-configuration-design,
 docs-google-sre-configuration-specifics, docs-google-sre-reaching-beyond-walls,
 docs-google-sre-slo-engineering-case-studies, docs-google-sre-team-lifecycles*
-*Last updated: 2026-08-15*
+*Last updated: 2026-09-17*
