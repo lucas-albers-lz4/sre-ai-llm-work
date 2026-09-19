@@ -256,6 +256,41 @@ deployed tool set. The `rbac`/`bfla`/`bola` split (who / which function /
 which object) is a reusable checklist for the tool-permission model of any
 agent with tools.
 
+Probes find the gap; they do not close it. The runtime counterpart is a
+gateway-side guardrail that is handed both the tool schemas and the model's
+actual invocations — `tools` (what is *available*) and `tool_calls` (what is
+*being called*, with arguments) — on both the request and the response scan,
+with documented uses to enforce tool permission policies per user/team and to
+block tool calls carrying dangerous parameters
+[source: docs-litellm-generic-guardrail-api, Claim 5] [emerging].
+
+```yaml
+litellm_settings:
+  guardrails:
+    - guardrail_name: "my-guardrail"
+      litellm_params:
+        guardrail: generic_guardrail_api
+        mode: pre_call  # or post_call, during_call
+        api_base: https://your-guardrail-api.com
+```
+*Extracted from [source: docs-litellm-generic-guardrail-api, Concrete Artifacts].
+`pre_call` inspects the request before the provider sees it; `post_call` is
+where the model's own `tool_calls` appear.*
+
+Coverage is narrower than interception. One guardrail config attaches to the
+whole model path — chat, completions, responses, image, audio, rerank — but
+"**Supported endpoints:** The `tools` parameter is supported on:
+`/v1/chat/completions`, `/v1/responses`, and `/v1/messages`. Other endpoints do
+not have tool support."
+[source: docs-litellm-generic-guardrail-api, Claim 5] [emerging]. A gateway that
+advertises one universal guardrail enforces tool policy on three endpoints;
+elsewhere it filters content but cannot see a tool call.
+
+**Rule**: Add gateway-side tool authorization as the runtime half of the
+`rbac`/`bfla`/`bola` checklist. Verify per endpoint that tool forwarding is in
+scope on the paths your agents actually use — a guardrail that intercepts an
+endpoint is not the same as one that can inspect its tools.
+
 ### Run a no-jailbreak baseline before running jailbreaks
 
 Before running jailbreaks, run the prompt set with no attack strategy. If
@@ -386,6 +421,28 @@ permissions, retrieval, memory, and logging — not just base models
 **Rule**: Maintain an auditable inventory of every component in the deployed
 AI stack. The compliance scope is the whole system (tools, retrieval, memory,
 logging), not the model alone.
+
+### A guardrail is an egress boundary — configure what crosses it
+
+Attaching a guardrail puts a third-party service inside the request path, and
+the gateway's defaults are minimization-first rather than passthrough. The
+`request_data` payload carries identity attributes of the calling virtual key
+(hash, alias, user id/email, team id/alias, end-user id, org id) plus call and
+trace ids, and `request_headers` is allowlist-only
+[source: docs-litellm-generic-guardrail-api, Claim 6] [settled]:
+
+> optional: inbound request headers (allowlist). Allowed headers show their
+> value; all others show "[present]" to indicate the header existed.
+
+Header values cross only by opt-in, through a static `headers` key/value map
+or an `extra_headers` list of client header names
+[source: docs-litellm-generic-guardrail-api, Claim 7] [settled].
+
+**Rule**: Review guardrail configuration as an egress decision: enumerate the
+header names and identity fields the guardrail needs to make its decision, add
+only those, and leave the rest as `[present]`. A guardrail handed full request
+headers for a decision an allowlist would support has widened the perimeter for
+nothing.
 
 ## Trust rollout patterns
 
@@ -518,5 +575,6 @@ blog-promptfoo-red-team-claude, blog-promptfoo-red-team-gemini,
 blog-promptfoo-red-team-gpt,
 failure-litellm-supply-chain-compromise-march-2026,
 failure-litellm-supply-chain-incident-march-2026,
-blog-litellm-swap-openai-code-interpreter*
-*Last updated: 2026-08-01*
+blog-litellm-swap-openai-code-interpreter,
+docs-litellm-generic-guardrail-api*
+*Last updated: 2026-09-19*

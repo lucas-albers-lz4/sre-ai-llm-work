@@ -315,6 +315,73 @@ assert:
 **Rule**: Calibrate your LLM-as-judge with explicit, falsifiable pass/fail
 rubrics. Report TPR/FPR per judge model, not just aggregate accuracy.
 
+### Read the assert's own defaults before trusting its verdict
+
+Model-graded assert defaults are per-type, and the permissive ones fail open in
+directions the assert name does not advertise.
+
+promptfoo's `factuality` assert sorts output-against-reference into five
+categories — (A) subset, (B) superset, (C) agree, (D) disagree, (E)
+differ-but-factual [source: docs-promptfoo-factuality, Claim 1] [settled] — and
+"By default, options A, B, C, and E are considered passing grades, while D is
+considered failing" [source: docs-promptfoo-factuality, Claim 2] [settled].
+
+Category B is the one that matters: an output consistent with the reference
+that *appends unverified claims* passes, so a bare `assert: - type: factuality`
+does not catch the fabrication-with-a-correct-core shape a factuality gate
+exists to catch. The documented lever is the per-category grade, not a numeric
+threshold:
+
+```yaml
+defaultTest:
+  options:
+    factuality:
+      subset: 1 # Score for category A (default: 1)
+      superset: 1 # Score for category B (default: 1)
+      agree: 1 # Score for category C (default: 1)
+      disagree: 0 # Score for category D (default: 0)
+      differButFactual: 1 # Score for category E (default: 1)
+```
+*Extracted from [source: docs-promptfoo-factuality, Concrete Artifacts]. A gate
+that must block unverified additions sets `superset: 0`; the defaults do not.*
+
+The same read-the-page rule governs the rubric family, and there the default is
+*not* permissive: `g-eval` gates at `threshold: 0.7` out of the box
+[source: docs-promptfoo-g-eval, Claim 3] [settled] — a bare g-eval assert is a
+real gate, so permissiveness is not a property of "model-graded asserts."
+
+Its array form does flatten criteria, though: "When `value` is an array, each
+criterion is graded independently and the scores are averaged; the averaged
+score is compared against the threshold. An empty array is a configuration
+error and fails with a clear reason"
+[source: docs-promptfoo-g-eval, Claim 4] [settled]. One criterion at 0.0
+averaged with three at 1.0 clears a 0.7 threshold, and the per-criterion
+verdicts are not surfaced — use one assert per criterion when every criterion
+must pass. The empty-array behavior is the inverse and worth copying: a config
+error that fails closed with a reason instead of passing silently.
+
+```yaml
+assert:
+  - type: g-eval
+    value:
+      - 'Check if the response maintains a professional tone'
+      - 'Verify that all technical terms are used correctly'
+      - 'Ensure no confidential information is revealed'
+```
+*Extracted from [source: docs-promptfoo-g-eval, Concrete Artifacts].*
+
+Gate cost is per-type too: a `g-eval` assertion "makes one grader call to
+generate evaluation steps and another to score the output"
+[source: docs-promptfoo-g-eval, Claim 6] [settled] — roughly 2x the judge-call
+budget of a single-call rubric assert over the same rows, with the array form
+not reducing the call count.
+
+**Rule**: Before trusting a model-graded gate, read that assert type's own page:
+confirm its default pass-set or threshold, set the per-category grades to admit
+only what the gate must admit, use one assert per criterion rather than array
+averaging when every criterion must pass, and budget two judge calls per
+`g-eval` assertion.
+
 ### The nine-question ASR checklist
 
 Before citing or publishing a red-team result, answer
@@ -490,6 +557,47 @@ dashboards — do not infer it from the request. For models with documented
 silent fallback behavior, tag affected requests in traces so eval and cost
 attribution account for the mismatch.
 
+An external prompt store is a second, non-router substitution authority on the
+same request path. When prompt management is enabled, the store's response
+carries `prompt_template_model`, which "overrides client model unless
+`ignore_prompt_manager_model: true`" — a flag whose default is `false`
+[source: docs-litellm-generic-prompt-management-api, Claim 3] [settled]:
+
+> If your API returns `"prompt_template_model": "gpt-5.6-terra"`, LiteLLM will
+> use `gpt-5.6-terra` regardless of what the client specified.
+
+Sampling parameters are substituted the same way and are *not* covered by the
+response-`model` check: "Client params are merged with prompt params, with
+prompt params taking precedence" — a client's `temperature: 0.9` loses to the
+store's `0.7`
+[source: docs-litellm-generic-prompt-management-api, Claim 4] [settled]. A
+deterministic eval or regression suite running through that path is silently
+reconfigured. The vendor page documents no log line, header, or metric that
+names the effective model or attributes the override to the store
+[source: docs-litellm-generic-prompt-management-api, Claim 9] [emerging].
+
+```yaml
+prompts:
+  - prompt_id: "simple_prompt"
+    litellm_params:
+      prompt_integration: "generic_prompt_management"
+      provider_specific_query_params:
+        project_name: litellm
+        slug: hello-world-prompt-2bac
+      api_base: http://localhost:8080
+      api_key: os.environ/YOUR_PROMPT_API_KEY  # optional
+      ignore_prompt_manager_model: true  # optional, keep client's model
+      ignore_prompt_manager_optional_params: true  # optional, don't merge prompt manager's params (e.g. temperature, max_tokens, etc.)
+```
+*Extracted from [source: docs-litellm-generic-prompt-management-api, Concrete
+Artifacts].*
+
+**Rule**: Keep the response-`model` rule for model attribution, but do not
+assume it covers parameters. If a prompt store can override the request, treat
+it as a substitution entry alongside the router, and set
+`ignore_prompt_manager_model` / `ignore_prompt_manager_optional_params` unless
+store-owned overrides are an explicit product decision.
+
 ### Latency overhead of long-running agent requests
 
 LiteLLM explicitly calls out "investigate latency overhead for long-running
@@ -520,6 +628,58 @@ agent API and fast-harness-serving layers are explicitly unsolved
 **Rule**: Plan gateway capacity and observability for agent-session
 lifecycles (stateful, long-running, tool-heavy), not just model-call volume.
 But do not assume a turnkey multi-runtime agent control plane exists yet.
+
+### A guardrail in the request path is an availability dependency
+
+A gateway-attached guardrail is not code inside the gateway — it is a separate
+network service the proxy calls on the request path, and its failure semantics
+sit on a two-knob spectrum whose defaults both fail closed:
+`unreachable_fallback` (default `fail_closed`) reacts only to endpoint
+unreachability, while `fail_on_error` (default `true`) is the broader control
+that governs any guardrail error
+[source: docs-litellm-generic-guardrail-api, Claim 8] [settled].
+
+The default therefore converts a guardrail outage into a traffic outage, and
+the response hook shows the asymmetry an operator must pick between: "on the
+response path, a fail-open returns the already-generated model output, while
+fail-closed turns a successful generation into an error"
+[source: docs-litellm-generic-guardrail-api, Claim 9] [settled].
+
+The opposite setting hides rather than degrades. `fail_on_error: false` is a
+*complete* bypass — "Any guardrail error is downgraded to a critical-level log
+line and the request proceeds as if the guardrail were not configured"
+[source: docs-litellm-generic-guardrail-api, Claim 9] [settled] — and the
+vendor's guidance is to flip it only when "availability and operational
+constraints are stronger than your security constraints" and leave the default
+when the guardrail is "a hard security boundary"
+[source: docs-litellm-generic-guardrail-api, Claim 10] [settled].
+
+```yaml
+litellm_settings:
+  guardrails:
+    - guardrail_name: "my-guardrail"
+      litellm_params:
+        guardrail: generic_guardrail_api
+        mode: pre_call  # or post_call, during_call
+        api_base: https://your-guardrail-api.com
+        api_key: os.environ/YOUR_GUARDRAIL_API_KEY  # optional
+        unreachable_fallback: fail_closed  # default: fail_closed. Set to fail_open to proceed if the guardrail endpoint is unreachable (network errors, or HTTP 502/503/504 from an upstream proxy/LB).
+        fail_on_error: true  # default: true (fail closed). Set to false to proceed on ANY guardrail error. See "Error handling" below before changing this.
+```
+*Extracted from [source: docs-litellm-generic-guardrail-api, Concrete Artifacts].*
+
+A bypass is invisible to request-success metrics — a canary that only observes
+successful traffic never trips the guardrail, so it cannot observe the bypass
+either [source: docs-litellm-generic-guardrail-api, Claim 10] [settled]. The
+only detection hook is the log string: every bypass is logged at critical level
+(`Generic Guardrail API error (fail-open) ...`) with the call id and trace id
+[source: docs-litellm-generic-guardrail-api, Claim 9] [settled].
+
+**Rule**: Give a guardrail its own error-rate SLO and alert on the fail-open log
+string as a rate — there is no separate metric. Route any `fail_on_error:
+false` flip through the config-change three-property test above; a change that
+silently disables a security control is only canary-able if its bypass signal
+is itself an alert.
 
 ### CI/CD supply-chain isolation
 
@@ -610,5 +770,7 @@ blog-litellm-claude-fable-5-day-0, blog-litellm-agents-are-the-new-llms,
 failure-litellm-wildcard-model-access-desync, blog-promptfoo-asr-not-portable-metric,
 docs-google-sre-canarying-releases, docs-google-sre-configuration-design,
 docs-google-sre-configuration-specifics, docs-google-sre-reaching-beyond-walls,
-docs-google-sre-slo-engineering-case-studies, docs-google-sre-team-lifecycles*
-*Last updated: 2026-08-15*
+docs-google-sre-slo-engineering-case-studies, docs-google-sre-team-lifecycles,
+docs-litellm-generic-guardrail-api, docs-litellm-generic-prompt-management-api,
+docs-promptfoo-factuality, docs-promptfoo-g-eval*
+*Last updated: 2026-09-19*
