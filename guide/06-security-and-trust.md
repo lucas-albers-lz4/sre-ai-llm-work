@@ -60,6 +60,28 @@ instructions is also an attacker's persistent playbook. Configure agent
 permission boundaries at the infrastructure layer (sandbox, tool allowlists),
 not at the prompt layer.
 
+### Skills ship a tool allowlist at authoring time
+
+Skill blast radius can be bounded at packaging time. The Langfuse agent
+skill's `SKILL.md` carries an `allowed-tools` frontmatter field that scopes the
+exact tool calls the agent may make to Langfuse surfaces — WebFetch on
+langfuse.com, `curl` to langfuse.com, and a bounded set of `npx langfuse-cli
+api` patterns [source: docs-langfuse-agent-skill, Claim 10] [settled]:
+
+```yaml
+allowed-tools:
+  - WebFetch(domain:langfuse.com)
+  - Bash(curl *langfuse.com/*)
+  - Bash(npx langfuse-cli api __schema *)
+  - Bash(npx langfuse-cli api * list *)
+  - Bash(npx langfuse-cli api * get *)
+```
+*Extracted from [source: docs-langfuse-agent-skill, Concrete Artifacts].*
+
+**Rule**: Prefer skills that self-limit their tool surface in frontmatter — an
+author-written, read-leaning allowlist is a stronger boundary than a post-install
+trust decision, and it is machine-checkable.
+
 ### LLM-querying malware is in the wild
 
 Two independent malware families now query LLMs in production campaigns:
@@ -518,5 +540,5 @@ blog-promptfoo-red-team-claude, blog-promptfoo-red-team-gemini,
 blog-promptfoo-red-team-gpt,
 failure-litellm-supply-chain-compromise-march-2026,
 failure-litellm-supply-chain-incident-march-2026,
-blog-litellm-swap-openai-code-interpreter*
-*Last updated: 2026-08-01*
+blog-litellm-swap-openai-code-interpreter, docs-langfuse-agent-skill*
+*Last updated: 2026-08-29*
