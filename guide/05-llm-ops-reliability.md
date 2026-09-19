@@ -490,6 +490,87 @@ dashboards — do not infer it from the request. For models with documented
 silent fallback behavior, tag affected requests in traces so eval and cost
 attribution account for the mismatch.
 
+### Routing decisions are cost decisions — attribute the cause
+
+Auto-routing — classifying each request into a model tier — makes a cost
+decision on every request, so it needs the same attribution discipline as the
+silent-fallback rule above. LiteLLM's rationale for collapsing complexity,
+semantic, and adaptive routing into one config is explicitly an observability
+property — "predictable beats clever for debuggability": a fixed, versioned
+mapping from capability class to model is what makes "why did this response
+cost 4x today" answerable after the fact
+[source: blog-litellm-auto-router-v2, Claim 1, Claim 3] [settled].
+
+The concrete mechanism is a per-request decision log — one greppable line per
+routing decision with a `cause=` marker naming which rule or signal decided,
+plus the matched tier and routed model
+[source: blog-litellm-auto-router-v2, Claim 8] [settled]:
+
+```
+ComplexityRouter: routing decision cause=complexity_scorer,      tier=SIMPLE,     score=-0.150, signals=['short (7 tokens)', 'simple (what is)'], routed_model=gpt-4o-mini
+ComplexityRouter: routing decision cause=literal_keyword_match,  tier=REASONING,                                                                    routed_model=gpt-5.5
+ComplexityRouter: routing decision cause=semantic_keyword_match, tier=REASONING,                                                                    routed_model=gpt-5.5
+ComplexityRouter: routing decision cause=session_affinity_pin,                                                                                      routed_model=gpt-5.5
+```
+*Verbatim records from [source: blog-litellm-auto-router-v2, Concrete Artifacts].*
+
+**Rule**: Instrument router decisions at request granularity — cause, tier,
+routed model. A routing decision you cannot attribute is the same un-auditable
+cost lever as a model fallback you cannot detect.
+
+### Session-affine routing preserves provider-side prompt caches
+
+Reclassifying every request is cache-hostile in front of agent workloads: a
+cheap follow-up ("thanks!") that lands in a different tier forces a
+prompt-cache rewrite on the expensive model that served the first turn. Opt-in
+session affinity pins a session to its first-turn model and skips later
+reclassification, converting session continuity into provider-side cache hits —
+LiteLLM's `session_affinity` does this with a TTL defaulting to 3600s
+[source: blog-litellm-auto-router-v2, Claim 7] [settled]. The trade-off the
+vendor leaves unstated: pinning means the whole session inherits the first
+turn's tier, so a session that opens cheap stays cheap however complex it
+becomes [editorial].
+
+**Rule**: In front of agent sessions and provider prompt caches, prefer
+session-affine routing over per-turn reclassification — and budget for the
+session inheriting its first turn's tier.
+
+### Semantic caching: the similarity threshold is a correctness knob
+
+Semantic caching stores responses by the meaning of a prompt rather than an
+exact string match, so a reworded request can still hit the cache and skip a
+paid model call [source: blog-litellm-valkey-semantic-caching, Claim 2]
+[settled]. It is a distinct tier from token/prefix prompt caching: the backend
+embeds prompts, runs a KNN query, and returns the cached response when cosine
+similarity clears a configurable threshold instead of on an exact match
+[source: blog-litellm-valkey-semantic-caching, Claim 6] [emerging]. A
+Redis-protocol store with a vector-search module (Valkey / ElastiCache for
+Valkey) suffices, removing the separate vector database the previous path
+required [source: blog-litellm-valkey-semantic-caching, Claim 1, Claim 5]
+[settled]:
+
+```yaml
+litellm_settings:
+  cache: True
+  cache_params:
+    type: valkey-semantic
+    host: os.environ/VALKEY_HOST
+    port: os.environ/VALKEY_PORT
+    valkey_semantic_cache_embedding_model: openai-embedding
+    similarity_threshold: 0.8
+```
+*Verbatim from [source: blog-litellm-valkey-semantic-caching, Concrete Artifacts].*
+
+Because a hit is a similarity decision, not an identity one, the threshold is
+a correctness control rather than a pure hit-rate dial: tuned too low, it
+serves a semantically-neighboring response to a genuinely different request
+[editorial]. Per-cache-key scope isolation is the mitigation the vendor
+describes [source: blog-litellm-valkey-semantic-caching, Claim 6] [emerging].
+
+**Rule**: Set the similarity threshold from correctness requirements — how
+semantically close a request must be to reuse an answer — before raising it
+for hit rate, and keep cache-key scope isolation in place.
+
 ### Latency overhead of long-running agent requests
 
 LiteLLM explicitly calls out "investigate latency overhead for long-running
@@ -606,9 +687,10 @@ exactly like the internal engagement model.
 
 ---
 *Sources for this chapter: blog-litellm-april-townhall-updates,
-blog-litellm-claude-fable-5-day-0, blog-litellm-agents-are-the-new-llms,
+blog-litellm-auto-router-v2, blog-litellm-claude-fable-5-day-0,
+blog-litellm-agents-are-the-new-llms, blog-litellm-valkey-semantic-caching,
 failure-litellm-wildcard-model-access-desync, blog-promptfoo-asr-not-portable-metric,
 docs-google-sre-canarying-releases, docs-google-sre-configuration-design,
 docs-google-sre-configuration-specifics, docs-google-sre-reaching-beyond-walls,
 docs-google-sre-slo-engineering-case-studies, docs-google-sre-team-lifecycles*
-*Last updated: 2026-08-15*
+*Last updated: 2026-09-03*
