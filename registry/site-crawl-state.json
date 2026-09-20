@@ -1326,7 +1326,7 @@
         "filed_at": "2026-08-13T12:56:28.715514+00:00"
       }
     },
-    "last_scan": "2026-09-19T15:10:06.223175+00:00"
+    "last_scan": "2026-09-20T15:13:53.043888+00:00"
   },
   "opentelemetry": {
     "urls": {},
@@ -2595,16 +2595,22 @@
         "filed_at": "2026-09-19T15:10:40.479878+00:00"
       },
       "https://www.cncf.io/projects/kusionstack/": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:24:16.126859+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:24:16.126859+00:00",
+        "issue": 1387,
+        "filed_at": "2026-09-20T15:14:28.122418+00:00"
       },
       "https://www.cncf.io/projects/kudo/": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:24:16.126861+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:24:16.126861+00:00",
+        "issue": 1388,
+        "filed_at": "2026-09-20T15:14:29.856586+00:00"
       },
       "https://www.cncf.io/projects/kuma/": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:24:16.126863+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:24:16.126863+00:00",
+        "issue": 1389,
+        "filed_at": "2026-09-20T15:14:31.565892+00:00"
       },
       "https://www.cncf.io/projects/kubevela/": {
         "status": "pending",
@@ -3629,9 +3635,21 @@
       "https://www.cncf.io/blog/2026/01/21/platform-engineering-maintenance-pitfalls-and-smart-strategies-to-stay-ahead": {
         "status": "pending",
         "screened_at": "2026-09-19T15:10:13.475830+00:00"
+      },
+      "https://www.cncf.io/blog/2026/01/20/kubernetes-fuels-ai-growth-organizational-culture-remains-the-decisive-factor": {
+        "status": "rejected",
+        "screened_at": "2026-09-20T15:14:03.788219+00:00"
+      },
+      "https://www.cncf.io/blog/2026/01/20/reclaiming-underutilized-gpus-in-kubernetes-using-scheduler-plugins": {
+        "status": "pending",
+        "screened_at": "2026-09-20T15:14:03.788236+00:00"
+      },
+      "https://www.cncf.io/blog/2026/01/19/top-28-kubernetes-resources-for-2026-learn-and-stay-up-to-date": {
+        "status": "rejected",
+        "screened_at": "2026-09-20T15:14:03.788239+00:00"
       }
     },
-    "last_scan": "2026-09-19T15:10:13.475833+00:00"
+    "last_scan": "2026-09-20T15:14:03.788241+00:00"
   },
   "datadog-llm-obs": {
     "urls": {
@@ -3640,7 +3658,7 @@
         "screened_at": "2026-07-12T23:52:56.905756+00:00"
       }
     },
-    "last_scan": "2026-09-19T15:10:14.903646+00:00"
+    "last_scan": "2026-09-20T15:14:05.225078+00:00"
   },
   "langfuse-docs": {
     "urls": {
@@ -3805,7 +3823,7 @@
         "filed_at": "2026-09-03T15:37:32.594301+00:00"
       }
     },
-    "last_scan": "2026-09-19T15:10:16.267915+00:00"
+    "last_scan": "2026-09-20T15:14:08.920866+00:00"
   },
   "litellm-docs": {
     "urls": {
@@ -5082,16 +5100,22 @@
         "filed_at": "2026-09-19T15:10:45.447654+00:00"
       },
       "https://docs.litellm.ai/docs/anthropic_unified/messages_to_responses_mapping": {
-        "status": "pending",
-        "screened_at": "2026-07-15T08:31:12.225093+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-15T08:31:12.225093+00:00",
+        "issue": 1390,
+        "filed_at": "2026-09-20T15:14:33.493823+00:00"
       },
       "https://docs.litellm.ai/docs/anthropic_unified/structured_output": {
-        "status": "pending",
-        "screened_at": "2026-07-16T13:47:42.049168+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-16T13:47:42.049168+00:00",
+        "issue": 1391,
+        "filed_at": "2026-09-20T15:14:35.313799+00:00"
       },
       "https://docs.litellm.ai/docs/apply_guardrail": {
-        "status": "pending",
-        "screened_at": "2026-07-16T13:47:42.049185+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-16T13:47:42.049185+00:00",
+        "issue": 1392,
+        "filed_at": "2026-09-20T15:14:37.099181+00:00"
       },
       "https://docs.litellm.ai/docs/assistants": {
         "status": "pending",
@@ -5900,9 +5924,21 @@
       "https://docs.litellm.ai/docs/pass_through/azure_speech": {
         "status": "rejected",
         "screened_at": "2026-09-19T15:10:30.268792+00:00"
+      },
+      "https://docs.litellm.ai/docs/auto_router/user_setup": {
+        "status": "pending",
+        "screened_at": "2026-09-20T15:14:13.237501+00:00"
+      },
+      "https://docs.litellm.ai/docs/pass_through/cohere": {
+        "status": "rejected",
+        "screened_at": "2026-09-20T15:14:13.237519+00:00"
+      },
+      "https://docs.litellm.ai/docs/pass_through/comprehend_medical": {
+        "status": "rejected",
+        "screened_at": "2026-09-20T15:14:13.237521+00:00"
       }
     },
-    "last_scan": "2026-09-19T15:10:30.268795+00:00"
+    "last_scan": "2026-09-20T15:14:13.237525+00:00"
   },
   "promptfoo-docs": {
     "urls": {
@@ -7161,16 +7197,22 @@
         "filed_at": "2026-09-19T15:10:50.325118+00:00"
       },
       "https://www.promptfoo.dev/docs/category/configuration": {
-        "status": "pending",
-        "screened_at": "2026-07-14T13:53:50.702045+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T13:53:50.702045+00:00",
+        "issue": 1393,
+        "filed_at": "2026-09-20T15:14:38.775985+00:00"
       },
       "https://www.promptfoo.dev/docs/category/integrations": {
-        "status": "pending",
-        "screened_at": "2026-07-14T13:53:50.702047+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T13:53:50.702047+00:00",
+        "issue": 1394,
+        "filed_at": "2026-09-20T15:14:40.492546+00:00"
       },
       "https://www.promptfoo.dev/docs/category/usage": {
-        "status": "pending",
-        "screened_at": "2026-07-15T08:31:17.081866+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-15T08:31:17.081866+00:00",
+        "issue": 1395,
+        "filed_at": "2026-09-20T15:14:42.346183+00:00"
       },
       "https://www.promptfoo.dev/docs/code-scanning": {
         "status": "pending",
@@ -7995,8 +8037,20 @@
       "https://www.promptfoo.dev/docs/providers/text-generation-webui": {
         "status": "rejected",
         "screened_at": "2026-09-19T15:10:35.683430+00:00"
+      },
+      "https://www.promptfoo.dev/docs/providers/togetherai": {
+        "status": "pending",
+        "screened_at": "2026-09-20T15:14:27.004541+00:00"
+      },
+      "https://www.promptfoo.dev/docs/providers/transformers": {
+        "status": "pending",
+        "screened_at": "2026-09-20T15:14:27.004557+00:00"
+      },
+      "https://www.promptfoo.dev/docs/providers/truefoundry": {
+        "status": "pending",
+        "screened_at": "2026-09-20T15:14:27.004560+00:00"
       }
     },
-    "last_scan": "2026-09-19T15:10:35.683432+00:00"
+    "last_scan": "2026-09-20T15:14:27.004562+00:00"
   }
 }
