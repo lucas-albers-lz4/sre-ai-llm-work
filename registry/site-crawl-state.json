@@ -1326,7 +1326,7 @@
         "filed_at": "2026-08-13T12:56:28.715514+00:00"
       }
     },
-    "last_scan": "2026-09-20T15:13:53.043888+00:00"
+    "last_scan": "2026-09-21T17:36:55.116390+00:00"
   },
   "opentelemetry": {
     "urls": {},
@@ -2613,16 +2613,22 @@
         "filed_at": "2026-09-20T15:14:31.565892+00:00"
       },
       "https://www.cncf.io/projects/kubevela/": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:24:16.126865+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:24:16.126865+00:00",
+        "issue": 1397,
+        "filed_at": "2026-09-21T17:37:27.574845+00:00"
       },
       "https://www.cncf.io/projects/kubestellar/": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:24:16.126868+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:24:16.126868+00:00",
+        "issue": 1398,
+        "filed_at": "2026-09-21T17:37:29.578772+00:00"
       },
       "https://www.cncf.io/projects/kubeslice/": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:24:16.126869+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:24:16.126869+00:00",
+        "issue": 1399,
+        "filed_at": "2026-09-21T17:37:31.658900+00:00"
       },
       "https://www.cncf.io/projects/kubevirt/": {
         "status": "pending",
@@ -3647,9 +3653,21 @@
       "https://www.cncf.io/blog/2026/01/19/top-28-kubernetes-resources-for-2026-learn-and-stay-up-to-date": {
         "status": "rejected",
         "screened_at": "2026-09-20T15:14:03.788239+00:00"
+      },
+      "https://www.cncf.io/blog/2026/01/16/cri-o-completes-second-ostif-audit": {
+        "status": "pending",
+        "screened_at": "2026-09-21T17:37:10.901128+00:00"
+      },
+      "https://www.cncf.io/blog/2026/01/15/kubecon-cloudnativecon-na-top-sessions-from-the-cncf-end-user-tab": {
+        "status": "rejected",
+        "screened_at": "2026-09-21T17:37:10.901149+00:00"
+      },
+      "https://www.cncf.io/blog/2026/01/13/the-symbiotic-revolution-ai-and-cloud-native-technologies-transforming-the-digital-landscape": {
+        "status": "pending",
+        "screened_at": "2026-09-21T17:37:10.901152+00:00"
       }
     },
-    "last_scan": "2026-09-20T15:14:03.788241+00:00"
+    "last_scan": "2026-09-21T17:37:10.901154+00:00"
   },
   "datadog-llm-obs": {
     "urls": {
@@ -3658,7 +3676,7 @@
         "screened_at": "2026-07-12T23:52:56.905756+00:00"
       }
     },
-    "last_scan": "2026-09-20T15:14:05.225078+00:00"
+    "last_scan": "2026-09-21T17:37:12.624276+00:00"
   },
   "langfuse-docs": {
     "urls": {
@@ -3823,7 +3841,7 @@
         "filed_at": "2026-09-03T15:37:32.594301+00:00"
       }
     },
-    "last_scan": "2026-09-20T15:14:08.920866+00:00"
+    "last_scan": "2026-09-21T17:37:14.456466+00:00"
   },
   "litellm-docs": {
     "urls": {
@@ -5118,16 +5136,22 @@
         "filed_at": "2026-09-20T15:14:37.099181+00:00"
       },
       "https://docs.litellm.ai/docs/assistants": {
-        "status": "pending",
-        "screened_at": "2026-07-16T13:47:42.049188+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-16T13:47:42.049188+00:00",
+        "issue": 1400,
+        "filed_at": "2026-09-21T17:37:33.839868+00:00"
       },
       "https://docs.litellm.ai/docs/audio_transcription": {
-        "status": "pending",
-        "screened_at": "2026-07-17T13:25:14.456334+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-17T13:25:14.456334+00:00",
+        "issue": 1401,
+        "filed_at": "2026-09-21T17:37:35.797380+00:00"
       },
       "https://docs.litellm.ai/docs/auth_overview": {
-        "status": "pending",
-        "screened_at": "2026-07-17T13:25:14.456354+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-17T13:25:14.456354+00:00",
+        "issue": 1402,
+        "filed_at": "2026-09-21T17:37:37.728586+00:00"
       },
       "https://docs.litellm.ai/docs/batches": {
         "status": "pending",
@@ -5936,9 +5960,21 @@
       "https://docs.litellm.ai/docs/pass_through/comprehend_medical": {
         "status": "rejected",
         "screened_at": "2026-09-20T15:14:13.237521+00:00"
+      },
+      "https://docs.litellm.ai/docs/pass_through/cursor": {
+        "status": "rejected",
+        "screened_at": "2026-09-21T17:37:21.919988+00:00"
+      },
+      "https://docs.litellm.ai/docs/pass_through/deepgram_listen_websocket": {
+        "status": "rejected",
+        "screened_at": "2026-09-21T17:37:21.920008+00:00"
+      },
+      "https://docs.litellm.ai/docs/pass_through/gigachat": {
+        "status": "rejected",
+        "screened_at": "2026-09-21T17:37:21.920010+00:00"
       }
     },
-    "last_scan": "2026-09-20T15:14:13.237525+00:00"
+    "last_scan": "2026-09-21T17:37:21.920014+00:00"
   },
   "promptfoo-docs": {
     "urls": {
@@ -7215,16 +7251,22 @@
         "filed_at": "2026-09-20T15:14:42.346183+00:00"
       },
       "https://www.promptfoo.dev/docs/code-scanning": {
-        "status": "pending",
-        "screened_at": "2026-07-15T08:31:17.081883+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-15T08:31:17.081883+00:00",
+        "issue": 1403,
+        "filed_at": "2026-09-21T17:37:39.632875+00:00"
       },
       "https://www.promptfoo.dev/docs/code-scanning/cli": {
-        "status": "pending",
-        "screened_at": "2026-07-15T08:31:17.081886+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-15T08:31:17.081886+00:00",
+        "issue": 1404,
+        "filed_at": "2026-09-21T17:37:41.622581+00:00"
       },
       "https://www.promptfoo.dev/docs/code-scanning/github-action": {
-        "status": "pending",
-        "screened_at": "2026-07-16T13:47:51.144462+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-16T13:47:51.144462+00:00",
+        "issue": 1405,
+        "filed_at": "2026-09-21T17:37:43.732538+00:00"
       },
       "https://www.promptfoo.dev/docs/code-scanning/vscode-extension": {
         "status": "pending",
@@ -8049,8 +8091,20 @@
       "https://www.promptfoo.dev/docs/providers/truefoundry": {
         "status": "pending",
         "screened_at": "2026-09-20T15:14:27.004560+00:00"
+      },
+      "https://www.promptfoo.dev/docs/providers/vercel": {
+        "status": "rejected",
+        "screened_at": "2026-09-21T17:37:25.979820+00:00"
+      },
+      "https://www.promptfoo.dev/docs/providers/vertex": {
+        "status": "rejected",
+        "screened_at": "2026-09-21T17:37:25.979840+00:00"
+      },
+      "https://www.promptfoo.dev/docs/providers/vllm": {
+        "status": "rejected",
+        "screened_at": "2026-09-21T17:37:25.979842+00:00"
       }
     },
-    "last_scan": "2026-09-20T15:14:27.004562+00:00"
+    "last_scan": "2026-09-21T17:37:25.979844+00:00"
   }
 }
