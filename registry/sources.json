@@ -1872,6 +1872,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-anthropic-count-tokens": {
+      "slug": "docs-litellm-anthropic-count-tokens",
+      "title": "/v1/messages/count_tokens (Anthropic-compatible token counting) — liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/anthropic_count_tokens",
+      "source_type": "docs",
+      "author": "LiteLLM",
+      "date_published": "unknown (living vendor docs; current as of 2026-09-21)",
+      "date_extracted": "2026-09-21",
+      "issue": "#1381",
+      "file": "source-notes/docs-litellm-anthropic-count-tokens.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-generic-guardrail-api": {
       "slug": "docs-litellm-generic-guardrail-api",
       "title": "[BETA] Generic Guardrail API — Integrate Without a PR (LiteLLM Docs)",

@@ -10709,6 +10709,52 @@
         }
       ]
     },
+    "docs-litellm-anthropic-count-tokens": {
+      "path": "source-notes/docs-litellm-anthropic-count-tokens.md",
+      "title": "/v1/messages/count_tokens (Anthropic-compatible token counting) — liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/anthropic_count_tokens",
+      "chapters": [
+        "05",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The `/v1/messages/count_tokens` endpoint is a pre-flight, Anthropic-format token counting call — `POST` with `{model, messages}` returns `{\"input_tokens\": N}` and hits a counting API, not the model",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "One LiteLLM endpoint auto-routes to six provider-specific counting implementations, chosen from the model name — Anthropic Token Counting API, OpenAI Responses API `/input_tokens`, Vertex AI Partner Models Token Counter, Bedrock `CountTokens`, Gemini `countTokens`, Vertex AI (Gemini) `countTokens`",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Vertex AI (Claude) configurations must set `vertex_count_tokens_location` to a regional location — \"count_tokens not available on global location\" — so a Vertex `location: global` config that works for inference will fail token counting",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Token counting incurs no cost but is logged and end-user-tracked — \"Cost Tracking ❌ (Token counting only, no cost incurred)\" with \"Logging ✅\" and \"End-user Tracking ✅\" — so count_tokens calls generate log/attribution volume with no spend line",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Two endpoints expose token counting with different auth contracts — gateway-normalized `/v1/messages/count_tokens` (Bearer key, all providers) vs Anthropic passthrough `/anthropic/v1/messages/count_tokens` (native `x-api-key` + `anthropic-version` + `anthropic-beta: token-counting-2024-11-01`, Anthropic only)",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Because counting is pre-flight and free, the endpoint yields a no-spend context-budget gate — a request can be rejected on counted input tokens before any model call, and the gate is documented as serving \"cost estimation and context window management\"",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Provider routing is not total — streaming/unsupported providers and missing API keys fall back to local tiktoken counting on the proxy, which runs in a worker thread with bounded concurrency (`TOKEN_COUNTER_MAX_CONCURRENT_COUNTS` default 4) and sampling-based bound on exact chars (`TOKEN_COUNTER_MAX_EXACT_CHARS` default 4,000,000)",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-generic-guardrail-api": {
       "path": "source-notes/docs-litellm-generic-guardrail-api.md",
       "title": "[BETA] Generic Guardrail API — Integrate Without a PR (LiteLLM Docs)",
