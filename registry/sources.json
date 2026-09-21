@@ -1885,6 +1885,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-gateway-auth-reference": {
+      "slug": "docs-litellm-gateway-auth-reference",
+      "title": "Gateway Auth Reference — LiteLLM Documentation",
+      "source_url": "https://docs.litellm.ai/docs/auth_overview",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs; current as of 2026-09-21)",
+      "date_extracted": "2026-09-21",
+      "issue": "#1402",
+      "file": "source-notes/docs-litellm-gateway-auth-reference.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-generic-guardrail-api": {
       "slug": "docs-litellm-generic-guardrail-api",
       "title": "[BETA] Generic Guardrail API — Integrate Without a PR (LiteLLM Docs)",

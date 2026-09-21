@@ -10755,6 +10755,78 @@
         }
       ]
     },
+    "docs-litellm-gateway-auth-reference": {
+      "path": "source-notes/docs-litellm-gateway-auth-reference.md",
+      "title": "Gateway Auth Reference — LiteLLM Documentation",
+      "source_url": "https://docs.litellm.ai/docs/auth_overview",
+      "chapters": [
+        "06",
+        "05",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The MCP ASGI routes (`/mcp`, `/{name}/mcp`, `/toolset/{name}/mcp`, `/sse`) bypass the standard FastAPI auth dependency and do not parse the vendor-specific auth aliases (`API-Key`, `x-api-key`, `x-goog-api-key`, `Ocp-Apim-Subscription-Key`) or `x-litellm-tags` — while the MCP REST/management routes (`/v1/mcp/...`, `/mcp-rest/...`) and all A2A routes accept the full header set",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "MCP outbound auth is declared per server via a first-class `auth_type` field with nine values — static header modes, `oauth2` (PKCE vs M2M `client_credentials`, discriminated by `oauth2_flow`), `oauth2_token_exchange` (RFC 8693 OBO), `oauth2_id_jag`, and `aws_sigv4` — which determines the outbound `Authorization` header or per-request SigV4 signature",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "A2A has no `auth_type` field at all — the outbound auth mode is inferred from which `litellm_params` fields are present: Bearer/JWT when `api_key` is set, SigV4 (AgentCore only) when it is unset, provider-native auth for non-Bedrock providers",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "A zero-trust add-on exists for MCP only — the `mcp_jwt_signer` guardrail (`mode: pre_mcp_call`) signs every outbound tool call with a short-lived RS256 JWT and publishes a JWKS endpoint; it composes with any `auth_type` and has no A2A equivalent",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Per-user header passthrough conventions look symmetric but parse differently — MCP's `x-mcp-{server_alias}-{header}` is matched against the server's `alias` then `server_name` (case-insensitive), while A2A's `x-a2a-{agent_name_or_id}-{header}` is matched against the agent's UUID and human-readable name (both tried)",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "On passthrough conflicts the admin wins — `static_headers` are always sent and \"win over user passthrough on key conflicts\", while `extra_headers` is an admin allowlist of client header names forwarded verbatim",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Authorization resolution depth is asymmetric — MCP resolves `object_permission` across six levels (Key, Team, End user, Agent, Internal user, Org) while A2A resolves across two (Key, Team), with end-user, internal-user, and org levels \"not resolved today\" for A2A",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Reject behavior differs by surface — MCP hides denied servers/tools (`list_tools` filters out hidden servers; `call_tool` returns an error), while A2A filters `GET /v1/agents` and returns HTTP 403 from `POST /a2a/{agent_id}`",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Trace-ID enforcement has two opposite directions with the same HTTP 400 contract — `require_trace_id_on_calls_to_agent` rejects inbound `/a2a/{agent_id}` calls missing the trace id, and `require_trace_id_on_calls_by_agent` requires trace IDs on outbound calls made by a key owned by the agent",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Sub-agent identity is not propagated — on a downstream dispatch LiteLLM forwards `X-LiteLLM-Trace-Id` and `X-LiteLLM-Agent-Id` but \"the original virtual key and end-user identity are not auto-forwarded\", requiring manual threading via `extra_headers` or the `x-a2a-{agent_name_or_id}-{header}` convention",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Gateway-path guardrails differ by surface — MCP has `pre_mcp_call`/`during_mcp_call` modes plus the zero-trust signer, while A2A has no dedicated guardrail modes and relies on standard chat-completion guardrails applied to the agent's underlying LLM calls",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "MCP-only headers — `x-mcp-servers` scopes a request to specific MCP servers (comma-separated) and `x-litellm-mcp-debug: true` returns masked diagnostic response headers (`x-mcp-debug-*`); neither has an A2A counterpart",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-generic-guardrail-api": {
       "path": "source-notes/docs-litellm-generic-guardrail-api.md",
       "title": "[BETA] Generic Guardrail API — Integrate Without a PR (LiteLLM Docs)",
