@@ -278,6 +278,54 @@ deployed tool set. The `rbac`/`bfla`/`bola` split (who / which function /
 which object) is a reusable checklist for the tool-permission model of any
 agent with tools.
 
+### An agent gateway's default is full access
+
+Per-agent authorization in LiteLLM's A2A gateway resolves against two levels,
+the calling key and its team, and its unconfigured state is fail-open: with
+neither level setting restrictions, the resolution table's result is "Key can
+access **all** agents" [source: docs-litellm-a2a-agent-permissions, Claim 1]
+[emerging].
+
+When both levels set restrictions, the effective set is the intersection —
+"Intersection of both lists (most restrictive wins)"
+[source: docs-litellm-a2a-agent-permissions, Claim 2] [emerging]. Where a key
+carries both a direct `agents` list and `agent_access_groups`, the union of
+those is computed first and the team intersection applied second
+[source: docs-litellm-a2a-agent-permissions, Claim 3] [emerging]. Denial is
+enforced at invoke time — "After the virtual key is authenticated, LiteLLM
+checks whether the calling key (and its team) is allowed to invoke the
+requested agent. If not, the response is HTTP 403"
+[source: docs-litellm-a2a-agent-gateway, Claim 7] [emerging].
+
+```
+Key Permissions                         | Team Permissions        | Result
+None                                    | None                    | Key can access ALL agents
+["agent-1", "agent-2"]                  | ["agent-1", "agent-3"]  | Key can access agent-1 only
+```
+*Extracted from [source: docs-litellm-a2a-agent-permissions, Concrete Artifacts].*
+
+Two further gaps matter for a security review. Agent ACL tags are a
+dashboard-only mutation — "The `POST /v1/agents` body schema does not expose
+`agent_access_groups` as a top-level field; the group tags persist via the
+underlying DB column" — so they cannot be expressed in config, reviewed in a
+diff, or reproduced from a declarative spec
+[source: docs-litellm-a2a-agent-permissions, Claim 5] [emerging]. And group
+membership widens access by mutation: "Adding a new agent to the group
+automatically makes it available to every key/team that holds the group"
+[source: docs-litellm-a2a-agent-permissions, Claim 4] [emerging].
+
+Skill selection is not an access-control boundary either. Clients name a skill
+via `params.message.metadata.skillId`, and LiteLLM "forwards the entire
+message envelope, including metadata, to the upstream agent unchanged" — with
+per-skill `securityRequirements` absent from the card the proxy serves
+[source: docs-litellm-a2a-agent-card, Claim 3, Claim 5] [emerging].
+
+**Rule**: Set agent permissions on every key and team the moment you enable an
+agent gateway — unconfigured is full access, not least privilege. Because the
+ACL tags live in the dashboard and the database, give them an audit path
+outside code review, and never treat hiding a skill from the served card as
+authorization.
+
 ### Run a no-jailbreak baseline before running jailbreaks
 
 Before running jailbreaks, run the prompt set with no attack strategy. If
@@ -300,6 +348,58 @@ redteam:
 **Rule**: Mandate a no-strategy baseline before every red-team run. If
 baseline "ASR" exceeds 10%, fix the prompt-set labels or judge rubric before
 interpreting jailbreak results.
+
+### A guardrail gate reads a signal — it does not run a guardrail
+
+promptfoo's `guardrails` assertion grades a safety decision the target already
+made; it neither runs a guardrail nor inspects the text
+[source: docs-promptfoo-guardrails-assertions, Claim 1] [emerging]:
+
+> A pass means Promptfoo did not receive `flagged: true`; it does not prove
+> that a guardrail ran.
+
+Two documented failure modes make that gap dangerous in a release gate:
+
+1. **A missing signal fails open.** "When the response omits `guardrails`,
+   Promptfoo currently treats it as `flagged: false`, so `guardrails` passes
+   with score 1" — every test, at score 1
+   [source: docs-promptfoo-guardrails-assertions, Claim 3] [emerging].
+2. **The red-team override hides detect-only bypasses.** With
+   `config: {purpose: redteam}`, any `flagged: true` force-passes the entire
+   test, superseding the vulnerability grader and every other assertion. For
+   the common detect-only guardrail — "Many guardrails are detect-only or
+   inspect-only: they set a signal but still return the unsafe output" — the
+   result is a bypass reported as a pass: "the vulnerability grader fails, an
+   unsafe response is returned, yet the test reports `success: true`, and the
+   run exits 0"
+   [source: docs-promptfoo-guardrails-assertions, Claim 5, Claim 6] [emerging].
+
+The signal is also endpoint-scoped rather than vendor-scoped: "Support is
+endpoint- and mode-specific, so a vendor name alone is not enough to determine
+support" — Azure Responses, Bedrock streaming/cached/Agents, and OpenAI
+Responses refusals are documented gaps
+[source: docs-promptfoo-guardrails-assertions, Claim 10] [emerging].
+
+**Rule**: Before gating on a guardrail signal, export an eval result and
+confirm `guardrails.flagged` is actually present and `true` where expected. A
+`purpose: redteam` override is safe only where `flagged: true` can *only* mean
+an enforced block — never for detect-only or logging-only guardrails.
+
+### A classifier gate's detector is a dependency with a lifecycle
+
+The prompt-injection detector promptfoo's own docs recommend is dead:
+"Both this model and its v2 successor are marked archived and no longer
+maintained" [source: docs-promptfoo-classifier-grading, Claim 4] [emerging].
+Its thresholds are also label-bound — the worked values are meaningful only
+for that specific model and label set, so switching detectors requires
+re-validating labels and re-calibrating scores on your own data rather than
+reusing `threshold: 0.9`
+[source: docs-promptfoo-classifier-grading, Claim 5] [emerging].
+
+**Rule**: Treat a classifier gate's detector like any other dependency: pin
+the model id, label set, and threshold together, and re-verify hosting and
+maintenance state on the same cadence you re-check package pins. A gate whose
+detector was archived upstream keeps reporting green until someone looks.
 
 ## Compliance as an engineering forcing function
 
@@ -679,10 +779,13 @@ blog-promptfoo-ai-regulation-2025, blog-promptfoo-asr-not-portable-metric,
 blog-litellm-claude-fable-5-day-0, blog-litellm-april-townhall-updates,
 blog-litellm-july-stability-update,
 docs-google-sre-prodcast-04-09-ai-agents, docs-datadog-llm-observability,
+docs-litellm-a2a-agent-card, docs-litellm-a2a-agent-gateway,
+docs-litellm-a2a-agent-permissions, docs-promptfoo-classifier-grading,
+docs-promptfoo-guardrails-assertions,
 blog-promptfoo-red-team-claude, blog-promptfoo-red-team-gemini,
 blog-promptfoo-red-team-gpt,
 failure-litellm-supply-chain-compromise-march-2026,
 failure-litellm-supply-chain-incident-march-2026,
 blog-litellm-swap-openai-code-interpreter, docs-langfuse-agent-skill,
 docs-promptfoo-code-scan-cli, docs-promptfoo-code-scan-github-action*
-*Last updated: 2026-09-12*
+*Last updated: 2026-09-17*
