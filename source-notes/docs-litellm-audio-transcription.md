@@ -124,22 +124,36 @@ issue: "#1401"
   non-streaming path, so a streaming transcription request passes guardrail-free
   by documented design — a coverage gap, not a config error.
 
-### Claim 6: The support matrix is a recurring per-endpoint feature-support contract across the LiteLLM docs, not a one-off table — the same row texts ("Works with all supported models", "Works across all integrations", "Works between supported models") and the same non-streaming guardrail carve-out appear on other endpoint reference pages
+### Claim 6: The support matrix is a recurring per-endpoint feature-support contract across the LiteLLM docs, not a one-off table — the `/v1/messages` page repeats the same row vocabulary and the same non-streaming guardrail carve-out, while the `/v1/messages/count_tokens` page keeps the genre in a thinner, differently-shaped matrix
 - **Evidence**: Cross-page comparison against the `/v1/messages` feature table
-  (`docs-litellm-anthropic-unified.md` Claim 2) and the `/v1/messages/count_tokens`
-  overview table (`docs-litellm-anthropic-count-tokens.md` Claim 4), which use
-  identical row text and identical episodes of row-level caveats.
+  (`docs-litellm-anthropic-unified.md` Claim 2), which uses the same row
+  vocabulary for the rows both pages carry — Cost Tracking "Works with all
+  supported models", Logging "Works across all integrations", End-user
+  Tracking with no note, Fallbacks and Loadbalancing "Works between supported
+  models" — and the same non-streaming guardrail carve-out (that page's
+  Guardrails note reads "Applies to input and output text (non-streaming
+  only)"; this page's reads "Applies to output transcribed text (non-streaming
+  only)" — same carve-out, different scope wording). Contrasted with the
+  `/v1/messages/count_tokens` overview table
+  (`docs-litellm-anthropic-count-tokens.md` Claim 4), which keeps the matrix
+  genre but not its shape: three rows only (Cost Tracking ❌ "Token counting
+  only, no cost incurred", Logging ✅, End-user Tracking ✅), with no Fallbacks,
+  Loadbalancing, Streaming, or Guardrails rows at all.
 - **Confidence**: emerging (the recurrence is established by comparing three
   vendor pages; the interpretation is the Miner's synthesis)
 - **Quote**: (no single direct quote — the recurrence is a comparison of three
   pages; see the cited notes)
 - **Our assessment**: The guide may cite this matrix genre as a
-  vendor-standard "Feature / Supported / Notes" parity contract repeated per
+  vendor-standard "Feature / Supported / Notes" contract repeated per
   endpoint — with the caveat that ✅ is *surface support*, not per-provider
   parity (matching the assessment in `docs-litellm-anthropic-unified.md`
-  Claim 2). The interesting variation is the per-page *note* column, where the
-  genuinely different limitations live (here: the non-streaming guardrail
-  carve-out).
+  Claim 2). The recurrence is in the *format and row vocabulary*, not in an
+  identical table: which rows appear at all varies by endpoint (the
+  count-tokens page has no Fallbacks, Loadbalancing, or Guardrails row), and
+  the per-page *note* column is where the genuinely different limitations live
+  (here: the non-streaming guardrail carve-out scoped to output transcribed
+  text). Claims of an endpoint-to-endpoint "identical parity contract" should
+  therefore not be made at a granularity finer than the shared rows.
 
 ## Concrete Artifacts
 
@@ -246,17 +260,15 @@ cited notes before writing):**
 
 - **Corroborates**:
   - `source-notes/docs-litellm-anthropic-unified.md` **Claim 2** (the same
-    "Cost Tracking✅ Works with all supported models" / "Guardrails ✅ ...
-    non-streaming only" feature-table genre on `/v1/messages`) — two vendor
-    pages assert the same per-endpoint parity contract, which is the evidence
-    behind Claim 6 here. (Verified: Claim 2's evidence and quote list the
-    identical row texts.)
-  - `source-notes/docs-litellm-anthropic-count-tokens.md` **Claim 4**
-    (the Overview feature-table rows on `/v1/messages/count_tokens` — "Cost
-    Tracking ❌ (Token counting only, no cost incurred)" with Logging ✅ /
-    End-user Tracking ✅) — the same matrix genre carrying row-level caveats on
-    another non-chat endpoint. (Verified: Claim 4's evidence cites the overview
-    table rows.)
+    "Cost Tracking ✅ Works with all supported models" / "Logging ✅ Works
+    across all integrations" / "Fallbacks ✅ Works between supported models"
+    row texts and the same non-streaming guardrail carve-out on
+    `/v1/messages`) — the evidence behind Claim 6 here: the matrix format and
+    row vocabulary recur across endpoint pages, with the Guardrails note
+    worded for a different scope ("input and output" there vs "output
+    transcribed" here). (Verified: Claim 2's evidence lists those row texts
+    and the non-streaming carve-out; the guardrail wording difference is
+    verbatim.)
   - `source-notes/failure-litellm-encrypted-content-affinity.md` **Lesson 4**
     ("Streaming and non-streaming responses need separate treatment" — a
     gateway bug where a fix covered only the final-response path and missed
@@ -264,6 +276,17 @@ cited notes before writing):**
     are distinct code paths on this gateway, which is why the documented
     non-streaming-only guardrail carve-out is a real coverage boundary rather
     than a doc quirk.
+- **Contrasts** (same genre, different shape — not a contradiction, so no
+  issue filed): `source-notes/docs-litellm-anthropic-count-tokens.md`
+  **Claim 4** — `/v1/messages/count_tokens` keeps the Feature / Supported /
+  Notes matrix genre, but its table is three rows (Cost Tracking ❌ with the
+  negation note "Token counting only, no cost incurred", Logging ✅, End-user
+  Tracking ✅) and carries none of the Fallbacks, Loadbalancing, Streaming, or
+  Guardrails rows this page has. It is therefore a counterexample to any
+  reading of Claim 6 as an identical contract repeated verbatim across
+  endpoints, and is cited here for that reason rather than as corroboration.
+  (Verified: Claim 4's evidence and the note's Concrete Artifacts table at
+  `docs-litellm-anthropic-count-tokens.md:181` list exactly those three rows.)
 - **Contradicts**: None. No existing source note claims `mock_testing_fallbacks`
   works through the proxy, or that guardrails reach streaming transcription
   (the `/v1/messages` guardrail row carries the same non-streaming carve-out,
@@ -378,10 +401,12 @@ cited notes before writing):**
   all open `contradiction`-labeled issues (#1408/#1352/#1338/#1322/#1307/#1150
   — none touch this page or proxy fallback testing).
 - **Cross-ref verification (§4b)**: re-read before citing —
-  `docs-litellm-anthropic-unified.md` Claim 2 (identical matrix row texts
-  including the "non-streaming only" guardrail note),
-  `docs-litellm-anthropic-count-tokens.md` Claim 4 (overview-table rows with
-  a row-level caveat),
+  `docs-litellm-anthropic-unified.md` Claim 2 (the same row texts for the
+  rows both pages carry, and the same "non-streaming only" guardrail carve-out
+  under a differently-worded scope),
+  `docs-litellm-anthropic-count-tokens.md` Claim 4 (cited as a **contrast**,
+  not corroboration — its matrix is three rows and carries no
+  Fallbacks/Loadbalancing/Guardrails rows),
   `docs-litellm-generic-guardrail-api.md` Claim 2 (intercepted-endpoint list
   includes `/v1/audio/transcriptions`),
   `blog-litellm-realtime-webrtc-http-endpoints.md` Claim 3 (`mode: realtime`
