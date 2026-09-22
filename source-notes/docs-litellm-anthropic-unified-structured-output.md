@@ -49,9 +49,14 @@ issue: "#1391"
   Guardrails — that is the parent page #1382), streaming behavior for
   `output_format`, schema-violation/refusal behavior, or any error path. The
   page is undated and carries no metrics or failure reports.
-- **Redundancy**: No existing corpus note covers the structured-output surface
-  (`output_format`/`json_schema` greps return zero hits across `source-notes/`
-  and `guide/`). The parent note `docs-litellm-anthropic-unified.md` (#1382)
+- **Redundancy**: No existing corpus note covers the native structured-output
+  surface. A corpus grep for `output_format`/`json_schema` returns zero hits
+  across `guide/`; in `source-notes/` the sole prior mention outside this note
+  is a single mapping-table row in `docs-litellm-messages-to-responses-mapping.md`
+  (#1390, line 288: `output_format` or `output_config.format` → `text`), which
+  documents the OpenAI/Azure **translated** path — not the native
+  `output_format` parameter contract, its field shape, or its per-backend
+  support matrix. The parent note `docs-litellm-anthropic-unified.md` (#1382)
   owns the endpoint overview and is cross-linked, not restated. The sibling
   `docs-litellm-messages-to-responses-mapping.md` (#1390) documents what
   happens to `output_format` on the OpenAI/Azure path (translation to the
@@ -116,10 +121,21 @@ issue: "#1391"
   OpenAI-shaped caller onto `/v1/messages`: the parameter is renamed
   (`response_format` → `output_format`) and its value shape differs (OpenAI
   nests the schema under `json_schema.schema` with name/strict keys; here the
-  schema sits directly under `schema` and there is no `strict` flag on this
-  page). This is the same family of forward-shape translation the corpus records
-  for `tool_choice` in `blog-litellm-auto-router-v2.md` (Claim 10), but here it
-  is the *client-facing* contract — a caller that assumes OpenAI's shape gets a
+  schema sits directly under `schema` and there is no `strict` flag documented
+  on this page). Closing that last point across surfaces: #1390's mapping row
+  records the proxy also accepting an `output_config.format` alias for
+  `output_format` and wrapping the translated result with a `strict` value
+  "copied from the request's `strict` flag and defaults to `false`"
+  (Concrete Artifacts → "Top-level parameter mapping, request direction", line
+  288). So a request-level `strict` flag is part of the proxy's Anthropic-shaped
+  translation input on that path, even though *this* page never documents one —
+  which is why the alias and the `strict` default are recorded here as a
+  cross-surface observation from #1390, not as documented behaviour of the
+  native `output_format` parameter (it remains unverified whether the native
+  path honours the same flag). This is the same family of forward-shape
+  translation the corpus records for `tool_choice` in
+  `blog-litellm-auto-router-v2.md` (Claim 10), but here it is the
+  *client-facing* contract — a caller that assumes OpenAI's shape gets a
   param-name error or a silent no-op rather than a translation.
 
 ### Claim 3: `additionalProperties: false` is documented as enforcing "strict schema adherence" — the vendor's strength claim for the control; the page gives no statement on what happens on schema violation or whether enforcement is provider-side or proxy-side
@@ -325,10 +341,12 @@ path is addressed):
   row. Different surfaces — see Source Context, contradiction scan item 2: not
   filed, recorded as an open cross-check).
 - `source-notes/docs-litellm-messages-to-responses-mapping.md` — **cited**
-  (Concrete Artifacts → "Top-level parameter mapping" table: `output_format` →
-  `text`, "Wrapped as `{"format": {"type": "json_schema", "name":
-  "structured_output", "schema": ..., "strict": ...}}`" — the OpenAI/Azure
-  translated path that this page's 4-row native table does not mention).
+  (Concrete Artifacts → "Top-level parameter mapping, request direction"
+  table: `output_format` or `output_config.format` → `text`, "Wrapped as
+  `{"format": {"type": "json_schema", "name": "structured_output", "schema":
+  ..., "strict": ...}}`" — the OpenAI/Azure translated path, including the
+  `output_config.format` alias and the request-level `strict` handling, that
+  this page's 4-row native table does not mention).
 - `source-notes/docs-litellm-a2a-iteration-budgets.md` — **dismissed**: A2A
   per-session budget/iteration caps; no `/v1/messages` or output-format content.
 - `source-notes/docs-litellm-a2a-cost-tracking.md` — **dismissed**: A2A
@@ -390,8 +408,13 @@ Wider corpus (beyond the candidate list, per the Prospector's overlap list):
     `json_schema` wrapper (`strict` defaulting to `false`); Gemini/Vertex have
     neither on record.
   - `source-notes/docs-datadog-llm-observability.md` — its span model records
-    an error only when the library tags one (Claim 3: a span carries "error
-    type/message"); a schema-violating but 200 structured-output response is
+    an error only when the library tags one. Claim 3 defines the span as the
+    unit of work ("A span is a unit of work representing an operation in your
+    LLM application, and is the building block of a trace."); the attribute list
+    that carries the error detail lives in Concrete Artifacts → Artifact 1
+    (span attributes: "Error type/message/traceback", i.e. error detail is a
+    span attribute set by instrumentation, not an automatic property of any
+    failed request). A schema-violating but 200 structured-output response is
     invisible to observability layers built on that model — Claim 4 here is the
     concrete probe for the Ch02 argument that correctness signals need explicit
     instrumentation.
@@ -405,9 +428,12 @@ Wider corpus (beyond the candidate list, per the Prospector's overlap list):
   stringified-JSON-in-`content[0].text` delivery shape, the Bedrock
   Converse/Invoke service split, the Bearer-vs-`x-api-key` header divergence
   between sibling pages, and the two explicit documentation absences (streaming,
-  schema-violation behavior). The triage's grep (also re-verified this session)
-  finds zero `output_format`/`json_schema` hits across `source-notes/` and
-  `guide/`.
+  schema-violation behavior). Provenance of the novelty claim (re-verified this
+  session): no existing note covers the native `output_format` surface; a
+  corpus grep for `output_format`/`json_schema` returns zero hits across
+  `guide/`, and the sole prior mention in `source-notes/` is #1390's single
+  `output_format` → `text` mapping row (line 288), which records the
+  OpenAI/Azure translated path rather than the native surface documented here.
 
 ## Guide Impact
 
@@ -447,7 +473,15 @@ Wider corpus (beyond the candidate list, per the Prospector's overlap list):
   page does not state where strictness is enforced (provider vs proxy) or what a
   violation yields — record as an **open verification item**, not a guarantee;
   treat it as an output-validation control of documented shape only until
-  verified.
+  verified. Open sub-question worth flagging alongside it, since the two knobs
+  are easy to conflate: this page documents `additionalProperties: false`
+  (a **schema-level** control) and does not document any request-level `strict`
+  flag, while #1390 records the proxy copying a request-level `strict` on the
+  translated path that **defaults to `false`** (its mapping-row note: schemas
+  with optional properties pass through unless the caller opts in). Whether the
+  native `output_format` path has an equivalent request-level strictness switch,
+  and whether `additionalProperties: false` alone is sufficient there, is
+  unverified — do not present either knob as a guarantee.
 
 ## Extraction Notes
 
