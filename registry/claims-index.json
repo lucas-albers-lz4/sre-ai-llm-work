@@ -10861,6 +10861,73 @@
         }
       ]
     },
+    "docs-litellm-apply-guardrail-endpoint": {
+      "path": "source-notes/docs-litellm-apply-guardrail-endpoint.md",
+      "title": "Direct Guardrail Invocation — POST /guardrails/apply_guardrail (LiteLLM Docs)",
+      "source_url": "https://docs.litellm.ai/docs/apply_guardrail",
+      "chapters": [
+        "06",
+        "05",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The page documents a distinct out-of-band invocation surface — `POST /guardrails/apply_guardrail` calls a guardrail already configured on the LiteLLM instance directly, decoupled from `/v1/chat/completions` traffic, so a guardrail becomes a standalone service callable by arbitrary services",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The request contract is `ApplyGuardrailRequest` — required `guardrail_name` + `text`, optional `language` / `entities` / `metadata`",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Success returns the processed text as a payload — `{\"response_text\": ...}` is the redacted/filtered output, meaning the PII-bearing input and its redaction both transit this endpoint",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "A block is signalled as an error body with a free-text `detail` string, not a structured verdict — and the page states no HTTP status code for it, so a caller must parse prose to distinguish \"blocked by policy\" from \"guardrail broke\" or \"bad guardrail_name\"",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Client-supplied `metadata` is forwarded to the guardrail as `request_data[\"metadata\"]`, and the worked example is a custom guardrail that blocks text mentioning `forbidden_topics` passed in by the caller — i.e., the entity invoking the control supplies part of the policy it enforces",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The same metadata mechanism is exposed in the Admin UI — the Guardrail Testing Playground has an optional Metadata field with inline JSON validation, so a human can drive parameterized guardrails from the dashboard",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The endpoint enumerates five supported guardrail types — Presidio (PII detection and masking), Bedrock (content moderation), Lakera (AI safety), PANW Prisma AIRS (threat detection, DLP, policy enforcement), and custom — so each becomes an API-callable function on the gateway",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Cross-provider contract asymmetry — Bedrock ignores the `entities` parameter and applies its own configured policy instead, so the same request field means different things depending on `guardrail_name`",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Bedrock guardrails require a specific config shape plus AWS-side setup — `guardrailIdentifier` / `guardrailVersion` / `aws_region_name` / `aws_role_name` / `default_on` in `config.yaml`, and four AWS Console prerequisites including Bedrock permissions on the role",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The page's auth surface is only `Authorization: Bearer your-api-key` — it shows no key-scoping, permission, or rate-limit discussion for who may invoke guardrails via this endpoint",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The direct-call path documents no failure-semantics knobs, no HTTP status codes, and no measured performance — no fail-open/fail-closed equivalent of the provider-side contract, no status for the block error, no latency/throughput/rate-limit figures anywhere on the page",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-gateway-auth-reference": {
       "path": "source-notes/docs-litellm-gateway-auth-reference.md",
       "title": "Gateway Auth Reference — LiteLLM Documentation",
