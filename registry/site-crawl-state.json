@@ -1326,7 +1326,7 @@
         "filed_at": "2026-08-13T12:56:28.715514+00:00"
       }
     },
-    "last_scan": "2026-09-21T17:36:55.116390+00:00"
+    "last_scan": "2026-09-22T16:05:08.991054+00:00"
   },
   "opentelemetry": {
     "urls": {},
@@ -2631,16 +2631,22 @@
         "filed_at": "2026-09-21T17:37:31.658900+00:00"
       },
       "https://www.cncf.io/projects/kubevirt/": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:24:16.126871+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:24:16.126871+00:00",
+        "issue": 1412,
+        "filed_at": "2026-09-22T16:05:34.947919+00:00"
       },
       "https://www.cncf.io/projects/kubewarden/": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:24:16.126873+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:24:16.126873+00:00",
+        "issue": 1413,
+        "filed_at": "2026-09-22T16:05:37.159804+00:00"
       },
       "https://www.cncf.io/projects/kubescape/": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:24:16.126875+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:24:16.126875+00:00",
+        "issue": 1414,
+        "filed_at": "2026-09-22T16:05:39.281501+00:00"
       },
       "https://www.cncf.io/projects/kubernetes/": {
         "status": "pending",
@@ -3665,9 +3671,21 @@
       "https://www.cncf.io/blog/2026/01/13/the-symbiotic-revolution-ai-and-cloud-native-technologies-transforming-the-digital-landscape": {
         "status": "pending",
         "screened_at": "2026-09-21T17:37:10.901152+00:00"
+      },
+      "https://www.cncf.io/blog/2026/09/22/from-attendee-badge-to-speaker-badge-my-first-kubecon-at-kubecon-cloudnativecon-india-2026": {
+        "status": "rejected",
+        "screened_at": "2026-09-22T16:05:18.038938+00:00"
+      },
+      "https://www.cncf.io/blog/2026/01/12/a-decade-of-open-source-in-cncf-with-300000-contributors-and-counting": {
+        "status": "rejected",
+        "screened_at": "2026-09-22T16:05:18.038957+00:00"
+      },
+      "https://www.cncf.io/blog/2026/01/12/opencost-reflecting-on-2025-and-looking-ahead-to-2026": {
+        "status": "pending",
+        "screened_at": "2026-09-22T16:05:18.038959+00:00"
       }
     },
-    "last_scan": "2026-09-21T17:37:10.901154+00:00"
+    "last_scan": "2026-09-22T16:05:18.038961+00:00"
   },
   "datadog-llm-obs": {
     "urls": {
@@ -3676,7 +3694,7 @@
         "screened_at": "2026-07-12T23:52:56.905756+00:00"
       }
     },
-    "last_scan": "2026-09-21T17:37:12.624276+00:00"
+    "last_scan": "2026-09-22T16:05:19.709765+00:00"
   },
   "langfuse-docs": {
     "urls": {
@@ -3841,7 +3859,7 @@
         "filed_at": "2026-09-03T15:37:32.594301+00:00"
       }
     },
-    "last_scan": "2026-09-21T17:37:14.456466+00:00"
+    "last_scan": "2026-09-22T16:05:21.221231+00:00"
   },
   "litellm-docs": {
     "urls": {
@@ -5154,16 +5172,22 @@
         "filed_at": "2026-09-21T17:37:37.728586+00:00"
       },
       "https://docs.litellm.ai/docs/batches": {
-        "status": "pending",
-        "screened_at": "2026-07-17T13:25:14.456357+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-17T13:25:14.456357+00:00",
+        "issue": 1415,
+        "filed_at": "2026-09-22T16:05:41.210879+00:00"
       },
       "https://docs.litellm.ai/docs/bedrock_converse": {
-        "status": "pending",
-        "screened_at": "2026-07-18T13:10:47.423357+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-18T13:10:47.423357+00:00",
+        "issue": 1416,
+        "filed_at": "2026-09-22T16:05:43.324702+00:00"
       },
       "https://docs.litellm.ai/docs/bedrock_invoke": {
-        "status": "pending",
-        "screened_at": "2026-07-18T13:10:47.423374+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-18T13:10:47.423374+00:00",
+        "issue": 1417,
+        "filed_at": "2026-09-22T16:05:45.118910+00:00"
       },
       "https://docs.litellm.ai/docs/benchmarks": {
         "status": "pending",
@@ -5972,9 +5996,21 @@
       "https://docs.litellm.ai/docs/pass_through/gigachat": {
         "status": "rejected",
         "screened_at": "2026-09-21T17:37:21.920010+00:00"
+      },
+      "https://docs.litellm.ai/docs/fusion": {
+        "status": "pending",
+        "screened_at": "2026-09-22T16:05:26.533917+00:00"
+      },
+      "https://docs.litellm.ai/docs/pass_through/google_ai_studio": {
+        "status": "pending",
+        "screened_at": "2026-09-22T16:05:26.533940+00:00"
+      },
+      "https://docs.litellm.ai/docs/pass_through/intro": {
+        "status": "pending",
+        "screened_at": "2026-09-22T16:05:26.533941+00:00"
       }
     },
-    "last_scan": "2026-09-21T17:37:21.920014+00:00"
+    "last_scan": "2026-09-22T16:05:26.533944+00:00"
   },
   "promptfoo-docs": {
     "urls": {
@@ -7269,16 +7305,22 @@
         "filed_at": "2026-09-21T17:37:43.732538+00:00"
       },
       "https://www.promptfoo.dev/docs/code-scanning/vscode-extension": {
-        "status": "pending",
-        "screened_at": "2026-07-16T13:47:51.144480+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-16T13:47:51.144480+00:00",
+        "issue": 1418,
+        "filed_at": "2026-09-22T16:05:47.313249+00:00"
       },
       "https://www.promptfoo.dev/docs/configuration/caching": {
-        "status": "pending",
-        "screened_at": "2026-07-16T13:47:51.144483+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-16T13:47:51.144483+00:00",
+        "issue": 1419,
+        "filed_at": "2026-09-22T16:05:49.443479+00:00"
       },
       "https://www.promptfoo.dev/docs/configuration/chat": {
-        "status": "pending",
-        "screened_at": "2026-07-17T13:25:18.844450+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-17T13:25:18.844450+00:00",
+        "issue": 1420,
+        "filed_at": "2026-09-22T16:05:51.598104+00:00"
       },
       "https://www.promptfoo.dev/docs/configuration/datasets": {
         "status": "pending",
@@ -8103,8 +8145,20 @@
       "https://www.promptfoo.dev/docs/providers/vllm": {
         "status": "rejected",
         "screened_at": "2026-09-21T17:37:25.979842+00:00"
+      },
+      "https://www.promptfoo.dev/docs/providers/voyage": {
+        "status": "rejected",
+        "screened_at": "2026-09-22T16:05:33.283179+00:00"
+      },
+      "https://www.promptfoo.dev/docs/providers/watsonx": {
+        "status": "rejected",
+        "screened_at": "2026-09-22T16:05:33.283194+00:00"
+      },
+      "https://www.promptfoo.dev/docs/providers/webhook": {
+        "status": "rejected",
+        "screened_at": "2026-09-22T16:05:33.283196+00:00"
       }
     },
-    "last_scan": "2026-09-21T17:37:25.979844+00:00"
+    "last_scan": "2026-09-22T16:05:33.283197+00:00"
   }
 }
