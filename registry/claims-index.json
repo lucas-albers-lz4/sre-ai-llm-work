@@ -10928,6 +10928,46 @@
         }
       ]
     },
+    "docs-litellm-audio-transcription": {
+      "path": "source-notes/docs-litellm-audio-transcription.md",
+      "title": "/audio/transcriptions — LiteLLM AI Gateway Documentation",
+      "source_url": "https://docs.litellm.ai/docs/audio_transcription",
+      "chapters": [
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Starting in LiteLLM Proxy v1.85.0, `mock_testing_fallbacks` is stripped from incoming Proxy requests and has no effect — it remains supported only for direct `litellm.Router` calls in tests",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The vendor-documented replacement for validating audio-transcription fallbacks through the Proxy is to trigger an actual provider error in a non-production environment and send a normal request with the fallback configuration",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Audio-transcription fallbacks are configured per-request in the request body — a `fallbacks[]` form field on the curl path and `extra_body={\"fallbacks\": [...]}` via the OpenAI SDK — documented as auto-retry with different models if the primary model fails",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "A transcription model must be registered in the proxy `model_list` with `model_info: mode: audio_transcription` in `litellm_params` to be served on `/v1/audio/transcriptions` — the `mode` field is what makes this non-chat endpoint routable",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The support matrix documents Cost Tracking, Logging, End-user Tracking, Fallbacks, and Loadbalancing as ✅ on this non-chat endpoint, and qualifies the lone Guardrails row as \"Applies to output transcribed text (non-streaming only)\"",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The support matrix is a recurring per-endpoint feature-support contract across the LiteLLM docs, not a one-off table — the `/v1/messages` page repeats the same row vocabulary and the same non-streaming guardrail carve-out, while the `/v1/messages/count_tokens` page keeps the genre in a thinner, differently-shaped matrix",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-batches-api": {
       "path": "source-notes/docs-litellm-batches-api.md",
       "title": "/batches — LiteLLM AI Gateway Documentation (Batches / Files)",
