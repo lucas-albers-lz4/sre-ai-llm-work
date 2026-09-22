@@ -10755,6 +10755,54 @@
         }
       ]
     },
+    "docs-litellm-anthropic-unified-structured-output": {
+      "path": "source-notes/docs-litellm-anthropic-unified-structured-output.md",
+      "title": "Structured Output /v1/messages — liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/anthropic_unified/structured_output",
+      "chapters": [
+        "05",
+        "03",
+        "02",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "On `/v1/messages`, structured output (`output_format`) is documented for exactly four Anthropic-family backends — Anthropic (native), Azure AI (Anthropic models), Bedrock Converse (Anthropic), Bedrock Invoke (Anthropic) — with no OpenAI, Gemini, or Vertex AI row",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The Anthropic-shaped field name is `output_format` (not OpenAI's `response_format`), shaped `{\"type\": \"json_schema\", \"schema\": {...}}`, with `type` Must be `\"json_schema\"`",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "`additionalProperties: false` is documented as enforcing \"strict schema adherence\" — the vendor's strength claim for the control; the page gives no statement on what happens on schema violation or whether enforcement is provider-side or proxy-side",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The structured payload arrives as a stringified JSON blob inside `content[0].text` with `stop_reason: \"end_turn\"` — no distinct structured-output stop reason, content type, or schema-violation signal is documented",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The Bedrock rows split into two distinct service names — Converse API (`bedrock/global.anthropic.claude-sonnet-5`) vs Invoke API (`bedrock/invoke/global.anthropic.claude-sonnet-5`) — the concrete config indirection for the two Bedrock paths",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The proxy-side curls authenticate `/v1/messages` with `Authorization: Bearer $LITELLM_API_KEY` plus `anthropic-version: 2023-06-01` — a Bearer-token header style that diverges from the parent page's `x-api-key` curl example",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The page documents no streaming behavior for `output_format` and carries none of the parent page's observed feature rows (cost tracking, logging, fallbacks, load balancing, guardrails) — recorded as explicit absence, not inferred either direction",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-anthropic-unified": {
       "path": "source-notes/docs-litellm-anthropic-unified.md",
       "title": "/v1/messages (Anthropic messages format unified endpoint) — liteLLM",

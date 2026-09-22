@@ -1885,6 +1885,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-anthropic-unified-structured-output": {
+      "slug": "docs-litellm-anthropic-unified-structured-output",
+      "title": "Structured Output /v1/messages — liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/anthropic_unified/structured_output",
+      "source_type": "docs",
+      "author": "LiteLLM",
+      "date_published": "unknown (living vendor docs; current as of 2026-09-22)",
+      "date_extracted": "2026-09-22",
+      "issue": "#1391",
+      "file": "source-notes/docs-litellm-anthropic-unified-structured-output.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-anthropic-unified": {
       "slug": "docs-litellm-anthropic-unified",
       "title": "/v1/messages (Anthropic messages format unified endpoint) — liteLLM",
