@@ -1950,6 +1950,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-messages-to-responses-mapping": {
+      "slug": "docs-litellm-messages-to-responses-mapping",
+      "title": "v1/messages → /responses Parameter Mapping — liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/anthropic_unified/messages_to_responses_mapping",
+      "source_type": "docs",
+      "author": "LiteLLM",
+      "date_published": "unknown (living vendor docs; current as of 2026-09-22)",
+      "date_extracted": "2026-09-22",
+      "issue": "#1390",
+      "file": "source-notes/docs-litellm-messages-to-responses-mapping.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-streaming-token-usage": {
       "slug": "docs-litellm-streaming-token-usage",
       "title": "Streaming Responses & Async Completion",

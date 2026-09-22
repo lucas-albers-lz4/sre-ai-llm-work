@@ -11037,6 +11037,73 @@
         }
       ]
     },
+    "docs-litellm-messages-to-responses-mapping": {
+      "path": "source-notes/docs-litellm-messages-to-responses-mapping.md",
+      "title": "v1/messages → /responses Parameter Mapping — liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/anthropic_unified/messages_to_responses_mapping",
+      "chapters": [
+        "05",
+        "02",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "On the `/v1/messages` → OpenAI/Azure path, `stop_sequences` and `top_k` are silently dropped — a caller setting them gets a 200 with no error and no telemetry that the constraint was ignored, while `speed` is only used for Anthropic beta headers on the native path",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "`prompt_cache_key` is derived from `metadata.user_id`, truncated to OpenAI's 64-character key limit, so one user's requests keep hitting the same prompt cache; it is not set when `user_id` is empty or null, and an explicit body `prompt_cache_key` wins over the derived one",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "On the chat-completions path the same two parameters are derived differently — `user` is passed through untruncated, and `prompt_cache_key` is only set when the target provider's supported-params list includes it (OpenAI/Azure OpenAI yes; Gemini, Vertex AI, Bedrock, Anthropic no)",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "`litellm_proxy/` deployments (one LiteLLM proxy in front of another) never get the derived `prompt_cache_key` because the downstream proxy's real provider is unknown — a chained gateway silently loses prompt-cache affinity, so hit rate and cost shift with topology",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "`thinking.budget_tokens` is quantized into a coarse four-rung `reasoning.effort` ladder (`>=10000`→`high`, `>=5000`→`medium`, `>=2000`→`low`, `<2000`→`minimal`) with `summary` forced to `\"detailed\"`; any `thinking.type` other than `\"enabled\"` means the `reasoning` field is not sent at all — inferred thinking depth is lossy after translation",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Each Anthropic message is expanded into one or more Responses API input items, and `tool_result` / `tool_use` blocks are hoisted out of their message into *top-level* items (`function_call_output` / `function_call`) rather than nested — image blocks become `input_image` (data-URI or URL), thinking blocks become `output_text`",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "`tools` and `tool_choice` are type-remapped, not passed through — Anthropic web-search tools become `{\"type\": \"web_search_preview\"}`; `tool_choice` `\"any\"` becomes `{\"type\": \"required\"}` and `\"tool\"` becomes `{\"type\": \"function\", \"name\": ...}`",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "`system` content-block lists are lossy-joined — text blocks are joined with `\\n` and non-text blocks are silently ignored — and `context_management` is converted from an Anthropic nested dict with an `edits` array into a flat OpenAI array of compaction objects",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The response direction is also lossy — `response.model` falls back to `\"unknown-model\"` when missing, `stop_sequence` is always `null` on this path, and `type: \"message\"` / `role: \"assistant\"` are hardcoded",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "In the response direction, `function_call` presence yields `stop_reason: \"tool_use\"`, `response.status == \"incomplete\"` yields `stop_reason: \"max_tokens\"` — stated to \"Take[] precedence over the default\" (`end_turn`) — but the page does not state the relative precedence between the `tool_use` and `max_tokens` triggers",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Response fields map cleanly in one direction and are JSON-reconstructed in the other — `input_tokens`/`output_tokens` map field-for-field, `arguments` is JSON-parsed back into a dict for `tool_use.input`, and each non-empty `ResponseReasoningItem.summary[*].text` becomes a `{\"type\": \"thinking\", \"thinking\": \"...\"}` content block",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-streaming-token-usage": {
       "path": "source-notes/docs-litellm-streaming-token-usage.md",
       "title": "Streaming Responses & Async Completion",
