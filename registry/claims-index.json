@@ -10928,6 +10928,74 @@
         }
       ]
     },
+    "docs-litellm-batches-api": {
+      "path": "source-notes/docs-litellm-batches-api.md",
+      "title": "/batches — LiteLLM AI Gateway Documentation (Batches / Files)",
+      "source_url": "https://docs.litellm.ai/docs/batches",
+      "chapters": [
+        "05",
+        "02",
+        "06",
+        "04"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Batch TPM/RPM limits are charged when the client calls `POST /v1/batches`, not when the input file is uploaded — LiteLLM downloads the referenced JSONL, evaluates the complete file against every applicable limit, and returns 429 before forwarding anything to the provider",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "What LiteLLM counts per JSONL record is a closed contract — RPM = one request per record; TPM/ITPM = input tokens from `body.messages` / `body.prompt` / `body.input`; OTPM = an output-token reservation per record honoring `max_tokens` / `max_completion_tokens` / `max_output_tokens` and `n` / `best_of`; embedding records reserve no output tokens; untokenizable records fall back to a serialized-size estimate",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Per-minute TPM/RPM windows fit batch work poorly — the whole input file is charged to a single minute at submission — and the documented remedy is `batch_enqueued_token_limit`, an outstanding-work allowance in key/team metadata that reserves estimated tokens, refunds on observed terminal state, bypasses the per-minute windows entirely, and expires reservations after 8 days if a terminal state is never observed",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "`LITELLM_TPM_TOKEN_RESERVATION_ENABLED` does **not** control batch rate limiting — it only governs pre-request reservation for real-time requests; `POST /v1/batches` always uses the batch input-file limiter unless a batch-specific skip setting is enabled",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Two skip settings take precedence and disable enqueued-token accounting entirely — `disable_batch_input_file_rate_limiting` and `skip_batch_input_file_rate_limiting_for_providers` (provider taken from the configured route, not client-supplied `custom_llm_provider`) — while `skip_batch_input_file_rate_limiting_for_models` is a retained no-op (startup warning) and a request-metadata `skip_batch_input_file_rate_limiting` flag is ignored",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The gateway's batch accounting silently under-counts in documented cases — batch TPM/RPM counters are never reconciled against the provider's final usage, and a batch whose input file cannot be downloaded or evaluated is submitted **unmetered** (with a logged error the docs say to monitor if strict enforcement is required)",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Batch input files pass a pre-forward validation gate — `max_batch_file_size_mb` under `general_settings` rejects oversized `purpose=\"batch\"` uploads with HTTP 413 before provider forwarding (separate from `max_request_size_mb`), and always-on content validation requires a case-insensitive `.jsonl`, ≥1 non-blank line, every non-blank line a valid JSON object carrying `custom_id` / `method` / `url` / `body`, rejected with OpenAI-format HTTP 400 errors and 1-based line numbers",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Provider batch caps differ by an order of magnitude, and the page instructs operators to set `max_batch_file_size_mb` at or below the smallest limit of the providers they route to — OpenAI 200 MB / 50k requests, Azure OpenAI 200 MB / 100k per file (1 GB with BYO blob storage), Vertex 1 GB / 200k per job (Cloud Storage input), Bedrock 1 GB per file with a ~5 GB total-job cap",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Automated batch cost tracking is Enterprise-only and recorded separately from submission — LiteLLM monitors the provider job, aggregates successful output records, excludes failed records (an all-failed batch records zero usage and zero cost), records the aggregate as an `aretrieve_batch` spend entry attributed to the creating user/key/team/tags, and never adjusts the TPM/RPM counters reserved at submission",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Batch and file operations route across multiple provider accounts through model info embedded in base64-encoded IDs — `file-…` / `batch_…` prefixes preserved, `base64(\"litellm:<id>;model,<name>\")` — with documented priority: encoded ID (highest) > model parameter via header/query/body > `custom_llm_provider` environment fallback",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Guardrails configured on the proxy run against the records **inside** the batch input file at upload time, not at execution time — a security-relevant placement that interacts with the always-on file validation",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-gateway-auth-reference": {
       "path": "source-notes/docs-litellm-gateway-auth-reference.md",
       "title": "Gateway Auth Reference — LiteLLM Documentation",
