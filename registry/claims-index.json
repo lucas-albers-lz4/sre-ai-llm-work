@@ -10755,6 +10755,64 @@
         }
       ]
     },
+    "docs-litellm-anthropic-unified": {
+      "path": "source-notes/docs-litellm-anthropic-unified.md",
+      "title": "/v1/messages (Anthropic messages format unified endpoint) — liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/anthropic_unified",
+      "chapters": [],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "`/v1/messages` is a unified Anthropic-messages-format endpoint across all LiteLLM-supported providers — one SDK call / one proxy route serves `openai`, `anthropic`, `bedrock`, `vertex_ai`, `gemini`, `azure`, `azure_ai`, etc.",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The feature matrix claims Cost Tracking, Logging, End-user Tracking, Streaming, Fallbacks, Loadbalancing, and Guardrails are all ✅ on `all supported models` — with no per-backend granularity in the table",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The proxy serves `/v1/messages` under the Anthropic SDK contract — `x-api-key` plus `anthropic-version: 2023-06-01`, with the `base_url` pointed at the proxy",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Guardrails on `/v1/messages` apply \"only\" to non-streaming input and output text — streaming requests on this route get no documented guardrail coverage",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The request body follows the Anthropic messages spec — `model`, `max_tokens` (must be > 1), and `messages` the only required fields, with string↔content-block message equivalence",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Sampling and extended-thinking fields carry range constraints on this route — `0 < temperature < 1`, `0 < top_p < 1`, thinking `budget_tokens` ≥ 1024 and `< max_tokens`",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The `thinking.summary` value is \"preserved and forwarded\" verbatim to non-Anthropic providers — an Anthropic-shaped parameter carried across the fan-out boundary, with no documented per-backend acceptance matrix",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The response is Anthropic-format — `content` blocks of type `text`, `tool_use`, `thinking`, or `redacted_thinking`; `stop_reason` ∈ `end_turn`, `max_tokens`, `stop_sequence`, `tool_use`; `type: \"message\"`, `role: \"assistant\"`",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The response `usage` object exposes cache-token accounting — `cache_creation_input_tokens` and `cache_read_input_tokens` alongside `input_tokens`/`output_tokens`",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "`messages` content strings and the content-block array form are explicitly equivalent — `{\"role\": \"user\", \"content\": \"Hello, Claude\"}` ≡ `{\"role\": \"user\", \"content\": [{\"type\": \"text\", \"text\": \"Hello, Claude\"}]}`",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-gateway-auth-reference": {
       "path": "source-notes/docs-litellm-gateway-auth-reference.md",
       "title": "Gateway Auth Reference — LiteLLM Documentation",

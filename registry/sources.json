@@ -1885,6 +1885,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-anthropic-unified": {
+      "slug": "docs-litellm-anthropic-unified",
+      "title": "/v1/messages (Anthropic messages format unified endpoint) — liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/anthropic_unified",
+      "source_type": "docs",
+      "author": "LiteLLM",
+      "date_published": "unknown (living vendor docs; current as of 2026-09-21)",
+      "date_extracted": "2026-09-21",
+      "issue": "#1382",
+      "file": "source-notes/docs-litellm-anthropic-unified.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-gateway-auth-reference": {
       "slug": "docs-litellm-gateway-auth-reference",
       "title": "Gateway Auth Reference — LiteLLM Documentation",
