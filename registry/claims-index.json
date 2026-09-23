@@ -11093,6 +11093,68 @@
         }
       ]
     },
+    "docs-litellm-bedrock-invoke": {
+      "path": "source-notes/docs-litellm-bedrock-invoke.md",
+      "title": "/invoke — LiteLLM AI Gateway Documentation (Bedrock native Invoke passthrough)",
+      "source_url": "https://docs.litellm.ai/docs/bedrock_invoke",
+      "chapters": [
+        "05",
+        "06",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The native Invoke passthrough is routed as `POST /bedrock/model/<model_name>/invoke`, with `/invoke-with-response-stream` as the streaming variant — the path segment is the `model_name` alias from `config.yaml`, resolved by the proxy to the real Bedrock model ID and region, and the request body is the native Bedrock Invoke/Anthropic Messages wire format (`anthropic_version: \"bedrock-2023-05-31\"`)",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "A model must be registered with `custom_llm_provider: bedrock`, `model: bedrock/<model-id>`, `aws_region_name`, and AWS credentials read from the environment in `config.yaml` before the `/invoke` route will serve it",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The page's support matrix claims Cost Tracking ✅, Logging ✅, Streaming ✅ via `/invoke-with-response-stream`, and Load Balancing ✅ on the `/invoke` route — a vendor surface claim with no per-provider parity and no caching caveat",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Existing boto3 Bedrock clients move to the `/invoke` passthrough with an `endpoint_url` change only — dummy AWS credentials, `AWS_BEARER_TOKEN_BEDROCK` set to the LiteLLM proxy API key, and the same `invoke_model(modelId=...)` call with `modelId` = the LiteLLM `model_name` alias",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Client authentication on the Bedrock passthrough replaces AWS SigV4 with a bearer token — the client's `AWS4-HMAC-SHA256` signature is swapped for `Bearer <LITELLM_VIRTUAL_KEY>`, so the LiteLLM virtual key travels in a Bedrock-shaped auth slot while the proxy holds the real AWS credentials",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Multi-region load balancing for `/invoke` is achieved by registering multiple deployments with the same `model_name` but different `aws_region_name` (us-west-2 / us-east-1); the proxy distributes automatically — with the routing strategy, health-check semantics, and regional-failure behavior left undocumented",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The credential-handling consequence is that developers never see raw AWS keys — the Virtual-Keys pattern covers the Bedrock passthrough, so per-tenant/developer identity rides the LiteLLM virtual key and the IAM blast radius collapses to the proxy",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The page is silent on prompt caching and system-message handling — no statement, no caching row, no system-message caveat anywhere on the primary page or the sub-page — so the operator cannot tell from these docs whether the `/invoke` passthrough is cache-safe for Claude Code-shaped traffic, and the docs give no way to verify the interaction with the translated Invoke path's prompt-cache regression",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The cost-tracking claim on the passthrough is only as good as gateway body inspection — the vendor separately documents that JSON responses are deliberately buffered for spend logging, but this page gives no usage-measurement detail (billed tokens vs body-derived usage) for the `/invoke` route",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The `/invoke` route family is the config.yaml half of a two-mode Bedrock passthrough surface — model endpoints via config-registered `model_name` vs a \"direct passthrough\" claiming ALL Bedrock endpoints for non-model services (guardrails, knowledge bases, agents) — and the primary page's \"More Info\" points to that second mode",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-gateway-auth-reference": {
       "path": "source-notes/docs-litellm-gateway-auth-reference.md",
       "title": "Gateway Auth Reference — LiteLLM Documentation",

@@ -1963,6 +1963,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-bedrock-invoke": {
+      "slug": "docs-litellm-bedrock-invoke",
+      "title": "/invoke — LiteLLM AI Gateway Documentation (Bedrock native Invoke passthrough)",
+      "source_url": "https://docs.litellm.ai/docs/bedrock_invoke",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs; the referenced model `us.anthropic.claude-sonnet-5` places it in the current 2026 lifecycle)",
+      "date_extracted": "2026-09-23",
+      "issue": "#1417",
+      "file": "source-notes/docs-litellm-bedrock-invoke.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-gateway-auth-reference": {
       "slug": "docs-litellm-gateway-auth-reference",
       "title": "Gateway Auth Reference — LiteLLM Documentation",
