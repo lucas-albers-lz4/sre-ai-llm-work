@@ -11036,6 +11036,63 @@
         }
       ]
     },
+    "docs-litellm-bedrock-converse": {
+      "path": "source-notes/docs-litellm-bedrock-converse.md",
+      "title": "/converse — LiteLLM AI Gateway Documentation (Bedrock native Converse passthrough)",
+      "source_url": "https://docs.litellm.ai/docs/bedrock_converse",
+      "chapters": [
+        "06",
+        "02",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The native Converse passthrough is routed as `POST /bedrock/model/<model_name>/converse`, with `/converse-stream` as the streaming variant — the path segment is the `model_name` alias from `config.yaml`, resolved by the proxy to the real Bedrock model ID and region",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "A model must be registered with `custom_llm_provider: bedrock`, `model: bedrock/<model-id>`, `aws_region_name`, and AWS credentials in `config.yaml` before the `/converse` route will serve it",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The page's support matrix claims Cost Tracking ✅, Logging ✅, Streaming ✅ via `/converse-stream`, and Load Balancing ✅ on the `/converse` route — a vendor surface claim with no caching caveat and no measured backing",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "End-user Tracking is documented ❌ on the Bedrock passthrough, alongside Cost Tracking ✅ — attribution at the endpoint level is incomplete even though spend tracking is claimed",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Existing boto3 Bedrock clients move behind the proxy with an `endpoint_url` change only — `endpoint_url='http://0.0.0.0:4000/bedrock'`, a kept `region_name`, dummy AWS credentials, and the LiteLLM virtual key set as `AWS_BEARER_TOKEN_BEDROCK`",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Client authentication on the passthrough replaces AWS SigV4 with a bearer token — `AWS4-HMAC-SHA256` credentials are swapped for `Bearer <LITELLM_VIRTUAL_KEY>`, so the LiteLLM virtual key stands in for IAM at the client boundary while the proxy holds the real AWS credentials",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Multi-region load balancing for `/converse` is achieved by registering multiple deployments with the same `model_name` but different `aws_region_name`; the proxy distributes automatically",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The `/converse` model routes are one half of a two-mode Bedrock passthrough surface — config.yaml-backed model endpoints vs a direct passthrough claiming ALL Bedrock endpoints (guardrails, knowledge bases, agents) — with boto3 and LangChain AWS SDK both supported",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Cost tracking on the Converse passthrough is documented as supported with no statement about cache-dependent traffic — whether spend accounting is trustworthy when Claude Code loses its cached prefix on Converse is unanswered by this page",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-gateway-auth-reference": {
       "path": "source-notes/docs-litellm-gateway-auth-reference.md",
       "title": "Gateway Auth Reference — LiteLLM Documentation",

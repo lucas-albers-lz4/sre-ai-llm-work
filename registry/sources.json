@@ -1950,6 +1950,19 @@
       "confidence_overall": "settled",
       "status": "current"
     },
+    "docs-litellm-bedrock-converse": {
+      "slug": "docs-litellm-bedrock-converse",
+      "title": "/converse — LiteLLM AI Gateway Documentation (Bedrock native Converse passthrough)",
+      "source_url": "https://docs.litellm.ai/docs/bedrock_converse",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs; the referenced model `us.anthropic.claude-sonnet-5` places it in the current 2026 lifecycle)",
+      "date_extracted": "2026-09-22",
+      "issue": "#1416",
+      "file": "source-notes/docs-litellm-bedrock-converse.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-gateway-auth-reference": {
       "slug": "docs-litellm-gateway-auth-reference",
       "title": "Gateway Auth Reference — LiteLLM Documentation",
