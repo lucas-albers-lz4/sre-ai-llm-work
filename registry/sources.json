@@ -1976,6 +1976,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-benchmarks": {
+      "slug": "docs-litellm-benchmarks",
+      "title": "Benchmarks — LiteLLM AI Gateway Documentation",
+      "source_url": "https://docs.litellm.ai/docs/benchmarks",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs, no byline or date; benchmark content scoped to v1.101.0, retrieved 2026-09-23)",
+      "date_extracted": "2026-09-23",
+      "issue": "#1430",
+      "file": "source-notes/docs-litellm-benchmarks.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-gateway-auth-reference": {
       "slug": "docs-litellm-gateway-auth-reference",
       "title": "Gateway Auth Reference — LiteLLM Documentation",

@@ -11155,6 +11155,87 @@
         }
       ]
     },
+    "docs-litellm-benchmarks": {
+      "path": "source-notes/docs-litellm-benchmarks.md",
+      "title": "Benchmarks — LiteLLM AI Gateway Documentation",
+      "source_url": "https://docs.litellm.ai/docs/benchmarks",
+      "chapters": [
+        "05",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The high-throughput deployment profile sustained 3,000 RPS with 100% client-visible success on large-prompt traffic, while the v1.101.0 baseline settled near 190 RPS at 92.07% success",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The latency improvements are extreme but all measured against the same 132-worker count — p50 6.950s → 30.581ms, p95 27.451s → 54.029ms, p99 29.826s → 91.645ms, TTFT p50 9.400s → 31.667ms",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Each component of the profile was A/B-tested separately at 200–1,000 RPS before the combined run, and the page publishes the individual deltas",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "A gateway-side success metric cannot see the failures that never reach it — the v1.101.0 run measured 100% gateway-side success while Locust measured 92.07%",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The page's metric semantics deliberately split by vantage point — throughput and request latency come from the gateway's Prometheus metrics, TTFT and HTTP-200 rate from Locust",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The page explicitly disclaims universal applicability — the A/B is \"not a single-variable test,\" the mock excludes provider latency, and the numbers are \"not universal production sizing guidance\"",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The high-throughput profile is not GA — it ships only in nightly builds and these results came from \"the earliest available version of the complete profile\"",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The profile's per-component wins come from separating concerns off the inference workers — Rust token counting, per-pod PgBouncer, spend and metrics sidecars, RPS/TPS autoscaling",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Closed-loop load tests measure the client's queueing, not the gateway — at the same RPS, a no-think-time client holds ~8x the in-flight depth and reports ~8x the latency (Little's Law)",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The page gives an explicit correction procedure for comparing against its tables — keep the 0.5–1s think time, or hold in-flight request count near 130 and report it alongside latency",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "`network_mock: true` intercepts outbound requests at the httpx transport layer, benchmarking pure proxy hot-path overhead with canned responses and no mock provider",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "Doubling the LiteLLM proxy from 2 to 4 instances halves median latency (200 → 100 ms) and cuts p99 from 1,200 → 240 ms; \"workers equal to CPU count gives optimal performance\"",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "Logging callbacks (GCS Bucket, LangSmith) are \"no impact\" on gateway RPS and latency at ~1,130 RPS",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "The benchmark environment omits production infrastructure — single PostgreSQL, no Redis used",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-gateway-auth-reference": {
       "path": "source-notes/docs-litellm-gateway-auth-reference.md",
       "title": "Gateway Auth Reference — LiteLLM Documentation",
