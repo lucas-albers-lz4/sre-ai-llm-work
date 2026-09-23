@@ -2158,6 +2158,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-code-scan-vscode-extension": {
+      "slug": "docs-promptfoo-code-scan-vscode-extension",
+      "title": "Promptfoo Code Scanning — VS Code Extension",
+      "source_url": "https://www.promptfoo.dev/docs/code-scanning/vscode-extension",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-09-23",
+      "date_extracted": "2026-09-23",
+      "issue": "#1418",
+      "file": "source-notes/docs-promptfoo-code-scan-vscode-extension.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-configuration-caching": {
       "slug": "docs-promptfoo-configuration-caching",
       "title": "Promptfoo Configuration: Caching — Runtime",

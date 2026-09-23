@@ -11877,6 +11877,42 @@
         }
       ]
     },
+    "docs-promptfoo-code-scan-vscode-extension": {
+      "path": "source-notes/docs-promptfoo-code-scan-vscode-extension.md",
+      "title": "Promptfoo Code Scanning — VS Code Extension",
+      "source_url": "https://www.promptfoo.dev/docs/code-scanning/vscode-extension",
+      "chapters": [
+        "06",
+        "03"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The extension's scan-on-save loop is on by default, runs from the developer's workstation, and ships the file being edited to Promptfoo's SaaS API at every save — an egress surface distinct from the CI-runner egress already in the corpus",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Promptfoo's privacy statement asserts code sent for analysis \"is not stored after analysis completes,\" but the page provides no mechanism, retention-window detail, audit trail, or contractual hook behind it — an unqualified vendor assertion, not a verifiable control",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The extension defaults `diffsOnly` to `true` while the CLI's `--diffs-only` defaults to `false` — the same-named knob means opposite scan coverage depending on which surface runs it",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The IDE defaults are more aggressive on when to scan (on-save, debounced 1500ms) and more conservative on scope (diffs only) than the CLI defaults, positioning the extension as a pre-CI, developer-loop complement rather than a gate",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The extension is enterprise-gated end to end — contact-sales `.vsix`, installed via \"Install from VSIX\", no marketplace listing, no version, no changelog — so nothing on this page is reproducible or independently verifiable",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-configuration-caching": {
       "path": "source-notes/docs-promptfoo-configuration-caching.md",
       "title": "Promptfoo Configuration: Caching — Runtime",
