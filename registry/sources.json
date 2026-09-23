@@ -1989,6 +1989,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-caching-all-caches": {
+      "slug": "docs-litellm-caching-all-caches",
+      "title": "Caching — In-Memory, Redis, s3, gcs, Redis Semantic Cache, Disk | liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/caching/all_caches",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs; current as of 2026-09-23)",
+      "date_extracted": "2026-09-23",
+      "issue": "#1431",
+      "file": "source-notes/docs-litellm-caching-all-caches.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-gateway-auth-reference": {
       "slug": "docs-litellm-gateway-auth-reference",
       "title": "Gateway Auth Reference — LiteLLM Documentation",

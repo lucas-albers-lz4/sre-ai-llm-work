@@ -11236,6 +11236,68 @@
         }
       ]
     },
+    "docs-litellm-caching-all-caches": {
+      "path": "source-notes/docs-litellm-caching-all-caches.md",
+      "title": "Caching — In-Memory, Redis, s3, gcs, Redis Semantic Cache, Disk | liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/caching/all_caches",
+      "chapters": [
+        "05",
+        "02",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "LiteLLM's SDK response cache supports nine documented backends spanning two sharing classes — per-process stores (`local`, `disk`) and shared stores (`redis`, `s3`, `gcs`, `azure-blob`, plus semantic stores `redis-semantic`, `qdrant-semantic`, `valkey-semantic`)",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "`Cache.__init__` restricts `type` to a literal enum defaulting to `local`, and `supported_call_types` is an allow-list defaulting to `[\"completion\", \"acompletion\", \"embedding\", \"aembedding\", \"atranscription\", \"transcription\"]` — caching silently does not apply to call types outside the list",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "`semantic_cache_scope` (default `\"key\"`) is the semantic-cache tenant-scope control — `key` scopes hits to key/team/org, `end_user` additionally scopes per end user",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Four per-call cache-controls on the `cache={...}` kwarg provide a runtime bypass and expiry contract — `no-cache` (do not return a cached response), `no-store` (do not write to cache), `ttl` (per-request expiry in seconds), `s-maxage` (accept only cached responses younger than N seconds)",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Cache-key derivation is an operator extension point — `cache.get_cache_key = fn` replaces the key function, and the docs' own example key composes `model + messages + temperature + logit_bias`, with no user/tenant identity in it",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Cache hits are surfaced per-request in success events as `kwarg[\"cache_hit\"]`, reachable through a `CustomLogger` success callback",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "`REDIS_*` environment variables map onto Redis client kwargs and \"may fail during Redis client initialization\" for non-string parameters — integers, booleans, and complex objects must be passed as `Cache()` kwargs instead",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The `valkey-semantic` backend has hard deployment constraints — the valkey-search module must be loaded, ElastiCache Serverless does not support vector search, and cluster-mode multi-shard endpoints are unsupported because the async client cannot route `FT.*` across shards",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The signature carries three distinct TTL knobs — `ttl`, `default_in_memory_ttl`, `default_in_redis_ttl` — plus `namespace` and `redis_flush_size`, but the page documents no precedence or eviction semantics for any of them",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The page documents shared-cache auth and indexing params absent from every existing note — GCP Memorystore IAM Redis auth (`gcp_service_account`, `ssl`, `ssl_cert_reqs`, `ssl_check_hostname` on a `RedisClusterCache`), and Qdrant `qdrant_quantization_config` (one of `binary`/`product`/`scalar`)",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-gateway-auth-reference": {
       "path": "source-notes/docs-litellm-gateway-auth-reference.md",
       "title": "Gateway Auth Reference — LiteLLM Documentation",
