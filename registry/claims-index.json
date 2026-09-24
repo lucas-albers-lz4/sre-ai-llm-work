@@ -11298,6 +11298,38 @@
         }
       ]
     },
+    "docs-litellm-caching-hosted-cache": {
+      "path": "source-notes/docs-litellm-caching-hosted-cache.md",
+      "title": "Hosted Cache - api.litellm.ai | LiteLLM",
+      "source_url": "https://docs.litellm.ai/docs/caching/caching_api",
+      "chapters": [
+        "05",
+        "06",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "LiteLLM ships a vendor-hosted response-cache mode — `litellm.cache = Cache(type=\"hosted\")` backs `completion()` and `embedding()` caching with `api.litellm.ai` rather than a store the operator operates",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "`caching=True` is a per-call opt-in on both `completion()` and `embedding()`, and an identical second call is returned from cache",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Streamed responses are cacheable on the hosted tier, but the cache entry is written asynchronously after the stream — an immediately re-sent identical request may not hit",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The page documents no cache lifecycle or governance contract for the hosted tier — no TTL, no eviction/invalidation behavior, no failure semantics, no observability, and no statement about what the vendor retains",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-gateway-auth-reference": {
       "path": "source-notes/docs-litellm-gateway-auth-reference.md",
       "title": "Gateway Auth Reference — LiteLLM Documentation",
