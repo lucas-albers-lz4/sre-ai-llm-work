@@ -31,8 +31,13 @@ issue: "#1445"
 ## Source Context
 
 - **Type**: docs (single-page LiteLLM gateway feature reference, part of the
-  `litellm-docs` site-crawl seed, under the Claude Code tutorial family at
-  `docs/tutorials/claude_code_context_management`).
+  `litellm-docs` site-crawl seed, under the Claude Code family at
+  `/docs/claude_code_context_management` — the path that actually resolves
+  (verified HTTP 200 this session, matching `source_url`; site breadcrumb is
+  "AI Tools → Claude Code → Claude Code - Context Management"). The
+  tutorial-family alias `docs/tutorials/claude_code_context_management` returns
+  **404**, so `last_checked` re-verification must follow the `source_url` path,
+  not a `tutorials/` variant.
 - **Author credibility**: LiteLLM (BerriAI) first-party product documentation.
   Authoritative for the *documented* polyfill surface — page gives knob tables,
   defaults, a provider support matrix, error enums, and worked request/response
@@ -484,7 +489,7 @@ candidates file's list was not exhaustive):
     levers compose) — that note's cost playbook covers spend caps, fallbacks,
     prompt-cache injection, Headroom compression, MCP tool search, and auto
     routing; `context_management` adds a *history-dimension* lever (Claims 4-9
-    here) that composes with rather than duplicates prompt caching (Claim 3
+    here) that composes with rather than duplicates prompt caching (Claim 9
     there, "Prompt cache trims the static prefix") and compression — this source
     targets the conversation history itself. The composition claim there ("five
     features compose … each shave a different slice") now has a sixth slice.
@@ -599,7 +604,7 @@ candidates file's list was not exhaustive):
 - Cross-reference verification (MINER §4b): re-read the cited notes' claims —
   `docs-litellm-messages-to-responses-mapping.md` Claim 8 (conversion worked
   example), `blog-litellm-save-claude-code-costs.md` Claim 8 (composition) and
-  Claim 3 (cache prefix), `docs-litellm-anthropic-unified.md` Claims 1 & 5,
+  Claim 9 (cache prefix), `docs-litellm-anthropic-unified.md` Claims 1 & 5,
   `docs-litellm-anthropic-count-tokens.md` Claim 7 (local tiktoken fallback),
   `blog-litellm-headroom-integration.md` Claim 8 (`cache_control` carve-out),
   `docs-litellm-caching-all-caches.md` (output/semantic cache scope) — and
