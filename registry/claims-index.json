@@ -11330,6 +11330,84 @@
         }
       ]
     },
+    "docs-litellm-claude-code-context-management": {
+      "path": "source-notes/docs-litellm-claude-code-context-management.md",
+      "title": "Claude Code - Context Management — LiteLLM Documentation",
+      "source_url": "https://docs.litellm.ai/docs/claude_code_context_management",
+      "chapters": [
+        "05",
+        "02",
+        "03",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Routing-dependent semantics — the same `context_management` spec gets native pass-through on Anthropic, Bedrock-Anthropic, and OpenAI-Responses targets, and an in-gateway polyfill (LiteLLM edits the message array before forwarding) on every other provider",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The polyfill gives a write-once/run-anywhere property — the Claude Code tool-loop passes `context_management` as-is and it works regardless of which model is behind the proxy",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Two edit types are supported (`clear_tool_uses_20250919`, `compact_20260112`) and `clear_thinking_20251015` is listed as \"Coming soon\" — a current limitation that will date",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "`clear_tool_uses_20250919` preserves the message array structure (same message count, same role order) and rewrites old `tool_result.content` to `\"[Cleared by context management]\"`, with a hard floor: the most recently completed `tool_result` is never cleared regardless of `keep`",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "`compact_20260112` requires `context_management_summary_model` in `general_settings`; without it the polyfill is a silent no-op — the edit is acknowledged but no compaction is performed",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "`compact_20260112` runs a three-phase flow — Phase A slices any existing compaction block (dropping everything before it and prepending its summary text to the system prompt), Phase B counts effective input tokens and forwards immediately if at or below threshold, Phase C calls the summary model only when over threshold and injects the result as a `\"Previous conversation summary: ...\"` system prefix plus a `compaction` content block in the response",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The polyfill is best-effort with a named error taxonomy — on any summary failure the original uncompacted conversation is forwarded unchanged and `applied_edits[0].error` is set to one of `summary_model_not_configured`, `summary_call_failed`, or `summary_extraction_failed`; the summary text must be wrapped in `<summary>...</summary>` tags or extraction fails",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "`compact_20260112` has a hard 50,000-token trigger floor enforced at the proxy — a lower `trigger.value` is rejected with HTTP 400; the default is 150000 and `trigger.type` accepts only `\"input_tokens\"` (other values fall back with a warning)",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Four knobs are accepted but ignored by the polyfill v0 — `pause_after_compaction`, `clear_at_least`, `exclude_tools`, `clear_tool_inputs` are acknowledged in the request and silently do nothing (a warning is noted in `applied_edits`)",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "`drop_params: true` does NOT disable the polyfill — only per-model `additional_drop_params: [\"context_management\"]` (or omitting the field per-request) does; `drop_params` only drops genuinely unsupported parameters",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The observability surface is the response `context_management.applied_edits` object — present when an edit fires with `cleared_tool_uses`/`cleared_input_tokens` (or `summary_input_tokens`/`summary_output_tokens`), absent when the trigger is not met, and carried in the final `message_delta` SSE event on streaming",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "Polyfill threshold checks count tokens with `litellm.token_counter`, using tiktoken `cl100k_base` as the fallback for unknown models — so trigger decisions on non-OpenAI models are made with a possibly non-native tokenizer",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "Client-side compaction blocks trigger slice-only forwarding with no summary model call — if the history already contains a `compaction` block but the request has no `compact_20260112` edit, LiteLLM moves the prior summary to the system prefix and sends only the latest user question downstream",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-gateway-auth-reference": {
       "path": "source-notes/docs-litellm-gateway-auth-reference.md",
       "title": "Gateway Auth Reference — LiteLLM Documentation",
