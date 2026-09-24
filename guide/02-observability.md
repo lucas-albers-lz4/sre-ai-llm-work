@@ -261,6 +261,55 @@ Claim 10] [settled].
 service-side (5xx) failures with client errors still tracked; and leave
 utilization out of the user-facing SLO.
 
+## Measurement validity
+
+Two rules govern whether a reliability number means what it appears to mean —
+one about where it is measured, and one about what it is reported alongside.
+
+### Measure success outside the thing being measured
+
+A service's own success metric is structurally blind to the requests that never
+reached it. In LiteLLM's vendor-reported gateway benchmark, the v1.101.0 run's
+Prometheus metric showed 100% success while the client load generator measured
+92.07%; the gap is 5,118 client-visible failures — 4,546 timeouts or dropped
+connections, 457 HTTP 504, and 115 HTTP 502 — none of which the gateway saw
+[source: docs-litellm-benchmarks, Claim 4] [settled]. The metric split is
+deliberate: throughput and request latency come from the gateway's own metrics,
+while TTFT and the HTTP-200 rate come from the load generator "because it
+includes failures that never reached the gateway"
+[source: docs-litellm-benchmarks, Claim 5] [settled].
+
+**Rule**: Measure the user-visible success rate at the user's vantage point,
+not at the service's. The two diverge exactly when the service is overloaded,
+which is when the number matters — and a server-side success metric cannot
+report a failure it never received. Label which vantage point each metric comes
+from.
+
+### Latency is meaningless without concurrency
+
+A closed-loop load test measures the client's queueing as much as the system
+under test. At identical throughput, a client with no think time holds about
+8x the in-flight depth and therefore reports about 8x the latency: "Latency and
+concurrency are not independent, and neither number means anything without the
+other" [source: docs-litellm-benchmarks, Claim 9] [settled]. The page's
+comparability rule is concrete — either keep a 0.5s-to-1s think time, or hold
+in-flight request count near 130 and report it alongside the latency, and
+report RPS first [source: docs-litellm-benchmarks, Claim 10] [settled].
+
+**Rule**: Report requests-per-second and in-flight request depth together in
+any gateway benchmark or capacity claim. A run showing higher RPS *and* higher
+latency than the reference table is a deeper-queueing client, not a slower
+system.
+
+### Counter-evidence
+
+Both rules come from one vendor's benchmark page for its own gateway
+[source: docs-litellm-benchmarks, Claim 6] [settled]: the profile is nightly,
+not GA, the in-process mock model excludes provider latency, and the page warns
+its own numbers are not universal sizing guidance. That limits the *numbers* —
+it does not limit the measurement rules, which are Little's Law and a liveness
+property of any dropped connection.
+
 ## Batch-pipeline health signals
 
 LLM data work (eval refresh, embedding backfills, index rebuilds) is batch
@@ -390,5 +439,5 @@ failure-litellm-vllm-embeddings-encoding-format,
 docs-google-sre-reliable-data-processing-minimal-toil,
 docs-google-sre-reaching-beyond-walls,
 docs-google-sre-slo-engineering-case-studies, docs-langfuse-cli,
-docs-litellm-a2a-agent-gateway*
-*Last updated: 2026-09-17*
+docs-litellm-a2a-agent-gateway, docs-litellm-benchmarks*
+*Last updated: 2026-09-24*

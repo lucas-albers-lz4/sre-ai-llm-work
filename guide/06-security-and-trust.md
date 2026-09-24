@@ -308,10 +308,64 @@ not have tool support."
 advertises one universal guardrail enforces tool policy on three endpoints;
 elsewhere it filters content but cannot see a tool call.
 
+The second narrowness axis is streaming mode, and it cuts across endpoints. On
+`/v1/messages` the guardrail row reads "Guardrails ✅ Applies to input and
+output text (non-streaming only)"
+[source: docs-litellm-anthropic-unified, Claim 4] [emerging]; on
+`/v1/audio/transcriptions` the same carve-out is scoped to output text —
+"Applies to output transcribed text (non-streaming only)"
+[source: docs-litellm-audio-transcription, Claim 5] [settled]. A streaming
+request on either route is guardrail-free by documented design, which is a
+coverage boundary rather than a misconfiguration — and a canary that only
+streams never exercises the guardrail at all.
+
 **Rule**: Add gateway-side tool authorization as the runtime half of the
-`rbac`/`bfla`/`bola` checklist. Verify per endpoint that tool forwarding is in
-scope on the paths your agents actually use — a guardrail that intercepts an
-endpoint is not the same as one that can inspect its tools.
+`rbac`/`bfla`/`bola` checklist. Verify per endpoint *and per streaming mode*
+that coverage is in scope on the paths your agents actually use — a guardrail
+that intercepts an endpoint is not the same as one that can inspect its tools,
+and one that covers non-streaming text is not the same as one that covers
+streams.
+
+### A guardrail is also a callable endpoint
+
+Everything above treats a guardrail as an in-path interceptor. The same
+configured control is independently callable: `POST /guardrails/apply_guardrail`
+runs any guardrail configured on the proxy against caller-supplied text with no
+model request, turning PII masking, content moderation, and custom policy
+checks into standalone API functions on the gateway's port and virtual-key auth
+[source: docs-litellm-apply-guardrail-endpoint, Claim 1] [settled]:
+
+```json
+{
+  "guardrail_name": "mask_pii",
+  "text": "My name is John Doe and my email is john@example.com",
+  "language": "en",
+  "entities": ["NAME", "EMAIL"]
+}
+```
+*Extracted from [source: docs-litellm-apply-guardrail-endpoint, Concrete Artifacts].*
+
+Two properties make this a trust-boundary question rather than a convenience.
+The page's only auth surface is `Authorization: Bearer your-api-key`, and it
+documents no key scoping, permission, or quota for the route — which keys may
+invoke which guardrail is left to the gateway's general key machinery
+[source: docs-litellm-apply-guardrail-endpoint, Claim 10] [settled]. And
+client-supplied `metadata` is forwarded as `request_data["metadata"]`; the
+vendor's own worked example uses it to hand a custom guardrail the
+`forbidden_topics` list it should block, so the party the control is meant to
+constrain supplies part of the policy
+[source: docs-litellm-apply-guardrail-endpoint, Claim 5] [settled]. The vendor
+documents that as a parameterization feature; the honest reading is a
+documented feature with an under-documented authorization question, not a
+documented vulnerability.
+
+**Rule**: Before exposing `/guardrails/apply_guardrail` to a broad audience,
+verify key scoping against every guardrail the route can reach — it is
+authenticated by virtual key, and the docs specify nothing finer. Treat
+per-request `metadata` as client input to the policy, and audit access logging
+on the endpoint: `response_text` is masked output derived from the raw PII
+input, so both directions of the call carry sensitive content by construction
+[source: docs-litellm-apply-guardrail-endpoint, Claim 3] [settled].
 
 ### An agent gateway's default is full access
 
@@ -566,6 +620,31 @@ only those, and leave the rest as `[present]`. A guardrail handed full request
 headers for a decision an allowlist would support has widened the perimeter for
 nothing.
 
+### Cache placement is an egress decision
+
+A response cache holds a copy of your prompts and responses, so where it lives
+is a data-residency decision. LiteLLM's hosted tier — `Cache(type="hosted")` —
+backs `completion()` and `embedding()` caching with the vendor's own service
+rather than a store you operate
+[source: docs-litellm-caching-hosted-cache, Claim 1] [settled]:
+
+```python
+litellm.cache = Cache(type="hosted") # init cache to use api.litellm.ai
+```
+*Extracted from [source: docs-litellm-caching-hosted-cache, Concrete Artifacts].*
+
+For a team that chose self-hosted caching specifically to keep payloads
+in-boundary, changing the `Cache(...)` type is a silent egress path. The page
+documents no TTL, no invalidation, no failure semantics, and no statement about
+retention, residency, encryption, or tenancy
+[source: docs-litellm-caching-hosted-cache, Claim 4] [settled], so a residency
+review cannot conclude anything from it.
+
+**Rule**: Keep the cache backend on the data-egress inventory, and gate a
+`Cache(type=...)` change the way you gate a provider data-sharing opt-in.
+Where the vendor documents no retention or residency contract, the review
+answer is "verify with the vendor," not "the docs say."
+
 ## Trust rollout patterns
 
 ### Shadow → suggest → act, never the reverse
@@ -626,10 +705,34 @@ single typed resolver [source: blog-litellm-july-stability-update, Claim 3]
 > mode without handling it fails the type checker, and an unhandled case raises
 > instead of quietly attaching no auth.
 
+That fix did not land product-wide. As shipped, the declared-mode design is
+MCP-only: MCP selects its outbound `Authorization` header (or per-request SigV4
+signature) through a first-class `auth_type` enum with nine values
+[source: docs-litellm-gateway-auth-reference, Claim 2] [emerging], while A2A
+has no equivalent field at all — its outbound auth mode is inferred from what
+is present in `litellm_params`: Bearer/JWT when `api_key` is set, SigV4 on
+AgentCore when it is unset [source: docs-litellm-gateway-auth-reference,
+Claim 3] [emerging]. That is the same inference the postmortem condemned —
+picking a mode from which fields happen to be set — still current on the A2A
+surface.
+
+A second divergence sits a layer down, at header parsing. MCP's ASGI routes
+(`/mcp`, `/{name}/mcp`, `/toolset/{name}/mcp`, `/sse`) bypass the standard
+FastAPI auth dependency and do not parse the vendor auth aliases (`API-Key`,
+`x-api-key`, `x-goog-api-key`, `Ocp-Apim-Subscription-Key`) or `x-litellm-tags`,
+while the MCP REST/management routes and all A2A routes accept the full header
+set [source: docs-litellm-gateway-auth-reference, Claim 1] [emerging]. A
+credential form that authenticates on `/mcp-rest` is silently ignored on
+`/mcp`.
+
 **Rule**: Make credential selection explicit and fail closed — a declared auth
 mode per MCP server, one typed resolver, an exhaustive match that fails at
 type-check time when a mode is added, and an unhandled case that raises rather
-than attaching a fallback credential. Ambiguity must resolve to "stop."
+than attaching a fallback credential. Ambiguity must resolve to "stop." Read
+the rule's scope per surface: it describes the MCP design today, not a
+gateway-wide property — A2A still infers. And verify your auth header set
+against every route family you expose, because one gateway's ASGI and REST
+routes do not parse the same headers.
 
 ## Supply-chain security for LLM infrastructure
 
@@ -845,5 +948,7 @@ failure-litellm-supply-chain-compromise-march-2026,
 failure-litellm-supply-chain-incident-march-2026,
 blog-litellm-swap-openai-code-interpreter, docs-langfuse-agent-skill,
 docs-promptfoo-code-scan-cli, docs-promptfoo-code-scan-github-action,
-docs-litellm-generic-guardrail-api*
-*Last updated: 2026-09-19*
+docs-litellm-generic-guardrail-api, docs-litellm-apply-guardrail-endpoint,
+docs-litellm-caching-hosted-cache, docs-litellm-gateway-auth-reference,
+docs-litellm-anthropic-unified, docs-litellm-audio-transcription*
+*Last updated: 2026-09-24*
