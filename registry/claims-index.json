@@ -11330,6 +11330,72 @@
         }
       ]
     },
+    "docs-litellm-claude-code-compatibility": {
+      "path": "source-notes/docs-litellm-claude-code-compatibility.md",
+      "title": "Claude Code × LiteLLM compatibility matrix — LiteLLM Documentation",
+      "source_url": "https://docs.litellm.ai/docs/claude_code_compatibility",
+      "chapters": [
+        "05",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The page is a machine-regenerated compatibility matrix — an automated populator runs the Claude Code CLI against the newest final LiteLLM release across each supported provider, with Haiku 4.5, Sonnet 4.6, and Opus 4.7 in parallel, and a cell goes green only if all three model tiers pass",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The matrix is a point-in-time snapshot pinned to one gateway version, one Claude Code version, and one generation time — `litellm v1.102.0`, `claude code 2.1.228`, generated `2026-09-23T06:11:56Z` — so no cell is a durable support claim",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Cell semantics are four-state, not pass/fail — ✅ all three model tiers pass, ❌ at least one tier failed (hover for the upstream error), — no test ran for this combination, n/a not applicable (provider doesn't expose the feature; hover for the reason) — so an empty/untested cell must not be read as \"broken\"",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The current snapshot has zero failing cells — no `(feature, provider)` cell is ❌; the only ❌ glyph on the page is the legend swatch — so there is no upstream error text to harvest in this snapshot",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The twelve core features are green across the five principal routes — Anthropic, Bedrock (Invoke), Bedrock (Converse), Vertex AI, and Azure (Foundry) — while three of the nine columns never ran any test (openai and bedrock_mantle are entirely `—`; azure_openai ran only the core chat surface and is `—` on every other feature)",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "`count_tokens` endpoint parity is partial — green only on Anthropic, Bedrock (Invoke), Bedrock (Converse), and Azure (Foundry); `—` (no test ran) on Vertex AI, openai, azure_openai, bedrock_mantle, and vertex_ai_gpt — supplying the \"which providers\" answer for the corpus's count_tokens note",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "`Tool search (MCP discovery)` parity is green only on Anthropic, Bedrock (Invoke), and Bedrock (Converse) — every other column is `—`, so the MCP tool-search cost lever has machine-tested Claude Code parity on exactly three routes",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "`Native API passthrough` is green on Anthropic, Bedrock (Invoke), and Vertex AI, and structurally **n/a** on Bedrock (Converse) — Claude Code's Bedrock mode speaks only the InvokeModel wire (`/model/{id}/invoke-with-response-stream`) and has no Converse-wire client, a documented instance where the client constrains the gateway surface",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "`Long context (1M)` is `—` (no test ran) on every provider column, including Anthropic — a known-untested cell, not a supported/unsupported claim",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The page publishes its own reproducibility provenance — the matrix JSON lives at `src/data/compatibility-matrix.json` and the populator at `tests/e2e/claude_code/cron_vm/` on the main repo — making the matrix a machine-checked, published artifact rather than a hand-maintained support table",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The `vertex_ai_gpt` column is n/a across the four Anthropic-wire chat features because GCP Vertex AI does not offer OpenAI's closed-weight GPT-5.6 family (Sol / Terra / Luna) — Model Garden carries only open-weight `gpt-oss` MaaS models — and the vendor marks the column to convert to live tests if Google adds those models",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-claude-code-context-management": {
       "path": "source-notes/docs-litellm-claude-code-context-management.md",
       "title": "Claude Code - Context Management — LiteLLM Documentation",
