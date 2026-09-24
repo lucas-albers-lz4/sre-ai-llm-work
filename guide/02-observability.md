@@ -280,7 +280,8 @@ includes failures that never reached the gateway"
 [source: docs-litellm-benchmarks, Claim 5] [settled].
 
 **Rule**: Measure the user-visible success rate at the user's vantage point,
-not at the service's. The two diverge exactly when the service is overloaded,
+not at the service's — the metric-side counterpart to the external prober
+above. The two diverge exactly when the service is overloaded,
 which is when the number matters — and a server-side success metric cannot
 report a failure it never received. Label which vantage point each metric comes
 from.
@@ -303,12 +304,15 @@ system.
 
 ### Counter-evidence
 
-Both rules come from one vendor's benchmark page for its own gateway
-[source: docs-litellm-benchmarks, Claim 6] [settled]: the profile is nightly,
-not GA, the in-process mock model excludes provider latency, and the page warns
-its own numbers are not universal sizing guidance. That limits the *numbers* —
-it does not limit the measurement rules, which are Little's Law and a liveness
-property of any dropped connection.
+Both rules come from one vendor's benchmark page for its own gateway, which
+warns that the in-process mock model excludes provider latency and that its
+results "should not be treated as universal production sizing guidance"
+[source: docs-litellm-benchmarks, Claim 6] [settled]. The profile those numbers
+come from is not GA — it ships in nightly builds and the figures may change
+[source: docs-litellm-benchmarks, Claim 7] [emerging].
+
+That limits the *numbers* — it does not limit the measurement rules, which are
+Little's Law and a liveness property of any dropped connection [editorial].
 
 ## Batch-pipeline health signals
 

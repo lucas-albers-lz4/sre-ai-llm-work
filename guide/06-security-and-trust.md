@@ -635,10 +635,10 @@ litellm.cache = Cache(type="hosted") # init cache to use api.litellm.ai
 
 For a team that chose self-hosted caching specifically to keep payloads
 in-boundary, changing the `Cache(...)` type is a silent egress path. The page
-documents no TTL, no invalidation, no failure semantics, and no statement about
-retention, residency, encryption, or tenancy
-[source: docs-litellm-caching-hosted-cache, Claim 4] [settled], so a residency
-review cannot conclude anything from it.
+documents no TTL, no invalidation, and no failure semantics, and states nothing
+about what the vendor retains, or about residency, encryption, or tenancy
+[source: docs-litellm-caching-hosted-cache, Claim 1, Claim 4] [settled], so a
+residency review cannot conclude anything from it.
 
 **Rule**: Keep the cache backend on the data-egress inventory, and gate a
 `Cache(type=...)` change the way you gate a provider data-sharing opt-in.
