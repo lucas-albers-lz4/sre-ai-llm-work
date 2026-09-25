@@ -10709,6 +10709,93 @@
         }
       ]
     },
+    "docs-litellm-anthropic-advisor-tool": {
+      "path": "source-notes/docs-litellm-anthropic-advisor-tool.md",
+      "title": "Advisor Tool — LiteLLM Documentation (Anthropic advisor tool via the gateway)",
+      "source_url": "https://docs.litellm.ai/docs/completion/anthropic_advisor_tool",
+      "chapters": [
+        "05",
+        "02",
+        "03"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The advisor tool is a *within-request* model composition — a fast, low-cost executor consults a higher-intelligence advisor mid-generation, and the advisor reads the full conversation to produce a 400–700-token plan or course correction before the executor continues",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Advisor spend is split out of the top-level `usage` object — advisor calls are a separate sub-inference billed at the advisor model's rates, top-level `usage` reflects **executor tokens only**, and advisor tokens are reachable only via `usage.iterations[]` entries carrying `type: \"advisor_message\"`",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The page's own `usage` example is arithmetically inconsistent with the summing rule the upstream spec states — it reports top-level `input_tokens: 412` while its own two `message` iterations sum to 1760",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Streaming contains a non-streaming hop — the advisor sub-inference does not stream, the executor's stream pauses while it runs, and the full advisor result then arrives in a single event before executor output resumes",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "For every non-Anthropic provider, LiteLLM runs the advisor loop itself via a named internal component, `AdvisorOrchestrationHandler`, and enumerates five things it does on the operator's behalf",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The provider matrix splits the feature into \"Anthropic = native server-side\" and \"everything else = LiteLLM orchestration loop\", and both API surfaces are ✅ for every listed provider",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "On the non-Anthropic orchestration path the client receives a clean response with no advisor blocks at all, so the advisor's contribution is not observable by the client",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "`max_uses` is enforced as a hard cap, exceeding it raises `AdvisorMaxIterationsError`, `max_uses=0` disables the advisor entirely, and on reaching the cap the executor continues without further advice",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The gateway mutates conversation history in both directions — it strips Anthropic-only `advisor_tool_result` / `server_tool_use` blocks from re-sent history so non-Anthropic providers never see them, and it auto-strips `advisor_tool_result` blocks on follow-up turns when the advisor tool is absent from the current request in order to prevent an Anthropic 400",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The beta gate is `anthropic-beta: advisor-tool-2026-03-01`, and LiteLLM adds it automatically whenever it detects the advisor tool in the `tools` array",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Caching on the advisor tool definition has a stated break-even threshold — enable it only when you expect 3+ advisor calls per conversation, because below that it costs more than it saves",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "LiteLLM's documented model pairing is Opus-advisor-only over a three-row table, and the page contradicts itself on the advisor's model ID — \"Opus 4.6\" in the intro, `claude-opus-5` in Model Compatibility",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "The page ships three recommended system-prompt blocks, including an optional instruction the vendor reports cutting advisor output length by 35–45%",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "There is no conversation-level cap — the gateway's documented remedy is for the client to count advisor calls and remove the advisor tool from `tools` when it reaches its limit",
+          "kind": "claim"
+        },
+        {
+          "n": 15,
+          "heading": "The AI-Gateway surface requires no gateway-side advisor configuration — the advisor model is supplied per request by the client through the proxy, and the only proxy config is the ordinary executor model alias",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-anthropic-count-tokens": {
       "path": "source-notes/docs-litellm-anthropic-count-tokens.md",
       "title": "/v1/messages/count_tokens (Anthropic-compatible token counting) — liteLLM",

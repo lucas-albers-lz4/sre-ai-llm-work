@@ -1872,6 +1872,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-anthropic-advisor-tool": {
+      "slug": "docs-litellm-anthropic-advisor-tool",
+      "title": "Advisor Tool — LiteLLM Documentation (Anthropic advisor tool via the gateway)",
+      "source_url": "https://docs.litellm.ai/docs/completion/anthropic_advisor_tool",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation; upstream Anthropic API docs linked from the page",
+      "date_published": "unknown (living vendor docs; current as of 2026-09-25)",
+      "date_extracted": "2026-09-25",
+      "issue": "#1456",
+      "file": "source-notes/docs-litellm-anthropic-advisor-tool.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-anthropic-count-tokens": {
       "slug": "docs-litellm-anthropic-count-tokens",
       "title": "/v1/messages/count_tokens (Anthropic-compatible token counting) — liteLLM",
