@@ -418,7 +418,8 @@ and a runbook that watches for one will miss the others:
   [source: docs-litellm-anthropic-advisor-tool, Claim 8] [emerging].
 - An in-band `advisor_tool_result_error` with
   `error_code: "max_uses_exceeded"`, arriving on a **200** because the executor
-  "continues without further advice"
+  "continues without further advice" — the upstream spec the page links adds
+  "The request itself does not fail."
   [source: docs-litellm-anthropic-advisor-tool, Claim 8] [emerging].
 - No signal at all for the *conversation*-level cap, which the gateway cannot
   enforce: "For conversation-level caps, count advisor calls client-side. When

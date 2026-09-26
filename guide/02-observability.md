@@ -182,7 +182,7 @@ LiteLLM reports the halves separately
 The vendor's own example shows the split — a top-level `input_tokens: 412` /
 `output_tokens: 531` against an `advisor_message` iteration of `823` in /
 `1612` out — so the hidden sub-inference carries the larger share of the
-request's input tokens
+request's output tokens (1612 against the executor's 531)
 [source: docs-litellm-anthropic-advisor-tool, Concrete Artifacts].
 
 Do not template a cost calculator from that example: its top-level
