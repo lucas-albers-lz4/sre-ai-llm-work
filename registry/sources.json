@@ -2054,6 +2054,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-completion-batching": {
+      "slug": "docs-litellm-completion-batching",
+      "title": "Batching Completion() — LiteLLM Documentation (synchronous fan-out: batch_completion_models + proxy fastest_response)",
+      "source_url": "https://docs.litellm.ai/docs/completion/batching",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs; current as of 2026-09-26)",
+      "date_extracted": "2026-09-26",
+      "issue": "#1467",
+      "file": "source-notes/docs-litellm-completion-batching.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-gateway-auth-reference": {
       "slug": "docs-litellm-gateway-auth-reference",
       "title": "Gateway Auth Reference — LiteLLM Documentation",

@@ -11561,6 +11561,77 @@
         }
       ]
     },
+    "docs-litellm-completion-batching": {
+      "path": "source-notes/docs-litellm-completion-batching.md",
+      "title": "Batching Completion() — LiteLLM Documentation (synchronous fan-out: batch_completion_models + proxy fastest_response)",
+      "source_url": "https://docs.litellm.ai/docs/completion/batching",
+      "chapters": [
+        "05",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The page documents three *synchronous, in-process* fan-out helpers under one heading, and only the \"return fastest\" one has any stated behavior contract — the other two are code samples with no concurrency, error, or partial-failure semantics",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "`batch_completion_models` is a race whose documented purpose is latency, not throughput — \"Use this to reduce latency\" — and the race is won by whoever responds first, with the losers cancelled",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The fastest-response payload reports `model` and `usage` for the winner only — the N-1 cancelled calls leave no field, header, or array in the response body, and the same page's all-responses variant proves the contrast",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The page documents cancellation and publishes *no* billing semantics for the cancelled calls — no statement of whether providers charge for aborted requests, no partial-usage field, no \"billed: false\" marker",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The hedge set is expressed inside the `model` **data field**, not as a route, alias, or config key — a comma-separated string in the request body",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The proxy's own canonical batch-completions section never mentions `fastest_response` — it documents only the list-returning form, and marks the feature BETA",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The same comma-separated `model` string yields two different JSON types depending on a flag — a **list** of `ChatCompletion` objects without `fastest_response`, a single `chat.completion` object with it",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "SDK-mode hedging puts a credential for every hedged provider in the client process; the proxy path instead resolves the same names as gateway-side model groups",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Nothing on the page describes the concurrency mechanism, and nothing describes the rate-limit, retry, or fallback interaction of the N parallel calls",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The one streaming example on the page pairs `fastest_response: true` with `\"stream\": true` and says nothing about how \"first response\" behaves on a stream",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The all-fail case has no documented error contract, and the fastest-response sample snippet does not run as printed",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "The sample outputs are stale and internally inconsistent, and the page's outbound link to the proxy section is a dead anchor",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-gateway-auth-reference": {
       "path": "source-notes/docs-litellm-gateway-auth-reference.md",
       "title": "Gateway Auth Reference — LiteLLM Documentation",
