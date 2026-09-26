@@ -403,6 +403,43 @@ methods reach its log/guardrail/spend paths, which runtimes and protocol
 families it covers, how deep its permission model goes — before letting its
 registry stand in for its control surface.
 
+### "Cap reached" is not vendor-neutral — one encoding is a 200
+
+An iteration budget is only as good as the signal you alert on. LiteLLM's
+gateway family documents four different answers to "the loop hit its cap" —
+and a runbook that watches for one will miss the others:
+
+- An over-cap rejection that shares a status code with rate limiting — HTTP
+  429 with `"type": "budget_exceeded"` — so a caller that treats 429 as
+  transient backoff retries a session that cannot succeed
+  [source: docs-litellm-a2a-iteration-budgets, Claim 5] [emerging].
+- A named exception, `AdvisorMaxIterationsError`, raised when the advisor
+  tool's `max_uses` cap is exceeded
+  [source: docs-litellm-anthropic-advisor-tool, Claim 8] [emerging].
+- An in-band `advisor_tool_result_error` with
+  `error_code: "max_uses_exceeded"`, arriving on a **200** because the executor
+  "continues without further advice"
+  [source: docs-litellm-anthropic-advisor-tool, Claim 8] [emerging].
+- No signal at all for the *conversation*-level cap, which the gateway cannot
+  enforce: "For conversation-level caps, count advisor calls client-side. When
+  you reach your limit, remove the advisor tool from `tools`."
+  [source: docs-litellm-anthropic-advisor-tool, Claim 14] [settled].
+
+The exception and the in-band error describe the same `max_uses` field with
+opposite polarity — the gateway's page names a raised error, the upstream spec
+it links names a tool-result error on a request that does not fail — and the
+gateway page asserts both by saying that exceeding the cap raises an error
+*and* that the executor continues without advice. Those can both hold only if
+the error is raised and caught inside the orchestration loop, which the page
+never states, so verify which one your deployment produces rather than coding
+to either [source: docs-litellm-anthropic-advisor-tool, Claim 8] [emerging].
+
+**Rule**: Treat "cap reached" as a degraded success until you have verified
+otherwise on your own gateway, and alert on the cap's own signal rather than on
+an error rate — at least one documented encoding reaches the client as a 200.
+A cap the gateway cannot enforce (per-conversation) is a client-side counter,
+and a client-side counter is not a control you can verify after the fact.
+
 ### The "harnesses" layer
 
 Between raw models and deployed runtimes sits a distinct layer of agent
@@ -419,6 +456,63 @@ models, sandbox boundaries) across your agent fleet. A harness with
 unrestricted tool access is the attacker's playbook entry point — see the
 five-phase Claude Code extortion campaign
 [source: blog-promptfoo-ai-orchestrated-cyberattacks, Claim 4] [emerging].
+
+### A harness loop behind a gateway inherits the gateway's history edits
+
+Pointing a Claude Code loop at a non-Anthropic backend through a proxy inserts
+a component that edits the conversation. LiteLLM's `context_management`
+polyfill is the concrete case, and four properties of its contract are worth
+checking before a long tool loop depends on it.
+
+The prerequisite fails silently. Compaction needs
+`context_management_summary_model` set in `general_settings`; without it "the
+edit is acknowledged but no compaction is performed"
+[source: docs-litellm-claude-code-context-management, Claim 5] [settled]. The
+response carries an `applied_edits` entry and the client sees a healthy call,
+so a request-succeeded monitor never notices the control did nothing.
+
+The failure mode is fail-open on *cost*: if the summary call raises or returns
+no parseable summary, "the original conversation is forwarded unchanged and
+`applied_edits[0].error` is set"
+[source: docs-litellm-claude-code-context-management, Claim 7] [settled] — a
+summary-model outage spends exactly the input tokens the edit existed to avoid.
+Alert on the control's own error enum (`summary_model_not_configured`,
+`summary_call_failed`, `summary_extraction_failed`), remembering that the
+`context_management` field is *absent* when no edit fired, so absence means
+"below threshold", not "failed", and that on a streamed request the telemetry
+arrives only in the final `message_delta` event
+[source: docs-litellm-claude-code-context-management, Claim 11] [settled].
+
+Two floors bound the knobs from below: `compact_20260112` rejects a
+`trigger.value` below 50,000 with an HTTP 400, and
+`clear_tool_uses_20250919` never clears the most recently completed
+`tool_result` regardless of its `keep` setting — an irreducible per-request
+context floor to size small-context backends around
+[source: docs-litellm-claude-code-context-management, Claim 4, Claim 8]
+[settled].
+
+The plausible disable switch is wrong: `drop_params: true` does not disable the
+polyfill, because `context_management` "is a LiteLLM-supported parameter
+(native on Anthropic, polyfilled elsewhere), and `drop_params` only drops
+genuinely unsupported parameters"; the documented opt-out is per-model
+`additional_drop_params: ["context_management"]`
+[source: docs-litellm-claude-code-context-management, Claim 10] [settled]:
+
+```yaml
+model_list:
+  - model_name: gpt-4.1
+    litellm_params:
+      model: openai/gpt-4.1
+      additional_drop_params: ["context_management"]
+```
+*Extracted from [source: docs-litellm-claude-code-context-management, Concrete
+Artifacts].*
+
+**Rule**: Before a long tool loop depends on a gateway-side history edit,
+verify the model that performs the edit is configured, alert on the edit's own
+error field rather than on request failures, and size the loop against the
+published floors. A control that fails open on cost and a no-op that reports
+success are both invisible to the metrics a normal runbook watches.
 
 ### Rollback-behavior testing
 
@@ -447,5 +541,7 @@ blog-litellm-agents-are-the-new-llms, blog-promptfoo-ai-orchestrated-cyberattack
 blog-promptfoo-ai-regulation-2025, docs-google-sre-eliminating-toil,
 docs-google-sre-incident-response, docs-google-sre-simplicity,
 docs-langfuse-agent-skill, docs-langfuse-alerts, docs-langfuse-cli,
-docs-litellm-a2a-agent-gateway, docs-litellm-a2a-agent-permissions*
-*Last updated: 2026-09-17*
+docs-litellm-a2a-agent-gateway, docs-litellm-a2a-agent-permissions,
+docs-litellm-a2a-iteration-budgets, docs-litellm-anthropic-advisor-tool,
+docs-litellm-claude-code-context-management*
+*Last updated: 2026-09-26*

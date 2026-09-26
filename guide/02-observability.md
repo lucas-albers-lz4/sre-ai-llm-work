@@ -162,6 +162,82 @@ cycle that a human runs.
 not replace their judgment. The dashboard answers questions; it doesn't know
 which questions to ask.
 
+## Response metrics that describe one call, not the request
+
+Per-request response fields are the cheapest signal an observability model can
+build on, and two gateway features now make a *successful* response an
+under-count of the work it did.
+
+### The expensive half of a request can sit below the top-level metric
+
+Anthropic's advisor tool composes two models inside one client request — a
+fast, cheap executor that consults a larger advisor mid-generation — and
+LiteLLM reports the halves separately
+[source: docs-litellm-anthropic-advisor-tool, Claim 2] [emerging]:
+
+> Top-level `usage` reflects executor tokens only. Advisor tokens appear in
+> `iterations` entries with `type: "advisor_message"` and are billed at Opus
+> rates.
+
+The vendor's own example shows the split — a top-level `input_tokens: 412` /
+`output_tokens: 531` against an `advisor_message` iteration of `823` in /
+`1612` out — so the hidden sub-inference carries the larger share of the
+request's input tokens
+[source: docs-litellm-anthropic-advisor-tool, Concrete Artifacts].
+
+Do not template a cost calculator from that example: its top-level
+`input_tokens` does not satisfy the summing rule the upstream spec states,
+because the page's own two `message` iterations sum to 1760, not 412
+[source: docs-litellm-anthropic-advisor-tool, Claim 3] [settled].
+
+Replication hides spend in the other direction. A hedged request
+(`fastest_response=True`) fans one call out over a comma-separated model list
+and reports `model` and `usage` for the winner only: "Returns the first
+response in OpenAI format. Cancels other LLM API calls."
+[source: docs-litellm-completion-batching, Claim 2, Claim 3] [settled]. The
+page's own examples make the gap concrete: the race reports
+`"model": "command-nightly"` with `"total_tokens": 20`, while the same three
+models in all-responses mode report 23 + 20 + 52 = 95 tokens
+[source: docs-litellm-completion-batching, Concrete Artifacts]. No field,
+header, or array names the cancelled calls — the vendor states only that they
+are cancelled, never whether the providers bill them
+[source: docs-litellm-completion-batching, Claim 4] [emerging] — and the hedge
+set itself rides inside the request `model` field as a comma-separated string,
+so anything keyed on the request model (cost maps, allowlists, cache keys)
+sees one opaque identifier
+[source: docs-litellm-completion-batching, Claim 5] [settled].
+
+Streaming compounds it: usage is reported only on opt-in via
+`stream_options={"include_usage": True}`, and the advisor share still requires
+the separate `iterations[]` parse
+[source: docs-litellm-streaming-token-usage, Claim 1;
+docs-litellm-anthropic-advisor-tool, Claim 2] [emerging].
+
+**Rule**: A response's `model` and `usage` describe one billed call, not the
+request. Before trusting a cost or token dashboard, enumerate the paths that
+add calls the top-level fields do not count — a sub-inference, a hedged
+fan-out — and meter them from a source that names all of them. Treat response
+`usage` as a lower bound on request cost, not a total.
+
+### A composed sub-inference looks like a stalled stream
+
+The advisor path breaks a timing assumption as well as a counting one: "The
+advisor sub-inference does not stream. The executor's stream pauses while the
+advisor runs, then the full advisor result arrives in a single event. Executor
+output resumes streaming afterward."
+[source: docs-litellm-anthropic-advisor-tool, Claim 4] [emerging]. The pause
+carries no content, so a client reading the stream for bytes cannot tell a
+working advisor call from a hung upstream — and the only traffic the upstream
+spec describes during it is "standard SSE `ping` keepalives emitted roughly
+every 30 seconds" [source: docs-litellm-anthropic-advisor-tool, Concrete
+Artifacts].
+
+**Rule**: Carve composed sub-inferences out of any inter-token-gap SLO or
+stream-idle timeout, or it will page on the feature working as designed — a
+30-second idle threshold is not safe. Confirm the pause is visible on your own
+gateway before depending on it, since a gateway-synthesized stream may not
+reproduce it [source: docs-litellm-anthropic-advisor-tool, Claim 4].
+
 ## Wiring SLOs to drill-down data
 
 ### SLOs without drill-down are a dead end
@@ -390,5 +466,6 @@ failure-litellm-vllm-embeddings-encoding-format,
 docs-google-sre-reliable-data-processing-minimal-toil,
 docs-google-sre-reaching-beyond-walls,
 docs-google-sre-slo-engineering-case-studies, docs-langfuse-cli,
-docs-litellm-a2a-agent-gateway*
-*Last updated: 2026-09-17*
+docs-litellm-a2a-agent-gateway, docs-litellm-anthropic-advisor-tool,
+docs-litellm-completion-batching, docs-litellm-streaming-token-usage*
+*Last updated: 2026-09-26*
