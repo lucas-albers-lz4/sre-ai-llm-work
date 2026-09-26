@@ -167,15 +167,18 @@ issue: "#1471"
   a grep-able one: a runner with `ANTHROPIC_API_KEY` set is grading with
   `claude-sonnet-4-5-20250929` whether or not anyone chose it, and a runner
   with a GitHub token is grading with `openai/gpt-5` — an OpenRouter-style
-  namespaced ID on a completely different routing surface. Three of the eight
-  entries (Mistral's `mistral-large-latest`, Vertex's `gemini-2.5-pro`,
-  Azure's "your configured deployment") are *floating* or environment-defined
-  even in name, so "pin your judge" is not satisfiable by copying the default
-  list into a config. The Codex-login entry is the most operationally
-  surprising: the default depends on a package being installed and a session
-  being signed in — i.e. on the *state of a developer's machine*, which no
-  config file records. This claim also bears directly on open contradiction
-  **#1352**; see Cross-References. Note the page carries both statements
+  namespaced ID on a completely different routing surface. Four of the eight
+  roster entries name no fixed, gradeable model *version*: Mistral's
+  `mistral-large-latest` and `gemini-2.5-pro` (the same moving alias on both
+  the Google AI Studio and Vertex branches — two roster entries, one floating
+  name) float **by name**, and Azure's "your configured Azure GPT deployment"
+  names no model at all. So "pin your judge" is not satisfiable by copying the
+  default list into a config. The Codex-login entry floats by a *different*
+  criterion: it is not a moving model ID but a condition on machine state — it
+  depends on a package being installed and a session being signed in, i.e. on
+  the *state of a developer's machine*, which no config file records. This
+  claim also bears directly on open contradiction **#1352**; see
+  Cross-References. Note the page carries both statements
   ("different models depending on which API keys are available" here, and "by
   default, llm-rubric uses gpt-5" two sections later), and the table above
   shows the second is the OpenAI-credential branch rather than an absolute
@@ -202,7 +205,14 @@ issue: "#1471"
 ### Claim 7: `not-llm-rubric` is fail-closed in both directions — grader transport or parse failures are reported as failures, so inversion never turns a failed grader call into a pass; this is the third per-assert instance of that sentence (after the hub note's `not-trajectory:goal-success` and the g-eval note's `not-g-eval`)
 - **Evidence**: The "Negation with not-llm-rubric" section: the invert
   sentence, the worked `not-llm-rubric` assert, and the failure-semantics
-  sentence (verbatim below).
+  sentence (verbatim below). The *long* form of that failure-semantics
+  sentence — the whole string through the em-dash clause "a grader error is
+  not treated as evidence that the criterion was or was not met" and the
+  closing "never silently turns a failed grader call into a pass" — is itself
+  verbatim on the page: it is one continuous sentence in the source, not a
+  page sentence with an appended gloss. Re-confirmed against the live page in
+  rework, because the claim's "near-identical across pages" argument depends
+  on the wording actually matching `docs-promptfoo-g-eval.md` Claim 5.
 - **Confidence**: settled (documented product behavior)
 - **Quote**: "not-llm-rubric passes when the rubric criterion does not match. Transport or parse failures from the grader are reported as failures in both directions — a grader error is not treated as evidence that the criterion was or was not met, so inversion never silently turns a failed grader call into a pass."
 - **Our assessment**: Valuable as a *third* data point, and the wording is
@@ -467,8 +477,10 @@ assert:
     fail-closed side as the hub's Claim 4 and the g-eval note's Claim 5, so it
     corroborates rather than opposes. The precedence chain (Claim 10) is
     consistent with the hub's ordering. `CONTRADICTIONS.md` has no open
-    `C-NNN` entries; the only open `contradiction`-labeled issues are #1307
-    (missing-trace semantics) and #1352 (judge pin).
+    `C-NNN` entries; the only open *promptfoo-related* `contradiction`-labeled
+    issues are #1307 (missing-trace semantics) and #1352 (judge pin) — the six
+    other open `contradiction` issues (#1462, #1461, #1408, #1338, #1322,
+    #1150) are LiteLLM-scoped and unrelated to this page.
 
 - **Extends**:
   - `source-notes/docs-promptfoo-model-graded-metrics.md` (#1305) — closes
@@ -553,9 +565,12 @@ assert:
   signed-in Codex CLI → `openai:codex-sdk` (state-dependent, invisible in
   config). Add the corollary (Claim 6): if the suite contains embedding- or
   moderation-backed asserts, a text-only fallback is not enough — assert a
-  pinned, API-key-backed judge explicitly. Note in the text that three of the
-  roster entries are floating even by name, so "pin the judge" cannot be
-  satisfied by copying the defaults.
+  pinned, API-key-backed judge explicitly. Note in the text that four of the
+  roster entries name no fixed model *version* (`mistral-large-latest` and
+  `gemini-2.5-pro` float by a literal moving alias — the latter on both Google
+  branches — and Azure's entry names only "your configured Azure GPT
+  deployment"), so "pin the judge" cannot be satisfied by copying the
+  defaults.
 - **Chapter 05 (can the gate tell a model break from a broken judge?) — add
   the positive-marker rule.** For any channel the report does not render, the
   checklist should require evidence the judge received that channel, not
@@ -647,6 +662,13 @@ assert:
   **Contradicts:** for the resolver, with no verdict picked here. I did not
   re-read the g-eval page to test whether it carries a credential roster like
   this one does, so #1352 is neither extended nor resolved by this note.
+  Scope of the duplicate check (re-run in rework, per the Assayer's Issue 1):
+  `gh issue list --label contradiction --state open` returns eight issues —
+  #1462, #1461, #1408, #1352, #1338, #1322, #1307, #1150 — of which only two
+  are promptfoo-related on this page's subject matter (#1307 missing-trace
+  semantics, #1352 judge pin). The other six are LiteLLM-scoped; the
+  narrower "the only *promptfoo-related* open contradiction issues are #1307
+  and #1352" is the accurate form of that check.
 - **Candidate handling** (from `miner-related-notes.md`, read before writing
   Cross-References; candidates are suggestions only — each cited or dismissed
   by name):
