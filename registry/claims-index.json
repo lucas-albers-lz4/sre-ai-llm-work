@@ -11632,6 +11632,68 @@
         }
       ]
     },
+    "docs-litellm-drop-params": {
+      "path": "source-notes/docs-litellm-drop-params.md",
+      "title": "Drop Unsupported Params | liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/completion/drop_params",
+      "chapters": [
+        "05",
+        "02",
+        "03"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The default is a hard exception — LiteLLM raises when a request carries a parameter the target model does not support, and `drop_params=True` converts that raise into a silent drop of the parameter",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The support matrix is keyed on provider *and* model (not provider), and the page ships an executable introspection call as its source of truth — `litellm.get_supported_openai_params(\"<model>\")`",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "`drop_params` is documented in four placements with **no stated precedence or composition** between them — SDK module global (`litellm.drop_params = True`), proxy-global config (`litellm_settings.drop_params: true`), per-request kwarg (`completion(..., drop_params=True)`), and per-deployment (`litellm_params.drop_params: true`)",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "`additional_drop_params` is a *wider* gate than `drop_params` — an explicit list of params to strip on the way to the model regardless of whether the target supports them, typed as \"List or null\", and settable per-request or per-deployment",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "`additional_drop_params` accepts **JSONPath-like nested-field notation** — six documented syntax forms — so a nested field inside a complex object is removed from the outbound request, not just a top-level parameter",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The page's own named use case for nested removal is stripping `input_examples` from tool definitions on the Claude Code + AWS Bedrock path — a gateway-side workaround for a nested tool-schema field the downstream rejects, with no client change",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "`allowed_openai_params` is the documented inverse override — the stated remedy for `litellm.UnsupportedParamsError`, passing the param through as-is, with SDK, per-request proxy, and per-model config placements",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Set on `config.yaml`, `allowed_openai_params` applies to **every request to that deployment** — a blanket, model-scoped bypass of the support check, not a per-request exception",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The page documents **no observable signal for a drop** — no log line, metric, response field, or header is stated for either branch, so the only difference a caller or monitor can detect between \"param honored\" and \"param silently stripped\" is the absence of the raise",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The page's four proxy config snippets are formatted inconsistently — the per-model `drop_params` and `additional_drop_params` examples are bare list fragments with `litellm_params` first and no `model_list:` wrapper, while the nested-field and `allowed_openai_params` per-model examples include `model_list:` and list `model_name` first; all four are valid YAML and parse to the same structure",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-gateway-auth-reference": {
       "path": "source-notes/docs-litellm-gateway-auth-reference.md",
       "title": "Gateway Auth Reference — LiteLLM Documentation",

@@ -2067,6 +2067,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-drop-params": {
+      "slug": "docs-litellm-drop-params",
+      "title": "Drop Unsupported Params | liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/completion/drop_params",
+      "source_type": "docs",
+      "author": "LiteLLM",
+      "date_published": "unknown (living vendor docs; current as of 2026-09-27)",
+      "date_extracted": "2026-09-27",
+      "issue": "#1480",
+      "file": "source-notes/docs-litellm-drop-params.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-gateway-auth-reference": {
       "slug": "docs-litellm-gateway-auth-reference",
       "title": "Gateway Auth Reference — LiteLLM Documentation",
