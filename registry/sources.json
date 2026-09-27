@@ -2379,6 +2379,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-max-score": {
+      "slug": "docs-promptfoo-max-score",
+      "title": "Promptfoo Configuration: Model-Graded — Max Score",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/max-score",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-09-26",
+      "date_extracted": "2026-09-26",
+      "issue": "#1472",
+      "file": "source-notes/docs-promptfoo-max-score.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-model-graded-context-faithfulness": {
       "slug": "docs-promptfoo-model-graded-context-faithfulness",
       "title": "Promptfoo Configuration: Model-Graded — Context Faithfulness",

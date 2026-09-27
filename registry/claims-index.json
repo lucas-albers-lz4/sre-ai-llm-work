@@ -12859,6 +12859,63 @@
         }
       ]
     },
+    "docs-promptfoo-max-score": {
+      "path": "source-notes/docs-promptfoo-max-score.md",
+      "title": "Promptfoo Configuration: Model-Graded — Max Score",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/max-score",
+      "chapters": [
+        "05",
+        "06",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "`max-score` makes no LLM call — it selects the highest-scoring output from the scores the other assertions in the row already produced, and reports exactly one pass per row: \"Returns pass=true for the highest scoring output, pass=false for others\"",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The documented \"least bad\" edge case makes a `max-score` gate go green when every output failed every underlying assertion — a false green that no config review of the underlying asserts will surface",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Aggregation is chosen at the assert (`value.method`, `average` by default or `sum`) with both formulas documented — and the silent `average` default blends a binary 1.0 and a judge 0.5 on one scale",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "`value.weights` is keyed by **assertion type** and \"Weights apply to all assertions of that type\" — individual assertions cannot be weighted at the `max-score` level, and adding a second assertion of an already-weighted type silently changes that type's share of the aggregate",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "`value.threshold` changes the *outcome shape* rather than the per-output flags: it gates **selection** (\"Only select if average score >= 0.7\"; \"Below threshold: No output selected if threshold is specified and not met\") — and a bare `- type: max-score` has no threshold at all, so the documented default configuration cannot fail on quality",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The scoring unit contract is \"binary = 1.0/0.0, scored = its numeric score (typically 0-1), default weight 1.0\" — a *typical*, not enforced, range, which is what makes the mixed-scale average possible",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Ties break deterministically by prompt index — \"Tie scores: First output wins (by index)\" / \"Tie breaking: First output wins (deterministic)\" — reproducible but decided by config order",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The vendor's own `select-best` comparison table is the corpus's cleanest statement of the objective-vs-judged selection split — and the split is about the *selection step only*, because the scores `max-score` aggregates are typically produced by judged asserts",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "`max-score` fails closed on an empty aggregation — \"No other assertions: Error - max-score requires at least one assertion to aggregate\" — and the page documents no `not-` negated form",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-model-graded-context-faithfulness": {
       "path": "source-notes/docs-promptfoo-model-graded-context-faithfulness.md",
       "title": "Promptfoo Configuration: Model-Graded — Context Faithfulness",
