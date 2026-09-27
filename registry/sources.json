@@ -2366,6 +2366,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-llm-rubric": {
+      "slug": "docs-promptfoo-llm-rubric",
+      "title": "Promptfoo Configuration: Model-Graded — LLM Rubric",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/llm-rubric/",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-09-26",
+      "date_extracted": "2026-09-26",
+      "issue": "#1471",
+      "file": "source-notes/docs-promptfoo-llm-rubric.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-model-graded-context-faithfulness": {
       "slug": "docs-promptfoo-model-graded-context-faithfulness",
       "title": "Promptfoo Configuration: Model-Graded — Context Faithfulness",

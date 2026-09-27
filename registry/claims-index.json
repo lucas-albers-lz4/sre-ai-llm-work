@@ -12798,6 +12798,67 @@
         }
       ]
     },
+    "docs-promptfoo-llm-rubric": {
+      "path": "source-notes/docs-promptfoo-llm-rubric.md",
+      "title": "Promptfoo Configuration: Model-Graded — LLM Rubric",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/llm-rubric/",
+      "chapters": [
+        "05",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "`llm-rubric` can grade a non-text target — promptfoo attaches the target provider's `response.audio` to the grading request when an audio-capable OpenAI Chat Completions grader is selected, and `modalities: [text]` is what makes the judge's JSON verdict come back as text while the audio itself is what it grades",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The audio input contract is narrow and fails loudly on the wrong shapes — the target must return **inline base64** audio as `wav` or `mp3` up to 20 MiB (blob references and other formats raise a *grading error*), and the built-in Realtime provider converts its default PCM16 output to WAV (including in persistent conversations) with `output_audio_format: pcm16` required for grading",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The silent-degradation trap — an assertion with `transform` grades the transformed text and **does not attach the original audio**, so the same `llm-rubric` type grades audio, transcript, or text-only depending on grader choice *and* config shape, with no error",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The observability handle is a separate metadata flag — successful audio grades carry `renderedGradingPromptAudio: true` in assertion metadata, while `renderedGradingPrompt` holds the text prompt *without* the attached audio bytes, so the rendered prompt is not evidence the grader heard anything",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The default judge is selected per ambient credential, and this page enumerates the roster with concrete model IDs — OpenAI → `gpt-5`, Codex/ChatGPT login → `openai:codex-sdk` (conditional), Anthropic → `claude-sonnet-4-5-20250929`, Google AI Studio → `gemini-2.5-pro` (via `GEMINI_API_KEY`/`GOOGLE_API_KEY`/`PALM_API_KEY`), Google Vertex → `gemini-2.5-pro`, Mistral → `mistral-large-latest`, GitHub token → `openai/gpt-5`, Azure → the configured Azure GPT deployment",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The Codex/ChatGPT-login fallback is text-only — assertions that need embeddings or moderation still require an API-key-backed provider override, so a credential-selected judge can be silently *incapable* of part of the suite, not merely differently calibrated",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "`not-llm-rubric` is fail-closed in both directions — grader transport or parse failures are reported as failures, so inversion never turns a failed grader call into a pass; this is the third per-assert instance of that sentence (after the hub note's `not-trajectory:goal-success` and the g-eval note's `not-g-eval`)",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "A custom `llm-rubric` provider can return its own `metadata`, and promptfoo copies those keys onto the assertion's `GradingResult.metadata` alongside `renderedGradingPrompt` — making per-assertion fields such as upload IDs or trace IDs available in hooks like `afterEach`",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The vendor's own steer is that an agent-capable grader belongs in `agent-rubric`, not in `llm-rubric` — an agent provider *can* be supplied to `llm-rubric`, but the page routes file-inspecting and tool-using grading to the dedicated type because it \"makes the capability intentional, validates that the grader is an agent runtime, and uses an agent-oriented safety prompt\"",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The override precedence is stated as an exact three-level chain on this page — `assertion.provider` > `test.options.provider` > `defaultTest.options.provider` — with the shorthand-provider trap restated as \"unless you also repeat the full object there\", and the `temperature=0` note sharpened to \"only needed when you're pointing at a different model or provider whose default differs\"",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-model-graded-context-faithfulness": {
       "path": "source-notes/docs-promptfoo-model-graded-context-faithfulness.md",
       "title": "Promptfoo Configuration: Model-Graded — Context Faithfulness",
