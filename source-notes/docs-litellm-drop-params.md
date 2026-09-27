@@ -282,31 +282,42 @@ issue: "#1480"
   gap on this page, and flags that verifying it against the gateway's actual
   logging surface (rather than this page) is the open follow-up.
 
-### Claim 10: Two of the page's four proxy config snippets are rendered as structurally invalid YAML — the per-model `drop_params` and `additional_drop_params` examples put `model_name` *after* and *under* the `litellm_params` children, while the `allowed_openai_params` and nested-field per-model snippets use the correct `model_list:` form
+### Claim 10: The page's four proxy config snippets are formatted inconsistently — the per-model `drop_params` and `additional_drop_params` examples are bare list fragments with `litellm_params` first and no `model_list:` wrapper, while the nested-field and `allowed_openai_params` per-model examples include `model_list:` and list `model_name` first; all four are valid YAML and parse to the same structure
 - **Evidence**: Verbatim line-by-line extraction of the four proxy config code
-  blocks. The `drop_params` per-model block renders as five lines:
-  `- litellm_params:` at column 0, `api_base` / `model` / `drop_params` at
-  column 4, and `model_name: my-model` at column 2 *after* them. The
-  `additional_drop_params` block has the identical shape. By contrast the
-  nested-field and `allowed_openai_params` per-model blocks both begin
-  `model_list:` and nest correctly.
-- **Confidence**: settled (a mechanical property of the published page,
-  re-checkable by copying the blocks; the rendered text is reproduced verbatim
+  blocks, plus a parse check of the reproduced artifacts. The `drop_params`
+  per-model block renders as five lines: `- litellm_params:` at column 0,
+  `api_base` / `model` / `drop_params` at column 4, and `model_name: my-model`
+  at column 2 *after* them; the `additional_drop_params` block has the
+  identical shape. By contrast the nested-field and `allowed_openai_params`
+  per-model blocks both begin `model_list:` and list `model_name` first.
+  Parsing the two fragments (`yaml.safe_load`) yields
+  `[{"litellm_params": {...}, "model_name": "my-model"}]` — a well-formed
+  one-element list whose item has `litellm_params` and `model_name` as
+  **sibling** keys; wrapping the same fragment under `model_list:` parses to
+  the structurally identical mapping.
+- **Confidence**: settled (a directly re-checkable property of the reproduced
+  blocks, verified by parsing them; the rendered text is reproduced verbatim
   in Concrete Artifacts)
-- **Quote**: (no prose quote — the defect is in the code blocks themselves;
-  reproduced verbatim in Concrete Artifacts → "Malformed per-model config
-  snippets (verbatim, as published)")
-- **Our assessment**: Small but real, and worth the guide because the two
-  broken blocks are precisely the two forms an operator reaches for when they
-  want *scoped* rather than global behavior — i.e. the safe placements from
-  Claim 3. Copy-pasted, the block is invalid YAML; even repaired by eye, the
-  `model_name` line would land as a child of `litellm_params` rather than a
-  sibling of the list item, which is not the documented `model_list` shape
-  (`docs-litellm-claude-code-context-management.md`'s per-model
-  `additional_drop_params` artifact shows the correct form). The guide should
-  give the well-formed `model_list:` form and treat the page's snippets as
-  unreliable. This claim is a documentation defect finding, not a claim about
-  LiteLLM behavior.
+- **Quote**: (no prose quote — the difference is in the code blocks themselves;
+  reproduced verbatim in Concrete Artifacts → "Per-model proxy config snippets
+  (verbatim, as published)")
+- **Our assessment**: Cosmetic, and the correction it forces is on us rather
+  than on the page. The two fragments are **valid YAML**, not defective
+  config: because YAML mappings are unordered and `model_name` sits at column
+  2 alongside `litellm_params`, the two keys compose into one well-formed list
+  item, and the only real differences from the page's other two per-model
+  snippets are key order and the elided `model_list:` wrapper. That is a
+  documentation-style inconsistency, not something an operator would hit after
+  pasting. Two small operational notes survive. (1) The elided wrapper means
+  the fragment is not a standalone `config.yaml`: pasted on its own it is a
+  bare sequence where LiteLLM expects a top-level `model_list` key, so the
+  operator has to supply the surrounding shape. (2) Because key order varies
+  across the page's own snippets, a diff of two per-model blocks can look like
+  a substantive change when it is a reordering. Neither warrants a warning in
+  the guide; the well-formed `model_list:` form is in
+  `docs-litellm-claude-code-context-management.md`'s per-model
+  `additional_drop_params` artifact. This claim is a formatting observation,
+  not a claim about LiteLLM behavior and not a documentation defect.
 
 ## Concrete Artifacts
 
@@ -475,10 +486,13 @@ model_list:
       allowed_openai_params: ["tools"]
 ```
 
-### Malformed per-model config snippets (verbatim, as published)
+### Per-model proxy config snippets (verbatim, as published)
 
 The two per-model `drop_params` / `additional_drop_params` blocks are published
-in this shape (see Claim 10). Column alignment is exactly as rendered:
+in this shape (see Claim 10) — bare list fragments with the `model_list:`
+wrapper elided and the keys ordered `litellm_params` first. This is valid YAML
+(it parses to a one-element list whose item has `litellm_params` and
+`model_name` as sibling keys). Column alignment is exactly as rendered:
 
 ```yaml
 - litellm_params:
@@ -637,8 +651,9 @@ listed in the candidates file is addressed):
   - `source-notes/docs-litellm-claude-code-context-management.md` — also the
     source of the **correct** per-model config form. Its Concrete Artifacts
     show a well-formed `model_list:` / `- model_name:` / `litellm_params:` /
-    `additional_drop_params: ["context_management"]` block, which is the shape
-    to use in place of the two malformed snippets in Claim 10.
+    `additional_drop_params: ["context_management"]` block, which is the fuller
+    shape to use in place of the page's two wrapper-less snippet fragments
+    (Claim 10).
 - **Novel**: First corpus coverage of the **parameter-support gate itself** —
   nothing in `source-notes/` or `guide/` documents the gate; the three
   LiteLLM notes that mention `drop_params` do so as an incidental escape valve
@@ -653,7 +668,9 @@ listed in the candidates file is addressed):
   `UnsupportedParamsError` remedy, including its per-deployment scope; the
   **absent drop signal** (no documented log/metric/response field); the
   per-provider-**and**-model support-matrix keying with an executable
-  introspection call; and the two malformed per-model config snippets.
+  introspection call; and the page's inconsistent formatting of its four
+  per-model proxy snippets (Claim 10 — recorded as a formatting observation,
+  not a corpus-novel fact).
 
 ## Guide Impact
 
@@ -707,7 +724,7 @@ listed in the candidates file is addressed):
   Claude Code at Bedrock and strip `input_examples` with
   `additional_drop_params: ["tools[*].input_examples"]` on the
   `model_name`, using the well-formed `model_list:` form (see the
-  malformed-snippet warning below) — no client change required. Two
+  snippet-format note below) — no client change required. Two
   preconditions for the runbook, both from the page's silence: the strip is
   unconditional for that deployment (all clients lose the field), and
   verification requires inspecting the outbound provider payload because the
@@ -724,12 +741,16 @@ listed in the candidates file is addressed):
   that deployment [Claim 8] [settled-scope / Miner-read consequence], so the
   remedy changes *which* monitoring path must be covered, not whether
   monitoring is required.
-- **Chapter 05 / any runbook that instructs on `config.yaml`**: warn that two
-  of this page's four proxy snippets are published as invalid YAML, and they
-  are the two per-model `drop_params` / `additional_drop_params` forms
-  [Claim 10] [settled] — i.e. the exact forms an operator would reach for
-  when avoiding the global flip. Use the well-formed `model_list:` shape
-  (as in `docs-litellm-claude-code-context-management.md`'s artifact) instead.
+- **Chapter 05 / any runbook that instructs on `config.yaml`** (minor, no
+  action required): when reproducing the per-model `drop_params` /
+  `additional_drop_params` forms, use the full `model_list:` shape rather than
+  copying the page's fragments verbatim [Claim 10] [settled-cosmetic]. The
+  page's two per-model `drop_params` / `additional_drop_params` snippets elide
+  the `model_list:` wrapper and order `litellm_params` before `model_name`,
+  unlike its nested-field and `allowed_openai_params` snippets. **The blocks
+  are valid YAML either way** — this is not a correctness warning and the
+  guide needs no change to accommodate it; it is only a note that the
+  fragments are not standalone `config.yaml` files.
 
 ## Extraction Notes
 
@@ -743,15 +764,36 @@ listed in the candidates file is addressed):
   (both filed separately as #1481 / #1482 by the same site crawl) and the
   one external permalink into `litellm/utils.py#L3584`, which was **not**
   fetched — this runner has no access to the repository file, so nothing in
-  this note is asserted from source code. Claims 3, 9, and 10 are explicitly
-  scoped to what the page does and does not say.
+  this note is asserted from source code. Claims 3 and 9 are explicitly
+  scoped to what the page does and does not say; Claim 10 is scoped to the
+  rendered shape of the page's own code blocks.
 - All `Quote` fields are character-for-character contiguous fragments from the
   fetched page prose or list items; inner double quotes are escaped as they
   render. No splicing across non-adjacent sentences. Interpreted consequences
-  are in `Our assessment`. Claim 9 (absent signal) and Claim 10 (malformed
-  snippets) carry `Quote: (no direct quote …)` markers and reproduce the
+  are in `Our assessment`. Claim 9 (absent signal) and Claim 10 (snippet
+  formatting) carry `Quote: (no direct quote …)` markers and reproduce the
   evidence verbatim in Concrete Artifacts instead, because their evidence is
   respectively an absence and a code-block shape rather than a sentence.
+- **Quote fidelity re-verified this session, including by parsing.** The
+  source was re-fetched from `source_url` (HTTP 200) and every `Quote` field in
+  the note — all of Claims 1-8 — was checked programmatically against the
+  fetched page text: each is present as a contiguous, character-for-character
+  fragment (the only normalization needed was accounting for inline `<code>`
+  spans, which is how the page renders the backticked tokens in those quotes).
+  No quote is spliced across non-adjacent sentences. Separately, the two bare
+  list fragments reproduced in Concrete Artifacts were run through a YAML
+  parser: both load to a one-element list whose item has `litellm_params` and
+  `model_name` as sibling keys, which is why Claim 10 states the snippets are
+  valid YAML and the difference between the page's four proxy snippets is
+  formatting (key order, elided `model_list:` wrapper) rather than validity.
+  The `litellm/utils.py#L3584` permalink remains the one outbound reference
+  **not** fetched, and nothing in this note is asserted from source code.
+- **Claim 10's confidence grade was re-derived, not carried over.** The claim
+  no longer rests on an asserted mechanical defect; it now rests on the
+  re-checkable formatting difference between the page's four proxy snippets,
+  plus a parse result that is reproducible from the note's own verbatim
+  artifacts. It is `settled` for that narrow observation and deliberately
+  makes no claim about LiteLLM behavior or config correctness.
 - **Layer reconciliation performed, no contradiction filed** (MINER §4a
   when-NOT-to-file): `docs-litellm-messages-to-responses-mapping.md` Claim 1
   documents `stop_sequences` / `top_k` as "❌ Not mapped / Dropped silently" on
@@ -794,17 +836,16 @@ listed in the candidates file is addressed):
   `input_examples`) are marked as such.
 - `confidence_overall` set to `emerging`: the mechanical facts (default
   polarity, the four placements, the syntax table, the three
-  `allowed_openai_params` placements, the type contract, the two malformed
-  snippets) are settled first-party documentation and were verified against the
-  rendered page, and the two absence claims were verified by full read. It is
-  not `settled` because the whole surface is vendor-documented with no
+  `allowed_openai_params` placements, the type contract, the per-model snippet
+  formatting) are settled first-party documentation and were verified against
+  the rendered page, and the two absence claims were verified by full read. It
+  is not `settled` because the whole surface is vendor-documented with no
   independent validation, the page is undated and living, the cited source
-  location is a line anchor in a moving file, three of the highest-value
+  location is a line anchor in a moving file, and three of the highest-value
   conclusions (fleet-wide blast radius of the global placements, the
   `allowed_openai_params` / `drop_params` interaction order, the unreachability
   of verifying a drop signal from this page) are the Miner's readings of
-  documented mechanics rather than documented behavior, and the two config
-  snippets an operator would most want are defective. Consistent with the
+  documented mechanics rather than documented behavior. Consistent with the
   sibling LiteLLM docs notes (#1286, #1359, #1382, #1390, #1445).
 - `date_published` unknown (undated living docs page; the page references
   `bedrock/us.anthropic.claude-sonnet-5` and `gpt-5.6-luna`, so it is current
