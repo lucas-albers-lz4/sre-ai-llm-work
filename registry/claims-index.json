@@ -12916,6 +12916,52 @@
         }
       ]
     },
+    "docs-promptfoo-model-graded-closedqa": {
+      "path": "source-notes/docs-promptfoo-model-graded-closedqa.md",
+      "title": "Promptfoo Configuration: Model-Graded — Model-Graded Closed QA",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/model-graded-closedqa",
+      "chapters": [
+        "05",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The verdict is a string-suffix test on the grader's own response — pass iff the response ends with `Y`, fail iff it ends with `N`, and `not-model-graded-closedqa` inverts the polarity by requiring an `N` verdict — so the assert is binary (1 / 0) with no `threshold` anywhere in its contract",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "A grader response that ends in neither `Y` nor `N` is neither a silent pass nor a clean fail — it is a *malformed response*, and malformed responses are graded as failures at score 0, so the suffix parse is strict in both directions and any trailing character after the verdict letter flips a passing case",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "This page states the fail-closed property for **both** polarities of a model-graded assert in one sentence — the first positive-form instance in the corpus, which narrows #1305 Claim 4's documented asymmetry, but the wording is narrower than the family sentence and must not be read as \"fail-loud\"",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The closedqa `rubricPrompt` binds `{{input}}`, `{{criteria}}`, and `{{completion}}` — a third distinct variable set in this family, and the page's own example binds neither `{{ output }}` nor `{{ rubric }}`, so a rubric prompt ported from `llm-rubric`/`g-eval` binds nothing and renders silently",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The grader prompt is inherited from OpenAI's public evals, and the vendor's default prompt asks the judge to reason step by step, then print a single `Y`/`N`, then **repeat the letter at the end** — which is what makes a suffix parse viable, and makes this assert the family's one surface where leading scratchpad is expected rather than a misparse hazard",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The grader-override surface is the family's usual three levels (CLI `--grader`, `defaultTest.options.provider`, assertion-level `provider`), and the page names **no** default judge anywhere — so a bare `model-graded-closedqa` assert is graded by the ambient credential-selected judge, and the page's own examples are pins while its default is undocumented",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "`value:` is the criterion and each assert is one independent yes/no check with no threshold and no intra-type aggregation — but the binary scores still feed the test-case weighted average, so a row's `threshold` is where a closedqa gate can be silently weakened",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-model-graded-context-faithfulness": {
       "path": "source-notes/docs-promptfoo-model-graded-context-faithfulness.md",
       "title": "Promptfoo Configuration: Model-Graded — Context Faithfulness",

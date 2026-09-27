@@ -2392,6 +2392,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-model-graded-closedqa": {
+      "slug": "docs-promptfoo-model-graded-closedqa",
+      "title": "Promptfoo Configuration: Model-Graded — Model-Graded Closed QA",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/model-graded-closedqa",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-09-27",
+      "date_extracted": "2026-09-27",
+      "issue": "#1483",
+      "file": "source-notes/docs-promptfoo-model-graded-closedqa.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-model-graded-context-faithfulness": {
       "slug": "docs-promptfoo-model-graded-context-faithfulness",
       "title": "Promptfoo Configuration: Model-Graded — Context Faithfulness",
