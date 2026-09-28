@@ -48,12 +48,11 @@ issue: "#1484"
   the same score, when given the same input") carry no measurement, no
   calibration data, and no worked repeat-run example, and the page routes the
   reader to Pi Labs' own off-site documentation for "more options,
-  configuration, and calibration details". The page is also third-party
-  integration content: its footer reads "Last updated on **Sep 28, 2026** by
-  **Aniket Kumar**", a different author string from the promptfoo-engineer
-  faceplates on the sibling pages (`mldangelo-oai` on `llm-rubric`,
-  `jameshiester-oai` on `g-eval`), which is consistent with a partner-integration
-  page rather than a core product page. Everything below is checkable against
+  configuration, and calibration details". The page's footer reads "Last
+  updated on **Sep 28, 2026** by **mldangelo-oai**" — the same promptfoo
+  maintainer faceplate carried by the sibling `llm-rubric` page — so it is
+  maintained promptfoo documentation, not third-party content, despite
+  documenting a partner integration. Everything below is checkable against
   an installed CLI; the determinism and accuracy claims are not checkable from
   this page at all.
 - **Scope**: An eight-section reference page (Alternative Approach,
@@ -195,17 +194,9 @@ issue: "#1484"
   requirement": a `pi` gate still needs one deliberately-wrong case that must
   fail, and a `pi` threshold still needs a calibration population recorded
   (Claim 8), because a score that cannot move cannot tell you it is wrong.
-  Practical note for the resolver and for future Miners: Pi Labs' own
-  conference talk by David Karam (ai.engineer,
-  `https://ai.engineer/talks/jxrGodnopHo-building-metrics-that-actually-work`)
-  describes the determinism as architectural — a bidirectional encoder with a
-  regression head rather than autoregressive generation of score tokens, and
-  explicitly distinguishes it from the "generate a score, then generate a
-  post-hoc justification" pattern. That is a *mechanism* explanation, not a
-  measurement, and it is not part of the extracted source; it is recorded here
-  as the likely reason the claim is plausible and as the place to look for
-  calibration data. I did not verify it verbatim against the transcript and
-  quote nothing from it.
+  Nothing further is recorded here about *why* the score is stable: the page
+  gives no mechanism, and no off-page source has been verified for this note,
+  so the mechanism is left open rather than inferred.
 
 ### Claim 4: The determinism is purchased by giving up the rationale — the grader's product is a number and explicitly not an explanation, and the same bullet asserts "highly accurate" with the same absence of evidence
 - **Evidence**: The second bullet of the "Alternative Approach" list,
@@ -927,7 +918,9 @@ Their sections remain here for existing links:"
   blocks from the page's Prism `token-line` markup (the plain-text fetch
   collapses YAML indentation; token content is unchanged, and the reconstructed
   blocks are what appear above). Footer reads "Last updated on **Sep 28, 2026**
-  by **Aniket Kumar**" — page is undated, so `date_published` carries the
+  by **mldangelo-oai**" (re-verified against the live page during rework; the
+  page's `dateModified` is `2026-09-28T18:04:25Z`, so intra-day page drift was
+  possible) — page is undated, so `date_published` carries the
   last-updated date, the same convention as the sibling notes
   (#1287/#1289/#1305/#1349/#1471). Every quote above was checked
   character-for-character against the fetched rendered content. The
@@ -1056,12 +1049,10 @@ Their sections remain here for existing links:"
   is cited from the family-defaults inventory and was **not re-read in this
   extraction** — it is carried from the verified references to it in the
   g-eval and conversation-relevance notes and should be treated as
-  carried-over-and-consistent, not re-verified here. A web search was also
-  run to look for public Pi Labs calibration material; the only hit of
-  substance was a conference talk (David Karam, Pi Labs, ai.engineer), which
-  is referenced in Claim 3's assessment for its *mechanism* claim and is
-  explicitly **not** quoted, not part of the extracted source, and not
-  verbatim-verified.
+  carried-over-and-consistent, not re-verified here. A web search was run to
+  look for public Pi Labs calibration material; it produced no source that
+  could be verified for this note, so no off-page material is cited anywhere in
+  the note — every claim above rests on the page's own text or on the corpus.
 - **No contradiction issue filed**, per MINER.md §4a, with the three candidates
   and the reason each fails the bar recorded under **Contradicts** above. The
   duplicate check was re-run against open `contradiction`-labeled issues:
