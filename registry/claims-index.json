@@ -11632,6 +11632,68 @@
         }
       ]
     },
+    "docs-litellm-completion-http-handler-config": {
+      "path": "source-notes/docs-litellm-completion-http-handler-config.md",
+      "title": "Custom HTTP Handler | liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/completion/http_handler_config",
+      "chapters": [
+        "05",
+        "02",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "`BaseLLMAIOHTTPHandler` is consulted only by the `aiohttp_openai/` provider (chat completions) and by Topaz image variations — every other provider, *explicitly including plain `openai/`*, goes through the httpx-based clients and is unaffected",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The assignment target is module-scoped, and the plausible-looking wrong target is a **silent** no-op — `litellm.base_llm_aiohttp_handler` \"creates a new attribute on the `litellm` package that nothing reads, and the custom session is silently ignored\"",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "A second, unavoidable static-binding trap: `litellm.images.main` binds its own reference to the handler **at import time**, so the Topaz image-variation path is not changed by the assignment — one of the two paths the page names as in-scope",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Turning the custom session on is a **routing** change as well as a config change — every worked example switches the model prefix to `aiohttp_openai/<model>`, while the \"Default (No Changes Required)\" example keeps the unprefixed `gpt-5.6-luna` and is annotated \"Works exactly as before\"",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Session-lifecycle ownership is an explicit two-branch contract — user-supplied sessions are closed by the caller, handler-auto-created sessions are cleaned up by the handler, and the page asserts full backward compatibility",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The constructor exposes three orthogonal injection points (`client_session`, `transport`, `connector`) and the page's three worked patterns each pick a different one — a session for pooling, a session with an SSL connector plus `trust_env` for proxying, and a session with a tuned connector for throughput",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The page publishes **three mutually inconsistent** timeout/pool profiles with no stated derivation — dev (`total=60`, `limit=50`), the main \"Custom Session\" example (`total=180`, `limit=300`, `limit_per_host=75`), and the \"Production\" tip (`total=300`, `limit=1000`, `limit_per_host=200`, `keepalive_timeout=60`) — and backs none of them with a measurement",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The \"High Performance\" and \"Production\" profiles are not the same recipe — `ttl_dns_cache=600` and `enable_cleanup_closed=True` appear **only** in the former, making the \"Production\" tip a strict subset rather than a restatement",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "\"Request monitoring\" is advertised as a first-class use case in the Overview, but the page ships no monitoring example, no hook, no event, and no instrumentation surface — the injected session is the only place to put one",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The page documents **no verification step** — no read-back recipe, no assertion, no log, metric, or health field that would tell an operator the assignment landed",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-drop-params": {
       "path": "source-notes/docs-litellm-drop-params.md",
       "title": "Drop Unsupported Params | liteLLM",

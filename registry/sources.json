@@ -2067,6 +2067,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-completion-http-handler-config": {
+      "slug": "docs-litellm-completion-http-handler-config",
+      "title": "Custom HTTP Handler | liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/completion/http_handler_config",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs; current as of 2026-09-28)",
+      "date_extracted": "2026-09-28",
+      "issue": "#1482",
+      "file": "source-notes/docs-litellm-completion-http-handler-config.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-drop-params": {
       "slug": "docs-litellm-drop-params",
       "title": "Drop Unsupported Params | liteLLM",
