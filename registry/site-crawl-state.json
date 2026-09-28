@@ -1326,7 +1326,7 @@
         "filed_at": "2026-08-13T12:56:28.715514+00:00"
       }
     },
-    "last_scan": "2026-09-27T16:10:30.393324+00:00"
+    "last_scan": "2026-09-28T19:05:23.559868+00:00"
   },
   "opentelemetry": {
     "urls": {},
@@ -2739,16 +2739,22 @@
         "filed_at": "2026-09-27T16:10:56.688386+00:00"
       },
       "https://www.cncf.io/projects/kuasar/": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:24:16.126903+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:24:16.126903+00:00",
+        "issue": 1491,
+        "filed_at": "2026-09-28T19:05:49.018035+00:00"
       },
       "https://www.cncf.io/projects/krustlet/": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:24:16.126904+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:24:16.126904+00:00",
+        "issue": 1492,
+        "filed_at": "2026-09-28T19:05:51.130465+00:00"
       },
       "https://www.cncf.io/projects/kserve/": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:24:16.126906+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:24:16.126906+00:00",
+        "issue": 1493,
+        "filed_at": "2026-09-28T19:05:53.259955+00:00"
       },
       "https://www.cncf.io/projects/krkn/": {
         "status": "pending",
@@ -3773,9 +3779,21 @@
       "https://www.cncf.io/blog/2025/12/15/building-platforms-using-kro-for-composition": {
         "status": "pending",
         "screened_at": "2026-09-27T16:10:40.035602+00:00"
+      },
+      "https://www.cncf.io/blog/2026/09/28/the-case-for-a-cloud-native-agent-harness": {
+        "status": "pending",
+        "screened_at": "2026-09-28T19:05:33.187089+00:00"
+      },
+      "https://www.cncf.io/blog/2025/12/11/lima-v2-0-new-features-for-secure-ai-workflows": {
+        "status": "pending",
+        "screened_at": "2026-09-28T19:05:33.187110+00:00"
+      },
+      "https://www.cncf.io/blog/2025/12/10/optimizing-kyverno-cli-performance-my-lfx-mentorship-journey": {
+        "status": "rejected",
+        "screened_at": "2026-09-28T19:05:33.187114+00:00"
       }
     },
-    "last_scan": "2026-09-27T16:10:40.035605+00:00"
+    "last_scan": "2026-09-28T19:05:33.187117+00:00"
   },
   "datadog-llm-obs": {
     "urls": {
@@ -3784,7 +3802,7 @@
         "screened_at": "2026-07-12T23:52:56.905756+00:00"
       }
     },
-    "last_scan": "2026-09-27T16:10:41.468901+00:00"
+    "last_scan": "2026-09-28T19:05:34.758991+00:00"
   },
   "langfuse-docs": {
     "urls": {
@@ -3949,7 +3967,7 @@
         "filed_at": "2026-09-03T15:37:32.594301+00:00"
       }
     },
-    "last_scan": "2026-09-27T16:10:42.785613+00:00"
+    "last_scan": "2026-09-28T19:05:36.467026+00:00"
   },
   "litellm-docs": {
     "urls": {
@@ -5370,16 +5388,22 @@
         "filed_at": "2026-09-27T16:11:01.554097+00:00"
       },
       "https://docs.litellm.ai/docs/completion/image_generation_chat": {
-        "status": "pending",
-        "screened_at": "2026-07-23T13:33:35.237403+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-23T13:33:35.237403+00:00",
+        "issue": 1494,
+        "filed_at": "2026-09-28T19:05:55.133040+00:00"
       },
       "https://docs.litellm.ai/docs/completion/input": {
-        "status": "pending",
-        "screened_at": "2026-07-24T13:25:46.561965+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-24T13:25:46.561965+00:00",
+        "issue": 1495,
+        "filed_at": "2026-09-28T19:05:57.472919+00:00"
       },
       "https://docs.litellm.ai/docs/completion/json_mode": {
-        "status": "pending",
-        "screened_at": "2026-07-24T13:25:46.561986+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-24T13:25:46.561986+00:00",
+        "issue": 1496,
+        "filed_at": "2026-09-28T19:05:59.372365+00:00"
       },
       "https://docs.litellm.ai/docs/completion/knowledgebase": {
         "status": "pending",
@@ -6188,9 +6212,21 @@
       "https://docs.litellm.ai/docs/pass_through/vertex_ai_search_datastores": {
         "status": "pending",
         "screened_at": "2026-09-27T16:10:49.144823+00:00"
+      },
+      "https://docs.litellm.ai/docs/pass_through/vllm": {
+        "status": "pending",
+        "screened_at": "2026-09-28T19:05:44.244232+00:00"
+      },
+      "https://docs.litellm.ai/docs/project": {
+        "status": "rejected",
+        "screened_at": "2026-09-28T19:05:44.244252+00:00"
+      },
+      "https://docs.litellm.ai/docs/projects/Agent%20Lightning": {
+        "status": "pending",
+        "screened_at": "2026-09-28T19:05:44.244255+00:00"
       }
     },
-    "last_scan": "2026-09-27T16:10:49.144826+00:00"
+    "last_scan": "2026-09-28T19:05:44.244259+00:00"
   },
   "promptfoo-docs": {
     "urls": {
@@ -7613,16 +7649,22 @@
         "filed_at": "2026-09-27T16:11:06.970968+00:00"
       },
       "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/select-best": {
-        "status": "pending",
-        "screened_at": "2026-07-24T13:25:51.498109+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-24T13:25:51.498109+00:00",
+        "issue": 1497,
+        "filed_at": "2026-09-28T19:06:01.416133+00:00"
       },
       "https://www.promptfoo.dev/docs/configuration/expected-outputs/moderation": {
-        "status": "pending",
-        "screened_at": "2026-07-24T13:25:51.498129+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-24T13:25:51.498129+00:00",
+        "issue": 1498,
+        "filed_at": "2026-09-28T19:06:03.384045+00:00"
       },
       "https://www.promptfoo.dev/docs/configuration/expected-outputs/python": {
-        "status": "pending",
-        "screened_at": "2026-07-24T13:25:51.498132+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-24T13:25:51.498132+00:00",
+        "issue": 1499,
+        "filed_at": "2026-09-28T19:06:05.334766+00:00"
       },
       "https://www.promptfoo.dev/docs/configuration/expected-outputs/ruby": {
         "status": "pending",
@@ -8427,8 +8469,20 @@
       "https://www.promptfoo.dev/docs/red-team/llm-supply-chain": {
         "status": "pending",
         "screened_at": "2026-09-27T16:10:52.097021+00:00"
+      },
+      "https://www.promptfoo.dev/docs/red-team/llm-vulnerability-types": {
+        "status": "pending",
+        "screened_at": "2026-09-28T19:05:47.414851+00:00"
+      },
+      "https://www.promptfoo.dev/docs/red-team/mcp-security-testing": {
+        "status": "pending",
+        "screened_at": "2026-09-28T19:05:47.414871+00:00"
+      },
+      "https://www.promptfoo.dev/docs/red-team/mitre-atlas": {
+        "status": "pending",
+        "screened_at": "2026-09-28T19:05:47.414874+00:00"
       }
     },
-    "last_scan": "2026-09-27T16:10:52.097023+00:00"
+    "last_scan": "2026-09-28T19:05:47.414877+00:00"
   }
 }
