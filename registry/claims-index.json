@@ -13259,6 +13259,64 @@
         }
       ]
     },
+    "docs-promptfoo-pi-scorer": {
+      "path": "source-notes/docs-promptfoo-pi-scorer.md",
+      "title": "Promptfoo Configuration: Model-Graded — Pi Scorer",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/pi/",
+      "chapters": [],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "`pi` is the model-graded family's only non-LLM-judge grader — it delegates scoring to a dedicated, externally-hosted scoring model via the `withpi` SDK, grades an `llm_input`/`llm_output` pair against a criteria string, and needs no system prompt because the model is pretrained to score",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "`pi` requires a separately-issued third-party credential — a Pi Labs API key created at Pi Labs' own console and supplied as `WITHPI_API_KEY` — and the vendor names the difference from the family explicitly: unlike `llm-rubric`, it does not run on your existing providers",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The determinism claim is a flat vendor assertion with no evidence attached — the page states \"always the same score\" as a guarantee, gives no calibration data, no agreement figures, and no worked repeat-run example, and defers the substance of both accuracy and calibration to an off-site vendor document",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The determinism is purchased by giving up the rationale — the grader's product is a number and explicitly not an explanation, and the same bullet asserts \"highly accurate\" with the same absence of evidence",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "`pi` documents a non-zero default threshold of `0.5` — independently corroborated by a second promptfoo page that carries the same default in a config comment — making it the only default threshold in the family documented twice",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The page documents no `provider:` grader override, no `rubricPrompt`, and no `not-` negation — so the two levers the guide's model-graded rules are built on have no documented surface here, and `pi` is the first model-graded per-type page in the corpus with no negation section at all",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The vendor's own documented second path for the new third-party credential is to place it in the promptfoo config file, and the page presents no protection, templating, or secret-handling guidance for that file",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The only documented threshold-calibration procedure is an interactive loop in a separate web product — \"Find the optimal threshold values for your use case\" is done in the Pi Labs Copilot — and the page documents no API, export, or versioned artifact for it",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The graded payload is the eval's own input/output pair — the page names the fields `llm_input` and `llm_output` and states they are the same as the LLM-judge case, with no context channel, no rendering, and no summarization",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The only complete config on the page pins the *target* under test and names no grader at all — `providers: - openai:gpt-5` sits in the same file as two `pi` asserts, which is precisely the shape a reader will mistake for a pinned judge",
+          "kind": "claim"
+        }
+      ]
+    },
     "failure-litellm-bedrock-invoke-prompt-cache": {
       "path": "source-notes/failure-litellm-bedrock-invoke-prompt-cache.md",
       "title": "Incident Report: Prompt Cache Invalidation for Claude Code on Bedrock Invoke",
