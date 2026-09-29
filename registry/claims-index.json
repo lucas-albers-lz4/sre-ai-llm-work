@@ -11980,6 +11980,79 @@
         }
       ]
     },
+    "docs-litellm-json-mode-structured-outputs": {
+      "path": "source-notes/docs-litellm-json-mode-structured-outputs.md",
+      "title": "Structured Outputs (JSON Mode) — liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/completion/json_mode",
+      "chapters": [
+        "05",
+        "02",
+        "03",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Structured-output capability is discoverable only at runtime, and the page requires **two different predicates** — `get_supported_openai_params` for bare `response_format`, `supports_response_schema` for the strict `json_schema` form — plus an externally hosted JSON file",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The support statement is a flat, unqualified 10-item \"Works for:\" list — no ❌ cells, no per-model granularity, and no native-vs-post-hoc distinction, even though the same page says native support is not universal",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Where a provider cannot enforce the schema natively, the strictness guarantee moves from the provider to the caller — a **post-hoc, caller-side** check on a config flag, implemented with `jsonvalidator`",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The page documents **no failure contract at all** for the validation fallback — no error type, no exception name, no HTTP status, no partial-response behavior, no retry guidance — recorded as an explicit absence",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The SDK example that demonstrates the validation fallback is the page's only introspection affordance — it enables `set_verbose` to see the raw request — and it carries a provider-prefix/auth mismatch: a `gcloud auth … vertex credentials` comment above a `gemini/`-prefixed model",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The page documents a same-vendor, version-keyed **schema-dialect split** for Gemini — 2.0+ uses native `responseJsonSchema` (standard JSON Schema), 1.5 uses `responseSchema` (OpenAPI) — selected automatically by model version, with `additionalProperties` supported on one and not the other",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The four Gemini-2.0+ \"benefits\" are stated as **format-compatibility** properties, not enforcement properties — the strongest one is \"No `propertyOrdering` required\"",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The feature has three documented request shapes, and the Pydantic shape's happy path is explicitly \"the gateway returns a string, the caller validates it\" — `model_validate_json(resp.choices[0].message.content)`",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The proxy's documented OpenAI-SDK path routes structured output through a **`beta`** endpoint and a client-side `.parsed` field — a second, independent validation layer that the page never distinguishes from LiteLLM's own `jsonvalidator`",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The proxy's four curls use **two different auth env-var names**, and the OpenAI-SDK example states the proxy key \"can be anything, if master_key not set\"",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The \"Validate JSON Schema\" PROXY curl is **not runnable as printed** — two trailing commas make the request body invalid JSON — and it sends a `math_reasoning` schema that matches neither the section's SDK example nor its own messages",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "The page carries no statement about streaming, telemetry, or fallbacks for structured output — recorded as three explicit absences, not inferred in either direction",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-messages-to-responses-mapping": {
       "path": "source-notes/docs-litellm-messages-to-responses-mapping.md",
       "title": "v1/messages → /responses Parameter Mapping — liteLLM",

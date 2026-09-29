@@ -2145,6 +2145,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-json-mode-structured-outputs": {
+      "slug": "docs-litellm-json-mode-structured-outputs",
+      "title": "Structured Outputs (JSON Mode) — liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/completion/json_mode",
+      "source_type": "docs",
+      "author": "LiteLLM",
+      "date_published": "unknown (living vendor docs; current as of 2026-09-29)",
+      "date_extracted": "2026-09-29",
+      "issue": "#1496",
+      "file": "source-notes/docs-litellm-json-mode-structured-outputs.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-messages-to-responses-mapping": {
       "slug": "docs-litellm-messages-to-responses-mapping",
       "title": "v1/messages → /responses Parameter Mapping — liteLLM",
