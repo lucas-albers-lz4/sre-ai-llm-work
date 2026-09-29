@@ -2470,6 +2470,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-moderation-assertions": {
+      "slug": "docs-promptfoo-moderation-assertions",
+      "title": "Promptfoo Configuration: Moderation Assertion",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/expected-outputs/moderation",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-09-28",
+      "date_extracted": "2026-09-28",
+      "issue": "#1498",
+      "file": "source-notes/docs-promptfoo-moderation-assertions.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-pi-scorer": {
       "slug": "docs-promptfoo-pi-scorer",
       "title": "Promptfoo Configuration: Model-Graded — Pi Scorer",
@@ -2480,6 +2493,19 @@
       "date_extracted": "2026-09-28",
       "issue": "#1484",
       "file": "source-notes/docs-promptfoo-pi-scorer.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
+    "docs-promptfoo-search-rubric": {
+      "slug": "docs-promptfoo-search-rubric",
+      "title": "Promptfoo Configuration: Model-Graded — Search Rubric",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/search-rubric",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-09-28",
+      "date_extracted": "2026-09-28",
+      "issue": "#1485",
+      "file": "source-notes/docs-promptfoo-search-rubric.md",
       "confidence_overall": "emerging",
       "status": "current"
     },

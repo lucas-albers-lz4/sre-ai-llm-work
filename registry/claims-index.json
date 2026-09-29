@@ -13259,6 +13259,86 @@
         }
       ]
     },
+    "docs-promptfoo-moderation-assertions": {
+      "path": "source-notes/docs-promptfoo-moderation-assertions.md",
+      "title": "Promptfoo Configuration: Moderation Assertion",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/expected-outputs/moderation",
+      "chapters": [
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "`moderation` is a gate that *runs* a third-party classifier, not one that reads a normalized signal — the exact counterpart to the sibling `guardrails` assertion",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The moderation backend is selected by ambient environment variables, not by declared config — a documented two-step precedence chain where `AZURE_CONTENT_SAFETY_ENDPOINT` silently overrides the OpenAI default",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The Azure auto-switch keys on the *endpoint* variable alone, and a dated API version is baked into a default",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "`value:` narrows the check to named categories, and the category vocabulary is provider-specific and non-portable across all three backends",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The page documents no behavior for a `value:` entry that does not match a category on the selected backend — the silent-no-op-vs-error question the triage raised is unanswered",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The LlamaGuard `S`-code vocabulary is not stable across model generations — the page's table and the benchmark the page links for its performance claim use different numbers for the same category names from `S5` onward",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The recommended default backend is unpinned while the alternative in the same page is pinned to a content hash — a pin-everything counterexample inside a security control",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The page's first Replicate example is annotated as the latest LlamaGuard while pinning LlamaGuard 3 — the comment contradicts both the pinned model and the page's own default statement",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Token accounting is a documented three-state contract — provider-reported usage is billed into assertion token metrics for clean, flagged, *and provider-error* results, and `not-moderation` changes the verdict without changing the bill",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "A provider error is a recognized result class for metrics but has no documented pass/fail semantics — the fail-open question is answered on the sibling page and left open here",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The vendor's comparative performance claim carries no number on the page, and its only evidence is a self-reported, policy-aligned internal benchmark for a *different* model generation",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "Azure carries a provider-config surface no other backend has — custom blocklists that can halt the gate outside the four named categories",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "The OpenAI category vocabulary promptfoo documents is smaller than the one OpenAI's own API returns — the page's table omits `illicit` and `illicit/violent`",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "The upstream provider frames moderation as a signal, not a blocking decision — the vendor's own API documentation argues against treating one moderation assert as a CI hard gate",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-pi-scorer": {
       "path": "source-notes/docs-promptfoo-pi-scorer.md",
       "title": "Promptfoo Configuration: Model-Graded — Pi Scorer",
@@ -13313,6 +13393,56 @@
         {
           "n": 10,
           "heading": "The only complete config on the page pins the *target* under test and names no grader at all — `providers: - openai:gpt-5` sits in the same file as two `pi` asserts, which is precisely the shape a reader will mistake for a pinned judge",
+          "kind": "claim"
+        }
+      ]
+    },
+    "docs-promptfoo-search-rubric": {
+      "path": "source-notes/docs-promptfoo-search-rubric.md",
+      "title": "Promptfoo Configuration: Model-Graded — Search Rubric",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/search-rubric",
+      "chapters": [
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "`not-search-rubric` inverts the **score**, not just the boolean — a negated result scores `1 - score` clamped to `[0, 1]`, and the vendor's stated reason is that negation must aggregate correctly under `threshold` and weighted scoring, not merely flip a pass flag",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "`not-search-rubric` is fail-closed in both directions — the fourth statement of the family's inversion guarantee, in wording character-identical to the g-eval and llm-rubric pages except for one word, and still scoped to the inverted form only",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The verdict contract is lenient on **formatting** and strict on **absence** — and the `not-` form *preserves* grader failures rather than inverting them, stated in the \"How it works\" section rather than in the negation section",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The rubric `value` must render to a string and non-string types are rejected **before** the grading provider is called — a pre-flight validation that is the exact inverse of the interpolate-everything default the hub documents for the same input",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Refusal is a documented **expected failure** — a `search-rubric` gate is a conjunction of \"does the SUT have web access\" and \"is the answer right\", the vendor grades the first conjunct Fail, and all three documented remedies change the SUT or the assert type rather than the rubric",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The score banding is coarse and bucket-based, while the page's own threshold examples read `threshold` as a percentage of accuracy — a page-internal ambiguity that makes a `search-rubric` threshold a bucket selector rather than a precision dial",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The `grading:` block is a second, tool-carrying grader-pinning location that the corpus had zero occurrences of, the page names **no** default judge, and the `search-rubric` ≡ `llm-rubric` equivalence therefore does not hold as a bare-config equivalence",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "`search-rubric` fails at three distinct layers that go loud/silent, early/late, and free/expensive in opposite directions — and the loudest is the one nobody sees when a gate goes red",
           "kind": "claim"
         }
       ]
