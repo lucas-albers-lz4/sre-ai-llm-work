@@ -118,7 +118,7 @@ issue: "#1495"
 - **Confidence**: settled (explicit vendor statement of both the limit and the
   fallback behavior)
 - **Quote**: "This ONLY DROPS UNSUPPORTED OPENAI PARAMS." / "LiteLLM assumes any non-openai param is provider specific and passes it in as a kwarg in the request body"
-- **Our assessment**: This is the load-bearing mechanism on the page and it is
+- **Our assessment**: This is the central mechanism on the page and it is
   **absent from the corpus**. `docs-litellm-drop-params.md` Claim 1 documents the
   gate's *polarity* (raise by default, `drop_params` inverts to silent) and its
   Claim 2 documents the matrix keying, but nothing in that note — and nothing
@@ -294,13 +294,17 @@ issue: "#1495"
 - **Confidence**: settled as a documented **non**-guarantee (the vendor states
   the limit explicitly, which is stronger evidence than a guarantee would be)
 - **Quote**: "This feature is in Beta. If specified, our system will make a best effort to sample deterministically, such that repeated requests with the same seed and parameters should return the same result. Determinism is not guaranteed, and you should refer to the system_fingerprint response parameter to monitor changes in the backend."
-- **Our assessment**: Directly load-bearing for
+- **Our assessment**: This bears directly on
   `guide/05-llm-ops-reliability.md` ~L1001's concern that "a deterministic eval
   or regression suite running through that path is silently reconfigured" —
   this gives the vendor's own reason and, more usefully, the one concrete
   detection field the corpus has never recorded: **`system_fingerprint`**.
-  Nothing in `source-notes/` or `guide/` mentions it (re-verified this
-  session). The operational rule that falls out: a seeded eval run is not
+  No source note documents `system_fingerprint`'s *role* as a drift signal —
+  the only corpus occurrence is as a literal response key in
+  `docs-litellm-completion-batching.md`'s artifacts
+  (`"system_fingerprint": "fp_179b0f92c9"` and `"system_fingerprint": null`),
+  and `guide/` never mentions it (re-verified this session). The operational
+  rule that falls out: a seeded eval run is not
   reproducible by contract, and backend drift is detectable only if
   `system_fingerprint` is recorded per response — which means an eval harness
   that stores only outputs cannot distinguish "the model changed behavior" from
@@ -320,8 +324,9 @@ issue: "#1495"
 - **Quote**: "input_cost_per_token: float (optional) - The cost per input token for the completion call" / "output_cost_per_token: float (optional) - The cost per output token for the completion call"
 - **Our assessment**: Extends the corpus's existing placement of the same knob at
   *deployment* level — `docs-litellm-adaptive-router.md` carries
-  `input_cost_per_token: 0.000002` inside a router's `litellm_params` (its
-  Concrete Artifacts), i.e. the operator-set, config-file placement. This page
+  `input_cost_per_token: 0.000002` under a router entry's `model_info` (its
+  Concrete Artifacts) as a sibling of that entry's `litellm_params`, i.e. the
+  operator-set, config-file placement. This page
   documents the **per-request** placement, which is the placement with a
   different risk profile: a value that arrives in the request body is a value a
   *caller* can set. If the override feeds the gateway's spend ledger, then
@@ -343,7 +348,7 @@ issue: "#1495"
   the call target)
 - **Quote**: "type: string - The type of the tool. You can set this to "function" or "mcp" (matching the /responses schema) to call LiteLLM-registered MCP servers directly from /chat/completions."
 - **Our assessment**: Recorded per the Prospector's instruction to flag rather
-  than mine, but the cross-reference is load-bearing rather than decorative,
+  than mine, but the cross-reference is substantive rather than decorative,
   because it changes the *threat surface* of the main endpoint. The corpus
   already treats MCP as a distinct surface with its own hardening requirements:
   `docs-litellm-gateway-auth-reference.md` Claim 1 records that the MCP ASGI
@@ -387,7 +392,7 @@ issue: "#1495"
   concrete, cheap addition to the chapter's rule, and the symmetric case is
   worth stating too: a value of 0 is a positive signal (no degradation), which
   no error-rate metric provides. The three negative facts are equally
-  load-bearing. (1) **No time budget**: a fallback chain of length N has
+  consequential. (1) **No time budget**: a fallback chain of length N has
   worst-case latency of N × the per-attempt timeout, and with the 600s default
   of Claim 5 that is a multi-hour worst case that no single caller-side timeout
   can bound. (2) **No loop and no cooldown**: retry/backoff is explicitly
@@ -749,10 +754,11 @@ dismissed below):
     constrained remediation.
   - `source-notes/docs-litellm-adaptive-router.md` — **cited by section**, per
     MINER §4b: its **Concrete Artifacts** carry
-    `input_cost_per_token: 0.000002` inside a router's `litellm_params`, i.e.
-    the operator/deployment-level placement of the same knob that this page
-    documents at request scope (Claim 11). No numbered claim in that note is
-    about the knob, so it is cited by section rather than by claim number.
+    `input_cost_per_token: 0.000002` under a router entry's `model_info` (a
+    sibling of that entry's `litellm_params`), i.e. the operator/deployment-level
+    placement of the same knob that this page documents at request scope
+    (Claim 11). No numbered claim in that note is about the knob, so it is cited
+    by section rather than by claim number.
   - `source-notes/docs-litellm-gateway-auth-reference.md` **Claims 1 and 2** —
     MCP ASGI routes bypassing the standard FastAPI auth dependency, and MCP
     outbound auth as a nine-valued per-server `auth_type`. This is the
@@ -777,8 +783,11 @@ dismissed below):
   itself**; verified this session that `source-notes/` and `guide/` contain
   **zero** occurrences of `context_window_fallback_dict`,
   `disable_stop_sequence_limit`, `x-litellm-attempted-fallbacks`,
-  `All fallback attempts failed`, `system_fingerprint`, "600 second", or
-  "completion/input". Specifically new to the corpus: the gate's **outer
+  `All fallback attempts failed`, "600 second", or "completion/input". The
+  string `system_fingerprint` is **not** a zero-hit term — it appears as a
+  literal response key in `docs-litellm-completion-batching.md`'s artifacts —
+  but no source note documents its **role** as a drift signal, and `guide/`
+  never mentions it. Specifically new to the corpus: the gate's **outer
   boundary** — non-OpenAI params are assumed provider-specific and passed
   through as request-body kwargs, so `drop_params` cannot catch a misspelled
   OpenAI param (Claim 3); the gate's **three hard-coded exemptions** and the
@@ -870,7 +879,8 @@ dismissed below):
   request-scoped price knob exists and that, on this page, its effect on the
   spend ledger is not documented — an open question, not a warning. The
   operator-set placement of the same knob is already in the corpus
-  (`docs-litellm-adaptive-router.md`, Concrete Artifacts), so the guidance
+  (`docs-litellm-adaptive-router.md`, Concrete Artifacts — a router entry's
+  `model_info`), so the guidance
   should distinguish operator-set from caller-set. Pair with `metadata`, which
   this page documents as the per-call hook "sent to logging integrations" —
   the tagging surface for attributing a request's spend to a caller.
@@ -922,7 +932,7 @@ dismissed below):
   `https://docs.litellm.ai/docs/completion/reliable_completions` and each
   carries its source URL inline in the `Quote` label, because the Assayer
   spot-checks against `source_url`. No quote is spliced across non-adjacent
-  sentences; where two sentences of the same paragraph are both load-bearing
+  sentences; where two sentences of the same paragraph are both essential
   (e.g. the gate note, the litellm-specific param definitions) they appear as
   separate slash-delimited fragments of the same contiguous passage.
   Interpreted consequences are in `Our assessment`, never in `Quote`. Quotes
