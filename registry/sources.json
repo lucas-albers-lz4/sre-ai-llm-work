@@ -2080,6 +2080,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-completion-input-params": {
+      "slug": "docs-litellm-completion-input-params",
+      "title": "Input Params | liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/completion/input",
+      "source_type": "docs",
+      "author": "LiteLLM",
+      "date_published": "unknown (living vendor docs; current as of 2026-09-29)",
+      "date_extracted": "2026-09-29",
+      "issue": "#1495",
+      "file": "source-notes/docs-litellm-completion-input-params.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-drop-params": {
       "slug": "docs-litellm-drop-params",
       "title": "Drop Unsupported Params | liteLLM",

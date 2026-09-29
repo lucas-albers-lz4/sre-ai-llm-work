@@ -11694,6 +11694,83 @@
         }
       ]
     },
+    "docs-litellm-completion-input-params": {
+      "path": "source-notes/docs-litellm-completion-input-params.md",
+      "title": "Input Params | liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/completion/input",
+      "chapters": [
+        "05",
+        "02",
+        "03"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The supported-params gate has a hard-coded exemption list that bypasses the matrix entirely — `stream_options`, `extra_headers` and `max_retries` are not checked against the support list and are accepted for every provider",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The page names `max_retries` in the exemption sentence but documents the retry parameter as `num_retries` — the two names are never reconciled, and neither appears in the `completion()` signature",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The gate's scope is bounded by LiteLLM's own OpenAI-param recognition — any parameter it does not classify as an OpenAI param is assumed provider-specific and passed into the request body as a kwarg",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "`context_window_fallback_dict` is a second fallback mechanism with a *different* trigger from `fallbacks` — it fires only on a context-window error, where `fallbacks` fires on any call failure",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The documented default client timeout is **600 seconds** — and the page's own signature declares `timeout: Optional[Union[float, int]] = None`, so the prose default and the code default on the same page disagree",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "A `stop` list longer than 4 sequences is silently truncated to the first 4, with the single exit `litellm.disable_stop_sequence_limit = True` — a request-mutating behavior with no warning emitted",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "JSON mode without an explicit instruction is a documented liveness failure — the model emits an unbounded whitespace stream until the token limit, which the vendor describes as a long-running, \"seemingly stuck\" request; and `finish_reason=\"length\"` can leave the content cut off mid-JSON",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The published support matrix is a per-model snapshot the page itself disclaims — the executable `get_supported_openai_params(model, custom_llm_provider)` is given as the source of truth, with Bedrock Llama as the worked reason provider-level tables are wrong",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "`stream_options={\"include_usage\": True}` is documented as returning usage on the final chunk for every provider, and the wire shape is an extra chunk before `data: [DONE]` with an empty `choices` array while all other chunks carry `usage: null`",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "`seed` is documented as best-effort Beta with determinism explicitly **not** guaranteed, and `system_fingerprint` is named as the signal for detecting backend drift",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "`input_cost_per_token` and `output_cost_per_token` are per-call cost overrides sitting on the same request body as `metadata` — a spend-*attribution* surface whose blast radius depends on who can set them",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "`tools[].type` may be `\"mcp\"`, so the ordinary `/chat/completions` path can invoke LiteLLM-registered MCP servers directly — a world-mutating capability on the main request surface",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "SDK-level `fallbacks` has no time budget, no loop and no cooldown — each entry is tried exactly once in order, total failure raises the last error suffixed `All fallback attempts failed`, and the successful response carries an `x-litellm-attempted-fallbacks` header",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-drop-params": {
       "path": "source-notes/docs-litellm-drop-params.md",
       "title": "Drop Unsupported Params | liteLLM",
