@@ -13597,6 +13597,58 @@
         }
       ]
     },
+    "docs-promptfoo-select-best": {
+      "path": "source-notes/docs-promptfoo-select-best.md",
+      "title": "Promptfoo Configuration: Model-Graded — Select Best",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/select-best",
+      "chapters": [
+        "05",
+        "06",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The `select-best` pass column is a ranking, not a verdict — \"Returns `pass=true` for the winning output and `pass=false` for others\" means every non-winner is red **by construction**, so a 3-prompt row is 1 green / 2 red regardless of whether any output was actually good",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The page's precondition is stated in prose and **not enforced** — \"This assertion requires multiple prompts or providers to generate different outputs to compare\" — and the page documents no error, warning, or degenerate-case behavior when only one candidate exists",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "`select-best` documents **no** `threshold`, weight, method, or any other dial — `value:` is the criterion string and nothing else, so unlike `max-score` there is no configuration that turns the selector into a quality bar",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The judge's expected response is a **bare integer index** — \"Choose the best output by responding with its index (0 to `{{ outputs | length - 1 }}`)\" — which is the missing causal mechanism behind the hub's \"`select-best` can read a scratchpad number as the winning index\", and makes this assert the family's narrowest, most collision-prone verdict encoding",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The `rubricPrompt` override binds a **collection** — `{{ outputs | length }}`, `{% for output in outputs %}`, `{{ loop.index0 }}`, `{{ output }}`, `{{ criteria }}` — a fourth distinct variable vocabulary in this family and the first in which the graded unit is a list rather than a scalar",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The three grader-override surfaces are restated verbatim but **no precedence order is stated** — the page numbers them 1/2/3 and stops, so a reader cannot tell which level wins without going back to the hub page",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The page documents a **grader-restore failure mode under resume and hooks** — \"Resuming with redacted grader credentials requires a matching provider ID and nonsecret configuration. If a hook changed the grader's settings or selected a runtime provider that cannot be reloaded, supply the matching grader configuration or rerun the eval.\" — the first corpus instance of promptfoo documenting that a persisted eval may not faithfully reconstitute its judge",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The `rubricPrompt` artifact proves **one judge call per row**, not one per output — all N candidates go into a single rendered prompt and the judge returns a single index — which confirms the sibling page's \"One per eval\" cost cell and re-frames \"Evaluates each output against the specified criterion\" as the checker's internal steps, not N API calls",
+          "kind": "claim"
+        }
+      ]
+    },
     "failure-litellm-bedrock-invoke-prompt-cache": {
       "path": "source-notes/failure-litellm-bedrock-invoke-prompt-cache.md",
       "title": "Incident Report: Prompt Cache Invalidation for Claude Code on Bedrock Invoke",

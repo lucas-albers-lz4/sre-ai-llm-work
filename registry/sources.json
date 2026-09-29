@@ -2535,6 +2535,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-select-best": {
+      "slug": "docs-promptfoo-select-best",
+      "title": "Promptfoo Configuration: Model-Graded — Select Best",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/expected-outputs/model-graded/select-best",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-09-29",
+      "date_extracted": "2026-09-29",
+      "issue": "#1497",
+      "file": "source-notes/docs-promptfoo-select-best.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "failure-litellm-bedrock-invoke-prompt-cache": {
       "slug": "failure-litellm-bedrock-invoke-prompt-cache",
       "title": "Incident Report: Prompt Cache Invalidation for Claude Code on Bedrock Invoke",
