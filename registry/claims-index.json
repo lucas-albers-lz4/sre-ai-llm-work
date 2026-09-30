@@ -12130,6 +12130,78 @@
         }
       ]
     },
+    "docs-litellm-knowledgebase-vector-stores": {
+      "path": "source-notes/docs-litellm-knowledgebase-vector-stores.md",
+      "title": "Using Vector Stores (Knowledge Bases) | liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/completion/knowledgebase",
+      "chapters": [
+        "05",
+        "02",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Retrieval is triggered by *registry membership*, not by an opt-in flag — any requested vector-store ID that is found in the `vector_store_registry` causes LiteLLM to run the retrieval, and the registry is the only place a store can be declared",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The retrieval query is the **last message only** — and the page's only worked transformation is a single-message request, so it cannot show what happens to earlier turns",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The gateway rewrites the message array — retrieved text is injected as an *additional `user` turn* prefixed `Context:`, so context and cost accounting shift at the gateway, not at the client",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Citations are out-of-band in a non-standard field, and on the streaming path they exist only on the final chunk gated on `finish_reason == \"stop\"`",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "\"Always on for a model\" makes retrieval **unconditional for every request routed to that model alias**, with no per-request signal",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "A per-store search error fails **open** by default — the request proceeds with that store's context missing, and the failure is recorded in a second, undocumented `provider_specific_fields` key",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Pre-call guardrails run over each retrieved context chunk, and a block fails the request — so knowledge-base content is an input to the guardrail, and a document can fail a chat",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The client-declared `file_search` tool is **consumed by the gateway** — a recognised one is removed from `tools` before the provider call, and recognition is all-or-nothing",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The provider matrix carries two explicit capability gaps and one BETA — Azure Vector Stores \"cannot be directly queried\", RAGFlow Datasets are \"dataset management only\", MongoDB Vector Search is BETA",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "PG Vector requires a **separately deployed connector** whose embedding configuration points back at the LiteLLM proxy itself — a circular dependency in the retrieval path",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The registry is a control-plane object with its own list endpoint, credential reference, pagination fields, and a log view of the retrieval query",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "The page documents two incompatible wire shapes for `vector_store_ids` — `tools`-wrapped `file_search` in all six worked examples, top-level parameter in the trigger sentence, the worked transformation, and the API Reference table — and never reconciles them",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-message-sanitization": {
       "path": "source-notes/docs-litellm-message-sanitization.md",
       "title": "Message Sanitization for Tool Calling for anthropic models | liteLLM",

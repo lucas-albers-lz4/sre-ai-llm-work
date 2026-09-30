@@ -2171,6 +2171,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-knowledgebase-vector-stores": {
+      "slug": "docs-litellm-knowledgebase-vector-stores",
+      "title": "Using Vector Stores (Knowledge Bases) | liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/completion/knowledgebase",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs; page footer reads \"Copyright © 2026 liteLLM\")",
+      "date_extracted": "2026-09-30",
+      "issue": "#1508",
+      "file": "source-notes/docs-litellm-knowledgebase-vector-stores.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-message-sanitization": {
       "slug": "docs-litellm-message-sanitization",
       "title": "Message Sanitization for Tool Calling for anthropic models | liteLLM",
