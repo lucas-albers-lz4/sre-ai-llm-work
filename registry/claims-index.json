@@ -13547,6 +13547,72 @@
         }
       ]
     },
+    "docs-promptfoo-python-assertions": {
+      "path": "source-notes/docs-promptfoo-python-assertions.md",
+      "title": "Promptfoo Configuration: Python Assertions",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/expected-outputs/python/",
+      "chapters": [
+        "02",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "promptfoo resolves the Python interpreter by running `python` from the shell, and a missing binary surfaces as a literal `\"python: command not found\"` — overridable via `PROMPTFOO_PYTHON` (absolute path or bare PATH executable) — so a slim CI image that ships only `python3` breaks every Python assertion at invocation",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Because `pass` is a Python reserved keyword, the page's `GradingResult` is a **dataclass** with a `pass_` field, and the page instructs the author to convert it with `dataclasses.asdict()` before returning — a return-shape step the JavaScript contract does not have",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The page defines a silent snake_case → camelCase field bridge for the Python return value — `pass_` → `pass`, `named_scores` → `namedScores`, `named_score_weights` → `namedScoreWeights`, `component_results` → `componentResults`, `tokens_used` → `tokensUsed` — the only place the Python return-contract spelling is specified",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The page's canonical trace gate guards with `hasattr(context, 'trace')` while declaring `context` to be a `TypedDict` — so, read against the page's own type definition, the guard returns `True` **unconditionally** and the entire trace-checking body below it is unreachable",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The page documents three mutually inconsistent access styles for the same `AssertionValueFunctionContext` object — dict-subscript (`context[\"vars\"][\"example\"]`), dict-method (`context.get('config', {})`), and attribute (`context.trace`, `if context.trace`) — in three different examples",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Unlike the JavaScript page, this page never states what happens when a Python assertion raises — an undocumented contract where the most likely exception (`AttributeError` from the attribute-style `context.trace` access in Claims 4–5) has undefined behavior",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The page's opening return-value prose still specifies the **JavaScript** boolean literals `true` / `false` for a Python function, and the multiline example returns a dict literal with bareword keys — contract slips copy-pasted from the sibling page",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "External Python assertions load via `file://relative/path/script.py` with an optional `:function_name` selector and a **default entrypoint of `get_assert`**, are called as `(output, context)`, and read assertion-scoped `config` through `context.get('config', {})` — the same parameter-reuse pattern as the JavaScript route, with a different default-function convention",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "`not-python` restates the pre-inversion threshold rule for the Python binding, independently corroborating that the negation semantics are a property of the assertion framework and not of the JavaScript page",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The whole eval pipeline is Python-addressable through the same `file://` prefix — prompts, providers, test generators, and assertions — so a Python-based gate is not a single assertion but a multi-hook dependency on the runner's interpreter",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The two pages disagree on how promptfoo finds Python — the assertions page says it runs `python` from your shell and warns about `command not found`, while the integration page says promptfoo \"automatically detects your Python installation\" — and the integration page adds a `0-1` range constraint on numeric returns that the assertions page omits",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-search-rubric": {
       "path": "source-notes/docs-promptfoo-search-rubric.md",
       "title": "Promptfoo Configuration: Model-Graded — Search Rubric",

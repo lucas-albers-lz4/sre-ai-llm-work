@@ -2522,6 +2522,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-python-assertions": {
+      "slug": "docs-promptfoo-python-assertions",
+      "title": "Promptfoo Configuration: Python Assertions",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/expected-outputs/python/",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-09-29",
+      "date_extracted": "2026-09-30",
+      "issue": "#1499",
+      "file": "source-notes/docs-promptfoo-python-assertions.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-search-rubric": {
       "slug": "docs-promptfoo-search-rubric",
       "title": "Promptfoo Configuration: Model-Graded — Search Rubric",
