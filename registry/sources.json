@@ -2171,6 +2171,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-message-sanitization": {
+      "slug": "docs-litellm-message-sanitization",
+      "title": "Message Sanitization for Tool Calling for anthropic models | liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/completion/message_sanitization",
+      "source_type": "docs",
+      "author": "LiteLLM",
+      "date_published": "unknown (living vendor docs; current as of 2026-09-29)",
+      "date_extracted": "2026-09-29",
+      "issue": "#1509",
+      "file": "source-notes/docs-litellm-message-sanitization.md",
+      "confidence_overall": "settled",
+      "status": "current"
+    },
     "docs-litellm-messages-to-responses-mapping": {
       "slug": "docs-litellm-messages-to-responses-mapping",
       "title": "v1/messages → /responses Parameter Mapping — liteLLM",

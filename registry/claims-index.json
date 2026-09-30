@@ -12130,6 +12130,83 @@
         }
       ]
     },
+    "docs-litellm-message-sanitization": {
+      "path": "source-notes/docs-litellm-message-sanitization.md",
+      "title": "Message Sanitization for Tool Calling for anthropic models | liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/completion/message_sanitization",
+      "chapters": [
+        "05",
+        "02",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "`modify_params=True` is the *only* switch, and it gates three named mutations of the outbound message array that run before provider-specific conversion",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Case A **injects a fabricated tool result** into the model's context, and the vendor states the model cannot tell it apart from a real one",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Case B **deletes** an orphaned tool result outright — silent, unrecoverable loss of whatever the tool actually returned",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Case C overwrites empty or whitespace-only content with a fixed system-bracketed string — including in list-of-blocks content",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The per-request override is a trap: `litellm.completion()` has no `modify_params` argument, and passing one forwards an unknown body field that Anthropic rejects with a 400",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The page states all three cases toggle together under `modify_params` with no selective disable — but the shipped code applies Case C unconditionally on the Anthropic path and adds a fourth, undocumented case",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The sanitization logic is described as provider-agnostic but applied only in the Anthropic transformation pipeline — so identical messages get provider-dependent treatment",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The only documented signal that any of this happened is three `verbose_logger.debug` lines behind `litellm.set_verbose = True` — nothing appears in the response and no metric is named",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The page's own quoted log string for Case B does not match the shipped code — the docs show the offending `tool_call_id`, the code redacts it",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Sanitization does not mutate the caller's list — it returns a new one — so a caller inspecting its own messages after the call sees the originals intact",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The performance claim is an unevidenced vendor assertion — O(n) in the number of messages, \"typically < 1ms\" — with no measurement, workload, or hardware stated",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "`modify_params` and `drop_params` are explicitly separate features that compose, and the page draws the dividing line as \"messages\" vs \"parameters\"",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "Sanitization is applied to both streaming and non-streaming requests",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-messages-to-responses-mapping": {
       "path": "source-notes/docs-litellm-messages-to-responses-mapping.md",
       "title": "v1/messages → /responses Parameter Mapping — liteLLM",
