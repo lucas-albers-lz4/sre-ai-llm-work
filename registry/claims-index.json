@@ -13864,6 +13864,67 @@
         }
       ]
     },
+    "docs-promptfoo-similar-assertion": {
+      "path": "source-notes/docs-promptfoo-similar-assertion.md",
+      "title": "Promptfoo Configuration: Similarity (embeddings) — the `similar` / `not-similar` assertion",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/expected-outputs/similar",
+      "chapters": [
+        "05",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The `similar` assertion is a model-assisted gate whose default embedding provider is OpenAI's `text-embedding-3-large` — an unpinned, remotely-hosted dependency in a suite that otherwise looks like string matching",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "One assertion name, three metrics — `similar`/`similar:cosine` (default), `similar:dot`, and `similar:euclidean` are selected by suffix in the type string, so the metric is invisible in a compact `similar(0.8):value` form",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The euclidean threshold is a **maximum distance**, not a minimum similarity — the docs state the inversion twice and in an \"Important\" callout, so the same threshold literal reads in the opposite direction under `similar:euclidean` than under cosine",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The inversion compounds under negation in a way the page never states — `not-similar` with an euclidean threshold passes when the distance is *above* the threshold, so a threshold tuned to catch a near-miss silently becomes a floor rather than a ceiling",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The three metrics do not share a numeric range — cosine is −1..1, dot product is unbounded, euclidean is 0..∞ — so a single threshold literal cannot be carried across metrics even in the \"higher is stricter\" cases",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "An array `value` makes `similar` an OR over acceptable answers, and `not-similar` over an array a NOR — the documented primitive for asserting an output does not resemble *any* item in a forbidden or canned-answer list",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Two documented override surfaces, neither required, and both in the YAML-object form — suite-wide `test.options`/`defaultTest.options` → `provider.embedding.{id,config}` and per-assertion `assertion.provider` as a bare shorthand string",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Both documented override examples pin a *named model version*, while the default is named without one — so the page's own \"how to pin\" path moves the gate onto an older, vendor-pinned model (`text-embedding-ada-002`, `sentence-transformers/all-MiniLM-L6-v2`) hosted somewhere else, and neither destination is local",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The page documents no default `threshold` for `similar` in any metric — every example supplies one explicitly, and the euclidean example deliberately uses a different literal from the other four",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The docs tie the metric choice to production vector-database parity — dot product is recommended specifically to match the production index, and is declared near-equivalent to cosine *only for normalized embeddings*",
+          "kind": "claim"
+        }
+      ]
+    },
     "failure-litellm-bedrock-invoke-prompt-cache": {
       "path": "source-notes/failure-litellm-bedrock-invoke-prompt-cache.md",
       "title": "Incident Report: Prompt Cache Invalidation for Claude Code on Bedrock Invoke",
