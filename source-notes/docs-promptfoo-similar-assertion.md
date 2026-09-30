@@ -74,7 +74,7 @@ issue: "#1512"
 - **Confidence**: settled (documented product behavior)
 - **Quote**: "You can specify which metric to use by including it in the assertion type. The default is `similar` (cosine similarity)."
 - **Our assessment**: The type string is the only place the metric is
-  recorded. `docs-promptfoo-assertions-metrics.md` **Claim 13** documents the
+  recorded. `docs-promptfoo-assertions-metrics.md` **Claim 12** documents the
   compact assertion form `similar(0.8):Hello world`, in which the metric is
   *not* expressible — a compact `similar(0.8):…` is always cosine, silently.
   Combined with Claim 3 below, "the same assertion type with a different
@@ -82,7 +82,7 @@ issue: "#1512"
   was calibrated for one suffix is meaningless under another, and the compact
   form gives a reader no way to see which metric they are looking at.
 
-### Claim 3: The euclidean threshold is a **maximum distance**, not a minimum similarity — the docs state the inversion twice and in an "Important" callout, so `threshold: 0.8` means something strictly harder under `similar:euclidean` than under cosine
+### Claim 3: The euclidean threshold is a **maximum distance**, not a minimum similarity — the docs state the inversion twice and in an "Important" callout, so the same threshold literal reads in the opposite direction under `similar:euclidean` than under cosine
 - **Evidence**: The Euclidean Distance section's "When to use" sentence, the
   separate bolded "Important" callout immediately after it, and the inline
   comment in the section's own YAML example (`threshold: 0.5 # Maximum distance
@@ -90,19 +90,26 @@ issue: "#1512"
 - **Confidence**: settled (documented product behavior; the vendor states the
   inversion twice, in prose and in a config comment)
 - **Quote**: "Note that the threshold represents the *maximum* distance (not minimum similarity), so lower values are stricter." and "**Important:** For euclidean distance, the threshold semantics are inverted - it represents the *maximum* acceptable distance rather than minimum similarity."
-- **Our assessment**: The worst-case failure mode in this page is a *silent*
-  one in the permissive direction, and it is worth being precise about which
-  direction each mistake lands. A cosine `threshold: 0.8` requires high
-  similarity. Copied verbatim to `similar:euclidean`, 0.8 becomes a distance
-  ceiling of 0.8 — and the vendor's own euclidean example uses `0.5`, i.e. a
-  *looser* gate than a cosine 0.8, because euclidean distances between
-  normalized text embeddings are much smaller than 0.8. So the mechanical
-  copy in the obvious direction produces a *stricter* gate, not a bypass —
-  the gate turns red, not green. The genuinely dangerous direction is the
-  reverse: someone who finds cosine `0.8` too noisy, lowers the number, and
-  reads a euclidean gate as "more strict" when a *smaller* number is a
-  *tighter* distance ceiling. That mistake fails red too. What neither
-  direction catches is the third case, below.
+- **Our assessment**: The rule is stated twice on the page, once in prose and
+  once in an "Important" callout, which makes the threshold literal
+  non-portable across metrics: the same number reads in *opposite* directions
+  depending on the suffix. Under cosine, `threshold: 0.8` is a minimum
+  similarity, so raising the number tightens the gate; under
+  `similar:euclidean`, `threshold: 0.8` is a maximum distance, so raising the
+  number *loosens* the gate and lowering it tightens the gate. A threshold
+  calibrated under one suffix therefore carries no meaning under the other,
+  and nothing in the config marks which direction is in force (the metric
+  lives only in the type suffix — Claim 2). The vendor's own examples are the
+  tell: the euclidean block uses `0.5` where every other example uses `0.8`
+  (Claim 9), i.e. the authors re-chose the number when they changed the
+  metric rather than carrying it over. What we are *not* claiming is a
+  specific downstream verdict for a mis-set threshold: the page publishes no
+  euclidean distance distribution for the default embedding model, so whether
+  a given literal turns a real gate red or green depends on where that
+  model's distances actually fall and cannot be read off the docs. The
+  source-supported statement is the weaker one — the threshold's *direction*
+  is part of the assertion's contract and differs by metric — and the
+  score-distribution consequence is `emerging` at most.
 
 ### Claim 4: The inversion compounds under negation in a way the page never states — `not-similar` with an euclidean threshold passes when the distance is *above* the threshold, so a threshold tuned to catch a near-miss silently becomes a floor rather than a ceiling
 - **Evidence**: The page's own two rules read together — the euclidean
@@ -223,11 +230,11 @@ issue: "#1512"
   Ch05 §699. (b) The euclidean example's `0.5` is the clearest possible signal
   that the authors themselves did not treat the number as portable across
   metrics: they changed it when they changed the metric. Note the compact
-  assertion form `similar(0.8):value` (#1287 **Claim 13**) hard-codes a
+  assertion form `similar(0.8):value` (#1287 **Claim 12**) hard-codes a
   threshold into a one-line form that cannot express the metric, so the
   compact syntax is cosine-and-0.8-only in practice.
 
-### Claim 10: The docs tie the metric choice to production vector-database parity — dot product is recommended specifically to match the production index, and are declared near-equivalent to cosine *only for normalized embeddings*
+### Claim 10: The docs tie the metric choice to production vector-database parity — dot product is recommended specifically to match the production index, and is declared near-equivalent to cosine *only for normalized embeddings*
 - **Evidence**: The Dot Product section's "When to use" sentence.
 - **Confidence**: settled (documented product behavior); the coupling
   consequence is Miner synthesis
@@ -424,8 +431,10 @@ and its two inversion statements (Claim 3); the page publishes no table.*
     participation for the embedding call, which is the open question a guide
     section should flag rather than assume.
   - `source-notes/docs-promptfoo-assertions-metrics.md` (#1287) **Claim 10**
-    (the model-assisted family includes "similarity") and **Claim 13** (the
-    compact syntax table row `similar(0.8):Hello world`) — this page supplies
+    (the model-assisted family includes "similarity") and the
+    `similar(threshold):value` → `similar(0.8):Hello world` table row in that
+    note's unnumbered "Concrete Artifacts → Assertion string syntax samples"
+    section — this page supplies
     the per-type semantics behind both, and shows the compact row's implicit
     metric-and-threshold assumption.
 
@@ -475,7 +484,7 @@ and its two inversion statements (Claim 3); the page publishes no table.*
     worth its own paragraph — the *stated* default model, and no documented
     default threshold at all (Claim 9). Extend the section's "three further
     pinning traps" list with: an assert's metric is chosen by a type suffix
-    invisible in the compact `similar(0.8):value` form (#1287 Claim 13), and
+    invisible in the compact `similar(0.8):value` form (#1287 Claim 12), and
     the two override surfaces have an undocumented interaction with a
     suite-wide `provider.embedding` set for `answer-relevance` (Claim 7).
   - **§"Read the assert's own defaults before trusting its verdict"
@@ -527,7 +536,7 @@ and its two inversion statements (Claim 3); the page publishes no table.*
   page).
 - Dedupe per the Prospector's guidance: this note is an **addendum** to
   `docs-promptfoo-deterministic-metrics.md` (#1289), not a re-extraction. The
-  `similar(threshold):value` shorthand from #1287 Claim 13 was deliberately not
+  `similar(threshold):value` shorthand from #1287 Claim 12 was deliberately not
   re-extracted (referenced only in Cross-References), and the
   "requires an embedding model" boundary from #1289 Claim 1 was not re-argued
   — only resolved to a named model and documented override config. What is new
@@ -575,8 +584,10 @@ and its two inversion statements (Claim 3); the page publishes no table.*
     case studies (Evernote, Google); no LLM-eval assertion content.
   - `docs-google-sre-team-lifecycles.md` — **dismissed**: SRE team formation and
     lifecycles; no LLM-eval assertion content.
-  - `docs-promptfoo-assertions-metrics.md` — **cited** (Extends, #1287 Claims 10
-    and 13): the family split and the compact-syntax row that hides the metric.
+  - `docs-promptfoo-assertions-metrics.md` — **cited** (Extends, #1287 Claim 10
+    and the compact-syntax row in that note's "Concrete Artifacts → Assertion
+    string syntax samples" section): the family split and the compact-syntax
+    row that hides the metric.
   - Additional cross-refs found by searching `source-notes/` per MINER.md §4
     and the Prospector's overlap list: `docs-promptfoo-deterministic-metrics.md`
     (#1289), `docs-promptfoo-answer-relevance.md` (#1319),
@@ -584,13 +595,17 @@ and its two inversion statements (Claim 3); the page publishes no table.*
     `docs-promptfoo-configuration-caching.md` (#1275),
     `blog-litellm-valkey-semantic-caching.md` (#1176).
 - Every `Claim N` citation above was verified by re-reading the cited note and
-  locating the numbered heading in document order (MINER.md §4b). Two
+  locating the numbered heading in document order (MINER.md §4b). Three
   cross-references are cited by note rather than claim number because the
   material lives in a non-numbered section: the `defaultTest.options.provider.embedding`
   suite-wide coupling of Claim 7 refers to #1319's "Overriding the Providers"
-  configuration examples (also reachable as #1319 Claim 2), and the `similar`
+  configuration examples (also reachable as #1319 Claim 2); the `similar`
   member of #1289's weighted `assert-set` example refers to that note's
-  "Concrete Artifacts" section.
+  "Concrete Artifacts" section; and the `similar(0.8):Hello world` compact-syntax
+  row refers to #1287's "Concrete Artifacts → Assertion string syntax samples"
+  section (the underlying `type(threshold):value` syntax rule, which is what the
+  `Claim N` citations to #1287 Claim 12 point at, is in that note's numbered
+  Claim 12 — *not* Claim 13, which is `assertionTemplates`/`$ref`).
 - No contradiction issue filed, per MINER.md §4a: the only candidate tension
   (the unqualified "cosine" framing in #1319 Claim 3 versus this page's
   three-metric default) is a completion, not an opposition, because
