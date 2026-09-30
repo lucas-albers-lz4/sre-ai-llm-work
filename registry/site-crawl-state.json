@@ -1326,7 +1326,7 @@
         "filed_at": "2026-08-13T12:56:28.715514+00:00"
       }
     },
-    "last_scan": "2026-09-29T17:26:18.243080+00:00"
+    "last_scan": "2026-09-30T17:24:16.140536+00:00"
   },
   "opentelemetry": {
     "urls": {},
@@ -2775,16 +2775,22 @@
         "filed_at": "2026-09-29T17:27:08.209496+00:00"
       },
       "https://www.cncf.io/projects/ko/": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:24:16.126913+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:24:16.126913+00:00",
+        "issue": 1520,
+        "filed_at": "2026-09-30T17:24:51.993583+00:00"
       },
       "https://www.cncf.io/projects/kpt/": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:24:16.126914+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:24:16.126914+00:00",
+        "issue": 1521,
+        "filed_at": "2026-09-30T17:24:54.372919+00:00"
       },
       "https://www.cncf.io/projects/konveyor/": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:24:16.126916+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:24:16.126916+00:00",
+        "issue": 1522,
+        "filed_at": "2026-09-30T17:24:56.764193+00:00"
       },
       "https://www.cncf.io/projects/kgateway/": {
         "status": "pending",
@@ -3809,9 +3815,21 @@
       "https://www.cncf.io/blog/2025/12/09/kubecon-cloudnativecon-na-2025-end-user-summit-report-engaging-with-ai": {
         "status": "pending",
         "screened_at": "2026-09-29T17:26:39.794867+00:00"
+      },
+      "https://www.cncf.io/blog/2026/09/30/argocon-north-america-2026-what-to-expect-as-the-argo-community-looks-toward-cd-4-0": {
+        "status": "rejected",
+        "screened_at": "2026-09-30T17:24:32.853644+00:00"
+      },
+      "https://www.cncf.io/blog/2026/09/30/from-40-seconds-to-under-10-rebuilding-incident-detection-on-opentelemetry-apache-kafka-and-apache-flink-on-kubernetes": {
+        "status": "pending",
+        "screened_at": "2026-09-30T17:24:32.853662+00:00"
+      },
+      "https://www.cncf.io/blog/2025/12/08/harbor-enterprise-grade-container-registry-for-modern-private-cloud": {
+        "status": "rejected",
+        "screened_at": "2026-09-30T17:24:32.853665+00:00"
       }
     },
-    "last_scan": "2026-09-29T17:26:39.794870+00:00"
+    "last_scan": "2026-09-30T17:24:32.853668+00:00"
   },
   "datadog-llm-obs": {
     "urls": {
@@ -3820,7 +3838,7 @@
         "screened_at": "2026-07-12T23:52:56.905756+00:00"
       }
     },
-    "last_scan": "2026-09-29T17:26:41.276756+00:00"
+    "last_scan": "2026-09-30T17:24:34.566467+00:00"
   },
   "langfuse-docs": {
     "urls": {
@@ -3985,7 +4003,7 @@
         "filed_at": "2026-09-03T15:37:32.594301+00:00"
       }
     },
-    "last_scan": "2026-09-29T17:26:42.884714+00:00"
+    "last_scan": "2026-09-30T17:24:36.316375+00:00"
   },
   "litellm-docs": {
     "urls": {
@@ -5442,16 +5460,22 @@
         "filed_at": "2026-09-29T17:27:14.420883+00:00"
       },
       "https://docs.litellm.ai/docs/completion/mock_requests": {
-        "status": "pending",
-        "screened_at": "2026-07-25T13:10:04.191406+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-25T13:10:04.191406+00:00",
+        "issue": 1523,
+        "filed_at": "2026-09-30T17:24:59.098215+00:00"
       },
       "https://docs.litellm.ai/docs/completion/model_alias": {
-        "status": "pending",
-        "screened_at": "2026-07-26T03:55:04.410251+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-26T03:55:04.410251+00:00",
+        "issue": 1524,
+        "filed_at": "2026-09-30T17:25:01.332080+00:00"
       },
       "https://docs.litellm.ai/docs/completion/multiple_deployments": {
-        "status": "pending",
-        "screened_at": "2026-07-26T03:55:04.410268+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-26T03:55:04.410268+00:00",
+        "issue": 1525,
+        "filed_at": "2026-09-30T17:25:03.374436+00:00"
       },
       "https://docs.litellm.ai/docs/completion/output": {
         "status": "pending",
@@ -6260,9 +6284,21 @@
       "https://docs.litellm.ai/docs/projects/dbally": {
         "status": "pending",
         "screened_at": "2026-09-29T17:26:58.919335+00:00"
+      },
+      "https://docs.litellm.ai/docs/projects/Docq.AI": {
+        "status": "rejected",
+        "screened_at": "2026-09-30T17:24:46.716580+00:00"
+      },
+      "https://docs.litellm.ai/docs/projects/Elroy": {
+        "status": "rejected",
+        "screened_at": "2026-09-30T17:24:46.716597+00:00"
+      },
+      "https://docs.litellm.ai/docs/projects/FastREPL": {
+        "status": "rejected",
+        "screened_at": "2026-09-30T17:24:46.716599+00:00"
       }
     },
-    "last_scan": "2026-09-29T17:26:58.919337+00:00"
+    "last_scan": "2026-09-30T17:24:46.716603+00:00"
   },
   "promptfoo-docs": {
     "urls": {
@@ -7721,16 +7757,22 @@
         "filed_at": "2026-09-29T17:27:20.595985+00:00"
       },
       "https://www.promptfoo.dev/docs/configuration/huggingface-datasets": {
-        "status": "pending",
-        "screened_at": "2026-07-26T03:55:09.518840+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-26T03:55:09.518840+00:00",
+        "issue": 1526,
+        "filed_at": "2026-09-30T17:25:05.280321+00:00"
       },
       "https://www.promptfoo.dev/docs/configuration/modular-configs": {
-        "status": "pending",
-        "screened_at": "2026-07-26T03:55:09.518860+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-26T03:55:09.518860+00:00",
+        "issue": 1527,
+        "filed_at": "2026-09-30T17:25:07.284643+00:00"
       },
       "https://www.promptfoo.dev/docs/configuration/outputs": {
-        "status": "pending",
-        "screened_at": "2026-07-26T03:55:09.518864+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-26T03:55:09.518864+00:00",
+        "issue": 1528,
+        "filed_at": "2026-09-30T17:25:09.608490+00:00"
       },
       "https://www.promptfoo.dev/docs/configuration/parameters": {
         "status": "pending",
@@ -8535,8 +8577,20 @@
       "https://www.promptfoo.dev/docs/red-team/nist-ai-rmf": {
         "status": "pending",
         "screened_at": "2026-09-29T17:27:02.055562+00:00"
+      },
+      "https://www.promptfoo.dev/docs/red-team/owasp-agentic-ai": {
+        "status": "pending",
+        "screened_at": "2026-09-30T17:24:50.252872+00:00"
+      },
+      "https://www.promptfoo.dev/docs/red-team/owasp-api-top-10": {
+        "status": "pending",
+        "screened_at": "2026-09-30T17:24:50.252889+00:00"
+      },
+      "https://www.promptfoo.dev/docs/red-team/owasp-llm-top-10": {
+        "status": "pending",
+        "screened_at": "2026-09-30T17:24:50.252892+00:00"
       }
     },
-    "last_scan": "2026-09-29T17:27:02.055564+00:00"
+    "last_scan": "2026-09-30T17:24:50.252894+00:00"
   }
 }
