@@ -13005,6 +13005,78 @@
         }
       ]
     },
+    "docs-promptfoo-configuration-outputs": {
+      "path": "source-notes/docs-promptfoo-configuration-outputs.md",
+      "title": "Promptfoo Configuration: Output Formats — Results Export and Analysis",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/outputs/",
+      "chapters": [
+        "05",
+        "06",
+        "03"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "JUnit XML is promptfoo's documented CI-gating format — emitted with `promptfoo eval --output results.junit.xml` and aimed at CI systems that already consume JUnit-style test reports, naming GitLab, Azure Pipelines, Bitbucket Pipelines, and Jenkins",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The JUnit structural contract is one `<testsuite>` per prompt/provider pair and one `<testcase>` per eval result — so grouping and per-case coverage are explicit design requirements, not incidental",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "`failure` is reserved for failed assertions and `error` for provider/runtime errors, explicitly so CI can tell incorrect model behavior apart from an execution fault",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "JUnit XML is deliberately lossy — it omits eval config, prompts, variables, raw model outputs, assertion reasons, and provider error payloads, and carries \"concise failure/error summaries only\", on the stated rationale that CI viewers must not become a second full export surface",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The other documented formats are full exports — `json`, `yaml`, `yml`, `txt`, `html`, and Promptfoo XML all include the eval `config`, with sensitive fields redacted \"on a best-effort basis (not comprehensive)\" and non-sensitive `config.env` values possibly still present",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Promptfoo's share and record-export paths carry an explicit \"do not put secrets in shareable inputs\" rule, and `promptfoo export eval` redacts config secrets while still warning that exports contain user data",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "JSONL is the documented answer to both very large evaluations and a JSON export that fails with memory errors — one self-contained JSON object per line, streamed rather than parsed whole",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "`gradingResult` and `componentResults` are both optional on a JSONL row — the page's own worked example includes `\"gradingResult\":null`, and the documented reader uses `row.gradingResult?.componentResults ?? []` to tolerate both the null case and rows with no nested sub-results",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The assertion-failure/error split is a first-class product concept beyond JUnit — CLI filters separate them, a dedicated subcommand retries only errors, and both timeout knobs convert timeout into the error state",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "CI gating is exit-code based and the exit code carries three independent failure modes — a per-test failure, an aggregate pass-rate threshold (`PROMPTFOO_PASS_RATE_THRESHOLD`), and any other error (exit 1) — and the failure exit code is itself overridable via `PROMPTFOO_FAILED_TEST_EXIT_CODE`",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "`txt` and `yml` are accepted output formats and are named as config-carrying, but neither has an \"Available Formats\" section — the format inventory is nine-wide in the CLI and seven-wide on the page",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "The vendor's own artifact-hygiene recipe is to gitignore the full exports and keep only the CSV summary — which happens to be the other non-config-carrying format",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-conversation-relevance": {
       "path": "source-notes/docs-promptfoo-conversation-relevance.md",
       "title": "Promptfoo Configuration: Model-graded conversation-relevance",
