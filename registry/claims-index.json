@@ -13709,6 +13709,64 @@
         }
       ]
     },
+    "docs-promptfoo-modular-configs": {
+      "path": "source-notes/docs-promptfoo-modular-configs.md",
+      "title": "Promptfoo Configuration: Managing Large Configurations — File Composition, Per-Environment Providers, and TS Configs",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/modular-configs",
+      "chapters": [],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "A single eval config can be split across files — `file://` is accepted on each of the four top-level keys (`prompts`, `providers`, `tests`, `defaultTest`) individually, so the root config degenerates into a manifest of paths",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "`tests:` accepts a *list of directory* paths (`file://tests/accuracy/`, `.../safety/`, `.../performance/`, `.../edge-cases/`), so per-domain suites are added by appending a directory, not by editing the root config",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Rate-limit policy is expressed *in the environment's provider file*, not in the test suite — the documented per-provider caps (`requestsPerMinute: 100` for the OpenAI provider, `50` for the Anthropic provider) sit in `configs/providers-prod.yaml`, alongside production sampling parameters (`temperature: 0.1`, `max_tokens: 500`)",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "`env:` is loadable from a file (`env: file://configs/env-prod.yaml`) and its entries are templated from the process environment (`OPENAI_API_KEY: '{{ env.OPENAI_API_KEY_PROD }}'`) — the documented per-environment credential indirection",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Reusable assertion blocks can be defined with plain YAML anchors and referenced with aliases inside the same file (`&lengthCheck` / `*qualityCheck`), applied at `defaultTest` level and per test case",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "A JS config is a program, so the test matrix can be *generated* — the documented example loops 4 categories × 3 difficulties and, per generated case, string-interpolates difficulty-dependent assertion thresholds into the `javascript` assertion source itself (`minWords` / `maxWords` = 5/20, 15/50, 30/100)",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "TypeScript configs need an external loader — Node \"currently requires external loaders to run TypeScript files directly\", invoked as `NODE_OPTIONS=\"--import tsx\" promptfoo eval -c promptfooconfig.ts` after `npm install tsx`",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The app/eval shared-schema pattern is OpenAI-SDK-specific at the seam — the eval config imports the application's Zod schema module and converts it with `zodResponseFormat` from `openai/helpers/zod.mjs`, so sharing one schema with the app also binds the eval's structured-output enforcement to a single provider's SDK",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Suite *scope* is selected by an environment variable read inside the config (`process.env.TEST_MODE`), and the two documented branches differ in provider set, test directory, log level, and result retention — a smoke-vs-full CI gate expressed as config branching",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The page's own directory-layout advice and its own worked examples disagree — the recommended tree uses `configs/providers/{development,staging,production}.yaml`, while every environment example in the page uses a flat sibling file (`configs/providers-prod.yaml`, `configs/env-prod.yaml`)",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-pi-scorer": {
       "path": "source-notes/docs-promptfoo-pi-scorer.md",
       "title": "Promptfoo Configuration: Model-Graded — Pi Scorer",

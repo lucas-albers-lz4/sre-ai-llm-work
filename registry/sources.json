@@ -2548,6 +2548,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-modular-configs": {
+      "slug": "docs-promptfoo-modular-configs",
+      "title": "Promptfoo Configuration: Managing Large Configurations — File Composition, Per-Environment Providers, and TS Configs",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/modular-configs",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-09-30",
+      "date_extracted": "2026-10-01",
+      "issue": "#1527",
+      "file": "source-notes/docs-promptfoo-modular-configs.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-pi-scorer": {
       "slug": "docs-promptfoo-pi-scorer",
       "title": "Promptfoo Configuration: Model-Graded — Pi Scorer",
