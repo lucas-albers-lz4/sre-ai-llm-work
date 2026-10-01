@@ -11771,6 +11771,78 @@
         }
       ]
     },
+    "docs-litellm-completion-output": {
+      "path": "source-notes/docs-litellm-completion-output.md",
+      "title": "Output | liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/completion/output",
+      "chapters": [
+        "05",
+        "02",
+        "03"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The page documents a **four-key** top-level response contract — `choices`, `created`, `model`, `usage` — and does not document `id`, `object`, `system_fingerprint`, or `tool_calls` anywhere, so the \"exact json output\" claim is narrower than the wire shape the rest of the corpus has captured",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "`created` and `model` are annotated as strings whose values are `None` on the type skeleton, while the page's own example supplies a float epoch and a concrete model id — the page's declared types and its only worked example disagree",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The response is guaranteed to be readable as **both** a dict and a class object, and the page's own demonstration is that both accessors return the same content",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "`finish_reason` is a **total** normalization target — LiteLLM states that *all* provider-specific `finish_reason` values are mapped into a fixed five-value OpenAI set (`stop`, `length`, `tool_calls`, `function_call`, `content_filter`) — and the page never publishes the source-to-target table that would make the mapping checkable",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The divergent native value is preserved under `provider_specific_fields[\"native_finish_reason\"]` **only on divergence** — the field is absent whenever the provider already returned an OpenAI-compatible value, so field absence carries no information",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The page's own sample uses **two different absence mechanisms at two different levels** — `hasattr()` on the container, `.get()` on the key — and the prose explains only the second; a failed tool call (`MALFORMED_FUNCTION_CALL`) is normalized to `stop`, so a `stop`-terminating agent loop cannot tell a malformed tool call from a clean completion",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "`response.response_ms` is a per-call latency float exposed directly on the response object, documented only by a single `print` and its printed value",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The response shape is declared provider-invariant, and the only filled example on the page is an **Anthropic** model served through the gateway — so the single worked instance exercises the exact path the normalization contract exists to abstract",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "All five code blocks on the page are published with their line breaks collapsed, so none of the page's four artifacts is copy-pasteable as rendered",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "A proxy setting, `general_settings: always_include_stream_usage: true`, force-injects `stream_options={\"include_usage\": True}` into **all** streaming requests, so the response's `usage` object is availability-gated on a gateway deployment flag, not only on caller opt-in",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "LiteLLM supports **endpoint bridging** — a request to an endpoint the model does not natively support is silently re-routed to a different endpoint family (`/chat/completions` ↔ `/responses`) based on the model's `mode` in `model_prices_and_context_window`",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "The usage object is declared provider-invariant as a first-class guarantee, on the same assertion-only footing the corpus already grades `anecdotal`",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-drop-params": {
       "path": "source-notes/docs-litellm-drop-params.md",
       "title": "Drop Unsupported Params | liteLLM",

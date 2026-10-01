@@ -2093,6 +2093,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-completion-output": {
+      "slug": "docs-litellm-completion-output",
+      "title": "Output | liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/completion/output",
+      "source_type": "docs",
+      "author": "LiteLLM",
+      "date_published": "unknown (living vendor docs; current as of 2026-10-01)",
+      "date_extracted": "2026-10-01",
+      "issue": "#1540",
+      "file": "source-notes/docs-litellm-completion-output.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-drop-params": {
       "slug": "docs-litellm-drop-params",
       "title": "Drop Unsupported Params | liteLLM",
