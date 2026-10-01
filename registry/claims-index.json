@@ -12879,6 +12879,77 @@
         }
       ]
     },
+    "docs-promptfoo-configuration-guide": {
+      "path": "source-notes/docs-promptfoo-configuration-guide.md",
+      "title": "Promptfoo Configuration: Overview — Transform Pipeline, Assertion Inheritance, and Env Resolution",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/guide",
+      "chapters": [
+        "05",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Transforms are a fixed three-stage pipeline — provider `transformResponse` runs first, test `options.transform` and `contextTransform` both receive that already-transformed output, and the assertion's own `transform` runs on the *test-transformed* value",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "At the test-case level exactly one transform applies — `defaultTest`'s or the individual case's, never both; a per-case transform **overrides** the suite-level one rather than composing with it",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "`options.transform` is a JS snippet (or external file) with a documented `(output, context)` signature and a closed context surface — `prompt.{id,raw,display}`, `vars`, `metadata` — and the same `transform` field on an assertion selects a sub-field out of JSON output",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "`transformVars` is a distinct *input-side* transform whose returned keys are merged into `vars` and can override existing keys, set suite-wide under `defaultTest.options` or per test case",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The documented `transformVars` error convention is *return an error object*, not throw — and the docs state no behavior for what the harness does with it",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "`defaultTest.assert` inheritance has a documented per-test opt-out — `options.disableDefaultAsserts: true` drops the inherited assertions while `vars`, `metadata`, `threshold`, and `options` still apply",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "`{{ env.X }}` is resolved at **config load time, not runtime**, can therefore control file paths and API keys, and the vendor explicitly warns that putting secrets in `config.env` \"resolves the secret into the eval config object and may appear in exported results\"",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Thinking content is included in the response by default and reaches assertions; `showThinking: false` excludes it, and on Claude 5 models the reasoning knob is `thinking: {type: 'adaptive'}` + `effort`, which \"replaces budget_tokens\"",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "`$ref` + `assertionTemplates` de-duplication is available here, with one net-new caveat — `tools`/`functions` values in provider config are **not** dereferenced",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Scripted vars are a documented API with fixed callback signatures — JS `(varName, prompt, otherVars, provider)` and Python `get_var(var_name, prompt, other_vars)`, each returning `{output}` or `{error}`",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Multiple `-c` / globbed configs are combined into a **single eval**, not reported separately",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "Array-valued vars expand to the cartesian product of their values, and the escape hatch (`disableVarExpansion`) lives on `defaultTest.options`, not on the assertion",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-conversation-relevance": {
       "path": "source-notes/docs-promptfoo-conversation-relevance.md",
       "title": "Promptfoo Configuration: Model-graded conversation-relevance",
