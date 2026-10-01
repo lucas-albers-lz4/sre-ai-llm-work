@@ -420,6 +420,49 @@ confirm `guardrails.flagged` is actually present and `true` where expected. A
 `purpose: redteam` override is safe only where `flagged: true` can *only* mean
 an enforced block — never for detect-only or logging-only guardrails.
 
+### A moderation gate runs a classifier — so name the classifier
+
+The distinction from the section above matters for gate design. promptfoo's
+`guardrails` assertion *reads* a decision the target already made; its
+`moderation` assertion *runs* a third-party classifier inside the eval —
+"Currently, this supports OpenAI's moderation model, Meta's LlamaGuard models
+(LlamaGuard 3 and 4) via Replicate, and Azure Content Safety API"
+[source: docs-promptfoo-moderation-assertions, Claim 1] [settled]. Which
+classifier runs is selected by **ambient environment variables**: "If
+`AZURE_CONTENT_SAFETY_ENDPOINT` is set, PromptFoo will automatically use the
+Azure Content Safety service for moderation instead of OpenAI's moderation
+API" [source: docs-promptfoo-moderation-assertions, Claim 2] [settled]. Adding
+one variable to a CI runner — or inheriting one from a shared job definition —
+therefore changes the content-safety taxonomy a security gate enforces, with no
+repo change and no config diff.
+
+The category vocabulary is per-backend: OpenAI's slash-namespaced names,
+LlamaGuard's opaque `S1`–`S14` codes, and Azure's four bare names share no
+overlap [source: docs-promptfoo-moderation-assertions, Claim 4] [settled]. And
+the recommended default is unpinned while the alternative on the same page is
+content-hash-pinned [source: docs-promptfoo-moderation-assertions, Claim 7]
+[settled].
+
+```yaml
+# Ambient — the backend is whichever credential the runner happens to hold
+assert:
+  - type: moderation
+
+# Declared — the classifier is part of the reviewed diff, pinned by revision
+assert:
+  - type: moderation
+    provider: 'replicate:moderation:meta/llama-guard-3-8b:<content-hash>'
+    value: [S1, S3, S4]
+```
+*Assembled from [source: docs-promptfoo-moderation-assertions, Concrete
+Artifacts] — the bare form and the pinned provider string are the page's own;
+the category list is its LlamaGuard example.*
+
+**Rule**: On a safety assert, write an explicit `provider:` so the classifier is
+in the reviewed diff, pin the *revision* rather than the model name, and name
+the categories rather than only opaque codes. This is §"Gateway credential
+routing: declare, don't infer" applied to the eval gate.
+
 ### A classifier gate's detector is a dependency with a lifecycle
 
 The prompt-injection detector promptfoo's own docs recommend is dead:
@@ -626,10 +669,23 @@ single typed resolver [source: blog-litellm-july-stability-update, Claim 3]
 > mode without handling it fails the type checker, and an unhandled case raises
 > instead of quietly attaching no auth.
 
+The same defect appears on the eval side. promptfoo resolves `{{ env.X }}` at
+**config load time**, not runtime, so an interpolated eval config is not a
+static artifact — and the vendor warns against copying a secret into
+`config.env`, because that "resolves the secret into the eval config object and
+may appear in exported results" [source: docs-promptfoo-configuration-guide,
+Claim 7] [settled]. The documented fix is asymmetric on purpose: read
+credentials from the process environment (or `--env-file`) and keep
+`config.env` for non-sensitive flags. The actionable form is *audit what the
+eval exports*, not only what the prompt contains — a secret that was never in
+the prompt is still in the exported artifact.
+
 **Rule**: Make credential selection explicit and fail closed — a declared auth
 mode per MCP server, one typed resolver, an exhaustive match that fails at
 type-check time when a mode is added, and an unhandled case that raises rather
-than attaching a fallback credential. Ambiguity must resolve to "stop."
+than attaching a fallback credential. Ambiguity must resolve to "stop." On the
+eval side, keep credential values out of `config.env` and treat the exported
+result set as a leak surface.
 
 ## Supply-chain security for LLM infrastructure
 
@@ -845,5 +901,6 @@ failure-litellm-supply-chain-compromise-march-2026,
 failure-litellm-supply-chain-incident-march-2026,
 blog-litellm-swap-openai-code-interpreter, docs-langfuse-agent-skill,
 docs-promptfoo-code-scan-cli, docs-promptfoo-code-scan-github-action,
-docs-litellm-generic-guardrail-api*
-*Last updated: 2026-09-19*
+docs-litellm-generic-guardrail-api, docs-promptfoo-moderation-assertions,
+docs-promptfoo-configuration-guide*
+*Last updated: 2026-10-01*

@@ -335,10 +335,41 @@ Anthropic API [source: blog-litellm-claude-fable-5-day-0, Claim 4, Claim 8]
 Migrating existing prompts to such a model means stripping those parameters
 and switching to `reasoning_effort` / `output_config.effort`.
 
-**Rule**: When adopting a next-generation model, audit existing
-request parameters against the model's supported set before routing
-production traffic. Parameters valid on earlier models may be silently
-ignored or explicitly rejected.
+On LiteLLM the supported-parameter branch is a **config flag, not a provider
+property**: the documented default is a hard exception when a request carries a
+parameter the target model lacks, and `drop_params` flips that fleet-wide to a
+silent omission [source: docs-litellm-drop-params, Claim 1] [settled]. The flag
+has four documented placements — SDK module global, `litellm_settings`,
+per-request `completion(..., drop_params=True)`, and per-deployment
+`litellm_params` — with **no stated precedence**
+[source: docs-litellm-drop-params, Claim 3] [settled], so the two global
+placements change the failure polarity for every model the proxy serves.
+
+The audit is a runtime call, not a capability table: support is keyed on
+provider *and* model, and
+`litellm.get_supported_openai_params(model, custom_llm_provider)` is the
+documented check to run per candidate model before routing traffic
+[source: docs-litellm-drop-params, Claim 2; docs-litellm-completion-input-params,
+Claim 8] [settled].
+
+Two silent branches sit outside that gate:
+
+- A `stop` list longer than 4 sequences is truncated to the first 4 by the
+  gateway, with no warning and a module-global-only opt-out
+  (`litellm.disable_stop_sequence_limit = True`)
+  [source: docs-litellm-completion-input-params, Claim 6] [settled] — the
+  parameter is fully supported, so the caller gets a valid 200 with N−4 stop
+  sequences inert.
+- The gate drops only params LiteLLM recognizes as OpenAI params; anything else
+  is passed through — LiteLLM "assumes any non-openai param is provider specific
+  and passes it in as a kwarg in the request body"
+  [source: docs-litellm-completion-input-params, Claim 3] [settled] — so a
+  typo'd OpenAI param is neither dropped nor rejected; it goes upstream.
+
+**Rule**: Audit parameter *names* against the model's supported set — one
+`get_supported_openai_params(model, custom_llm_provider)` call per candidate
+model — and treat a global `drop_params` flip as a routing-change-class review,
+not a local fix.
 
 ## Provider parity in the shared forwarding path
 
@@ -382,6 +413,94 @@ ship.
 
 **Rule**: Assert the exact wire payload per backend family, and test the
 non-default provider — not just the one the change was written for.
+
+Parity also runs in the *response* direction, and there it is decided by model
+version. A structured-output request is translated into a different vendor
+parameter depending on the model: "LiteLLM automatically selects the
+appropriate format based on the model version," with `additionalProperties`
+honored under Gemini 2.0+ (`responseJsonSchema`) and dropped under 1.5
+(`responseSchema`) [source: docs-litellm-json-mode-structured-outputs, Claim 6]
+[settled]. The caller cannot express "require 2.0+ semantics" in the request,
+and the selection emits no log line or header — so a fallback from a 2.0+ route
+to a 1.5 route silently weakens the schema the caller believes is enforced.
+
+**Rule**: A structured-output guarantee is a property of (provider, model,
+version), never of the endpoint. Gate the feature on a runtime predicate —
+`get_supported_openai_params` for bare `response_format`,
+`supports_response_schema` for the strict `json_schema` form
+[source: docs-litellm-json-mode-structured-outputs, Claim 1] [settled] — not on
+the ten-provider "Works for:" advertisement [source:
+docs-litellm-json-mode-structured-outputs, Claim 2] [settled], and pin a
+structured-output fallback chain to a single model version per provider.
+
+## The gateway can rewrite your request
+
+A second request-path hazard is distinct from forwarding-path parity: the proxy
+changes *what the model receives* — or what it is grounded on — while the
+caller's message array and the response are unchanged, so client-side diffing
+shows nothing. Four LiteLLM surfaces in the corpus instantiate it:
+
+| Surface | What changes | Default signal |
+|---|---|---|
+| `drop_params` | a parameter the target model does not support is omitted [source: docs-litellm-drop-params, Claim 1] | none — the drop leaves no log line, metric, response field, or header [source: docs-litellm-drop-params, Claim 9] |
+| `modify_params` | a fabricated tool result is injected for an orphaned tool call, an orphaned tool result is deleted, empty content is overwritten [source: docs-litellm-message-sanitization, Claim 1] | three `verbose_logger.debug` lines behind `set_verbose` [source: docs-litellm-message-sanitization, Claim 8] |
+| a `stop` list longer than 4 sequences | truncated to the first 4 by the gateway [source: docs-litellm-completion-input-params, Claim 6] | none |
+| `vector_store_ids` | a second `user` turn prefixed `Context:` is inserted before the final message [source: docs-litellm-knowledgebase-vector-stores, Claim 3] | citations on the final streaming chunk only [source: docs-litellm-knowledgebase-vector-stores, Claim 4] |
+
+The fabricated-tool-result case is the sharpest, because the injected text is
+model-visible and the vendor states the model cannot tell it from a real result
+[source: docs-litellm-message-sanitization, Claim 2] [settled]:
+
+> [System: Tool execution skipped/interrupted by user. No result provided for tool 'web_search'.]
+
+A client bug, a user interrupt, or a network drop that loses a tool result
+therefore becomes a successful turn whose tool output the gateway authored, and
+no downstream artifact separates the two. Retrieval is the same class with a
+different trigger and a quieter floor: a failed search **fails open** — the
+request proceeds with less grounding than intended, and the failure is recorded
+in an undocumented `vector_store_search_failures` field rather than surfaced
+[source: docs-litellm-knowledgebase-vector-stores, Claim 6] [emerging]. Because
+retrieval can be declared "always on" for a model alias, a fallback onto or off
+that alias changes what the model is grounded on without changing the response
+`model` field [source: docs-litellm-knowledgebase-vector-stores, Claim 5]
+[settled].
+
+Two traps pair with the silent mutations. `modify_params` is global-only, so
+the intuitive per-request enable is a hard failure: passing `modify_params=True`
+"does not enable sanitization and is forwarded to the provider as an extra body
+field, which Anthropic rejects with `400 invalid_request_error: modify_params:
+Extra inputs are not permitted`" [source: docs-litellm-message-sanitization,
+Claim 5] [settled]. And a config knob can be bound to a target nothing reads:
+the custom-HTTP-handler replacement is only effective at
+`litellm.main.base_llm_aiohttp_handler`, because "Setting
+`litellm.base_llm_aiohttp_handler` creates a new attribute on the `litellm`
+package that nothing reads, and the custom session is silently ignored"
+[source: docs-litellm-completion-http-handler-config, Claim 2] [settled].
+
+```
+# Silent no-op — binds a package attribute the call path never dereferences
+litellm.base_llm_aiohttp_handler = handler
+
+# Correct target — the module global litellm.completion reads
+litellm.main.base_llm_aiohttp_handler = handler
+
+# Read-back assertion: name the check that proves the config took effect
+assert litellm.main.base_llm_aiohttp_handler is handler
+```
+*Assignment targets and mechanism from [source:
+docs-litellm-completion-http-handler-config, Claim 2] and its Concrete
+Artifacts; the read-back assertion is the remedy that note's Claim 10
+recommends, not a vendor example. Even the correct binding is scoped —
+`BaseLLMAIOHTTPHandler` is reached only by the `aiohttp_openai/` provider, so a
+fleet on plain `openai/` is unchanged by it [source:
+docs-litellm-completion-http-handler-config, Claim 1] [settled].*
+
+**Rule**: For every request-mutating gateway feature, name the read-back
+assertion that proves it took effect before enabling it — attribute identity for
+a code-level knob, an outbound-payload diff for a drop or truncation, a
+final-chunk-aware collector for retrieval — and confirm the traffic you care
+about routes through the path the knob applies to. A config change whose effect
+is indistinguishable from its absence cannot be canaried.
 
 ## Evaluation and measurement methodology
 
@@ -501,11 +620,28 @@ generate evaluation steps and another to score the output"
 budget of a single-call rubric assert over the same rows, with the array form
 not reducing the call count.
 
+Direction is part of the contract, not just the default. The `similar`
+assertion's `euclidean` variant documents `threshold` as a **maximum distance**
+— "the threshold semantics are inverted - it represents the *maximum*
+acceptable distance rather than minimum similarity" — while its cosine and dot
+variants are minimum similarities [source: docs-promptfoo-similar, Claim 3]
+[settled]. The same literal therefore reads in opposite directions depending on
+the metric suffix (which lives only in the type string), and the vendor's own
+euclidean example uses a different number for that reason
+[source: docs-promptfoo-similar, Claim 9] [settled]. The gate also hides an
+unpinned dependency: "By default, embeddings are computed via OpenAI's
+`text-embedding-3-large` model"
+[source: docs-promptfoo-similar, Claim 1] [settled], so a `type: similar` line
+that reads like string matching makes a network call whose model the config
+never names.
+
 **Rule**: Before trusting a model-graded gate, read that assert type's own page:
-confirm its default pass-set or threshold, set the per-category grades to admit
-only what the gate must admit, use one assert per criterion rather than array
-averaging when every criterion must pass, and budget two judge calls per
-`g-eval` assertion.
+confirm its default pass-set or threshold, confirm the threshold's *direction*
+(a `similar:euclidean` number is a maximum distance, so the literal that
+tightens a cosine gate loosens this one), record the embedding/grader model id
+next to the threshold, set the per-category grades to admit only what the gate
+must admit, use one assert per criterion rather than array averaging, and budget
+two judge calls per `g-eval` assertion.
 
 ### The nine-question ASR checklist
 
@@ -654,13 +790,14 @@ tests:
 wall-clock for concurrency 1 if live `_conversation` replay is unavoidable.
 ### A gate that cannot fail is not a gate
 
-Promptfoo's documented defaults give an eval suite six independent ways to
+Promptfoo's documented defaults give an eval suite several independent ways to
 report green while verifying nothing. Every one is a property of the config,
 reviewable before the run — not of the run's output
 [source: docs-promptfoo-assertions-metrics, docs-promptfoo-model-graded-metrics,
 docs-promptfoo-model-graded-context-faithfulness,
 docs-promptfoo-model-graded-context-recall, docs-promptfoo-guardrails-assertions,
-docs-promptfoo-javascript-assertions] [emerging]:
+docs-promptfoo-javascript-assertions, docs-promptfoo-max-score,
+docs-promptfoo-select-best, docs-promptfoo-configuration-guide] [emerging]:
 
 | Config | What makes it incapable of failing |
 |---|---|
@@ -670,6 +807,9 @@ docs-promptfoo-javascript-assertions] [emerging]:
 | Bare `context-faithfulness` or `context-recall` | Both pages document `threshold` as "Minimum score 0-1 (default: 0)", so a fully-unsupported answer at score 0 passes [source: docs-promptfoo-model-graded-context-faithfulness, docs-promptfoo-model-graded-context-recall, Claim 2] |
 | `guardrails` against a response with no normalized signal | "When the response omits `guardrails`, Promptfoo currently treats it as `flagged: false`, so `guardrails` passes with score 1" [source: docs-promptfoo-guardrails-assertions, Claim 3] |
 | Custom-JS trace gate written with the vendor's own guard | `if (!context.trace) return true;` — the suite passes green when tracing was never enabled [source: docs-promptfoo-javascript-assertions, Claim 6] |
+| A selector used as the quality check (`max-score`, `select-best`) | The pass column is a *ranking*, not a bar — "Returns pass=true for the highest scoring output, pass=false for others" and "All outputs fail: Still selects the highest scorer (\"least bad\")" [source: docs-promptfoo-max-score, Claim 2; docs-promptfoo-select-best, Claim 1] |
+| A per-case transform under a `defaultTest` transform | "only one transform is applied at the test case level - either from defaultTest or the individual test case, not both" — the case transform silently replaces the suite-wide one [source: docs-promptfoo-configuration-guide, Claim 2] |
+| `options.disableDefaultAsserts: true` on a case | Drops the inherited `defaultTest.assert` baseline from that case while `vars`, `threshold`, and `options` still apply [source: docs-promptfoo-configuration-guide, Claim 6] |
 
 The defaults are per-assert-type, so they cannot be memorized as one rule:
 `context-faithfulness` and `context-recall` default to `0`, while
@@ -690,11 +830,21 @@ assert:
 ```
 *Extracted from [source: docs-promptfoo-model-graded-context-faithfulness, Concrete Artifacts].*
 
+The selector row is structurally different from the others. They are config
+*values* that disable a check; a selector is an assert *type* whose pass column
+is a ranking by construction — `select-best` documents no `threshold`, `method`,
+or `weights` at all [source: docs-promptfoo-select-best, Claim 3] [settled], and
+`max-score`'s `threshold` gates selection rather than making any output a
+quality verdict [source: docs-promptfoo-max-score, Claim 5] [settled]. The fix
+is not "change this value" but "gate on a different assert and read the
+selector's column as a ranking."
+
 **Rule**: Every score-producing assertion carries an explicit non-zero
 `threshold`, at both the per-assert and the test-case/`assert-set` level, and
 every suite carries a negative control — one deliberately-wrong case that must
-fail — to prove the gate discriminates. "Can this gate fail?" is a grep of the
-config, not a property of the last green run.
+fail — to prove the gate discriminates. Never read a selector's pass column as
+a quality verdict. "Can this gate fail?" is a grep of the config, not a
+property of the last green run.
 
 ### The judge behind a model-graded assertion is unpinned by default
 
@@ -733,11 +883,38 @@ even with both providers pinned. Swapping the embedding model rebases every
 prior threshold with no config error
 [source: docs-promptfoo-answer-relevance, Claim 1, Claim 3] [emerging].
 
+The ambient default is checkable, not just nameable: the `llm-rubric` page
+enumerates which credential selects which judge — `OPENAI_API_KEY` → `gpt-5`,
+`ANTHROPIC_API_KEY` → `claude-sonnet-4-5-20250929`, Gemini/Vertex →
+`gemini-2.5-pro`, `MISTRAL_API_KEY` → `mistral-large-latest`, a GitHub token →
+`openai/gpt-5`, Azure → the configured deployment, and a signed-in Codex CLI →
+`openai:codex-sdk` [source: docs-promptfoo-llm-rubric, Claim 5] [settled]. Four
+of the eight name no fixed version, so copying the default list into a config
+does not pin a judge.
+
+A third state sits between "ambient" and "pinned": **vendor-named,
+model-opaque**. The `pi` scorer requires a separate external key and documents
+no `provider:` override, no `rubricPrompt`, and no negation
+[source: docs-promptfoo-pi-scorer, Claim 6] [settled], so its grader is named by
+which key you provisioned while the scoring model it resolves to is not in the
+config surface at all. In a `pi` config, every model ID under a `providers:`
+key is the *target*, never the grader
+[source: docs-promptfoo-pi-scorer, Claim 10] [settled] — the exact shape a
+reader applying the pin-every-model rule will mistake for a pinned judge.
+
+Pinning a name is also not pinning a model: the moderation gate's recommended
+Replicate default is a bare model name (`meta/llama-guard-4-12b`) while the
+alternative on the same page is content-hash-pinned, so accepting the
+recommendation lets an upstream update change what the gate blocks with no repo
+change [source: docs-promptfoo-moderation-assertions, Claim 7] [settled].
+
 **Rule**: Pin the judge explicitly (`--grader`,
-`defaultTest.options.provider`, or the assertion's own `provider:`) and grep
-every level for assertion-level shorthand overrides. Pin *every* model artifact
-behind a verdict, not just the text judge — a gate that pins the embedding
-provider ("half-pinned") is gating on a score that moved.
+`defaultTest.options.provider`, or the assertion's own `provider:`), grep every
+level for assertion-level shorthand overrides, and record which state the
+grader is in — pinned, ambient, or vendor-named and model-opaque. Pin *every*
+model artifact behind a verdict, by *revision* where the surface allows it —
+the text judge, the embedding provider, and any web-search tool block — not
+just the text judge.
 
 ### Grade the route, not just the reply
 
@@ -1019,11 +1196,35 @@ prompts:
 *Extracted from [source: docs-litellm-generic-prompt-management-api, Concrete
 Artifacts].*
 
-**Rule**: Keep the response-`model` rule for model attribution, but do not
-assume it covers parameters. If a prompt store can override the request, treat
-it as a substitution entry alongside the router, and set
-`ignore_prompt_manager_model` / `ignore_prompt_manager_optional_params` unless
-store-owned overrides are an explicit product decision.
+The SDK `fallbacks` path carries a positive attribution signal the response
+`model` field cannot: how many attempts it took. "The successful response
+carries the x-litellm-attempted-fallbacks header with the number of fallbacks
+that were attempted before it" [source: docs-litellm-completion-input-params,
+Claim 13] [settled] — a value of 0 is positive evidence the primary served the
+request. The same page documents the execution model that makes the worst case
+multiplicative: "There is no time budget, no repeated loop over the list and no
+cooldown: once every entry has failed, completion raises an exception carrying
+the last error, suffixed with All fallback attempts failed" [source:
+docs-litellm-completion-input-params, Claim 13] [settled]. Each entry is tried
+exactly once, so a chain of length N has worst-case latency N × the per-attempt
+timeout, and retry/backoff is explicitly delegated to the Router.
+
+A further substitution authority is input-dependent rather than
+failure-driven: `context_window_fallback_dict` maps a model to use when a call
+fails on a context-window error [source:
+docs-litellm-completion-input-params, Claim 4] [settled]. Whether a request is
+substituted depends on the *size of that request's context*, so a regression
+suite whose prompts grew past a boundary can start being answered by a
+different model with no change to the request — and no header is documented for
+this path, so the response-`model` check is the only available control.
+
+**Rule**: Keep the response-`model` rule for model attribution, record
+`x-litellm-attempted-fallbacks` on every successful response, and add
+`context_window_fallback_dict` to the substitution-authority inventory. If a
+prompt store can override the request, treat it as a substitution entry
+alongside the router, and set `ignore_prompt_manager_model` /
+`ignore_prompt_manager_optional_params` unless store-owned overrides are an
+explicit product decision.
 
 ### Routing decisions are cost decisions — attribute the cause
 
@@ -1462,5 +1663,10 @@ docs-langfuse-alerts, docs-langfuse-evaluate-production-traffic,
 docs-promptfoo-configuration-caching, docs-promptfoo-chat-threads,
 docs-promptfoo-dataset-generation, docs-litellm-generic-guardrail-api,
 docs-litellm-generic-prompt-management-api, docs-promptfoo-factuality,
-docs-promptfoo-g-eval*
-*Last updated: 2026-09-19*
+docs-promptfoo-g-eval, docs-litellm-completion-input-params,
+docs-litellm-completion-http-handler-config, docs-litellm-drop-params,
+docs-litellm-json-mode-structured-outputs, docs-litellm-knowledgebase-vector-stores,
+docs-litellm-message-sanitization, docs-promptfoo-configuration-guide,
+docs-promptfoo-llm-rubric, docs-promptfoo-max-score, docs-promptfoo-pi-scorer,
+docs-promptfoo-select-best, docs-promptfoo-similar*
+*Last updated: 2026-10-01*
