@@ -12950,6 +12950,61 @@
         }
       ]
     },
+    "docs-promptfoo-configuration-huggingface-datasets": {
+      "path": "source-notes/docs-promptfoo-configuration-huggingface-datasets.md",
+      "title": "Promptfoo Configuration: Loading Test Cases from HuggingFace Datasets",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/huggingface-datasets",
+      "chapters": [
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "`huggingface://datasets/<owner>/<repo>` is a complete `tests:` source, not a file path — every dataset row becomes one test case and every dataset field becomes a prompt variable, with no local `vars:` mapping and no per-row assertion block",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The entire documented knob surface is `split` (default `test`), `config` (default `default`), `limit` (default `unlimited`) — and there is no revision, commit, or version pin at either the promptfoo layer or in the upstream API it calls",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "`limit` defaults to **unlimited** and the rows arrive 100 at a time over the HuggingFace dataset-viewer `/rows` API — so the default config fetches the entire dataset at eval time, and the only two remedies the page offers are `limit` and a token for higher rate limits",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Variable expansion is switched off for HF-loaded rows — array-valued dataset columns arrive intact instead of fanning out into multiple test cases, and the one documented global switch runs in the *opposite* direction, so the same logical dataset yields different case counts depending on which loader fetched it",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "`split` defaults to `test` and the documented symptom of getting it wrong is **empty results**, not an error — a wrong split or config yields a zero-case eval, which is a CI gate that passes without testing anything",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Auth is three interchangeable environment variables, and the page positions the token as a **rate-limit** dependency rather than only a privacy one — a CI gate's throughput is bound to a credential even for fully public data",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The vendor's own worked config puts the HuggingFace token in `config.env` — the exact pattern a sibling promptfoo page warns may resolve the secret into the eval config object and surface it in exported results",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The upstream dataset-viewer adds dependencies and degradations the promptfoo page never mentions — the dataset must be parquet-backed, an oversized dataset comes back `partial`, and media columns resolve to **expiring signed URLs** over a viewer asset cache that gets emptied",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Hermeticity is restored only *after* the first fetch, and only for a saved run — promptfoo persists parsed test rows with the evaluation so resume/retry reuse them \"including generated and remote datasets\", and nothing on this page documents retry, backoff, or timeout for the fetch that gets them",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-conversation-relevance": {
       "path": "source-notes/docs-promptfoo-conversation-relevance.md",
       "title": "Promptfoo Configuration: Model-graded conversation-relevance",
