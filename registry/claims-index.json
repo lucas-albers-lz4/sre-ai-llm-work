@@ -11632,6 +11632,93 @@
         }
       ]
     },
+    "docs-litellm-completion-function-call": {
+      "path": "source-notes/docs-litellm-completion-function-call.md",
+      "title": "Function Calling | liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/completion/function_call",
+      "chapters": [
+        "06",
+        "05",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The two capability predicates are independent lookups over two separate keys on the same model record — the page presents them as a matched pair, but nothing guarantees both keys are declared for a model",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The predicates are fail-closed: they return `True` only when some source declares `True`; an unknown model, a missing key, or *any* exception all resolve to `False`",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The capability matrix is *data*, not code — it is LiteLLM's model cost map, fetched from a URL overridable by environment variable and reloaded via the documented cost-map reload endpoint",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Provider-supplied model info **outranks** the static cost map, and for Ollama that means the capability answer is a live HTTP call plus a substring test on the model's chat template",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The injection mechanism is a synthesized optional parameter, `functions_unsupported_model`, not the flag — and `tool_choice` is silently discarded on the path where it applies",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "On the Ollama path the flag is not a switch — the library **writes** the global as a side effect of handling a request, process-globally, and never resets it",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The injected block is un-delimited and un-escaped: the raw Python dict is f-string-interpolated into the system message behind one fixed preamble, and it is appended to *every* message whose role contains the substring `\"system\"`",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The injection mutates the caller's own message dicts and list in place — the opposite contract from LiteLLM's own message sanitization",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Nothing parses the model's reply back into `tool_calls` — the caller receives free text and must parse it itself",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The same global flag changes what a guardrail sends — the Lakera hook omits the flattened tool-call arguments from its system-role payload when the flag is set",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "`function_to_dict`'s documented output is a live defect, not a rendering artifact — `enum` is emitted as a **string** containing a Python list repr, and its member order is not deterministic",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "`function_to_dict` also silently drops any parameter it cannot type as a string, and infers `required` from the Python signature rather than from the docstring",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "The deprecated `functions=` path is labeled deprecated with no removal date, no replacement statement, and no documented behavior when `functions` and `tools` are passed together",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "The page's own section headings, code blocks, and example assertions are mutually inconsistent — the \"gpt-3.5-turbo-1106\" quick start calls `gpt-5.6-luna`, and the capability assertions do not hold against the shipped cost map",
+          "kind": "claim"
+        },
+        {
+          "n": 15,
+          "heading": "On the fallback path the entire tool schema is re-sent on every request as system-message text — the page gives no token accounting for it",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-completion-http-handler-config": {
       "path": "source-notes/docs-litellm-completion-http-handler-config.md",
       "title": "Custom HTTP Handler | liteLLM",

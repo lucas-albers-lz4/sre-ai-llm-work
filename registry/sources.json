@@ -2067,6 +2067,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-completion-function-call": {
+      "slug": "docs-litellm-completion-function-call",
+      "title": "Function Calling | liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/completion/function_call",
+      "source_type": "docs",
+      "author": "LiteLLM",
+      "date_published": "unknown (living vendor docs; current as of 2026-10-02)",
+      "date_extracted": "2026-10-02",
+      "issue": "#1481",
+      "file": "source-notes/docs-litellm-completion-function-call.md",
+      "confidence_overall": "settled",
+      "status": "current"
+    },
     "docs-litellm-completion-http-handler-config": {
       "slug": "docs-litellm-completion-http-handler-config",
       "title": "Custom HTTP Handler | liteLLM",
