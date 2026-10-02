@@ -11858,6 +11858,71 @@
         }
       ]
     },
+    "docs-litellm-completion-message-trimming": {
+      "path": "source-notes/docs-litellm-completion-message-trimming.md",
+      "title": "Trimming Input Messages — LiteLLM Documentation (with sibling page Prompt Compression / compress())",
+      "source_url": "https://docs.litellm.ai/docs/completion/message_trimming",
+      "chapters": [
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "`trim_messages()` is a client-side, in-process, pre-call helper whose entire documented contract is a single inequality — the page states no return type, no error mode, and no guarantee beyond it",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "`model` is documented as optional *only* because `max_tokens` can substitute for it — yet both documented examples pass `model`, so the substitute path has no example and the page does not state what happens when neither is supplied",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "`trim_ratio` defaults to `0.75`, and the sentence explaining it is truncated mid-thought and never states what the 75% is a fraction of",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The page documents no drop semantics at all — verified absences: which messages are dropped, from which end, whether the system prompt is protected, whether `tool_use`/`tool_result` pairing survives, what happens when one message alone exceeds the limit, whether the input list is mutated in place, and how much was removed",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "`max_tokens` on `trim_messages()` is an *input-payload* cap — the page's own second example passes `max_tokens=10` to the trim helper and passes no `max_tokens` at all to `completion()`, so the parameter name collides with OpenAI's output-token `max_tokens` and the page never disambiguates them",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The two pages in this section are documented to very different completeness standards for the same job — `compress()` carries a Beta status banner and a \"Behavior Notes\" contract; `trim_messages()` carries no status marker at all and links to only two related pages",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "`litellm.compress()` is a beta, relevance-based compressor with an explicit four-bullet contract — pass-through below the trigger, system + last user + last assistant turns always preserved, partial truncation allowed, and no content ever lost",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "`compress()` returns its own token accounting and a retrieval-tool definition — making the reduction measurable at the call site, which `trim_messages()` has no documented equivalent of",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "`compress()`'s defaults are anchored to a fixed `compression_trigger` of `200000`, not to the model's context window — and `trim_messages()`'s `trim_ratio` base is unstated — so neither helper documents a window-aware default budget",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "`compress()` has a documented server-side mode on `/v1/messages` that closes the retrieval loop agentically — a third deployment shape beyond the in-process call and the proxy guardrail",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The only published benchmark for either helper is n=5 on SWE-bench Lite at `trigger=10k`, and it reports a real tool-loop quality tradeoff alongside 77.7% token and 72.0% cost reduction — directionally consistent with Headroom's marketed range but on a sample far too small to validate a general claim",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-completion-output": {
       "path": "source-notes/docs-litellm-completion-output.md",
       "title": "Output | liteLLM",
