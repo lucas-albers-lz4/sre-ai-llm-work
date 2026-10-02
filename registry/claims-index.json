@@ -13149,6 +13149,62 @@
         }
       ]
     },
+    "docs-promptfoo-configuration-prompts": {
+      "path": "source-notes/docs-promptfoo-configuration-prompts.md",
+      "title": "Promptfoo Configuration: Prompts — Formats, Executable Generators, and External Registry Schemes",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/prompts",
+      "chapters": [
+        "05",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Executable scripts run with the full permissions of the promptfoo process and can access environment variables including API keys",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Executable prompts are invoked via `exec:` (explicit) or auto-detected for common script extensions; Python `.py` files are not auto-treated as executables",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "External prompt management via URI schemes supports version pinning and label-based references (Langfuse/Portkey/Helicone)",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Langfuse URI syntax accepts both `@label` and colon-form string labels; format suffixes (`:text`, `:chat`) control prompt format",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Portkey and Helicone also expose external prompt URIs; Helicone examples show versioned references like `:1.0`, `:2.5`",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Prompt selection supports model-specific mapping via provider `prompts` arrays and label-based filtering (exact, group prefix, `group:*` wildcard)",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "File-based prompts support multiple formats (.txt/.md/.j2/.csv), globs, and multi-prompt files separated by `---` with override via `PROMPTFOO_PROMPT_SEPARATOR`",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "`nunjucksFilters` allows registering custom Nunjucks filters from external JS files",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Rendered prompt inspection is available via `promptfoo view` and \"Show full prompt in output cell\"",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-conversation-relevance": {
       "path": "source-notes/docs-promptfoo-conversation-relevance.md",
       "title": "Promptfoo Configuration: Model-graded conversation-relevance",
