@@ -2418,6 +2418,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-configuration-rate-limits": {
+      "slug": "docs-promptfoo-configuration-rate-limits",
+      "title": "Promptfoo Configuration: Rate Limits — AIMD Adaptive Concurrency, Two-Layer Retry, and the 429 Contract",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/rate-limits",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-10-01",
+      "date_extracted": "2026-10-02",
+      "issue": "#1545",
+      "file": "source-notes/docs-promptfoo-configuration-rate-limits.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-conversation-relevance": {
       "slug": "docs-promptfoo-conversation-relevance",
       "title": "Promptfoo Configuration: Model-graded conversation-relevance",

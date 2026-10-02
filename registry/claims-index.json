@@ -13205,6 +13205,88 @@
         }
       ]
     },
+    "docs-promptfoo-configuration-rate-limits": {
+      "path": "source-notes/docs-promptfoo-configuration-rate-limits.md",
+      "title": "Promptfoo Configuration: Rate Limits — AIMD Adaptive Concurrency, Two-Layer Retry, and the 429 Contract",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/rate-limits",
+      "chapters": [
+        "05",
+        "02",
+        "03"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "promptfoo treats HTTP 429 as unconditionally transient — the documented contract is that 429 (or similar rate-limit errors) is automatically retried with exponential backoff, up to 3 times by default, with no body-level or `type`/`code` discrimination",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "There are two independent retry layers with different defaults — a scheduler layer that retries `callApi()` with 1-second base backoff up to 3 times, and an HTTP layer that defaults to 4 retries — and one provider `maxRetries` propagates into both, with explicit per-call overrides still winning",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The concurrency controller is AIMD with three documented rules — cut concurrency by 50% when a rate limit is hit, add 1 after sustained successful requests, and proactively reduce when header-reported remaining quota drops below 10%",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The page's headline recommendation — set `maxConcurrency` high and let the scheduler find the rate for you — is an unevidenced vendor claim, published with no convergence time, no throughput measurement, and no cost comparison",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "`maxConcurrency` is a ceiling, not a setting — the adaptive scheduler may reduce it but \"cannot exceed your configured maximum\", so realized concurrency is state-dependent and per-provider",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Transient-error retries are gated on HTTP **status text**, not status code — 502/503/504/524 are retried only when the status text matches, precisely so permanent failures wearing those codes are not retried",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Rate-limit tracking is header-driven and per-provider *and* per-API-key, with a documented header table for OpenAI, Anthropic, Azure OpenAI, and a generic fallback",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Custom providers trigger automatic retry by substring match on the error text — `\"429\"`, `\"rate limit\"`, or `\"too many requests\"` — and supply their own retry timing through `metadata.headers['retry-after']`",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The documented way to get deterministic eval behavior is to starve the scheduler of concurrency — `maxConcurrency: 1` plus `delay: 1000` — while the scheduler itself is described as always on",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The only documented observability surface is six named debug-log events under `LOG_LEVEL=debug`, which together trace the control loop's state transitions",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The documented env-var surface splits cleanly by layer, and the scheduler queue timeout is a hard 5-minute wall-clock bound on waiting that no other section mentions",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "OpenAI's request and token limits are tracked separately, but the page's entire control surface is a *concurrency* count — there is no documented token-rate or request-rate control",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "The page's framing is that rate-limit handling \"requires no configuration\" — and the configuration it then documents is exclusively *reactive* (retry, backoff, adaptive concurrency), with no static per-provider rate cap anywhere in its surface",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "`delay` is additive to rate-limit backoff and is reachable three ways — YAML `evaluateOptions.delay`, CLI `--delay`, and env var `PROMPTFOO_DELAY_MS` — making it a hard floor on run time rather than a throttle",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-conversation-relevance": {
       "path": "source-notes/docs-promptfoo-conversation-relevance.md",
       "title": "Promptfoo Configuration: Model-graded conversation-relevance",
