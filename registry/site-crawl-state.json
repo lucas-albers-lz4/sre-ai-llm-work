@@ -1326,7 +1326,7 @@
         "filed_at": "2026-08-13T12:56:28.715514+00:00"
       }
     },
-    "last_scan": "2026-10-01T17:51:11.709542+00:00"
+    "last_scan": "2026-10-02T17:12:32.397124+00:00"
   },
   "opentelemetry": {
     "urls": {},
@@ -2811,16 +2811,22 @@
         "filed_at": "2026-10-01T17:51:37.947798+00:00"
       },
       "https://www.cncf.io/projects/kmesh/": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:24:16.126965+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:24:16.126965+00:00",
+        "issue": 1553,
+        "filed_at": "2026-10-02T17:12:58.704135+00:00"
       },
       "https://www.cncf.io/projects/keycloak/": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:24:16.126968+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:24:16.126968+00:00",
+        "issue": 1554,
+        "filed_at": "2026-10-02T17:13:01.146871+00:00"
       },
       "https://www.cncf.io/projects/kepler/": {
-        "status": "pending",
-        "screened_at": "2026-07-14T08:24:16.126972+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T08:24:16.126972+00:00",
+        "issue": 1555,
+        "filed_at": "2026-10-02T17:13:03.079843+00:00"
       },
       "https://www.cncf.io/projects/keptn/": {
         "status": "pending",
@@ -3845,9 +3851,21 @@
       "https://www.cncf.io/blog/2025/12/04/my-first-kubecon-cloudnativecon-a-journey-through-community-inclusivity-and-neurodiversity": {
         "status": "rejected",
         "screened_at": "2026-10-01T17:51:17.356530+00:00"
+      },
+      "https://www.cncf.io/blog/2026/10/02/kubecon-cloudnativecon-north-america-2026-join-the-cloud-native-community-at-opentofu-day": {
+        "status": "rejected",
+        "screened_at": "2026-10-02T17:12:36.904052+00:00"
+      },
+      "https://www.cncf.io/blog/2026/10/01/kubecon-cloudnativecon-north-america-2026-from-user-to-contributor-to-maintainer": {
+        "status": "rejected",
+        "screened_at": "2026-10-02T17:12:36.904070+00:00"
+      },
+      "https://www.cncf.io/blog/2026/10/01/kubecon-cloudnativecon-north-america-2026-build-your-infrastructure-engineer-journey": {
+        "status": "rejected",
+        "screened_at": "2026-10-02T17:12:36.904074+00:00"
       }
     },
-    "last_scan": "2026-10-01T17:51:17.356532+00:00"
+    "last_scan": "2026-10-02T17:12:36.904076+00:00"
   },
   "datadog-llm-obs": {
     "urls": {
@@ -3856,7 +3874,7 @@
         "screened_at": "2026-07-12T23:52:56.905756+00:00"
       }
     },
-    "last_scan": "2026-10-01T17:51:18.975052+00:00"
+    "last_scan": "2026-10-02T17:12:38.273078+00:00"
   },
   "langfuse-docs": {
     "urls": {
@@ -4021,7 +4039,7 @@
         "filed_at": "2026-09-03T15:37:32.594301+00:00"
       }
     },
-    "last_scan": "2026-10-01T17:51:20.449631+00:00"
+    "last_scan": "2026-10-02T17:12:39.621211+00:00"
   },
   "litellm-docs": {
     "urls": {
@@ -5514,16 +5532,22 @@
         "filed_at": "2026-10-01T17:51:44.571866+00:00"
       },
       "https://docs.litellm.ai/docs/completion/prompt_caching": {
-        "status": "pending",
-        "screened_at": "2026-07-26T13:06:23.103691+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-26T13:06:23.103691+00:00",
+        "issue": 1556,
+        "filed_at": "2026-10-02T17:13:04.973057+00:00"
       },
       "https://docs.litellm.ai/docs/completion/prompt_compression": {
-        "status": "pending",
-        "screened_at": "2026-07-27T14:18:17.750690+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-27T14:18:17.750690+00:00",
+        "issue": 1557,
+        "filed_at": "2026-10-02T17:13:06.915664+00:00"
       },
       "https://docs.litellm.ai/docs/completion/prompt_formatting": {
-        "status": "pending",
-        "screened_at": "2026-07-27T14:18:17.750710+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-27T14:18:17.750710+00:00",
+        "issue": 1558,
+        "filed_at": "2026-10-02T17:13:08.695956+00:00"
       },
       "https://docs.litellm.ai/docs/completion/provider_specific_params": {
         "status": "pending",
@@ -6332,9 +6356,21 @@
       "https://docs.litellm.ai/docs/harness/claude_code": {
         "status": "pending",
         "screened_at": "2026-10-01T17:51:28.142837+00:00"
+      },
+      "https://docs.litellm.ai/docs/agent_resources": {
+        "status": "pending",
+        "screened_at": "2026-10-02T17:12:54.020004+00:00"
+      },
+      "https://docs.litellm.ai/docs/harness/codex": {
+        "status": "rejected",
+        "screened_at": "2026-10-02T17:12:54.020022+00:00"
+      },
+      "https://docs.litellm.ai/docs/harness/deepagents": {
+        "status": "rejected",
+        "screened_at": "2026-10-02T17:12:54.020025+00:00"
       }
     },
-    "last_scan": "2026-10-01T17:51:28.142841+00:00"
+    "last_scan": "2026-10-02T17:12:54.020029+00:00"
   },
   "promptfoo-docs": {
     "urls": {
@@ -7829,16 +7865,22 @@
         "filed_at": "2026-10-01T17:51:51.732207+00:00"
       },
       "https://www.promptfoo.dev/docs/configuration/reference": {
-        "status": "pending",
-        "screened_at": "2026-07-27T14:18:25.228948+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-27T14:18:25.228948+00:00",
+        "issue": 1559,
+        "filed_at": "2026-10-02T17:13:10.627600+00:00"
       },
       "https://www.promptfoo.dev/docs/configuration/scenarios": {
-        "status": "pending",
-        "screened_at": "2026-07-27T14:18:25.228966+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-27T14:18:25.228966+00:00",
+        "issue": 1560,
+        "filed_at": "2026-10-02T17:13:13.561047+00:00"
       },
       "https://www.promptfoo.dev/docs/configuration/telemetry": {
-        "status": "pending",
-        "screened_at": "2026-07-27T14:18:25.228969+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-27T14:18:25.228969+00:00",
+        "issue": 1561,
+        "filed_at": "2026-10-02T17:13:15.514692+00:00"
       },
       "https://www.promptfoo.dev/docs/configuration/test-cases": {
         "status": "pending",
@@ -8643,8 +8685,20 @@
       "https://www.promptfoo.dev/docs/red-team/plugins/age-bias": {
         "status": "pending",
         "screened_at": "2026-10-01T17:51:31.282212+00:00"
+      },
+      "https://www.promptfoo.dev/docs/red-team/plugins/ascii-smuggling": {
+        "status": "pending",
+        "screened_at": "2026-10-02T17:12:57.345631+00:00"
+      },
+      "https://www.promptfoo.dev/docs/red-team/plugins/beavertails": {
+        "status": "pending",
+        "screened_at": "2026-10-02T17:12:57.345648+00:00"
+      },
+      "https://www.promptfoo.dev/docs/red-team/plugins/bfla": {
+        "status": "pending",
+        "screened_at": "2026-10-02T17:12:57.345651+00:00"
       }
     },
-    "last_scan": "2026-10-01T17:51:31.282214+00:00"
+    "last_scan": "2026-10-02T17:12:57.345653+00:00"
   }
 }
