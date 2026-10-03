@@ -12068,6 +12068,57 @@
         }
       ]
     },
+    "docs-litellm-completion-prompt-compression": {
+      "path": "source-notes/docs-litellm-completion-prompt-compression.md",
+      "title": "Prompt Compression (compress()) — LiteLLM Documentation",
+      "source_url": "https://docs.litellm.ai/docs/completion/prompt_compression",
+      "chapters": [
+        "05",
+        "03"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "`litellm.compress()` is a beta, relevance-based compression API that returns compressed messages plus a retrieval path",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The return shape is explicit and observable at the call site",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Parameters define trigger, target, scoring, and call type/schema",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Behavior notes give concrete preservation and truncation guarantees",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Retrieval is handled by `litellm_content_retrieve` tool; caller must resolve from cache",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Server-side callback loop (`compression_interception`) for `/v1/messages` automates retrieval",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "SWE-bench Lite benchmark (Claude Opus, 5 problems, trigger=10k) shows large token/cost savings with tradeoff in hunk overlap",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Benchmark metrics defined and eval commands provided for reproducibility",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-drop-params": {
       "path": "source-notes/docs-litellm-drop-params.md",
       "title": "Drop Unsupported Params | liteLLM",
