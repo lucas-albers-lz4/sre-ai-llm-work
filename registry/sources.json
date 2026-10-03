@@ -52,6 +52,19 @@
       "confidence_overall": "anecdotal",
       "status": "current"
     },
+    "blog-linsun-pod-deployment-unit-ai-agent": {
+      "slug": "blog-linsun-pod-deployment-unit-ai-agent",
+      "title": "Is a Pod the right deployment unit for an AI agent?",
+      "source_url": "https://www.cncf.io/blog/2026/07/14/is-a-pod-the-right-deployment-unit-for-an-ai-agent",
+      "source_type": "blog-post",
+      "author": "Lin Sun",
+      "date_published": "2026-07-14",
+      "date_extracted": "2026-10-03",
+      "issue": "#1570",
+      "file": "source-notes/blog-linsun-pod-deployment-unit-ai-agent.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-litellm-agents-are-the-new-llms": {
       "slug": "blog-litellm-agents-are-the-new-llms",
       "title": "Agents Are the New LLMs: A Unified Agent Control Plane",

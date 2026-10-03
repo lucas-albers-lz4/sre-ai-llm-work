@@ -328,6 +328,119 @@
         }
       ]
     },
+    "blog-linsun-pod-deployment-unit-ai-agent": {
+      "path": "source-notes/blog-linsun-pod-deployment-unit-ai-agent.md",
+      "title": "Is a Pod the right deployment unit for an AI agent?",
+      "source_url": "https://www.cncf.io/blog/2026/07/14/is-a-pod-the-right-deployment-unit-for-an-ai-agent",
+      "chapters": [
+        "03",
+        "05",
+        "02",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "One shared runtime hosting many agents was kagent's first architecture, and it worked for demos but broke down as agent count grew — the isolation, identity, policy, per-agent visibility and ownership questions it raised are \"agent platform questions,\" not Kubernetes questions",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Pod-per-agent (Pod + Service + ServiceAccount) bought isolation, native identity, unchanged network/admission/security controls, per-agent log/metric/trace attribution, and Kubernetes-native scheduling — all in one decision",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Agents break the assumption that underpins the Pod-as-deployment-unit model: a service is expected to be continuously available, an agent \"may wake up only when assigned a task, execute for a few seconds or minutes, and then become completely idle\"",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "`agent-substrate` splits the agent lifecycle out of Kubernetes: Kubernetes manages Pods/Services/networking/storage/compute while `agent-substrate` manages \"the lifecycle and placement of AI actors onto execution workers,\" and its abstractions deliberately mirror Kubernetes concepts",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Workers and Actors are deliberately *not* Kubernetes custom resources — \"Kubernetes only sees WorkerPools and ActorTemplates\" — so the cluster runs a fixed number of execution Pods while the substrate manages a much larger number of logical agents",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "An Actor is a logical entity scheduled onto a Worker when work arrives and removed when execution completes; Workers stay long-running Pods and Actors are the lightweight units that share them",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The `ate.dev/v1alpha1` API surface is two CRDs — `WorkerPool` (a fixed set of execution workers, with a gVisor \"ateom\" image) and `ActorTemplate` (how an Actor executes, the analogue of a `PodTemplate`) — and both are namespaced Kubernetes objects with standard labels",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The ActorTemplate pins both the workload image by digest and the sandbox runtime binary by per-architecture SHA256, and points snapshot storage at external object storage — three supply-chain and state-durability decisions in one object",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The project README claims 10x higher density than standard container runtimes, sub-500ms resume at over 500 suspend/resume activations per second, and a demo multiplexing ~250 stateful actors across 8 physical pods at 30x+ oversubscription",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Worker capacity is versioned through a node label, and an unlabeled node silently hosts no workers — a version-skew failure mode specific to a substrate that owns its own dataplane",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The article's central observability requirement — \"observability must follow the logical agent, not the underlying Pod\" — is implemented as a reserved `ate.*` identity metadata namespace on logs, with actor identity deliberately barred from metric labels",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "The same docs show three concrete ways actor attribution is *not* solved: platform logs cannot carry trace context for an actor's own output, actor identity cannot be sampled out of the lifecycle stream without creating silent wrongness, and the collector labels an actor's spans with the egress gateway's Pod name",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "Actor identity is namespaced twice — by `(atespace, name)` and by server-assigned `uid` — and actor names are only unique within an atespace",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "The `ate.*` metadata namespace is spoofing-resistant by construction — any key in that namespace emitted by the workload itself is dropped before the record is written",
+          "kind": "claim"
+        },
+        {
+          "n": 15,
+          "heading": "Worker-pool saturation is answered with bounded request parking — the router retries the resume with backoff up to a 5s budget and returns a capacity 503 only then — plus a fixed-capacity admission lot and per-actor request de-duplication",
+          "kind": "claim"
+        },
+        {
+          "n": 16,
+          "heading": "Actor egress is default-deny and per-actor, and telemetry export is subject to it — so an actor that wants to ship its own traces must be granted an explicit `http` rule, and the failure mode is a silent `connection reset by peer` plus a 45s–2min reconnect delay",
+          "kind": "claim"
+        },
+        {
+          "n": 17,
+          "heading": "Actor state is a real state machine with committed transitions, and each transition emits a record that is authoritative by resource rather than by message",
+          "kind": "claim"
+        },
+        {
+          "n": 18,
+          "heading": "The article's four open questions are identity ownership, policy attachment point, ownership/quotas/billing across tenants, and observability — and the article is explicit that these are questions, not answers",
+          "kind": "claim"
+        },
+        {
+          "n": 19,
+          "heading": "`agent-substrate` is pre-1.0 with no backward-compatibility guarantee, and supports only the latest stable Kubernetes release plus the previous minor",
+          "kind": "claim"
+        },
+        {
+          "n": 20,
+          "heading": "The project positions itself as framework-agnostic and explicitly not an agent SDK, and its credential-injection design starts from an empty default-deny policy",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-litellm-agents-are-the-new-llms": {
       "path": "source-notes/blog-litellm-agents-are-the-new-llms.md",
       "title": "Agents Are the New LLMs: A Unified Agent Control Plane",
