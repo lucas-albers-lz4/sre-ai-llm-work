@@ -11995,6 +11995,79 @@
         }
       ]
     },
+    "docs-litellm-completion-prompt-caching": {
+      "path": "source-notes/docs-litellm-completion-prompt-caching.md",
+      "title": "Prompt Caching — LiteLLM Documentation",
+      "source_url": "https://docs.litellm.ai/docs/completion/prompt_caching",
+      "chapters": [
+        "05",
+        "02",
+        "06",
+        "01"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Prompt caching is silently skipped below the provider's minimum input-token count and **no error is returned** — the request returns 200 with a correct completion and no cache",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The minimum is a **per-model-family** property, not a per-provider property, and the tiers run 512 / 1,024 / 2,048 / 4,096 tokens — an 8x spread between the cheapest and most expensive model on the same vendor",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The page's own verification instruction is provider-mismatched — it tells every reader to verify via `cache_creation_input_tokens` while simultaneously documenting that field as `ANTHROPIC_ONLY`",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "`prompt_tokens` is **not** net of cache — the page states it explicitly includes both cache-miss and cache-hit input tokens, so a naive `prompt_tokens × unit-price` spend calculation overstates cached traffic at full input price",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "A third usage field, `cache_read_input_tokens`, appears **only inside a code comment** in the Bedrock example and is never defined in the usage-object contract",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Bedrock requires **no code change** — LiteLLM translates the OpenAI-format `cache_control` marker to Bedrock's native `cachePoint`, and every listed model supports the same two TTL options (5 min, 1 hour), including cross-region inference profiles",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Gemini / Vertex is a structurally **different** mechanism — a two-hop `cachedContents` API call whose returned ID is then referenced in the request body — not an inline marker like Anthropic and Bedrock",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The Anthropic `cache_control` marker is portable and **silently ignored** elsewhere — but the page's \"Supported Providers\" list mixes providers that need a marker with providers that reject the concept and cache automatically",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "OpenAI caching needs **no annotation**; the two optional controls are a **backend-affinity hint** and a **TTL selector** — and `prompt_cache_key` is not a cache key",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "GPT-5.6+ explicit breakpoints are a **two-part** surface (per-block `prompt_cache_breakpoint` + request-level `prompt_cache_options{mode, ttl}`) whose support is resolved from LiteLLM's cost map — with a **model-name-version fallback** when the map has not flagged the model",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Capability probing answers from LiteLLM's **maintained cost map**, not from the provider — so `supports_prompt_caching() == False` means \"not in our map\" as much as \"not supported\"",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "Cost attribution runs through `completion_cost()` and the `x-litellm-response-cost` response header — but both are map-derived estimates, so the provider invoice remains the only ground truth",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-drop-params": {
       "path": "source-notes/docs-litellm-drop-params.md",
       "title": "Drop Unsupported Params | liteLLM",
