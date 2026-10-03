@@ -13512,6 +13512,67 @@
         }
       ]
     },
+    "docs-promptfoo-configuration-scenarios": {
+      "path": "source-notes/docs-promptfoo-configuration-scenarios.md",
+      "title": "Scenario Configuration - Grouping Tests and Data",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/scenarios",
+      "chapters": [
+        "05",
+        "03"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "`scenarios` is a two-part matrix — `config` supplies an array of variable sets and `tests` supplies one shared `TestCase[]` run against every one of them — and the page frames it as a *substitute* for hand-written tests, not an addition to them",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "`description` is the only optional field on a `Scenario`, so the scenario *group* is unlabelled by default — and the only identifier any generated cell inherits is the inner test's own `description`",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The schema types the row side as `Partial<TestCase>[]`, not a bare vars map — a much wider contract than the page's own prose, which narrows it to \"an array of `vars` objects\"",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "What makes one assertion set reusable across rows is `{{var}}` interpolation into `assert[].value` — the assertions are the same *template*, not the same *value*, and that distinction is the entire mechanism",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The page presents the matrix as the cost, but the real multiplication is matrix × prompts × providers — and the vendor's own shipped example for this page runs 3 providers × 2 prompts over the 9-cell matrix",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "`scenarios` is the hand-written alternative to array-var cartesian expansion, and the two produce different case counts *and different assertion costs* for the same logical data — which is why the vendor's own example pair diverges on assertion type",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Glob patterns load many scenario files and flatten them into one array, but the page promises no per-file provenance, no ordering guarantee, and no dedupe — so the directory structure it recommends as an organization scheme survives only in the config, never in the run",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The two glob positions inside the same `scenarios` construct have **opposite** unmatched-glob behavior — the page's own documented glob form throws and aborts the run, while `scenario.tests` globs warn and contribute zero rows",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "A single `threshold: 0.90` is applied across three languages whose expected strings differ in length and diacritics, on a metric whose shipped default the documentation never states",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The page's entire statement about what scenarios cost is one sentence about ergonomics — there is no runtime, cost, rate-limit, or CI guidance anywhere on it, and the corpus already documents that promptfoo has no token-rate control",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-conversation-relevance": {
       "path": "source-notes/docs-promptfoo-conversation-relevance.md",
       "title": "Promptfoo Configuration: Model-graded conversation-relevance",
