@@ -12694,6 +12694,73 @@
         }
       ]
     },
+    "docs-litellm-mock-requests": {
+      "path": "source-notes/docs-litellm-mock-requests.md",
+      "title": "Mock Completion() Responses - Save Testing Costs 💰 — LiteLLM Documentation (with sibling pages Mock Completion Responses tutorial and Reliability - Retries, Fallbacks)",
+      "source_url": "https://docs.litellm.ai/docs/completion/mock_requests",
+      "chapters": [
+        "05",
+        "02",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "`mock_response` is a parameter on the SDK's `completion()` call itself, and the documented guarantee is that it returns a response object \"without calling the LLM APIs\" — so the stub sits *below* every gateway and provider mechanism",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The documented non-streaming mock response carries `\"model\": \"MockResponse\"` and a `usage` object whose three token fields are **all `null`** — the single most consequential detail on the page for anything that asserts on cost or tokens",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The documented mock object omits `id` and `object`, both of which the vendor's own real-response example on the sibling page carries — so identity- and envelope-shape assertions are not portable between a mocked and a real call",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The mock sample's `created` value is `1694459929.4496052` — an epoch timestamp that resolves to **2023-09-11T19:18:49Z**, i.e. the page's own example response is ~3 years stale relative to its `last_updated` date, and no page states whether the field is live or frozen",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The mock also works with `stream=True` and is delivered as `delta` fragments rather than one shot — the page's inline output comment shows a chunk whose `content` is the three-character fragment `'Thi'` with `finish_reason: None`",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The streaming example is internally inconsistent — the `mock_response` string it passes is `\"It's simple to use and easy to get started\"`, but the fragment it documents is `'Thi'`, the first three characters of `\"This is a mock request\"`, which is also the sample object's `content` — so the documented chunk output appears carried over from an older default-response rendering of the page",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Non-streaming `mock_response` sets `choices[0].message.content` to the passed string **exactly** — established by the only executable assertion the vendor ships — and the near-duplicate tutorial page carries the same example with the assertion replaced by a `print`",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The page's streaming example is not runnable as written — `complete_response` is read and appended to inside the loop but never initialized, so the documented example raises `NameError` on its first iteration",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The vendor's framing of `mock_response` is **cost, not coverage** — title, front-matter summary, and tutorial prose are all about avoiding spend, and the page never once states what the stub bypasses",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The corpus now covers three test-only mocking knobs at three different layers, and this is the first note to place all three side by side — with the operational consequence that **no documented knob synthetically exercises gateway fallback logic**",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The page's only failure-handling construct is `except Exception as e: pytest.fail(f\"Error occurred: {e}\")` — there is no documented way to make a mocked `completion()` return an error, so the page offers no mechanism for testing LLM error paths at all",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-streaming-token-usage": {
       "path": "source-notes/docs-litellm-streaming-token-usage.md",
       "title": "Streaming Responses & Async Completion",

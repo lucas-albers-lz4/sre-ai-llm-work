@@ -2275,6 +2275,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-mock-requests": {
+      "slug": "docs-litellm-mock-requests",
+      "title": "Mock Completion() Responses - Save Testing Costs 💰 — LiteLLM Documentation (with sibling pages Mock Completion Responses tutorial and Reliability - Retries, Fallbacks)",
+      "source_url": "https://docs.litellm.ai/docs/completion/mock_requests",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs; page front-matter last_updated 2026-10-02)",
+      "date_extracted": "2026-10-03",
+      "issue": "#1523",
+      "file": "source-notes/docs-litellm-mock-requests.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-streaming-token-usage": {
       "slug": "docs-litellm-streaming-token-usage",
       "title": "Streaming Responses & Async Completion",
