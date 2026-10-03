@@ -2509,6 +2509,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-extension-hooks-and-sessions": {
+      "slug": "docs-promptfoo-extension-hooks-and-sessions",
+      "title": "Promptfoo Configuration: Reference — Extension Hooks, Session Management, and Run-Control Defaults",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/reference",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-10-02",
+      "date_extracted": "2026-10-03",
+      "issue": "#1559",
+      "file": "source-notes/docs-promptfoo-extension-hooks-and-sessions.md",
+      "confidence_overall": "settled",
+      "status": "current"
+    },
     "docs-promptfoo-factuality": {
       "slug": "docs-promptfoo-factuality",
       "title": "Promptfoo Configuration: Factuality",

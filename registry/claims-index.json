@@ -13677,6 +13677,59 @@
         }
       ]
     },
+    "docs-promptfoo-extension-hooks-and-sessions": {
+      "path": "source-notes/docs-promptfoo-extension-hooks-and-sessions.md",
+      "title": "Promptfoo Configuration: Reference — Extension Hooks, Session Management, and Run-Control Defaults",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/reference",
+      "chapters": [],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "`extensions` is promptfoo's supported in-band code-execution surface — four lifecycle hooks (`beforeAll`, `afterAll`, `beforeEach`, `afterEach`) in JavaScript *or* Python, each receiving a **different** context shape, and each hook's context enumerates a disjoint, deliberately narrow set of mutable fields",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The hook contract is return-value-based, and the four hooks are asymmetric — `beforeAll` / `beforeEach` / `afterEach` must **return** the mutated context for changes to persist, while `afterAll`'s return value is discarded and it is restricted to side effects and read-only operations",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The merge is explicitly **shallow** — returned properties replace existing values at the top level, and nested objects are \"replaced entirely, not deep-merged\", so a hook that returns `metadata` for enrichment silently discards every sibling key under `metadata`",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The verdict is structurally protected from hooks — `success`, `score`, and `response.output` are explicitly **not** overridable from `afterEach`, leaving metadata and named scores as the entire writable surface",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Registration is name-sensitive, not just path-sensitive — the function name after the colon selects the calling convention, and a function whose name is *not* a hook name receives all four event types",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Session-id resolution is a documented two-step fallback with a fixed precedence — a provider-returned `response.sessionId` always wins over the test-config `vars.sessionId`, and for HTTP targets the id is manufactured by a `sessionParser` expression on the response",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Iterative red-team strategies expose a **different** session field — `context.result.metadata.sessionIds`, an array of per-iteration ids that silently drops iterations without a session id, so array position is not iteration identity",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "`filterSampleSeed` is promptfoo's documented reproducibility knob for sampled suites — without it `filterSample` draws a *different* subset on every run, so two CI runs of the same commit grade different test populations",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "`suggestionsCount` (default `1`, max `50`) turns on prompt-set mutation — `generateSuggestions` appends generated variants to the prompt list, and the `GradingResult` suggestions interface on the same page names `replace-prompt` as a suggestion action, so the harness can propose edits to the very prompts it is grading",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-factuality": {
       "path": "source-notes/docs-promptfoo-factuality.md",
       "title": "Promptfoo Configuration: Factuality",
