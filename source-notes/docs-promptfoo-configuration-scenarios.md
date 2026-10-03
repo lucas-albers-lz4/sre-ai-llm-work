@@ -196,10 +196,10 @@ issue: "#1560"
   page links, and the page does not use it that way — it presents only the
   scenario half. Read as a pair, the two configs make the construct's real
   advantage concrete. `promptfooconfig.yaml` declares
-  `language: [French, German, Spanish, Italian, Portuguese, Portuguese]`-style
-  *arrays* (6 languages) and `input:` as a 5-element array, relying on array
-  expansion for 30 cases — and because an expanded array carries **one**
-  assertion block for all 30, that block has to be a judge:
+  `language: [French, German, Spanish, Italian, Portuguese]`-style
+  *arrays* (5 languages) and `input:` as a 5-element array, relying on array
+  expansion for 25 cases — and because an expanded array carries **one**
+  assertion block for all 25, that block has to be a judge:
   `type: llm-rubric, value: 'Is this a correct translation of "{{input}}" into
   {{language}}? Score 1-5 where 5 is perfect.', threshold: 0.7`. The scenario
   config instead writes 3 explicit rows and can therefore use
@@ -564,9 +564,9 @@ tests:
         threshold: 0.7
 ```
 
-The pair, read together: the array form covers 6 languages × 5 phrases = 30
+The pair, read together: the array form covers 5 languages × 5 phrases = 25
 cases but can only assert one way, so it uses a judge
-(`llm-rubric`, `threshold: 0.7`) for all 30. The scenario form covers 3
+(`llm-rubric`, `threshold: 0.7`) for all 25. The scenario form covers 3
 languages × 3 phrases = 9 cases and asserts against a per-row expected string
 with `similar`. Different data, different coverage, different assertion cost —
 and the page presents only the second. Note also that the example's own
@@ -664,7 +664,7 @@ is what an unresolved `{{var}}` produces — is not.
     before interpreting a matrix gate) is stated in #1565 as the filer's
     recommendation only.
   - No other contradiction identified. Verified against `CONTRADICTIONS.md` (no
-    `C-NNN` entries appended yet) and against all 13 open
+    `C-NNN` entries appended yet) and against all 15 open
     `contradiction`-labeled issues (`#1562`, `#1550`, `#1548`, `#1534`,
     `#1517`, `#1514`, `#1486`, `#1462`, `#1461`, `#1408`, `#1352`, `#1338`,
     `#1322`, `#1307`, `#1150`). The live tension with
