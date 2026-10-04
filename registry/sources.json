@@ -2301,6 +2301,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-provider-specific-params": {
+      "slug": "docs-litellm-provider-specific-params",
+      "title": "Provider-specific Params | liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/completion/provider_specific_params",
+      "source_type": "docs",
+      "author": "LiteLLM",
+      "date_published": "unknown (living vendor docs; current as of 2026-10-04)",
+      "date_extracted": "2026-10-04",
+      "issue": "#1572",
+      "file": "source-notes/docs-litellm-provider-specific-params.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-streaming-token-usage": {
       "slug": "docs-litellm-streaming-token-usage",
       "title": "Streaming Responses & Async Completion",

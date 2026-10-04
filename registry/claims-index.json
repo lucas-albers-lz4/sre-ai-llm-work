@@ -12874,6 +12874,53 @@
         }
       ]
     },
+    "docs-litellm-provider-specific-params": {
+      "path": "source-notes/docs-litellm-provider-specific-params.md",
+      "title": "Provider-specific Params | liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/completion/provider_specific_params",
+      "chapters": [
+        "05",
+        "02",
+        "03"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "General pass-through rule — any non-OpenAI param is treated as provider-specific and passed to the provider in the request body as a kwarg",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Two ways to pass provider-specific params — per-call kwarg, or via provider-specific config variable (e.g. `litellm.OpenAIConfig(...)`)",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Provider-specific config class naming and param-name divergence across providers (max_tokens vs num_predict vs max_new_tokens vs maxOutputTokens)",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "HuggingFace route does not read provider config defaults — config-class has no effect; pass params per-call",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Provider-specific metadata parameters for cost attribution/labeling (Bedrock requestMetadata, Gemini/Vertex labels, Anthropic metadata)",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Proxy usage supports provider-specific params via config (litellm_params) and via request body",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Non-OpenAI params bypass the OpenAI-param gate and are forwarded as kwargs (complementary to drop_params)",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-streaming-token-usage": {
       "path": "source-notes/docs-litellm-streaming-token-usage.md",
       "title": "Streaming Responses & Async Completion",
