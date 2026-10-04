@@ -1326,7 +1326,7 @@
         "filed_at": "2026-08-13T12:56:28.715514+00:00"
       }
     },
-    "last_scan": "2026-10-03T15:33:18.319556+00:00"
+    "last_scan": "2026-10-04T16:17:03.057072+00:00"
   },
   "opentelemetry": {
     "urls": {},
@@ -2847,16 +2847,22 @@
         "filed_at": "2026-10-03T15:33:42.745606+00:00"
       },
       "https://www.cncf.io/blog/2026/07/10/where-should-ai-workloads-run-a-sovereign-and-sensible-approach": {
-        "status": "pending",
-        "screened_at": "2026-07-14T13:08:46.169081+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T13:08:46.169081+00:00",
+        "issue": 1582,
+        "filed_at": "2026-10-04T16:17:33.421013+00:00"
       },
       "https://www.cncf.io/blog/2026/07/09/navigating-the-ingress-nginx-retirement": {
-        "status": "pending",
-        "screened_at": "2026-07-14T13:28:13.341393+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T13:28:13.341393+00:00",
+        "issue": 1583,
+        "filed_at": "2026-10-04T16:17:35.209072+00:00"
       },
       "https://www.cncf.io/blog/2026/07/08/network-boundary-for-ai-agents-using-nginx-and-opentelemetry": {
-        "status": "pending",
-        "screened_at": "2026-07-14T13:28:13.341413+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T13:28:13.341413+00:00",
+        "issue": 1584,
+        "filed_at": "2026-10-04T16:17:36.971684+00:00"
       },
       "https://www.cncf.io/blog/2026/07/07/two-months-of-open-community-groups": {
         "status": "pending",
@@ -3881,9 +3887,21 @@
       "https://www.cncf.io/blog/2025/12/03/celebrating-100-jobs-on-gitjobs": {
         "status": "rejected",
         "screened_at": "2026-10-03T15:33:24.709020+00:00"
+      },
+      "https://www.cncf.io/blog/2025/12/01/a-guide-to-restarting-pods-in-kubernetes-using-kubectl": {
+        "status": "rejected",
+        "screened_at": "2026-10-04T16:17:13.689544+00:00"
+      },
+      "https://www.cncf.io/blog/2025/11/28/runc-container-breakout-vulnerabilities-a-technical-overview": {
+        "status": "pending",
+        "screened_at": "2026-10-04T16:17:13.689562+00:00"
+      },
+      "https://www.cncf.io/blog/2025/11/27/from-chaos-to-clarity-how-opentelemetry-unified-observability-across-clouds": {
+        "status": "pending",
+        "screened_at": "2026-10-04T16:17:13.689565+00:00"
       }
     },
-    "last_scan": "2026-10-03T15:33:24.709022+00:00"
+    "last_scan": "2026-10-04T16:17:13.689567+00:00"
   },
   "datadog-llm-obs": {
     "urls": {
@@ -3892,7 +3910,7 @@
         "screened_at": "2026-07-12T23:52:56.905756+00:00"
       }
     },
-    "last_scan": "2026-10-03T15:33:26.279223+00:00"
+    "last_scan": "2026-10-04T16:17:15.054940+00:00"
   },
   "langfuse-docs": {
     "urls": {
@@ -4057,7 +4075,7 @@
         "filed_at": "2026-09-03T15:37:32.594301+00:00"
       }
     },
-    "last_scan": "2026-10-03T15:33:27.780371+00:00"
+    "last_scan": "2026-10-04T16:17:16.446121+00:00"
   },
   "litellm-docs": {
     "urls": {
@@ -5586,16 +5604,22 @@
         "filed_at": "2026-10-03T15:33:48.394500+00:00"
       },
       "https://docs.litellm.ai/docs/completion/stream": {
-        "status": "pending",
-        "screened_at": "2026-07-28T13:49:32.619083+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-28T13:49:32.619083+00:00",
+        "issue": 1585,
+        "filed_at": "2026-10-04T16:17:38.638071+00:00"
       },
       "https://docs.litellm.ai/docs/completion/token_usage": {
-        "status": "pending",
-        "screened_at": "2026-07-29T13:55:00.816207+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-29T13:55:00.816207+00:00",
+        "issue": 1586,
+        "filed_at": "2026-10-04T16:17:40.259850+00:00"
       },
       "https://docs.litellm.ai/docs/completion/usage": {
-        "status": "pending",
-        "screened_at": "2026-07-29T13:55:00.816224+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-29T13:55:00.816224+00:00",
+        "issue": 1587,
+        "filed_at": "2026-10-04T16:17:42.046921+00:00"
       },
       "https://docs.litellm.ai/docs/completion/vision": {
         "status": "pending",
@@ -6404,9 +6428,21 @@
       "https://docs.litellm.ai/docs/harness/events": {
         "status": "pending",
         "screened_at": "2026-10-03T15:33:32.413616+00:00"
+      },
+      "https://docs.litellm.ai/docs/harness/gateway": {
+        "status": "pending",
+        "screened_at": "2026-10-04T16:17:27.833804+00:00"
+      },
+      "https://docs.litellm.ai/docs/harness/models": {
+        "status": "pending",
+        "screened_at": "2026-10-04T16:17:27.833820+00:00"
+      },
+      "https://docs.litellm.ai/docs/harness/opencode": {
+        "status": "rejected",
+        "screened_at": "2026-10-04T16:17:27.833823+00:00"
       }
     },
-    "last_scan": "2026-10-03T15:33:32.413618+00:00"
+    "last_scan": "2026-10-04T16:17:27.833826+00:00"
   },
   "promptfoo-docs": {
     "urls": {
@@ -7941,16 +7977,22 @@
         "filed_at": "2026-10-03T15:33:54.206516+00:00"
       },
       "https://www.promptfoo.dev/docs/enterprise": {
-        "status": "pending",
-        "screened_at": "2026-07-29T13:55:06.833349+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-29T13:55:06.833349+00:00",
+        "issue": 1588,
+        "filed_at": "2026-10-04T16:17:43.787790+00:00"
       },
       "https://www.promptfoo.dev/docs/enterprise/audit-logging": {
-        "status": "pending",
-        "screened_at": "2026-07-29T13:55:06.833353+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-29T13:55:06.833353+00:00",
+        "issue": 1589,
+        "filed_at": "2026-10-04T16:17:45.407637+00:00"
       },
       "https://www.promptfoo.dev/docs/enterprise/authentication": {
-        "status": "pending",
-        "screened_at": "2026-07-30T13:45:04.295782+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-30T13:45:04.295782+00:00",
+        "issue": 1590,
+        "filed_at": "2026-10-04T16:17:47.049306+00:00"
       },
       "https://www.promptfoo.dev/docs/enterprise/findings": {
         "status": "pending",
@@ -8751,8 +8793,20 @@
       "https://www.promptfoo.dev/docs/red-team/plugins/bola": {
         "status": "pending",
         "screened_at": "2026-10-03T15:33:37.451487+00:00"
+      },
+      "https://www.promptfoo.dev/docs/red-team/plugins/coding-agent": {
+        "status": "pending",
+        "screened_at": "2026-10-04T16:17:32.251388+00:00"
+      },
+      "https://www.promptfoo.dev/docs/red-team/plugins/competitors": {
+        "status": "pending",
+        "screened_at": "2026-10-04T16:17:32.251404+00:00"
+      },
+      "https://www.promptfoo.dev/docs/red-team/plugins/context-compliance-attack": {
+        "status": "pending",
+        "screened_at": "2026-10-04T16:17:32.251406+00:00"
       }
     },
-    "last_scan": "2026-10-03T15:33:37.451488+00:00"
+    "last_scan": "2026-10-04T16:17:32.251408+00:00"
   }
 }
