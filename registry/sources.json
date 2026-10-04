@@ -2184,6 +2184,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-cost-map-and-response-cost": {
+      "slug": "docs-litellm-cost-map-and-response-cost",
+      "title": "Completion Token Usage & Cost — LiteLLM Python SDK (response_cost, register_model, model_cost, get_max_tokens, custom tokenizers)",
+      "source_url": "https://docs.litellm.ai/docs/completion/token_usage",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs; front-matter last_updated 2026-10-03)",
+      "date_extracted": "2026-10-04",
+      "issue": "#1586",
+      "file": "source-notes/docs-litellm-cost-map-and-response-cost.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-drop-params": {
       "slug": "docs-litellm-drop-params",
       "title": "Drop Unsupported Params | liteLLM",

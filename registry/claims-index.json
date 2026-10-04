@@ -12280,6 +12280,72 @@
         }
       ]
     },
+    "docs-litellm-cost-map-and-response-cost": {
+      "path": "source-notes/docs-litellm-cost-map-and-response-cost.md",
+      "title": "Completion Token Usage & Cost — LiteLLM Python SDK (response_cost, register_model, model_cost, get_max_tokens, custom tokenizers)",
+      "source_url": "https://docs.litellm.ai/docs/completion/token_usage",
+      "chapters": [
+        "02",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "LiteLLM attaches a per-call cost figure to **every** call and documents exactly one accessor for it — `response._hidden_params[\"response_cost\"]`, a key on a dict named `_hidden_params` — giving the SDK a cost handle that is neither the response `usage` object nor the `completion_cost` estimator",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The page's own hyperlink resolves `api.litellm.ai` to `https://github.com/BerriAI/litellm/blob/main/model_prices_and_context_window.json` — so \"live list from api.litellm.ai\" and the old page's \"community resource\" are **two names for one artifact**, and the vendor's two live pages disagree only about which end of it to name",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "`LITELLM_LOCAL_MODEL_COST_MAP` is documented as the opt-out of a **hosted pull**, with the motivation stated as network egress and the cost stated as package upgrades — which establishes that the default path reaches out to the network on LiteLLM's own account",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "`register_model` is a **runtime, in-process write** to the same process-global pricing dict, accepting either an inline cost dictionary or a URL to a hosted JSON blob, and returning the updated dictionary — the corpus's first coverage of a supported way to own the pricing source",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "`model_cost` returns the whole pricing dictionary, and the page documents exactly three keys per model — `max_tokens`, `input_cost_per_token`, `output_cost_per_token` — making the pricing table simultaneously the context-window authority",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "`get_max_tokens` is the documented single accessor for a model's context ceiling, but the page states no behavior for an unmapped model and delegates the model inventory to a differently-named symbol (`litellm.model_list`) that it never documents",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The tokenizer surface is documented twice on the same page with **two different family lists** — the helper index names five supported families (OpenAI, Cohere, Anthropic, Llama2, Llama3), the two worked examples name four (anthropic, cohere, llama2, openai)",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "`create_pretrained_tokenizer` takes a **HuggingFace repository id**, making tokenizer construction a documented external download — and the page offers no offline, revision-pinned, or cached alternative",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "`completion_cost` documents **two input forms** — a `completion()` response object *or* prompt/completion strings — and the page never states whether the response-object form reads the response's reported usage or still re-tokenizes and prices locally, which is the open question that decides whether the corpus's \"no provider-side reconciliation\" statement holds",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Three of the page's nine examples are not runnable as printed, and the `token_counter` example — the page's *only* illustration of a message-dict input — transposes the `role` key and value, so it would not be a valid chat message",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The page documents **no failure behavior for any function on it** — not for `cost_per_token`, `model_cost`, `get_max_tokens`, `response_cost`, or `register_model` — so every unmapped-model, unreachable-URL, and malformed-model-name case is undocumented at the exact point where the corpus has a recorded history of silence",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-drop-params": {
       "path": "source-notes/docs-litellm-drop-params.md",
       "title": "Drop Unsupported Params | liteLLM",
