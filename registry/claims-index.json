@@ -13965,6 +13965,78 @@
         }
       ]
     },
+    "docs-promptfoo-configuration-tools": {
+      "path": "source-notes/docs-promptfoo-configuration-tools.md",
+      "title": "Promptfoo Configuration: Tool Calling — Per-Provider Schema Shapes, tool_choice Translation, and Strict-Mode Divergence",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/tools",
+      "chapters": [
+        "05",
+        "03",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Tool calling is a four-step loop in which the model emits a name and arguments and executes nothing — the harness (or the application) is the thing that runs code",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Five distinct native tool-definition shapes exist across providers, and OpenAI/Azure alone has two of them (flat Responses vs nested Chat)",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The nested Chat Completions shape is the documented portable authoring form — promptfoo converts it for Responses, Anthropic, Bedrock, and Google — and cross-provider reuse is done with YAML anchors/aliases, not `$ref`",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "`strict` schema enforcement is honored on OpenAI, requires Anthropic's *native* tool format, and is **silently ignored** on Bedrock Converse and Google — the same `strict` flag produces different argument-validation behavior per provider column",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "`strict` also flips a default — Responses normalizes schemas into strict mode unless `strict: false` is set explicitly, and `additionalProperties: false` is a hard precondition for strict mode",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "`tool_choice` has four documented modes, and three of the four are *test-design levers* — `none` is documented as an A/B-testing control and the two forcing modes as assertions that the model picked the right function",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The `tool_choice` translation is lossy and asymmetric — `'required'` becomes Anthropic `{ type: 'any' }` and Bedrock `{ any: {} }`, but `'none'` is **omitted entirely** for Bedrock",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Format auto-detection gates all translation, and it fails **open** — anything promptfoo does not recognize as OpenAI format \"pass[es] through unchanged\", with no error",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "`transformToolsFormat` is the HTTP provider's escape hatch and it converts **both** `tools` and `tool_choice`; omitting it means pass-through, which is the documented route to a custom or non-standard tool shape",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Tool schemas may live in an external `file://` JSON file, and JSON Schema support inside `parameters` is explicitly provider- and model-dependent with no compatibility table",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Model capability gates the tool surface independently of the schema — GPT-6 Sol and Luna require `reasoning_effort: none` for Chat function calls, and Responses is the recommended path for reasoning plus tools",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "Tool-definition field requirements are asymmetric between the flat and nested forms — `type` must be `'function'` and `name` is required, while `description`, `parameters`, and `strict` are all optional",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-conversation-relevance": {
       "path": "source-notes/docs-promptfoo-conversation-relevance.md",
       "title": "Promptfoo Configuration: Model-graded conversation-relevance",
