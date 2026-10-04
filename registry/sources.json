@@ -2171,6 +2171,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-completion-shared-session": {
+      "slug": "docs-litellm-completion-shared-session",
+      "title": "Shared Session | liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/completion/shared_session",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs; current as of 2026-10-04)",
+      "date_extracted": "2026-10-04",
+      "issue": "#1574",
+      "file": "source-notes/docs-litellm-completion-shared-session.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-drop-params": {
       "slug": "docs-litellm-drop-params",
       "title": "Drop Unsupported Params | liteLLM",

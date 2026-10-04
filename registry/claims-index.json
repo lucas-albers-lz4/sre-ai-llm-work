@@ -12232,6 +12232,54 @@
         }
       ]
     },
+    "docs-litellm-completion-shared-session": {
+      "path": "source-notes/docs-litellm-completion-shared-session.md",
+      "title": "Shared Session | liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/completion/shared_session",
+      "chapters": [],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Without `shared_session`, each `acompletion()` call creates a separate session; with it, the caller-supplied session is reused across calls",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The `shared_session` parameter is threaded through the full LiteLLM call chain to the aiohttp transport",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Lifecycle ownership is explicitly split — user-supplied sessions are closed by the caller; handler-auto-created sessions are cleaned up by the handler",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Debug observability is DEBUG-only and exposes specific log markers indicating shared session reuse",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Backward compatibility and optionality are explicit vendor claims",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Concrete tuning surface is documented (timeouts and connector limits) as copy-pasteable examples",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The feature is presented as opt-in and the default path is unchanged; the page emphasizes \"make sure `shared_session` is passed to all `acompletion()` calls\" (implicit) via batch example",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Implementation touched multiple provider integration files (as documented)",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-drop-params": {
       "path": "source-notes/docs-litellm-drop-params.md",
       "title": "Drop Unsupported Params | liteLLM",
