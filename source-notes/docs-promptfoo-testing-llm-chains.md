@@ -52,7 +52,7 @@ issue: "#1575"
 - **Evidence**: "To reference the outputs of previous test cases, use the built-in [`_conversation` variable](/docs/configuration/chat/#using-the-conversation-variable)."
 - **Confidence**: settled
 - **Quote**: "To reference the outputs of previous test cases, use the built-in [`_conversation` variable](/docs/configuration/chat/#using-the-conversation-variable)."
-- **Our assessment**: Identifies the state-passing mechanism available for multi-turn/chain scenarios in promptfoo tests.
+- **Our assessment**: Identifies the state-passing mechanism available for multi-turn/chain scenarios in promptfoo tests — but this page points at it without stating its operational cost. `docs-promptfoo-chat-threads.md` **Claim 1** documents that referencing `_conversation` as a Nunjucks variable forces the eval to run single-threaded (concurrency of 1) with no documented config knob to restore parallelism. So `_conversation` is not a free state-passing mechanism: adopting it for chain-style tests collapses eval parallelism, which compounds the call-count cost in Claim 4 (runtime scales with test count *and* loses concurrency). Use it when chain state genuinely requires prior-turn replay; prefer fixture-based multishot (chat-threads Claim 8) when fixed history suffices.
 
 ## Concrete Artifacts
 
@@ -128,6 +128,8 @@ module.exports = ChainProvider;
 - **Corroborates**: 
   - `docs-promptfoo-configuration-guide.md` (overlap in config composition; this note adds chain-specific wiring patterns)
   - `docs-promptfoo-configuration-prompts.md` (template variables like `{{question}}`)
+  - `docs-promptfoo-chat-threads.md` **Claim 1** — documents that referencing `_conversation` as a Nunjucks variable forces single-threaded execution (concurrency of 1) with no config knob to restore it. This is the operational cost of the `_conversation` mechanism this page cites (our Claim 5) without qualification: the call-count semantics in our Claim 4 (`# prompts * # test cases`) and the forced serialization compound, so a `_conversation`-based chain test is slower than its raw call count implies. (Verified: #1276 Claim 1 = `_conversation` → concurrency 1 ✓)
+  - `docs-promptfoo-conversation-relevance.md` **Claim 4** — `_conversation` message content is treated as literal runtime data and is not Nunjucks-rendered ("preserved verbatim for security"), a second non-obvious property of the same built-in our Claim 5 cites that this page does not mention. (Verified: #1334 Claim 4 ✓)
   - `docs-promptfoo-javascript-assertions.md` / `docs-promptfoo-python-assertions.md` (assertions on outputs; distinct topic)
 - **Contradicts**: None observed.
 - **Extends**: `docs-promptfoo-configuration-guide.md` by focusing specifically on chain-level testing (script/custom providers and unit-vs-e2e split). Builds on general provider/config concepts.
@@ -136,11 +138,11 @@ module.exports = ChainProvider;
 ## Guide Impact
 
 - **Chapter 05 (LLM-Ops Reliability)**: Add concrete guidance on regression gating for LLM chains — recommend documenting the choice between unit-testing each chain step vs end-to-end testing. Include the promptfoo harness patterns: `exec:python <chain_script.py>` with the script taking input via `sys.argv[1]` and printing final output, and a custom JS provider using `spawn` with explicit handling of stderr/non-zero exit. Also capture the operational implication: evaluation runs the chain `# prompts × # test cases` times — relevant to CI runtime/cost budgeting.
-- **Chapter 03 (Runbooks and Agents)**: For agent/chain pipelines, note the script-provider wrapper as a reusable pattern to exercise an external chain implementation as a testable unit in an eval harness; mention `_conversation` as a mechanism to reference prior test-case outputs when testing stateful chain behavior.
+- **Chapter 03 (Runbooks and Agents)**: For agent/chain pipelines, note the script-provider wrapper as a reusable pattern to exercise an external chain implementation as a testable unit in an eval harness; mention `_conversation` as a mechanism to reference prior test-case outputs when testing stateful chain behavior — with the documented caveat that it forces the eval to run single-threaded (concurrency of 1, per `docs-promptfoo-chat-threads.md` Claim 1), so a stateful chain gate is not parallel and its wall-clock scales with test count. Recommend fixture-based multishot (`docs-promptfoo-chat-threads.md` Claim 8) instead when fixed history suffices.
 
 ## Extraction Notes
 
 - Page is vendor documentation; claims are documented product behavior/patterns (not measured empirical results). No metrics, no flake/timeout/gating thresholds, no incident data.
 - Source is current (Oct 4, 2026). Example uses `openai:chat:gpt-5.4` (model name as shown in page).
 - Read fully; extracted key config shapes, code artifacts, call semantics, and failure handling details.
-- Related-notes candidates from lexical retrieval were mostly red-teaming and unrelated LiteLLM topics; none directly cover this chain-testing pattern, so cross-refs are limited to other promptfoo config notes.
+- Related-notes candidates from lexical retrieval were mostly red-teaming and unrelated LiteLLM topics; none directly cover the chain-testing *pattern* (script/custom providers), so cross-refs for that pattern are limited to other promptfoo config notes. Claim 5's `_conversation` built-in, however, is a different matter: it overlaps directly with `docs-promptfoo-chat-threads.md` Claim 1 (forced concurrency-1) and `docs-promptfoo-conversation-relevance.md` Claim 4 (non-Nunjucks-rendered content), both of which are now cited under Corroborates.
