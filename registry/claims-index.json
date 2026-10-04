@@ -15056,6 +15056,42 @@
         }
       ]
     },
+    "docs-promptfoo-testing-llm-chains": {
+      "path": "source-notes/docs-promptfoo-testing-llm-chains.md",
+      "title": "Promptfoo: Testing LLM Chains — Script Provider, Custom Provider, End-to-End vs Unit Testing",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/testing-llm-chains",
+      "chapters": [
+        "05",
+        "03"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Two complementary strategies for testing LLM chains — unit test each step vs end-to-end test with single input/output",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Script provider (`exec:`) allows testing external chains by running a script that takes a prompt/input and prints the chain’s final result",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Custom provider via `callApi(prompt, context)` can shell out to an external implementation (even non-JS) and return `{ output }`",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Call count semantics are explicit: the script/custom provider runs once per (prompt × test case)",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "`_conversation` built-in allows referencing prior test-case outputs in chain-style eval contexts",
+          "kind": "claim"
+        }
+      ]
+    },
     "failure-litellm-bedrock-invoke-prompt-cache": {
       "path": "source-notes/failure-litellm-bedrock-invoke-prompt-cache.md",
       "title": "Incident Report: Prompt Cache Invalidation for Claude Code on Bedrock Invoke",
