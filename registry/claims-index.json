@@ -12322,6 +12322,87 @@
         }
       ]
     },
+    "docs-litellm-completion-stream": {
+      "path": "source-notes/docs-litellm-completion-stream.md",
+      "title": "Streaming + Async | liteLLM (sync/async streaming, stream_chunk_builder, and the REPEATED_STREAMING_CHUNK_LIMIT runaway-stream guard)",
+      "source_url": "https://docs.litellm.ai/docs/completion/stream",
+      "chapters": [
+        "05",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The runaway-stream guard is the *only* bounded control documented on the page, and its entire stated job is to convert a hung stream into a retryable error — the page documents the failure, the trigger, and the exception type, and nothing about recovery",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The default is 100, but the default's *rationale* exists only as an inline code comment — the prose states the number without ever explaining the false-positive trade-off",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The failure mode is a documented *provider-side* bug with a concrete reproducer — Perplexity's `llama-3.1-sonar-large-128k-online` with a non-zero `frequency_penalty` and `stream=True` either truncates or repeats a word forever",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Two configuration surfaces are documented — an SDK module global and a proxy `litellm_settings` key — and the page's own proxy guidance is to validate the proxy behavior by running the SDK snippet, i.e. it publishes no proxy-side verification",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "What counts as \"repeated\" is `delta.content` equality between the **two most recent** chunks, and the counter is a *consecutive-run* counter — any single differing chunk resets it to zero, so a loop that varies even slightly never trips the guard",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Chunks whose `delta.content` is `None`, non-string, or **2 characters or fewer** are exempt *and reset* the counter — so a loop emitting short deltas is unbounded, and the exemption exists because a user reported the guard misfiring on tool-call streams",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The counter is per-stream-wrapper state — per request, not per deployment, key, or model — and the limit is also readable from a `REPEATED_STREAMING_CHUNK_LIMIT` environment variable that the page never mentions",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The raise happens *inside* the chunk iterator, after the already-repeated chunks have been yielded to the caller — so this is a mid-stream abort with partial output already delivered, not a pre-flight rejection",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "A `usage`-only or metadata-only chunk suspends detection rather than resetting it — the carve-out is explicitly motivated by Vertex Gemini with web search",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The page's feature matrix has no row for the guard, and all three Proxy-column links point at a section that never mentions it — the runaway-stream guard is documented on exactly one page of the vendor docs",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "`litellm.stream_chunk_builder(chunks, messages=messages)` is the documented way to rebuild a full response from accumulated chunks — and the page's snippet for it cannot run, because `chunks` is never initialized",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "The guard's mid-stream abort means a tripped stream never delivers its usage chunk — so the corpus's streamed-cost accounting has an unmeasurable hole exactly on the requests that went wrong",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "Both of the page's guard-related snippets do not run as printed, and the SDK validation snippet is itself internally odd — it repeats a chunk carrying `finish_reason: \"stop\"` 101 times and calls `time.time()` with no `import time`",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "The page's async surface is documented as `__anext__()`-backed iteration with a bare `except:` in the sample — the one ops-relevant detail is that the example swallows the guard's exception class along with everything else",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-cost-map-and-response-cost": {
       "path": "source-notes/docs-litellm-cost-map-and-response-cost.md",
       "title": "Completion Token Usage & Cost — LiteLLM Python SDK (response_cost, register_model, model_cost, get_max_tokens, custom tokenizers)",

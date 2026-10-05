@@ -2197,6 +2197,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-completion-stream": {
+      "slug": "docs-litellm-completion-stream",
+      "title": "Streaming + Async | liteLLM (sync/async streaming, stream_chunk_builder, and the REPEATED_STREAMING_CHUNK_LIMIT runaway-stream guard)",
+      "source_url": "https://docs.litellm.ai/docs/completion/stream",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs; current as of 2026-10-05)",
+      "date_extracted": "2026-10-05",
+      "issue": "#1585",
+      "file": "source-notes/docs-litellm-completion-stream.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-cost-map-and-response-cost": {
       "slug": "docs-litellm-cost-map-and-response-cost",
       "title": "Completion Token Usage & Cost — LiteLLM Python SDK (response_cost, register_model, model_cost, get_max_tokens, custom tokenizers)",
