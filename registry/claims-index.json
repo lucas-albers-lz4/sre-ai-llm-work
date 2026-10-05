@@ -185,6 +185,48 @@
         }
       ]
     },
+    "blog-cncf-network-boundary-ai-agents-nginx-otel": {
+      "path": "source-notes/blog-cncf-network-boundary-ai-agents-nginx-otel.md",
+      "title": "Network boundary for AI agents using NGINX and OpenTelemetry",
+      "source_url": "https://www.cncf.io/blog/2026/07/08/network-boundary-for-ai-agents-using-nginx-and-opentelemetry",
+      "chapters": [
+        "06",
+        "02",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The boundary must be architectural (enforced regardless of application policy)",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "A single proxy instance can serve dual roles (ingress reverse proxy and egress forward proxy)",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Every outbound agent request becomes an audited span at the proxy",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Network control differs from understanding agent intent",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The proxy introduces its own operational/security surface",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The pattern generalizes beyond the specific implementation",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-honeycomb-instrumenting-ai-agents-opentelemetry": {
       "path": "source-notes/blog-honeycomb-instrumenting-ai-agents-opentelemetry.md",
       "title": "Instrumenting AI Agents for the Agent Timeline: A Practical Guide to OTel GenAI Semantic Conventions",

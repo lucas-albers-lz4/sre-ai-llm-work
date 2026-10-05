@@ -26,6 +26,19 @@
       "confidence_overall": "settled",
       "status": "current"
     },
+    "blog-cncf-network-boundary-ai-agents-nginx-otel": {
+      "slug": "blog-cncf-network-boundary-ai-agents-nginx-otel",
+      "title": "Network boundary for AI agents using NGINX and OpenTelemetry",
+      "source_url": "https://www.cncf.io/blog/2026/07/08/network-boundary-for-ai-agents-using-nginx-and-opentelemetry",
+      "source_type": "blog-post",
+      "author": "Marko Sluga",
+      "date_published": "2026-07-08",
+      "date_extracted": "2026-10-04",
+      "issue": "#1584",
+      "file": "source-notes/blog-cncf-network-boundary-ai-agents-nginx-otel.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-honeycomb-instrumenting-ai-agents-opentelemetry": {
       "slug": "blog-honeycomb-instrumenting-ai-agents-opentelemetry",
       "title": "Instrumenting AI Agents for the Agent Timeline: A Practical Guide to OTel GenAI Semantic Conventions",
