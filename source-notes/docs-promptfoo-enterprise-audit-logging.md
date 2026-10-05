@@ -16,7 +16,7 @@ issue: "#1589"
 > The vendor's own account of what an eval-platform control plane records for
 > audit purposes, and — more usefully for the guide — of what it does not: a
 > closed taxonomy of 15 control-plane action identifiers over 5 target types
-> with **zero** read/access events, a 14-field JSON record with new-state-only
+> with **zero** read/access events, a 13-field JSON record with new-state-only
 > `metadata` and no source-IP attribution, and a single pull-only endpoint
 > (`GET /api/v1/audit-logs`, `limit` 1–100 default 20) that is the *only*
 > documented retrieval path — no retention window, no export, no webhook
@@ -151,12 +151,12 @@ issue: "#1589"
   Guide line worth carrying: an audit log with only successful-auth events is
   evidence of access, never evidence of authentication correctness.
 
-### Claim 5: The record schema is a fixed 14-field object that denormalizes actor identity into three parallel fields and carries **no source-IP, user-agent, request-id, or session attribution of any kind**
-- **Evidence**: The "Audit Log format" block enumerates exactly 14 fields:
+### Claim 5: The record schema is a fixed 13-field object that denormalizes actor identity into three parallel fields and carries **no source-IP, user-agent, request-id, or session attribution of any kind**
+- **Evidence**: The "Audit Log format" block enumerates exactly 13 fields:
   `id`, `description`, `actorId`, `actorName`, `actorEmail`, `action`,
   `actionDisplayName`, `target`, `targetId`, `metadata`, `organizationId`,
   `teamId`, `createdAt`. Every one of the three worked examples populates the
-  same 14 keys with no additional field.
+  same 13 keys with no additional field.
 - **Confidence**: settled (documented schema, and every example confirms it)
 - **Quote**: "The audit log entries are stored in JSON format with the following structure:" / "\"actorId\": \"ID of the user who performed the action\"," / "\"actorEmail\": \"Email of the user who performed the action\","
 - **Our assessment**: Buy the schema; draw two conclusions the page does not.
