@@ -483,6 +483,68 @@
         }
       ]
     },
+    "blog-linsun-sandboxing-agent-not-enough": {
+      "path": "source-notes/blog-linsun-sandboxing-agent-not-enough.md",
+      "title": "Why sandboxing your agent is not enough",
+      "source_url": "https://www.cncf.io/blog/2026/07/07/why-sandboxing-your-agent-is-not-enough",
+      "chapters": [
+        "06",
+        "03",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "`agent-sandbox` is a Kubernetes SIG Apps project providing a `Sandbox` CRD and controller, with four stated focus areas — strong agent identities, persistent storage surviving restarts, sandboxed-pod lifecycle management, and security/isolation via the Sandbox controller",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "`agent-sandbox` is a sandbox *orchestrator*, not an isolation implementation — low-level isolation is delegated to gVisor or Kata Containers via `RuntimeClass`, and the threat model says so explicitly",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Sandboxing is \"necessary, but not sufficient\" — isolation answers whether the agent can escape, while the unaddressed layer is idle-agent resource waste and the spin-up-latency tradeoff of always-on vs. on-demand agents",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The head-to-head framing — `agent-sandbox` asks \"How do we run agents securely?\", `agent-substrate` asks how to run them \"efficiently at scale\" — with `agent-sandbox` under Kubernetes SIG Apps and `agent-substrate` a standalone project with no SIG or foundation home",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The article frames the two projects as complementary rather than competing — substrate keeps \"a secure execution model\" while adding density — but shows no integration artifact",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The concrete sizing example — six AIRE agents map to six actor templates but need only one worker pod when not running concurrently, with scale-out by adding `kagent-default` worker replicas",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "`agent-sandbox`'s documented default security posture — a managed default-deny NetworkPolicy per template (ingress only from the sandbox router, egress limited to the public Internet with RFC1918 and cloud-metadata endpoints blocked), `automountServiceAccountToken` defaulted to `false`, and resource limits expected from the template",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The threat model documents two control-plane threats specific to this design — Service-selector label spoofing as a cross-tenant traffic-hijack primitive (mitigated by system-key filtering) and a router SSRF posture whose only defense today is an IP-class check because the default authorizer is `AllowAll`",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The article's entire failure discussion is a generic appeal to horror stories — no benchmark, CVE, exploit, or incident appears anywhere in the source",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Maturity contrast — `agent-sandbox` is `v1beta1`-only with `v1alpha1` removed, ships at release `v1.0.2` with Go/Python SDKs, while `agent-substrate` remains pre-1.0 with no stability guarantee",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-litellm-agents-are-the-new-llms": {
       "path": "source-notes/blog-litellm-agents-are-the-new-llms.md",
       "title": "Agents Are the New LLMs: A Unified Agent Control Plane",

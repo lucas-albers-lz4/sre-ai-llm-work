@@ -78,6 +78,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "blog-linsun-sandboxing-agent-not-enough": {
+      "slug": "blog-linsun-sandboxing-agent-not-enough",
+      "title": "Why sandboxing your agent is not enough",
+      "source_url": "https://www.cncf.io/blog/2026/07/07/why-sandboxing-your-agent-is-not-enough",
+      "source_type": "blog-post",
+      "author": "Lin Sun",
+      "date_published": "2026-07-07",
+      "date_extracted": "2026-10-06",
+      "issue": "#1605",
+      "file": "source-notes/blog-linsun-sandboxing-agent-not-enough.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-litellm-agents-are-the-new-llms": {
       "slug": "blog-litellm-agents-are-the-new-llms",
       "title": "Agents Are the New LLMs: A Unified Agent Control Plane",
