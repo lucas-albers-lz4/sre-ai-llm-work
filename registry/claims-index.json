@@ -12267,6 +12267,52 @@
         }
       ]
     },
+    "docs-litellm-completion-prefix": {
+      "path": "source-notes/docs-litellm-completion-prefix.md",
+      "title": "Pre-fix Assistant Messages | liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/completion/prefix",
+      "chapters": [
+        "05",
+        "03"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Assistant prefill is a per-message flag — `\"prefix\": true` on an assistant message object — not a top-level `completion()` parameter",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Support is published as a three-name provider list — Deepseek, Mistral, Anthropic — at provider granularity, with no model-level table, no version gate, and only one model ever instantiated on the page",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The capability gate has a distinct name from the wire key — `supports_assistant_prefill` (what you check) vs `prefix` (what you send) — exposed via `litellm.get_model_info(model=...)`",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The proxy exposes the same capability inventory at `GET /v1/model/info` — models plus supported params — the routing-time introspection route for gateway operators",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The page documents no behavior for the mismatch case — a `prefix: true` request routed or fallback-shifted onto a non-supporting model is an undocumented gap (with no error, drop, or fallback statement anywhere)",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The expected response demonstrates prefill semantics concretely — the model *continues* the pre-filled assistant turn with a leading space — and the sample payload's `created` epoch is ~2 years stale",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The identical message shape is shown on both documented paths — SDK `completion()` and proxy `POST /v1/chat/completions` — but with a single shared \"Expected Response\" and no statement that the gateway validates the flag",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-completion-prompt-caching": {
       "path": "source-notes/docs-litellm-completion-prompt-caching.md",
       "title": "Prompt Caching — LiteLLM Documentation",

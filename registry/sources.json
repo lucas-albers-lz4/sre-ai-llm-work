@@ -2184,6 +2184,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-completion-prefix": {
+      "slug": "docs-litellm-completion-prefix",
+      "title": "Pre-fix Assistant Messages | liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/completion/prefix",
+      "source_type": "docs",
+      "author": "LiteLLM",
+      "date_published": "unknown (living vendor docs; current as of 2026-10-06)",
+      "date_extracted": "2026-10-06",
+      "issue": "#1542",
+      "file": "source-notes/docs-litellm-completion-prefix.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-completion-prompt-caching": {
       "slug": "docs-litellm-completion-prompt-caching",
       "title": "Prompt Caching — LiteLLM Documentation",
