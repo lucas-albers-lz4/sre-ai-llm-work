@@ -2145,6 +2145,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-completion-model-alias": {
+      "slug": "docs-litellm-completion-model-alias",
+      "title": "Model Alias | liteLLM (SDK client-side `litellm.model_alias_map`)",
+      "source_url": "https://docs.litellm.ai/docs/completion/model_alias",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs; page frontmatter last_updated 2026-10-03)",
+      "date_extracted": "2026-10-05",
+      "issue": "#1524",
+      "file": "source-notes/docs-litellm-completion-model-alias.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-completion-output": {
       "slug": "docs-litellm-completion-output",
       "title": "Output | liteLLM",

@@ -12078,6 +12078,72 @@
         }
       ]
     },
+    "docs-litellm-completion-model-alias": {
+      "path": "source-notes/docs-litellm-completion-model-alias.md",
+      "title": "Model Alias | liteLLM (SDK client-side `litellm.model_alias_map`)",
+      "source_url": "https://docs.litellm.ai/docs/completion/model_alias",
+      "chapters": [
+        "05",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "`litellm.model_alias_map` is a plain dict assigned as an attribute on the `litellm` module object, and the page's \"expected format\" block is a schema description rather than a runnable or configurable surface",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The rename happens client-side, before dispatch — `completion(model=\"GPT-5.6\", ...)` reaches `gpt-5.6-luna`",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "A single alias map is not provider-scoped — the two documented entries resolve to two different backends in two different providers",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The page's own second alias is an immutable content-hash-pinned model ID, so the vendor's worked example is a version pin rather than a floating tag",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The page never states what happens to a name that is absent from the map, and never states precedence between the map and any other alias layer",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The page documents no observability whatsoever — nothing about logging, callbacks, spend, response metadata, cache keys, or concurrency, despite its own stated purpose being a name split between display and call",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The \"Complete Code\" block is not runnable as written — it assigns `os.environ[...]` while the only two import lines in the block are `import litellm` and `from litellm import completion`",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The only complete example on the page carries a placeholder value from a different vendor — `\"cohere key\"` assigned as the Replicate credential",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The \"Relevant Code\" snippet is a fragment rather than a runnable module, and it is the block the page presents first",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "This page is SDK-client-only — the entire documented surface is one module attribute plus `completion()`, with no gateway or proxy content",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The page carries a first-party freshness date that the rendered page hides, and its frontmatter `summary` is a broken interpolation of its own first sentence",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-completion-output": {
       "path": "source-notes/docs-litellm-completion-output.md",
       "title": "Output | liteLLM",
