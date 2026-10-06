@@ -2236,6 +2236,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-completion-prompt-formatting": {
+      "slug": "docs-litellm-completion-prompt-formatting",
+      "title": "Prompt Formatting | liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/completion/prompt_formatting",
+      "source_type": "docs",
+      "author": "LiteLLM",
+      "date_published": "unknown (living vendor docs; current as of 2026-10-06)",
+      "date_extracted": "2026-10-06",
+      "issue": "#1558",
+      "file": "source-notes/docs-litellm-completion-prompt-formatting.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-completion-shared-session": {
       "slug": "docs-litellm-completion-shared-session",
       "title": "Shared Session | liteLLM",

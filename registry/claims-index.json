@@ -12524,6 +12524,42 @@
         }
       ]
     },
+    "docs-litellm-completion-prompt-formatting": {
+      "path": "source-notes/docs-litellm-completion-prompt-formatting.md",
+      "title": "Prompt Formatting | liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/completion/prompt_formatting",
+      "chapters": [
+        "05",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Prompt templates (stored or registered) apply only to providers that take a single raw text prompt — the narrow set is `ollama/`, `petals/`, `replicate/`, `sagemaker/`, `predibase/`; registered templates have no effect on `huggingface/` and `together_ai/` chat models",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "For `sagemaker/`, the template selection depends on `hf_model_name` (to pick the correct base-model chat template); for other raw-prompt providers LiteLLM supports Hugging Face chat templates and falls back to the Hub-registered chat template",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "`register_prompt_template()` is keyed by `model` name **without** the provider prefix; the template schema supports `initial_prompt_value`, `roles` with per-role `pre_message`/`post_message`, and `final_prompt_value` (all optional as documented)",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The registration API is supported only for raw-prompt providers; the example uses `ollama/llama2` (not `ollama_chat/`) to make the template take effect",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The page lists bundled/stored templates and links to the implementation; the \"All Providers\" table maps provider names to model patterns and to source code paths in the LiteLLM repo",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-completion-shared-session": {
       "path": "source-notes/docs-litellm-completion-shared-session.md",
       "title": "Shared Session | liteLLM",
