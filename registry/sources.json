@@ -975,6 +975,19 @@
       "confidence_overall": "settled",
       "status": "current"
     },
+    "docs-google-sre-postmortem-culture": {
+      "slug": "docs-google-sre-postmortem-culture",
+      "title": "Postmortem Culture: Learning from Failure — SRE Workbook Chapter 10",
+      "source_url": "https://sre.google/workbook/postmortem-culture",
+      "source_type": "documentation",
+      "author": "Daniel Rogers, Murali Suriar, Sue Lueder, Pranjal Deo, and Divya Sudhakar, with Gary O'Connor and Dave Rensin",
+      "date_published": "2018",
+      "date_extracted": "2026-08-12",
+      "issue": "#883",
+      "file": "source-notes/docs-google-sre-postmortem-culture.md",
+      "confidence_overall": "settled",
+      "status": "current"
+    },
     "docs-google-sre-prodcast-01-03-alerting": {
       "slug": "docs-google-sre-prodcast-01-03-alerting",
       "title": "Effective alerting on SLOs with Amelia Harrison (SRE Prodcast S1E3)",

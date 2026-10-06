@@ -5366,6 +5366,93 @@
         }
       ]
     },
+    "docs-google-sre-postmortem-culture": {
+      "path": "source-notes/docs-google-sre-postmortem-culture.md",
+      "title": "Postmortem Culture: Learning from Failure — SRE Workbook Chapter 10",
+      "source_url": "https://sre.google/workbook/postmortem-culture",
+      "chapters": [
+        "01",
+        "04",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "A routine rack decommission escalated into an outage because a bug in maintenance automation, combined with insufficient rate limits, caused thousands of servers carrying production traffic to simultaneously go offline",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The root-cause bug: retrying a decommission workflow treated an empty machine list as \"no filter\" rather than \"act on no machines\", sending ALL satellite machines globally to diskerase",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The bug was a longstanding input-validation flaw hidden by \"run once\" workflow semantics — the workflow engine would not reexecute the RPC once it had succeeded, but \"run once\" does not apply across multiple instances of a workflow",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Capacity planning absorbed the blast radius — users experienced only a slight latency increase during the two days of reinstall work, and the postmortem follow-up made the decommission workflow idempotent with added sanity checks",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Postmortem action items demonstrably pay off — three years after this outage, a similar incident had dramatically reduced blast radius and rate because of the original postmortem's action items",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Every postmortem that follows a user-affecting outage must have at least one P0/P1 tracking bug — Ben Treynor Sloss's enforced rule — because \"a postmortem without subsequent action is indistinguishable from no postmortem\"",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Action-item quality requires preventative (not merely mitigative) fixes with unambiguous, measurable verbs, explicit priority, a named owner, and a tracking bug per item — and \"make humans less error-prone\" is explicitly disfavored",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "A postmortem should have a single named owner who is a single point of contact responsible for the postmortem, follow-up, and completion — \"it's better to have a single owner and multiple collaborators\"",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Missing context (empty Background/Glossary) and omitted key details (impact numbers, root-cause depth, recovery efforts) make a postmortem misunderstood or ignored — the audience extends beyond the immediate team",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Delayed publication is a postmortem failure mode — a four-months-late postmortem loses accuracy and leaves stakeholders to fill the gap with imagination; a prompt one (within a week) is more accurate and demonstrates control",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Limited audience is a postmortem failure mode — share as widely as possible, even with customers, because value is proportional to learning created; mature cultures expand the audience to \"nonhumans\" via machine-readable tags and metadata for downstream analytics",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "Incentives must reward action-item closeout, not just postmortem writing — an imbalance risks \"an unvirtuous cycle of unclosed postmortems\" — and Google uses gamification (\"FixIt\" weeks) plus leadership reinforcement",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "Recurrence of similar incidents is the culture-breakdown diagnostic — when failures mirror previous incidents, interrogate action-item closeout, feature-velocity pressure, action-item quality, and service health",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "Google automates parts of postmortem authoring — internal tools pre-populate the Docs template with metadata and Apps Script captures data into structured sections and tables so the postmortem repository can parse it for analysis — while conceding \"it's impossible to fully automate every step of writing postmortems\"",
+          "kind": "claim"
+        },
+        {
+          "n": 15,
+          "heading": "Google's postmortem tooling makes the corpus machine-aggregatable — Requiem stores thousands of postmortems since 2009 and parses metadata for search/analysis, and resulting action items are filed as bugs with monitored closure",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-google-sre-prodcast-01-03-alerting": {
       "path": "source-notes/docs-google-sre-prodcast-01-03-alerting.md",
       "title": "Effective alerting on SLOs with Amelia Harrison (SRE Prodcast S1E3)",
