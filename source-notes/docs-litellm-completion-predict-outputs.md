@@ -220,12 +220,14 @@ issue: "#1541"
 - **Quote** (from `https://developers.openai.com/api/docs/guides/predicted-outputs`): "The following [API parameters](https://developers.openai.com/api/docs/api-reference/resources/chat) are not supported when using Predicted Outputs:" / "`n`: values higher than 1 are not supported" / "`logprobs`: not supported" / "`presence_penalty`: values greater than 0 are not supported" / "`frequency_penalty`: values greater than 0 are not supported" / "`audio`: Predicted Outputs are not compatible with [audio inputs and outputs](https://developers.openai.com/api/docs/guides/audio)" / "`modalities`: Only `text` modalities are supported" / "`max_completion_tokens`: not supported" / "`tools`: Function calling is not currently supported with Predicted Outputs"
 - **Our assessment**: This is the highest-value item in the whole extraction for
   Ch05, and it is a **cross-document hazard the gateway's own reference page
-  cannot see**. `docs-litellm-completion-input-params.md` documents
-  `max_completion_tokens` as an ordinary optional field in both the signature and
-  the glossary, with **no** combination caveats, and documents `logprobs` /
-  `top_logprobs` as ordinary fields too — and the LiveLLM gateway will accept
-  that combination and forward it. The caller who audited their request against
-  LiteLLM's parameter reference has therefore been given false clearance. Three
+  cannot see**. `docs-litellm-completion-input-params.md` lists
+  `max_completion_tokens` and `logprobs` / `top_logprobs` as ordinary optional
+  fields in its **Concrete Artifacts → `completion()` signature** block (no
+  numbered claim in that note covers them), with **no** combination caveats, and
+  its **Claim 12** documents `tools[].type: "mcp"` on the same surface — and the
+  LiteLLM gateway will accept that combination and forward it. The caller who
+  audited their request against LiteLLM's parameter reference has therefore been
+  given false clearance. Three
   concrete failure shapes follow, each grounded in a corpus item:
   (a) **`max_completion_tokens` is the corpus's headline output cap.** Many of
   the corpus's own budget mechanisms are expressed in terms of an output-token
@@ -639,10 +641,13 @@ dismissed below):
   gate-exemption boundary that makes "is it in the matrix" an unreliable
   pre-flight test. **Claim 8**'s vendor disclaimer of its own support matrix is
   the general form of the gap this page leaves open (its provider cell is a bare
-  `openai` with no probe). **Claim 12** documents `max_completion_tokens` as an
-  ordinary optional field in both signature and glossary with no combination
-  caveats — the direct opposite of Claim 6's incompatibility list, and the
-  reason that combination is a live hazard. **Claim 11** documents
+  `openai` with no probe). That note's **Concrete Artifacts → `completion()`
+  signature** block lists `max_completion_tokens` and `logprobs` /
+  `top_logprobs` as ordinary optional fields with no combination caveats — the
+  direct opposite of Claim 6's incompatibility list, and the reason that
+  combination is a live hazard (no numbered claim in that note covers these
+  fields; **Claim 12** there is the unrelated `tools[].type: "mcp"` finding,
+  cited below for `tools`). **Claim 11** documents
   `input_cost_per_token` / `output_cost_per_token` as caller-supplied per-call
   price overrides, which is the ledger this feature's rejected-token billing
   (Claim 5) would land in.
@@ -776,7 +781,8 @@ dismissed below):
   different reasons, and both are recorded here so the Assayer does not have to
   re-derive them.
   (a) **`max_completion_tokens`**: `docs-litellm-completion-input-params.md`
-  documents it as an ordinary optional field (signature + glossary, no caveats)
+  lists it as an ordinary optional field (in its **Concrete Artifacts →
+  `completion()` signature** block; no numbered claim covers it, and no caveats)
   while OpenAI's Limitations list says it is "not supported" *when using
   Predicted Outputs*. This is a **conditioning variable, not a conflict** — §4a
   "when NOT to file: Claims differ only in context." Both claims are true; they
@@ -865,9 +871,11 @@ dismissed below):
   ignored or explicitly rejected" — audits params **individually**. This source
   shows the audit it needs is **combinatorial**: `max_completion_tokens`,
   `logprobs` and `tools` are each documented by the gateway's own parameter
-  reference as ordinary optional fields
-  (`docs-litellm-completion-input-params.md` Claims 12, 1), and each is
-  *individually* valid, yet the upstream feature's Limitations list makes all
+  reference as ordinary optional fields (**Concrete Artifacts → `completion()`
+  signature** block of `docs-litellm-completion-input-params.md` for
+  `max_completion_tokens` and `logprobs` / `top_logprobs`; that note's
+  **Claim 12** for `tools[].type: "mcp"`), and each is *individually* valid, yet
+  the upstream feature's Limitations list makes all
   three unavailable **in combination with** `prediction`
   (`tools`: "Function calling is not currently supported"; `max_completion_tokens`:
   "not supported"; `logprobs`: "not supported") [Claim 6] [settled]. Add the
