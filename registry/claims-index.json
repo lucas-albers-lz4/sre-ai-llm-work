@@ -14391,6 +14391,83 @@
         }
       ]
     },
+    "docs-promptfoo-enterprise-audit-logging": {
+      "path": "source-notes/docs-promptfoo-enterprise-audit-logging.md",
+      "title": "Promptfoo Enterprise: Audit Logging — The Control-Plane Audit Taxonomy, Record Schema, and Pull-Only Retrieval API",
+      "source_url": "https://www.promptfoo.dev/docs/enterprise/audit-logging",
+      "chapters": [
+        "06",
+        "05",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The feature's stated purpose is *forensic access information* answering \"who, when, and what\" — but the event taxonomy it then documents contains no access event, so the framing and the schema disagree about what is being logged",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The coverage boundary is drawn explicitly and in control-plane vocabulary: administrative actions are logged, while \"Evaluation runs, prompt testing, and other data plane operations are tracked separately\" — with no named destination",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The event taxonomy is a closed, finite list of 15 action identifiers in six categories — and every one of them is an IAM mutation except successful login, so no eval-, scan-, config-, or credential-rotation activity is auditable",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "`login` is documented as recording *successful* authentication only, so failed authentication attempts are outside the documented event set",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The record schema is a fixed 13-field object that denormalizes actor identity into three parallel fields and carries **no source-IP, user-agent, request-id, or session attribution of any kind**",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "`metadata` is documented as free-form context and is `null` in two of the three worked examples; the one populated example carries the **new** permission set under an `input` key and no prior state — so the documented schema cannot answer \"what did this actor remove?\"",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Retrieval is one pull endpoint with seven query parameters and a hard page ceiling — `limit` 1–100, default 20 — with no documented sort order, so complete-trail collection is a polling loop whose pagination correctness is the consumer's problem",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Reading the trail requires an organization-administrator bearer token, and the page routes the reader to Service Accounts to mint it — so the audit feed is machine-readable only through a top-tier admin credential, with no documented read-only scope",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The page defers \"complete API documentation\" to an API Reference that carries no retrievable specification — so the documented contract is exactly what is on this page, and everything else is unknown rather than absent",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The compliance section names four regimes with no stated mechanism — and maps two of them to access coverage the taxonomy does not provide",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The declared target taxonomy is wider than the action taxonomy — `ORGANIZATION` is a documented, filterable target type with no documented action that produces it, and configuration/plugin/target changes are auditable nowhere",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "Every worked example is illustrative rather than observed — the three `id` values are sequential suffixes on the RFC 4122 canonical example UUID and the `createdAt` values are three minutes on one afternoon in 2023",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "Retrieval has no documented failure surface — troubleshooting is three precondition checks with no error code, status, or symptom — so an empty result is ambiguous between \"no activity\" and \"wrong query\"",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-extension-hooks-and-sessions": {
       "path": "source-notes/docs-promptfoo-extension-hooks-and-sessions.md",
       "title": "Promptfoo Configuration: Reference — Extension Hooks, Session Management, and Run-Control Defaults",

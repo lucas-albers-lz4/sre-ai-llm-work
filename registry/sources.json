@@ -2652,6 +2652,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-enterprise-audit-logging": {
+      "slug": "docs-promptfoo-enterprise-audit-logging",
+      "title": "Promptfoo Enterprise: Audit Logging — The Control-Plane Audit Taxonomy, Record Schema, and Pull-Only Retrieval API",
+      "source_url": "https://www.promptfoo.dev/docs/enterprise/audit-logging",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-10-05",
+      "date_extracted": "2026-10-05",
+      "issue": "#1589",
+      "file": "source-notes/docs-promptfoo-enterprise-audit-logging.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-extension-hooks-and-sessions": {
       "slug": "docs-promptfoo-extension-hooks-and-sessions",
       "title": "Promptfoo Configuration: Reference — Extension Hooks, Session Management, and Run-Control Defaults",
