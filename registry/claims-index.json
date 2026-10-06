@@ -12216,6 +12216,57 @@
         }
       ]
     },
+    "docs-litellm-completion-predict-outputs": {
+      "path": "source-notes/docs-litellm-completion-predict-outputs.md",
+      "title": "Predicted Outputs | liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/completion/predict_outputs",
+      "chapters": [
+        "05",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The feature is gated on **two independent conditions** — a single supported provider (`openai`) and a single minimum version (`v1.51.4`) — stated as a 4-row property table with no upper bound and no changelog link",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The wire shape is a bare `prediction={\"type\": \"content\", \"content\": <string>}` object on the request body, identical in the LiteLLM SDK sample and in the stock-`openai`-SDK-to-proxy sample — the LiteLLM layer adds no LiteLLM-specific key, envelope, or `extra_body` wrapper",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The page's only quantitative performance claim is \"you can reduce your latency significantly\" — no number, no baseline, no benchmark, no deployment detail — and the OpenAI guide it links to repeats the same unquantified wording",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The multi-provider question the page does not answer — whether a `prediction` survives a route to a non-OpenAI deployment — resolves against the gate's *default* polarity, and the other polarity is a fleet-wide silent no-op; `prediction` is inside the gate's namespace, so the input-params page's kwarg fallback does not apply",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The page documents **no observability surface for the feature** — no `usage` field, no response field, no header, no log line, no metric, no troubleshooting section — even though the upstream API returns the two fields that would tell an operator whether the optimization fired",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The page's one outbound link — the vendor's own pointer to the authoritative document for the feature's limits — points at a **dead fragment**, so the reader who follows it misses the billing caveat and the entire incompatibility list",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Every published example — LiteLLM's two and OpenAI's seven — sends the **same content twice in one request**: once as a user message, once as the prediction — and neither the LiteLLM page nor the upstream guide states how that duplicate is counted",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The immediately-preceding nav page documents the *other* mechanism for the same problem — assistant-message prefill — on a **disjoint provider set with zero overlap**, and each page documents a capability probe the other does not have",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-completion-prompt-caching": {
       "path": "source-notes/docs-litellm-completion-prompt-caching.md",
       "title": "Prompt Caching — LiteLLM Documentation",

@@ -2171,6 +2171,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-completion-predict-outputs": {
+      "slug": "docs-litellm-completion-predict-outputs",
+      "title": "Predicted Outputs | liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/completion/predict_outputs",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs; current as of 2026-10-06)",
+      "date_extracted": "2026-10-06",
+      "issue": "#1541",
+      "file": "source-notes/docs-litellm-completion-predict-outputs.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-completion-prompt-caching": {
       "slug": "docs-litellm-completion-prompt-caching",
       "title": "Prompt Caching — LiteLLM Documentation",
