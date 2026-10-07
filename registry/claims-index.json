@@ -12813,6 +12813,98 @@
         }
       ]
     },
+    "docs-litellm-completion-web-search": {
+      "path": "source-notes/docs-litellm-completion-web-search.md",
+      "title": "Web Search — LiteLLM Documentation (provider-native web search across /chat/completions, /responses, and Gemini image generation)",
+      "source_url": "https://docs.litellm.ai/docs/completion/web_search",
+      "chapters": [
+        "05",
+        "02",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The page's support matrix is the feature-boundary contract — three endpoints, six providers, cost tracking supported, and a stated minimum SDK version",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Each provider runs its own search backend — the gateway normalizes the *request* surface but not the search index or the result semantics",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "OpenAI restricts `web_search_options` to dedicated search models — regular frontier models (`gpt-5.6-terra`, `gpt-5.6-luna`) are documented as *not* supporting it",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Search models search *automatically* even without `web_search_options` — the parameter is an opt-in tuning surface (`search_context_size`, `user_location`), not a search on/off switch",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The two OpenAI paths are disjoint by model — search models work only on `/chat/completions` via `web_search_options`, regular models only on `/responses` via the `web_search_preview` tool",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "xAI is a compatibility shim — LiteLLM reroutes search requests to xAI's Responses API and back-converts, and `search_context_size` is silently dropped",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "`web_search_options` can be set per-deployment in `config.yaml` (`{}` enables defaults), applies to every request to that model, and request-level values override it",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "`supports_web_search: False` in a deployment's `model_info` does not remove the deployment from general routing — LiteLLM still routes LLM requests to it and only narrows *WebSearch* traffic",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Capability discovery is `litellm.supports_web_search(model=...)` and `GET /model_group/info` — but the page documents no failure mode, and this predicate family is a fail-closed cost-map lookup",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Web search cost is additive to token cost and is billed in provider-specific units defined in the same pricing map as token prices",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The billing unit defaults to `per_prompt`, so one prompt that fires N internal queries is billed as one — an under-attribution risk for any model whose unit is not explicitly `per_query`",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "Per-provider usage extraction is heterogeneous — search-request counts come from different provider response fields, and xAI reports to a different field entirely",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "When xAI returns `usage.cost`, LiteLLM adopts it verbatim as the response cost — a provider-supplied price that bypasses the local token computation for that call",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "The page's own worked idiom for recovering total cost is `litellm.completion_cost(completion_response=response)` with the inline comment \"includes token cost + web search cost\" — so a token recomputation does not",
+          "kind": "claim"
+        },
+        {
+          "n": 15,
+          "heading": "The page documents no rate limits, fallbacks, retries, caching, timeouts, auth, or error semantics for the search path, and `perplexity` is listed as supported with no example",
+          "kind": "claim"
+        },
+        {
+          "n": 16,
+          "heading": "The page is internally inconsistent on model identities — its Anthropic supported-model list excludes the model every Anthropic example uses, and its Google model strings differ between table, examples, and pricing JSON",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-cost-map-and-response-cost": {
       "path": "source-notes/docs-litellm-cost-map-and-response-cost.md",
       "title": "Completion Token Usage & Cost — LiteLLM Python SDK (response_cost, register_model, model_cost, get_max_tokens, custom tokenizers)",

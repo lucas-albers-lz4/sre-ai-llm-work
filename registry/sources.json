@@ -2301,6 +2301,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-completion-web-search": {
+      "slug": "docs-litellm-completion-web-search",
+      "title": "Web Search — LiteLLM Documentation (provider-native web search across /chat/completions, /responses, and Gemini image generation)",
+      "source_url": "https://docs.litellm.ai/docs/completion/web_search",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs; front matter last_updated 2026-10-06)",
+      "date_extracted": "2026-10-07",
+      "issue": "#1609",
+      "file": "source-notes/docs-litellm-completion-web-search.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-cost-map-and-response-cost": {
       "slug": "docs-litellm-cost-map-and-response-cost",
       "title": "Completion Token Usage & Cost — LiteLLM Python SDK (response_cost, register_model, model_cost, get_max_tokens, custom tokenizers)",
