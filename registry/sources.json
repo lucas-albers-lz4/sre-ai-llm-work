@@ -2756,6 +2756,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-enterprise-findings-reports": {
+      "slug": "docs-promptfoo-enterprise-findings-reports",
+      "title": "Promptfoo Enterprise: Findings and Reports — Finding Disposition, the Export/Interop Matrix, and the Read-Only Findings Surface",
+      "source_url": "https://www.promptfoo.dev/docs/enterprise/findings",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-10-07",
+      "date_extracted": "2026-10-07",
+      "issue": "#1610",
+      "file": "source-notes/docs-promptfoo-enterprise-findings-reports.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-extension-hooks-and-sessions": {
       "slug": "docs-promptfoo-extension-hooks-and-sessions",
       "title": "Promptfoo Configuration: Reference — Extension Hooks, Session Management, and Run-Control Defaults",

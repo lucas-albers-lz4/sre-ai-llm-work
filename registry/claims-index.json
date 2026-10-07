@@ -14904,6 +14904,71 @@
         }
       ]
     },
+    "docs-promptfoo-enterprise-findings-reports": {
+      "path": "source-notes/docs-promptfoo-enterprise-findings-reports.md",
+      "title": "Promptfoo Enterprise: Findings and Reports — Finding Disposition, the Export/Interop Matrix, and the Read-Only Findings Surface",
+      "source_url": "https://www.promptfoo.dev/docs/enterprise/findings",
+      "chapters": [
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Red-team grading is stated to key on *application context supplied when creating a target* — the only statement on the page of what grading actually depends on, and the input is bound to the target object rather than to the scan",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Vulnerability disposition is a closed three-value status set — \"Marked as Fixed\", \"False Positive\", \"Ignore\" — plus manual severity re-rating and free-text comments, all human-in-the-loop, with no documented transition rules, auto-closure, SLA, or actor attribution",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The finding detail view is a per-finding evidence bundle — exploit strategies, probe records, per-scan instances, and remediation recommendations — i.e. triage input is per-finding evidence, not an aggregate score",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The vulnerability export matrix is exactly four formats — CSV, SARIF, Colang v1, Colang v2 — and while SARIF is named for GitHub Security, SonarQube and \"other DevOps platforms\", the page documents no upload step, no CI job, and no build-blocking behavior",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Colang v1 and Colang v2 exports convert red-team findings directly into NVIDIA NeMo Guardrails guardrails — a findings-to-runtime-defense loop that is net-new to this corpus",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The eval-level export matrix is six formats, four of which are specialized interchange artifacts — Burp Suite payloads, DPO JSON, Human Eval Test YAML, and a failed-test-only config",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The \"failed test config\" is a re-run artifact — a configuration file containing only the failed tests — so the documented remediation loop is *shrink the suite to the failures, fix, re-run* rather than *re-run everything*",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Reports are point-in-time PDFs per scan that summarize the most successful exploit strategies and most critical vulnerabilities, with a \"View Logs\" deep link into the evals section — reporting is a scan artifact, not a live view",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The evals review surface supports a per-eval pass/failure flip, comments, report view and clipboard copy, filter/sort across eight keys, and a CSV download — the finest-grained human override on the platform is at the individual test-case level",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The documented programmatic surface for findings is read-only — search via `GET /api/v1/results` and shareable URLs via `promptfoo share` — with no documented write API for status, severity, or comments, so the disposition state machine is UI-only",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The page contains no CI gating, no severity-level vocabulary, no retention window, and no quantitative claim of any kind — it is a specification of a review surface, not of an operational loop",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-extension-hooks-and-sessions": {
       "path": "source-notes/docs-promptfoo-extension-hooks-and-sessions.md",
       "title": "Promptfoo Configuration: Reference — Extension Hooks, Session Management, and Run-Control Defaults",
