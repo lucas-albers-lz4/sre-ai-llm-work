@@ -26,6 +26,19 @@
       "confidence_overall": "settled",
       "status": "current"
     },
+    "blog-cncf-4-body-problem-sre-context": {
+      "slug": "blog-cncf-4-body-problem-sre-context",
+      "title": "The 4-body problem of SRE: Why autonomous operations depend on context",
+      "source_url": "https://www.cncf.io/blog/2026/07/06/the-4-body-problem-of-sre-why-autonomous-operations-depend-on-context",
+      "source_type": "blog-post",
+      "author": "Sanjeev Sharma",
+      "date_published": "2026-07-06",
+      "date_extracted": "2026-10-07",
+      "issue": "#1618",
+      "file": "source-notes/blog-cncf-4-body-problem-sre-context.md",
+      "confidence_overall": "anecdotal",
+      "status": "current"
+    },
     "blog-cncf-network-boundary-ai-agents-nginx-otel": {
       "slug": "blog-cncf-network-boundary-ai-agents-nginx-otel",
       "title": "Network boundary for AI agents using NGINX and OpenTelemetry",

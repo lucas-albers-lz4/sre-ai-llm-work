@@ -185,6 +185,74 @@
         }
       ]
     },
+    "blog-cncf-4-body-problem-sre-context": {
+      "path": "source-notes/blog-cncf-4-body-problem-sre-context.md",
+      "title": "The 4-body problem of SRE: Why autonomous operations depend on context",
+      "source_url": "https://www.cncf.io/blog/2026/07/06/the-4-body-problem-of-sre-why-autonomous-operations-depend-on-context",
+      "chapters": [
+        "06",
+        "03",
+        "02",
+        "00"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The binding constraint on AI in operations is context availability, not model capability",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Operational decisions span four coupled bodies of truth — code, infrastructure state, runtime signals, operational knowledge — and each is individually \"mostly solved\"",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Substrate before agents — a unified, real-time, versioned knowledge graph across all four bodies must exist before autonomous remediation is deployed",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Every agent action requires a durable decision trace recording inputs (graph snapshot), policies in effect, model version, rejected hypotheses, action, and outcome",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "\"A script with an LLM in the middle\" is not production autonomy because prompt and model drift go uncaptured",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Fragmented context makes agents fail plausibly — errors that survive human review",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Stale runbooks are arguably worse than no runbooks because they invite confident, wrong action",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "A three-item failure-mode taxonomy for context-fragmented agents: confidently fixing the wrong thing, demo-passes/production-breaks, unreconstructable reasoning",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The knowledge graph must be versioned so every agent decision can be replayed against the exact snapshot it saw",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The metric worth watching shifts from recovery speed to incident-avoidance frequency",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Agents must be embedded in the path to production, not bolted on after it — a human doing the work while the agent writes the post-mortem is dictation, not autonomy",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-cncf-network-boundary-ai-agents-nginx-otel": {
       "path": "source-notes/blog-cncf-network-boundary-ai-agents-nginx-otel.md",
       "title": "Network boundary for AI agents using NGINX and OpenTelemetry",
