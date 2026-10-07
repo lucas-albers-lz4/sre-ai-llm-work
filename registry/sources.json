@@ -2288,6 +2288,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-completion-web-fetch": {
+      "slug": "docs-litellm-completion-web-fetch",
+      "title": "Web Fetch — LiteLLM Documentation (Anthropic web_fetch_20250910 via the gateway)",
+      "source_url": "https://docs.litellm.ai/docs/completion/web_fetch",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs; page is not in the published `docs/docs/` tree at fetch time — very new)",
+      "date_extracted": "2026-10-06",
+      "issue": "#1608",
+      "file": "source-notes/docs-litellm-completion-web-fetch.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-cost-map-and-response-cost": {
       "slug": "docs-litellm-cost-map-and-response-cost",
       "title": "Completion Token Usage & Cost — LiteLLM Python SDK (response_cost, register_model, model_cost, get_max_tokens, custom tokenizers)",

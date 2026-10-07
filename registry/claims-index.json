@@ -12751,6 +12751,68 @@
         }
       ]
     },
+    "docs-litellm-completion-web-fetch": {
+      "path": "source-notes/docs-litellm-completion-web-fetch.md",
+      "title": "Web Fetch — LiteLLM Documentation (Anthropic web_fetch_20250910 via the gateway)",
+      "source_url": "https://docs.litellm.ai/docs/completion/web_fetch",
+      "chapters": [
+        "06",
+        "05",
+        "03"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The web fetch tool is a provider-native Anthropic server tool exposed through LiteLLM's completion path — Anthropic-only, `web_fetch_20250910`, appended to the `tools` array the same way over the SDK and the proxy",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The full parameter surface of `web_fetch_20250910` is five optional fields — `max_uses`, `allowed_domains`, `blocked_domains`, `citations.enabled`, `max_content_tokens` — with the documented default example capping content at 100000 tokens",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "`allowed_domains` / `blocked_domains` are the only domain-scoping (egress-allowlisting) controls the page documents, and they are **request-scoped, client-supplied** values inside the `tools` array — not a gateway config",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "`max_uses` (limit of fetches per request) and `max_content_tokens` (maximum content length) cap per-request token burn and fetch count, and the page documents these as **per-request** controls; whether they are *provider-enforced upstream of the gateway* is our inference, not something the page states",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The web fetch tool \"currently does not support websites dynamically rendered via JavaScript\" — a silent partial-content failure mode for any runbook that fetches SPA pages",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The page documents no rate limits, timeouts, error/retry semantics, response schema, citation payload shape, or pricing for the web fetch path — the absence of operational documentation is itself a finding, and the page offers no gateway-level rate-limit/spend/fallback controls for this path",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The page is internally inconsistent — the supported-model table lists `claude-opus-4-6` / `claude-sonnet-4-6` etc., but every code example on the page uses `anthropic/claude-sonnet-5`, which is not in that table",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Web Fetch and Web Search are distinct capabilities — fetch retrieves full content from caller-supplied URLs, search discovers URLs from a query — so web fetch cannot discover or find content, only retrieve",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Web fetch composes with other tools by simple array addition — the page's multi-tool example pairs `web_fetch_20250910` with a `text_editor_20250124` tool in the same `tools` array",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The page ships no content-trust or prompt-injection discussion — fetched web content enters the model context as tool output with no documented sanitization, warn-on-fetch, or trust tier — leaving the web-fetch path as the indirect-prompt-injection surface the corpus documents elsewhere",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-cost-map-and-response-cost": {
       "path": "source-notes/docs-litellm-cost-map-and-response-cost.md",
       "title": "Completion Token Usage & Cost — LiteLLM Python SDK (response_cost, register_model, model_cost, get_max_tokens, custom tokenizers)",
