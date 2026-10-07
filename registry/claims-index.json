@@ -14969,6 +14969,79 @@
         }
       ]
     },
+    "docs-promptfoo-enterprise-guardrails": {
+      "path": "source-notes/docs-promptfoo-enterprise-guardrails.md",
+      "title": "Promptfoo Enterprise: Adaptive Guardrails — The Runtime Enforcement Contract, the Parallel-Execution Cost Asymmetry, and the Stale-Policy Failure Modes",
+      "source_url": "https://www.promptfoo.dev/docs/enterprise/guardrails",
+      "chapters": [],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The runtime enforcement contract is a caller-integrated HTTP endpoint — `POST {baseUrl}/api/v1/guardrails/{targetId}/evaluate` carrying a `placement` enum, Bearer auth via `PROMPTFOO_API_KEY`, and required `PROMPTFOO_TARGET_ID`, with four placements defaulting to `INPUT` + `OUTPUT`",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The gate contract is a five-value aggregate `action` — `allow`, `log`, `warn`, `block`, `error` — and the vendor explicitly warns that `warn` and `error` need caller-defined handling or they fall through, a documented fail-open trap at the integration layer",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The response is an audit-grade object, not a boolean — aggregate `action` plus `severity`, `guardrailResults`, `latencyMs`, optional `sanitizedContent`, with vendor guidance to retain per-guardrail results instead of collapsing them",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Placement of the guardrail relative to the model call is an explicit latency-vs-cost tradeoff — concurrent execution gives benign traffic \"zero added latency\" but still incurs the LLM call for adversarial prompts that are ultimately blocked",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Enforcement runs as two ordered planes — regex fast filters first, short-circuiting \"without calling the LLM,\" then LLM-based policy evaluation — each with its own false-positive and latency profile",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The adaptive loop is structurally bounded to known-vulnerability similarity — the guardrail \"can only block patterns similar to known vulnerabilities,\" and entirely new attack types require new red-team testing to be detected",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Policies are cache-stale by default and silently consolidated — cached guardrails are returned unless regeneration is forced, and semantically overlapping policies are LLM-merged during generation, so a specific rule can be folded into a broader one and stop firing",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Runtime validation sends zero examples — policy text only, \"keeping latency low\" — while generation and testing stages run under published caps (>20 examples switches to map-reduce at batch size 25), a deliberate latency-vs-context tradeoff at the enforcement plane",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Tool-call placements are manual-only — `TOOL_CALL_INPUT` / `TOOL_CALL_OUTPUT` policies \"aren't automatically generated from your red team scans\" — even though the stated use case (PII filters stopping argument exfiltration to third-party APIs) is exactly what automated coverage would want",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The policy lifecycle is two-tiered — automated policies are generated from red-team failures and replaced on regeneration, manual policies are never removed, and there is no required regeneration schedule (recommended: after each red-team cycle)",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Severity is a 0.0–1.0 score mapped to per-action threshold dials — the worked example blocks nothing at severity 0.30 until the `block` dial is lowered to 0.7 — so tuning is threshold adjustment against observed prompts, not policy rewriting",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "Adaptive guardrails sit alongside four third-party guardrail types chosen at creation — OpenAI Moderation, Microsoft Presidio, Azure AI Content Safety, and AWS Bedrock Guardrails — but the page documents no adapter behavior, config, or semantics for any of them",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "The page documents no failure semantics for the evaluate call itself and no measurement of any kind — no unreachable/error knobs, no timeout behavior, no status codes; the only failure handling shown is in the caller's example code (throw on non-2xx, gate on `block` || `error`)",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-extension-hooks-and-sessions": {
       "path": "source-notes/docs-promptfoo-extension-hooks-and-sessions.md",
       "title": "Promptfoo Configuration: Reference — Extension Hooks, Session Management, and Run-Control Defaults",

@@ -2769,6 +2769,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-enterprise-guardrails": {
+      "slug": "docs-promptfoo-enterprise-guardrails",
+      "title": "Promptfoo Enterprise: Adaptive Guardrails — The Runtime Enforcement Contract, the Parallel-Execution Cost Asymmetry, and the Stale-Policy Failure Modes",
+      "source_url": "https://www.promptfoo.dev/docs/enterprise/guardrails",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-10-07",
+      "date_extracted": "2026-10-07",
+      "issue": "#1611",
+      "file": "source-notes/docs-promptfoo-enterprise-guardrails.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-extension-hooks-and-sessions": {
       "slug": "docs-promptfoo-extension-hooks-and-sessions",
       "title": "Promptfoo Configuration: Reference — Extension Hooks, Session Management, and Run-Control Defaults",
