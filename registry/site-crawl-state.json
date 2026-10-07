@@ -1326,7 +1326,7 @@
         "filed_at": "2026-08-13T12:56:28.715514+00:00"
       }
     },
-    "last_scan": "2026-10-06T17:43:52.378211+00:00"
+    "last_scan": "2026-10-07T18:16:10.037682+00:00"
   },
   "opentelemetry": {
     "urls": {},
@@ -2883,16 +2883,22 @@
         "filed_at": "2026-10-06T17:44:17.548465+00:00"
       },
       "https://www.cncf.io/blog/2026/07/06/the-4-body-problem-of-sre-why-autonomous-operations-depend-on-context": {
-        "status": "pending",
-        "screened_at": "2026-07-14T13:40:15.828478+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T13:40:15.828478+00:00",
+        "issue": 1618,
+        "filed_at": "2026-10-07T18:16:42.986591+00:00"
       },
       "https://www.cncf.io/blog/2026/07/03/how-data-sovereignty-is-changing-cloud-native-infrastructure-design": {
-        "status": "pending",
-        "screened_at": "2026-07-14T13:53:28.150269+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T13:53:28.150269+00:00",
+        "issue": 1619,
+        "filed_at": "2026-10-07T18:16:45.236493+00:00"
       },
       "https://www.cncf.io/blog/2026/07/02/reintroducing-kpt-your-toolchain-for-infrastructure-automation": {
-        "status": "pending",
-        "screened_at": "2026-07-14T13:53:28.150288+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T13:53:28.150288+00:00",
+        "issue": 1620,
+        "filed_at": "2026-10-07T18:16:47.191907+00:00"
       },
       "https://www.cncf.io/blog/2026/07/01/understanding-dynamic-resource-allocation-in-kubernetes": {
         "status": "pending",
@@ -3917,9 +3923,21 @@
       "https://www.cncf.io/blog/2025/11/26/announcing-kyverno-release-1-16": {
         "status": "rejected",
         "screened_at": "2026-10-06T17:43:57.938788+00:00"
+      },
+      "https://www.cncf.io/blog/2026/10/07/meshery-becomes-a-cncf-incubating-project": {
+        "status": "rejected",
+        "screened_at": "2026-10-07T18:16:18.663529+00:00"
+      },
+      "https://www.cncf.io/blog/2025/11/20/an-architectural-decision-containers-on-bare-metal-or-on-virtual-machines": {
+        "status": "pending",
+        "screened_at": "2026-10-07T18:16:18.663546+00:00"
+      },
+      "https://www.cncf.io/blog/2025/11/19/what-is-platform-engineering": {
+        "status": "pending",
+        "screened_at": "2026-10-07T18:16:18.663550+00:00"
       }
     },
-    "last_scan": "2026-10-06T17:43:57.938790+00:00"
+    "last_scan": "2026-10-07T18:16:18.663553+00:00"
   },
   "datadog-llm-obs": {
     "urls": {
@@ -3928,7 +3946,7 @@
         "screened_at": "2026-07-12T23:52:56.905756+00:00"
       }
     },
-    "last_scan": "2026-10-06T17:43:59.391904+00:00"
+    "last_scan": "2026-10-07T18:16:20.207798+00:00"
   },
   "langfuse-docs": {
     "urls": {
@@ -4093,7 +4111,7 @@
         "filed_at": "2026-09-03T15:37:32.594301+00:00"
       }
     },
-    "last_scan": "2026-10-06T17:44:00.813352+00:00"
+    "last_scan": "2026-10-07T18:16:21.660644+00:00"
   },
   "litellm-docs": {
     "urls": {
@@ -5658,16 +5676,22 @@
         "filed_at": "2026-10-06T17:44:23.338398+00:00"
       },
       "https://docs.litellm.ai/docs/contact": {
-        "status": "pending",
-        "screened_at": "2026-07-30T13:45:00.433932+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-30T13:45:00.433932+00:00",
+        "issue": 1621,
+        "filed_at": "2026-10-07T18:16:49.126635+00:00"
       },
       "https://docs.litellm.ai/docs/container_files": {
-        "status": "pending",
-        "screened_at": "2026-07-31T13:49:18.508452+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-31T13:49:18.508452+00:00",
+        "issue": 1622,
+        "filed_at": "2026-10-07T18:16:51.309219+00:00"
       },
       "https://docs.litellm.ai/docs/containers": {
-        "status": "pending",
-        "screened_at": "2026-07-31T13:49:18.508472+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-31T13:49:18.508472+00:00",
+        "issue": 1623,
+        "filed_at": "2026-10-07T18:16:53.366855+00:00"
       },
       "https://docs.litellm.ai/docs/contribute_integration/custom_webhook_api": {
         "status": "pending",
@@ -6476,9 +6500,21 @@
       "https://docs.litellm.ai/docs/harness/sandboxes": {
         "status": "pending",
         "screened_at": "2026-10-06T17:44:07.408580+00:00"
+      },
+      "https://docs.litellm.ai/docs/auto_router/optimize_classifier": {
+        "status": "pending",
+        "screened_at": "2026-10-07T18:16:33.256701+00:00"
+      },
+      "https://docs.litellm.ai/docs/auto_router/telemetry": {
+        "status": "pending",
+        "screened_at": "2026-10-07T18:16:33.256719+00:00"
+      },
+      "https://docs.litellm.ai/docs/harness/sessions": {
+        "status": "rejected",
+        "screened_at": "2026-10-07T18:16:33.256722+00:00"
       }
     },
-    "last_scan": "2026-10-06T17:44:07.408582+00:00"
+    "last_scan": "2026-10-07T18:16:33.256726+00:00"
   },
   "promptfoo-docs": {
     "urls": {
@@ -8049,16 +8085,22 @@
         "filed_at": "2026-10-06T17:44:29.520751+00:00"
       },
       "https://www.promptfoo.dev/docs/enterprise/remediation-reports": {
-        "status": "pending",
-        "screened_at": "2026-07-31T13:49:26.513728+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-31T13:49:26.513728+00:00",
+        "issue": 1624,
+        "filed_at": "2026-10-07T18:16:55.852995+00:00"
       },
       "https://www.promptfoo.dev/docs/enterprise/service-accounts": {
-        "status": "pending",
-        "screened_at": "2026-07-31T13:49:26.513732+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-31T13:49:26.513732+00:00",
+        "issue": 1625,
+        "filed_at": "2026-10-07T18:16:58.273694+00:00"
       },
       "https://www.promptfoo.dev/docs/enterprise/teams": {
-        "status": "pending",
-        "screened_at": "2026-08-01T13:05:17.156489+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-01T13:05:17.156489+00:00",
+        "issue": 1626,
+        "filed_at": "2026-10-07T18:17:01.041175+00:00"
       },
       "https://www.promptfoo.dev/docs/enterprise/webhooks": {
         "status": "pending",
@@ -8859,8 +8901,20 @@
       "https://www.promptfoo.dev/docs/red-team/plugins/cross-session-leak": {
         "status": "pending",
         "screened_at": "2026-10-06T17:44:11.715395+00:00"
+      },
+      "https://www.promptfoo.dev/docs/providers/openai-decisions": {
+        "status": "rejected",
+        "screened_at": "2026-10-07T18:16:41.596439+00:00"
+      },
+      "https://www.promptfoo.dev/docs/red-team/plugins/custom": {
+        "status": "pending",
+        "screened_at": "2026-10-07T18:16:41.596457+00:00"
+      },
+      "https://www.promptfoo.dev/docs/red-team/plugins/cyberseceval": {
+        "status": "pending",
+        "screened_at": "2026-10-07T18:16:41.596460+00:00"
       }
     },
-    "last_scan": "2026-10-06T17:44:11.715397+00:00"
+    "last_scan": "2026-10-07T18:16:41.596462+00:00"
   }
 }
