@@ -25,21 +25,21 @@ issue: "#1634"
 
 ### Claim 1: DRA reached GA in Kubernetes v1.35
 - **Evidence**: The author states DRA recently reached GA and notes NVIDIA moved dra-driver-nvidia-gpu into Kubernetes SIGs with documentation dropping the Beta label.
-- **Confidence**: settled
+- **Confidence**: emerging
 - **Quote**: "Dynamic Resource Allocation (DRA) recently reached GA in Kubernetes v1.35, and I believe many of us are eager to give it a try. Adding to the momentum, NVIDIA has moved dra-driver-nvidia-gpu into Kubernetes SIGs, with the documentation dropping the Beta label — a sign that the technology and its standards are gradually maturing."
-- **Our assessment**: This is a version-specific status claim about DRA reaching GA in v1.35. As an API stability/version claim, it should be pinned with dates and versions; the author explicitly gives the lab versions (K8s v1.35.3). This is a concrete factual statement from the post.
+- **Our assessment**: This is a version-specific status claim about DRA reaching GA in v1.35. As an API stability/version claim, it should be pinned with dates and versions; the author explicitly gives the lab versions (K8s v1.35.3). Downgraded from `settled` to `emerging`: the sole evidence is the author's assertion in a single lab-scale blog post and the claim is not verifiable within the corpus. It should be confirmed against the Kubernetes v1.35 release notes / DRA KEP before the guide relies on it.
 
 ### Claim 2: Device health reporting becomes available starting in Kubernetes v1.36
 - **Evidence**: The summary section notes that starting with K8s v1.36, device health reporting is available.
-- **Confidence**: settled
+- **Confidence**: emerging
 - **Quote**: "Starting with K8s v1.36, device health reporting is also available, so Pods no longer simply show Error — we can tell whether the failure stems from the device or from the application."
-- **Our assessment**: Version-specific claim about observability/fault attribution capability arriving in v1.36. This is relevant to incident triage doctrine (distinguishing device faults from application faults).
+- **Our assessment**: Version-specific claim about observability/fault attribution capability arriving in v1.36. This is relevant to incident triage doctrine (distinguishing device faults from application faults). Downgraded from `settled` to `emerging`: as with Claim 1, the sole evidence is a single lab-scale post and the claim is not verifiable within the corpus. Confirm against Kubernetes v1.36 release notes before the guide cites the v1.36 version boundary.
 
 ### Claim 3: ResourceSlice has a maximum device entry limit of 128, or 64 when any device uses taints or counters
 - **Evidence**: The author explains ResourceSlice behavior, including splitting when device count exceeds what fits in a single object.
-- **Confidence**: settled
+- **Confidence**: emerging
 - **Quote**: "When the device count exceeds what fits in a single object (up to 128 entries, or 64 if any device uses taints or counters), the driver splits the Pool across multiple ResourceSlices."
-- **Our assessment**: Concrete implementation constraint documented in the post. This is a specific operational detail about ResourceSlice scaling limits.
+- **Our assessment**: Concrete implementation constraint documented in the post — a specific operational detail about ResourceSlice scaling limits. Downgraded from `settled` to `emerging`: the sole evidence is the author's prose in a single lab-scale post (the 128/64 figures are not demonstrated by a ResourceSlice dump in the source, and are not verifiable within the corpus). Confirm against the DRA ResourceSlice API documentation before the guide states the limits as fact.
 
 ### Claim 4: DRA abstracts device allocation in a Storage-like model (DeviceClass ≈ StorageClass, ResourceClaim ≈ PVC)
 - **Evidence**: The author draws the analogy explicitly when introducing ResourceClaim/ResourceClaimTemplate.
@@ -97,9 +97,12 @@ The post provides concrete, reproducible artifacts:
 
 ## Cross-References
 
-- **Corroborates**: None identified in existing corpus (first source covering GPU scheduling/DRA).
+- **Corroborates**: None identified on the DRA/device-allocation axis proper (this is the first source covering DRA device selection and claim mechanics).
 - **Contradicts**: None identified.
-- **Extends**: None identified (no prior DRA/GPU allocation source notes).
+- **Extends**:
+  - `source-notes/docs-google-sre-prodcast-05-08-damion-yates-ai-systems.md` — **Claim 3**: "Standard Google infrastructure did not measure accelerators — dashboards showed CPU/memory but \"nothing for how much GPU you were using\" — so Damion had to build accelerator monitoring \"from the ground up\"". That note documents the accelerator-observability *gap*: general infra dashboards omitted GPU/TPU utilization, so Damion pulled the stats himself and built bespoke monitoring. This note's **Claim 2** (device health reporting arriving in v1.36, so Pods no longer simply show `Error` and failure can be attributed to device vs. application) is the platform-level counterpart on the same axis — a device-health signal the Kubernetes/DRA stack now surfaces natively. Damion's note is the historical gap and the hand-rolled workaround; this note is a newer, platform-provided slice of the same signal. Cited for the accelerator-observability/fault-attribution axis only (that note does not cover DRA mechanics).
+- **Relates**:
+  - `source-notes/docs-google-sre-address-cascading-failures.md` — **Claim 1** and **Claim 2** (both in their `Our assessment` fields) map that chapter's general resource-exhaustion taxonomy onto LLM/GPU serving: Claim 1 — "if one GPU node exhausts memory (OOM) and requests are retried onto other nodes, their cumulative KV-cache pressure can trigger a cascade of OOM failures"; Claim 2 — "memory (KV-cache) and compute (GPU utilization)" as "the primary exhaustion modes". This note's **Claim 6** is the same capacity-pressure mechanism observed one layer earlier: a memory-threshold selector (`>20Gi`) that no free device satisfies produces `FailedScheduling: cannot allocate all claims`, not an application error. Relation: GPU memory exhaustion as a capacity-pressure mechanism — the cascading-failures note treats it as a runtime cascade trigger; this note shows the scheduling-side precondition (capacity-demand mismatch surfacing as unschedulable claims). Not a corroboration of DRA mechanics (that note predates DRA).
 - **Novel**: Introduces DRA operational semantics for GPU allocation (claim lifecycle during rolling updates causing fallback to persist, capacity-based CEL selection producing claims-allocation FailedScheduling, ResourceSlice limits 128/64, device health reporting arriving in v1.36) to the corpus.
 
 ### Candidates from miner-related-notes.md
@@ -114,7 +117,7 @@ The post provides concrete, reproducible artifacts:
 - `source-notes/docs-google-sre-prodcast-03-01.md` (0.1522): Dismissed — SRE methodology; no GPU/DRA.
 - `source-notes/docs-litellm-anthropic-advisor-tool.md` (0.1522): Dismissed — LiteLLM advisor orchestration; no GPU/DRA.
 
-No existing notes cover GPU scheduling, DRA, or accelerator allocation. No contradictions found.
+No existing notes cover DRA or device-allocation mechanics. The two notes cited under `Extends`/`Relates` above overlap only on *adjacent* axes (accelerator observability; GPU capacity pressure) and were found by searching `source-notes/` directly — they were not among the candidates supplied for this run. No contradictions found.
 
 ## Guide Impact
 
@@ -125,6 +128,8 @@ No existing notes cover GPU scheduling, DRA, or accelerator allocation. No contr
 
 - Deep-read of full article including all four scenarios, YAML examples, ResourceSlice dump excerpt, and summary. Followed the code/YAML artifacts verbatim as presented.
 - Extracted operational failure modes (rolling update claim retention, capacity threshold causing Pending/FailedScheduling) as primary value per triage guidance; treated tutorial mechanics as supporting evidence.
-- Version claims (GA in v1.35, device health in v1.36) pinned explicitly. Time-slicing marked emerging due to author noting undocumented state as of June 2026 and potential future changes.
+- Version claims (GA in v1.35, device health in v1.36, ResourceSlice 128/64 limit) pinned explicitly but graded `emerging`: their sole evidence is a single lab-scale blog post, so they are unverifiable within the corpus and should be checked against Kubernetes release notes / the DRA API docs before the guide relies on them. Time-slicing marked emerging due to author noting undocumented state as of June 2026 and potential future changes.
+- `confidence_overall` is `emerging`, consistent with the per-claim grades after the version-status downgrade (5 settled, 4 emerging, 1 speculative): the operational failure modes are settled as accounts of what the tutorial demonstrates, but the version-status and forward-looking claims are not, and the whole source is lab-scale (3 workers) with no production metrics.
+- Cross-references were expanded on Assayer review: `docs-google-sre-prodcast-05-08-damion-yates-ai-systems` (Claim 3, accelerator-observability gap) and `docs-google-sre-address-cascading-failures` (Claims 1/2 `Our assessment`, GPU-memory capacity pressure) were missed in the first pass because the cross-reference axis had been read too narrowly as "DRA/GPU scheduling". Both cited notes and their claim numbers were re-read and verified before citation (MINER.md §4b).
 - Autoscaler speculation marked speculative. Lab scale caveat noted (3 workers, specific GPU mix) — evidence is tutorial/lab-level, not production-scale.
 - No paywall; fully readable.
