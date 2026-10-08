@@ -1326,7 +1326,7 @@
         "filed_at": "2026-08-13T12:56:28.715514+00:00"
       }
     },
-    "last_scan": "2026-10-07T18:16:10.037682+00:00"
+    "last_scan": "2026-10-08T18:18:00.670623+00:00"
   },
   "opentelemetry": {
     "urls": {},
@@ -2901,16 +2901,22 @@
         "filed_at": "2026-10-07T18:16:47.191907+00:00"
       },
       "https://www.cncf.io/blog/2026/07/01/understanding-dynamic-resource-allocation-in-kubernetes": {
-        "status": "pending",
-        "screened_at": "2026-07-14T13:53:28.150290+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-14T13:53:28.150290+00:00",
+        "issue": 1634,
+        "filed_at": "2026-10-08T18:18:36.025730+00:00"
       },
       "https://www.cncf.io/blog/2026/07/14/keycloakcon-japan-2026-navigating-cloud-native-identity-and-the-ai-frontier": {
-        "status": "pending",
-        "screened_at": "2026-07-15T08:31:01.977664+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-15T08:31:01.977664+00:00",
+        "issue": 1635,
+        "filed_at": "2026-10-08T18:18:38.225528+00:00"
       },
       "https://www.cncf.io/blog/2026/06/30/kepler-re-architected-improved-power-accuracy-and-a-community-call-to-action": {
-        "status": "pending",
-        "screened_at": "2026-07-15T08:31:01.977683+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-15T08:31:01.977683+00:00",
+        "issue": 1636,
+        "filed_at": "2026-10-08T18:18:40.934578+00:00"
       },
       "https://www.cncf.io/blog/2026/06/30/dragonfly-v2-5-0-is-released": {
         "status": "pending",
@@ -3935,9 +3941,21 @@
       "https://www.cncf.io/blog/2025/11/19/what-is-platform-engineering": {
         "status": "pending",
         "screened_at": "2026-10-07T18:16:18.663550+00:00"
+      },
+      "https://www.cncf.io/blog/2026/10/07/ciliumcon-is-back-at-kubecon-cloudnativecon-north-america-2026": {
+        "status": "rejected",
+        "screened_at": "2026-10-08T18:18:05.761586+00:00"
+      },
+      "https://www.cncf.io/blog/2026/10/07/backstagecon-comes-to-kubecon-cloudnativecon-north-america-2026-in-salt-lake-city": {
+        "status": "rejected",
+        "screened_at": "2026-10-08T18:18:05.761606+00:00"
+      },
+      "https://www.cncf.io/blog/2026/10/07/kubernetes-on-edge-day-returns-to-kubecon-cloudnativecon-north-america-2026": {
+        "status": "pending",
+        "screened_at": "2026-10-08T18:18:05.761609+00:00"
       }
     },
-    "last_scan": "2026-10-07T18:16:18.663553+00:00"
+    "last_scan": "2026-10-08T18:18:05.761611+00:00"
   },
   "datadog-llm-obs": {
     "urls": {
@@ -3946,7 +3964,7 @@
         "screened_at": "2026-07-12T23:52:56.905756+00:00"
       }
     },
-    "last_scan": "2026-10-07T18:16:20.207798+00:00"
+    "last_scan": "2026-10-08T18:18:07.288781+00:00"
   },
   "langfuse-docs": {
     "urls": {
@@ -4111,7 +4129,7 @@
         "filed_at": "2026-09-03T15:37:32.594301+00:00"
       }
     },
-    "last_scan": "2026-10-07T18:16:21.660644+00:00"
+    "last_scan": "2026-10-08T18:18:08.797317+00:00"
   },
   "litellm-docs": {
     "urls": {
@@ -5694,16 +5712,22 @@
         "filed_at": "2026-10-07T18:16:53.366855+00:00"
       },
       "https://docs.litellm.ai/docs/contribute_integration/custom_webhook_api": {
-        "status": "pending",
-        "screened_at": "2026-07-31T13:49:18.508476+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-31T13:49:18.508476+00:00",
+        "issue": 1637,
+        "filed_at": "2026-10-08T18:18:42.938661+00:00"
       },
       "https://docs.litellm.ai/docs/contributing": {
-        "status": "pending",
-        "screened_at": "2026-08-01T13:05:08.685265+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-01T13:05:08.685265+00:00",
+        "issue": 1638,
+        "filed_at": "2026-10-08T18:18:44.977029+00:00"
       },
       "https://docs.litellm.ai/docs/contributing/adding_openai_compatible_providers": {
-        "status": "pending",
-        "screened_at": "2026-08-01T13:05:08.685282+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-01T13:05:08.685282+00:00",
+        "issue": 1639,
+        "filed_at": "2026-10-08T18:18:47.023917+00:00"
       },
       "https://docs.litellm.ai/docs/count_tokens": {
         "status": "pending",
@@ -6512,9 +6536,21 @@
       "https://docs.litellm.ai/docs/harness/sessions": {
         "status": "rejected",
         "screened_at": "2026-10-07T18:16:33.256722+00:00"
+      },
+      "https://docs.litellm.ai/docs/decisions": {
+        "status": "pending",
+        "screened_at": "2026-10-08T18:18:28.046804+00:00"
+      },
+      "https://docs.litellm.ai/docs/harness/structured_output": {
+        "status": "pending",
+        "screened_at": "2026-10-08T18:18:28.046824+00:00"
+      },
+      "https://docs.litellm.ai/docs/harness/supported": {
+        "status": "pending",
+        "screened_at": "2026-10-08T18:18:28.046826+00:00"
       }
     },
-    "last_scan": "2026-10-07T18:16:33.256726+00:00"
+    "last_scan": "2026-10-08T18:18:28.046828+00:00"
   },
   "promptfoo-docs": {
     "urls": {
@@ -8103,20 +8139,26 @@
         "filed_at": "2026-10-07T18:17:01.041175+00:00"
       },
       "https://www.promptfoo.dev/docs/enterprise/webhooks": {
-        "status": "pending",
-        "screened_at": "2026-08-01T13:05:17.156506+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-01T13:05:17.156506+00:00",
+        "issue": 1640,
+        "filed_at": "2026-10-08T18:18:49.376395+00:00"
       },
       "https://www.promptfoo.dev/docs/faq": {
-        "status": "pending",
+        "status": "deduped",
         "screened_at": "2026-08-01T13:05:17.156510+00:00"
       },
       "https://www.promptfoo.dev/docs/guides": {
-        "status": "pending",
-        "screened_at": "2026-08-02T13:07:26.618011+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-02T13:07:26.618011+00:00",
+        "issue": 1641,
+        "filed_at": "2026-10-08T18:18:51.559482+00:00"
       },
       "https://www.promptfoo.dev/docs/guides/azure-vs-openai": {
-        "status": "pending",
-        "screened_at": "2026-08-02T13:07:26.618028+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-02T13:07:26.618028+00:00",
+        "issue": 1642,
+        "filed_at": "2026-10-08T18:18:53.616314+00:00"
       },
       "https://www.promptfoo.dev/docs/guides/censored-vs-uncensored-ollama": {
         "status": "pending",
@@ -8913,8 +8955,20 @@
       "https://www.promptfoo.dev/docs/red-team/plugins/cyberseceval": {
         "status": "pending",
         "screened_at": "2026-10-07T18:16:41.596460+00:00"
+      },
+      "https://www.promptfoo.dev/docs/providers/flexai": {
+        "status": "rejected",
+        "screened_at": "2026-10-08T18:18:34.200027+00:00"
+      },
+      "https://www.promptfoo.dev/docs/red-team/plugins/data-exfil": {
+        "status": "pending",
+        "screened_at": "2026-10-08T18:18:34.200046+00:00"
+      },
+      "https://www.promptfoo.dev/docs/red-team/plugins/debug-access": {
+        "status": "pending",
+        "screened_at": "2026-10-08T18:18:34.200048+00:00"
       }
     },
-    "last_scan": "2026-10-07T18:16:41.596462+00:00"
+    "last_scan": "2026-10-08T18:18:34.200050+00:00"
   }
 }
