@@ -403,6 +403,55 @@ methods reach its log/guardrail/spend paths, which runtimes and protocol
 families it covers, how deep its permission model goes — before letting its
 registry stand in for its control surface.
 
+### "Cap reached" is not vendor-neutral — one encoding is a 200
+
+An agent loop that runs out of budget has no single failure shape across
+LiteLLM's surfaces. Four documented encodings coexist, and a runbook that
+teaches one of them will miss the others:
+
+- **HTTP 429 with `"type": "budget_exceeded"`** — the A2A gateway's per-session
+  `max_iterations` / `max_budget_per_session` caps, which share a status code
+  with ordinary rate limiting and cannot be told apart by status alone
+  [source: docs-litellm-a2a-iteration-budgets, Claim 5] [emerging]. Listed here
+  as one of four encodings; the standalone rule lives in Ch05 §"Agent-loop cost
+  caps fail open and expire".
+- **A raised `AdvisorMaxIterationsError`** — "Enforces `max_uses` as a hard
+  cap; `AdvisorMaxIterationsError` is raised if exceeded, and `max_uses=0`
+  disables the advisor entirely"
+  [source: docs-litellm-anthropic-advisor-tool, Claim 8] [emerging].
+- **An in-band error arriving on a 200** — the upstream Anthropic spec for the
+  same `max_uses` field encodes exhaustion inside the tool result rather than
+  as a request failure
+  [source: docs-litellm-anthropic-advisor-tool, Claim 8 + Concrete Artifacts]
+  [emerging].
+- **Nothing at all** — for a conversation-level advisor cap the gateway has no
+  control. The documented remedy is client-side counting: "For
+  conversation-level caps, count advisor calls client-side. When you reach your
+  limit, remove the advisor tool from `tools`."
+  [source: docs-litellm-anthropic-advisor-tool, Claim 14] [settled].
+
+**Debated: does exceeding `max_uses` fail the request?**
+
+The gateway page names a raised `AdvisorMaxIterationsError`. The upstream spec
+it links encodes the same condition in-band, as "an `advisor_tool_result_error`
+with `error_code: "max_uses_exceeded"` and the executor continues without
+further advice" — adding "This is a per-request cap, not a per-conversation
+cap." [source: docs-litellm-anthropic-advisor-tool, Claim 8 + Concrete
+Artifacts] [emerging].
+
+**Our take** [editorial]: The two readings can coexist only if the raised
+`AdvisorMaxIterationsError` is caught inside the gateway's orchestration loop,
+so that it never reaches the client — a mechanism the page does not state. Its
+cost tip says that once the cap is reached "the executor continues without
+further advice", which is a degraded success, not a failure, and that is
+consistent with the loop swallowing the exception. Verify the encoding on your
+own deployment before keying an alert on it.
+
+**Rule**: Treat "cap reached" as a degraded success until proven otherwise,
+count it explicitly, and do not assume a non-2xx will signal it. On at least
+one documented encoding the request returns 200 while the agent runs
+unadvised.
+
 ### The "harnesses" layer
 
 Between raw models and deployed runtimes sits a distinct layer of agent
@@ -419,6 +468,54 @@ models, sandbox boundaries) across your agent fleet. A harness with
 unrestricted tool access is the attacker's playbook entry point — see the
 five-phase Claude Code extortion campaign
 [source: blog-promptfoo-ai-orchestrated-cyberattacks, Claim 4] [emerging].
+
+### A harness loop behind a gateway inherits the gateway's history edits
+
+Point a Claude Code tool loop at non-Anthropic backends through LiteLLM and its
+`context_management` spec stops being applied by the model provider: Anthropic,
+Bedrock-Anthropic, and OpenAI-Responses targets pass it through natively, while
+"any other provider (OpenAI, xAI, Gemini, Azure, Bedrock non-Anthropic, …)"
+goes through an in-gateway polyfill that "applies the edits to the message
+array before forwarding"
+[source: docs-litellm-claude-code-context-management, Claim 1] [settled].
+
+LiteLLM frames that as write-once/run-anywhere — one tool loop that works
+regardless of the model behind the proxy — but it is a *compile-once* promise,
+not identical behavior [source: docs-litellm-claude-code-context-management,
+Claim 2] [settled]. Four preconditions and traps come with the polyfill path:
+
+- **Compaction is a silent no-op without a summary model.** "Without it, the
+  edit is acknowledged but no compaction is performed", and
+  `applied_edits[0].error: "summary_model_not_configured"` is returned
+  [source: docs-litellm-claude-code-context-management, Claim 5] [settled].
+  The request succeeds and nothing was compacted.
+- **Failure is fail-open on cost.** When the summary call fails, "the original
+  conversation is forwarded unchanged" with `applied_edits[0].error` set to
+  `summary_call_failed` or `summary_extraction_failed`
+  [source: docs-litellm-claude-code-context-management, Claim 7] [settled] —
+  restoring exactly the input-token spend the edit existed to avoid, behind a
+  200.
+- **Absence is not failure.** The `context_management` field is missing from
+  the response when the trigger was not met, and on streaming the telemetry
+  arrives only in the final `message_delta` SSE event
+  [source: docs-litellm-claude-code-context-management, Claim 11] [settled].
+  An SSE consumer that reads only content-block deltas never sees it.
+- **`drop_params: true` is not an off switch.** It "does not disable the
+  polyfill"; the documented opt-outs are omitting the field or listing
+  `context_management` in a model's `additional_drop_params`
+  [source: docs-litellm-claude-code-context-management, Claim 10] [settled].
+
+Two hard floors bound the savings no matter how the knobs are set:
+`compact_20260112` rejects `trigger.value` below 50,000 with HTTP 400
+[source: docs-litellm-claude-code-context-management, Claim 8] [settled], and
+`clear_tool_uses_20250919` "never clears the most recently completed
+`tool_result`" regardless of `keep`
+[source: docs-litellm-claude-code-context-management, Claim 4] [settled] — an
+irreducible per-request token floor for a small-context backend.
+
+**Rule**: Alert on a non-empty `applied_edits[].error`, not on request failure.
+The polyfill's failure mode is a 200 that forwards the uncompacted
+conversation, so a request-succeeded monitor is blind to the entire class.
 
 ### Rollback-behavior testing
 
@@ -447,5 +544,7 @@ blog-litellm-agents-are-the-new-llms, blog-promptfoo-ai-orchestrated-cyberattack
 blog-promptfoo-ai-regulation-2025, docs-google-sre-eliminating-toil,
 docs-google-sre-incident-response, docs-google-sre-simplicity,
 docs-langfuse-agent-skill, docs-langfuse-alerts, docs-langfuse-cli,
-docs-litellm-a2a-agent-gateway, docs-litellm-a2a-agent-permissions*
-*Last updated: 2026-09-17*
+docs-litellm-a2a-agent-gateway, docs-litellm-a2a-agent-permissions,
+docs-litellm-a2a-iteration-budgets, docs-litellm-anthropic-advisor-tool,
+docs-litellm-claude-code-context-management*
+*Last updated: 2026-10-08*
