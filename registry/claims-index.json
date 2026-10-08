@@ -13030,6 +13030,73 @@
         }
       ]
     },
+    "docs-litellm-containers-api": {
+      "path": "source-notes/docs-litellm-containers-api.md",
+      "title": "/containers — LiteLLM AI Gateway Documentation (code-interpreter container sessions)",
+      "source_url": "https://docs.litellm.ai/docs/containers",
+      "chapters": [
+        "06",
+        "05",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The gateway fronts a two-route, four-operation container lifecycle — create and list on `/v1/containers`, retrieve and delete on `/v1/containers/{container_id}`",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "`expires_after{anchor, minutes}` is the only documented retention control — create-time, per-request, and every worked example anchors on `last_active_at` with 20 minutes",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Expiry is fixed at create — no update route, no documented default TTL, and no documented way to extend or re-bind a live container's expiration",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The response objects expose `created_at`, `last_active_at`, `expires_at`, and `status` — but the page documents no status values and no expiry behavior at all",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Retrieve, delete, and container-file calls need no `model` because the ID a routed create returns encodes the deployment — container state is deployment-bound",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Provider selection for container calls follows a documented four-tier precedence — header, then query param, then request body, then default `openai`",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "With `model_list` credentials, create names the deployment in the body (`model`) and list names it in the query — because list is a GET",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "List pagination is a bounded cursor contract — `limit` 1–100 defaulting to 20, `order` asc/desc defaulting to `desc`, cursor `after`, with `has_more` in the envelope",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Provider support is exactly `openai` and `azure`, and the Azure path is a distinct wire shape — `{api_base}/openai/v1/containers` carrying the `api-key` header",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The feature table asserts five ✅ capabilities — including Load Balancing and Spend Management — with no configuration example, no evidence, and one row that sits in tension with the deployment-encoded-ID rule on the same page",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Cleanup ownership is entirely the operator's — the page documents no GC, no orphan handling, no session-count bound, and no error/retry/timeout semantics; the only removal is an explicit DELETE",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-cost-map-and-response-cost": {
       "path": "source-notes/docs-litellm-cost-map-and-response-cost.md",
       "title": "Completion Token Usage & Cost — LiteLLM Python SDK (response_cost, register_model, model_cost, get_max_tokens, custom tokenizers)",

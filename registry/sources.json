@@ -2340,6 +2340,19 @@
       "confidence_overall": "settled",
       "status": "current"
     },
+    "docs-litellm-containers-api": {
+      "slug": "docs-litellm-containers-api",
+      "title": "/containers — LiteLLM AI Gateway Documentation (code-interpreter container sessions)",
+      "source_url": "https://docs.litellm.ai/docs/containers",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs; page footer reads \"© 2026 LiteLLM\")",
+      "date_extracted": "2026-10-08",
+      "issue": "#1623",
+      "file": "source-notes/docs-litellm-containers-api.md",
+      "confidence_overall": "settled",
+      "status": "current"
+    },
     "docs-litellm-cost-map-and-response-cost": {
       "slug": "docs-litellm-cost-map-and-response-cost",
       "title": "Completion Token Usage & Cost — LiteLLM Python SDK (response_cost, register_model, model_cost, get_max_tokens, custom tokenizers)",
