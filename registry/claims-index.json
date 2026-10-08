@@ -295,6 +295,67 @@
         }
       ]
     },
+    "blog-cncf-understanding-dynamic-resource-allocation-kubernetes": {
+      "path": "source-notes/blog-cncf-understanding-dynamic-resource-allocation-kubernetes.md",
+      "title": "Understanding dynamic resource allocation in Kubernetes",
+      "source_url": "https://www.cncf.io/blog/2026/07/01/understanding-dynamic-resource-allocation-in-kubernetes",
+      "chapters": [
+        "05",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "DRA reached GA in Kubernetes v1.35",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Device health reporting becomes available starting in Kubernetes v1.36",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "ResourceSlice has a maximum device entry limit of 128, or 64 when any device uses taints or counters",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "DRA abstracts device allocation in a Storage-like model (DeviceClass ≈ StorageClass, ResourceClaim ≈ PVC)",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "A Pod rebuilt by RollingUpdate does not reclaim its previous GPU because the old ResourceClaim is not yet released",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Capacity-based selection with CEL can produce a Pending Pod when no device meets the threshold",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "firstAvailable with ranked selectors enables fallback behavior (e.g., A5000 preferred, fall back to T10)",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Multiple containers in the same Pod can share a single allocated GPU device",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "GPU time-slicing is supported via DRA with GpuConfig sharing strategy (TimeSlicing)",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Cluster Autoscaler may extend to GPU node provisioning in the future",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-honeycomb-instrumenting-ai-agents-opentelemetry": {
       "path": "source-notes/blog-honeycomb-instrumenting-ai-agents-opentelemetry.md",
       "title": "Instrumenting AI Agents for the Agent Timeline: A Practical Guide to OTel GenAI Semantic Conventions",

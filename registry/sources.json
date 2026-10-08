@@ -52,6 +52,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "blog-cncf-understanding-dynamic-resource-allocation-kubernetes": {
+      "slug": "blog-cncf-understanding-dynamic-resource-allocation-kubernetes",
+      "title": "Understanding dynamic resource allocation in Kubernetes",
+      "source_url": "https://www.cncf.io/blog/2026/07/01/understanding-dynamic-resource-allocation-in-kubernetes",
+      "source_type": "blog-post",
+      "author": "ChengHao Yang",
+      "date_published": "2026-07-01",
+      "date_extracted": "2026-10-08",
+      "issue": "#1634",
+      "file": "source-notes/blog-cncf-understanding-dynamic-resource-allocation-kubernetes.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-honeycomb-instrumenting-ai-agents-opentelemetry": {
       "slug": "blog-honeycomb-instrumenting-ai-agents-opentelemetry",
       "title": "Instrumenting AI Agents for the Agent Timeline: A Practical Guide to OTel GenAI Semantic Conventions",
