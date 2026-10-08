@@ -224,6 +224,149 @@ In a large traffic mix that registers as a small dip, not an outage.
 error-rate dashboards and anomaly detection. A provider-subset failure only
 surfaces when that subset is monitored separately from the fleet rollup.
 
+## Response metrics that describe one call, not the request
+
+Error rates are not the only metric that hides a subset. A response's `usage`
+object and `model` field describe *the inference that produced the text you
+received* — not the work the request caused. Three documented gateway features
+widen that gap far enough to break a cost dashboard.
+
+### The top-level `usage` object excludes a billable sub-inference
+
+Anthropic's advisor tool runs a second model inside one request: a cheap
+executor consults a larger advisor mid-generation
+[source: docs-litellm-anthropic-advisor-tool, Claim 1] [emerging]. LiteLLM
+documents the accounting contract plainly:
+
+> Top-level `usage` reflects executor tokens only. Advisor tokens appear in
+> `iterations` entries with `type: "advisor_message"` and are billed at Opus
+> rates.
+
+[source: docs-litellm-anthropic-advisor-tool, Claim 2] [emerging].
+
+The page's own worked example shows how large the hidden half is — top-level
+`input_tokens: 412` / `output_tokens: 531` against an `advisor_message` entry
+at `input_tokens: 823` / `output_tokens: 1612`, roughly 3.4x the executor's
+input and 3x its output, billed at the more expensive model's rate
+[source: docs-litellm-anthropic-advisor-tool, Concrete Artifacts] [emerging]:
+
+```json
+{
+  "usage": {
+    "input_tokens": 412,
+    "output_tokens": 531,
+    "iterations": [
+      {
+        "type": "message",
+        "input_tokens": 412,
+        "output_tokens": 89
+      },
+      {
+        "type": "advisor_message",
+        "model": "claude-opus-5",
+        "input_tokens": 823,
+        "output_tokens": 1612
+      },
+      {
+        "type": "message",
+        "input_tokens": 1348,
+        "output_tokens": 442
+      }
+    ]
+  }
+}
+```
+*Extracted from [source: docs-litellm-anthropic-advisor-tool, Concrete Artifacts].*
+
+Do not lift that example as a cost-calculator template. It is arithmetically
+inconsistent with the summing rule its own upstream spec states: its two
+`message` iterations sum to 1760 input tokens, not the 412 it reports (its
+`output_tokens` does sum correctly: 89 + 442 = 531)
+[source: docs-litellm-anthropic-advisor-tool, Claim 3] [settled].
+
+**Rule**: A per-request cost calculator that reads `usage.input_tokens` /
+`usage.output_tokens` under-reports an advisor request by the advisor's share,
+with no error. Read `usage.iterations[]` for the sub-inference, and do not
+trust a vendor sample payload as the contract — check it against the rule
+stated for it.
+
+### A hedged request's `usage` is the winner's alone
+
+LiteLLM's `batch_completion_models` helper and the proxy's
+`fastest_response: true` flag fan one prompt out to N models, return whichever
+answers first, and "Cancels other LLM API calls"
+[source: docs-litellm-completion-batching, Claim 2] [settled].
+
+The payload reports `model` and `usage` for the winner only. The page's sample
+race reports `total_tokens: 20` for the winning model; its all-responses
+sibling, run against the same three models and the same prompt, returns
+`claude-sonnet-5` 23, `command-nightly` 20, and `gpt-5.6-luna` 52 — 95 tokens
+where the race reports 20
+[source: docs-litellm-completion-batching, Claim 3] [settled]. The N-1
+cancelled calls leave no field, header, or array in the response body.
+
+The page is silent on whether providers bill a cancelled call, and publishes no
+partial-usage field, so neither "losers are free" nor "losers are charged" is
+established [source: docs-litellm-completion-batching, Claim 4] [emerging].
+Cancellation after dispatch is not cancellation before billing.
+
+**Rule**: For a hedged request, assume N× provider spend per client-visible
+request until you have measured otherwise on your providers, and never budget
+one from its response `usage`.
+
+The hedge set itself is not recoverable from the response. On the proxy it
+rides inside the request `model` field as a comma-separated string —
+`"model": "gpt-5.6-terra, groq-llama"` — so anything keyed on the request model
+(cost maps, per-model SLOs, allowlists, cache keys) reads one opaque identifier
+instead of two models
+[source: docs-litellm-completion-batching, Claim 5] [settled].
+
+**Rule**: Record the hedge set from the request and the winner from the
+response. The two facts come from different places and neither is sufficient
+alone.
+
+### Streaming compounds both gaps
+
+A streamed completion reports token usage only when the client opts in with
+`stream_options={"include_usage": True}`
+[source: docs-litellm-streaming-token-usage, Claim 1] [emerging], and an
+advisor sub-inference appears only in the trailing `usage.iterations[]` array
+[source: docs-litellm-anthropic-advisor-tool, Claim 2] [emerging]. A *hedged
+streaming* request is therefore unaccounted even for the winner unless the
+caller opts in — the losers are absent and the winner may report nothing
+[source: docs-litellm-completion-batching, Claim 10] [emerging].
+
+**Rule**: Pass `stream_options={"include_usage": True}` and parse
+`usage.iterations[]` on any streamed request that may carry a sub-inference.
+Two independent opt-ins guard one cost number.
+
+### A non-streaming sub-inference inside a stream looks like a stall
+
+The advisor sub-inference does not stream, and the executor's stream pauses
+while it runs:
+
+> The advisor sub-inference does not stream. The executor's stream pauses while
+> the advisor runs, then the full advisor result arrives in a single event.
+> Executor output resumes streaming afterward.
+
+[source: docs-litellm-anthropic-advisor-tool, Claim 4] [emerging].
+
+A healthy stream therefore goes silent for the full duration of an Opus-class
+sub-inference. The upstream spec the note carries adds the wire detail: the
+pause "begins when that block closes (`content_block_stop`)", and during it
+"the stream is quiet except for standard SSE `ping` keepalives emitted roughly
+every 30 seconds. Short advisor calls might show no pings."
+[source: docs-litellm-anthropic-advisor-tool, Claim 4 + Concrete Artifacts]
+[emerging].
+
+Two consequences: a client or gateway that treats any silence as a dead stream
+drops a 25-second advisor call, and a 30-second idle threshold is not safe —
+it can kill a legitimately longer one.
+
+**Rule**: Budget stream-idle timeouts above your worst-case advisor duration,
+and give any inter-token-gap SLO an explicit advisor-call carve-out or it will
+page on correct behavior.
+
 ## SLI measurement design
 
 Two first-party SLO-adoption journeys supply the design rules for *how* to
@@ -390,5 +533,6 @@ failure-litellm-vllm-embeddings-encoding-format,
 docs-google-sre-reliable-data-processing-minimal-toil,
 docs-google-sre-reaching-beyond-walls,
 docs-google-sre-slo-engineering-case-studies, docs-langfuse-cli,
-docs-litellm-a2a-agent-gateway*
-*Last updated: 2026-09-17*
+docs-litellm-a2a-agent-gateway, docs-litellm-anthropic-advisor-tool,
+docs-litellm-completion-batching, docs-litellm-streaming-token-usage*
+*Last updated: 2026-10-08*
