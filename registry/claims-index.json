@@ -12973,6 +12973,63 @@
         }
       ]
     },
+    "docs-litellm-container-files-api": {
+      "path": "source-notes/docs-litellm-container-files-api.md",
+      "title": "Container Files API | liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/container_files",
+      "chapters": [
+        "06",
+        "05",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The gateway fronts a five-route file CRUD surface scoped per container — upload, list, metadata, content download, and delete under `/v1/containers/{container_id}/files`",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Container files are created implicitly as code-interpreter output, not by operator upload — the artifact channel starts empty and fills as a side effect of model runs",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The upload route exists because `/chat/completions` and `/responses` restrict container input files to PDF — this route is the documented path for CSV, Excel, and Python scripts",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Provider support is exactly `openai` and `azure` — the vendor-hosted path, with no file-management counterpart for operator-controlled sandboxes",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "A container created through the proxy against a specific deployment returns an ID whose file calls route back to that deployment — the container ID carries deployment affinity",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "List pagination is a bounded cursor contract — `limit` 1–100 defaulting to 20, with `after` and `order`",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The only documented removal path is explicit `DELETE`; no retention policy, cleanup/GC, error codes, rate limits, or retry semantics appear anywhere on the page",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The feature table asserts Cost Tracking ✅ and Logging ✅ with no substantiation anywhere on the page",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Every artifact object carries its container-relative path and a `source` marker identifying code-interpreter provenance",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-cost-map-and-response-cost": {
       "path": "source-notes/docs-litellm-cost-map-and-response-cost.md",
       "title": "Completion Token Usage & Cost — LiteLLM Python SDK (response_cost, register_model, model_cost, get_max_tokens, custom tokenizers)",
