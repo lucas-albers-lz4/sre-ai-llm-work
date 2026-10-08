@@ -75,6 +75,21 @@ plus per-workflow reference files — so the agent always knows when the
 procedure applies and loads the details on demand. A skill is just a
 directory: install by copy, symlink, or a skills CLI.
 
+### Packaging a runbook into a skill freezes its drift
+
+Skills raise the stakes on staleness. A stale runbook misleads a human who may
+notice; a stale skill licenses an agent to act confidently on a world that no
+longer exists: "Stale runbooks are arguably worse than none, because they
+invite confident, wrong action"
+[source: blog-cncf-4-body-problem-sre-context, Claim 7] [anecdotal]. The
+asymmetry is the point — a missing runbook forces judgment, a stale one
+bypasses it.
+
+**Rule**: Give every runbook-backed skill a freshness signal — a named owner,
+a last-verified date, and the infrastructure change that invalidates it — and
+treat the skill as suspect from the moment that change lands, not from the
+first time it misbehaves. Encoding a runbook does not make it current.
+
 ## Automation-safety baseline for agents
 
 ### Risk assessment before every action
@@ -113,6 +128,50 @@ recommends "establishing an error budget for antitoil automation"
 **Rule**: Maintain agent-run automation like software, with an error budget of
 its own. An agent whose failures burn the service's reliability budget is
 toil in disguise.
+
+### The failure case: an empty list meaning "all of them"
+
+The canonical destructive-automation failure is a routine rack decommission
+that "caused thousands of servers carrying production traffic to simultaneously
+go offline" [source: docs-google-sre-postmortem-culture, Claim 1] [settled]. The
+root-cause bug is an input-validation semantic on a retried run that sent all
+satellite machines to disk erase
+[source: docs-google-sre-postmortem-culture, Claim 2] [settled]:
+
+```python
+# Get all active machines in "satellite"
+machines = GetMachines(satellite)
+# "machines" is an empty list, because the decom flow has already run.
+# API bug: an empty list is treated as "no filter", rather than "act on no
+# machines"
+# Send all candidate machines matching "filter" to decom
+SendToDecom(candidates=GetAllSatelliteMachines(),
+            filter=machines)
+
+# Send all machines in "candidates" to diskerase.
+```
+*Verbatim from [source: docs-google-sre-postmortem-culture, Concrete Artifacts].*
+
+Three details transfer directly to tool-calling agents:
+
+1. **The bug was latent, and manual operation exposed it.** It "has been around
+   for a while, but was hidden by the workflow that invokes the unsafe
+   operation: the workflow step invoking the RPC is marked "run once"" — and
+   ""run once" semantics don't apply across multiple instances of a workflow"
+   [source: docs-google-sre-postmortem-culture, Claim 3] [settled].
+2. **The rate limit was the second missing defense.** "Once the machines
+   entered decom, disk erase and other decom steps proceeded at maximum speed"
+   [source: docs-google-sre-postmortem-culture, Claim 1] [settled].
+3. **Capacity planning is what bounded the impact.** "Thanks to good capacity
+   planning, very few of our users noticed the issue during the two days it
+   took us to reinstall machines"
+   [source: docs-google-sre-postmortem-culture, Claim 4] [settled].
+
+**Rule**: A destructive tool must treat empty or absent selection input as "act
+on nothing" and fail closed — an agent that passes an empty filter to a
+destructive tool has exactly this failure mode. Rate-limit destructive
+operations independently of their correctness, and never treat "runs once" as
+a safety property: a re-run is the normal case.
 
 ## The agent spectrum
 
@@ -329,6 +388,19 @@ output requires synthesis across sources. For structured-input/structured-output
 tasks, use deterministic tooling. For tasks where human learning is the
 goal, AI should surface questions, not answers.
 
+There is also a definitional boundary. A workflow with an LLM step whose
+prompt, model version, and input state are not captured is not an agent —
+"a script with an LLM in the middle, where the prompt was different last
+Tuesday, the model version bumped on Thursday, and nobody captured the input
+context" [source: blog-cncf-4-body-problem-sre-context, Claim 5] [emerging].
+Behavior that cannot be replayed against the exact inputs it saw cannot be
+audited.
+
+**Rule**: Before calling an LLM workflow an agent, test it for replayability —
+reconstruct the prompt, model version, and input state behind one of its past
+actions. If you cannot, it is automation with an unaudited step, and it
+belongs behind a human gate.
+
 ## The emerging agent control plane
 
 ### Multi-runtime fragmentation is real
@@ -349,6 +421,52 @@ Snowflake; internal workflow agents on custom infrastructure. This means
 **Rule**: Don't assume a single runtime for your agent fleet. Plan for a
 registry that tracks which runtime each agent lives on, and design agent
 invocation interfaces that abstract over runtime-specific APIs.
+
+### The Pod is an execution unit, not a deployment unit
+
+Pod-per-agent buys isolation, native identity, and per-agent attribution in one
+decision — but it inherits a microservice assumption agents do not satisfy. An
+agent "may wake up only when assigned a task, execute for a few seconds or
+minutes, and then become completely idle. Keeping a dedicated Pod alive for
+every potential agent quickly becomes wasteful."
+[source: blog-linsun-pod-deployment-unit-ai-agent, Claim 3] [emerging]. The
+approval-gated case is the sharpest: a Pod held open across an overnight human
+approval is invisible waste, because the Pod looks healthy.
+
+The proposed answer is a control plane above Kubernetes that multiplexes many
+logical agents onto a fixed pool of Pods, where the agent itself is
+deliberately *not* a Kubernetes object — "Kubernetes only sees WorkerPools and
+ActorTemplates" [source: blog-linsun-pod-deployment-unit-ai-agent, Claim 5] [emerging].
+Vendor-reported density figures for that model (10x a standard container
+runtime, sub-500ms resume) are self-reported with no baseline, so treat the
+order of magnitude as the claim, not the numbers
+[source: blog-linsun-pod-deployment-unit-ai-agent, Claim 9] [anecdotal].
+
+Multiplexing moves three costs onto you. Observability must follow the agent
+rather than the Pod — "When an Actor executes on different Workers over its
+lifetime, observability must follow the logical agent, not the underlying Pod"
+[source: blog-linsun-pod-deployment-unit-ai-agent, Claim 11] [emerging] — which
+in practice means keeping high-cardinality actor identity on logs and traces
+and off metric labels. The Kubernetes-native ops surface no longer addresses
+the agent, so `kubectl get`/`logs`/`describe` stop being the answer. And
+because the layer owns its own node dataplane, capacity is version-gated:
+
+```bash
+kubectl label node <node> ate.dev/substrate-version=<build version>
+kubectl get ds -n ate-system -l app=atelet -L ate.dev/substrate-version
+```
+*Verbatim from [source: blog-linsun-pod-deployment-unit-ai-agent, Concrete Artifacts].*
+
+A node added by autoscaling or node repair "hosts no workers until you label it
+with the installed version" — the node reports `Ready`, the dataplane pod runs,
+and there is simply no capacity
+[source: blog-linsun-pod-deployment-unit-ai-agent, Claim 10] [emerging].
+
+**Rule**: Choose the agent deployment unit from its duty cycle, not by analogy
+to microservices. If you multiplex agents onto shared workers, budget for the
+ops surface the Pod gave you free: an agent-scoped log/trace query path, actor
+identity as a log attribute rather than a metric label, and a version label on
+every node the agent-side dataplane needs.
 
 ### The control plane's four verbs
 
@@ -447,5 +565,7 @@ blog-litellm-agents-are-the-new-llms, blog-promptfoo-ai-orchestrated-cyberattack
 blog-promptfoo-ai-regulation-2025, docs-google-sre-eliminating-toil,
 docs-google-sre-incident-response, docs-google-sre-simplicity,
 docs-langfuse-agent-skill, docs-langfuse-alerts, docs-langfuse-cli,
-docs-litellm-a2a-agent-gateway, docs-litellm-a2a-agent-permissions*
-*Last updated: 2026-09-17*
+docs-litellm-a2a-agent-gateway, docs-litellm-a2a-agent-permissions,
+blog-cncf-4-body-problem-sre-context, blog-linsun-pod-deployment-unit-ai-agent,
+docs-google-sre-postmortem-culture*
+*Last updated: 2026-10-08*

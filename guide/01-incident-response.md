@@ -195,6 +195,77 @@ blocker [source: docs-google-sre-prodcast-01-09-postmortems, Claim 12]
 natural human checkpoint for AI-drafted postmortems. Keep it mandatory
 [editorial].
 
+### Every user-affecting postmortem carries a tracked bug
+
+A written postmortem is not the deliverable; a closed action item is. Google's
+floor is enforced, not advisory: "all postmortems which follow a
+user-affecting outage must have at least one P[01] bug associated with them.
+I personally review exceptions. There are very few exceptions"
+[source: docs-google-sre-postmortem-culture, Claim 6] [settled]. The reason is
+in the same note: "a postmortem without subsequent action is indistinguishable
+from no postmortem"
+[source: docs-google-sre-postmortem-culture, Claim 6] [settled].
+
+The companion quality bar comes from the chapter's bad-vs-good comparison
+[source: docs-google-sre-postmortem-culture, Concrete Artifacts] [settled]:
+
+```
+Ownership         All action items have both an owner and a tracking number.
+Prioritization    All action items are assigned a priority level.
+Measurability     The action items have a verifiable end state (e.g., "Add an
+                  alert when more than X% of our machines have been taken away
+                  from us").
+Preventative action  Each action item "theme" has Prevent/Mitigate action items
+                  that help avoid outage recurrence.
+```
+
+Two of the bad example's failure modes are explicitly named. The first is
+mitigation without prevention, and a preventative item that asks humans to
+change: the one such item "suggests we "make humans less error-prone." In
+general, trying to change human behavior is less reliable than changing
+automated systems and processes"
+[source: docs-google-sre-postmortem-culture, Claim 7] [settled]. The second is
+unmeasurable verbs — "The first two action items in the list use ambiguous
+phrases like "Improve" and "Make better."" — and the fix is that "Using unclear
+language makes it difficult to measure and understand success criteria"
+[source: docs-google-sre-postmortem-culture, Claim 7] [settled].
+
+Ownership is single-pointed even when the fix is not yet designed: "Ideally, an
+owner is a single point of contact who is responsible for the postmortem,
+follow-up, and completion" — "it's better to have a single owner and multiple
+collaborators" [source: docs-google-sre-postmortem-culture, Claim 8] [settled].
+
+**Rule**: Constrain an AI postmortem drafter to emit only preventative,
+measurable-verb, prioritized, owned, tracked action items, and reject drafts
+that offload the fix onto human carefulness ("be more careful", "improve X").
+A draft with no P0/P1 tracking bug is incomplete, not published. Ownership may
+be assigned before the fix is known; it may not be left open.
+
+### Publish within a week, and write for machine readers too
+
+Promptness is a data-quality requirement, not a courtesy. The chapter's bad
+example was "published four months after the incident. In the interim, had the
+incident recurred (which in reality, did happen), team members likely would
+have forgotten key details that a timely postmortem would have captured",
+while the good one "was written and circulated less than a week after the
+incident was closed. A prompt postmortem tends to be more accurate because
+information is fresh in the contributors' minds"
+[source: docs-google-sre-postmortem-culture, Claim 10] [settled].
+
+Audience extends past humans. "The value of a postmortem is proportional to the
+learning it creates", and mature programs "expand your "audience" to nonhumans.
+Mature postmortem cultures often add machine-readable tags (and other metadata)
+to enable downstream analytics"
+[source: docs-google-sre-postmortem-culture, Claim 11] [settled]. That 2018
+sentence is the first-party precedent for the structured capture an AI
+postmortem pipeline needs: tags and metadata are what let a model read the
+corpus back.
+
+**Rule**: Publish within about a week of closure — memory decay corrupts the
+record faster than any reviewer catches it — and write the postmortem so a
+nonhuman reader can parse it: structured sections, consistent fields,
+machine-readable tags.
+
 ### Trend analysis: the point of the corpus
 
 A standard postmortem template that consistently captures the incident's root
@@ -216,6 +287,56 @@ distinct structured fields, and classify incidents into the taxonomy above.
 Consistent capture is the prerequisite for the meta-retrospective that
 targets systemic fixes.
 
+Google's tooling layer is that prerequisite implemented. Incident-management
+tooling pushes the roles, timeline and IRC logs, affected services, severity,
+and detection mechanisms into the postmortem automatically, and Apps Script is
+used to "capture a lot of the data into specific sections and tables to make it
+easier for our postmortem repository to parse out data for analysis"
+[source: docs-google-sre-postmortem-culture, Claim 14] [settled]. Requiem then
+holds the corpus — "thousands of postmortems stored, dating back to 2009.
+Requiem parses out metadata from individual postmortems and makes it available
+for searching, analysis, and reporting"
+[source: docs-google-sre-postmortem-culture, Claim 15] [settled] — and the
+loop closes because "resulting action items are filed as bugs in our
+centralized bug tracking system. Consequently, we can monitor the closure of
+action items from each postmortem"
+[source: docs-google-sre-postmortem-culture, Claim 15] [settled]. The vendor's
+own caveat is the boundary for AI drafting: "it's impossible to fully automate
+every step of writing postmortems"
+[source: docs-google-sre-postmortem-culture, Claim 14] [settled].
+
+**Rule**: Automate data assembly into structured fields and file every action
+item as a tracked bug in the same system your postmortem repository can read.
+Then treat each postmortem as training data for the next one — a metadata-
+parsing repository is what makes both the trend report and the AI drafter
+possible.
+
+### Action-item follow-through pays off — measured
+
+The program's ROI claim has a before/after rather than an argument: "Three
+years after this outage, we experienced a similar incident: a number of
+satellites were drained, resulting in increased user latency. The action items
+implemented from the original postmortem dramatically reduced the blast radius
+and rate of the second incident."
+[source: docs-google-sre-postmortem-culture, Claim 5] [settled]. The same class
+of incident recurred and was less damaging *because* the earlier postmortem's
+items shipped.
+
+Recurrence is therefore the diagnostic, not just the outcome. When failures
+mirror previous incidents, the chapter's checklist is: "Are action items taking
+too long to close? Is feature velocity trumping reliability fixes? Are the right
+action items being captured in the first place? Is the faulty service overdue
+for a refactor?" [source: docs-google-sre-postmortem-culture, Claim 13] [settled].
+An org can also reward the wrong half — "If you reward engineers for writing
+postmortems, but not for closing the associated action items, you risk an
+unvirtuous cycle of unclosed postmortems"
+[source: docs-google-sre-postmortem-culture, Claim 12] [settled].
+
+**Rule**: Measure postmortems by action-item closeout, not by count. A repeat
+of a previous incident class is a process signal — check closeout latency,
+prioritization against feature work, and whether the items themselves were
+measurable before blaming the responders.
+
 ## Open topics
 
 Still unsourced targets for this chapter:
@@ -227,5 +348,6 @@ Still unsourced targets for this chapter:
 
 ---
 *Sources for this chapter: docs-google-sre-prodcast-01-09-postmortems,
-docs-google-sre-incident-response, docs-google-sre-postmortem-analysis*
-*Last updated: 2026-08-13*
+docs-google-sre-incident-response, docs-google-sre-postmortem-analysis,
+docs-google-sre-postmortem-culture*
+*Last updated: 2026-10-08*

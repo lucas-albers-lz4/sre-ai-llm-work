@@ -436,6 +436,48 @@ the model id, label set, and threshold together, and re-verify hosting and
 maintenance state on the same cadence you re-check package pins. A gate whose
 detector was archived upstream keeps reporting green until someone looks.
 
+### A runtime guardrail's verdict space is wider than `block`
+
+The eval-side gate above reads a signal; a runtime guardrail *is* the signal.
+Promptfoo Enterprise's evaluate endpoint returns a five-value aggregate —
+`allow`, `log`, `warn`, `block`, `error` — and the vendor's own integration
+guidance is the rule: "Choose an explicit policy for `warn` and `error`; do not
+let either fall through by accident."
+[source: docs-promptfoo-enterprise-guardrails, Claim 2] [settled]. Only `block`
+is self-evidently terminal. A caller that writes just
+`if (action === 'block')` proceeds on the two states it should most want to
+stop: `warn`, which is scored below the block threshold, and `error`, which
+means the evaluation itself failed. It is the runtime sibling of the eval-side
+missing-signal pass.
+
+The control is also bounded by what has been tested against it, and the vendor
+states the limit twice: "Guardrails can only block patterns similar to known
+vulnerabilities."
+[source: docs-promptfoo-enterprise-guardrails, Claim 6] [settled]. An attack
+class never red-teamed for a target has no automated defense — so scan cadence
+is coverage expansion for the runtime control, not just eval hygiene.
+
+Two staleness modes follow. Cached policies are served by default — "Cached
+guardrails are returned by default — you must explicitly regenerate to
+incorporate new findings."
+[source: docs-promptfoo-enterprise-guardrails, Claim 7] [settled] — and the
+regeneration step itself can weaken the control, because "semantically
+overlapping policies are merged" during generation, so a narrow rule can be
+folded into a broader one and stop firing
+[source: docs-promptfoo-enterprise-guardrails, Claim 7] [settled]. And the
+tool-call placements — the ones that stop argument exfiltration before it
+reaches a third-party API — are outside the automated loop entirely: "Tool call
+guardrails aren't automatically generated from your red team scans"
+[source: docs-promptfoo-enterprise-guardrails, Claim 9] [settled].
+
+**Rule**: Enumerate the guardrail's full verdict space and write an explicit
+caller policy for every non-`block` value, including the failure value — a
+caller that only handles `block` fails open wherever the guardrail was
+uncertain or broken. Treat "adaptive" as a coverage claim bounded by your scan
+corpus, regenerate policies as a deploy step rather than an afterthought, and
+diff the policy set for rules that disappeared into a merge or were never
+auto-generated.
+
 ## Compliance as an engineering forcing function
 
 ### The procurement stack
@@ -600,6 +642,54 @@ MCP servers were consulted, what sub-agents were invoked — as structured,
 queryable audit records. This is the evidence an auditor or compliance
 questionnaire will ask for.
 
+### A decision record must answer why, not just what
+
+"Which tools were called" is an action log. A reconstructable reasoning record
+carries five fields [source: blog-cncf-4-body-problem-sre-context, Concrete Artifacts] [anecdotal]:
+
+```
+For every action an agent takes, you need a durable record of:
+
+- The inputs it saw (which snapshot of the graph)
+- The policies in effect at the time
+- The model version used
+- The hypotheses it considered and rejected
+- The action it took, and the outcome
+```
+
+Two of those go beyond what the guide asks for elsewhere. The versioned input
+snapshot is what makes replay possible — "every agent decision is made against
+a specific snapshot, and you'll need to replay it"
+[source: blog-cncf-4-body-problem-sre-context, Claim 9] [emerging] — and the
+rejected hypotheses are what separate a record of what was done from a record
+of why nothing else was
+[source: blog-cncf-4-body-problem-sre-context, Claim 4] [emerging]. The same
+post names the drift case the trace is meant to catch: prompt changed Tuesday,
+model version bumped Thursday, input context never captured
+[source: blog-cncf-4-body-problem-sre-context, Claim 5] [emerging].
+
+Before citing any audit log as compliance evidence, check which plane it
+covers. Promptfoo Enterprise states the boundary rather than leaving it
+implicit: "Audit Logging captures operations in the promptfoo control plane and
+administrative actions. Evaluation runs, prompt testing, and other data plane
+operations are tracked separately."
+[source: docs-promptfoo-enterprise-audit-logging, Claim 2] [settled]. Its
+documented taxonomy is 15 actions, every one an IAM mutation except successful
+login — no eval-, scan-, config-, or target-edit event
+[source: docs-promptfoo-enterprise-audit-logging, Claim 3] [settled]; the
+record carries no source IP, user-agent, request id, or session attribution
+[source: docs-promptfoo-enterprise-audit-logging, Claim 5] [settled]; and its
+`metadata` field documents the request that produced a change rather than a
+before/after pair, so "what did this actor remove?" is unanswerable from the
+log alone [source: docs-promptfoo-enterprise-audit-logging, Claim 6] [emerging].
+
+**Rule**: Require the record to name the state the agent reasoned over, the
+policies in force, the model and prompt version, and the hypotheses it
+rejected — not just the actions it took. And treat an audit log as evidence
+only for the plane it declares: administrative-change coverage is not workload
+coverage, and "tracked separately" without a linked artifact means
+undocumented, not covered.
+
 ## Gateway credential routing: declare, don't infer
 
 An MCP gateway that infers which credential to attach from whichever fields
@@ -630,6 +720,73 @@ single typed resolver [source: blog-litellm-july-stability-update, Claim 3]
 mode per MCP server, one typed resolver, an exhaustive match that fails at
 type-check time when a mode is added, and an unhandled case that raises rather
 than attaching a fallback credential. Ambiguity must resolve to "stop."
+
+## Isolating agent execution
+
+### A sandbox orchestrator is not isolation
+
+Adopting a sandbox API does not by itself change your isolation level. The
+Kubernetes SIG Apps `agent-sandbox` project is explicit about what it does not
+do: it "is a *sandbox orchestrator*. It delegates low-level container isolation
+to secure "Sandbox Runtimes" (like gVisor or Kata Containers) by managing Pods
+configured to use these runtimes (via `RuntimeClass`)" — and "Agent Sandbox
+itself does not implement isolation but supports configuring these runtimes."
+[source: blog-linsun-sandboxing-agent-not-enough, Claim 2] [settled]. So "we
+use agent-sandbox" is not a security claim until the enforced
+`runtimeClassName` is one.
+
+Where the controller does supply defaults, they are scoped to `SandboxTemplate`
+provisioning: a managed default-deny NetworkPolicy — "ingress is restricted to
+the Sandbox Router, and egress is restricted to the public Internet (blocking
+internal RFC1918 networks and cloud metadata endpoints)" — plus
+`automountServiceAccountToken` defaulted to `false`
+[source: blog-linsun-sandboxing-agent-not-enough, Claim 7] [settled]. A bare
+`Sandbox` gets none of it, and the project's own threat model documents two open
+gaps: Service-selector label spoofing as a cross-tenant traffic-hijack primitive,
+and a router whose SSRF defense is "currently the *only* SSRF defense" because
+the default authorizer is `AllowAll`
+[source: blog-linsun-sandboxing-agent-not-enough, Claim 8] [settled].
+
+**Rule**: Treat a sandbox controller as an admission and lifecycle layer, not
+as an isolation guarantee. Pin the `runtimeClassName` in the template, deny the
+cloud metadata endpoint by egress policy, and require admission control to
+enforce the same defaults on any sandbox not created from a managed template.
+
+### The egress boundary must be architecture, not policy
+
+Enforcing where an agent may talk is a network-layer property, not an
+application setting. The documented pattern puts one proxy in the path as both
+reverse proxy and the only permitted forward proxy, with iptables dropping the
+rest: "We can control the flow with iptables rules that drop all other egress
+traffic, so there is no second path. That makes the boundary a property of the
+architecture, not a policy we hope the application respects."
+[source: blog-cncf-network-boundary-ai-agents-nginx-otel, Claim 1] [emerging].
+Every outbound request then becomes an auditable span at that proxy, which is
+how a user interaction can be correlated with the external calls the agent made
+on the user's behalf
+[source: blog-cncf-network-boundary-ai-agents-nginx-otel, Claim 3] [emerging].
+
+Two limits come with the pattern, both stated by its author. It "focuses on
+controlling and observing network behavior, not understanding agent intent.
+Restricting where an agent can communicate does not guarantee that its
+decisions are correct or safe."
+[source: blog-cncf-network-boundary-ai-agents-nginx-otel, Claim 4] [settled].
+And the proxy is a new component with its own exposure — "proxy-based
+enforcement introduces another operational component that must be secured and
+monitored. Like any control plane, it must be hardened against compromise and
+failure." [source: blog-cncf-network-boundary-ai-agents-nginx-otel, Claim 5] [settled].
+
+The funnel also degrades attribution, which is the trap for anyone treating the
+proxy's spans as an audit trail: actor telemetry routed through an egress
+gateway is enriched by source IP, so the collector stamps the *gateway's* Pod
+and deployment identity onto the actor's spans and metrics rather than the
+actor's own
+[source: blog-linsun-pod-deployment-unit-ai-agent, Claim 12] [settled].
+
+**Rule**: Make agent egress a single enforced path at the network layer and
+harden the proxy as a control plane of its own — but stamp actor identity as an
+explicit attribute on the spans that cross it. Never infer which agent made a
+call from the transport that carried it.
 
 ## Supply-chain security for LLM infrastructure
 
@@ -845,5 +1002,8 @@ failure-litellm-supply-chain-compromise-march-2026,
 failure-litellm-supply-chain-incident-march-2026,
 blog-litellm-swap-openai-code-interpreter, docs-langfuse-agent-skill,
 docs-promptfoo-code-scan-cli, docs-promptfoo-code-scan-github-action,
-docs-litellm-generic-guardrail-api*
-*Last updated: 2026-09-19*
+docs-litellm-generic-guardrail-api, docs-promptfoo-enterprise-guardrails,
+docs-promptfoo-enterprise-audit-logging, blog-cncf-4-body-problem-sre-context,
+blog-cncf-network-boundary-ai-agents-nginx-otel,
+blog-linsun-pod-deployment-unit-ai-agent, blog-linsun-sandboxing-agent-not-enough*
+*Last updated: 2026-10-08*

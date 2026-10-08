@@ -283,6 +283,29 @@ instead — requiring a new proxy version (`v1.89.0-rc.2` for Fable 5).
 enablement path (live reload vs. image upgrade) differs, and Day-0 model
 support may only be on an RC image.
 
+The default map is a network pull, which makes pricing a runtime egress
+dependency: `LITELLM_LOCAL_MODEL_COST_MAP` exists to "Don't pull hosted
+model_cost_map", and its stated cost is freshness — "this means you will need
+to upgrade to get updated pricing, and newer models"
+[source: docs-litellm-cost-map-and-response-cost, Claim 3] [settled]. A third
+option avoids both horns: `register_model` takes "EITHER a model cost
+dictionary or a url to a hosted json blob" and writes it into the same
+process-global map at runtime
+[source: docs-litellm-cost-map-and-response-cost, Claim 4] [settled], so a
+team can host the community JSON internally instead of choosing between no
+egress and stale prices.
+
+That map is not only prices. `model_cost` is documented to return
+"max_tokens, input_cost_per_token and output_cost_per_token" per model
+[source: docs-litellm-cost-map-and-response-cost, Claim 5] [settled] — the
+pricing table is simultaneously the context-window authority, so a stale or
+overridden map is a stale context-limit list too.
+
+**Rule**: Inventory the cost map as an external dependency and name its
+enablement path — hosted pull, local pin, or a self-hosted `register_model`
+URL. Overriding the map moves context limits, not just prices, so a pricing
+fix can silently change what the gateway will accept.
+
 ### Reload success ≠ model reachability
 
 A LiteLLM production incident demonstrated that `POST /reload/model_cost_map`
@@ -382,6 +405,29 @@ ship.
 
 **Rule**: Assert the exact wire payload per backend family, and test the
 non-default provider — not just the one the change was written for.
+
+Provider-specific params are the other half of that boundary, and `drop_params`
+does not police them. LiteLLM's documented rule is pass-through: "LiteLLM
+treats any non-openai param, as a provider-specific param, and passes it to the
+provider in the request body, as a kwarg"
+[source: docs-litellm-provider-specific-params, Claim 1] [settled]. Because the
+OpenAI-param gate only classifies params it recognizes, anything unrecognized
+is forwarded to every backend rather than dropped
+[source: docs-litellm-provider-specific-params, Claim 7] [emerging].
+
+The inverse failure is a param silently *not* applied. Provider config classes
+do not apply uniformly — "The Huggingface route does not read provider config
+defaults, so `litellm.HuggingFaceChatConfig(max_tokens=...)` has no effect on
+the request" [source: docs-litellm-provider-specific-params, Claim 4] [settled].
+And the name of the same concept differs by provider: `max_tokens` on the
+OpenAI family, `num_predict` on Ollama, `max_new_tokens` on Replicate and
+Petals, `maxOutputTokens` on AI21
+[source: docs-litellm-provider-specific-params, Claim 3] [settled].
+
+**Rule**: Treat the provider-specific param surface as unvalidated in both
+directions — verify on the wire that the params a model needs reached it, and
+that params meant for one backend did not reach the others. A config-class
+default is not evidence that a param was applied.
 
 ## Evaluation and measurement methodology
 
@@ -1241,6 +1287,45 @@ Reconcile a sample of streamed requests against provider billing after deploy
 — a gateway that logs spend from streaming without the opt-in logs nothing and
 raises no error.
 
+### The stream-abort branch: the worst requests log no cost at all
+
+The usage-chunk rule above has a branch the opt-in flag does not cover. The
+gateway's repeated-chunk guard raises *inside* the chunk iterator, after the
+already-repeated chunks have been yielded to the caller
+[source: docs-litellm-completion-stream, Claim 8] [settled] — so an aborted
+stream terminates before its final usage chunk is ever produced, and the
+requests that burned the most tokens are the ones that log nothing
+[source: docs-litellm-completion-stream, Claim 12] [emerging]. Metering from
+the usage chunk is therefore blind on exactly the failure case.
+
+The guard is also narrower than its name suggests. It compares only
+`delta.content` between the two most recent chunks and counts *consecutive*
+equality [source: docs-litellm-completion-stream, Claim 5] [settled]:
+
+```python
+last_content: Final = self.chunks[-1].choices[0].delta.content
+second_to_last_content: Final = self.chunks[-2].choices[0].delta.content
+if last_content == second_to_last_content:
+    if self._repeated_messages_count >= litellm.REPEATED_STREAMING_CHUNK_LIMIT:
+```
+*Vendor source, `streaming_handler.py` (lines excerpted). From
+[source: docs-litellm-completion-stream, Claim 5].*
+
+Any single differing chunk resets the count to zero, and chunks whose
+`delta.content` is `None`, non-string, or two characters or fewer are exempt
+*and reset* the counter — so a loop emitting short or alternating deltas never
+trips it [source: docs-litellm-completion-stream, Claim 5, Claim 6] [settled].
+The documented trigger is a provider-side bug with a reproducer, not a client
+bug: Perplexity's `llama-3.1-sonar-large-128k-online`, and the vendor's issue
+records "This seems to be only happening with Perplexity models."
+[source: docs-litellm-completion-stream, Claim 3] [settled].
+
+**Rule**: Meter streamed requests from a source that survives an abort —
+accumulate deltas client-side, or bound spend per stream independently of the
+usage chunk — and pair the gateway's repetition guard with a caller-side
+deadline and spend cap. A duplicate-frame tripwire with a known evasion is not
+a bound on a hung stream.
+
 ### Learned routing state is forgotten silently on restart
 
 LiteLLM's standalone adaptive router balances quality against cost per request
@@ -1462,5 +1547,6 @@ docs-langfuse-alerts, docs-langfuse-evaluate-production-traffic,
 docs-promptfoo-configuration-caching, docs-promptfoo-chat-threads,
 docs-promptfoo-dataset-generation, docs-litellm-generic-guardrail-api,
 docs-litellm-generic-prompt-management-api, docs-promptfoo-factuality,
-docs-promptfoo-g-eval*
-*Last updated: 2026-09-19*
+docs-promptfoo-g-eval, docs-litellm-completion-stream,
+docs-litellm-provider-specific-params, docs-litellm-cost-map-and-response-cost*
+*Last updated: 2026-10-08*
