@@ -261,6 +261,76 @@ Claim 10] [settled].
 service-side (5xx) failures with client errors still tracked; and leave
 utilization out of the user-facing SLO.
 
+## Measurement validity
+
+Two rules from gateway-capacity benchmarking govern whether an LLM success or
+latency measurement means anything. Both are vendor-independent — they apply to
+any load test or dashboard, including your own.
+
+### Measure client-visible success at the client
+
+A gateway's own success metric is structurally blind to the requests that never
+arrive. In LiteLLM's large-prompt benchmark, the gateway's Prometheus metric
+reported 100 percent success while the client load generator measured 92.07
+percent [source: docs-litellm-benchmarks, Claim 4] [settled]:
+
+> The v1.101.0 run had 5,118 client-visible failures: 4,546 client timeouts or
+> dropped connections, 457 HTTP 504 responses, and 115 HTTP 502 responses. The
+> gateway did not receive these requests, so its own success metric showed
+> 100 percent while Locust showed 92.07 percent.
+
+The failure shape is the point — dropped connections and load-balancer 504/502s
+happen *before* the gateway, so the component being measured cannot see them.
+The page's metric-sourcing rule follows: "The HTTP 200 rate comes from Locust
+because it includes failures that never reached the gateway"
+[source: docs-litellm-benchmarks, Claim 5] [settled].
+
+**Rule**: Compute the client-visible success rate outside the component being
+measured — at the client, the load balancer, or an external prober, never from
+the gateway's own counters. A gateway dashboard reporting 100 percent success
+during overload is reporting on the subset of traffic that reached it.
+
+### Report RPS together with in-flight depth
+
+Latency and concurrency are not independent, so a latency figure without a
+concurrency figure is uninterpretable. Two closed-loop load tests at the same
+throughput report different latencies purely because their clients queued
+differently — by Little's Law, observed latency ≈ in-flight requests / throughput
+[source: docs-litellm-benchmarks, Claim 9] [settled]:
+
+> A closed-loop client with no think time is measuring something else. 1000
+> concurrent workers that send the next request the moment the previous one
+> returns hold 1000 requests in flight, about 8x the queue depth of these runs.
+
+The page supplies the comparability procedure: either keep the 0.5s–1s think
+time, or "hold your client's in-flight request count near 130 and report it
+alongside the latency" — and report RPS first, because "if your run shows higher
+RPS and higher latency than these tables, your gateway is faster than this
+benchmark and your client is simply queueing deeper"
+[source: docs-litellm-benchmarks, Claim 10] [settled].
+
+**Rule**: Report RPS and in-flight request depth together, and fix the think
+time or the concurrency target when comparing runs. A higher-RPS result with
+higher latency usually means the client queued deeper, not that the service got
+slower.
+
+### Counter-evidence: scope the source's numbers before reusing them
+
+The validity rules generalize; the capacity figures they arrived with do not.
+The A/B "is a before-and-after comparison of the complete profile, not a
+single-variable test", it runs an in-process mock that excludes provider
+latency, and the vendor warns "These results measure gateway capacity for this
+specific traffic shape and should not be treated as universal production sizing
+guidance. Measure a representative workload before choosing worker counts, pod
+resources, and HPA targets"
+[source: docs-litellm-benchmarks, Claim 6] [settled]. The profile itself is not
+GA: "The high-throughput profile is still in development and is available in
+nightly builds" [source: docs-litellm-benchmarks, Claim 7] [emerging].
+
+**Our take** [editorial]: Take the two validity rules above — they are
+methodology — and do not adopt this vendor's RPS or latency figures as sizing
+targets.
+
 ## Batch-pipeline health signals
 
 LLM data work (eval refresh, embedding backfills, index rebuilds) is batch
@@ -390,5 +460,5 @@ failure-litellm-vllm-embeddings-encoding-format,
 docs-google-sre-reliable-data-processing-minimal-toil,
 docs-google-sre-reaching-beyond-walls,
 docs-google-sre-slo-engineering-case-studies, docs-langfuse-cli,
-docs-litellm-a2a-agent-gateway*
-*Last updated: 2026-09-17*
+docs-litellm-a2a-agent-gateway, docs-litellm-benchmarks*
+*Last updated: 2026-10-08*
