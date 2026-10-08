@@ -412,7 +412,9 @@ teaches one of them will miss the others:
 - **HTTP 429 with `"type": "budget_exceeded"`** — the A2A gateway's per-session
   `max_iterations` / `max_budget_per_session` caps, which share a status code
   with ordinary rate limiting and cannot be told apart by status alone
-  [source: docs-litellm-a2a-iteration-budgets, Claim 5] [emerging].
+  [source: docs-litellm-a2a-iteration-budgets, Claim 5] [emerging]. Listed here
+  as one of four encodings; the standalone rule lives in Ch05 §"Agent-loop cost
+  caps fail open and expire".
 - **A raised `AdvisorMaxIterationsError`** — "Enforces `max_uses` as a hard
   cap; `AdvisorMaxIterationsError` is raised if exceeded, and `max_uses=0`
   disables the advisor entirely"
@@ -437,11 +439,13 @@ further advice" — adding "This is a per-request cap, not a per-conversation
 cap." [source: docs-litellm-anthropic-advisor-tool, Claim 8 + Concrete
 Artifacts] [emerging].
 
-**Our take** [editorial]: The two readings cannot both describe the same
-request path, and the gateway page is internally ambiguous — its own cost
-tip says that once the cap is reached "the executor continues without further
-advice", which is a degraded success, not a failure. Verify the encoding on
-your own deployment before keying an alert on it.
+**Our take** [editorial]: The two readings can coexist only if the raised
+`AdvisorMaxIterationsError` is caught inside the gateway's orchestration loop,
+so that it never reaches the client — a mechanism the page does not state. Its
+cost tip says that once the cap is reached "the executor continues without
+further advice", which is a degraded success, not a failure, and that is
+consistent with the loop swallowing the exception. Verify the encoding on your
+own deployment before keying an alert on it.
 
 **Rule**: Treat "cap reached" as a degraded success until proven otherwise,
 count it explicitly, and do not assume a non-2xx will signal it. On at least

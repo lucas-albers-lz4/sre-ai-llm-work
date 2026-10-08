@@ -246,8 +246,9 @@ documents the accounting contract plainly:
 
 The page's own worked example shows how large the hidden half is — top-level
 `input_tokens: 412` / `output_tokens: 531` against an `advisor_message` entry
-at `input_tokens: 823` / `output_tokens: 1612`, roughly 3.4x the executor's
-input and 3x its output, billed at the more expensive model's rate
+at `input_tokens: 823` / `output_tokens: 1612`; that single advisor entry
+exceeds the executor-only top-level total on both axes, and it is billed at the
+advisor model's rate
 [source: docs-litellm-anthropic-advisor-tool, Concrete Artifacts] [emerging]:
 
 ```json
@@ -340,6 +341,10 @@ caller opts in — the losers are absent and the winner may report nothing
 `usage.iterations[]` on any streamed request that may carry a sub-inference.
 Two independent opt-ins guard one cost number.
 
+*The `include_usage` requirement is stated standalone in Ch05 §"Streamed
+traffic is usage-blind by default"; this section adds only the advisor-specific
+second opt-in.*
+
 ### A non-streaming sub-inference inside a stream looks like a stall
 
 The advisor sub-inference does not stream, and the executor's stream pauses
@@ -360,7 +365,7 @@ every 30 seconds. Short advisor calls might show no pings."
 [emerging].
 
 Two consequences: a client or gateway that treats any silence as a dead stream
-drops a 25-second advisor call, and a 30-second idle threshold is not safe —
+drops a multi-second advisor call, and a 30-second idle threshold is not safe —
 it can kill a legitimately longer one.
 
 **Rule**: Budget stream-idle timeouts above your worst-case advisor duration,
