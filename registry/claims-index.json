@@ -295,6 +295,73 @@
         }
       ]
     },
+    "blog-cncf-operating-opentelemetry-at-scale-opamp": {
+      "path": "source-notes/blog-cncf-operating-opentelemetry-at-scale-opamp.md",
+      "title": "Operating OpenTelemetry at scale with OpAMP",
+      "source_url": "https://www.cncf.io/blog/2026/07/13/operating-opentelemetry-at-scale-with-opamp",
+      "chapters": [
+        "02",
+        "03",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "OpAMP is a standardized protocol under the OpenTelemetry project that gives a central backend remote configure/update/health/status control over observability agents",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Before OpAMP, telemetry fleet management was fragmented — organizations built multiple in-house agent-management protocols, each with different transports",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Collector deployments span an enormous range — from a few massive gateways to embedded devices (point-of-sale machines, laptops) — and, in the IoT/embedded case, scale reaches millions of collectors that must be reasoned about",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The OpAMP supervisor implements a restart-with-rollback config rollout — it writes the new config to disk, restarts the collector, and reverts to the last-known-good config if the new one fails to start",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The protocol is deliberately minimal — two Protobuf message types (server-to-agent and agent-to-server) — with a read-only extension and a read/write supervisor as the two agent-side components",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The config payload is intentionally a generic map of name-value pairs, making the protocol agent-agnostic — the same control plane can manage Collector, Kubernetes, SDKs, and non-OTel agents",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The Kubernetes integration uses an OpAMP Bridge as an intermediary that talks to the OpenTelemetry Operator, which reads CRDs and deploys Collectors",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Remote SDK reconfiguration requires hot-reloading, because applications cannot be shut down and restarted the way collectors can",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The OpAMP Gateway Extension is a Collector extension that multiplexes OpAMP traffic, fanning in ~100k edge collectors through ~100 gateways (≈1k each) to bound WebSocket connection overhead on the management platform and support network-segmented fleets",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "OpAMP is in beta with mixed component maturity; the roadmap prioritizes config-diff support, true hot-reloading, and a telemetry-policy OTEP that separates intent from configuration",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The guiding principle is \"observability for your observability\" — the telemetry pipeline itself must be monitored because it is too critical to be a black box",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-cncf-understanding-dynamic-resource-allocation-kubernetes": {
       "path": "source-notes/blog-cncf-understanding-dynamic-resource-allocation-kubernetes.md",
       "title": "Understanding dynamic resource allocation in Kubernetes",
