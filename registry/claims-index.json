@@ -15295,6 +15295,66 @@
         }
       ]
     },
+    "docs-promptfoo-enterprise-webhooks": {
+      "path": "source-notes/docs-promptfoo-enterprise-webhooks.md",
+      "title": "Promptfoo Enterprise: Webhook Integration — The Five-Event Contract, the Update-Consolidation Rule, and the Undocumented Delivery Half",
+      "source_url": "https://www.promptfoo.dev/docs/enterprise/webhooks",
+      "chapters": [
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The webhook surface is five event types over an \"issue\" object, where an issue is a red-team-detected security vulnerability — the control plane's finding record, not an operational or eval event",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The consolidation rule is a state-diff design decision — when multiple attributes change simultaneously, a single `issue.updated` is emitted *instead of* the specific `issue.status_changed` / `issue.severity_changed` events, so consumers cannot assume one event per attribute transition",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The event-type descriptions and the task-tracking recipe both suggest a status-only subscription, which the consolidation rule makes incomplete — an internal footgun the page states but does not reconcile",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The payload carries the complete current issue state plus an event-specific `eventData` block, and for `issue.updated` that block adds a `changes` array and an optional `userId` — so a single delivery is both a notification and a full-state snapshot",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Subscriptions are created with `POST /api/webhooks` under a Bearer token, are organization-scoped, and receive a signing secret at creation — with no documented update, delete, list, or secret-rotation operation",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Signatures are HMAC SHA-256 over `JSON.stringify(payload)` and delivered in `X-Promptfoo-Signature`; the Node sample verifies with `crypto.timingSafeEqual` and returns 401 on mismatch — but signing the *serialized* body means the receiver must verify the raw bytes, not a re-serialized parse",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The page documents no delivery contract whatsoever — no retry, no backoff, no ordering guarantee, no timeout, no dead-letter queue, and no delivery log — so the webhook is a best-effort notification channel and the only documented failure path is the receiver's own 401",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The SIEM recipe asserts the stream \"makes it easy to keep your SIEM system synchronized\" while the page documents no delivery guarantee — a payload-completeness claim is presented as if it were a synchronization guarantee",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The `issue.updated` diff is a human-readable string array (`eventData.changes`), not a structured field/from/to delta — consumers must parse free text to know what changed",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The page is a contract specification with no operational or quantitative content of any kind, and the feature is Enterprise-gated — so the documented surface is the auditable surface and everything else is unknown rather than absent",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-extension-hooks-and-sessions": {
       "path": "source-notes/docs-promptfoo-extension-hooks-and-sessions.md",
       "title": "Promptfoo Configuration: Reference — Extension Hooks, Session Management, and Run-Control Defaults",
