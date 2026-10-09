@@ -2392,6 +2392,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-count-tokens": {
+      "slug": "docs-litellm-count-tokens",
+      "title": "Token Counting (count_tokens) — liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/count_tokens",
+      "source_type": "docs",
+      "author": "LiteLLM",
+      "date_published": "unknown (living vendor docs; current as of 2026-10-09)",
+      "date_extracted": "2026-10-09",
+      "issue": "#1650",
+      "file": "source-notes/docs-litellm-count-tokens.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-drop-params": {
       "slug": "docs-litellm-drop-params",
       "title": "Drop Unsupported Params | liteLLM",

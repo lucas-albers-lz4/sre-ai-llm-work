@@ -13291,6 +13291,57 @@
         }
       ]
     },
+    "docs-litellm-count-tokens": {
+      "path": "source-notes/docs-litellm-count-tokens.md",
+      "title": "Token Counting (count_tokens) — liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/count_tokens",
+      "chapters": [
+        "05",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "`litellm.acount_tokens()` returns a `TokenCountResponse` whose `tokenizer_type` field records which counting backend actually answered — `openai_api`, `anthropic_api`, `bedrock_api`, `bedrock_mantle_api`, or `local_tokenizer`",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The count response signals counting failures **in-band** — `error` (\"True if counting failed\") and `error_message`, returned alongside `total_tokens`, `request_model`, `model_used`, and `original_response`, rather than raised as an exception",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "On Bedrock, counting is a two-hop chain — `bedrock-runtime`'s CountTokens API 400-rejects a named set of Claude models (\"Claude Opus 4.8, 5 and 5.5 when this was written\"), and LiteLLM re-sends the same body to `bedrock-mantle` signed with the deployment's AWS credentials, reporting `tokenizer_type: \"bedrock_mantle_api\"`; models `bedrock-runtime` accepts stay `tokenizer_type: \"bedrock_api\"`",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The Bedrock mantle hop has an IAM precondition with a **silent** failure mode — the credentials need `bedrock-mantle:CountTokens` next to `bedrock:CountTokens`; without it Mantle answers 403 and the count falls back to the local tokenizer, with both errors visible only in the proxy log",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "`BEDROCK_MANTLE_API_BASE` is the only override that redirects the Mantle call — the deployment's `api_base` and `aws_bedrock_runtime_endpoint` apply to `bedrock-runtime` only — so a VPC/private-endpoint deployment that sets those two and not `BEDROCK_MANTLE_API_BASE` loses exact counting for the rejected models, and `AWS_BEARER_TOKEN_BEDROCK` rides to Mantle as the bearer token under the same policy",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Local fallback is the default terminal state for Bedrock counting — a Claude model Mantle does not serve in the region, and any non-Claude model, keeps the local fallback",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The proxy exposes a distinct OpenAI-format pre-flight counting endpoint, `POST /v1/responses/input_tokens`, returning `{\"object\": \"response.input_tokens\", \"input_tokens\": N}` — a different wire shape from the Anthropic-format `/v1/messages/count_tokens`",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "`tokenizer_type` (and the `error` flag) is the monitoring signal that makes silent count-degradation detectable — a proxy log/metric keyed on it distinguishes `local_tokenizer` answers from provider-exact ones that look identical in `total_tokens`",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-drop-params": {
       "path": "source-notes/docs-litellm-drop-params.md",
       "title": "Drop Unsupported Params | liteLLM",
