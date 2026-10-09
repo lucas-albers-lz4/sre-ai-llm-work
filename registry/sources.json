@@ -2743,6 +2743,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-configuration-telemetry": {
+      "slug": "docs-promptfoo-configuration-telemetry",
+      "title": "Promptfoo Configuration: Telemetry — Default-On Usage Egress, the Metadata Payload, and the Two Env-Var Opt-Outs",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/telemetry",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-10-09",
+      "date_extracted": "2026-10-09",
+      "issue": "#1561",
+      "file": "source-notes/docs-promptfoo-configuration-telemetry.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-configuration-tools": {
       "slug": "docs-promptfoo-configuration-tools",
       "title": "Promptfoo Configuration: Tool Calling — Per-Provider Schema Shapes, tool_choice Translation, and Strict-Mode Divergence",

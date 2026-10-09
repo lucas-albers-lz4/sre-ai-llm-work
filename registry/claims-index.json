@@ -14843,6 +14843,57 @@
         }
       ]
     },
+    "docs-promptfoo-configuration-telemetry": {
+      "path": "source-notes/docs-promptfoo-configuration-telemetry.md",
+      "title": "Promptfoo Configuration: Telemetry — Default-On Usage Egress, the Metadata Payload, and the Two Env-Var Opt-Outs",
+      "source_url": "https://www.promptfoo.dev/docs/configuration/telemetry",
+      "chapters": [
+        "06",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "promptfoo CLI usage telemetry is **opt-out (on by default)** and collects usage data with no action required by the operator",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "An event fires on **every command run** (`init`, `eval`, `view`) and on **every assertion use**, and the assertion-use event includes the assertion *type* (e.g. `is-json`, `similar`, `llm-rubric`)",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The payload includes **package version** and a **CI flag**, and when account information is present in the local promptfoo config, *hosted* telemetry additionally includes promptfoo **user ID, email address, cloud login status, and authentication method**",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The vendor documents five exclusions — telemetry does **not** include prompts, model outputs, test cases, provider API keys, or full configuration files",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The **only** documented opt-out is the environment variable `PROMPTFOO_DISABLE_TELEMETRY=1` — no YAML/config key is presented",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The NPM update check is a **separate egress path** with its own switch, `PROMPTFOO_DISABLE_UPDATE=1` — so both variables must be set to fully silence the CLI's default network traffic",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The account-identity fields are gated on \"**hosted** telemetry,\" implying a local/offline emission path whose payload is not separately documented",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The page documents no destination, transport, retention window, deletion path, CI auto-disable, air-gapped/proxy guidance, or org-level opt-out — the reassurance is a payload-content statement, not an egress-control statement",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-configuration-tools": {
       "path": "source-notes/docs-promptfoo-configuration-tools.md",
       "title": "Promptfoo Configuration: Tool Calling — Per-Provider Schema Shapes, tool_choice Translation, and Strict-Mode Divergence",
