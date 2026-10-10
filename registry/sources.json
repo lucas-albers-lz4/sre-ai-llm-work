@@ -65,6 +65,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "blog-cncf-otel-mesh-derived-metrics": {
+      "slug": "blog-cncf-otel-mesh-derived-metrics",
+      "title": "OTel and mesh-derived metrics: A 2026 reference",
+      "source_url": "https://www.cncf.io/blog/2026/06/29/otel-and-mesh-derived-metrics-a-2026-reference",
+      "source_type": "blog-post",
+      "author": "Mesut Oezdil",
+      "date_published": "2026-06-29",
+      "date_extracted": "2026-10-10",
+      "issue": "#1661",
+      "file": "source-notes/blog-cncf-otel-mesh-derived-metrics.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-cncf-understanding-dynamic-resource-allocation-kubernetes": {
       "slug": "blog-cncf-understanding-dynamic-resource-allocation-kubernetes",
       "title": "Understanding dynamic resource allocation in Kubernetes",

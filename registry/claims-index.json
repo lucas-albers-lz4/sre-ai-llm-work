@@ -362,6 +362,68 @@
         }
       ]
     },
+    "blog-cncf-otel-mesh-derived-metrics": {
+      "path": "source-notes/blog-cncf-otel-mesh-derived-metrics.md",
+      "title": "OTel and mesh-derived metrics: A 2026 reference",
+      "source_url": "https://www.cncf.io/blog/2026/06/29/otel-and-mesh-derived-metrics-a-2026-reference",
+      "chapters": [
+        "01",
+        "02",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "A meshed workload gets golden metrics for every inbound and outbound request with zero code changes — no instrumentation, SDK calls, or image rebuild",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "OTel cannot see network-layer east-west traffic unless both ends are explicitly instrumented — the mesh layer fills the service-topology gap",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The `client_id` label is the mTLS identity of the caller — cryptographic proof of who is talking to whom that no application-level metric can produce",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Linkerd's golden metrics (success rate, request rate, latency) are computed from two families — `response_total` and `response_latency_ms` — plus TCP-level gauges/counters",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Request rate, latency, and errors appear in both layers but are measured differently — the decision rule is mesh for mTLS identity and east-west success rate, OTel app metrics for business semantics, traces for root cause",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "HTTP-status-only alerting silently misses gRPC failures because gRPC status travels in the response trailers — a series can carry `status_code=\"200\"` plus `classification=\"failure\"` and `grpc_status=\"14\"`",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The mesh knows a call failed and how many times, but not why — distributed traces supply the root cause",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Filtering by metric family shortens the name list but does nothing to label cardinality inside a retained family — \"a histogram you keep is a histogram you pay for\"",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Filtering mechanism choice changes what reaches the backend — an anchored `metric_relabel_configs` keep regex admits 15 metric names while an unanchored OTTL `IsMatch` filter admits 11, because the two anchor differently and only OTTL drops synthetic scrape series",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The reference integration pattern is a dedicated `prometheus/mesh` receiver pipeline — pod discovery of `linkerd-proxy` containers, OTTL filter to 5 families, `layer=mesh` resource insertion, k8sattributes enrichment — delivering to any Prometheus-compatible backend with mesh and app metrics kept as separate Grafana datasources",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-cncf-understanding-dynamic-resource-allocation-kubernetes": {
       "path": "source-notes/blog-cncf-understanding-dynamic-resource-allocation-kubernetes.md",
       "title": "Understanding dynamic resource allocation in Kubernetes",
