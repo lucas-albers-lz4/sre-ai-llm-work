@@ -14339,6 +14339,54 @@
         }
       ]
     },
+    "docs-promptfoo-choosing-best-gpt-model": {
+      "path": "source-notes/docs-promptfoo-choosing-best-gpt-model.md",
+      "title": "Promptfoo Guides: Choosing the Best GPT Model — Benchmark on Your Own Data",
+      "source_url": "https://www.promptfoo.dev/docs/guides/choosing-best-gpt-model",
+      "chapters": [],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The page's stated methodology is that public leaderboard scores are inadequate for app decisions and teams should benchmark candidate models on their own data",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The model-selection pattern is \"one prompt template + a small shared test set + candidate models\", with assertions — not leaderboards — encoding the decision criteria",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Per-test `cost` and `latency` thresholds are used as the selection gate, with model-specific budget caps that differ across the three riddle cases",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "`defaultTest` is used to hoist global `cost`/`latency` limits so they apply to every test case, replacing the per-case caps",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "In the vendor's own result, output quality did not separate the models — the `cost`/`latency` gate did: identical answers, GPT-5.2 over the latency cap and more expensive",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The tutorial presents `cost`/`latency` thresholds as a straightforward selection gate but omits the `--no-cache` precondition that both assertion types require — a cross-page documentation gap",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The evidence base is thin and the page shows signs of adaptation rather than fresh measurement — three-riddle test set, placeholder thresholds, a \"limited example\" disclaimer, and a screenshot asset still named for a gpt-4o-mini/gpt-4o comparison",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The tutorial mixes a deterministic `contains` check with a model-graded `llm-rubric` on the same test case, and the `llm-rubric` assertions omit an explicit threshold",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-classifier-grading": {
       "path": "source-notes/docs-promptfoo-classifier-grading.md",
       "title": "Promptfoo Configuration: Classifier Grading",

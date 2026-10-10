@@ -2639,6 +2639,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-choosing-best-gpt-model": {
+      "slug": "docs-promptfoo-choosing-best-gpt-model",
+      "title": "Promptfoo Guides: Choosing the Best GPT Model — Benchmark on Your Own Data",
+      "source_url": "https://www.promptfoo.dev/docs/guides/choosing-best-gpt-model",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-10-10",
+      "date_extracted": "2026-10-10",
+      "issue": "#1655",
+      "file": "source-notes/docs-promptfoo-choosing-best-gpt-model.md",
+      "confidence_overall": "anecdotal",
+      "status": "current"
+    },
     "docs-promptfoo-classifier-grading": {
       "slug": "docs-promptfoo-classifier-grading",
       "title": "Promptfoo Configuration: Classifier Grading",
