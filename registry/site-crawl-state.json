@@ -1326,7 +1326,7 @@
         "filed_at": "2026-08-13T12:56:28.715514+00:00"
       }
     },
-    "last_scan": "2026-10-09T17:51:01.648781+00:00"
+    "last_scan": "2026-10-10T16:44:56.169296+00:00"
   },
   "opentelemetry": {
     "urls": {},
@@ -2937,16 +2937,22 @@
         "filed_at": "2026-10-09T17:51:38.265556+00:00"
       },
       "https://www.cncf.io/blog/2026/07/15/on-prem-dbaas-in-2026-platforms-standards-and-gaps": {
-        "status": "pending",
-        "screened_at": "2026-07-16T13:47:25.192220+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-16T13:47:25.192220+00:00",
+        "issue": 1659,
+        "filed_at": "2026-10-10T16:45:14.829045+00:00"
       },
       "https://www.cncf.io/blog/2026/07/17/flipkart-and-litmuschaos-at-kubecon-cloudnativecon-india-2026-a-recap": {
-        "status": "pending",
-        "screened_at": "2026-07-17T13:25:03.772602+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-17T13:25:03.772602+00:00",
+        "issue": 1660,
+        "filed_at": "2026-10-10T16:45:16.889775+00:00"
       },
       "https://www.cncf.io/blog/2026/06/29/otel-and-mesh-derived-metrics-a-2026-reference": {
-        "status": "pending",
-        "screened_at": "2026-07-17T13:25:03.772620+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-17T13:25:03.772620+00:00",
+        "issue": 1661,
+        "filed_at": "2026-10-10T16:45:19.388387+00:00"
       },
       "https://www.cncf.io/blog/2026/06/29/etcd-operator-joins-cozystack-with-a-new-v1alpha2-api": {
         "status": "pending",
@@ -3971,9 +3977,21 @@
       "https://www.cncf.io/blog/2026/10/09/who-owns-nis2-and-dora-on-a-kubernetes-platform-team": {
         "status": "pending",
         "screened_at": "2026-10-09T17:51:15.434021+00:00"
+      },
+      "https://www.cncf.io/blog/2026/10/08/dont-give-ai-agents-root-make-them-propose-the-next-system-state": {
+        "status": "pending",
+        "screened_at": "2026-10-10T16:45:01.142178+00:00"
+      },
+      "https://www.cncf.io/blog/2025/11/18/top-5-hard-earned-lessons-from-the-experts-on-managing-kubernetes": {
+        "status": "pending",
+        "screened_at": "2026-10-10T16:45:01.142195+00:00"
+      },
+      "https://www.cncf.io/blog/2025/11/18/kgateway-v2-1-is-released": {
+        "status": "rejected",
+        "screened_at": "2026-10-10T16:45:01.142198+00:00"
       }
     },
-    "last_scan": "2026-10-09T17:51:15.434024+00:00"
+    "last_scan": "2026-10-10T16:45:01.142201+00:00"
   },
   "datadog-llm-obs": {
     "urls": {
@@ -3982,7 +4000,7 @@
         "screened_at": "2026-07-12T23:52:56.905756+00:00"
       }
     },
-    "last_scan": "2026-10-09T17:51:16.962820+00:00"
+    "last_scan": "2026-10-10T16:45:02.731457+00:00"
   },
   "langfuse-docs": {
     "urls": {
@@ -4147,7 +4165,7 @@
         "filed_at": "2026-09-03T15:37:32.594301+00:00"
       }
     },
-    "last_scan": "2026-10-09T17:51:18.252452+00:00"
+    "last_scan": "2026-10-10T16:45:04.024688+00:00"
   },
   "litellm-docs": {
     "urls": {
@@ -5766,16 +5784,22 @@
         "filed_at": "2026-10-09T17:51:44.411488+00:00"
       },
       "https://docs.litellm.ai/docs/debugging/local_debugging": {
-        "status": "pending",
-        "screened_at": "2026-08-02T13:07:19.324027+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-02T13:07:19.324027+00:00",
+        "issue": 1662,
+        "filed_at": "2026-10-10T16:45:21.338311+00:00"
       },
       "https://docs.litellm.ai/docs/default_code_snippet": {
-        "status": "pending",
-        "screened_at": "2026-08-03T14:24:44.524706+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-03T14:24:44.524706+00:00",
+        "issue": 1663,
+        "filed_at": "2026-10-10T16:45:23.381211+00:00"
       },
       "https://docs.litellm.ai/docs/embedding/async_embedding": {
-        "status": "pending",
-        "screened_at": "2026-08-03T14:24:44.524721+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-03T14:24:44.524721+00:00",
+        "issue": 1664,
+        "filed_at": "2026-10-10T16:45:25.493262+00:00"
       },
       "https://docs.litellm.ai/docs/embedding/moderation": {
         "status": "pending",
@@ -6584,9 +6608,21 @@
       "https://docs.litellm.ai/docs/enterprise/moving_from_oss": {
         "status": "rejected",
         "screened_at": "2026-10-09T17:51:29.197219+00:00"
+      },
+      "https://docs.litellm.ai/docs/enterprise/support": {
+        "status": "rejected",
+        "screened_at": "2026-10-10T16:45:08.752623+00:00"
+      },
+      "https://docs.litellm.ai/docs/enterprise/version_support": {
+        "status": "rejected",
+        "screened_at": "2026-10-10T16:45:08.752638+00:00"
+      },
+      "https://docs.litellm.ai/docs/harness/tool_loop": {
+        "status": "pending",
+        "screened_at": "2026-10-10T16:45:08.752641+00:00"
       }
     },
-    "last_scan": "2026-10-09T17:51:29.197222+00:00"
+    "last_scan": "2026-10-10T16:45:08.752645+00:00"
   },
   "promptfoo-docs": {
     "urls": {
@@ -8215,16 +8251,22 @@
         "filed_at": "2026-10-09T17:51:50.605598+00:00"
       },
       "https://www.promptfoo.dev/docs/guides/compare-open-source-models": {
-        "status": "pending",
-        "screened_at": "2026-08-03T14:24:59.048548+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-03T14:24:59.048548+00:00",
+        "issue": 1665,
+        "filed_at": "2026-10-10T16:45:27.452593+00:00"
       },
       "https://www.promptfoo.dev/docs/guides/deepseek-benchmark": {
-        "status": "pending",
-        "screened_at": "2026-08-04T13:55:27.426272+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-04T13:55:27.426272+00:00",
+        "issue": 1666,
+        "filed_at": "2026-10-10T16:45:29.435729+00:00"
       },
       "https://www.promptfoo.dev/docs/guides/evaling-with-harmbench": {
-        "status": "pending",
-        "screened_at": "2026-08-04T13:55:27.426292+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-04T13:55:27.426292+00:00",
+        "issue": 1667,
+        "filed_at": "2026-10-10T16:45:31.447285+00:00"
       },
       "https://www.promptfoo.dev/docs/guides/evaluate-coding-agents": {
         "status": "pending",
@@ -9021,8 +9063,20 @@
       "https://www.promptfoo.dev/docs/red-team/plugins/donotanswer": {
         "status": "pending",
         "screened_at": "2026-10-09T17:51:32.206601+00:00"
+      },
+      "https://www.promptfoo.dev/docs/enterprise/sso": {
+        "status": "rejected",
+        "screened_at": "2026-10-10T16:45:13.168051+00:00"
+      },
+      "https://www.promptfoo.dev/docs/red-team/plugins/ecommerce": {
+        "status": "pending",
+        "screened_at": "2026-10-10T16:45:13.168065+00:00"
+      },
+      "https://www.promptfoo.dev/docs/red-team/plugins/excessive-agency": {
+        "status": "pending",
+        "screened_at": "2026-10-10T16:45:13.168068+00:00"
       }
     },
-    "last_scan": "2026-10-09T17:51:32.206603+00:00"
+    "last_scan": "2026-10-10T16:45:13.168070+00:00"
   }
 }
