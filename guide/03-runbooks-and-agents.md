@@ -244,6 +244,33 @@ docs-langfuse-alerts, Claim 8] [settled].
 runbook, and give every notification channel a delivery-failure circuit
 breaker that stops retrying a dead endpoint and demands a human re-enable.
 
+The circuit-breaker rule is a demand, not a vendor invariant. promptfoo's
+Enterprise webhooks specify the event contract and nothing about delivery —
+five `issue.*` event types, a `POST /api/webhooks` subscription, and HMAC
+SHA-256 signing in `X-Promptfoo-Signature`, with no retry, backoff, ordering
+guarantee, timeout, dead-letter queue, or delivery log documented anywhere on
+the page [source: docs-promptfoo-enterprise-webhooks, Claim 7] [settled]. The
+only failure path the page describes is the receiver's own `401`.
+
+Two consumer-side consequences follow. A subscription filtered on a
+fine-grained event is incomplete by design: when several properties of a
+finding change at once the vendor folds them into a single `issue.updated`
+rather than emitting the specific per-attribute events
+[source: docs-promptfoo-enterprise-webhooks, Claim 2] [settled], so
+`events: ["issue.severity_changed"]` silently misses every severity change
+bundled with another edit. And the change record is prose, not a delta:
+`eventData.changes` is `["status changed to fixed", "severity changed to low"]`
+— an array of sentences with no `field`/`from`/`to` structure
+[source: docs-promptfoo-enterprise-webhooks, Claim 9] [settled].
+
+**Rule**: Subscribe to the coarse event that carries every change and
+discriminate in the consumer — keep your own previous-state copy and compute
+the diff rather than string-matching the vendor's change text. Verify a
+channel's delivery contract before wiring a runbook: a webhook with no
+documented retry, ordering, or delivery log is best-effort, and the consumer
+must reconcile by polling the source of truth rather than treat the event as
+the record.
+
 ## The human incident-tooling baseline an agent populates
 
 PagerDuty's incident-response tooling is a three-part topology an AI incident
@@ -447,5 +474,6 @@ blog-litellm-agents-are-the-new-llms, blog-promptfoo-ai-orchestrated-cyberattack
 blog-promptfoo-ai-regulation-2025, docs-google-sre-eliminating-toil,
 docs-google-sre-incident-response, docs-google-sre-simplicity,
 docs-langfuse-agent-skill, docs-langfuse-alerts, docs-langfuse-cli,
-docs-litellm-a2a-agent-gateway, docs-litellm-a2a-agent-permissions*
-*Last updated: 2026-09-17*
+docs-litellm-a2a-agent-gateway, docs-litellm-a2a-agent-permissions,
+docs-promptfoo-enterprise-webhooks*
+*Last updated: 2026-10-10*

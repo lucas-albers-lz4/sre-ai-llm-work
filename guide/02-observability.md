@@ -118,6 +118,28 @@ correlation-header forwarding and end-user propagation before trusting
 agent-level trace grouping or spend attribution. A successful response is not
 evidence that the headers came back.
 
+### Instrument the instrumentation, and label a metric's provenance
+
+A telemetry or counting path that silently degrades looks identical to a
+healthy one, so the pipeline producing your numbers needs its own signal.
+OpenTelemetry's OpAMP project frames this as "observability for your
+observability" — the fleet control plane exists partly to answer "you need to
+know is your observability actually working?"
+[source: blog-cncf-operating-opentelemetry-at-scale-opamp, Claim 11] [emerging].
+
+The LLM-domain instance is a token count that falls back to a local estimator
+without raising. LiteLLM's `TokenCountResponse` carries a `tokenizer_type`
+field naming the backend that answered — `openai_api`, `anthropic_api`,
+`bedrock_api`, `bedrock_mantle_api`, or `local_tokenizer` — precisely because a
+count that degraded to `local_tokenizer` cannot be told apart from a
+provider-exact count by its value
+[source: docs-litellm-count-tokens, Claim 1] [settled].
+
+**Rule**: Give every derived metric a provenance label and monitor the label's
+distribution, not just the value. A counting or telemetry backend that silently
+falls back produces plausible numbers; the only alert that fires is the one
+watching *how* the number was produced rather than what it says.
+
 ## Observability as a spectrum
 
 ### From monitoring to on-demand analysis
@@ -390,5 +412,6 @@ failure-litellm-vllm-embeddings-encoding-format,
 docs-google-sre-reliable-data-processing-minimal-toil,
 docs-google-sre-reaching-beyond-walls,
 docs-google-sre-slo-engineering-case-studies, docs-langfuse-cli,
-docs-litellm-a2a-agent-gateway*
-*Last updated: 2026-09-17*
+docs-litellm-a2a-agent-gateway,
+blog-cncf-operating-opentelemetry-at-scale-opamp, docs-litellm-count-tokens*
+*Last updated: 2026-10-10*

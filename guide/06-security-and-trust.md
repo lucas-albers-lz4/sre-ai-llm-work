@@ -262,6 +262,52 @@ the injection at word 45,000 of a 50,000-word document
 deep-position injection test. The injection depth scales with context window
 size — the poison is in the document tail.
 
+### Test 6 — Third-party black-box target
+
+A hosted chatbot you do not own is a distinct target class: black-box
+enumeration over its own HTTP API is the only option, and multi-turn systems
+introduce a security surface single-turn ones do not — retained context lets an
+attacker build false premises or extract data across messages
+[source: docs-promptfoo-chatbase-redteam, Claim 1] [emerging].
+
+Adapting the harness to a foreign wire shape takes a two-layer parsing contract
+plus per-test session identity [source: docs-promptfoo-chatbase-redteam,
+Claims 3, 4, 5] [settled]:
+
+```yaml
+targets:
+  - id: 'http'
+    config:
+      method: 'POST'
+      url: 'https://www.chatbase.co/api/v1/chat'
+      transformResponse: 'json.text'
+      transformRequest: '[{ role: "user", content: prompt }]'
+      # body map elided; it must carry:
+      # 'conversationId': '{{conversationId}}'
+defaultTest:
+  options:
+    transformVars: '{ ...vars, conversationId: context.uuid }'
+```
+*Extracted from [source: docs-promptfoo-chatbase-redteam, Concrete Artifacts];
+the target `body` map, headers, and auth are elided except for the
+`conversationId` binding, which `transformVars` generates and the body must
+thread through to the endpoint.*
+
+`transformRequest` formats the outbound call as OpenAI-style messages and
+`transformResponse` pulls the response text (`json.text`) out of the target's
+JSON before any grader sees it. State continuity belongs to the *endpoint*, so
+the harness manufactures a per-test session id (`conversationId` from
+`context.uuid`) — without it, a stateful endpoint carries one test's history
+into the next. The stateful multi-turn strategies that require such a target
+are `goat`, `crescendo`, and `mischievous-user`, each declared with
+`stateful: true` [source: docs-promptfoo-chatbase-redteam, Claim 6] [settled].
+
+**Rule**: To red-team a third-party chatbot, drive its own API through an
+`http` target with explicit request and response transforms, and inject a
+unique per-test session id into the target's own state key. Stateful multi-turn
+strategies have nothing to escalate across until that key is threaded —
+otherwise tests bleed state into each other and the verdicts are meaningless.
+
 ### Function-calling authorization
 
 For tool-enabled models, test authorization at three levels: role-based
@@ -742,6 +788,44 @@ steps in a separate job.
 code. Any step that executes PR-controlled code belongs in a different job from
 any step holding a credential worth stealing.
 
+### An eval harness egresses by default
+
+An LLM eval harness is part of the CI supply chain, and its default network
+posture is outbound. promptfoo "collects basic usage telemetry by default,"
+firing an event on every command run (`init`/`eval`/`view`) and on every
+assertion use — recording the assertion *type* (`is-json`, `similar`,
+`llm-rubric`) — with a payload carrying package version and a CI flag, and,
+when account information is present in the local config, the user ID, email
+address, cloud login status, and authentication method
+[source: docs-promptfoo-configuration-telemetry, Claims 1, 2, 3] [settled].
+
+The vendor documents five exclusions — "Telemetry does not include prompts,
+model outputs, test cases, provider API keys, or full configuration files" —
+but names no endpoint, transport, retention window, or deletion path
+[source: docs-promptfoo-configuration-telemetry, Claims 4, 8] [emerging]. Read
+the exclusion list as a payload claim to verify, not as an egress control: the
+account fields it *does* carry are themselves derived from the local config.
+
+Silencing the CLI takes two variables, not one. Usage telemetry is switched off
+by `PROMPTFOO_DISABLE_TELEMETRY=1`, and the NPM registry update check is a
+separate egress path with its own switch, `PROMPTFOO_DISABLE_UPDATE=1`
+[source: docs-promptfoo-configuration-telemetry, Claims 5, 6] [settled]. Both
+are environment-only, so they cannot be committed in the eval YAML and belong
+in the runner's baseline environment or container image:
+
+```
+# CI job env / container image — not in promptfooconfig.yaml
+PROMPTFOO_DISABLE_TELEMETRY=1
+PROMPTFOO_DISABLE_UPDATE=1
+```
+*Opt-out variables from [source: docs-promptfoo-configuration-telemetry,
+Concrete Artifacts].*
+
+**Rule**: For an eval runner in a restricted or egress-allowlisted
+environment, set both `PROMPTFOO_DISABLE_TELEMETRY=1` and
+`PROMPTFOO_DISABLE_UPDATE=1` in the runner baseline, and treat a vendor's
+payload-exclusion statement as an assertion to verify rather than a control.
+
 ### Gateway-level code-execution interception
 
 Model-generated code must not execute on opaque vendor-hosted containers.
@@ -761,9 +845,35 @@ For no-egress/air-gapped perimeters, use a self-hosted sandbox backend with
 egress denied by default — network access requires explicit configuration
 [source: blog-litellm-swap-openai-code-interpreter, Claim 8] [settled].
 
+The native lifecycle that interception bypasses is itself an operational
+surface for any deployment that enables it. LiteLLM's container endpoints
+expose the session as four calls — create/list on `/v1/containers`,
+retrieve/delete on `/v1/containers/{container_id}` — and the only documented
+retention control over the session and its uploaded `file_ids` is
+`expires_after{anchor, minutes}`, set at create time with `last_active_at` as
+the only anchor the page ever shows [source: docs-litellm-containers-api,
+Claims 2, 3] [settled]. There is no update route, so a TTL cannot be extended
+after creation.
+
+What expiry actually does is undocumented: the response object carries
+`expires_at` and a `status` field, but the page states no status values and no
+expiry behavior, and a full-text scan finds no `error`, `retry`, `timeout`, or
+`429` anywhere on it [source: docs-litellm-containers-api, Claims 4, 11]
+[settled]. The only removal affordance is an explicit DELETE, so artifact and
+session cleanup is an operator job with no GC and no default TTL.
+
+Provider scope is the security-relevant part: container sessions exist for
+`openai` and `azure` only, so a deployment that follows the interception rule
+above gets no container-session lifecycle from this API at all
+[source: docs-litellm-containers-api, Claim 9] [settled].
+
 **Rule**: Route model-generated code execution through operator-controlled
 sandboxes with deny-by-default egress. The gateway intercepts transparently —
-clients see no change, but code and data stay inside your perimeter.
+clients see no change, but code and data stay inside your perimeter. Where
+vendor-hosted containers *are* enabled, bound retention at create time
+(`expires_after`), review which fields cross the boundary, and run explicit
+session and file cleanup — the documented API offers no GC, no default TTL, and
+no documented expiry behavior.
 
 ## Gating on LLM security scans
 
@@ -845,5 +955,7 @@ failure-litellm-supply-chain-compromise-march-2026,
 failure-litellm-supply-chain-incident-march-2026,
 blog-litellm-swap-openai-code-interpreter, docs-langfuse-agent-skill,
 docs-promptfoo-code-scan-cli, docs-promptfoo-code-scan-github-action,
-docs-litellm-generic-guardrail-api*
-*Last updated: 2026-09-19*
+docs-litellm-generic-guardrail-api,
+docs-litellm-containers-api, docs-promptfoo-chatbase-redteam,
+docs-promptfoo-configuration-telemetry*
+*Last updated: 2026-10-10*

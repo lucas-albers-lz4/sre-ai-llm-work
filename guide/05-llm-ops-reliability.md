@@ -213,6 +213,31 @@ gradual + rollback + auto-stop test before it enters a canary. A prompt config
 that references a mutable external dataset is not hermetic and therefore not
 safely rollable.
 
+### Automatic rollback has a shape: apply, restart, revert
+
+The third property — automatic rollback — has a deployed prior art in
+telemetry-fleet management. OpenTelemetry's OpAMP supervisor writes a new
+remote config to disk, restarts the collector, and reverts to the last-known-good
+config if the process fails to come up
+[source: blog-cncf-operating-opentelemetry-at-scale-opamp, Claim 4] [emerging]:
+
+> "If it doesn't start, it will revert the config and run with the last known
+> good config so that we're not breaking your telemetry pipelines remotely."
+
+That is self-validating **by attempt** rather than by inspection — but two
+limits bound where it transfers. It needs a component that can be restarted:
+OpAMP's own SDK path is explicitly different, because applications cannot be
+shut down to reconfigure an in-process SDK, so that config must hot-reload
+instead [source: blog-cncf-operating-opentelemetry-at-scale-opamp, Claim 8]
+[emerging]. And "fails to start" is one failure class only — a config that
+starts cleanly and then silently degrades the pipeline never trips the revert
+[source: blog-cncf-operating-opentelemetry-at-scale-opamp, Claim 4] [emerging].
+
+**Rule**: For a config-apply path over a restartable component, prefer
+restart-with-revert-to-last-known-good over a manual rollback button, and pair
+it with a post-start health check — auto-revert catches configs that fail to
+start, not configs that start and misbehave.
+
 ### A generated dataset is the mutable external reference
 
 The hermeticity rule has a concrete counter-example in eval tooling. `promptfoo
@@ -580,6 +605,14 @@ outputs; the vendor's own remediation is `--no-cache` with `--repeat`
 [source: docs-promptfoo-configuration-caching, Claim 8] [settled]. A flake rate
 computed on a warm cache measures replay, not model variance.
 
+Budget asserts are coupled to the cache the same way, and the coupling is
+easier to miss because the config looks like a pre-deployment cost gate.
+`cost` and `latency` assertions require the cache to be disabled to measure the
+target call at all [source: docs-promptfoo-choosing-best-gpt-model, Claim 6]
+[settled]; a vendor model-selection tutorial ships both asserts with no cache
+note, so copying its config and running `promptfoo eval` over a warm cache
+gates on replayed cost and latency figures rather than on the candidate models.
+
 ```bash
 promptfoo eval --no-cache --repeat 5           # fresh samples every run
 PROMPTFOO_CACHE_ENABLED=false promptfoo eval   # or uncache the whole job
@@ -595,8 +628,9 @@ empty the cache [source: docs-promptfoo-configuration-caching, Claim 3]
 [settled].*
 
 **Rule**: Invalidate the eval cache before any post-upgrade run, any variance
-run, and any canary-vs-control comparison. Cache is a cost control, not a
-correctness control — decide it deliberately instead of inheriting the default.
+run, any canary-vs-control comparison, and any run whose gate is a `cost` or
+`latency` assert. Cache is a cost control, not a correctness control — decide
+it deliberately instead of inheriting the default.
 
 Errors and empty responses are never cached, so a green run can be entirely
 memoised while the failing tail re-hits the provider on every attempt
@@ -1121,6 +1155,40 @@ sub-second chat completions.
 chat-completion traffic. Agent sessions are stateful, long-lived, and their
 latency profile is driven by tool-call chains, not token generation speed.
 
+### GPU allocation is a scheduler-enforced capacity constraint
+
+Accelerator-backed inference can fail at *scheduling*, and the failure reads as
+a device-selection outcome rather than a capacity error. With Kubernetes
+Dynamic Resource Allocation, a claim whose CEL selector requires more device
+memory than any node offers leaves the Pod Pending with a `FailedScheduling`
+event reporting `3 cannot allocate all claims`
+[source: blog-cncf-understanding-dynamic-resource-allocation-kubernetes,
+Claim 6] [settled] — not an application error in the serving process.
+
+The resource-claim lifecycle also interacts with rollouts. Under a Deployment's
+default RollingUpdate strategy a rebuilt Pod does not immediately reclaim its
+previous GPU, because the old Pod's ResourceClaim has not been released yet;
+a ranked-fallback claim (prefer A5000, fall back to T10) therefore lands the
+new Pod on the slower device rather than returning to the preferred one
+[source: blog-cncf-understanding-dynamic-resource-allocation-kubernetes,
+Claims 5, 7] [settled]. Device placement is not sticky across a rolling update
+unless the strategy accounts for claim retention. Ranked `firstAvailable`
+selectors are the documented way to degrade across heterogeneous accelerators
+without hardcoding node selectors.
+
+Evidence scale is a caveat: this is a lab tutorial (three workers, a specific
+GPU mix) with no production metrics, and the version facts — DRA GA in v1.35,
+device health reporting in v1.36 — are single-source claims to confirm against
+release notes before depending on them
+[source: blog-cncf-understanding-dynamic-resource-allocation-kubernetes,
+Claims 1, 2] [emerging].
+
+**Rule**: Watch accelerator-backed workloads on two signals beyond pod-level
+application errors — scheduler claim-allocation failures (capacity/selector
+mismatch) and device fallback after a rolling update (claim retention). Verify
+a fallback selector's device actually changed after rollout: a Pod that starts
+successfully can be running on the wrong device.
+
 ### Bound pass-through memory; skip work nobody consumes
 
 Proxy pass-through routes are where a gateway's memory profile is decided.
@@ -1234,12 +1302,35 @@ error, so a logged figure from these helpers is an estimate bounded by the
 installed package's map version, not a billed number
 [source: docs-litellm-token-usage-helpers, Claim 3, Claim 4] [emerging].
 
+The third path is **pre-flight**, and it is the only one that is
+self-describing. `litellm.acount_tokens()` returns a `TokenCountResponse` whose
+`tokenizer_type` names the backend that actually answered — `openai_api`,
+`anthropic_api`, `bedrock_api`, `bedrock_mantle_api`, or `local_tokenizer`
+[source: docs-litellm-count-tokens, Claim 1] [settled]. A caller reading only
+`total_tokens` cannot tell a provider-exact count from a local tiktoken
+estimate; a caller reading `tokenizer_type` can.
+
+On Bedrock, that degradation is triggered by an **IAM policy**, not an outage
+or a config change: the runtime CountTokens API 400-rejects some Claude models,
+the gateway re-sends the body to `bedrock-mantle`, and that hop needs the IAM
+action `bedrock-mantle:CountTokens` beside `bedrock:CountTokens`. Without it
+Mantle answers 403 and the count "falls back to the local tokenizer, with both
+errors in the proxy log" [source: docs-litellm-count-tokens, Claim 4] [settled].
+A private-endpoint deployment hits the same silent fallback when it sets
+`api_base` and `aws_bedrock_runtime_endpoint` but not
+`BEDROCK_MANTLE_API_BASE` — the only override that redirects the Mantle call
+[source: docs-litellm-count-tokens, Claim 5] [settled].
+
 **Rule**: Pass `stream_options={"include_usage": True}` on every streamed
 request the gateway meters, read totals from the final usage chunk rather than
 summing deltas, and label `completion_cost` output as estimator output.
 Reconcile a sample of streamed requests against provider billing after deploy
 — a gateway that logs spend from streaming without the opt-in logs nothing and
-raises no error.
+raises no error. For the pre-flight count, treat `tokenizer_type` as a metric
+label and alert on its distribution: a count that degraded to `local_tokenizer`
+is indistinguishable by value, so a gate that reads only `total_tokens` sizes
+the context window against an estimate it never questioned
+[source: docs-litellm-count-tokens, Claim 8] [emerging].
 
 ### Learned routing state is forgotten silently on restart
 
@@ -1462,5 +1553,8 @@ docs-langfuse-alerts, docs-langfuse-evaluate-production-traffic,
 docs-promptfoo-configuration-caching, docs-promptfoo-chat-threads,
 docs-promptfoo-dataset-generation, docs-litellm-generic-guardrail-api,
 docs-litellm-generic-prompt-management-api, docs-promptfoo-factuality,
-docs-promptfoo-g-eval*
-*Last updated: 2026-09-19*
+docs-promptfoo-g-eval, blog-cncf-operating-opentelemetry-at-scale-opamp,
+docs-litellm-count-tokens,
+blog-cncf-understanding-dynamic-resource-allocation-kubernetes,
+docs-promptfoo-choosing-best-gpt-model*
+*Last updated: 2026-10-10*
