@@ -14283,6 +14283,62 @@
         }
       ]
     },
+    "docs-promptfoo-chatbase-redteam": {
+      "path": "source-notes/docs-promptfoo-chatbase-redteam.md",
+      "title": "Promptfoo Docs — Red Teaming a Chatbase Chatbot (Third-Party HTTP Target)",
+      "source_url": "https://www.promptfoo.dev/docs/guides/chatbase-redteam",
+      "chapters": [
+        "06",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Promptfoo manages multi-turn state through a `conversationId` that links messages, and the page frames multi-turn systems as introducing security challenges that single-turn systems do not have",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Single-turn systems are \"inherently more secure\" because attackers cannot manipulate conversation history — but that security is paid for in usability",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "A hosted third-party chatbot is red-teamed as a generic `http` target, and the state key must be threaded into the request body as `conversationId: '{{conversationId}}'`",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Per-test conversation identity is manufactured with `transformVars: '{ ...vars, conversationId: context.uuid }'` under `defaultTest.options`, generating a unique conversation id for each test",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "A non-OpenAI HTTP target needs a two-layer parsing contract — `transformRequest` formats the outbound request as OpenAI-compatible messages, and `transformResponse` extracts the response text from the JSON body",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The stateful multi-turn attack strategies are declared as `goat`, `crescendo`, and `mischievous-user`, each with `stateful: true`",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The target body pins determinism for the run — `stream: false` and `temperature: 0`",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The documented third-party-integration failure taxonomy is two-way — connection failures point at credentials, garbled content points at the request/response parsers",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The page's red-team execution workflow is `redteam generate` → `redteam eval` → `view`",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-classifier-grading": {
       "path": "source-notes/docs-promptfoo-classifier-grading.md",
       "title": "Promptfoo Configuration: Classifier Grading",

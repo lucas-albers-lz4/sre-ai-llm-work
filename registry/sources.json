@@ -2626,6 +2626,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-chatbase-redteam": {
+      "slug": "docs-promptfoo-chatbase-redteam",
+      "title": "Promptfoo Docs — Red Teaming a Chatbase Chatbot (Third-Party HTTP Target)",
+      "source_url": "https://www.promptfoo.dev/docs/guides/chatbase-redteam",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-10-10",
+      "date_extracted": "2026-10-10",
+      "issue": "#1654",
+      "file": "source-notes/docs-promptfoo-chatbase-redteam.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-classifier-grading": {
       "slug": "docs-promptfoo-classifier-grading",
       "title": "Promptfoo Configuration: Classifier Grading",
