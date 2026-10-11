@@ -2990,6 +2990,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-harmbench": {
+      "slug": "docs-promptfoo-harmbench",
+      "title": "Promptfoo Docs — Evaluating LLM Safety with HarmBench (Standardized-Benchmark Red-Team Plugin)",
+      "source_url": "https://www.promptfoo.dev/docs/guides/evaling-with-harmbench",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-10-11",
+      "date_extracted": "2026-10-11",
+      "issue": "#1667",
+      "file": "source-notes/docs-promptfoo-harmbench.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-javascript-assertions": {
       "slug": "docs-promptfoo-javascript-assertions",
       "title": "Promptfoo Configuration: Javascript Assertions",

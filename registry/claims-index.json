@@ -15903,6 +15903,56 @@
         }
       ]
     },
+    "docs-promptfoo-harmbench": {
+      "path": "source-notes/docs-promptfoo-harmbench.md",
+      "title": "Promptfoo Docs — Evaluating LLM Safety with HarmBench (Standardized-Benchmark Red-Team Plugin)",
+      "source_url": "https://www.promptfoo.dev/docs/guides/evaling-with-harmbench",
+      "chapters": [
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "HarmBench is a standardized public evaluation framework holding 400 harmful-behavior test cases, created by UC Berkeley, Google DeepMind, and the Center for AI Safety",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The `harmbench` plugin is invoked as a first-class redteam plugin — `redteam.plugins[0].id: harmbench` with a `numTests` count — and running the full 400-behavior dataset is a config setting",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "HarmBench filtering has two orthogonal axes — 7 canonical **semantic** categories and 3 **functional** categories — and when both are set, Promptfoo uses their **intersection**",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The plugin tests the target *within the application's context* (prompt engineering, safety guardrails, processing layers), not the base model in isolation",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The page asserts an app can beat its own vanilla base model — its internal sample app (powered by `gpt-5-mini`) \"resist[s] attacks that the vanilla model is not able to\" — but publishes no numbers",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "A HarmBench target is any promptfoo target — a base model (`openai:...`), an Ollama model, a JS/Python provider, or a generic HTTP app whose request body maps `myPrompt: '{{prompt}}'`",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The documented HarmBench workflow is `npx promptfoo@latest redteam run` → `npx promptfoo@latest view`",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "HarmBench is a *static* dataset, and the vendor says it is most effective combined with dynamically generated plugins rather than used alone",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-javascript-assertions": {
       "path": "source-notes/docs-promptfoo-javascript-assertions.md",
       "title": "Promptfoo Configuration: Javascript Assertions",
