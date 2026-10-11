@@ -480,6 +480,93 @@
         }
       ]
     },
+    "blog-cncf-securing-cicd-credentials-verification": {
+      "path": "source-notes/blog-cncf-securing-cicd-credentials-verification.md",
+      "title": "Securing CI/CD for an open source project, part 3: Credentials, verification, and what's next",
+      "source_url": "https://www.cncf.io/blog/2026/06/26/securing-ci-cd-for-an-open-source-project-part-3-credentials-verification-and-whats-next",
+      "chapters": [
+        "06",
+        "05",
+        "00"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Two separately scoped registry credential sets behind distinct protected GitHub environments limit blast radius — CI creds can push only to `quay.io/cilium/*-ci`, while production creds sit behind a `release` environment requiring explicit maintainer approval",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The stated worst case of a CI compromise is that the attacker can publish a malicious `-ci` image but cannot publish a production release — because \"the credentials simply aren't on the runner\"",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "`GITHUB_TOKEN` defaults to minimal read permissions on contents and packages, and workflows needing more must opt in explicitly",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Every `actions/checkout` call sets `persist-credentials: false`, so the token never lands in the runner's git config where a later step could grab it",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Every released container image is signed with Sigstore Cosign using keyless OIDC — there are no long-lived signing keys to steal",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "A reusable composite action pins its dependencies by full SHA, generates an SPDX SBOM, then signs and attests the image",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Release builds run inside protected environments (`release`, `release-tool`, `release-helm`) and cannot be triggered from a fork or a feature branch",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Audited gap — no SLSA provenance: every `docker/build-push-action` sets `provenance: false`, so consumers can verify *who* signed an image but not *how* it was built",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Audited gap — no dependency review at PR time; they rely on Renovate's `vulnerabilityAlerts`, which is reactive",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Audited gap — 68 internal `@main` references to a mutable branch ref in composite actions, inconsistent with the project's own SHA-pinning policy",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Audited gap — no `govulncheck` in CI (vulnerable-package presence is not vulnerable-function reachability), no OpenSSF Scorecard workflow, an expired `SECURITY-INSIGHTS.yml` (January 2025), and no `go mod verify`",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "Additional release-integrity layers — tag immutability, DCO sign-off enforcement, and third-party audits plus a published threat model",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "Within a single environment, secrets are still scoped broadly — any workflow running in that environment can access them — so a new workflow added to the environment inherits the credentials",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "GitHub's 2026 Actions security roadmap would add workflow-level dependency locking (direct and transitive, hash-verified before execution), org-level rulesets banning `pull_request_target`, scoped secrets, and a native L7 egress firewall outside the runner VM",
+          "kind": "claim"
+        },
+        {
+          "n": 15,
+          "heading": "The closing thesis — supply-chain security is the practice of repeatedly asking \"what if this thing I trust gets compromised?\" and adding a layer that limits the blast radius",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-cncf-understanding-dynamic-resource-allocation-kubernetes": {
       "path": "source-notes/blog-cncf-understanding-dynamic-resource-allocation-kubernetes.md",
       "title": "Understanding dynamic resource allocation in Kubernetes",

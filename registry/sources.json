@@ -91,6 +91,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "blog-cncf-securing-cicd-credentials-verification": {
+      "slug": "blog-cncf-securing-cicd-credentials-verification",
+      "title": "Securing CI/CD for an open source project, part 3: Credentials, verification, and what's next",
+      "source_url": "https://www.cncf.io/blog/2026/06/26/securing-ci-cd-for-an-open-source-project-part-3-credentials-verification-and-whats-next",
+      "source_type": "blog-post",
+      "author": "André Martins (Cilium maintainer and Software Engineer, Isovalent at Cisco) and Feroz Salam",
+      "date_published": "2026-06-26",
+      "date_extracted": "2026-10-11",
+      "issue": "#1676",
+      "file": "source-notes/blog-cncf-securing-cicd-credentials-verification.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-cncf-understanding-dynamic-resource-allocation-kubernetes": {
       "slug": "blog-cncf-understanding-dynamic-resource-allocation-kubernetes",
       "title": "Understanding dynamic resource allocation in Kubernetes",
