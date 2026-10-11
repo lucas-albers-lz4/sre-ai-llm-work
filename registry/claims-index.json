@@ -13835,6 +13835,52 @@
         }
       ]
     },
+    "docs-litellm-local-debugging": {
+      "path": "source-notes/docs-litellm-local-debugging.md",
+      "title": "Local Debugging | liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/debugging/local_debugging",
+      "chapters": [
+        "02",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The vendor documents that `litellm._turn_on_debug()` logs API keys and states outright that it must not be used in production",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The page does not specify *which* key material is logged or to *which* destinations, so the exposure's blast radius is unstated",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "`_turn_on_debug()` is a one-line, process-global verbose toggle that prints \"everything litellm is doing\"",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "`litellm.json_logs = True` is documented narrowly — it serializes only the raw outbound POST request as JSON, not the full debug surface",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "`logger_fn=<callable>` is the documented, sanctioned per-call inspection affordance — a callback that receives a `model_call_dict` and can *see or modify* the model call input/output",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "All three debug handles are SDK-level; the page documents no proxy/CLI debug control, and the SDK-vs-proxy split matters for where a warning applies",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The page documents `_turn_on_debug()` while other current corpus notes document `litellm.set_verbose = True` as the SDK debug toggle — the page states neither that they are equivalent nor which is current",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-message-sanitization": {
       "path": "source-notes/docs-litellm-message-sanitization.md",
       "title": "Message Sanitization for Tool Calling for anthropic models | liteLLM",

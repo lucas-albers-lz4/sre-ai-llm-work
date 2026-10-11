@@ -2509,6 +2509,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-local-debugging": {
+      "slug": "docs-litellm-local-debugging",
+      "title": "Local Debugging | liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/debugging/local_debugging",
+      "source_type": "docs",
+      "author": "LiteLLM",
+      "date_published": "unknown (living vendor docs; page's own `last_updated` field is 2026-10-09)",
+      "date_extracted": "2026-10-10",
+      "issue": "#1662",
+      "file": "source-notes/docs-litellm-local-debugging.md",
+      "confidence_overall": "settled",
+      "status": "current"
+    },
     "docs-litellm-message-sanitization": {
       "slug": "docs-litellm-message-sanitization",
       "title": "Message Sanitization for Tool Calling for anthropic models | liteLLM",
