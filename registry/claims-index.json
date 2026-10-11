@@ -424,6 +424,62 @@
         }
       ]
     },
+    "blog-cncf-running-self-hosted-llm-kubernetes-vllm": {
+      "path": "source-notes/blog-cncf-running-self-hosted-llm-kubernetes-vllm.md",
+      "title": "Running a self-hosted LLM in Kubernetes with vLLM",
+      "source_url": "https://www.cncf.io/blog/2026/07/16/running-a-self-hosted-llm-in-kubernetes-with-vllm",
+      "chapters": [
+        "05",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "vLLM exposes an OpenAI-compatible REST API, so any existing OpenAI client can be pointed at a self-hosted instance with only a base-URL change",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "`--gpu-memory-utilization` governs how aggressively vLLM reserves memory *even on a CPU-only deployment*, and its 92% default caused startup failures in the author's lab; `0.80` provided enough headroom to initialize",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Mounting the Hugging Face cache path (`/root/.cache/huggingface`) on a persistent volume means weights download once and later pod restarts skip the download entirely",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Scaling the Deployment to zero preserves the PVC and its cached weights, so scaling back up skips the re-download",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "First startup takes minutes (weights download plus engine init), and the readiness signal is the `INFO: Application startup complete` log line — a pod can be running long before it can serve",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Meta Llama weights are gated on Hugging Face, requiring an access request and a read-scoped token wired into the container via `secretKeyRef`",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The example PVC requests a thin-provisioned, two-replica LVM volume via the `linstor-csi-lvm-thin-r2` StorageClass, at 50Gi ReadWriteOnce",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The reference deployment serves a 1B instruction-tuned model on CPU via the `vllm-cpu-release-repo` image, verified end-to-end by a curl request that returns an OpenAI-format response with token usage",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Self-hosting is positioned as a complementary pattern to managed APIs for cost predictability at high volume, latency control, and data-residency, with an inference router as the hybrid next step",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-cncf-understanding-dynamic-resource-allocation-kubernetes": {
       "path": "source-notes/blog-cncf-understanding-dynamic-resource-allocation-kubernetes.md",
       "title": "Understanding dynamic resource allocation in Kubernetes",
