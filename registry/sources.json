@@ -2964,6 +2964,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-evaluate-coding-agents": {
+      "slug": "docs-promptfoo-evaluate-coding-agents",
+      "title": "Promptfoo Guide: Evaluating Coding Agents — Capability Tiers, Workspace Isolation, and the Trajectory CI Gate",
+      "source_url": "https://www.promptfoo.dev/docs/guides/evaluate-coding-agents",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-10-11",
+      "date_extracted": "2026-10-12",
+      "issue": "#1680",
+      "file": "source-notes/docs-promptfoo-evaluate-coding-agents.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-extension-hooks-and-sessions": {
       "slug": "docs-promptfoo-extension-hooks-and-sessions",
       "title": "Promptfoo Configuration: Reference — Extension Hooks, Session Management, and Run-Control Defaults",

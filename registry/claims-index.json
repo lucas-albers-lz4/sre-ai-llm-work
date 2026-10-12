@@ -15879,6 +15879,84 @@
         }
       ]
     },
+    "docs-promptfoo-evaluate-coding-agents": {
+      "path": "source-notes/docs-promptfoo-evaluate-coding-agents.md",
+      "title": "Promptfoo Guide: Evaluating Coding Agents — Capability Tiers, Workspace Isolation, and the Trajectory CI Gate",
+      "source_url": "https://www.promptfoo.dev/docs/guides/evaluate-coding-agents",
+      "chapters": [],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "An agent eval tests a *system with emergent behavior*, not a function, for three stated reasons — non-determinism compounds across tool calls, intermediate steps matter even when final outputs match, and capability is gated by architecture — so \"you're evaluating the system, not just the model\"",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Provider capability is tiered — Tier 0 text models, Tier 1 coding-agent SDKs (`openai:codex-sdk`, `anthropic:claude-agent-sdk`, `opencode:sdk`), Tier 2 rich client servers (`openai:codex-app-server`, `openinterpreter`) — and the *same underlying model* behaves differently at each tier, so a plain-LLM baseline proves file/shell/runtime access is contributing",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Provider selection is a runtime-boundary decision with a per-provider default safety posture — Codex SDK (git repo check, filesystem sandbox, network/search off, minimal env), Codex app-server (read-only sandbox, approvals declined, ephemeral threads), Claude Agent SDK (no tools by default), and OpenCode SDK (temporary workspace, read-only tools) — and codex-desktop is only an alias that starts its own child process",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "`copy_working_dir` gives each eval step an isolated workspace that is created before the call and deleted after its assertions run — `true` chooses clone-vs-copy automatically, `'git'` forces a clone of the current commit, `'copy'` forces a copy — and cloning requires Git 2.41 or newer",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Workspace isolation has documented limits that bound the safety claim — responses are never cached (a cached response would lack the agent's changes), only eval steps get a workspace (a multi-turn red-team provider call *fails* instead of running in `working_dir`), submodules are unsupported — and, the crucial caveat, \"it isn't a sandbox\"",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Assertions can read the workspace through two response-metadata fields — `workingDir` (valid until the call's assertions run) and `workspaceDiff` (a unified diff for a clone, truncated beyond 100,000 characters) — and an `agent-rubric` grader runs in the same workspace so it can inspect the agent's changes",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The path, not just the output, is assertable — `trajectory:step-count` can require that a `pytest*` command ran and that at least one reasoning step occurred, with `trajectory:tool-used` / `trajectory:tool-sequence` for exact tool paths — and the stated principle is \"assert the path when the path matters\"",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "For app-server providers, the eval asserts on the runtime protocol, not the final message — the documented example checks `providerResponse.metadata.codexAppServer.serverRequests` for a deterministic command-approval request, explicitly *not* whether the reply \"sounds reasonable\"",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "An agent's output *is* its final text response, not the files it changed — so file-level verification must inspect the workspace or enable tracing, because the transcript describes what the agent says it did",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Regression gates for agent evals are cost/latency thresholds plus `--no-cache` and `--repeat 3` — the page gives a concrete cost band ($0.10–0.30 / 30–120 s for a security audit), requires `--no-cache` during development \"so stale provider responses do not hide regressions,\" and treats a prompt that fails ~50% of the time as an *ambiguous prompt* to fix rather than a retry target",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Token distribution is a diagnostic for what the agent is actually doing — high prompt tokens with low completion tokens means the agent is reading files; the inverse means you are testing generation, not agency",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "Provider-enforced structured output is the recommended first eval shape — Codex `output_schema`, Codex app-server `output_schema`, Claude `output_format.json_schema`, and OpenCode `format` — validated downstream with `contains-json` (embedded JSON) vs `is-json` (provider returns only JSON)",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "Safety defaults for coding-agent evals treat the agent as arbitrary code execution — never production credentials, real customer data, or internal-network access — with ephemeral no-network containers, read-only mounts, dummy keys, `disallowed_tools: ['Bash']`, Codex `sandbox_mode: read-only` with network/web-search disabled and a minimal `cli_env`, and read-only tool defaults for Claude Agent SDK / OpenCode SDK",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "The release checklist frames coding-agent evals as integration tests — a plain-LLM baseline for file/tool tasks, at least one structured assertion, cost/latency thresholds, `--no-cache` during development, a disposable workspace for write-capable tests, trace/metadata assertions when the path matters, and `--repeat 3` for stability — validated locally with `validate config` before expensive runs",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-extension-hooks-and-sessions": {
       "path": "source-notes/docs-promptfoo-extension-hooks-and-sessions.md",
       "title": "Promptfoo Configuration: Reference — Extension Hooks, Session Management, and Run-Control Defaults",
