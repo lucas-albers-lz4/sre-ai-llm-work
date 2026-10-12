@@ -2977,6 +2977,32 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-evaluate-crewai": {
+      "slug": "docs-promptfoo-evaluate-crewai",
+      "title": "Promptfoo: Red Teaming a CrewAI Agent — Local File Provider, JSON-Schema Output Contract, and a Custom Red-Team Target",
+      "source_url": "https://www.promptfoo.dev/docs/guides/evaluate-crewai",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-10-12",
+      "date_extracted": "2026-10-12",
+      "issue": "#1681",
+      "file": "source-notes/docs-promptfoo-evaluate-crewai.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
+    "docs-promptfoo-evaluate-elevenlabs": {
+      "slug": "docs-promptfoo-evaluate-elevenlabs",
+      "title": "Promptfoo Guide: Evaluating ElevenLabs Voice AI — Numeric Gates for a Non-Text Modality, Provider-Computed WER, and Tool Mocking for Agent Evals",
+      "source_url": "https://www.promptfoo.dev/docs/guides/evaluate-elevenlabs",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-10-12",
+      "date_extracted": "2026-10-12",
+      "issue": "#1682",
+      "file": "source-notes/docs-promptfoo-evaluate-elevenlabs.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-extension-hooks-and-sessions": {
       "slug": "docs-promptfoo-extension-hooks-and-sessions",
       "title": "Promptfoo Configuration: Reference — Extension Hooks, Session Management, and Run-Control Defaults",

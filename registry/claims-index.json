@@ -15957,6 +15957,129 @@
         }
       ]
     },
+    "docs-promptfoo-evaluate-crewai": {
+      "path": "source-notes/docs-promptfoo-evaluate-crewai.md",
+      "title": "Promptfoo: Red Teaming a CrewAI Agent — Local File Provider, JSON-Schema Output Contract, and a Custom Red-Team Target",
+      "source_url": "https://www.promptfoo.dev/docs/guides/evaluate-crewai",
+      "chapters": [],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "promptfoo evaluates a locally-defined CrewAI agent by pointing a provider at a local Python file — `id: file://./agent.py` with a `label` and a `config.model` — rather than at a hosted model endpoint",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The provider entrypoint is a module-level `call_api(prompt, options, context)` that bridges promptfoo's synchronous provider call to the async CrewAI runtime by wrapping `crew.kickoff_async(inputs={'job_requirements': prompt})` in `asyncio.run`, reads the model from `options[\"config\"][\"model\"]`, and returns `{\"output\": result}`",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Provider failures are returned as data, not raised — empty agent output, a missing JSON block, a JSON decode error, and any unexpected exception each return a `{\"error\": ...}` dict (parse failures also return `raw_output`), so a broken agent surfaces as a failed case rather than a harness crash",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The target agent's output shape is made a testable invariant via `defaultTest.assert` with `type: is-json` and an inline JSON Schema requiring a `candidates` array of objects (each with `name`/`experience` kinds of fields)",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "A second, custom `python` assertion layers a runtime structural check — `\"'candidates' in output and isinstance(output['candidates'], list)\"` — on top of the JSON-schema `defaultTest`",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The same local file provider is reused as a red-team target — Target Type \"Custom Target\", Target ID `file://./agent.py` — so the scan attacks the agent's own logic instead of a hosted model",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The red-team target sets `temperature: 0.5` in its custom config and a 500 ms inter-request delay, the latter to reduce load/avoid overloading the target",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The red-team walkthrough requires supplying application context (purpose, key features, domain, system restrictions/rules) and explicitly uses mock/synthetic outputs so no real user data is exposed",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The guide pins concrete version ranges rather than open-ended installs — Python 3.10–3.13, Node.js `>=22.22.0`, and `crewai>=1.15.22,<2`",
+          "kind": "claim"
+        }
+      ]
+    },
+    "docs-promptfoo-evaluate-elevenlabs": {
+      "path": "source-notes/docs-promptfoo-evaluate-elevenlabs.md",
+      "title": "Promptfoo Guide: Evaluating ElevenLabs Voice AI — Numeric Gates for a Non-Text Modality, Provider-Computed WER, and Tool Mocking for Agent Evals",
+      "source_url": "https://www.promptfoo.dev/docs/guides/evaluate-elevenlabs",
+      "chapters": [
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "For a text-to-speech provider, \"quality\" is gated by **numeric latency and cost assertions** — `type: latency threshold: 3000` (ms) and `type: cost threshold: 0.01` ($) — because there is no text output to string-match",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The page's only check that audio was actually produced is a **custom `javascript` assertion reading `context.providerResponse.audio`** for a `data` or `blobRef` field — the corpus has no declarative \"audio exists\" assertion type, and a **blob reference counts as valid audio**",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Speech-to-text accuracy is gated on a **provider-computed word-error-rate** — `calculateWER: true` plus a `referenceText` makes the provider return the score, and a custom JS assertion requires `context.providerResponse.metadata.wer.wer < 0.05`",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The TTS → STT round trip is a **manual two-config pipeline joined by a filesystem handoff** — `saveAudio: true` + `audioOutputPath: audio` writes a file on a `--no-cache` run, the operator copies it, and a second config consumes it through an `audioFile` variable",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Conversational-agent quality is **delegated to the provider's own weighted criteria** — `evaluationCriteria[]` with per-criterion `weight` and `passingThreshold` — and the eval asserts on `metadata.evaluationResults` in custom JS, so promptfoo never applies its own scoring model to the criteria",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "`maxTurns` limits **newly simulated turns excluding the supplied history**, while the returned `conversationHistory` **includes** the supplied turns — so any turn-count assertion on the history is off by the supplied turn count",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "`toolMockConfig` stubs a named tool's return value — `order_lookup` returns `{order_number, status, tracking_number}` — enabling a **deterministic, side-effect-free agent tool trajectory**, with the eval verifying the mock indirectly through provider criteria (`uses_tool`, `provides_tracking`)",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The eval harness can **provision its own agent target** — `agentConfig` with `name`, `prompt`, `voiceId`, and `llmModel` creates an ephemeral agent for testing, versus `agentId` to point at an existing one",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The page asserts **nothing about voice quality** — voice settings (`stability`, `similarity_boost`, `style`, `speed`) are provider knobs, the only audio assertion is presence-check, and the page routes quality judgment back to **human listening** in the web UI",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The page offers **no CI/CD merge gate** — \"Regression testing\" and \"Production monitoring\" appear only as Next-Steps bullets, with no pipeline, merge-gating example, alerting, or SLO content",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The page's **cost-control guidance** for agent evals — use `gpt-5-mini` instead of `gpt-5`, enable caching, implement LLM cascading, test with shorter prompts — sits in **tension with the `--no-cache` requirement** its own latency/cost gates and STT pipeline impose",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "ElevenLabs voice IDs must be real IDs — **display names such as `rachel` are not resolved** — and the page's example uses a placeholder ID the reader must replace",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-extension-hooks-and-sessions": {
       "path": "source-notes/docs-promptfoo-extension-hooks-and-sessions.md",
       "title": "Promptfoo Configuration: Reference — Extension Hooks, Session Management, and Run-Control Defaults",
