@@ -253,6 +253,63 @@
         }
       ]
     },
+    "blog-cncf-cluster-aware-ai-agent-argo-gitops": {
+      "path": "source-notes/blog-cncf-cluster-aware-ai-agent-argo-gitops.md",
+      "title": "Building a Cluster-Aware AI Agent with Kubernetes, Argo CD, and GitOps",
+      "source_url": "https://www.cncf.io/blog/2026/06/25/building-a-cluster-aware-ai-agent-with-kubernetes-argo-cd-and-gitops",
+      "chapters": [
+        "06",
+        "05",
+        "03"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The agent is deployable as an ordinary Kubernetes workload — a `Deployment + Service + PersistentVolumeClaim` with a `ServiceAccount` for identity — requiring no operator, custom scheduler, or special runtime",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Read-only RBAC is the load-bearing safety decision — the `ClusterRole` grants only `get`/`list`, so the Kubernetes API server enforces the capability boundary and the model's output cannot bypass it",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The read-only posture generalizes beyond this project: \"start every agent read-only, then earn each additional capability one verb at a time, each with its own RBAC rule and review\"",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "GitOps makes the agent's *configuration* an audit artifact — prompts, model selection, and RBAC live in Git and are reconciled by Argo CD, so `git log` records them",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The delivery chain is deliberately decoupled — GitHub Actions builds an image tagged with the 7-char commit SHA (immutable ref), Argo CD Image Updater matches that tag via regex and commits it back to `kustomization.yaml`, and Argo CD reconciles",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The agent's grounding is observable — `/diagnose` reads live state (all pods' phase, restart count, waiting reason; last 10 events; last 20 log lines from non-Running pods), injects it into the prompt, and the UI exposes the exact retrieved context",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The `/ask` vs `/diagnose` contrast demonstrates grounding: the generic LLM answer is \"correct but not actionable for this cluster,\" the agent answer is cluster-specific",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The author scopes the pattern as a learning starting point, not a production recommendation — local is not necessarily the right answer",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The in-cluster/self-hosted path is framed as data-locality: \"No data leaves the cluster, no cloud AI provider involved,\" with the only egress being a model pull at startup",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-cncf-network-boundary-ai-agents-nginx-otel": {
       "path": "source-notes/blog-cncf-network-boundary-ai-agents-nginx-otel.md",
       "title": "Network boundary for AI agents using NGINX and OpenTelemetry",

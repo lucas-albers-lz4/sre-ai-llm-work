@@ -39,6 +39,19 @@
       "confidence_overall": "anecdotal",
       "status": "current"
     },
+    "blog-cncf-cluster-aware-ai-agent-argo-gitops": {
+      "slug": "blog-cncf-cluster-aware-ai-agent-argo-gitops",
+      "title": "Building a Cluster-Aware AI Agent with Kubernetes, Argo CD, and GitOps",
+      "source_url": "https://www.cncf.io/blog/2026/06/25/building-a-cluster-aware-ai-agent-with-kubernetes-argo-cd-and-gitops",
+      "source_type": "blog-post",
+      "author": "Maryam Tavakkoli",
+      "date_published": "2026-06-25",
+      "date_extracted": "2026-10-13",
+      "issue": "#1688",
+      "file": "source-notes/blog-cncf-cluster-aware-ai-agent-argo-gitops.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-cncf-network-boundary-ai-agents-nginx-otel": {
       "slug": "blog-cncf-network-boundary-ai-agents-nginx-otel",
       "title": "Network boundary for AI agents using NGINX and OpenTelemetry",
