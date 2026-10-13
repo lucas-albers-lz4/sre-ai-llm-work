@@ -16203,6 +16203,69 @@
         }
       ]
     },
+    "docs-promptfoo-evaluate-google-adk": {
+      "path": "source-notes/docs-promptfoo-evaluate-google-adk.md",
+      "title": "Promptfoo: Evaluate Google ADK Agents — In-Process Provider vs HTTP App Server, the Feature→Assertion Mapping, and the Framework-Version Coupling Hazard",
+      "source_url": "https://www.promptfoo.dev/docs/guides/evaluate-google-adk",
+      "chapters": [],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The recommendation is to wrap an ADK app as an **in-process Python provider**, because that is what makes the agent's sessions, artifacts, plugin/callback side effects, and native trajectory spans assertable — the HTTP shape around `adk api_server` cannot expose any of those \"without a parallel inspection channel\"",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "HTTP is the *complementary* choice, preferred only when the deployed HTTP contract itself is what you want to validate",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "ADK already emits OTel GenAI spans with `gen_ai.tool.name` and tool-call arguments, so promptfoo can normalize them into trajectory steps **without a custom span translator**",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The provider preserves promptfoo's W3C `traceparent`, starts a small provider span beneath it, and exports ADK's child spans to promptfoo's built-in OTLP receiver — so the eval and the observability trace are one trace",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The provider returns one JSON payload of agent-internal effects — `artifact_names`, `plugin_events`, `session_state` — which deterministic `contains`/`is-json` assertions can check **without a model grader**",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "For every distinct ADK feature there is a mapped assertion type — a **method for deriving assertions** rather than a fixed catalogue",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Fixed-order work should be encoded as a workflow agent (not left to the LLM to route), and each named workflow agent earns its own `trace-span-count`",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "An eval harness pinned to a framework's **internal event schema** is a migration hazard — ADK 1.x → 2.x changes persisted event schemas (`node_info`, `output`), changes custom execution overrides, and shifts retry/emission ownership to the runtime, and 2.9.2 deprecates `SequentialAgent` in favor of `Workflow`",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Operational determinism guidance for an in-process provider — keep the provider span small, flush before the worker exits, use in-memory services for determinism, and swap in real services only when persistence is the behavior under test",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Reserve model-graded assertions for genuinely semantic outcomes; prefer state/artifact assertions first",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "The harness-selection rule — use the framework's own eval (`adk eval`) for framework-native eval sets and metrics; use promptfoo when comparing across frameworks, running red teams on the same surface, or asserting on OTel traces alongside the final output",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-extension-hooks-and-sessions": {
       "path": "source-notes/docs-promptfoo-extension-hooks-and-sessions.md",
       "title": "Promptfoo Configuration: Reference — Extension Hooks, Session Management, and Run-Control Defaults",

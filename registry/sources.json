@@ -3029,6 +3029,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-evaluate-google-adk": {
+      "slug": "docs-promptfoo-evaluate-google-adk",
+      "title": "Promptfoo: Evaluate Google ADK Agents — In-Process Provider vs HTTP App Server, the Feature→Assertion Mapping, and the Framework-Version Coupling Hazard",
+      "source_url": "https://www.promptfoo.dev/docs/guides/evaluate-google-adk",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-10-13",
+      "date_extracted": "2026-10-13",
+      "issue": "#1694",
+      "file": "source-notes/docs-promptfoo-evaluate-google-adk.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-extension-hooks-and-sessions": {
       "slug": "docs-promptfoo-extension-hooks-and-sessions",
       "title": "Promptfoo Configuration: Reference — Extension Hooks, Session Management, and Run-Control Defaults",
