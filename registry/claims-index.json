@@ -13666,6 +13666,72 @@
         }
       ]
     },
+    "docs-litellm-exception-mapping": {
+      "path": "source-notes/docs-litellm-exception-mapping.md",
+      "title": "Exception Mapping | liteLLM (provider-error → exception-class → HTTP-status taxonomy)",
+      "source_url": "https://docs.litellm.ai/docs/exception_mapping",
+      "chapters": [
+        "05",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The page publishes the gateway's provider-error → exception-class → HTTP-status contract as a single table, and asserts the classes are drop-in for existing OpenAI error handling",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Every returned exception carries three additional attributes beyond the OpenAI base — `status_code`, `message`, and `llm_provider` — and this holds even for OpenAI and Azure, where the original exception object is passed through with `llm_provider` added",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The fail-open default is `litellm.APIConnectionError` — any **unmapped** provider error is returned as a connection error, and any unmapped ≥500 as `InternalServerError`",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Two 400 subclasses exist specifically to *drive fallback behavior* rather than to describe the error — `ContextWindowExceededError` (context-window fallbacks) and `ContentPolicyViolationError` (content-policy fallbacks)",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "A provider 402 (`PaymentRequiredError`) is a routing event, not just a billing event — the router cools that deployment down when the model group has another deployment",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Retryability is delegated to a **status-code-only** helper, `litellm._should_retry(e.status_code)` — the documented retry decision does not consult the exception class or the error body",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "429 maps unconditionally to `RateLimitError`, and `BudgetExceededError` is filed under status \"N/A\" — so this page does not encode the body-level 429 discrimination that the LiteLLM A2A budget docs require",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Azure OpenAI content-policy forensics are reachable only through `provider_specific_fields[\"innererror\"][\"content_filter_result\"]`, with per-category `filtered`/`severity` and the sample `code: \"ResponsibleAIPolicyViolation\"`",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "A provider × exception coverage matrix exists, and the page's own caveat is that empty cells mean \"lack of association\" — the exact per-provider capability set is not asserted",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The page's streaming example recommends catching the specific OpenAI type first and a generic `except Exception` as the fallback — the only acknowledgment that streaming errors surface like synchronous ones",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The page contradicts itself on `ContextWindowExceededError`'s parent — the table says it inherits `litellm.BadRequestError`, while the page's own closing note calls it a sub-class of `InvalidRequestError`",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-gateway-auth-reference": {
       "path": "source-notes/docs-litellm-gateway-auth-reference.md",
       "title": "Gateway Auth Reference — LiteLLM Documentation",

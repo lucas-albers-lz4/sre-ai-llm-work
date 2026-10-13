@@ -2470,6 +2470,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-exception-mapping": {
+      "slug": "docs-litellm-exception-mapping",
+      "title": "Exception Mapping | liteLLM (provider-error → exception-class → HTTP-status taxonomy)",
+      "source_url": "https://docs.litellm.ai/docs/exception_mapping",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs; front-matter last_updated 2026-10-12)",
+      "date_extracted": "2026-10-13",
+      "issue": "#1692",
+      "file": "source-notes/docs-litellm-exception-mapping.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-gateway-auth-reference": {
       "slug": "docs-litellm-gateway-auth-reference",
       "title": "Gateway Auth Reference — LiteLLM Documentation",
