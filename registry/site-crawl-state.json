@@ -1326,7 +1326,7 @@
         "filed_at": "2026-08-13T12:56:28.715514+00:00"
       }
     },
-    "last_scan": "2026-10-12T20:43:13.041150+00:00"
+    "last_scan": "2026-10-13T18:46:28.455490+00:00"
   },
   "opentelemetry": {
     "urls": {},
@@ -2991,16 +2991,22 @@
         "filed_at": "2026-10-12T20:44:10.165683+00:00"
       },
       "https://www.cncf.io/blog/2026/06/23/building-jaegers-clickhouse-backend-8-6x-compression-on-10-million-spans": {
-        "status": "pending",
-        "screened_at": "2026-07-19T13:02:37.700081+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-19T13:02:37.700081+00:00",
+        "issue": 1700,
+        "filed_at": "2026-10-13T18:46:52.624180+00:00"
       },
       "https://www.cncf.io/blog/2026/07/20/argocon-japan-2026-meeting-the-maintainers-enterprise-insights-and-the-road-to-argo-cd-3-5": {
-        "status": "pending",
-        "screened_at": "2026-07-20T13:55:19.613527+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-20T13:55:19.613527+00:00",
+        "issue": 1701,
+        "filed_at": "2026-10-13T18:46:54.625264+00:00"
       },
       "https://www.cncf.io/blog/2026/07/20/why-goodput-matters-more-than-throughput-for-llm-serving": {
-        "status": "pending",
-        "screened_at": "2026-07-20T13:55:19.613543+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-20T13:55:19.613543+00:00",
+        "issue": 1702,
+        "filed_at": "2026-10-13T18:46:56.664529+00:00"
       },
       "https://www.cncf.io/blog/2026/06/22/telemetry-that-matters-designing-sustainable-high-impact-observability-pipelines": {
         "status": "pending",
@@ -4025,9 +4031,21 @@
       "https://www.cncf.io/blog/2025/11/07/code-level-telemetry-instrumentation-from-oh-hell-no-to-worth-it": {
         "status": "pending",
         "screened_at": "2026-10-12T20:43:30.503031+00:00"
+      },
+      "https://www.cncf.io/blog/2025/11/06/your-complete-guide-to-kubecon-cloudnativecon-north-america-2025": {
+        "status": "rejected",
+        "screened_at": "2026-10-13T18:46:35.025295+00:00"
+      },
+      "https://www.cncf.io/blog/2025/11/06/cncf-ambassadors-reflections-on-10-years-of-the-cloud-native-computing-foundation": {
+        "status": "rejected",
+        "screened_at": "2026-10-13T18:46:35.025315+00:00"
+      },
+      "https://www.cncf.io/blog/2025/11/06/safely-managing-cilium-network-policies-in-kubernetes-testing-and-simulation-techniques": {
+        "status": "pending",
+        "screened_at": "2026-10-13T18:46:35.025318+00:00"
       }
     },
-    "last_scan": "2026-10-12T20:43:30.503033+00:00"
+    "last_scan": "2026-10-13T18:46:35.025321+00:00"
   },
   "datadog-llm-obs": {
     "urls": {
@@ -4036,7 +4054,7 @@
         "screened_at": "2026-07-12T23:52:56.905756+00:00"
       }
     },
-    "last_scan": "2026-10-12T20:43:32.314125+00:00"
+    "last_scan": "2026-10-13T18:46:36.894381+00:00"
   },
   "langfuse-docs": {
     "urls": {
@@ -4201,7 +4219,7 @@
         "filed_at": "2026-09-03T15:37:32.594301+00:00"
       }
     },
-    "last_scan": "2026-10-12T20:43:33.859080+00:00"
+    "last_scan": "2026-10-13T18:46:38.564140+00:00"
   },
   "litellm-docs": {
     "urls": {
@@ -5874,16 +5892,22 @@
         "filed_at": "2026-10-12T20:44:17.137714+00:00"
       },
       "https://docs.litellm.ai/docs/extras/contributing": {
-        "status": "pending",
-        "screened_at": "2026-08-05T13:51:58.864306+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-05T13:51:58.864306+00:00",
+        "issue": 1703,
+        "filed_at": "2026-10-13T18:46:58.814724+00:00"
       },
       "https://docs.litellm.ai/docs/extras/contributing_code": {
-        "status": "pending",
-        "screened_at": "2026-08-06T13:49:10.109047+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-06T13:49:10.109047+00:00",
+        "issue": 1704,
+        "filed_at": "2026-10-13T18:47:00.819661+00:00"
       },
       "https://docs.litellm.ai/docs/extras/creating_adapters": {
-        "status": "pending",
-        "screened_at": "2026-08-06T13:49:10.109064+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-06T13:49:10.109064+00:00",
+        "issue": 1705,
+        "filed_at": "2026-10-13T18:47:03.016417+00:00"
       },
       "https://docs.litellm.ai/docs/extras/gemini_img_migration": {
         "status": "pending",
@@ -6692,9 +6716,21 @@
       "https://docs.litellm.ai/docs/projects/GPTLocalhost": {
         "status": "pending",
         "screened_at": "2026-10-12T20:43:58.516896+00:00"
+      },
+      "https://docs.litellm.ai/docs/observability/ternary": {
+        "status": "pending",
+        "screened_at": "2026-10-13T18:46:47.459934+00:00"
+      },
+      "https://docs.litellm.ai/docs/projects/GraphRAG": {
+        "status": "rejected",
+        "screened_at": "2026-10-13T18:46:47.459953+00:00"
+      },
+      "https://docs.litellm.ai/docs/projects/Harbor": {
+        "status": "rejected",
+        "screened_at": "2026-10-13T18:46:47.459956+00:00"
       }
     },
-    "last_scan": "2026-10-12T20:43:58.516899+00:00"
+    "last_scan": "2026-10-13T18:46:47.459959+00:00"
   },
   "promptfoo-docs": {
     "urls": {
@@ -8377,16 +8413,22 @@
         "filed_at": "2026-10-12T20:44:24.525601+00:00"
       },
       "https://www.promptfoo.dev/docs/guides/evaluate-llm-temperature": {
-        "status": "pending",
-        "screened_at": "2026-08-06T13:49:14.848300+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-06T13:49:14.848300+00:00",
+        "issue": 1706,
+        "filed_at": "2026-10-13T18:47:05.030176+00:00"
       },
       "https://www.promptfoo.dev/docs/guides/evaluate-openai-agents-python": {
-        "status": "pending",
-        "screened_at": "2026-08-07T12:47:37.536914+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-07T12:47:37.536914+00:00",
+        "issue": 1707,
+        "filed_at": "2026-10-13T18:47:07.004926+00:00"
       },
       "https://www.promptfoo.dev/docs/guides/evaluate-openai-assistants": {
-        "status": "pending",
-        "screened_at": "2026-08-07T12:47:37.536931+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-07T12:47:37.536931+00:00",
+        "issue": 1708,
+        "filed_at": "2026-10-13T18:47:09.204309+00:00"
       },
       "https://www.promptfoo.dev/docs/guides/evaluate-osworld-with-inspect": {
         "status": "pending",
@@ -9183,8 +9225,20 @@
       "https://www.promptfoo.dev/docs/red-team/plugins/harmbench": {
         "status": "pending",
         "screened_at": "2026-10-12T20:44:01.807293+00:00"
+      },
+      "https://www.promptfoo.dev/docs/red-team/plugins/harmful": {
+        "status": "pending",
+        "screened_at": "2026-10-13T18:46:50.805799+00:00"
+      },
+      "https://www.promptfoo.dev/docs/red-team/plugins/hijacking": {
+        "status": "pending",
+        "screened_at": "2026-10-13T18:46:50.805818+00:00"
+      },
+      "https://www.promptfoo.dev/docs/red-team/plugins/imitation": {
+        "status": "pending",
+        "screened_at": "2026-10-13T18:46:50.805820+00:00"
       }
     },
-    "last_scan": "2026-10-12T20:44:01.807295+00:00"
+    "last_scan": "2026-10-13T18:46:50.805823+00:00"
   }
 }
