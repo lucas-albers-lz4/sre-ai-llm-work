@@ -52,6 +52,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "blog-cncf-goodput-more-than-throughput-llm-serving": {
+      "slug": "blog-cncf-goodput-more-than-throughput-llm-serving",
+      "title": "Why goodput matters more than throughput for LLM serving",
+      "source_url": "https://www.cncf.io/blog/2026/07/20/why-goodput-matters-more-than-throughput-for-llm-serving",
+      "source_type": "blog-post",
+      "author": "Graziano Casto",
+      "date_published": "2026-07-20",
+      "date_extracted": "2026-10-13",
+      "issue": "#1702",
+      "file": "source-notes/blog-cncf-goodput-more-than-throughput-llm-serving.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-cncf-network-boundary-ai-agents-nginx-otel": {
       "slug": "blog-cncf-network-boundary-ai-agents-nginx-otel",
       "title": "Network boundary for AI agents using NGINX and OpenTelemetry",

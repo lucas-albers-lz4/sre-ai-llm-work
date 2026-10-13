@@ -310,6 +310,79 @@
         }
       ]
     },
+    "blog-cncf-goodput-more-than-throughput-llm-serving": {
+      "path": "source-notes/blog-cncf-goodput-more-than-throughput-llm-serving.md",
+      "title": "Why goodput matters more than throughput for LLM serving",
+      "source_url": "https://www.cncf.io/blog/2026/07/20/why-goodput-matters-more-than-throughput-for-llm-serving",
+      "chapters": [],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Goodput — completed requests per second that *also* meet latency targets — is the capacity number that captures the user's experience; raw throughput counts requests a late response already failed",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "For LLM serving the two latency targets goodput must satisfy are TTFT (wait before anything appears) and TPOT (pace of the streaming answer) — and throughput alone \"can keep rising while your service quietly gets worse\"",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "In the chatbot study, constraining only `avg TTFT ≤ 1.5 s` produced ~50% more combined token throughput at ~10x worse p95 TPOT — the unconstrained target absorbed the entire cost",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The two latencies move in opposite directions because they come from different stages — TTFT from prefill, TPOT from the decode step where vLLM advances every active request one token at a time, so packing more throughput per step lengthens every request's inter-token gap",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Two configs can tie on requests/sec while differing sharply on p95 TPOT — the agentic study's two best configs ran 6.20 vs 6.11 req/s yet differed by ~220 ms on p95 TPOT (682 vs 902 ms)",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Changing the binding latency target moves the winning config — tightening the inter-token target on the reasoning workload pushed the winner to a different configuration entirely",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The author deliberately chose a cheap single A10G and states the study's value is the *shape* of the throughput-vs-latency trade-off, not the absolute ceiling",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Load mode matters — a **rate sweep** reads latencies while the server still keeps up, while a **saturation/throughput run** fires requests as fast as the server accepts them and cannot by itself expose SLO violations",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "A live streaming metric jitters, so a config should be scored from a run of consecutive *settled* samples — the author uses eight consecutive data points after prefill throughput settles, not any single sample",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The workload shape decides which latency target binds — chatbot (~485/121 tokens) hangs on tight TTFT, reasoning (~400/4000) on TPOT with TTFT loose, agentic (~512/128) on per-call TTFT that accumulates",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The best config is not stable — traffic, prompts, and models all change over time, so the tuning search has to re-run; and the tuning space contains sharp cliffs (a nearby config in the reasoning runs \"failed outright\")",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "The same trade-off lives in the layers held fixed (GPU settings, runtime, scheduling), and the largest gains come from tuning the whole stack together because the layers interact",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "The concrete deliverable is a reproducible public harness — Qwen2.5-7B + vLLM + GuideLLM + Prometheus/Grafana + DCGM on EKS, with Kubernetes manifests — and the practical instruction to set TTFT/TPOT targets first, then maximize throughput subject to them",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-cncf-network-boundary-ai-agents-nginx-otel": {
       "path": "source-notes/blog-cncf-network-boundary-ai-agents-nginx-otel.md",
       "title": "Network boundary for AI agents using NGINX and OpenTelemetry",
