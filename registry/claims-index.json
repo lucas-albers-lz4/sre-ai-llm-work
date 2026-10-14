@@ -747,6 +747,84 @@
         }
       ]
     },
+    "blog-cncf-telemetry-that-matters-observability-pipelines": {
+      "path": "source-notes/blog-cncf-telemetry-that-matters-observability-pipelines.md",
+      "title": "Telemetry that matters: Designing sustainable, high-impact observability pipelines",
+      "source_url": "https://www.cncf.io/blog/2026/06/22/telemetry-that-matters-designing-sustainable-high-impact-observability-pipelines/",
+      "chapters": [],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Unchecked telemetry collection wastes resources and creates cognitive load",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Green observability matters — telemetry waste has energy/carbon cost",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Observability must be treated as a day-zero design requirement",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "During incidents, cross-signal correlation (observability mesh) reduces context-switching",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Auto-instrumentation is fast but cannot see internal business logic; manual gives control but risks stalling",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Optimize in the pipeline (Day 2) to avoid app redeploys",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Smart/tail-based sampling preserves anomalies while dropping boring traffic",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "High-cardinality management — mask unique IDs, drop attributes, truncate IPs",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Cardinality limiters skip attributes past a uniqueness threshold",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Log deduplication collapses identical lines in a window with iteration count",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Centralized infrastructure enrichment avoids per-service overhead",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "Agentic/LLM systems require shifting from \"is it fast?\" to \"is it producing cost-effective, reliable, correct outcomes?\"",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "Retroactive/centralized sampling is an emerging standard to watch",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "Audit heuristic — \"if this data stream stopped flowing tomorrow, what would we actually lose?\"",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-cncf-understanding-dynamic-resource-allocation-kubernetes": {
       "path": "source-notes/blog-cncf-understanding-dynamic-resource-allocation-kubernetes.md",
       "title": "Understanding dynamic resource allocation in Kubernetes",

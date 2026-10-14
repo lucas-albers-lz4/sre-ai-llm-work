@@ -143,6 +143,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "blog-cncf-telemetry-that-matters-observability-pipelines": {
+      "slug": "blog-cncf-telemetry-that-matters-observability-pipelines",
+      "title": "Telemetry that matters: Designing sustainable, high-impact observability pipelines",
+      "source_url": "https://www.cncf.io/blog/2026/06/22/telemetry-that-matters-designing-sustainable-high-impact-observability-pipelines/",
+      "source_type": "blog-post",
+      "author": "Diana Todea (VictoriaMetrics, DevRel Engineer; Cloud Native Days Romania organizer), Laura Luttmer (Principal Product Manager, Bindplane/Dynatrace), Antonio Jimenez Martinez",
+      "date_published": "2026-06-22",
+      "date_extracted": "2026-10-14",
+      "issue": "#1718",
+      "file": "source-notes/blog-cncf-telemetry-that-matters-observability-pipelines.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-cncf-understanding-dynamic-resource-allocation-kubernetes": {
       "slug": "blog-cncf-understanding-dynamic-resource-allocation-kubernetes",
       "title": "Understanding dynamic resource allocation in Kubernetes",
