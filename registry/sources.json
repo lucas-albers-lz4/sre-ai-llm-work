@@ -39,6 +39,19 @@
       "confidence_overall": "anecdotal",
       "status": "current"
     },
+    "blog-cncf-agent-doc-access-tool-mix": {
+      "slug": "blog-cncf-agent-doc-access-tool-mix",
+      "title": "Why your agent needs access to your documentation",
+      "source_url": "https://www.cncf.io/blog/2026/07/21/why-your-agent-needs-access-to-your-documentation",
+      "source_type": "blog-post",
+      "author": "Finn Bauer",
+      "date_published": "2026-07-21",
+      "date_extracted": "2026-10-14",
+      "issue": "#1720",
+      "file": "source-notes/blog-cncf-agent-doc-access-tool-mix.md",
+      "confidence_overall": "anecdotal",
+      "status": "current"
+    },
     "blog-cncf-cluster-aware-ai-agent-argo-gitops": {
       "slug": "blog-cncf-cluster-aware-ai-agent-argo-gitops",
       "title": "Building a Cluster-Aware AI Agent with Kubernetes, Argo CD, and GitOps",

@@ -253,6 +253,67 @@
         }
       ]
     },
+    "blog-cncf-agent-doc-access-tool-mix": {
+      "path": "source-notes/blog-cncf-agent-doc-access-tool-mix.md",
+      "title": "Why your agent needs access to your documentation",
+      "source_url": "https://www.cncf.io/blog/2026/07/21/why-your-agent-needs-access-to-your-documentation",
+      "chapters": [
+        "03",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "An in-product agent was given ~30 native platform tools plus one `search_knowledge_base` tool covering documentation, code examples, support FAQs, and API reference",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Contrary to the team's expectation that native tools would dominate, `search_knowledge_base` was the single most-used tool, almost as much as all the native tools combined",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The largest role for the docs tool was fallback — 32.1% of conversations used it for questions no native tool could answer, and without it the agent \"would have had to refuse or guess\"",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The second role, ~7% of conversations, was context addition — native tools report account state while docs supply its meaning, and neither alone sufficed",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The unexpected third role is planning — the docs tool was called not to answer the user but so the agent could \"figure out what to do,\" teaching it which native tool to call",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Docs do a \"third job\" — teaching the agent what the product can actually do — alongside answering and contextualizing",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The fallback load was driven by an expectation mismatch — users treated an analytics agent as a catch-all product agent, and the docs tool is what let it meet that expectation",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The post's thesis is that documentation is \"part of how the agent reasons,\" not merely a fallback; the author's closing framing is that the docs tool is what makes the ~30 native tools useful",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The CNCF-specific relevance claim — across the CNCF landscape, documentation is a primary interface and tends to be \"large, fast-moving, and spread across many surfaces,\" making docs-vs-tools a practical agent design decision",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The design question the post poses — how much the agent should read docs versus call purpose-built tools — is a practical decision, and the answer here is not \"fewer native tools\" but \"the retrieval tool is what makes the others usable\"",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-cncf-cluster-aware-ai-agent-argo-gitops": {
       "path": "source-notes/blog-cncf-cluster-aware-ai-agent-argo-gitops.md",
       "title": "Building a Cluster-Aware AI Agent with Kubernetes, Argo CD, and GitOps",
