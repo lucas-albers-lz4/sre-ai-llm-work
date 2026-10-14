@@ -13727,6 +13727,73 @@
         }
       ]
     },
+    "docs-litellm-creating-adapters": {
+      "path": "source-notes/docs-litellm-creating-adapters.md",
+      "title": "Call any LiteLLM model in your custom format | liteLLM (Custom Formats / Adapters)",
+      "source_url": "https://docs.litellm.ai/docs/extras/creating_adapters",
+      "chapters": [
+        "02",
+        "06",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Adapters are a bidirectional **format-translation** layer around LiteLLM's OpenAI-format internals — the request is translated into OpenAI format, processed by any supported model, then translated back; it is not a new provider integration",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The adapter base class is `litellm.integrations.custom_logger.CustomLogger` — the **same** class used for logging/observability callbacks — but adapter registration uses a distinct module-level list (`litellm.adapters`) keyed by `id`, separate from the `litellm.callbacks` registry",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Adapter registration is process-global mutable state — `litellm.adapters = [...]` is a module-level assignment, not a per-request or per-route setting, so it is not part of the model-cost-map reload path and an adapter swap implies a process restart",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The adapter contract is a three-method trio with fixed signatures and types — `translate_completion_input_params(self, kwargs) -> ChatCompletionRequest`, `translate_completion_output_params(self, response: ModelResponse)`, and `translate_completion_output_params_streaming(self, completion_stream)`; the streaming method returns a **wrapper object**, not a transformed response",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Invocation is via dedicated entry points named `adapter_completion` / `aadapter_completion`, keyed by `adapter_id=`, kept separate from `litellm.completion` / `litellm.acompletion`",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The worked Anthropic example does the minimal bidirectional mapping — on input it moves the top-level `system` kwarg into a `system` message inserted at index 0 when present; on output it maps usage `prompt_tokens`→`input_tokens` and `completion_tokens`→`output_tokens`",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The streaming worked example emits Anthropic SSE event types in a fixed order via an `AdapterCompletionStreamWrapper` subclass — `message_start` first (guarded by a `first_chunk` flag), then `content_block_delta`, then `message_stop`",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The only proxy wiring documented is `general_settings.pass_through_endpoints` mapping a path to a Python module class — `path: \"/v1/messages\"` / `target: \"my_module.MyAdapter\"` — exercised with a `Bearer` token against the proxy; the page states no caveats about auth or path handling",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The page names the real upstream Anthropic adapter files it is abstracting — `transformation.py`, `handler.py`, `streaming_iterator.py` under `litellm/llms/anthropic/experimental_pass_through/adapters/` — placing user-authored adapters in the same source tree as the built-in `responses_adapters/` translation",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The page documents **no** reliability or operational surface — no error handling, retries, fallbacks, timeouts, rate limits, logging, cost tracking, or deployment guidance — so it is a developer-extension tutorial, not gateway-ops documentation",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The snippets are illustrative, not copy-paste-ready — the class-body indentation is inconsistent and the streaming example mixes a synchronous translation method with an `async def __anext__`, redeclaring the streaming-method signature with an extra `model` parameter",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-drop-params": {
       "path": "source-notes/docs-litellm-drop-params.md",
       "title": "Drop Unsupported Params | liteLLM",
