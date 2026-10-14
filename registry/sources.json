@@ -65,6 +65,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "blog-cncf-jaeger-clickhouse-backend": {
+      "slug": "blog-cncf-jaeger-clickhouse-backend",
+      "title": "Building Jaeger’s ClickHouse backend: 8.6× compression on 10 million spans",
+      "source_url": "https://www.cncf.io/blog/2026/06/23/building-jaegers-clickhouse-backend-8-6x-compression-on-10-million-spans",
+      "source_type": "blog-post",
+      "author": "Mahad Zaryab",
+      "date_published": "2026-06-23",
+      "date_extracted": "2026-10-14",
+      "issue": "#1700",
+      "file": "source-notes/blog-cncf-jaeger-clickhouse-backend.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-cncf-network-boundary-ai-agents-nginx-otel": {
       "slug": "blog-cncf-network-boundary-ai-agents-nginx-otel",
       "title": "Network boundary for AI agents using NGINX and OpenTelemetry",

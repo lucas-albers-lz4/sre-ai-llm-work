@@ -383,6 +383,56 @@
         }
       ]
     },
+    "blog-cncf-jaeger-clickhouse-backend": {
+      "path": "source-notes/blog-cncf-jaeger-clickhouse-backend.md",
+      "title": "Building Jaeger’s ClickHouse backend: 8.6× compression on 10 million spans",
+      "source_url": "https://www.cncf.io/blog/2026/06/23/building-jaegers-clickhouse-backend-8-6x-compression-on-10-million-spans",
+      "chapters": [
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Columnar storage suits telemetry workloads due to repetitive values and OLAP design",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Primary key sort order forces asymmetric trade-off between trace retrieval and filtered search",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Two mitigations partially recover trace retrieval under search-optimized sort order",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Typed attributes require per-primitive Nested columns and metadata mapping",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Attribute-only searches cannot fully leverage the primary index",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Measured compression and throughput on single-node benchmark",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Materialized views support auxiliary lookups (services, operations, trace time ranges)",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Maturity caveat — alpha feature in Jaeger v2.18.0",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-cncf-network-boundary-ai-agents-nginx-otel": {
       "path": "source-notes/blog-cncf-network-boundary-ai-agents-nginx-otel.md",
       "title": "Network boundary for AI agents using NGINX and OpenTelemetry",
