@@ -15994,6 +15994,66 @@
         }
       ]
     },
+    "docs-promptfoo-enterprise-authentication": {
+      "path": "source-notes/docs-promptfoo-enterprise-authentication.md",
+      "title": "Promptfoo Enterprise: Authentication — Vendor-Provisioned SSO, the CLI Credential Flow, and the Org/Team Scoping Behind `--share`",
+      "source_url": "https://www.promptfoo.dev/docs/enterprise/authentication",
+      "chapters": [
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Enterprise SSO supports SAML 2.0 and OIDC, but on the hosted product the IdP configuration is vendor-provisioned — customers \"reach out to the support team,\" and the auth endpoint is `auth.promptfoo.app`",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The authentication page documents no SSO configuration surface at all — no client ID/secret, no discovery URL, no claim mappings, no token lifetimes, no RBAC roles",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Basic auth on the hosted product is org-provisioned — the global admin gets an email invite at `auth.promptfoo.app`, and magic-link login is the documented alternative",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "CLI authentication is a copy-a-command flow from the app's profile (\"CLI Login Information\"), and its stated purpose is to let the authenticated CLI share locally-run eval results",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Eval results are stored locally until explicitly shared — sharing is an opt-in upload, not a background sync",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Authenticated sharing is org-scoped — team-based sharing makes results \"only visible to members of your organization rather than being publicly accessible\"",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The team CLI surface is three commands — `promptfoo auth teams list | set | current` — and the team selection persists across CLI sessions",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The team list is scoped by the credential, not the machine — teams shown are \"the teams accessible to your API key in its organization\"",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Switching organizations is done by presenting a different org's API key — `promptfoo auth login --api-key <apiKey>` — so the key's org defines the tenant boundary",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Team context is a scoping input to execution, not display state — all subsequent operations, including red-team scans, run under the selected team until it is switched",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-enterprise-findings-reports": {
       "path": "source-notes/docs-promptfoo-enterprise-findings-reports.md",
       "title": "Promptfoo Enterprise: Findings and Reports — Finding Disposition, the Export/Interop Matrix, and the Read-Only Findings Surface",

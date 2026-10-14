@@ -2990,6 +2990,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-enterprise-authentication": {
+      "slug": "docs-promptfoo-enterprise-authentication",
+      "title": "Promptfoo Enterprise: Authentication — Vendor-Provisioned SSO, the CLI Credential Flow, and the Org/Team Scoping Behind `--share`",
+      "source_url": "https://www.promptfoo.dev/docs/enterprise/authentication",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-10-14",
+      "date_extracted": "2026-10-14",
+      "issue": "#1590",
+      "file": "source-notes/docs-promptfoo-enterprise-authentication.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-enterprise-findings-reports": {
       "slug": "docs-promptfoo-enterprise-findings-reports",
       "title": "Promptfoo Enterprise: Findings and Reports — Finding Disposition, the Export/Interop Matrix, and the Read-Only Findings Surface",
