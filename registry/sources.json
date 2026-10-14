@@ -3081,6 +3081,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-evaluate-openai-agents-python": {
+      "slug": "docs-promptfoo-evaluate-openai-agents-python",
+      "title": "Promptfoo: Evaluate OpenAI Agents (Python SDK) — the TracingProcessor/OTLP Bridge, Sandbox-Agent and Skills Provider Surface, and the Cost-Accounting Gap",
+      "source_url": "https://www.promptfoo.dev/docs/guides/evaluate-openai-agents-python",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-10-14",
+      "date_extracted": "2026-10-14",
+      "issue": "#1707",
+      "file": "source-notes/docs-promptfoo-evaluate-openai-agents-python.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-extension-hooks-and-sessions": {
       "slug": "docs-promptfoo-extension-hooks-and-sessions",
       "title": "Promptfoo Configuration: Reference — Extension Hooks, Session Management, and Run-Control Defaults",

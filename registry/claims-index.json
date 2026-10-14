@@ -16456,6 +16456,79 @@
         }
       ]
     },
+    "docs-promptfoo-evaluate-openai-agents-python": {
+      "path": "source-notes/docs-promptfoo-evaluate-openai-agents-python.md",
+      "title": "Promptfoo: Evaluate OpenAI Agents (Python SDK) — the TracingProcessor/OTLP Bridge, Sandbox-Agent and Skills Provider Surface, and the Cost-Accounting Gap",
+      "source_url": "https://www.promptfoo.dev/docs/guides/evaluate-openai-agents-python",
+      "chapters": [],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The page exists because promptfoo's built-in `openai:agents:*` provider targets only the JavaScript `@openai/agents` SDK — the Python `openai-agents` SDK must be wrapped as a Python provider, which is what makes sessions, tools, and framework tracing controllable",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Promptfoo's agent-path assertions depend on a four-step producer bridge — promptfoo injects a W3C `traceparent`, the provider parses it and installs a custom `TracingProcessor`, the processor converts SDK spans to OTLP JSON, and promptfoo ingests them for the Trace Timeline and `trajectory:*` assertions",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Skipping the exporter does **not** hard-fail the eval — it silently degrades a trajectory eval to an output-only eval, because `trajectory:*` assertions \"will not have the trace data they need\"",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Two encodings are accepted on this path because the bridge emits OTLP **JSON** while the optional Python OTel wrapper defaults to **protobuf** — an opt-in (`PROMPTFOO_ENABLE_OTEL=true`) adds a provider-level parent span the custom SDK spans inherit",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The bridge maps SDK-custom spans into named OTLP attributes (`sandbox.operation`, `command`, `process.exit.code`) and normalizes `exec_command` tool spans as command trajectory steps, including the experimental Codex tool's spans as `command` / `codex.command`",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The trajectory/trace assertions are the grading surface, with concrete numeric thresholds shown — `trajectory:tool-used`, `trajectory:tool-args-match` (`mode: partial`), `trajectory:tool-sequence`, `trajectory:step-count` (`agent *`, `min: 3`), the no-errors gate `trace-error-spans` (`max_count: 0`), and `trace-span-count` for sandbox/command spans",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Long-horizon tasks are encoded as one eval row — `vars.steps_json` is a JSON-encoded list of user turns executed sequentially against a shared `SQLiteSession`, and the provider returns `tokenUsage.numRequests`, cached-input tokens, and reasoning-token detail so the multi-call footprint is preserved",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Promptfoo does **not** infer a dollar `cost` for this path, and the vendor's guidance is to return `cost` from the provider only when every billed model and hosted tool can be accounted for",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The sandbox provider surface is `SandboxAgent` / `Manifest` / `SandboxRunConfig` (SDK 0.14) with `UnixLocalSandboxClient` vs `DockerSandboxClient`, and the vendor's ops warning is to keep credentials and secrets out of staged `Manifest` files unless the backend and trace-redaction policy are appropriate",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "There is no first-class `skill-used` event for the Python Skills binding — the guidance is to assert the observable workflow (skill file read, helper command ran cleanly, answer reflects the result) or return `metadata.skillCalls` from the provider and use promptfoo's `skill-used` assertion",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The experimental `codex_tool` lets a Python SDK agent delegate a bounded workspace task to Codex, and its command spans surface via the bridge — but if Codex itself is the system under test the vendor points to the dedicated `openai:codex-sdk` / `openai:codex-app-server` providers",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "Two red-team configs ship — one for the Python SDK airline agent, one for the `SandboxAgent` coding workflow (prompt injection, secret reads, sandbox escapes, network egress, delayed CI exfiltration, verifier sabotage) — and generated tests inherit trace assertions, so internal tool-path failures surface even when the final answer looks like a refusal",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "The Python provider also passes structured multimodal input through `Runner.run_sync()`, and the encoding diverges from the JS SDK — Python uses `image_url` where the JavaScript examples use `image`",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-extension-hooks-and-sessions": {
       "path": "source-notes/docs-promptfoo-extension-hooks-and-sessions.md",
       "title": "Promptfoo Configuration: Reference — Extension Hooks, Session Management, and Run-Control Defaults",
