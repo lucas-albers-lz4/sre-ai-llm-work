@@ -14133,6 +14133,66 @@
         }
       ]
     },
+    "docs-litellm-gemini-image-migration": {
+      "path": "source-notes/docs-litellm-gemini-image-migration.md",
+      "title": "Gemini Image Generation Migration Guide — LiteLLM Documentation",
+      "source_url": "https://docs.litellm.ai/docs/extras/gemini_img_migration",
+      "chapters": [
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "From v1.77.0, LiteLLM returns images as a **list** at `response.choices[0].message.images` instead of a single image at `response.choices[0].message.image` — a version-scoped response-contract break for the two Gemini image-generation models on `/chat/completions`",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Each image is returned as a structured entry whose `image_url.url` is a base64 **data URL** — so the image bytes ride inside the response body, which matters for log/span payload size and any middleware that buffers responses",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The stated rationale is that the newer `gemini-2.5-flash-image-preview` returns text and image in one response (so a structured field replaces content-scanning), and the plural name is deliberately aligned with the OpenRouter API",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The caller must pass `modalities=[\"image\", \"text\"]`, and text still lands in `message.content` — the `images` field is additive, not a replacement for text",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Through the LiteLLM Proxy the response mirrors the SDK — the `images` array sits inside `choices[0].message` alongside a `usage` block — so a proxy front-end passes the break through to its clients unchanged",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The documented blast radius is two experimental model ids on `/chat/completions` — `gemini/gemini-2.0-flash-exp-image-generation` and `vertex_ai/gemini-2.0-flash-exp-image-generation`",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The change is documented as a hard cutover — no rollback flag, no compatibility shim, no deprecation window — with v1.77.0 as the only version anchor",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The page is internally inconsistent about the **pre**-change access path — the info callout names a singular `response.choices[0].message.image`, while the worked \"Before\" code reads `response.choices[0].message.content`",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The proxy config example registers a model (`vertex_ai/gemini-2.5-flash-image-preview`) that is **not** in the impacted list, and the \"Response Format\" block is fenced as `python` while containing JSON",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "This page is a concrete instance of a **minor gateway line bump silently changing the response contract** — the case the version-support discipline's \"line moves need release-notes review\" rule exists to catch",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-generic-guardrail-api": {
       "path": "source-notes/docs-litellm-generic-guardrail-api.md",
       "title": "[BETA] Generic Guardrail API — Integrate Without a PR (LiteLLM Docs)",
