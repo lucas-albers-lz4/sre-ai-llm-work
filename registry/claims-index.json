@@ -16936,6 +16936,72 @@
         }
       ]
     },
+    "docs-promptfoo-evaluate-rag": {
+      "path": "source-notes/docs-promptfoo-evaluate-rag.md",
+      "title": "Evaluating RAG pipelines",
+      "source_url": "https://www.promptfoo.dev/docs/guides/evaluate-rag",
+      "chapters": [
+        "05",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "A RAG eval should measure document retrieval and LLM generation as *separately gated* stages, because stage separation is what localizes failures",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The retrieval step is evaluated in isolation by wrapping it as a `file://` Python *provider* — a `retrieve.py` exposing `call_api(query, options, context)` — which the Node CLI satisfies by starting a Python worker per call, with no separate Python package or server",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The Python interpreter for a `file://` provider is pinned two ways — per-provider `pythonExecutable: ./.venv/bin/python` or the global `PROMPTFOO_PYTHON` default — the same knobs the assertions page documents, now on the provider surface",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "A custom retrieval provider's result dict may carry `error` and `tokenUsage` (prompt/completion/total), giving the retrieval stage its own failure channel and per-call cost attribution inside the eval report",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The retrieval-only eval uses a placeholder `{{ query }}` prompt and gates on `contains-all` over expected document names/metadata substrings — and the surrounding prose references `context-recall` assertions that do not appear in the worked config",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Vector databases are compared by listing one retrieval script per store in `providers`, producing a side-by-side eval view — and the vendor explicitly disowns the ranking its own example shows",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The tutorial's metric taxonomy is stage-keyed — output-based (factuality/correctness, answer-relevance) vs context-based (context-adherence/grounding/faithfulness, context-recall, context-relevance) vs custom metrics — so the assertion catalog is read as \"which stage's failure does this gate catch\"",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Dynamic per-case context is fetched by a scripted test var — `context: file://./load_context.py` with a `get_var(var_name, prompt, other_vars)` entrypoint returning `{output}` — which is the configuration-guide's documented scripted-var API applied to vector-DB retrieval",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Context for context-based asserts can be supplied as a test var or extracted from the provider's response via `contextTransform`, and both `contextTransform` and `options.transform` receive the provider's raw output — so answer and documents can be extracted independently; the page adds multi-language JS extraction examples on top of that settled pipeline position",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Cross-lingually (query and context in different languages), text-matching metrics collapse while concept-based metrics survive — the page's matrix recommends `context-relevance` (85–95% accuracy), `context-faithfulness` (70–80%), `answer-relevance` (65–75%), prescribes `llm-rubric` in place of `context-recall` (\"Drops from 80% to 10-30% accuracy\") and all string metrics, and attributes the collapse to textual matching vs conceptual relationships — but the figures carry no benchmark, language pair, dataset, sample size, or methodology",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "End-to-end RAG eval is the same script-provider composition with combined `retrieve_and_generate_v*.py` providers — the stage-split harness composed, not a separate mode",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-extension-hooks-and-sessions": {
       "path": "source-notes/docs-promptfoo-extension-hooks-and-sessions.md",
       "title": "Promptfoo Configuration: Reference — Extension Hooks, Session Management, and Run-Control Defaults",
