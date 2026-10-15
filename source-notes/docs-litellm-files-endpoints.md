@@ -99,14 +99,20 @@ issue: "#1722"
   ID with no model.
 - **Confidence**: settled
 - **Quote**: "You can pass the `model` parameter via:" / "**Request body**: `extra_body={\"model\": \"gpt-4o-litellm\"}`" / "**Query parameter**: `?model=gpt-4o-litellm`" / "**Header**: `x-litellm-model: gpt-4o-litellm`"
-- **Our assessment**: Corroborates the three-transport parameter pattern the
-  containers note records for provider selection
-  (`docs-litellm-containers-api.md`, Claim 6). The transport name here is
-  `x-litellm-model`, distinct from the legacy `custom-llm-provider` header — so
-  a gateway that strips or sets `x-litellm-model` at the edge silently chooses
-  the account, same class of edge-injection hazard the containers note flags for
-  its provider header. The page states no priority order among body/query/header
-  (unlike the containers note); none is asserted here.
+- **Our assessment**: Corroboration-plus-worked-example, not a new mechanism.
+  The three-transport parameter pattern for provider selection is documented in
+  `docs-litellm-containers-api.md` Claim 6, and the **same three transports —
+  with the literal header name `x-litellm-model`** — already appear in
+  `docs-litellm-batches-api.md` Claim 10, whose quote reads "**2. Model
+  Parameter** - Via header (`x-litellm-model`), query param, or request body"
+  for the file/batch routing family this page sits in. What this page adds is
+  the `/files`-side instance: the three `Parameter Options` bullets applied to
+  the five file operations. The transport name here is `x-litellm-model`,
+  distinct from the legacy `custom-llm-provider` header — so a gateway that
+  strips or sets `x-litellm-model` at the edge silently chooses the account,
+  same class of edge-injection hazard the containers note flags for its provider
+  header. The page states no priority order among body/query/header (unlike the
+  containers note); none is asserted here.
 
 ### Claim 5: The legacy `files_settings` config is a separate per-provider credential block (`custom_llm_provider`, `api_base`, `api_key`, `api_version`) that required a `custom-llm-provider` header on every call, and the page recommends migrating to `model_list` entries instead
 - **Evidence**: The "Migration from files_settings" section — "Old approach
@@ -168,7 +174,7 @@ issue: "#1722"
   **Anthropic only**; it gives no cost statement for the other four providers.
   No existing note carries this rule (verified — see Cross-References).
 
-### Claim 9: A second documented purpose of the surface is feature staging only — the SDK helpers are async-only and named `acreate_file` / `afile_list` / `afile_retrieve` / `afile_delete` / `afile_content`, each taking `custom_llm_provider` explicitly, with `afile_list(limit=…)` as the only pagination hint
+### Claim 9: The SDK helpers are async-only and named `acreate_file` / `afile_list` / `afile_retrieve` / `afile_delete` / `afile_content`, each taking `custom_llm_provider` explicitly, with `afile_list(limit=…)` as the only pagination hint
 - **Evidence**: The SDK tab's five code blocks and the `afile_list` example's
   `limit=10` argument.
 - **Confidence**: settled
@@ -346,10 +352,15 @@ candidate path in `miner-related-notes.md` is cited or explicitly dismissed.
     then body). This page's Claim 4 documents the same three transports for the
     `model` parameter on `/files`; together they establish that LiteLLM's
     OpenAI-shape endpoints accept routing inputs in body, query, and header.
-  - `source-notes/docs-litellm-knowledgebase-vector-stores.md` **Claim 8** (the
-    client's `file_search` tool is consumed by the gateway; "provider file
-    objects are fronted by gateway routes"). This page is the provider-level
-    instance of that shape: the client talks only to the proxy's `/files`
+  - `source-notes/docs-litellm-knowledgebase-vector-stores.md` **Claim 8** —
+    cited with a caveat: that claim is graded `emerging` (code-only, `main`),
+    not a documented contract, and its actual content is that the
+    client-declared `file_search` tool is popped from `tools` before the
+    provider call (the page never says whether the model receives it). The
+    shape it shares with this page — the client talks only to gateway routes
+    while provider-side objects sit behind them — is the Miner's inference, not
+    that claim's text, and is stated as such. Where this page *is* documentary
+    rather than code-inferred: the client calls only the proxy's `/files`
     routes while the bytes live in OpenAI/Azure/Vertex/Bedrock/Anthropic
     storage, and the gateway holds the provider credential.
 
@@ -403,8 +414,12 @@ candidate path in `miner-related-notes.md` is cited or explicitly dismissed.
     file-cost attribution statement.
   - The **Bedrock S3-URI content-retrieval form** (`file_id="s3://…"` +
     `aws_region_name`, returning `content.text`, Claim 6).
-  - The **three-way `model`-transport for `/files`** (`extra_body` / `?model=` /
-    `x-litellm-model`, Claim 4) and the documented absences (Claim 11).
+  - The **`/files`-side instance of the three-way `model` transport**
+    (`extra_body` / `?model=` / `x-litellm-model`, Claim 4) — *not* the
+    transports themselves, which `docs-litellm-batches-api.md` Claim 10 already
+    documents (including the `x-litellm-model` header name); new here is their
+    documented application to the five file operations — and the documented
+    absences (Claim 11).
 
 ## Guide Impact
 
@@ -487,7 +502,10 @@ candidate path in `miner-related-notes.md` is cited or explicitly dismissed.
 - Additional cross-references found by searching `source-notes/`:
   `docs-litellm-container-files-api.md` (Corroborates/Extends — Claims 5 and 7),
   `docs-litellm-containers-api.md` (Corroborates Claim 6; Extends Claim 7),
-  `docs-litellm-knowledgebase-vector-stores.md` (Corroborates Claim 8),
+  `docs-litellm-knowledgebase-vector-stores.md` (Corroborates Claim 8, with the
+  relation qualified — that claim is `emerging`/code-only and says the
+  `file_search` tool is popped before the provider call; the "objects fronted by
+  gateway routes" framing is the Miner's inference, not that note's wording),
   `docs-litellm-a2a-cost-tracking.md` (read to check the Anthropic cost rule;
   not overlapping), and `docs-litellm-completion-batching.md` (its Scope
   explicitly excludes the `/v1/files` + `/v1/batches` surface — this note fills
