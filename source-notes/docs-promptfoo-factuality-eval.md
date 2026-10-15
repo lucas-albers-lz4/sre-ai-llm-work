@@ -580,11 +580,16 @@ default row cap is `maxRows = 100`.
   that judge.
 - **Chapter 06 (Security and Trust) — RAG/grounding gates**: document the
   reference-based factuality gate beside the existing RAG-triad material
-  (`blog-promptfoo-owasp-red-teaming.md`), noting the two supply paths for
-  ground truth — a curated reference (`value`/CSV, #1348 Claim 6) and a
-  *programmatic loader* whose upstream dataset and label mapping are now part of
-  the gate's provenance (Claim 4). A loader that changes upstream (or maps the
-  wrong label) silently changes what the gate tests.
+  (`source-notes/blog-promptfoo-owasp-red-teaming.md`, #555), noting the two
+  supply paths for ground truth — a curated reference (`value`/CSV, #1348
+  Claim 6) and a *programmatic loader* whose upstream dataset and label mapping
+  are now part of the gate's provenance (Claim 4). A loader that changes
+  upstream (or maps the wrong label) silently changes what the gate tests. If
+  the chapter quotes a copy-pasteable loader line, use the form that actually
+  ships in the linked example — `tests: path: file://dataset_loader.ts:generate_tests`
+  plus its `config: {dataset, split}` block (Concrete Artifacts) — not the
+  doc-page shorthand `tests: file://your_dataset_loader.ts:generate_tests`
+  (Claim 4), which the doc page and the example disagree on (Extraction Notes).
 - **Chapter 02 / methodology — reproducible recipes**: cite the TruthfulQA
   quick-start (Claim 5) as the canonical "stand up a factuality harness" recipe,
   explicitly scoped as a *benchmark-anchored smoke test* rather than a
@@ -650,7 +655,11 @@ default row cap is `maxRows = 100`.
     chapter; no LLM-eval content; dismissed.
   - `blog-promptfoo-owasp-red-teaming.md` (#555) — OWASP red-team methodology/SDLC
     and the RAG-triad concept list; no factuality grading config; cited only
-    indirectly in Guide Impact, dismissed as a cross-ref.
+    indirectly in Guide Impact, dismissed as a cross-ref. (Candidate-list entries
+    are named bare, as the `miner-related-notes.md` file names them; the repo
+    path for this one is `source-notes/blog-promptfoo-owasp-red-teaming.md`, which
+    is the path Guide Impact now cites — the bare form here and the full path
+    there are the same note, not two.)
   - `docs-litellm-batches-api.md` — LiteLLM batches/files API; unrelated vendor
     surface; dismissed.
   - `blog-pagerduty-sre-agent-triage.md` (#610) — AI-incident triage by an SRE
