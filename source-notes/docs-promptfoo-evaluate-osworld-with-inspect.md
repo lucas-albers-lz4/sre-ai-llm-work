@@ -180,7 +180,14 @@ issue: "#1724"
   desktop sandboxes consume the Docker VM's budget, and the host can have far
   more capacity than is actually usable (the page spells this out: "Use the
   Docker VM's CPU and memory limits as the sizing input"). This is a resource
-  trap for anyone who sizes by `nproc` on the host. Buy it.
+  trap for anyone who sizes by `nproc` on the host. Buy it. One scope caveat,
+  since the note also records `Concurrency 6` on the 21-sample small suite
+  (Claim 9): the sizing observation is stated for the **full-corpus** reference
+  run, and the page does not say whether the small suite used the same
+  6-vCPU/16-GiB Colima VM or why it could run at twice that concurrency. Read
+  `--max-concurrency 3` as the sizing observation for the full corpus, not a
+  universal ceiling — the two runs are different scopes, and the note records
+  both rather than treating either as a rule for the other.
 
 ### Claim 11: Reruns separate flaky harness errors from deterministic ones — of seven full-corpus errors, three became scored outcomes (one pass, two failures) and four reproduced; the repeated four were computer-tool runtime, missing-image-artifact, and desktop-environment errors
 - **Evidence**: The full-corpus run narrative ("After rerunning those seven rows
@@ -355,6 +362,21 @@ jq -r '.results.results[]
   | @tsv' osworld-full-results.json
 ```
 
+### Run commands all pass `--no-cache` (from "Run the example")
+
+Every eval invocation on the page passes `--no-cache`, and each is wrapped with
+`PROMPTFOO_ENABLE_OTEL=true OTEL_EXPORTER_OTLP_ENDPOINT=http://127.0.0.1:4318`:
+
+- one exact sample (the page's smallest real end-to-end validation):
+  `promptfoo eval -c promptfooconfig.yaml --no-cache --filter-metadata sample_id=42e0a640-4f19-4b28-973d-729602b5a4a7`
+- an app slice: `promptfoo eval -c promptfooconfig.yaml --no-cache --filter-metadata app=libreoffice_calc --max-concurrency 1 -o osworld-libreoffice-calc.json`
+- the full small suite: `promptfoo eval -c promptfooconfig.yaml --no-cache --max-concurrency 6 -o osworld-small-results.json`
+- the full supported corpus: `promptfoo eval -c promptfooconfig.full.yaml --no-cache --max-concurrency 3 -o osworld-full-results.json`
+
+(The page also gives an `npm run local -- eval -c examples/integration-inspect-osworld/...`
+form for running from the promptfoo repository source tree. Line continuations
+in the source blocks are rendered as single lines here; no wording changed.)
+
 ### Tracing config (verbatim from "Configuration")
 
 ```yaml
@@ -378,6 +400,21 @@ and test case id."
 ## Cross-References
 
 - **Corroborates**:
+  - `source-notes/docs-promptfoo-configuration-outputs.md` **Claim 3**
+    (`failure`/`error` split: "`failure` for failed assertions and `error` for
+    provider/runtime errors so CI can distinguish incorrect behavior from
+    execution problems") and **Claim 9** (the split is "a first-class product
+    concept beyond JUnit — CLI filters separate them, a dedicated subcommand
+    retries only errors, and both timeout knobs convert timeout into the error
+    state", naming `promptfoo retry <evalId>`, `promptfoo eval --retry-errors`,
+    `--filter-failing-only`, and `evaluateOptions.timeoutMs` /
+    `maxEvalTimeMs`) — the strongest available corroboration that this page's
+    three-state model (Claims 3-4) and its timeout→provider-error coupling
+    (Claim 7) are *product-wide semantics* rather than an OSWorld-specific
+    convention. The outputs note's Claim 8 adds the CI-facing consequence this
+    page's denominator rule depends on: error rows carry `gradingResult: null`,
+    so a report built on them shows infrastructure faults, not quality
+    failures. (Verified: #1528 Claims 3, 8, 9, re-read in full.)
   - `source-notes/docs-promptfoo-evaluate-coding-agents.md` **Claim 9** ("An
     agent's output *is* its final text response, not the files it changed — so
     file-level verification must inspect the workspace or enable tracing") —
@@ -411,8 +448,10 @@ and test case id."
   - `source-notes/docs-promptfoo-deterministic-metrics.md` **Claim 6** (the
     `cost` assertion can only gate provider-reported cost; fresh-cost gating
     requires `--no-cache`) — the sibling rule to this page's token-counter
-    reporting and its `--no-cache` run commands (Claims 9, 14). (Verified:
-    #1289 Claim 6.)
+    reporting (Claim 9) and its `--no-cache` run commands (Concrete Artifacts →
+    "Run commands all pass `--no-cache`", Claim 14's ladder): both notes treat
+    the eval's cost accounting as something the run command has to make true,
+    not something to assume from the harness. (Verified: #1289 Claim 6.)
 
 - **Contradicts**: None identified, and no contradiction issue filed. This is
   first-party vendor documentation of one guide page and opposes no existing
@@ -425,6 +464,16 @@ and test case id."
   not cover. No conflict, so no contradiction issue was filed.
 
 - **Extends**:
+  - `source-notes/docs-promptfoo-configuration-outputs.md` **Claim 9**
+    (`promptfoo retry <evalId>` / `promptfoo eval --retry-errors` is a
+    product-wide error-retry surface — per that note's assessment, `promptfoo
+    retry` "re-runs *only* ERROR results in place while preserving the originals
+    if the retry fails") — this page's rerun policy (Claim 5) is the
+    *pre-publication* discipline layered on that surface: it targets errored
+    rows by exact `sample_id` at `--max-concurrency 1` **before** computing a
+    pass rate, and uses the rerun's outcome to classify each error as flaky
+    (becomes a score) or deterministic (recurs) — a classification the retry
+    flag alone does not produce. (Verified: #1528 Claim 9, re-read.)
   - `source-notes/docs-promptfoo-evaluate-coding-agents.md` **Claim 1**
     (an agent eval tests a *system with emergent behavior*) and **Claim 2**
     (capability tiers) — this page is a new tier in that framing: instead of a
@@ -448,11 +497,25 @@ and test case id."
   - The first source in the corpus to grade an agent on **stateful VM/desktop
     state** rather than text or a workspace diff, and to state the
     `DONE`-but-score-`0.0` failure mode explicitly (Claim 1).
-  - The first **three-state eval result model** with an enumerated provider-error
-    taxonomy and the rule that errors are not failures (Claims 3-4).
-  - The first documented **rerun-by-exact-`sample_id` at concurrency 1** policy
-    as the arbiter of the error→outcome boundary, with flaky-vs-deterministic
-    error classification (Claims 5, 11).
+  - **Not a new state model — the stateful/VM-graded instance of one.** The
+    three-state result model (scored pass / scored failure / provider error) and
+    the rule that errors are not failures are already documented *product-wide*
+    in `docs-promptfoo-configuration-outputs.md` Claims 3 and 9, not introduced
+    by this page. The delta here is the **stateful-benchmark case**: the third
+    state is produced by a VM-graded desktop harness reached over a subprocess
+    boundary, so this note can enumerate the harness-side error causes (Docker,
+    computer tool, missing scorer artifact, log parsing) and state the
+    publication rule that the raw run, the rerun policy, and the reconciled
+    denominator travel together (Claims 3, 4, 6) — none of which the outputs
+    note has.
+  - **Not a new error-retry surface — a new arbitration policy.** Promptfoo
+    already ships the retry surface (`promptfoo retry <evalId>` /
+    `promptfoo eval --retry-errors`, `docs-promptfoo-configuration-outputs.md`
+    Claim 9). What is new here is using an *isolated* rerun — exact `sample_id`,
+    `--max-concurrency 1`, run **before** a pass rate is computed — as the
+    arbiter of the error→outcome boundary, and reading its outcome as a
+    flaky-vs-deterministic classification of each harness error rather than as a
+    retry convenience (Claims 5, 11).
   - The first **two-execution-layer timeout** footgun (ms vs s; worker vs
     subprocess) in the corpus (Claim 7).
   - The first explicit **desktop-trajectory observability gap** — a whole class
@@ -536,8 +599,10 @@ and test case id."
   own list items.
 - **Cross-ref verification (§4b)**: every cited claim number was located in the
   cited note and its content checked against what it is cited for — #1680 Claims
-  1/2/9/10, #1681 Claim 1, #1694 Claim 1, #1289 Claims 6/12, and #1707 Claims
-  2/4/8.
+  1/2/9/10, #1681 Claim 1, #1694 Claim 1, #1289 Claims 6/12, #1707 Claims 2/4/8,
+  and #1528 Claims 3/8/9 (added on assayer feedback: the outputs note owns the
+  product-wide `failure`/`error` split, so this note's Novel bullets now state
+  the stateful-benchmark delta rather than claiming the model as new).
 - **Candidate list (`miner-related-notes.md`) disposition**: cited —
   `docs-promptfoo-evaluate-coding-agents.md` (Corroborates Claims 9-10; Extends
   Claims 1-2) and `docs-promptfoo-evaluate-openai-agents-python.md`
@@ -552,7 +617,11 @@ and test case id."
   `docs-promptfoo-enterprise-audit-logging.md` (control-plane audit events),
   `docs-promptfoo-enterprise-guardrails.md` (runtime guardrail enforcement).
   Two additional cross-refs were discovered by searching `source-notes/`
-  (`docs-promptfoo-evaluate-crewai.md`, `docs-promptfoo-evaluate-google-adk.md`).
+  (`docs-promptfoo-evaluate-crewai.md`, `docs-promptfoo-evaluate-google-adk.md`),
+  and a third — `docs-promptfoo-configuration-outputs.md` (Corroborates Claims
+  3, 8, 9; Extends Claim 9) — was surfaced on assayer feedback as the note that
+  already owns the product-wide failure/error taxonomy and the error-retry
+  surface this page instantiates.
 - **Vendor caveat carried forward**: the reference-run numbers are single-run,
   vendor-reported, on one local machine, and the page itself says they are "not a
   stable leaderboard number" and that the full run is an Inspect-supported subset
