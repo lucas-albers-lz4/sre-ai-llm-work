@@ -3159,6 +3159,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-evaluate-osworld-with-inspect": {
+      "slug": "docs-promptfoo-evaluate-osworld-with-inspect",
+      "title": "Promptfoo Guide: Evaluate OSWorld with Inspect — Stateful Desktop Grading, Error-vs-Failure Reconciliation, and the Harness-Observability Gap",
+      "source_url": "https://www.promptfoo.dev/docs/guides/evaluate-osworld-with-inspect",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-10-15",
+      "date_extracted": "2026-10-15",
+      "issue": "#1724",
+      "file": "source-notes/docs-promptfoo-evaluate-osworld-with-inspect.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-extension-hooks-and-sessions": {
       "slug": "docs-promptfoo-extension-hooks-and-sessions",
       "title": "Promptfoo Configuration: Reference — Extension Hooks, Session Management, and Run-Control Defaults",

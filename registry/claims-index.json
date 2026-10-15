@@ -16851,6 +16851,91 @@
         }
       ]
     },
+    "docs-promptfoo-evaluate-osworld-with-inspect": {
+      "path": "source-notes/docs-promptfoo-evaluate-osworld-with-inspect.md",
+      "title": "Promptfoo Guide: Evaluate OSWorld with Inspect — Stateful Desktop Grading, Error-vs-Failure Reconciliation, and the Harness-Observability Gap",
+      "source_url": "https://www.promptfoo.dev/docs/guides/evaluate-osworld-with-inspect",
+      "chapters": [
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Stateful grading is the point — OSWorld grades the final VM/desktop state, not the agent's text, so an agent can answer `DONE` and still score `0.0`, which is the case for stateful graders over text assertions",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The wrapper splits responsibility cleanly — Promptfoo owns orchestration and reporting; Inspect owns the agent runtime and OSWorld grading",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The provider treats results as a three-state model — `score >= 1.0` correct, `score < 1.0` scored failure, and provider `error` — with the error bucket covering setup, Docker, model SDK, timeout, tool execution, log parsing, or missing scorer output",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "A failed score is a valid result, but a provider error is not — collapsing provider errors into failures corrupts the score, so the scorer output is only trustworthy when Inspect completed",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Rerun policy arbitrates the error→outcome boundary — rerun provider-error samples by exact `sample_id` at `--max-concurrency 1` before publishing a pass rate, and if the rerun scores, count it normally; if it errors again, report it separately",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The publication rule — report the raw run, the rerun policy, and the reconciled scored denominator together, because provider errors are diagnostic evidence rather than failed attempts",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "There are two execution-layer timeouts and they are a misconfiguration trap — a Promptfoo Python-worker timeout in milliseconds and an Inspect subprocess timeout in seconds, defaulting to `1800000`/`1800` and raised to `7500000`/`7200` for the full suite",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "There is an explicit observability gap — Promptfoo receives one provider span per sample plus result metadata, but the desktop trajectory lives in Inspect, so `trajectory:tool-used` cannot see the OSWorld mouse, keyboard, or screenshot steps without a bridge",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Real cost/time/token figures for a stateful agent benchmark — a 21-sample small suite at concurrency 6 took 20m 9s and ~3.8M tokens; the 246-row full corpus took 5h 27m 5s and ~54.4M tokens (plus ~1.9M tokens for targeted reruns)",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Concurrency is sized from the Docker VM's limits, not the host's — on a 6-vCPU/16-GiB Colima VM, `--max-concurrency 3` kept three desktop containers active without oversubscribing; a ~8GB image builds on first run and Docker Engine 24.0.6+/Compose V2 are required",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Reruns separate flaky harness errors from deterministic ones — of seven full-corpus errors, three became scored outcomes (one pass, two failures) and four reproduced; the repeated four were computer-tool runtime, missing-image-artifact, and desktop-environment errors",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "The assertion grades the OSWorld score, not the provider's final text — `assertion.py` passes only when the sample score is `1.0`, and missing per-sample scorer output is a provider error rather than a fallback to aggregate metrics",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "Inspect `.eval` logs can contain sensitive screenshots and model outputs, so they must be kept out of git and not shared publicly",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "The verification ladder is one exact `sample_id` → an app slice → the small suite → the full corpus, and the page explicitly warns against treating the benchmark as a cheap smoke test because samples are slow, stateful, and token-heavy",
+          "kind": "claim"
+        },
+        {
+          "n": 15,
+          "heading": "Aggregate pass rate hides structure — the per-app breakdown shows spreadsheets/documents as the strongest clusters and `multi_apps`/`vlc` as the weakest (and `vlc` also carried repeated harness-side errors)",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-extension-hooks-and-sessions": {
       "path": "source-notes/docs-promptfoo-extension-hooks-and-sessions.md",
       "title": "Promptfoo Configuration: Reference — Extension Hooks, Session Management, and Run-Control Defaults",
