@@ -3198,6 +3198,19 @@
       "confidence_overall": "settled",
       "status": "current"
     },
+    "docs-promptfoo-factuality-eval": {
+      "slug": "docs-promptfoo-factuality-eval",
+      "title": "Promptfoo Guide: Evaluating Factuality",
+      "source_url": "https://www.promptfoo.dev/docs/guides/factuality-eval",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-10-15",
+      "date_extracted": "2026-10-15",
+      "issue": "#1726",
+      "file": "source-notes/docs-promptfoo-factuality-eval.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-factuality": {
       "slug": "docs-promptfoo-factuality",
       "title": "Promptfoo Configuration: Factuality",
