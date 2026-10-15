@@ -14061,6 +14061,69 @@
         }
       ]
     },
+    "docs-litellm-files-endpoints": {
+      "path": "source-notes/docs-litellm-files-endpoints.md",
+      "title": "Provider Files Endpoints — LiteLLM AI Gateway Documentation (provider-level /files passthrough)",
+      "source_url": "https://docs.litellm.ai/docs/files_endpoints",
+      "chapters": [],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The page documents the provider-level `/files` surface as five OpenAI-format operations — upload, list, retrieve, delete, and content — available both through the proxy and through LiteLLM SDK async helpers",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Files are a shared dependency of three distinct features — Assistants, Fine-tuning, and Batch API — so one upload surface governs workloads with very different lifecycles",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Multi-account routing works without a database because the returned file/batch ID embeds the model name — the encoded ID is base64 of `litellm:<id>;model,<name>`, and later retrieve/delete/content/batch calls route off the ID alone",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The `model` parameter can be passed three ways — request body (`extra_body`), query parameter (`?model=`), or header (`x-litellm-model`) — and is only needed on the call that creates the object",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The legacy `files_settings` config is a separate per-provider credential block (`custom_llm_provider`, `api_base`, `api_key`, `api_version`) that required a `custom-llm-provider` header on every call, and the page recommends migrating to `model_list` entries instead",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Bedrock content retrieval is routed by an S3 URI rather than an opaque file ID — `afile_content(file_id=\"s3://bucket/path.jsonl\", custom_llm_provider=\"bedrock\", aws_region_name=\"us-west-2\")`, returning `content.text`",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Provider coverage is exactly five — OpenAI, Azure OpenAI, Vertex AI, Bedrock, Anthropic — presented as a bare link list with no per-provider operation matrix and no per-provider caveat other than the Anthropic note",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Anthropic's Files API is documented as semantically different from OpenAI's — upload once and reference by `file_id` across Messages rather than re-uploading — with the cost rule that Files API operations are free but file content used in Messages requests is priced as input tokens",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The SDK helpers are async-only and named `acreate_file` / `afile_list` / `afile_retrieve` / `afile_delete` / `afile_content`, each taking `custom_llm_provider` explicitly, with `afile_list(limit=…)` as the only pagination hint",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The worked proxy example passes `model` through `extra_body` for `client.files.list` but through `extra_query` for `client.batches.list`, with no explanation of the difference",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The page documents no error/status-code catalogue, no rate limits or quotas, no retry/timeout semantics, no file-size caps, no retention/lifecycle policy, no storage-backend description, and no metrics/logging/tracing hooks; its only deeper surface is a Swagger reference link",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-gateway-auth-reference": {
       "path": "source-notes/docs-litellm-gateway-auth-reference.md",
       "title": "Gateway Auth Reference — LiteLLM Documentation",
