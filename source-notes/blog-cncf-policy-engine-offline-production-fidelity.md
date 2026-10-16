@@ -290,7 +290,7 @@ unstructured map, and wraps the result into an []interface{} slice.
 ## Cross-References
 
 **Candidates from `miner-related-notes.md`** (all ten listed paths evaluated;
-eight dismissed as lexically-but-not-thematically adjacent, two cited):
+nine dismissed as lexically-but-not-thematically adjacent, one cited):
 
 - `source-notes/docs-promptfoo-evaluate-openai-agents-python.md` — **cited**
   (Extends): **Claim 3** ("If you skip this exporter, Promptfoo will not see
@@ -349,8 +349,10 @@ eight dismissed as lexically-but-not-thematically adjacent, two cited):
   "gate the production-shaped case, not the convenient one" instruction this
   source applies to input shape.
 - `source-notes/docs-litellm-mock-requests.md` — **cited** (Contrasts/Extends):
-  **Claim 10** places three test-only mocking knobs at three layers and finds
-  that `mock_response` "is the cheapest and the most destructive" — a green
+  **Claim 10** places three test-only mocking knobs at three layers (SDK stub /
+  Router flag / httpx transport); **Claim 1** supplies the judgment that
+  `mock_response` "is the cheapest and the most destructive" of the three, and
+  **Claim 9** supplies the one-sentence rule the note draws from it — a green
   mocked suite is "evidence about your parsing and branching, and is silent
   evidence about your gateway." That is the *opposite design philosophy* to
   this source: LiteLLM's mock deliberately bypasses the gateway for cost;
@@ -364,14 +366,14 @@ eight dismissed as lexically-but-not-thematically adjacent, two cited):
   silent-drop failure class (Claim 3). Together they bound the design space:
   a gate should fail when its required input is missing, not pass green.
 - `source-notes/docs-promptfoo-guardrails-assertions.md` — **cited**
-  (Corroborates): **Claim 1** establishes the `guardrails` assertion as "a
-  verdict reader, not a guardrail runner ... It reads the normalized
-  `guardrails` field on the provider response," with a documented silent
-  fail-open when the field is omitted (cited in the guide's
-  "A gate that cannot fail is not a gate" table,
-  `guide/05-llm-ops-reliability.md:671`). Same shape as this source's
-  silently-swallowed results: a gate that reads a signal that may be absent
-  passes when the signal never arrived.
+  (Corroborates): **Claim 1** establishes the `guardrails` assertion as a
+  verdict reader, not a guardrail runner — it "reads the normalized
+  `guardrails` field on the provider response" — and **Claim 3** is the
+  documented silent fail-open when the field is omitted. The guide's
+  "A gate that cannot fail is not a gate" table cites **Claim 3** for its
+  `guardrails` row (`guide/05-llm-ops-reliability.md:671`). Same shape as this
+  source's silently-swallowed results: a gate that reads a signal that may be
+  absent passes when the signal never arrived.
 
 **Primary cross-references:**
 
@@ -390,10 +392,12 @@ eight dismissed as lexically-but-not-thematically adjacent, two cited):
   - `docs-promptfoo-deterministic-metrics.md` **Claim 12** — the fail-closed
     precedent: assertions throw when their required input is absent rather
     than passing. This source's silent drop is the fail-open anti-pattern.
-  - `docs-promptfoo-guardrails-assertions.md` **Claim 1** — the
-    verdict-reader-with-a-missing-signal pass (already in the guide's
+  - `docs-promptfoo-guardrails-assertions.md` **Claim 3** — the silent
+    fail-open on a missing `guardrails` signal (already in the guide's
     cannot-fail table) is the same structural hazard as a policy result that
-    is silently dropped.
+    is silently dropped. The note's **Claim 1** supplies the adjacent
+    precondition: the assertion only grades a signal it is handed, so the
+    upstream signal must be proven to exist before the gate means anything.
 
 - **Contradicts**: None. No existing source note claims that forking the
   engine to accept test-shaped input preserves fidelity, or that silently
@@ -491,17 +495,23 @@ eight dismissed as lexically-but-not-thematically adjacent, two cited):
   are explicitly graded `anecdotal` (personal practice/career advice). The
   overall posture is therefore emerging rather than settled.
 - The `miner-related-notes.md` candidates list was read per MINER.md §4. All
-  ten listed paths were evaluated: two cited
-  (`docs-promptfoo-evaluate-openai-agents-python.md`) and eight explicitly
+  ten listed paths were evaluated: one cited
+  (`docs-promptfoo-evaluate-openai-agents-python.md`) and nine explicitly
   dismissed (see Cross-References). The useful cross-references
   (`blog-litellm-april-townhall-updates`, `failure-litellm-server-root-path-regression`,
   `docs-litellm-mock-requests`, `docs-promptfoo-deterministic-metrics`,
   `docs-promptfoo-guardrails-assertions`) were discovered by searching
   `source-notes/` and `guide/` directly; each cited claim was re-read and
   verified per MINER.md §4b against the named note (Claim 5 of the townhall
-  note; Claims 3 and 5 of the server-root-path note; Claim 10 of the
-  mock-requests note; Claim 12 of the deterministic-metrics note; Claim 1 of
-  the guardrails note; Claim 3 of the evaluate-openai-agents-python note).
+  note; Claims 3 and 5 of the server-root-path note; Claims 1, 9, and 10 of the
+  mock-requests note; Claim 12 of the deterministic-metrics note; Claims 1 and 3
+  of the guardrails note; Claim 3 of the evaluate-openai-agents-python note).
+- Quote fidelity note for Claim 10: the source page renders the two field names
+  inside a *single* code element — the code span's own content is
+  `resources and resourceFiles`. The note's Quote reproduces that single span
+  verbatim; it did not splice two field names into one code span. The two-field
+  reading (`resources` / `resourceFiles`) appears only in Claim 10's heading and
+  Our assessment, which are this note's own prose.
 - The Prospector's caveats were respected: (1) no quantitative metrics were
   reported by the source, so no measured reliability improvement is implied
   anywhere in this note; (2) the domain is Kubernetes policy-as-code, not LLM
