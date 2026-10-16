@@ -665,6 +665,89 @@
         }
       ]
     },
+    "blog-cncf-policy-engine-offline-production-fidelity": {
+      "path": "source-notes/blog-cncf-policy-engine-offline-production-fidelity.md",
+      "title": "I made a policy engine think it was in production",
+      "source_url": "https://www.cncf.io/blog/2026/07/22/i-made-a-policy-engine-think-it-was-in-production",
+      "chapters": [
+        "05",
+        "03",
+        "06",
+        "00"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The offline evaluation gap was not theoretical — without a live API server the CLI panicked, silently skipped rules, and produced policy reports disconnected from production outcomes",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "A hard panic came from wildcard `mutateExisting` rules calling `.List()` against a fake dynamic client whose scheme was missing `*List` GVK registrations",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Modern CEL policy types had their test results silently swallowed because the engine applied rule-name matching to policy types that have no named rules by design",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "`MutatingPolicy`/`GeneratingPolicy`/`DeletingPolicy` had been added to the engine without updating the surrounding CLI lookup plumbing, producing six interlocking bugs in a single PR",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The author's first approach — unmarshalling a mock YAML into a plain map and passing it to the CEL global context — failed immediately with `no such overload` on any access to `object.metadata.namespace`",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Making the engine accept test-shaped data would have diverged offline behavior from production — the point of offline testing is that it is *identical* to what runs in the cluster",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The Kubernetes informer cache always returns a slice of unstructured objects (`[]interface{}`), not a single JSON object — that is the shape the CEL engine and JMESPath projections are built to expect",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The fix was a CLI-side translation layer (`resolveResourcesMockData`) that decodes each manifest with `runtime.RawExtension`, forces it into an unstructured map, and wraps it in an `[]interface{}` slice",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "After the adapter, the engine receives a structurally identical input and \"has no idea it’s running offline\" — it is disguising test data as live cluster data at the exact layer where the distinction stops mattering",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The offline mock layer landed in two PRs — #15948 introduced `apiCallResponses`/`globalContextEntries` plus HTTP mock infrastructure, and #16123 extended `GlobalContextEntryValue` with `resources`/`resourceFiles` for Kubernetes-resource-backed entries",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "A community member reported that the missing offline capability had blocked his team's CI/CD since Kyverno v1.17 and asked for a v1.18 backport — offline testability was an operational dependency, not a nicety",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "The in-memory fake dynamic client enabled cross-resource offline evaluation for `kyverno apply`, including LIST-style API paths",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "The author's stated mentorship discipline — trace a bug to a named function before asking for help, so a maintainer can unblock you in sixty seconds",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "The author's closing advice — do not try to comprehend a production-grade codebase whole; find one broken thing and become the domain expert of that one function",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-cncf-running-self-hosted-llm-kubernetes-vllm": {
       "path": "source-notes/blog-cncf-running-self-hosted-llm-kubernetes-vllm.md",
       "title": "Running a self-hosted LLM in Kubernetes with vLLM",

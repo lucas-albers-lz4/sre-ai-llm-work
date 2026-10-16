@@ -130,6 +130,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "blog-cncf-policy-engine-offline-production-fidelity": {
+      "slug": "blog-cncf-policy-engine-offline-production-fidelity",
+      "title": "I made a policy engine think it was in production",
+      "source_url": "https://www.cncf.io/blog/2026/07/22/i-made-a-policy-engine-think-it-was-in-production",
+      "source_type": "blog-post",
+      "author": "Sargam Puram",
+      "date_published": "2026-07-22",
+      "date_extracted": "2026-10-15",
+      "issue": "#1735",
+      "file": "source-notes/blog-cncf-policy-engine-offline-production-fidelity.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-cncf-running-self-hosted-llm-kubernetes-vllm": {
       "slug": "blog-cncf-running-self-hosted-llm-kubernetes-vllm",
       "title": "Running a self-hosted LLM in Kubernetes with vLLM",
