@@ -3522,6 +3522,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "failure-cncf-kubeflow-cilium-60-idle-gpus": {
+      "slug": "failure-cncf-kubeflow-cilium-60-idle-gpus",
+      "title": "When Kubeflow meets Cilium: Debugging 60% idle GPUs in Kubernetes",
+      "source_url": "https://www.cncf.io/blog/2026/07/23/when-kubeflow-meets-cilium-debugging-60-idle-gpus-in-kubernetes",
+      "source_type": "failure-report",
+      "author": "Ramkumar Nagaraj (Adobe), Bingi Narasimha Karthik",
+      "date_published": "2026-07-23",
+      "date_extracted": "2026-10-16",
+      "issue": "#1750",
+      "file": "source-notes/failure-cncf-kubeflow-cilium-60-idle-gpus.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "failure-litellm-bedrock-invoke-prompt-cache": {
       "slug": "failure-litellm-bedrock-invoke-prompt-cache",
       "title": "Incident Report: Prompt Cache Invalidation for Claude Code on Bedrock Invoke",
