@@ -52,6 +52,19 @@
       "confidence_overall": "anecdotal",
       "status": "current"
     },
+    "blog-cncf-cloud-native-agentic-ai-security-platform": {
+      "slug": "blog-cncf-cloud-native-agentic-ai-security-platform",
+      "title": "Why cloud native belongs at the heart of agentic AI: Lessons from building a multi-agent security platform on Kubernetes",
+      "source_url": "https://www.cncf.io/blog/2026/06/17/why-cloud-native-belongs-at-the-heart-of-agentic-ai-lessons-from-building-a-multi-agent-security-platform-on-kubernetes",
+      "source_type": "blog-post",
+      "author": "Willem Berroubache",
+      "date_published": "2026-06-17",
+      "date_extracted": "2026-10-16",
+      "issue": "#1748",
+      "file": "source-notes/blog-cncf-cloud-native-agentic-ai-security-platform.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-cncf-cluster-aware-ai-agent-argo-gitops": {
       "slug": "blog-cncf-cluster-aware-ai-agent-argo-gitops",
       "title": "Building a Cluster-Aware AI Agent with Kubernetes, Argo CD, and GitOps",

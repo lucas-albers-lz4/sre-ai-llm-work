@@ -314,6 +314,80 @@
         }
       ]
     },
+    "blog-cncf-cloud-native-agentic-ai-security-platform": {
+      "path": "source-notes/blog-cncf-cloud-native-agentic-ai-security-platform.md",
+      "title": "Why cloud native belongs at the heart of agentic AI: Lessons from building a multi-agent security platform on Kubernetes",
+      "source_url": "https://www.cncf.io/blog/2026/06/17/why-cloud-native-belongs-at-the-heart-of-agentic-ai-lessons-from-building-a-multi-agent-security-platform-on-kubernetes",
+      "chapters": [
+        "06",
+        "05",
+        "02",
+        "03",
+        "04"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Each agent is deployed as its own Kubernetes Deployment — not an in-process module — so ordinary microservice mechanics (canary, HPA, isolation) apply, and the named failure mode of the single-process alternative is one agent's model-API timeout dragging the rest down",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Inter-agent mTLS is delivered without a service mesh — cert-manager per-agent identities terminated at each agent's own gRPC/HTTP transport, plus CiliumNetworkPolicy restricting which agent identity may reach which MCP server",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Agent safety constraints belong in policy-as-code — OPA policies and Kyverno admission rules invoked by the reviewer agent over MCP for a deterministic verdict — not in the reviewer's system prompt, and the author flags this as the single change to make before any other",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The reviewer receives structured input, not free-form LLM prose — a threat-analyst agent classifies each escalation against MITRE ATT&CK upstream of the safety verdict",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "A classical anomaly model gates the LLM tier — a scikit-learn Isolation Forest scores 17 features in microseconds, and only samples above a calibrated threshold reach agent fan-out, bounding both per-event latency and token cost",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The gate's threshold is a runtime policy parameter consulted at decision time (tightenable under load without redeploying agents), feature-distribution drift is itself a paged Prometheus metric, and the model retrains weekly by design",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Observability rides a trace_id carried in every A2A task envelope, and that propagation cut one real decision-reconstruction exercise from a day to fifteen minutes",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Every agent's system prompt, tool list, and output schema is a Kubernetes Custom Resource reconciled by Argo CD from Git, with the reviewer's policy bundle in the same repo, so promoting a change is a pull request — code-reviewed, audited, reversible",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Escalation to a human is a designed normal output with three terminal states — auto-execute, auto-reject, or escalate — firing on low reviewer confidence, an always-escalate asset list, or a configured blast-radius limit, and the escalation decision is a deterministic versioned policy verdict with its own SLO and dashboards",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Alerts are structural, not behavioural — page on failed policy-bundle admission, MCP p99 latency, pre-filter drift, and A2A queue depth rather than \"agent X gave a weird answer\", and handle agent regressions exactly like microservice regressions (roll back the CR via Argo CD, ticket, GitOps fix)",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Three teams (SOC, platform, small AI engineering) coordinate through narrow machine-readable contracts — CRDs, OPA bundles, A2A schemas — and the operational goal is capacity, not just speed: scaling detection coverage means deploying agent replicas and tightening the policy bundle instead of hiring analysts",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "The protocols (A2A, MCP) are treated as the durable interfaces and the agent runtime as a revisitable choice — most agents run LangGraph, some are framework-free where state machines/retry semantics/tool-call sequencing need tighter control",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-cncf-cluster-aware-ai-agent-argo-gitops": {
       "path": "source-notes/blog-cncf-cluster-aware-ai-agent-argo-gitops.md",
       "title": "Building a Cluster-Aware AI Agent with Kubernetes, Argo CD, and GitOps",
