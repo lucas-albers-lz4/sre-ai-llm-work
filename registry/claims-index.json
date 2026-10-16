@@ -16638,6 +16638,57 @@
         }
       ]
     },
+    "docs-promptfoo-enterprise-teams": {
+      "path": "source-notes/docs-promptfoo-enterprise-teams.md",
+      "title": "Promptfoo Enterprise: Managing Roles and Teams — Persisted CLI Team Context, the Team-Scoped/Org-Scoped Isolation Rule, and the Seven-Permission RBAC Inventory",
+      "source_url": "https://www.promptfoo.dev/docs/enterprise/teams",
+      "chapters": [
+        "06",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "CLI team context is persisted ambient state, not a per-command flag — `promptfoo auth teams set \"Your Team Name\"` routes all subsequent CLI operations to that team",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The vendor's own remedy for that footgun is a pre-flight `promptfoo auth whoami`, tied explicitly to the mis-destination failure mode — and it is the only documented verification",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The isolation rule is two-level tenancy — resources are team-scoped, API keys are org-scoped, and team selections are remembered independently per organization",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Team-level service accounts are the documented CI/CD identity path, but creation is admin-gated — \"Only system admins can create service accounts\"",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The RBAC inventory is exactly seven named permissions, verbatim — and `Run Scans` already bundles \"view results\", so execution separates from *mutation* of results, not from reading them",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Role assignment is per team membership, not per user — the role is set \"of the user in the team\", so access review means enumerating memberships",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The page documents no role definitions, no permission→role mapping, no permission-check command, and no CI-gating semantics — it is a UI walkthrough plus a permission table",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The isolation bullet's resource enumeration (\"Evaluations, configurations, and results\") is narrower than the permission table it sits beside — targets, plugin collections, issues, and webhooks are governed or accepted by the team surface but never named as team-scoped",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-enterprise-webhooks": {
       "path": "source-notes/docs-promptfoo-enterprise-webhooks.md",
       "title": "Promptfoo Enterprise: Webhook Integration — The Five-Event Contract, the Update-Consolidation Rule, and the Undocumented Delivery Half",

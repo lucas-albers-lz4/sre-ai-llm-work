@@ -3120,6 +3120,19 @@
       "confidence_overall": "settled",
       "status": "current"
     },
+    "docs-promptfoo-enterprise-teams": {
+      "slug": "docs-promptfoo-enterprise-teams",
+      "title": "Promptfoo Enterprise: Managing Roles and Teams — Persisted CLI Team Context, the Team-Scoped/Org-Scoped Isolation Rule, and the Seven-Permission RBAC Inventory",
+      "source_url": "https://www.promptfoo.dev/docs/enterprise/teams",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-10-15",
+      "date_extracted": "2026-10-16",
+      "issue": "#1626",
+      "file": "source-notes/docs-promptfoo-enterprise-teams.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-enterprise-webhooks": {
       "slug": "docs-promptfoo-enterprise-webhooks",
       "title": "Promptfoo Enterprise: Webhook Integration — The Five-Event Contract, the Update-Consolidation Rule, and the Undocumented Delivery Half",
