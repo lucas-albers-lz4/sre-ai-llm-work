@@ -3263,6 +3263,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-google-cloud-model-armor": {
+      "slug": "docs-promptfoo-google-cloud-model-armor",
+      "title": "Promptfoo Guide: Testing Google Cloud Model Armor — the Provider-Side Fail-Open, the Direct Sanitization API, and the Indeterminate-vs-Clean Contract",
+      "source_url": "https://www.promptfoo.dev/docs/guides/google-cloud-model-armor",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-10-15",
+      "date_extracted": "2026-10-16",
+      "issue": "#1739",
+      "file": "source-notes/docs-promptfoo-google-cloud-model-armor.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-guardrails-assertions": {
       "slug": "docs-promptfoo-guardrails-assertions",
       "title": "Promptfoo Configuration: Guardrails Assertion",

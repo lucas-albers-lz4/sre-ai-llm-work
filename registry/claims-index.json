@@ -17244,6 +17244,81 @@
         }
       ]
     },
+    "docs-promptfoo-google-cloud-model-armor": {
+      "path": "source-notes/docs-promptfoo-google-cloud-model-armor.md",
+      "title": "Promptfoo Guide: Testing Google Cloud Model Armor — the Provider-Side Fail-Open, the Direct Sanitization API, and the Indeterminate-vs-Clean Contract",
+      "source_url": "https://www.promptfoo.dev/docs/guides/google-cloud-model-armor",
+      "chapters": [
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The `guardrails` / `not-guardrails` assertions grade the *returned signal* and do not prove an inspect-only policy blocked the request — the vendor states the boundary explicitly",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Provider-side fail-open — Vertex can skip Model Armor sanitization and continue when the service is unavailable, unreachable, or errors internally, so a response with no `MODEL_ARMOR` block signal does not prove screening ran; the vendor's remediation is to track skipped/failed sanitization in Cloud Logging separately from clean decisions",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "An input (prompt) block is normalized as `promptFeedback.blockReason: MODEL_ARMOR` with no candidates, which promptfoo maps to `flagged: true` and `flaggedInput: true`",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "A response (output) block is normalized as a candidate with `finishReason: MODEL_ARMOR` and no content, deliberately distinct from Gemini's generic `SAFETY` finish reason",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Response-side blocks never reach a regular `guardrails` assertion — a response `finishReason: MODEL_ARMOR` follows the generic provider-error path, and the Vertex integration is non-streaming, so response-side grading requires the direct sanitization API through a custom target",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Inline Vertex responses do not carry per-filter results — matching filter, confidence, and finding detail require Cloud Logging or the direct sanitization API",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The direct sanitization API has a direction-mislabeling hazard — both `sanitizeUserPrompt` and the response endpoint return the same `sanitizationResult` shape, so direction cannot be inferred from the payload, and the caller must select `transformModelArmorModelResponse` to attribute findings to `flaggedOutput`",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The direct API's execution state is tri-state — `filterMatchState: MATCH_FOUND` is a policy signal only when the relevant filters ran successfully, and `invocationResult: PARTIAL`/`FAILURE` plus per-filter skipped/error states are indeterminate rather than clean",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Model Armor screens five risk categories — Responsible AI, CSAM, prompt injection/jailbreak, malicious URLs, and sensitive data — with CSAM always enabled and un-disableable, and filters carrying confidence levels (`LOW_AND_ABOVE` / `MEDIUM_AND_ABOVE` / `HIGH`) and inspect-only vs inspect-and-block enforcement modes",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Templates vs floor settings are two enforcement planes — templates are API-applied policies, floor settings are automatic minimums at org/folder/project scope, and floor settings block only when enforcement is set to \"Inspect and block\" and only after Vertex AI is added as an integrated service",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Model Armor's templates, Vertex integration, and floor settings do not share the same regional coverage",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "The direct-API access token expires after one hour, and the vendor directs CI/CD to use service-account keys or Workload Identity Federation instead",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "The vendor's false-positive method is to test benign prompts with the `guardrails` assertion, which passes only when the target reports no flag",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-guardrails-assertions": {
       "path": "source-notes/docs-promptfoo-guardrails-assertions.md",
       "title": "Promptfoo Configuration: Guardrails Assertion",
