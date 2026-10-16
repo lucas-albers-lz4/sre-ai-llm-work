@@ -16602,6 +16602,42 @@
         }
       ]
     },
+    "docs-promptfoo-enterprise-service-accounts": {
+      "path": "source-notes/docs-promptfoo-enterprise-service-accounts.md",
+      "title": "Promptfoo Enterprise: Service Accounts — Inert-by-Default Credential Scoping, Display-Once Keys, and the Unbounded Global-Admin Flag",
+      "source_url": "https://www.promptfoo.dev/docs/enterprise/service-accounts",
+      "chapters": [
+        "06",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Creation is a privileged operation — only global system admins can create and assign service accounts",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "A service account API key is displayed exactly once at creation and cannot be retrieved later",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The key is inert by default — service account API keys have no programmatic access until assigned to a team and role",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "A service account may be granted global admin privileges, which unboundedly cover organization settings",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The documented credential lifecycle omits rotation, expiry, revocation, and retrieval procedures (absence set)",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-enterprise-webhooks": {
       "path": "source-notes/docs-promptfoo-enterprise-webhooks.md",
       "title": "Promptfoo Enterprise: Webhook Integration — The Five-Event Contract, the Update-Consolidation Rule, and the Undocumented Delivery Half",
