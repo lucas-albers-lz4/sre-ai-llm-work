@@ -2587,6 +2587,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-generate-content": {
+      "slug": "docs-litellm-generate-content",
+      "title": "/generateContent — LiteLLM AI Gateway Documentation (Google-native generateContent passthrough)",
+      "source_url": "https://docs.litellm.ai/docs/generateContent",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs; front-matter `last_updated: 2026-10-15`)",
+      "date_extracted": "2026-10-16",
+      "issue": "#1736",
+      "file": "source-notes/docs-litellm-generate-content.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-generic-guardrail-api": {
       "slug": "docs-litellm-generic-guardrail-api",
       "title": "[BETA] Generic Guardrail API — Integrate Without a PR (LiteLLM Docs)",

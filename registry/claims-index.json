@@ -14256,6 +14256,71 @@
         }
       ]
     },
+    "docs-litellm-generate-content": {
+      "path": "source-notes/docs-litellm-generate-content.md",
+      "title": "/generateContent — LiteLLM AI Gateway Documentation (Google-native generateContent passthrough)",
+      "source_url": "https://docs.litellm.ai/docs/generateContent",
+      "chapters": [
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The page documents a Google-native `generateContent` route exposed alongside LiteLLM's OpenAI-compatible surface.",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The passthrough contract is explicit — top-level siblings of `generationConfig` are forwarded to Google verbatim without `extra_body`, and the named field set is exactly `safetySettings`, `toolConfig`, `cachedContent`, `labels`.",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Precedence rule — an explicit `extra_body` value overrides the top-level native field on conflict.",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The passthrough rule is documented for `generateContent` only — the `:streamGenerateContent` variant is shown without any native top-level fields, so streaming passthrough is undocumented.",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Governance consequence — a client-supplied `safetySettings` block (including `threshold: BLOCK_NONE`) is delivered to Google as-is; the page documents no gateway-side normalization or re-application of safety policy on this route, and exists on a route where documented guardrail coverage is ambiguous.",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The feature-support matrix claims Cost Tracking, Logging (all integrations), End-user Tracking, Streaming, Fallbacks, Loadbalancing, and Metadata Tracking all ✅ on this route — but the Fallbacks and Loadbalancing rows are qualified \"between supported models\".",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Metadata Tracking is claimed on this route and is said to pass the trace ID and metadata to observability callbacks such as S3 and Langfuse.",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The official Google GenAI SDK can be pointed at the LiteLLM proxy by setting `GOOGLE_GEMINI_BASE_URL`, with no application code change beyond credentials.",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The SDK surface is exactly four entry points — `generate_content` / `generate_content_stream` (sync) and `agenerate_content` / `agenerate_content_stream` (async) — all from `litellm.google_genai`.",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Proxy routing is per-`model_name` alias — the client hits `/v1beta/models/<alias>:generateContent` (and `:streamGenerateContent`), and the alias is registered in `model_list`.",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The page is undated, thin, and carries no version anchor — no benchmarks, latency, rate limits, spend detail, or production guidance.",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-generic-guardrail-api": {
       "path": "source-notes/docs-litellm-generic-guardrail-api.md",
       "title": "[BETA] Generic Guardrail API — Integrate Without a PR (LiteLLM Docs)",
