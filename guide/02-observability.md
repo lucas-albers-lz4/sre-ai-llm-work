@@ -62,7 +62,7 @@ Honeycomb's instrumentation aligns with the same operation model
 (`gen_ai.operation.name`: chat, execute_tool, retrieval, embeddings,
 invoke_agent, invoke_workflow)
 [source: blog-honeycomb-instrumenting-ai-agents-opentelemetry, Concrete Artifacts]
-[emerging]. Two independently-authored vendor docs converge on the same
+[stale]. Two independently-authored vendor docs converge on the same
 operation taxonomy.
 
 **Rule**: Standardize on the OTel GenAI semantic-convention operation and
@@ -391,4 +391,4 @@ docs-google-sre-reliable-data-processing-minimal-toil,
 docs-google-sre-reaching-beyond-walls,
 docs-google-sre-slo-engineering-case-studies, docs-langfuse-cli,
 docs-litellm-a2a-agent-gateway*
-*Last updated: 2026-09-17*
+*Last updated: 2026-10-11*
