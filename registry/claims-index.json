@@ -11957,6 +11957,51 @@
         }
       ]
     },
+    "docs-litellm-adding-openai-compatible-providers": {
+      "path": "source-notes/docs-litellm-adding-openai-compatible-providers.md",
+      "title": "Adding OpenAI-Compatible Providers | liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/contributing/adding_openai_compatible_providers",
+      "chapters": [
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "An OpenAI-compatible provider can be registered entirely via a single JSON file — `litellm/llms/openai_like/providers.json` — with only `base_url` and `api_key_env` required",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "`param_mappings` declares a silent wire-parameter rename — the worked example maps OpenAI's `max_completion_tokens` to the provider's `max_tokens`",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "`constraints` clamps parameter values to declared min/max bounds — the worked example constrains temperature to 0.0–1.0",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "`api_base_env` names an environment variable that overrides the entry's `base_url` — a built-in per-environment base-URL swap without editing the JSON",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "`base_class` selects the inheritance base — `\"openai_gpt\"` (documented default) or `\"openai_like\"`",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "`supported_endpoints` defaults to `[]` when omitted, but chat completions is always enabled for JSON providers regardless; `/v1/responses` requires explicit declaration",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The documented boundary of the no-Python path — custom authentication flows (OAuth, JWT) and complex request/response transformations require a Python config class instead",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-anthropic-advisor-tool": {
       "path": "source-notes/docs-litellm-anthropic-advisor-tool.md",
       "title": "Advisor Tool — LiteLLM Documentation (Anthropic advisor tool via the gateway)",

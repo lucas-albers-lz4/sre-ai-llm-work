@@ -2106,6 +2106,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-adding-openai-compatible-providers": {
+      "slug": "docs-litellm-adding-openai-compatible-providers",
+      "title": "Adding OpenAI-Compatible Providers | liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/contributing/adding_openai_compatible_providers",
+      "source_type": "docs",
+      "author": "LiteLLM",
+      "date_published": "unknown (living vendor docs; current as of 2026-10-17)",
+      "date_extracted": "2026-10-17",
+      "issue": "#1639",
+      "file": "source-notes/docs-litellm-adding-openai-compatible-providers.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-anthropic-advisor-tool": {
       "slug": "docs-litellm-anthropic-advisor-tool",
       "title": "Advisor Tool — LiteLLM Documentation (Anthropic advisor tool via the gateway)",
