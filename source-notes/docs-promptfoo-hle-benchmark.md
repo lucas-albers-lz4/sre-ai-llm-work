@@ -27,7 +27,8 @@ issue: "#1755"
 ### Claim 1: HLE is framed as a response to benchmark saturation — designed to be more challenging because models exceed 90% on MMLU, with characteristics including 100+ subjects, 14% multimodal questions, resistance to simple web search, and verifiable closed-ended problems
 - **Evidence**: Introductory paragraphs naming Scale AI/CAIS, the benchmark-saturation rationale, and key characteristics.
 - **Confidence**: settled (external benchmark provenance)
-- **Quote**: "Humanity's Last Exam (HLE) is a challenging benchmark commissioned by Scale AI and the Center for AI Safety (CAIS)... Created to address benchmark saturation where current models achieve 90%+ accuracy on MMLU, HLE presents genuinely difficult expert-level questions that test AI capabilities at the frontier of human knowledge."
+- **Quote**: "Humanity's Last Exam (HLE) is a challenging benchmark commissioned by Scale AI and the Center for AI Safety (CAIS), developed by 1,000+ subject experts from over 500 institutions across 50 countries."
+- **Quote**: "Created to address benchmark saturation where current models achieve 90%+ accuracy on MMLU, HLE presents genuinely difficult expert-level questions that test AI capabilities at the frontier of human knowledge."
 - **Our assessment**: This establishes the benchmark's purpose and design; it is vendor's framing of the external benchmark, not a measured claim. Useful as context, not a measurement claim.
 
 ### Claim 2: The page explicitly disclaims comparability to the official leaderboard — the demo numbers differ from official benchmarks due to prompting strategy, token budgets, question sampling
@@ -73,7 +74,7 @@ issue: "#1755"
 ### Claim 8: There is an unpriced judge dependency — grading uses LLM-as-judge (`llm-rubric`) but the reported cost/latency/tokens in the demo tables only cover the evaluated models (o4-mini and Claude 4), not the judge model's cost
 - **Evidence**: Demo cost table lists "Total Cost (50 questions)" per evaluated model only; no judge cost shown. Grading is described as separate via `llm-rubric` assertion.
 - **Confidence**: emerging (inference from reported scope; page does not itemize judge cost)
-- **Quote**: (cost table as in Claim 5 shows only evaluated model costs)
+- **Quote**: none — this is an inference from the *absence* of a judge line item in the reported cost table (Claim 5); the page never states that judge cost is excluded, so there is no passage to quote. See `Our assessment` for the reasoning.
 - **Our assessment**: The page reports judge is used, but never states judge identity or its cost. This is a concrete gap: the per-model costs ($0.56, $1.26) are for generation only, not total eval cost. Worth recording as a caution.
 
 ### Claim 9: Multi-provider image formatting is handled via custom Python — OpenAI uses `image_url` format while Anthropic/Claude requires base64 `source` format; also uses `developer` role for o1/o3 reasoning models
@@ -84,10 +85,10 @@ issue: "#1755"
 - **Our assessment**: Documents portability cost of multi-provider eval harness — concrete operational detail.
 
 ### Claim 10: The page states "token budget increases alone don't guarantee accuracy improvements" as a falsifiable caution
-- **Evidence**: Implications section (bullet list).
-- **Confidence**: settled (stated finding/lesson)
+- **Evidence**: Implications section (bullet list), under "Key findings".
+- **Confidence**: emerging (the sentence is stated plainly and verbatim on the page, but it is an empirical generalization drawn from one 50-question-per-model single run — the same run Claim 3 records the page flagging as "preliminary" and as requiring "validation through larger samples and multiple runs". The page offers no per-model token/accuracy comparison to support it.)
 - **Quote**: "- Token budget increases alone don't guarantee accuracy improvements"
-- **Our assessment**: This is an extractable empirical caution tied to reasoning budgets; the page presents it as a key finding from the demo context.
+- **Our assessment**: Extractable as a caution tied to reasoning budgets, but graded `emerging` rather than `settled` precisely because its evidentiary base is the demo's own single small run: it is a stated lesson, not a demonstrated result. Use it in the guide as a hypothesis to test per model, not as a measured law.
 
 ### Claim 11: The demo is runnable via the shipped example; the page gives concrete config snippets including test selection and provider configuration
 - **Evidence**: Running the Eval and Customization Options sections with commands and YAML.
@@ -189,10 +190,12 @@ providers:
 
 - **Corroborates**:
   - `source-notes/docs-promptfoo-harmbench.md` — same shape (vendor product docs for running a standardized benchmark via promptfoo plugin/config). Both emphasize config surface and limitations of what the page demonstrates (Harmbench notes static dataset limits; HLE notes sampling fragility/comparability).
-  - `source-notes/docs-promptfoo-evaluate-osworld-with-inspect.md` — strong methodological parallel on denominator/hygiene: this page's "three states" vs the error-vs-failure/denominator discipline. Also both give concrete measured run-shape figures (tokens/cost/time/concurrency) and explicit caveats about generalizing numbers.
+  - `source-notes/docs-promptfoo-evaluate-osworld-with-inspect.md` — strong methodological parallel on denominator/hygiene. The three-state result model is *that* note's, not this page's: its Claim 3 documents the provider's `score >= 1.0` / `score < 1.0` / provider `error` taxonomy, and its Claim 4 the rule that collapsing provider errors into failures corrupts the score. This page has no such state model; what it shares is the "the number you publish is not the number a leaderboard publishes" discipline (its Claim 2 disclaimer vs that note's Claims 5/6 publication rule). Also both give concrete measured run-shape figures (tokens/cost/time/concurrency — that note's Claim 9) and explicit caveats about generalizing numbers. (Verified: read OSWorld Claims 3, 4, 5, 6 and 9.)
 
 - **Extends**:
   - `source-notes/docs-promptfoo-llm-rubric.md` (and related model-graded notes) — extends the `llm-rubric` concept by applying it to a closed-ended public benchmark with a concrete 0.0-1.0 rubric tailored to mathematical/logical equivalence. (The rubric here is specific to HLE's grading needs.)
+  - `source-notes/docs-promptfoo-configuration-huggingface-datasets.md` — **Claim 11's runnable artifact depends on this note.** The "Test more questions" snippet (`tests: - huggingface://datasets/cais/hle?split=test&limit=200`, Claim 11) is a `huggingface://datasets/` test source, so the 200 HLE questions are fetched live from `cais/hle` at eval time. That note's Claim 2 establishes the prefix's whole knob surface is `split`/`config`/`limit` with **no revision or commit pin at either layer**, which means the HLE example's inputs are non-hermetic and not even pinnable in place — a fifth failure mode for this note's small-sample fragility point (Claims 3, 5): not only are 50 questions a small sample, the 200-question "scale up" is a mutable third-party reference. Two further properties from that note attach to this snippet: its Claim 3 documents that rows arrive 100 per request over the dataset-viewer `/rows` API (so `limit=200` is a two-page remote fetch), and its Claim 5 that a wrong or absent `split`/`config` yields **zero** test cases with no error. (Verified: read huggingface-datasets Claims 2, 3 and 5.)
+  - `source-notes/docs-promptfoo-model-graded-closedqa.md` — a related grading alternative for the closed-ended shape this note describes. This note's Claim 1 records HLE's "verifiable, closed-ended problems", and its Claim 7 documents the page's chosen grader: `llm-rubric` on a continuous 0.0–1.0 scale. That note's Claim 1 documents the opposite granularity available in the same assert family — `model-graded-closedqa` returns `Y`/`N` by string-suffix parse with no `threshold` of its own, and its Claim 7 notes the per-assert `value:` is one binary criterion, with gating pushed up to the row-level `threshold`. For HLE-style closed-ended items that is a cheaper (one bit, one judge call) alternative to this page's rubric, and the trade is the graded-partial-credit scale vs the binary parse. (Verified: read model-graded-closedqa Claims 1 and 7.)
 
 - **Contradicts**: None identified; no contradiction issue filed. The page's claims are self-consistent and include appropriate disclaimers.
 
@@ -202,7 +205,7 @@ providers:
 ## Guide Impact
 
 - **Chapter 05 (LLM Ops Reliability)**: Add guidance about small-sample honesty — when reporting benchmark results, document sample size relative to full corpus (50/3000+), single vs multiple runs, and comparability to official leaderboards. Cite Claims 2, 3 as concrete examples of vendor self-disclosure. Also add that eval costs should account for judge (llm-rubric) cost which may not be itemized in per-model generation costs (Claim 8).
-- **Chapter 05 (Cost, capacity, and fallback patterns)**: Incorporate the concrete run-shape numbers as an illustrative example (237K tokens for 100 cases, 9 min at 20 concurrent workers) to help teams estimate eval budgets, while noting they are preliminary and single-run (Claims 5, 3).
+- **Chapter 05 (Cost, capacity, and fallback patterns)**: Incorporate the concrete run-shape numbers as an illustrative example (237K tokens for 100 cases, 9 min at 20 concurrent workers) to help teams estimate eval budgets, while noting they are preliminary and single-run (Claims 5, 3). One line of hardening belongs with the runnable artifact: the example's test selection is a live `huggingface://datasets/cais/hle` fetch with no revision pin (Claim 11; see `docs-promptfoo-configuration-huggingface-datasets.md` Claim 2), so a team scaling this up should materialize and commit the sampled questions rather than inherit an unpinnable third-party input.
 - **Chapter 03/05 (Evaluation methodology)**: The page's levers (thinking tokens, max_tokens, adaptive effort) and the caution that increasing token budget alone doesn't guarantee gains (Claims 6, 10) are useful additions to methodology guidance.
 
 ## Extraction Notes
@@ -214,3 +217,4 @@ providers:
 - `date_published` uses the page's "Last updated Oct 16, 2026" footer.
 - `confidence_overall` = `emerging`: concrete measured numbers exist but are explicitly presented as preliminary single-run demonstration; the methodological disclaimers are the strongest signal.
 - Registry files (`sources.json`, `claims-index.json`) were not edited — they are derived after merge.
+- **Rework after Assayer review**: the page was re-fetched (raw HTML, rendered to text) and every `Quote:` field re-checked against it. Changes made: Claim 1's quote was split into its two contiguous source sentences (it had elided the sentence naming the 1,000+ experts behind an ellipsis); Claim 10 was downgraded `settled` → `emerging` because it is an empirical generalization from the single preliminary run Claim 3 describes, not a demonstrated result; Claim 8's Quote field was relabelled as an inference from absence rather than a pointer that reads like a quote; the OSWorld corroboration was corrected so the three-state result model is attributed to that note (its Claim 3) rather than to this page; and the two missed cross-references (the `huggingface://datasets/` prefix note behind Claim 11's snippet, and `model-graded-closedqa` as the binary alternative to this page's rubric) were added after re-reading both notes to verify the cited claim numbers.
