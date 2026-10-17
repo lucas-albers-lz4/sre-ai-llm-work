@@ -2834,6 +2834,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-azure-vs-openai": {
+      "slug": "docs-promptfoo-azure-vs-openai",
+      "title": "OpenAI vs Azure: How to benchmark (promptfoo)",
+      "source_url": "https://www.promptfoo.dev/docs/guides/azure-vs-openai",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "unknown (living docs page; last updated 2026-10-16 by renovate[bot])",
+      "date_extracted": "2026-10-17",
+      "issue": "#1642",
+      "file": "source-notes/docs-promptfoo-azure-vs-openai.md",
+      "confidence_overall": "anecdotal",
+      "status": "current"
+    },
     "docs-promptfoo-chat-threads": {
       "slug": "docs-promptfoo-chat-threads",
       "title": "Promptfoo Docs — Chat Conversations and Multi-Turn Threads",

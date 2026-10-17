@@ -15347,6 +15347,47 @@
         }
       ]
     },
+    "docs-promptfoo-azure-vs-openai": {
+      "path": "source-notes/docs-promptfoo-azure-vs-openai.md",
+      "title": "OpenAI vs Azure: How to benchmark (promptfoo)",
+      "source_url": "https://www.promptfoo.dev/docs/guides/azure-vs-openai",
+      "chapters": [
+        "05",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Provider identity is asymmetric in config — OpenAI is referenced by model slug, Azure by deployment name plus a required `apiHost`, with separate API-key env vars",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Outputs may differ between providers even with identical configurations, so accuracy and relevance must be validated per provider rather than assumed portable",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Azure tends to ship model updates more slowly than OpenAI direct, creating version gaps between the two providers",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Latency varies between Azure regions, so a timing measured on one deployment is not a property of \"Azure\"",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "When latency is the thing under test, the eval must run with `--no-cache` — cached results would invalidate timing data",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The page's only quantitative result — ~556 ms OpenAI vs ~552 ms Azure average over 25 examples (\"negligible difference\") — is a single illustrative run, not a benchmark",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-chat-threads": {
       "path": "source-notes/docs-promptfoo-chat-threads.md",
       "title": "Promptfoo Docs — Chat Conversations and Multi-Turn Threads",
