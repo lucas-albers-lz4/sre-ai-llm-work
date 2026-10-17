@@ -17603,6 +17603,72 @@
         }
       ]
     },
+    "docs-promptfoo-hle-benchmark": {
+      "path": "source-notes/docs-promptfoo-hle-benchmark.md",
+      "title": "Promptfoo Guide: Testing Humanity's Last Exam (HLE) with Promptfoo — Small-Sample Eval, LLM-as-Judge Grading, and Comparability Disclaimers",
+      "source_url": "https://www.promptfoo.dev/docs/guides/hle-benchmark",
+      "chapters": [
+        "05",
+        "03"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "HLE is framed as a response to benchmark saturation — designed to be more challenging because models exceed 90% on MMLU, with characteristics including 100+ subjects, 14% multimodal questions, resistance to simple web search, and verifiable closed-ended problems",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The page explicitly disclaims comparability to the official leaderboard — the demo numbers differ from official benchmarks due to prompting strategy, token budgets, question sampling",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The demo uses small-N single-run sampling — 50 questions per model (100 total), single run, from HLE's 3,000+ questions, and explicitly calls the results \"preliminary\" with arbitrary choices requiring validation",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The page forwards official leaderboard numbers (as of early 2026) as a pointer, not independently measured evidence — the table attributes numbers to Scale AI leaderboard",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The demo reports concrete measured cost/latency/tokens for each model (50 questions each) and aggregate run metrics",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Token budgets and reasoning configuration are documented as levers — example uses 3K thinking tokens for Claude Sonnet 4.6 and 4K max tokens total; also shows adaptive thinking with `effort: xhigh` and `max_tokens: 12000` for Claude Sonnet 5",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Grading is LLM-as-judge via the built-in `llm-rubric` assertion with a 0.0–1.0 scale; it does not require exact string matches and accounts for equivalent formats",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "There is an unpriced judge dependency — grading uses LLM-as-judge (`llm-rubric`) but the reported cost/latency/tokens in the demo tables only cover the evaluated models (o4-mini and Claude 4), not the judge model's cost",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Multi-provider image formatting is handled via custom Python — OpenAI uses `image_url` format while Anthropic/Claude requires base64 `source` format; also uses `developer` role for o1/o3 reasoning models",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The page states \"token budget increases alone don't guarantee accuracy improvements\" as a falsifiable caution",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The demo is runnable via the shipped example; the page gives concrete config snippets including test selection and provider configuration",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-javascript-assertions": {
       "path": "source-notes/docs-promptfoo-javascript-assertions.md",
       "title": "Promptfoo Configuration: Javascript Assertions",

@@ -3341,6 +3341,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-hle-benchmark": {
+      "slug": "docs-promptfoo-hle-benchmark",
+      "title": "Promptfoo Guide: Testing Humanity's Last Exam (HLE) with Promptfoo — Small-Sample Eval, LLM-as-Judge Grading, and Comparability Disclaimers",
+      "source_url": "https://www.promptfoo.dev/docs/guides/hle-benchmark",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-10-16",
+      "date_extracted": "2026-10-16",
+      "issue": "#1755",
+      "file": "source-notes/docs-promptfoo-hle-benchmark.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-javascript-assertions": {
       "slug": "docs-promptfoo-javascript-assertions",
       "title": "Promptfoo Configuration: Javascript Assertions",
