@@ -104,6 +104,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "blog-cncf-kepler-rearchitected-power-accuracy": {
+      "slug": "blog-cncf-kepler-rearchitected-power-accuracy",
+      "title": "Kepler, re-architected: Improved power accuracy and a community call to action!",
+      "source_url": "https://www.cncf.io/blog/2026/06/30/kepler-re-architected-improved-power-accuracy-and-a-community-call-to-action",
+      "source_type": "blog-post",
+      "author": "Niki Manoledaki (Grafana Labs), Sunyanan Choochotkaew",
+      "date_published": "2026-06-30",
+      "date_extracted": "2026-10-17",
+      "issue": "#1636",
+      "file": "source-notes/blog-cncf-kepler-rearchitected-power-accuracy.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-cncf-network-boundary-ai-agents-nginx-otel": {
       "slug": "blog-cncf-network-boundary-ai-agents-nginx-otel",
       "title": "Network boundary for AI agents using NGINX and OpenTelemetry",

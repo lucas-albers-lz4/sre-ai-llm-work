@@ -568,6 +568,73 @@
         }
       ]
     },
+    "blog-cncf-kepler-rearchitected-power-accuracy": {
+      "path": "source-notes/blog-cncf-kepler-rearchitected-power-accuracy.md",
+      "title": "Kepler, re-architected: Improved power accuracy and a community call to action!",
+      "source_url": "https://www.cncf.io/blog/2026/06/30/kepler-re-architected-improved-power-accuracy-and-a-community-call-to-action",
+      "chapters": [
+        "02",
+        "06",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The old eBPF architecture required CAP_BPF and CAP_SYSADMIN — named as a production adoption blocker — and the rewrite replaced it with read-only `/proc` and `/sys` access deployable via a single Helm chart",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The eBPF signal source was the majority of user-reported issues — error-prone at fine granularity and missing short-lived terminated processes, under-reporting energy footprints — and added a steep maintenance learning curve",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The rewrite renamed the exported Prometheus series — old `*_package_*` names moved behind an `old_` prefix — so the metric surface change is a breaking change for every dashboard, recording rule, and alert bound to the old names",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The old API exposed only joules counters requiring PromQL `rate()` to derive watts, and the old counters produced multi-kW spikes exceeding IPMI ground truth; the new version adds a native watts gauge that eliminates those spikes",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Hardcoded hardware-topology assumptions attributed energy to a non-existent ground truth; the rewrite discovers the host's power-meter structure at runtime",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Validation methodology — compare derived telemetry against a physically independent meter with the expected ratio stated up front, and use the independent meter as a load-shape reference under controlled increasing load",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "A progressive `stress-ng` experiment reported a process-power-attribution gap of essentially 0 W — node active energy minus process-distributed energy differing by only a few milliwatts",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Known fidelity trade-off — after the rewrite, Kepler attributes only active CPU usage per workload, dropping idle power, which the authors call an oversimplification they intend to restore",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The rewrite added integration and unit tests to 90% coverage, framed as necessary to validate the trustworthiness of the exported metrics",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "GPU power monitoring exists only behind an experimental flag, positioned as crucial for AI/accelerator-heavy workloads, with end-user validation explicitly sought against physical meters",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Kepler's pipeline is hardware power meters → Linux-process attribution → Pod association → Prometheus metrics; there is no easy built-in Kubernetes method to allocate power per workload",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-cncf-network-boundary-ai-agents-nginx-otel": {
       "path": "source-notes/blog-cncf-network-boundary-ai-agents-nginx-otel.md",
       "title": "Network boundary for AI agents using NGINX and OpenTelemetry",
