@@ -11154,6 +11154,73 @@
         }
       ]
     },
+    "docs-langfuse-halo": {
+      "path": "source-notes/docs-langfuse-halo.md",
+      "title": "Halo — Langfuse Assistant",
+      "source_url": "https://langfuse.com/docs/halo",
+      "chapters": [
+        "03",
+        "06",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Halo is the same Langfuse MCP project-tool surface that external coding agents use, wrapped in the Langfuse UI with UI-context injection, background execution, notifications, and approvals",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The approval gate pauses mutations, scopes them to the signed-in user's existing project permissions, and grants no extra access; \"Always approve\" expires with the conversation",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Large observation sets are processed with code in a sandbox instead of loading every item into model context; without a sandbox those tools are disabled entirely",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Self-hosting Halo has a three-link prerequisite chain — public beta from `>=v4.28.0` (not SemVer-covered), an instance-wide Langfuse AI model configured on both web and worker, and a worker queue consumer",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The data-handling model routes Cloud requests through Langfuse-managed Amazon Bedrock in the customer's data region, self-hosted requests through the operator-configured instance model, and scopes access to the signed-in user and current project",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Halo runs are durable jobs — web enqueues, worker claims and executes — with runs surviving the browser and conversations persisted per user and project",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The recommended sandbox is network-isolated by default but becomes internet-reachable unless an egress network connector is explicitly attached, and the execution role must hold no Langfuse data access",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Operators can trace the assistant itself by pointing `LANGFUSE_AI_FEATURES_PROJECT_ID` at a dedicated project, which makes Halo's prompts, tool calls, and model output readable by anyone with access to that project",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The vendor explicitly advises verifying Halo's answers and reviewing proposed actions before approving them",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Halo's system prompt and tool loop are developed against Claude Opus 5; other models work but tool calling and instruction following may vary",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "All Langfuse AI features are org-level opt-ins that admins/owners control, with AI feature tracing toggleable independently of the features themselves",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-langfuse-mcp-server": {
       "path": "source-notes/docs-langfuse-mcp-server.md",
       "title": "Langfuse Docs MCP Server",

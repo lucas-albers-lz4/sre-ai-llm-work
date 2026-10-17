@@ -1937,6 +1937,19 @@
       "confidence_overall": "settled",
       "status": "current"
     },
+    "docs-langfuse-halo": {
+      "slug": "docs-langfuse-halo",
+      "title": "Halo — Langfuse Assistant",
+      "source_url": "https://langfuse.com/docs/halo",
+      "source_type": "docs",
+      "author": "Langfuse",
+      "date_published": "n.d. (vendor docs; Halo public beta announced 2026-06-19)",
+      "date_extracted": "2026-10-17",
+      "issue": "#1767",
+      "file": "source-notes/docs-langfuse-halo.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-langfuse-mcp-server": {
       "slug": "docs-langfuse-mcp-server",
       "title": "Langfuse Docs MCP Server",
