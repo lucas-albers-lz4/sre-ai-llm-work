@@ -18013,6 +18013,67 @@
         }
       ]
     },
+    "docs-promptfoo-llm-as-a-judge": {
+      "path": "source-notes/docs-promptfoo-llm-as-a-judge.md",
+      "title": "LLM as a Judge Evaluation Guide",
+      "source_url": "https://www.promptfoo.dev/docs/guides/llm-as-a-judge",
+      "chapters": [
+        "05",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Judge calibration workflow requires splitting labeled examples into development (golden) and never-tuned holdout sets to detect overfitting",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Grader errors must be excluded from agreement calculations, with separate reporting of judged/unjudged counts",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Target agreement of >90% on labeled examples before trusting the judge in CI",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Drift monitoring requires pinning grader model, running holdout weekly in CI, alerting on mean score shift > 0.1, and reviewing 10 samples on drift",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Multi-judge voting uses `assert-set` with `threshold: 0.66` for majority (2-of-3), with the cost trade-off noted (3x grading cost)",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "For thinking-capable local judges (e.g., vLLM), set `showThinking: false` so reasoning content is not mixed into the final verdict; also note the shorthand provider override pitfall",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Defense in depth against judge prompt injection: delimit candidate output with `<output>...</output>`, use strict JSON schema output, and add an injection pre-check assertion as a guard",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Tiered evaluation reduces cost by running deterministic checks always, cheap judge always, expensive judge conditionally (e.g., filtered by `metadata.risk=high`)",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Grader selection should be measured against human-labeled examples on agreement, cost, and latency before pinning; can override via CLI `--grader`",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Low-precision scales (binary/3-point) are more consistent than fine-grained scales (1-10); clear specific rubrics reduce variance more than parameter tuning",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-llm-rubric": {
       "path": "source-notes/docs-promptfoo-llm-rubric.md",
       "title": "Promptfoo Configuration: Model-Graded — LLM Rubric",
