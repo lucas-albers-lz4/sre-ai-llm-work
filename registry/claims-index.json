@@ -18674,6 +18674,73 @@
         }
       ]
     },
+    "docs-promptfoo-multimodal-red-team": {
+      "path": "source-notes/docs-promptfoo-multimodal-red-team.md",
+      "title": "Promptfoo Docs — Multi-Modal Red Teaming",
+      "source_url": "https://www.promptfoo.dev/docs/guides/multimodal-red-team",
+      "chapters": [
+        "06",
+        "05",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Multimodal models present security challenges that are distinct from text-only models, so promptfoo ships dedicated multi-modal red-team approaches for vision and audio content",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "`redteam.injectVar` is the channel selector — it names which prompt variable receives the adversarial payload, which is how the same plugin battery is redirected from the text channel into the image, audio, or video channel",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Five multimodal red-team approaches are documented, each targeting a different way content can reach a non-text channel — static image + variable text, text-to-image, text-to-video, UnsafeBench dataset, and text-to-audio",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The core security hypothesis is filter bypass by modality — harmful content embedded in images (or audio/video) can evade safety filters that would catch the same content in plain text",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The static-image approach keeps a fixed image as benign context and injects harmful text via a separate variable, which is what makes it a test of harmful questions *about* an image rather than content *in* an image",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The `purpose` statement must specifically describe the actual image content, or promptfoo generates tests unrelated to what is in the image",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Provider-specific image-format handling is a real trap — Amazon Bedrock Nova requires a `defaultTest.options.transformVars` function that strips a `data:binary/octet-stream;base64,` prefix from the image data, while OpenAI and Anthropic generally do not",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The prompt template format varies by provider — Bedrock Converse expects an `image` block with `format` + `source.bytes`, while OpenAI expects an `image_url` block — so the template must be adjusted per model",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The UnsafeBench plugin red-teams with real unsafe images from a public Hugging Face dataset, filtering by unsafe categories — and its license restricts it to non-commercial academic research",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "VLGuard is offered as an alternative image dataset with categories and subcategories, 442 curated images, and an explicitly unstated license",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "For custom providers, media strategies put raw base64 in `context.vars[injectVar]` (not a ready-to-send message), with per-strategy delivery gotchas — and audio and video have opposite generation requirements",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-pi-scorer": {
       "path": "source-notes/docs-promptfoo-pi-scorer.md",
       "title": "Promptfoo Configuration: Model-Graded — Pi Scorer",
