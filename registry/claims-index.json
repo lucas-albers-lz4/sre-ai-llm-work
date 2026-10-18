@@ -14269,6 +14269,67 @@
         }
       ]
     },
+    "docs-litellm-data-security": {
+      "path": "source-notes/docs-litellm-data-security.md",
+      "title": "Data Privacy and Security | liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/data_security",
+      "chapters": [
+        "06",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "When you self-host, the vendor asserts no data or telemetry reaches LiteLLM servers — as a commitment, not a documented mechanism",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Self-hosted deployments collect no personal data and transmit none to LiteLLM servers — all data \"remains entirely within your own infrastructure\"",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Admin UI session cookies are a bounded, checkable contract — JWT, auth/session-only, no third-party cookies, expiring on browser close, logout, or 24 hours",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The canonical vulnerability-disclosure policy lives in-repo (`security.md`); GitHub Security Advisories is the preferred channel, with email as a slower fallback",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "All vulnerability reports must include a video/screen recording demonstrating the full exploit, explicitly framed as a defense against low-quality AI-generated reports — and `security.md` enforces it by closing video-less reports without review",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "LiteLLM runs `grype` security scans on all built Docker images in CI, reported as \"0 High/Critical\" — a dependency-scan status for image contents, not an application-security claim",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Compliance posture — SOC 2 Type II via the Trust Center, CodeQL plus an ISMS, audit logs covering auth/create/update events, incident-response policy \"available upon request\", legal entity Berrie AI Incorporated",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "SSO/SAML, audit logs, spend tracking, multi-team management, and guardrails are Enterprise-tier features",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The data-security page is silent on encryption, key management, log redaction, and retention — and the vendor's own linked pages confirm those surfaces are partially plaintext and operator-owned",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The bug bounty is severity-tiered with only P0/P1 eligible, and misconfiguration-dependent attacks (e.g. no `master_key` set) are explicitly out of scope",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-drop-params": {
       "path": "source-notes/docs-litellm-drop-params.md",
       "title": "Drop Unsupported Params | liteLLM",

@@ -2587,6 +2587,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-data-security": {
+      "slug": "docs-litellm-data-security",
+      "title": "Data Privacy and Security | liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/data_security",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs; current as of 2026-10-18)",
+      "date_extracted": "2026-10-18",
+      "issue": "#1651",
+      "file": "source-notes/docs-litellm-data-security.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-drop-params": {
       "slug": "docs-litellm-drop-params",
       "title": "Drop Unsupported Params | liteLLM",
