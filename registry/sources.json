@@ -3393,6 +3393,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-guides-censored-vs-uncensored-ollama": {
+      "slug": "docs-promptfoo-guides-censored-vs-uncensored-ollama",
+      "title": "Promptfoo Guide: Benchmarking Censored vs. Uncensored Ollama Models",
+      "source_url": "https://www.promptfoo.dev/docs/guides/censored-vs-uncensored-ollama",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-10-17",
+      "date_extracted": "2026-10-18",
+      "issue": "#1653",
+      "file": "source-notes/docs-promptfoo-guides-censored-vs-uncensored-ollama.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-harmbench": {
       "slug": "docs-promptfoo-harmbench",
       "title": "Promptfoo Docs — Evaluating LLM Safety with HarmBench (Standardized-Benchmark Red-Team Plugin)",

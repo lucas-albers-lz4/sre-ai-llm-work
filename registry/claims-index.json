@@ -17834,6 +17834,32 @@
         }
       ]
     },
+    "docs-promptfoo-guides-censored-vs-uncensored-ollama": {
+      "path": "source-notes/docs-promptfoo-guides-censored-vs-uncensored-ollama.md",
+      "title": "Promptfoo Guide: Benchmarking Censored vs. Uncensored Ollama Models",
+      "source_url": "https://www.promptfoo.dev/docs/guides/censored-vs-uncensored-ollama",
+      "chapters": [
+        "05",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "A refusal-style gate can be composed from a positive substring signal plus a set of negative refusal/hedge signals using `icontains` and `not-icontains` (the guide's own string set is demo-specific)",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Different providers require different prompt template formats, so eval config should bind provider→prompt ID explicitly",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Applying a shared gate via `defaultTest` across a heterogeneous provider set enables same-rubric, different-model comparisons",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-harmbench": {
       "path": "source-notes/docs-promptfoo-harmbench.md",
       "title": "Promptfoo Docs — Evaluating LLM Safety with HarmBench (Standardized-Benchmark Red-Team Plugin)",
