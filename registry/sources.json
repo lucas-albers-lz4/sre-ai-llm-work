@@ -2977,6 +2977,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-compare-open-source-models": {
+      "slug": "docs-promptfoo-compare-open-source-models",
+      "title": "Promptfoo Guides: Comparing Open-Source Models — Benchmark on Your Own Data",
+      "source_url": "https://www.promptfoo.dev/docs/guides/compare-open-source-models",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-10-17",
+      "date_extracted": "2026-10-18",
+      "issue": "#1665",
+      "file": "source-notes/docs-promptfoo-compare-open-source-models.md",
+      "confidence_overall": "anecdotal",
+      "status": "current"
+    },
     "docs-promptfoo-configuration-caching": {
       "slug": "docs-promptfoo-configuration-caching",
       "title": "Promptfoo Configuration: Caching — Runtime",

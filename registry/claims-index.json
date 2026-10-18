@@ -15931,6 +15931,49 @@
         }
       ]
     },
+    "docs-promptfoo-compare-open-source-models": {
+      "path": "source-notes/docs-promptfoo-compare-open-source-models.md",
+      "title": "Promptfoo Guides: Comparing Open-Source Models — Benchmark on Your Own Data",
+      "source_url": "https://www.promptfoo.dev/docs/guides/compare-open-source-models",
+      "chapters": [],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The page restates the own-data benchmarking thesis for open-source models — no one-size-fits-all benchmark; build your own to supplement public benchmarks",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The same eval config treats cloud-router (OpenRouter), hosted-inference (HuggingFace/Replicate/Groq), and local-runtime (Ollama/LocalAI/Llama.cpp) endpoints as interchangeable `providers:` entries",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "OpenRouter's OpenAI-compatible normalization removes the need for per-family prompt templates; on raw endpoints the page prescribes one template per family, assigned to providers via labels",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The local-Ollama variant swaps in an entirely different model roster, so \"just swap the providers\" does not produce a local-vs-router comparison of the same models",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The local-Ollama sampling config (`temperature: 0.01`, `num_predict: 128`) is presented as a bare example with no rationale — it is not framed as measurement hygiene — and the 128-token cap sits uneasily beside the page's own advice to compare verbosity",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The shipped test suite is only half-gated — 4 of 8 cases carry no assertion at all, and the 4 `llm-rubric` asserts omit `threshold`, so the suite's quality gate is both case-blind and score-blind",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The evidence base is absent and the page shows adaptation rather than fresh measurement — no scores anywhere, a screenshot asset named for a different model set used both before and after the run, and a bot footer",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-configuration-caching": {
       "path": "source-notes/docs-promptfoo-configuration-caching.md",
       "title": "Promptfoo Configuration: Caching — Runtime",
