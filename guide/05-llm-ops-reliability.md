@@ -1111,7 +1111,7 @@ for hit rate, and keep cache-key scope isolation in place.
 LiteLLM explicitly calls out "investigate latency overhead for long-running
 Claude Code requests" as a reliability investment area, alongside a 10k+ RPS
 uptime target [source: blog-litellm-april-townhall-updates, Claim 9]
-[emerging].
+[stale].
 
 Long-running agent sessions (minutes to hours) stress gateway connection
 pools, timeout configurations, and cost tracking differently than

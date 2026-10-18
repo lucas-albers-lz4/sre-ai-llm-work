@@ -125,7 +125,7 @@ If your blue team cannot catch an internal pen-tester using an AI agent, it
 will not catch an external one. Run red-team exercises with AI coding
 assistants and measure whether detection catches them — quarterly, not
 annually [source: blog-promptfoo-ai-orchestrated-cyberattacks, Claim 11]
-[emerging].
+[stale].
 
 Three red-team test patterns you can run in CI
 [source: blog-promptfoo-ai-orchestrated-cyberattacks, Claim 12, Concrete
