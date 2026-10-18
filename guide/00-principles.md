@@ -224,4 +224,4 @@ docs-google-sre-prodcast-03-04-observability-spectrum,
 docs-google-sre-canarying-releases, docs-google-sre-postmortem-analysis,
 docs-google-sre-reaching-beyond-walls, docs-google-sre-engagement-model,
 docs-google-sre-simplicity, docs-google-sre-slo-engineering-case-studies*
-*Last updated: 2026-08-15*
+*Last updated: 2026-10-18*

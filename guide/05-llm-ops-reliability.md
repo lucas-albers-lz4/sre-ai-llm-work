@@ -1270,7 +1270,7 @@ The AI gateway pattern is expanding: today's gateways route model calls
 (routing, fallbacks, logging, spend tracking, auth, billing); tomorrow's
 must govern agent sessions (lifecycle, scheduling, memory, observability
 across runtimes) [source: blog-litellm-agents-are-the-new-llms, Claim 5,
-Claim 6] [emerging].
+Claim 6] [stale].
 
 This is a directional signal, not a deployable pattern — the cross-runtime
 agent API and fast-harness-serving layers are explicitly unsolved
@@ -1463,4 +1463,4 @@ docs-promptfoo-configuration-caching, docs-promptfoo-chat-threads,
 docs-promptfoo-dataset-generation, docs-litellm-generic-guardrail-api,
 docs-litellm-generic-prompt-management-api, docs-promptfoo-factuality,
 docs-promptfoo-g-eval*
-*Last updated: 2026-09-19*
+*Last updated: 2026-10-18*

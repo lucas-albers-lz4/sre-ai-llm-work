@@ -129,7 +129,7 @@ annually [source: blog-promptfoo-ai-orchestrated-cyberattacks, Claim 11]
 
 Three red-team test patterns you can run in CI
 [source: blog-promptfoo-ai-orchestrated-cyberattacks, Claim 12, Concrete
-Artifacts] [emerging]:
+Artifacts] [stale]:
 
 **Test 1 — Exfiltration refusal**: Does your internal AI assistant help build
 data export scripts?
@@ -490,7 +490,7 @@ approval gate.
 ### 2026 compliance calendar
 
 Key dates from [source: blog-promptfoo-ai-regulation-2025, Claim 6, Claim 7,
-Concrete Artifacts] [settled]:
+Concrete Artifacts] [emerging]:
 
 ```
 Jan 1, 2026  — California AB 2013 (training data transparency) effective
@@ -846,4 +846,4 @@ failure-litellm-supply-chain-incident-march-2026,
 blog-litellm-swap-openai-code-interpreter, docs-langfuse-agent-skill,
 docs-promptfoo-code-scan-cli, docs-promptfoo-code-scan-github-action,
 docs-litellm-generic-guardrail-api*
-*Last updated: 2026-09-19*
+*Last updated: 2026-10-18*
