@@ -2808,6 +2808,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-security-settings": {
+      "slug": "docs-litellm-security-settings",
+      "title": "SSL, HTTP Proxy Security Settings | LiteLLM",
+      "source_url": "https://docs.litellm.ai/docs/guides/security_settings",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs; current as of 2026-10-18)",
+      "date_extracted": "2026-10-18",
+      "issue": "#1784",
+      "file": "source-notes/docs-litellm-security-settings.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-streaming-token-usage": {
       "slug": "docs-litellm-streaming-token-usage",
       "title": "Streaming Responses & Async Completion",

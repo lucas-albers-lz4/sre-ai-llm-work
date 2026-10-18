@@ -15319,6 +15319,62 @@
         }
       ]
     },
+    "docs-litellm-security-settings": {
+      "path": "source-notes/docs-litellm-security-settings.md",
+      "title": "SSL, HTTP Proxy Security Settings | LiteLLM",
+      "source_url": "https://docs.litellm.ai/docs/guides/security_settings",
+      "chapters": [
+        "06",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Custom CA bundle can be configured via `SSL_CERT_FILE` env var or by passing a string to `ssl_verify` (SDK/proxy)",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "SSL verification can be disabled via `ssl_verify=False` or `SSL_VERIFY=\"False\"` (explicit footgun)",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "OpenSSL security level can be lowered via `ssl_security_level` / `SSL_SECURITY_LEVEL` (footgun)",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Client certificate authentication (mTLS) via `ssl_certificate` / `SSL_CERTIFICATE`",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "ECDH curve tuning to disable PQC for performance; invalid curve falls back with warning",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Proxy env vars are honored on both aiohttp and httpx transports; no extra flag needed",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "`DISABLE_AIOHTTP_TRUST_ENV` and `AIOHTTP_TRUST_ENV` control trust_env behavior and are unrelated to proxy selection",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Per-service SSL verification overrides are supported (Bedrock per-call; guardrails per-config)",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "SSL verification resolution priority is explicitly documented (parameter → env → global → system)",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-streaming-token-usage": {
       "path": "source-notes/docs-litellm-streaming-token-usage.md",
       "title": "Streaming Responses & Async Completion",
