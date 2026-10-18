@@ -6,7 +6,7 @@ author: "Google SRE (Salim Virji, James Youngman, Henry Robertson, Stephen Thorn
 date_published: 2021
 date_extracted: 2026-07-13
 last_checked: 2026-07-13
-status: current
+status: stale
 confidence_overall: settled
 issue: "#13"
 ---

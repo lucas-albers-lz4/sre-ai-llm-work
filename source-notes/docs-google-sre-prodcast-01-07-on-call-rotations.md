@@ -6,7 +6,7 @@ author: "Andrew Widdowson (APW), SRE at Google (~15 years); interviewed by MP an
 date_published: unknown
 date_extracted: 2026-07-13
 last_checked: 2026-07-13
-status: current
+status: stale
 confidence_overall: settled
 issue: "#40"
 ---

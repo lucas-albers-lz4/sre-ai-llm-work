@@ -6,7 +6,7 @@ author: "Ben Treynor Sloss (VP of Engineering, Google), interviewed by Niall Mur
 date_published: 2016
 date_extracted: 2026-07-13
 last_checked: 2026-07-13
-status: current
+status: stale
 confidence_overall: settled
 issue: "#17"
 ---

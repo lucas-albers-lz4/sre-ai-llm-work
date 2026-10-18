@@ -6,7 +6,7 @@ author: "Google SRE (Prodcast hosts MP English & Chris Wojno; guest Stephen Benj
 date_published: 2022-03-31
 date_extracted: 2026-07-14
 last_checked: 2026-07-14
-status: current
+status: stale
 confidence_overall: emerging
 issue: "#55"
 ---

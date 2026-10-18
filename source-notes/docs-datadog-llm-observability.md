@@ -6,7 +6,7 @@ author: Datadog (vendor documentation)
 date_published: unknown (vendor docs, continuously updated; landing page current as of extraction)
 date_extracted: 2026-07-14
 last_checked: 2026-07-14
-status: current
+status: stale
 confidence_overall: emerging
 issue: "#91"
 ---
