@@ -3614,6 +3614,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-prevent-llm-hallucinations": {
+      "slug": "docs-promptfoo-prevent-llm-hallucinations",
+      "title": "How to Measure and Prevent LLM Hallucinations",
+      "source_url": "https://www.promptfoo.dev/docs/guides/prevent-llm-hallucinations",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-10-17",
+      "date_extracted": "2026-10-18",
+      "issue": "#1786",
+      "file": "source-notes/docs-promptfoo-prevent-llm-hallucinations.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-python-assertions": {
       "slug": "docs-promptfoo-python-assertions",
       "title": "Promptfoo Configuration: Python Assertions",

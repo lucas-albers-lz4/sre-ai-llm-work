@@ -18799,6 +18799,77 @@
         }
       ]
     },
+    "docs-promptfoo-prevent-llm-hallucinations": {
+      "path": "source-notes/docs-promptfoo-prevent-llm-hallucinations.md",
+      "title": "How to Measure and Prevent LLM Hallucinations",
+      "source_url": "https://www.promptfoo.dev/docs/guides/prevent-llm-hallucinations",
+      "chapters": [
+        "02",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The page frames anti-hallucination work as a quantified measurement loop over five enumerated countermeasures, while explicitly conceding that hallucination risk cannot be eliminated — \"How can I quantify the effectiveness of these hallucination countermeasures?\"",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The hallucination gate is a *negative-claim* rubric — `llm-rubric` asserting the output \"does not claim to know\" real-time facts, one assert per test case",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The guide states the `llm-rubric` judge is \"GPT-4 by default\" — a third distinct default-judge statement on the assert family, joining open contradiction #1352 (do not pick a verdict here)",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The worked tuning recipe applies the negative-claim rubric via `defaultTest` with `{{question}}` interpolated — and, because no `threshold` is shown, each variant is gated score-blind",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The page reports a quantified mitigation delta — 55% → 94% pass rate on 150 HaluEval hallucination-prone questions — with no methodology attached",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The tuned prompt is a limitation-enumeration prompt: step-by-step instruction, single-source restriction, no-speculation rule, explicit knowledge-cutoff age warning, and an \"Unsure\" prefix commitment",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Perplexity is offered as a hallucination-confidence gate — hand-picked `threshold: 5`, \"a bit of trial and error\", plus a cross-model score dump — and the page drops both the `logprobs` precondition and the reference page's cross-model comparability warning",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The durable methodology is the one-axis-at-a-time comparison harness — same test set and same gate, vary only `prompts` or only `providers`, read the pass-rate delta",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "RAG is compared as a drop-in provider — a scripted `exec:` custom provider standing in for the bare model — with the vendor's own rule that the retrieval provider should wrap reliable non-LLM data sources",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Fine-tuning comparison is the same harness with Ollama providers — a thin restatement of the provider-listing pattern, with no fine-tuning-specific measurement guidance",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Controlled decoding (Guidance, Outlines) is named as the fifth countermeasure — logit bias to constrain output to a fixed token set — new to this corpus, with the vendor's own \"nearly guarantee\" bounded-constraint claim",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "The closing workflow claim is that continuous eval is what converts mitigation work into quantitative statements — the page's own example statement is \"we have reduced hallucinations by 20%\"",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-python-assertions": {
       "path": "source-notes/docs-promptfoo-python-assertions.md",
       "title": "Promptfoo Configuration: Python Assertions",
