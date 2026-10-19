@@ -3146,6 +3146,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-deepseek-benchmark": {
+      "slug": "docs-promptfoo-deepseek-benchmark",
+      "title": "Promptfoo Guides: DeepSeek vs GPT vs O3 vs Llama — Run a Custom Benchmark",
+      "source_url": "https://www.promptfoo.dev/docs/guides/deepseek-benchmark",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "unknown (living docs page; last updated 2026-10-19 by renovate[bot])",
+      "date_extracted": "2026-10-19",
+      "issue": "#1666",
+      "file": "source-notes/docs-promptfoo-deepseek-benchmark.md",
+      "confidence_overall": "anecdotal",
+      "status": "current"
+    },
     "docs-promptfoo-deterministic-metrics": {
       "slug": "docs-promptfoo-deterministic-metrics",
       "title": "Promptfoo Deterministic Metrics for LLM Output Validation",

@@ -16694,6 +16694,71 @@
         }
       ]
     },
+    "docs-promptfoo-deepseek-benchmark": {
+      "path": "source-notes/docs-promptfoo-deepseek-benchmark.md",
+      "title": "Promptfoo Guides: DeepSeek vs GPT vs O3 vs Llama — Run a Custom Benchmark",
+      "source_url": "https://www.promptfoo.dev/docs/guides/deepseek-benchmark",
+      "chapters": [
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The page's stated methodology is that generic benchmarks fall short of app-specific requirements, so teams should build a tailored benchmark for their use case",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "One `promptfooconfig.yaml` mixes first-party `openai:*` providers with `openrouter:*` routes for the open-weight candidates, under one prompt/test harness",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Per-provider `config` blocks set `temperature: 0.7` for GPT-5 and Llama 4 Maverick but omit `temperature` for o3-mini and DeepSeek V3.2, with `max_tokens: 1000` on all four — and the page gives no rationale for the asymmetry",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Step 2's fenced `promptfooconfig.yaml` contains two top-level `providers:` keys in one document — a duplicate mapping key, not an additive \"optional\" overlay",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The test suite is four single-case \"dimensions\" — reasoning, code generation, math, and structured output — with exactly one case per dimension",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The quality gate is weak by construction — the two `llm-rubric` assertions omit `threshold`, and the math case's extra `contains` checks are word-presence checks that a wrong answer can satisfy",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The structured-output case uses `is-json` with an inline JSON Schema (`object`, required `name`/`age`/`email`, age 0–150, email format) inside the benchmark run",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The \"Model Comparison\" table is qualitative and self-admittedly unmeasured — all four `Parameters` values are `Unknown`, \"Key Strengths\" are unsourced assertions, and the page hedges that results may differ",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The \"Considerations for Model Selection\" section asserts model strengths and resource traits without evidence, and compares DeepSeek to an unspecified set of \"smaller open models\"",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The page drifts from `o3-mini` in the config and table to `o3` in the conclusion — an internal model-identity inconsistency",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The tutorial never declares a `prompts:` block, so the prompt under test is implicit and unstated",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-deterministic-metrics": {
       "path": "source-notes/docs-promptfoo-deterministic-metrics.md",
       "title": "Promptfoo Deterministic Metrics for LLM Output Validation",
