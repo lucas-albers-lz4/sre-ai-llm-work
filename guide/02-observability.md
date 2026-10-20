@@ -11,7 +11,7 @@
 An LLM application request is represented as a single trace you can monitor,
 troubleshoot, and evaluate. A trace takes one of three shapes, forming a
 maturity ladder for instrumentation
-[source: docs-datadog-llm-observability, Claim 1, Claim 2] [emerging]:
+[source: docs-datadog-llm-observability, Claim 1, Claim 2] [stale]:
 
 1. **Single LLM inference** — one LLM span with tokens, errors, latency.
 2. **Predetermined workflow** — root workflow span + nested LLM/tool/preprocessing
@@ -30,7 +30,7 @@ tool calls, retrievals, and handoffs where most failures live.
 ### The seven-kind span taxonomy
 
 Spans are categorized by the type of work they perform
-[source: docs-datadog-llm-observability, Claim 4] [settled]:
+[source: docs-datadog-llm-observability, Claim 4] [emerging]:
 
 | Kind | What it represents | Can be root? |
 |------|-------------------|--------------|
@@ -45,7 +45,7 @@ Spans are categorized by the type of work they perform
 A span carries: name, start time/duration, error info, inputs and outputs
 (prompts and completions), metadata (model params like `temperature`), and
 metrics (`input_tokens`, `output_tokens`)
-[source: docs-datadog-llm-observability, Claim 3] [settled].
+[source: docs-datadog-llm-observability, Claim 3] [emerging].
 
 **Rule**: Instrument every LLM call, tool call, and retrieval as a distinct
 span kind. The Tool and Retrieval spans are where agentic failures
@@ -56,13 +56,13 @@ failures debuggable.
 
 Datadog natively ingests OpenTelemetry GenAI semantic convention v1.37+
 spans without requiring the Datadog SDK
-[source: docs-datadog-llm-observability, Claim 12] [settled].
+[source: docs-datadog-llm-observability, Claim 12] [emerging].
 
 Honeycomb's instrumentation aligns with the same operation model
 (`gen_ai.operation.name`: chat, execute_tool, retrieval, embeddings,
 invoke_agent, invoke_workflow)
 [source: blog-honeycomb-instrumenting-ai-agents-opentelemetry, Concrete Artifacts]
-[emerging]. Two independently-authored vendor docs converge on the same
+[stale]. Two independently-authored vendor docs converge on the same
 operation taxonomy.
 
 **Rule**: Standardize on the OTel GenAI semantic-convention operation and
@@ -74,7 +74,7 @@ observability vendors consume natively.
 Framework auto-instrumentation traces supported LLM libraries without code
 changes, but it cannot infer your conversation boundaries, agent identity, or
 custom business spans. Those require manual instrumentation
-[source: docs-datadog-llm-observability, Claim 11] [emerging].
+[source: docs-datadog-llm-observability, Claim 11] [stale].
 
 **Rule**: Auto-instrumentation handles the LLM/framework call layer. You must
 manually propagate conversation ID, agent identity, and custom span context
@@ -190,7 +190,7 @@ Datadog Patterns automatically clusters LLM production traffic into a topic
 hierarchy using self-hosted open-source embeddings + UMAP + HDBSCAN, without
 manual tagging. Each topic shows interaction volume, cost, tokens, errors,
 and latency [source: docs-datadog-llm-observability, Claim 6, Claim 7]
-[emerging].
+[stale].
 
 The pipeline: pull interactions → summarize with AI → embed with open-source
 model → cluster with UMAP + HDBSCAN → generate topic names → build hierarchy.
@@ -205,7 +205,7 @@ rate relative to volume is your next eval target. Unclustered traffic (the
 
 Detect regressions across three dimensions: span name, workflow type, and
 topic clusters. Analyze over the past week
-[source: docs-datadog-llm-observability, Claim 8] [emerging].
+[source: docs-datadog-llm-observability, Claim 8] [stale].
 
 **Rule**: Anomaly detection for LLM apps should watch span-level, workflow-level,
 and topic-cluster-level signals. A single aggregate error rate hides the
@@ -391,4 +391,4 @@ docs-google-sre-reliable-data-processing-minimal-toil,
 docs-google-sre-reaching-beyond-walls,
 docs-google-sre-slo-engineering-case-studies, docs-langfuse-cli,
 docs-litellm-a2a-agent-gateway*
-*Last updated: 2026-09-17*
+*Last updated: 2026-10-18*

@@ -336,7 +336,7 @@ goal, AI should surface questions, not answers.
 Agent infrastructure is separating into layers — models, harnesses (Claude
 Code, Codex, OpenCode), and runtimes (Claude Managed Agents, Bedrock
 AgentCore) — and teams will not consolidate on a single runtime
-[source: blog-litellm-agents-are-the-new-llms, Claim 1, Claim 2] [emerging].
+[source: blog-litellm-agents-are-the-new-llms, Claim 1, Claim 2] [stale].
 
 Coding agents may run on Bedrock AgentCore; data agents inside Databricks or
 Snowflake; internal workflow agents on custom infrastructure. This means
@@ -354,21 +354,21 @@ invocation interfaces that abstract over runtime-specific APIs.
 
 The proposed agent control plane must manage agents across runtimes with four
 capabilities: register, invoke, observe, and govern
-[source: blog-litellm-agents-are-the-new-llms, Claim 4, Claim 9] [emerging].
+[source: blog-litellm-agents-are-the-new-llms, Claim 4, Claim 9] [stale].
 
 This is the agent-stack mirror of the LLM-gateway pattern: just as gateways
 standardized model-call access, a control plane would standardize agent-session
 access — with the critical difference that agent sessions are stateful,
 long-running, and tool-heavy, making the control plane a harder problem
 than a model gateway
-[source: blog-litellm-agents-are-the-new-llms, Claim 5] [emerging].
+[source: blog-litellm-agents-are-the-new-llms, Claim 5] [stale].
 
 **Rule**: Your agent observability and governance surface must span runtimes.
 The same four verbs an LLM gateway applies to model calls (route, log,
 track spend, enforce auth) should apply to agent sessions (register, invoke,
 observe, govern). But the cross-runtime agent API layer is explicitly unsolved —
 plan for fragmentation, not turnkey unification
-[source: blog-litellm-agents-are-the-new-llms, Claim 8] [emerging].
+[source: blog-litellm-agents-are-the-new-llms, Claim 8] [stale].
 
 That "unsolved" framing has since narrowed, narrowly. LiteLLM's A2A Agent
 Gateway registers and invokes agents across six runtimes — A2A, Vertex AI
@@ -408,7 +408,7 @@ registry stand in for its control surface.
 Between raw models and deployed runtimes sits a distinct layer of agent
 frameworks/CLIs: Claude Code, Codex, OpenCode, Hermes, DeepAgents
 [source: blog-litellm-agents-are-the-new-llms, Claim 7, Concrete Artifacts]
-[emerging].
+[stale].
 
 These harnesses are where tool definitions, safety parameters, and
 permission models are configured — the same concerns a control plane would
@@ -418,18 +418,18 @@ govern at the fleet level.
 models, sandbox boundaries) across your agent fleet. A harness with
 unrestricted tool access is the attacker's playbook entry point — see the
 five-phase Claude Code extortion campaign
-[source: blog-promptfoo-ai-orchestrated-cyberattacks, Claim 4] [emerging].
+[source: blog-promptfoo-ai-orchestrated-cyberattacks, Claim 4] [stale].
 
 ### Rollback-behavior testing
 
 Agentic systems that can take actions (modify records, execute code, trigger
 rollouts) must be tested for rollback behavior — if the agent takes a wrong
 action, can it undo it?
-[source: blog-promptfoo-ai-regulation-2025, Claim 13] [emerging].
+[source: blog-promptfoo-ai-regulation-2025, Claim 13] [stale].
 
 Test tool selection, error handling, and rollback under adversarial
 conditions, not just cooperative ones
-[source: blog-promptfoo-ai-regulation-2025, Claim 12] [emerging]:
+[source: blog-promptfoo-ai-regulation-2025, Claim 12] [stale]:
 
 - If your agent uses retrieval, test retrieval quality.
 - If it uses tools, test tool selection and error handling.
@@ -448,4 +448,4 @@ blog-promptfoo-ai-regulation-2025, docs-google-sre-eliminating-toil,
 docs-google-sre-incident-response, docs-google-sre-simplicity,
 docs-langfuse-agent-skill, docs-langfuse-alerts, docs-langfuse-cli,
 docs-litellm-a2a-agent-gateway, docs-litellm-a2a-agent-permissions*
-*Last updated: 2026-09-17*
+*Last updated: 2026-10-18*

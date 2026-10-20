@@ -12,7 +12,7 @@ AI-operated attacks are distinct from traditional automation: instead of
 executing pre-programmed "if-then" logic, they understand context and make
 strategic decisions about "defensive posture, organizational profile, and
 technical environment"
-[source: blog-promptfoo-ai-orchestrated-cyberattacks, Claim 2] [emerging].
+[source: blog-promptfoo-ai-orchestrated-cyberattacks, Claim 2] [stale].
 
 > Traditional attack automation follows pre-programmed logic: "If condition A,
 > do action B." AI-operated attacks understand context: "Given this defensive
@@ -21,7 +21,7 @@ technical environment"
 > strategic decisions.
 
 AI-assisted attacks fall into three categories
-[source: blog-promptfoo-ai-orchestrated-cyberattacks, Claim 7] [emerging]:
+[source: blog-promptfoo-ai-orchestrated-cyberattacks, Claim 7] [stale]:
 
 1. **AI as operator** (vibe hacking) — AI orchestrates attacks end-to-end
    and makes tactical decisions across the kill chain.
@@ -33,18 +33,18 @@ AI-assisted attacks fall into three categories
 **Rule**: Update your threat model. Defenses that assume attacker
 incompetence ("they couldn't build that") are invalid — the barrier to entry
 is now prompt engineering, not technical mastery
-[source: blog-promptfoo-ai-orchestrated-cyberattacks, Claim 8] [emerging].
+[source: blog-promptfoo-ai-orchestrated-cyberattacks, Claim 8] [stale].
 
 ### The five-phase AI-agent attack lifecycle
 
 Anthropic documented a single attacker using Claude Code to orchestrate
 extortion across 17 organizations over nine months, with the AI making
 real-time tactical decisions throughout
-[source: blog-promptfoo-ai-orchestrated-cyberattacks, Claim 3] [emerging].
+[source: blog-promptfoo-ai-orchestrated-cyberattacks, Claim 3] [stale].
 
 The campaign executed five phases, with tactics persisted in a `CLAUDE.md`
 file
-[source: blog-promptfoo-ai-orchestrated-cyberattacks, Claim 4] [emerging]:
+[source: blog-promptfoo-ai-orchestrated-cyberattacks, Claim 4] [stale]:
 
 ```
 Phase 1: Reconnaissance — scanned thousands of VPN endpoints
@@ -88,18 +88,18 @@ Two independent malware families now query LLMs in production campaigns:
 
 - **PROMPTFLUX** — queries Gemini to regenerate its VBScript hourly, rotating
   obfuscation and establishing persistence
-  [source: blog-promptfoo-ai-orchestrated-cyberattacks, Claim 5] [emerging].
+  [source: blog-promptfoo-ai-orchestrated-cyberattacks, Claim 5] [stale].
 - **PROMPTSTEAL** — queries Qwen2.5-Coder-32B-Instruct via the Hugging Face
   API to generate and execute one-line Windows commands; linked to APT28
   activity against Ukraine
-  [source: blog-promptfoo-ai-orchestrated-cyberattacks, Claim 6] [emerging].
+  [source: blog-promptfoo-ai-orchestrated-cyberattacks, Claim 6] [stale].
 
 Two separate families using two different model providers (Gemini, Qwen)
 confirms this is a pattern, not a one-off.
 
 **Rule**: Plan for malware that self-mutates via LLM queries. Signature-based
 detection tuned to yesterday's attacks is insufficient
-[source: blog-promptfoo-ai-orchestrated-cyberattacks, Claim 9] [emerging].
+[source: blog-promptfoo-ai-orchestrated-cyberattacks, Claim 9] [stale].
 
 ### Detection tuned to human tempo is obsolete
 
@@ -107,7 +107,7 @@ AI-generated attacks can execute kill-chain phases in parallel or out of
 order. Behavioral analytics tuned to sequential human attack patterns
 (reconnaissance → privilege escalation → lateral movement) will miss
 reordered or parallelized phases
-[source: blog-promptfoo-ai-orchestrated-cyberattacks, Claim 10] [emerging].
+[source: blog-promptfoo-ai-orchestrated-cyberattacks, Claim 10] [stale].
 
 > If your detection relies on recognizing "normal" attack progressions,
 > it's already obsolete.
@@ -115,7 +115,7 @@ reordered or parallelized phases
 **Rule**: Detection rules must not assume sequential kill-chain ordering.
 Anomaly detection should span dimensions that don't encode temporal
 expectations — span name, workflow type, and traffic topic clusters
-[source: docs-datadog-llm-observability, Claim 8] [emerging].
+[source: docs-datadog-llm-observability, Claim 8] [stale].
 
 ## Red-teaming as a CI gate
 
@@ -125,11 +125,11 @@ If your blue team cannot catch an internal pen-tester using an AI agent, it
 will not catch an external one. Run red-team exercises with AI coding
 assistants and measure whether detection catches them — quarterly, not
 annually [source: blog-promptfoo-ai-orchestrated-cyberattacks, Claim 11]
-[emerging].
+[stale].
 
 Three red-team test patterns you can run in CI
 [source: blog-promptfoo-ai-orchestrated-cyberattacks, Claim 12, Concrete
-Artifacts] [emerging]:
+Artifacts] [stale]:
 
 **Test 1 — Exfiltration refusal**: Does your internal AI assistant help build
 data export scripts?
@@ -444,7 +444,7 @@ AI regulation reaches product through a chain: executive order → OMB memo →
 procurement language → contract requirement → request for evidence. The
 practical trigger for most builders is a security questionnaire or RFP that
 demands artifacts that didn't exist six months ago
-[source: blog-promptfoo-ai-regulation-2025, Claim 1] [settled].
+[source: blog-promptfoo-ai-regulation-2025, Claim 1] [emerging].
 
 **Rule**: Treat AI compliance as an SRE concern — produce evaluation
 artifacts, model cards, and acceptable use policies as standing deliverables,
@@ -454,7 +454,7 @@ not ad-hoc responses to RFPs.
 
 OMB M-26-04 (December 2025) requires federal agencies purchasing LLMs to
 obtain four artifacts by March 2026
-[source: blog-promptfoo-ai-regulation-2025, Claim 2, Claim 4] [settled]:
+[source: blog-promptfoo-ai-regulation-2025, Claim 2, Claim 4] [emerging]:
 
 ```
 Artifact               Description
@@ -466,7 +466,7 @@ Feedback mechanism       How users report problematic outputs
 
 For application builders, the evaluation artifacts specifically mean
 red-team results for tool misuse, prompt injection, and data leakage
-[source: blog-promptfoo-ai-regulation-2025, Claim 5] [emerging].
+[source: blog-promptfoo-ai-regulation-2025, Claim 5] [stale].
 
 **Rule**: Your eval pipeline output IS your compliance evidence. Run evals
 that produce exportable, dated artifacts a procurement officer can read
@@ -481,7 +481,7 @@ without engineering context.
 Agentic systems that can issue refunds, send emails, modify records, or
 execute code must be tested for tool selection, error handling, and rollback
 behavior — compliance applies to the action path, not just the text output
-[source: blog-promptfoo-ai-regulation-2025, Claim 10, Claim 13] [emerging].
+[source: blog-promptfoo-ai-regulation-2025, Claim 10, Claim 13] [stale].
 
 **Rule**: Add rollback-behavior tests to your red-team suite: if the agent
 takes a wrong action, can it undo it? If not, the action path needs a human
@@ -490,7 +490,7 @@ approval gate.
 ### 2026 compliance calendar
 
 Key dates from [source: blog-promptfoo-ai-regulation-2025, Claim 6, Claim 7,
-Concrete Artifacts] [settled]:
+Concrete Artifacts] [emerging]:
 
 ```
 Jan 1, 2026  — California AB 2013 (training data transparency) effective
@@ -504,7 +504,7 @@ Aug 2026     — EU AI Act high-risk requirements scheduled (may slip to Dec 202
 **Rule**: Build compliance infrastructure that adapts to multiple regimes.
 The federal-state conflict is unresolved, preemption litigation hasn't
 started, and international requirements are diverging
-[source: blog-promptfoo-ai-regulation-2025, Claim 14] [emerging].
+[source: blog-promptfoo-ai-regulation-2025, Claim 14] [stale].
 
 ## Data governance for AI workloads
 
@@ -527,7 +527,7 @@ retention window and the specific data that leaves your tenant.
 AI-generated content must include visible labels, provenance metadata, and
 platforms must verify labels before distribution. The rules include a
 six-month log-retention requirement in specific cases
-[source: blog-promptfoo-ai-regulation-2025, Claim 8] [settled].
+[source: blog-promptfoo-ai-regulation-2025, Claim 8] [emerging].
 
 **Rule**: If your AI system serves users in regulated jurisdictions, audit
 trails are not an ops nicety — they are a measurable, retained, auditable
@@ -538,7 +538,7 @@ just your storage budget.
 
 Impact assessments and audits need to cover: prompts, tool inventory, tool
 permissions, retrieval, memory, and logging — not just base models
-[source: blog-promptfoo-ai-regulation-2025, Claim 11] [emerging].
+[source: blog-promptfoo-ai-regulation-2025, Claim 11] [stale].
 
 **Rule**: Maintain an auditable inventory of every component in the deployed
 AI stack. The compliance scope is the whole system (tools, retrieval, memory,
@@ -589,11 +589,11 @@ implements the same safety parameter structure.
 Organizations are expected to treat agent auditability — how decisions were
 made across LLM + MCP + sub-agent inputs/outputs — as a compliance
 requirement, not just a debugging aid
-[source: blog-litellm-april-townhall-updates, Claim 11] [emerging].
+[source: blog-litellm-april-townhall-updates, Claim 11] [stale].
 
 Skills (reusable agent capabilities) are being elevated to a first-class,
 governed primitive with MCP authentication hardening
-[source: blog-litellm-april-townhall-updates, Claim 12, Claim 13] [emerging].
+[source: blog-litellm-april-townhall-updates, Claim 12, Claim 13] [stale].
 
 **Rule**: Log the full agent decision trail — which tools were called, which
 MCP servers were consulted, what sub-agents were invoked — as structured,
@@ -846,4 +846,4 @@ failure-litellm-supply-chain-incident-march-2026,
 blog-litellm-swap-openai-code-interpreter, docs-langfuse-agent-skill,
 docs-promptfoo-code-scan-cli, docs-promptfoo-code-scan-github-action,
 docs-litellm-generic-guardrail-api*
-*Last updated: 2026-09-19*
+*Last updated: 2026-10-18*

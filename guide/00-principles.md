@@ -21,7 +21,7 @@
 4. **Toil reduction must not create silent failure modes.** If an agent
    "fixes" something, the change must be observable and reversible. Rollback
    behavior must be tested — if the agent takes a wrong action, can it undo
-   it? [source: blog-promptfoo-ai-regulation-2025, Claim 13] [emerging].
+   it? [source: blog-promptfoo-ai-regulation-2025, Claim 13] [stale].
    `[editorial + sourced]`
 
 5. **LLM services need SLOs too.** Latency, error rate, eval drift, and cost
@@ -58,7 +58,7 @@ measures easily.
 
 SRE is not an operational function at its core — it is about what engineering
 you bring to your products and what you do for your users
-[source: docs-google-sre-prodcast-02-07-sabrina-farmer, Claim 10] [settled].
+[source: docs-google-sre-prodcast-02-07-sabrina-farmer, Claim 10] [emerging].
 
 The operational work exists, but the value is the engineering: automation,
 resilience patterns, risk reduction, and shared reliability tooling. AI
@@ -75,7 +75,7 @@ toil behind a model call?
 Before building a big plan or pushing a new process to a large audience, run
 a feasibility study: prototype the idea in a bounded context, map "what would
 have to be true," and confirm teams are ready *before* scaling
-[source: docs-google-sre-prodcast-02-07-sabrina-farmer, Claim 3] [settled].
+[source: docs-google-sre-prodcast-02-07-sabrina-farmer, Claim 3] [emerging].
 
 > How can we discover whether or not that's going to be feasible? And you
 > can do a small prototype. How would this work in different contexts?
@@ -85,7 +85,7 @@ have to be true," and confirm teams are ready *before* scaling
 A feasibility study is distinct from an MVP — the MVP asks "can we do this
 thing," while the feasibility study asks "can we do this thing at scale, can
 we do it now, and are people and infrastructure ready?"
-[source: docs-google-sre-prodcast-02-07-sabrina-farmer, Claim 4] [settled].
+[source: docs-google-sre-prodcast-02-07-sabrina-farmer, Claim 4] [emerging].
 
 **Rule**: Before deploying an AI agent broadly, pilot it end-to-end on one
 service in one domain. Work out the tool failures, permission boundaries, and
@@ -98,7 +98,7 @@ Google SRE's convergence effort found that doing a full end-to-end
 proof-of-concept in a single domain and then generalizing realizes the
 vision much quicker — even though it feels counterintuitive to teams
 pushing for broad adoption
-[source: docs-google-sre-prodcast-02-07-sabrina-farmer, Claim 6] [settled].
+[source: docs-google-sre-prodcast-02-07-sabrina-farmer, Claim 6] [emerging].
 
 The counterexample: a tool pushed broadly right away "took a lot longer to
 take hold across the fleet" than the one scoped and proven first.
@@ -113,7 +113,7 @@ Product areas have different pressures and outcomes. Scoping a solution to
 the local domain is sometimes the correct answer. A leader's job includes
 the judgment of timing: a good idea with wrong timing should be paused and
 revisited, not fought for a year
-[source: docs-google-sre-prodcast-02-07-sabrina-farmer, Claim 7] [settled].
+[source: docs-google-sre-prodcast-02-07-sabrina-farmer, Claim 7] [emerging].
 
 **Rule**: After proving an AI agent in one domain, evaluate whether
 generalization is the right next step. If the target domain has materially
@@ -125,7 +125,7 @@ rather than forcing a fit.
 Bring SRE into the design phase — own resilience and reliability targets
 up front, not after the system is built. SREs "coming in late" historically
 doesn't work
-[source: docs-google-sre-prodcast-02-07-sabrina-farmer, Claim 2] [settled].
+[source: docs-google-sre-prodcast-02-07-sabrina-farmer, Claim 2] [emerging].
 
 > There was a wall between the teams. And I think the first thing I do when
 > I engage with a new product is I find out how high that wall is and I just
@@ -194,7 +194,7 @@ Leaders should publish *how* they make decisions — strategy plus guardrail
 ranges (e.g., "we're working between A and D") — so teams understand
 unpopular decisions ahead of time and can operate within the band without
 asking permission
-[source: docs-google-sre-prodcast-02-07-sabrina-farmer, Claim 8] [settled].
+[source: docs-google-sre-prodcast-02-07-sabrina-farmer, Claim 8] [emerging].
 
 **Rule**: For AI-agent governance, publish the decision criteria for when an
 agent acts autonomously vs. escalates. Responders should know the guardrail
@@ -206,7 +206,7 @@ auditable; an agent that operates within an undocumented one is not.
 The future of SRE is to question standing policies and ask what would have to
 be true for systems to understand and circumvent their own failure modes —
 rather than layering workarounds on top
-[source: docs-google-sre-prodcast-02-07-sabrina-farmer, Claim 11] [emerging].
+[source: docs-google-sre-prodcast-02-07-sabrina-farmer, Claim 11] [stale].
 
 This is the pre-AI articulation of the self-healing goal that later AI-agent
 work pursues as a mechanism. The goal (self-recovering systems) is
@@ -224,4 +224,4 @@ docs-google-sre-prodcast-03-04-observability-spectrum,
 docs-google-sre-canarying-releases, docs-google-sre-postmortem-analysis,
 docs-google-sre-reaching-beyond-walls, docs-google-sre-engagement-model,
 docs-google-sre-simplicity, docs-google-sre-slo-engineering-case-studies*
-*Last updated: 2026-08-15*
+*Last updated: 2026-10-18*
