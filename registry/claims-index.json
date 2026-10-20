@@ -19235,6 +19235,74 @@
         }
       ]
     },
+    "docs-promptfoo-test-agent-skills": {
+      "path": "source-notes/docs-promptfoo-test-agent-skills.md",
+      "title": "Promptfoo Guide: Test Agent Skills — Skill-Version A/B Testing, Routing-Boundary Checks, and the Per-Provider Evidence Ladder",
+      "source_url": "https://www.promptfoo.dev/docs/guides/test-agent-skills",
+      "chapters": [],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "A skill version is evalable by holding everything constant and swapping only the `SKILL.md` — one fixture directory per version, providers differing only in `working_dir`",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "`skill-used` is capability attribution, not just routing — it separates a good answer made through the intended skill from one produced incidentally",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "A bundle eval needs three layers — positive prompts, near-miss prompts asserting both `skill-used` and `not-skill-used`, and output checks proving the chosen skill changed the work",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The same `skill-used` assertion carries different evidentiary strength per provider — first-class tool call (Claude, OpenCode) vs inferred file-read (Codex)",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Claude's `skills:` filter is version-gated — added in `@anthropic-ai/claude-agent-sdk` 0.2.120, it narrows the session to one skill and auto-allows the `Skill` tool; older SDKs must list `Skill` in `append_allowed_tools`",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Structured output is forced per provider, not in the prompt — Claude `output_format`, Codex `output_schema` (keeps output a JSON *string*), OpenCode `format.type: json_schema`, shared via one YAML anchor",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Outcome quality is scored as issue recall in a JavaScript assertion — expected issue IDs in vars, recall ≥ 0.75 passes, `threshold: 0.7`",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Broad and narrow task fixtures are paired deliberately so the eval rewards scope-respect, not just issue-finding",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "`disableVarExpansion: true` is required in comparison tests or YAML-list vars fan out into separate cases and break `expectedIssues`",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Cost and latency are secondary gates, optionally aggregated by `max-score` with type-keyed weights, so a correct-but-slower skill version does not win by default",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Winner selection requires repeats and cache-off runs — skill selection is nondeterministic, so a single lucky run does not pick the better skill",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "Codex routing evidence can be backed by trajectory traces — `deep_tracing: true` plus a `trajectory:step-count` assertion pattern-matching `*review-standards/SKILL.md*`",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-testing-llm-chains": {
       "path": "source-notes/docs-promptfoo-testing-llm-chains.md",
       "title": "Promptfoo: Testing LLM Chains — Script Provider, Custom Provider, End-to-End vs Unit Testing",

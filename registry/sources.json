@@ -3705,6 +3705,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-test-agent-skills": {
+      "slug": "docs-promptfoo-test-agent-skills",
+      "title": "Promptfoo Guide: Test Agent Skills — Skill-Version A/B Testing, Routing-Boundary Checks, and the Per-Provider Evidence Ladder",
+      "source_url": "https://www.promptfoo.dev/docs/guides/test-agent-skills",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-10-19",
+      "date_extracted": "2026-10-20",
+      "issue": "#1799",
+      "file": "source-notes/docs-promptfoo-test-agent-skills.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-testing-llm-chains": {
       "slug": "docs-promptfoo-testing-llm-chains",
       "title": "Promptfoo: Testing LLM Chains — Script Provider, Custom Provider, End-to-End vs Unit Testing",
