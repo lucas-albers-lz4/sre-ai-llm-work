@@ -1032,6 +1032,77 @@
         }
       ]
     },
+    "blog-cncf-securing-cicd-locking-down-dependencies": {
+      "path": "source-notes/blog-cncf-securing-cicd-locking-down-dependencies.md",
+      "title": "Securing CI/CD for an open source project: Locking down dependencies",
+      "source_url": "https://www.cncf.io/blog/2026/06/12/securing-ci-cd-for-an-open-source-project-locking-down-dependencies",
+      "chapters": [
+        "06",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Action pinning and dependency pinning compose — \"A pinned workflow that fetches a compromised dependency is still a compromised workflow\"",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Every `uses:` action is pinned to a full 40-character commit SHA (tag kept as a comment) and CI container images are pinned by `@sha256:` digest",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Pinning's honest blind spot — a pinned action that references another action by tag resolves that nested dependency at runtime, invisible to the pinner; GitHub's workflow-level `dependencies:` lock (direct + transitive, `go.mod`/`go.sum`-style) is the announced fix but is not yet available",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Renovate maintains the pins mechanically — `helpers: pinGitHubActionDigests` preset plus global `pinDigests: true`, running as a self-hosted bot on a dedicated GitHub App (not a personal access token), with `vulnerabilityAlerts` on",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "A 5-day release-age cooldown (`minimumReleaseAge: \"5 days\"`) delays adoption of brand-new releases — the window in which a compromised package typically gets noticed and yanked",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Automated updates are scoped by a trust boundary — an allowlist of trusted publisher namespaces (`actions/`, `docker/`, `cilium/`, `k8s.io/`, `sigs.k8s.io/`, `golang.org/x/`, etc.) auto-merges after CI; everything else requires human review",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The auto-approve workflow verifies not just the PR author but `github.triggering_actor` — defending against a human triggering actions while impersonating the bot",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Go module vendoring relocates the trust decision — builds never contact external module proxies, CI verifies `go.mod`/`go.sum`/`vendor/` drift, and \"it moves the trust decision from build time, where it's invisible, to review time, where a human can see the diff\"",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Vendoring's honest limitation — a typosquatted import shows up as a `vendor/` diff only if a reviewer notices the unfamiliar path; it does not catch the typo at introduction. CODEOWNERS gating on `vendor/` is what held up \"so far\"",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The fork-vs-pin decision, stated as a calibrated tradeoff — Cilium deliberately does not fork third-party actions (maintenance burden, stale-fork risk, doubled Renovate chain), and names the escalation criterion: \"If a major action provider got repeatedly compromised, forking the high-risk ones is a reasonable escalation\"",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Workflow-hygiene policy is enforced by static analysis, not reviewer memory — CodeQL's `actions/missing-workflow-permissions` rule fails any modified workflow lacking explicit `permissions:`, and actionlint enforces conventions including no floating `ubuntu-latest` runner (pinned to `ubuntu-24.04`) and names on every job and step",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "GitHub Actions expression injection is a distinct vulnerability class — `${{ }}` is pre-bash text substitution, so untrusted input (PR title, branch name) flowing into a `run:` block executes as shell; the fix is env-var indirection, and both actionlint and CodeQL flag the pattern",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-cncf-telemetry-that-matters-observability-pipelines": {
       "path": "source-notes/blog-cncf-telemetry-that-matters-observability-pipelines.md",
       "title": "Telemetry that matters: Designing sustainable, high-impact observability pipelines",

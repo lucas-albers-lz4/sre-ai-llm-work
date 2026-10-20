@@ -195,6 +195,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "blog-cncf-securing-cicd-locking-down-dependencies": {
+      "slug": "blog-cncf-securing-cicd-locking-down-dependencies",
+      "title": "Securing CI/CD for an open source project: Locking down dependencies",
+      "source_url": "https://www.cncf.io/blog/2026/06/12/securing-ci-cd-for-an-open-source-project-locking-down-dependencies",
+      "source_type": "blog-post",
+      "author": "André Martins (Cilium maintainer and Software Engineer, Isovalent at Cisco) and Feroz Salam",
+      "date_published": "2026-06-12",
+      "date_extracted": "2026-10-19",
+      "issue": "#1793",
+      "file": "source-notes/blog-cncf-securing-cicd-locking-down-dependencies.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-cncf-telemetry-that-matters-observability-pipelines": {
       "slug": "blog-cncf-telemetry-that-matters-observability-pipelines",
       "title": "Telemetry that matters: Designing sustainable, high-impact observability pipelines",
