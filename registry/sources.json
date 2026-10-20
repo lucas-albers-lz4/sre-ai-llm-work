@@ -2860,6 +2860,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-supported-embeddings": {
+      "slug": "docs-litellm-supported-embeddings",
+      "title": "/embeddings | liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/embedding/supported_embedding",
+      "source_type": "docs",
+      "author": "LiteLLM",
+      "date_published": "unknown (living vendor docs; page footer reads \"© 2026 LiteLLM\")",
+      "date_extracted": "2026-10-20",
+      "issue": "#1678",
+      "file": "source-notes/docs-litellm-supported-embeddings.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-token-usage-helpers": {
       "slug": "docs-litellm-token-usage-helpers",
       "title": "Token Usage helpers (token_counter / cost_per_token / completion_cost) — liteLLM",

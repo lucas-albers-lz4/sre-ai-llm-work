@@ -15504,6 +15504,72 @@
         }
       ]
     },
+    "docs-litellm-supported-embeddings": {
+      "path": "source-notes/docs-litellm-supported-embeddings.md",
+      "title": "/embeddings | liteLLM",
+      "source_url": "https://docs.litellm.ai/docs/embedding/supported_embedding",
+      "chapters": [
+        "05",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Dual-mode embedding models (NVIDIA NIM QA models, E5 family) require `input_type=\"passage\"` for indexing and `\"query\"` for retrieval, and the vendor explicitly warns that mis-use silently drops retrieval quality — no error, no signal",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The same logical `gemini-embedding-2` embedding call returns *per-input* vectors on the Gemini API path but a *single combined vector* on the Vertex AI path — result cardinality diverges by backend without any error",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "On the Gemini API path only, wrapping input elements in a nested list changes output cardinality — flat list → one embedding per element, nested list → one combined embedding — while Vertex AI always returns a single combined vector regardless of input shape",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "`dimensions` is documented as supported only on OpenAI/Azure `text-embedding-3` and later; on Gemini it is a documented translation to `outputDimensionality` — the page documents no behavior for providers that support neither",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "`encoding_format` defaults to `\"float\"` (float|base64) — the documented baseline of the exact parameter whose explicit-null mishandling broke vLLM embeddings for ~3 hours in the corpus's existing incident note",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The documented default client timeout for embeddings calls is 600 seconds (10 minutes)",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "An unknown key anywhere in a Gemini embeddings file content block is answered with a 400 naming it — or silently dropped when `drop_params` is set globally or on the request",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Input ceilings are per-model and per-shape — input must not exceed the model's max input tokens (8192 for ada-002), a token-array input must be 2048 dimensions or less, and an empty string is rejected",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Gemini embeddings always run OCR on PDF inputs — there is no parameter to toggle it — so PDF cost/latency (OCR included) is fixed by the provider, not controllable at the gateway",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Bedrock async embeddings require `output_s3_uri` (results land in S3, not the response), and TwelveLabs Marengo sync mode is text-only while async covers all input types — the async path is a different result-delivery contract, not just a different call shape",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Any non-OpenAI parameter on the embeddings path is treated as provider-specific and forwarded as a kwarg in the request body — and `input_type` is the worked example, settable per-call, or pinned for a model entry in `config.yaml`",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-token-usage-helpers": {
       "path": "source-notes/docs-litellm-token-usage-helpers.md",
       "title": "Token Usage helpers (token_counter / cost_per_token / completion_cost) — liteLLM",
