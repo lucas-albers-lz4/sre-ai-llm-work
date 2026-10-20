@@ -195,6 +195,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "blog-cncf-secret-sprawl-external-secrets-operator": {
+      "slug": "blog-cncf-secret-sprawl-external-secrets-operator",
+      "title": "Solving secret sprawl in multi-account Kubernetes with External Secrets Operator",
+      "source_url": "https://www.cncf.io/blog/2026/06/09/solving-secret-sprawl-in-multi-account-kubernetes-with-external-secrets-operator",
+      "source_type": "blog-post",
+      "author": "Viktoria Bisova (DevOps Engineer, Itigix) — CNCF Member Post",
+      "date_published": "2026-06-09",
+      "date_extracted": "2026-10-20",
+      "issue": "#1805",
+      "file": "source-notes/blog-cncf-secret-sprawl-external-secrets-operator.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-cncf-securing-cicd-credentials-verification": {
       "slug": "blog-cncf-securing-cicd-credentials-verification",
       "title": "Securing CI/CD for an open source project, part 3: Credentials, verification, and what's next",

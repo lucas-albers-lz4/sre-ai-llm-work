@@ -1017,6 +1017,77 @@
         }
       ]
     },
+    "blog-cncf-secret-sprawl-external-secrets-operator": {
+      "path": "source-notes/blog-cncf-secret-sprawl-external-secrets-operator.md",
+      "title": "Solving secret sprawl in multi-account Kubernetes with External Secrets Operator",
+      "source_url": "https://www.cncf.io/blog/2026/06/09/solving-secret-sprawl-in-multi-account-kubernetes-with-external-secrets-operator",
+      "chapters": [
+        "06",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The reusable pattern — central provider as source of truth, ESO in every cluster, `ClusterSecretStore` per cluster, `ExternalSecret` per workload, ordinary Kubernetes `Secret` for the app, decoupling secret storage from secret consumption",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Per-account secret stores create manual cross-account rotation toil — rotating one third-party API key meant updating it \"across every single AWS account\"",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "ESO propagates a rotation from the central provider to all clusters within the configured `refreshInterval` — rotate once, all clusters converge",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "`refreshInterval` does NOT rotate secrets — the article's own manifest comment conflates refresh with rotation",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The sync identity is a read-only machine-account token scoped to a single project — least privilege applied to the secret-sync credential itself",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "ESO's own credential is provisioned as a plain `Opaque` Kubernetes Secret — a secret-zero bootstrap dependency the article illustrates but never names or solves",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "`ClusterSecretStore` (global scope) was chosen so any namespace can reference the central store — a deliberate toil-reduction trade-off that widens blast radius",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The pattern is claimed to be provider-agnostic (Vault, AWS, Azure, GCP, Bitwarden), but only Bitwarden is demonstrated",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Bitwarden was selected for client fit, not for evaluated superiority — the showcase backend is a convenience choice",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "TLS between ESO and the Bitwarden SDK server is bootstrapped in-cluster with cert-manager — self-signed CA → ClusterIssuer → CA Certificate → local Issuer → leaf Certificate",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The token can be granted write access for `PushSecret` (bidirectional sync) — mentioned once, never developed",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "Claimed outcomes — new clusters consume existing secrets with no manual duplication; operational overhead reduced with no measurements",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-cncf-securing-cicd-credentials-verification": {
       "path": "source-notes/blog-cncf-securing-cicd-credentials-verification.md",
       "title": "Securing CI/CD for an open source project, part 3: Credentials, verification, and what's next",
