@@ -445,6 +445,78 @@
         }
       ]
     },
+    "blog-cncf-geo-distributed-ai-k0smos": {
+      "path": "source-notes/blog-cncf-geo-distributed-ai-k0smos.md",
+      "title": "Breaking free of a single datacenter: Practical geo-distributed AI operations with the k0smos platforms",
+      "source_url": "https://www.cncf.io/blog/2026/06/08/breaking-free-of-a-single-datacenter-practical-geo-distributed-ai-operations-with-the-k0smos-platforms",
+      "chapters": [
+        "05",
+        "02",
+        "00"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "GPU efficiency on fragmented infrastructure is an infrastructure problem, not a compute problem",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "A single Kubernetes cluster cannot span geographies, so multi-cluster orchestration becomes non-negotiable for geo-distributed AI",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The k0smos stack separates node runtime (k0s), hosted control planes (k0smotron), and declarative multi-cluster lifecycle (k0rdent)",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "A cross-border, cross-vendor environment (A100 in Quebec, MI300X in Atlanta, CPU-only control plane in Frankfurt) was operated as one system",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Cross-site data plane runs over direct Cilium WireGuard P2P tunnels (~35ms latency, ~600MB/s), bypassing centralized VPN gateways while cluster state stays central",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "AI frameworks (PyTorch Elastic, Ray, vLLM) were integrated on top via k0rdent ServiceTemplates and Helm, provisioned through the state manager using Sveltos",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Long-haul P2P links were prevented from becoming the bottleneck by co-designing a low-communication training method (decoupled momentum optimization) with the infrastructure",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Field study 1 trained five reference model families directly across the mixed AMD/Nvidia nodes, showing distance and heterogeneity are not absolute barriers",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Field study 2 drove worker provisioning from energy-availability signals (WattTime), turning the GPU pool into an ephemeral, churn-heavy fleet",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "A custom Flower operator reconciles a declarative \"Federation\" custom resource so nodes join and exit the federation gracefully as they are provisioned/deprovisioned",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Runtime coordination across the ephemeral fleet uses gRPC over the P2P network plus a Redis Pub/Sub queue broadcasting round completions and shutdown signals",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "The real friction in fragmented environments was GPU lifecycle management and cross-site networking — not the control-plane stack",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-cncf-goodput-more-than-throughput-llm-serving": {
       "path": "source-notes/blog-cncf-goodput-more-than-throughput-llm-serving.md",
       "title": "Why goodput matters more than throughput for LLM serving",

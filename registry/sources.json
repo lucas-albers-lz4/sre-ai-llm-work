@@ -78,6 +78,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "blog-cncf-geo-distributed-ai-k0smos": {
+      "slug": "blog-cncf-geo-distributed-ai-k0smos",
+      "title": "Breaking free of a single datacenter: Practical geo-distributed AI operations with the k0smos platforms",
+      "source_url": "https://www.cncf.io/blog/2026/06/08/breaking-free-of-a-single-datacenter-practical-geo-distributed-ai-operations-with-the-k0smos-platforms",
+      "source_type": "blog-post",
+      "author": "Prithvi Raj (Mirantis), Alexander Acker (Logsight.ai), and Soeren Becker",
+      "date_published": "2026-06-08",
+      "date_extracted": "2026-10-20",
+      "issue": "#1806",
+      "file": "source-notes/blog-cncf-geo-distributed-ai-k0smos.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-cncf-goodput-more-than-throughput-llm-serving": {
       "slug": "blog-cncf-goodput-more-than-throughput-llm-serving",
       "title": "Why goodput matters more than throughput for LLM serving",
