@@ -305,7 +305,7 @@ issue: "#1821"
 - **Our assessment**: Buy it. Two things are worth carrying. First, the
   bounding claim itself: the worst case is a *bad artifact in a non-production
   namespace*, which is the same shape as the part 3 note's "the credentials
-  simply aren't on the runner" — the secret is absent, so there is nothing to
+  simply aren’t on the runner" — the secret is absent, so there is nothing to
   steal. Second, the "this pattern is intentional" framing is a genuinely
   useful piece of operational craft for
   the guide: a documented, preconditioned exception that still expects
@@ -627,7 +627,7 @@ rerun:
 - **Corroborates**:
   - `blog-cncf-securing-cicd-credentials-verification.md` **Claim 2** (the
     stated worst case of a CI compromise is a malicious `-ci` image that cannot
-    publish a production release, because "the credentials simply aren't on
+    publish a production release, because "the credentials simply aren’t on
     the runner") — this note's Claim 12 is the *same bounding claim stated
     from the execution side*: the worst case of a compromised PR build is a
     malicious image in the development registry. Two posts, two layers, one
@@ -643,12 +643,14 @@ rerun:
     two-phase checkout artifact, where both checkouts carry
     `persist-credentials: false`. Same convention, independently visible.
   - `blog-cncf-securing-cicd-credentials-verification.md` **Claim 15** (the
-    series' defense-in-depth framing: "access controls so only trusted people
-    can trigger builds, pinned digests so a compromised tag can't reach us,
-    least-privilege permissions … credential isolation … and signatures so
-    users can verify what they're running") — this note is the **first clause
-    of that sentence** ("access controls so only trusted people can trigger
-    builds"), which the part 3 note states as a thesis but never substantiates.
+    series' defense-in-depth framing: "We’ve tried to build defense in depth:
+    access controls so only trusted people can trigger builds, pinned digests
+    so a compromised tag can’t reach us, least-privilege permissions so a rogue
+    action can’t exfiltrate secrets, credential isolation so CI can never touch
+    production, and signatures so users can verify what they’re running.") —
+    this note is the **first clause of that sentence** ("access controls so
+    only trusted people can trigger builds"), which the part 3 note states as a
+    thesis but never substantiates.
   - `blog-cncf-securing-cicd-locking-down-dependencies.md` **Claim 1** ("Once
     you control who triggers builds, the next question is what code those
     builds pull in. A pinned workflow that fetches a compromised dependency is
@@ -670,8 +672,8 @@ rerun:
     — this note's Claim 10 is the upstream fix for one of those exact
     channels (`GITHUB_ENV`), and Claim 7 (no `run:` step executes PR-tree
     code) is the structural fix for the whole family. The two notes
-    independently arrive at "keep untrusted data out of the job's execution
-    context".
+    independently arrive at the same principle — keep untrusted data out of
+    the job's execution context.
   - `docs-promptfoo-code-scan-github-action.md` **Claim 8** (pin third-party
     actions to full commit SHAs; a tag is mutable) — visible in this post's
     workflow artifact, where both `actions/checkout` references are pinned to
@@ -701,7 +703,7 @@ rerun:
   existing `C-NNN` covers this territory. One near-miss was checked and
   rejected as a contradiction:
   - `docs-promptfoo-code-scan-github-action.md` **Claim 1** prescribes "keep
-    the scan in a job that only checks out and scans the PR; run untrusted
+    the scan in a job that only checks out and scans the PR, and run untrusted
     build steps in a separate job", and the guide currently states "Treat the
     job, not the stage, as the isolation boundary for untrusted code"
     (`guide/06-security-and-trust.md:741-743`). Read strictly, Cilium's
@@ -802,9 +804,12 @@ rerun:
      execute?" — because the section currently starts downstream at pinning
      and never asks whether the trigger was legitimate (cite Claim 1).
   2. Add the **trigger allow-list** pattern as a fourth remediation
-     component alongside the existing "isolated per-stage CI/CD environments,
-     ephemeral credentials, and pinned-SHA + cooldown + automated scanning"
-     list at `guide/06-security-and-trust.md:709-714`: a bot (or a wrapper)
+     component alongside the existing "The remediation: isolated per-stage
+     CI/CD environments (unit tests / integration tests / security scans /
+     release publishing), ephemeral credentials (PyPI Trusted Publisher, GHCR
+     token-based auth), and pinned-SHA + cooldown + automated scanning for
+     dependency hygiene" list at `guide/06-security-and-trust.md:709-714`: a
+     bot (or a wrapper)
      that checks the requester's membership in an enumerated team and fires
      only workflows named in a hand-maintained allow-list, so an untrusted
      commenter cannot spend CI minutes or trigger expensive suites (cite
@@ -859,7 +864,7 @@ rerun:
 - **Chapter 00 (Principles)**: The "bounded blast radius" formulation — the
   worst case is a bad artifact in a non-production namespace, not a
   compromised release path — is a clean blast-radius-reduction example to
-  pair with the part 3 note's "the credentials simply aren't on the runner"
+  pair with the part 3 note's "the credentials simply aren’t on the runner"
   (cite Claims 11, 12).
 
 ## Extraction Notes
@@ -906,7 +911,8 @@ rerun:
   invariants*: the post asserts the invariants hold; it does not show a test
   that they hold.
 - The `miner-related-notes.md` candidates list was read per MINER.md §4. Of
-  the 10 listed candidates, one is cited and nine are explicitly dismissed as
+  the 10 listed candidates, one is cited in full, one is partially cited (for a
+  single adjacent claim), and eight are explicitly dismissed as
   non-overlapping:
   - `docs-google-sre-prodcast-03-07-retail-gaming.md` — retail/gaming SRE
     SLOs, real-timeyness, user-facing cost of failure; no CI/CD access
