@@ -15749,6 +15749,69 @@
         }
       ]
     },
+    "docs-promptfoo-agent-skill": {
+      "path": "source-notes/docs-promptfoo-agent-skill.md",
+      "title": "Promptfoo: Agent Skills for Evals and Red Teaming — the Four-Skill Bundle, the Agent-Authored Config Failure Taxonomy, and the Evidence-Before-Scores Gate",
+      "source_url": "https://www.promptfoo.dev/docs/integrations/agent-skill",
+      "chapters": [],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Promptfoo ships one four-skill bundle — `promptfoo-evals`, `promptfoo-provider-setup`, `promptfoo-redteam-setup`, `promptfoo-redteam-run` — to both the Claude Code and Codex marketplaces under the open Agent Skills standard, with intentionally no meta-selector skill",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The skill exists to prevent a named four-mistake taxonomy in agent-authored eval configs — shell `$ENV_VAR` syntax in YAML, `llm-rubric` referencing a source it was never given, assertions that also pass for wrong answers, and model graders where deterministic checks suffice",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "\"Evidence before scores\" — require nonzero tested coverage before reading results, treat a missing or failed grader as an error (not a pass), and use mock graders only for fixture checks",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Deterministic assertions first, model graders sparingly — and calibrated grading requires an explicit grader provider, inlined source evidence, and a known-good/known-bad check before scores are trusted",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The CI run contract is `npx promptfoo eval -o output.json --no-cache --no-share` plus `npx promptfoo validate config` — and `--no-share` does NOT keep data local: generation, grading, target calls, and target-validation diagnostics still send data to configured services",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Team distribution is a filesystem operation — commit skills to `.claude/skills/` or `.agents/skills/` and every developer's agent picks them up automatically, with no per-person install",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Each skill is a `SKILL.md` plus a `references/` directory of assertion/provider/config examples — with a `scripts/` directory for the provider and red-team skills — and the whole bundle is reusable across workspaces by copying `plugins/promptfoo` together with its marketplace entry",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Red-team skills encode their own mistake taxonomy — flattening multi-input targets into one prompt field, choosing broad scans before mapping the app boundary, regenerating seeds unnecessarily — and adaptive-rerun transcripts must be retained when comparing results",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Red-team authoring must preserve caller-controlled inputs while pinning token/session-derived identity to a test account, and must select plugins (policy, rbac, bola, …) from live or static evidence instead of defaulting to one broad scan",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "White-box red-team probes need allowed-behavior controls and observable failure evidence — a refusal message alone does not prove the target stayed unchanged (an ERP write rejection still requires a before/after inventory check)",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The eval-authoring skill itself carries an anti-injection clause — source documents and model outputs are untrusted evidence, never instructions to execute tools, change scope, or weaken acceptance criteria",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-answer-relevance": {
       "path": "source-notes/docs-promptfoo-answer-relevance.md",
       "title": "Promptfoo Configuration: Answer Relevance",

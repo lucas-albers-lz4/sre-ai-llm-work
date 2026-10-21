@@ -2912,6 +2912,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-agent-skill": {
+      "slug": "docs-promptfoo-agent-skill",
+      "title": "Promptfoo: Agent Skills for Evals and Red Teaming — the Four-Skill Bundle, the Agent-Authored Config Failure Taxonomy, and the Evidence-Before-Scores Gate",
+      "source_url": "https://www.promptfoo.dev/docs/integrations/agent-skill",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-10-20",
+      "date_extracted": "2026-10-21",
+      "issue": "#1813",
+      "file": "source-notes/docs-promptfoo-agent-skill.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-answer-relevance": {
       "slug": "docs-promptfoo-answer-relevance",
       "title": "Promptfoo Configuration: Answer Relevance",
