@@ -14606,6 +14606,64 @@
         }
       ]
     },
+    "docs-litellm-enterprise": {
+      "path": "source-notes/docs-litellm-enterprise.md",
+      "title": "LiteLLM Enterprise — LiteLLM Documentation",
+      "source_url": "https://docs.litellm.ai/docs/enterprise",
+      "chapters": [],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Enterprise is a license key on the same Gateway image (no migration) with layered tiers: Python SDK (OSS) → AI Gateway (OSS) → Enterprise (license)",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "SSO is free for up to 5 users; beyond that, an Enterprise license is required",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Enterprise adds SSO/SCIM, audit logs, delegated/org/team admin roles, secret managers, IP allowlists, per-team logging, multi-region, and professional support SLAs",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Audit logs track every admin action and key-level change with retention policies; per-team logging allows routing logs to different backends and disabling logging per team (GDPR-friendly)",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Secret managers supported (AWS KMS/Secrets Manager, Azure Key Vault, Google KMS/Secret Manager, HashiCorp Vault, CyberArk, or custom) with automatic virtual key rotation; IP allowlists restrict proxy access",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Governance includes multi-tenant orgs/teams/projects/keys, project management with budgets/owners/rate limits/model allowlists/isolated spend, tag-based budgets, per-model budgets per virtual key, temporary budget increases, soft budget alerts, and spend reports",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "SOC 2 Type II audited; self-hosted (no data leaves environment); signed Docker images; procurement via AWS/Azure Marketplace or direct",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Support includes dedicated Slack/Teams channel with engineers; optional 24/7 SLAs with 1h for Sev 0 and 72h for security patches; version support is 4 most recent stable minor lines, OSS and Enterprise share same image/version",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Certain guardrails require Enterprise license (built-in callback integrations): `llmguard_moderations`, `llamaguard_moderations`, `hide_secrets`, `openai_moderations`, `google_text_moderation`, `lakera_prompt_injection`, `aporia_prompt_injection`; OSS guardrail framework includes custom guardrails and Presidio for PII masking",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "License activation is via `LITELLM_LICENSE` env var; Enterprise Edition shown on API docs page when active",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-exception-mapping": {
       "path": "source-notes/docs-litellm-exception-mapping.md",
       "title": "Exception Mapping | liteLLM (provider-error → exception-class → HTTP-status taxonomy)",
