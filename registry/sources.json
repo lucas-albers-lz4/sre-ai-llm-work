@@ -2938,6 +2938,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-websearch-interception": {
+      "slug": "docs-litellm-websearch-interception",
+      "title": "Web Search Integration — LiteLLM Documentation (server-side web-search interception callback)",
+      "source_url": "https://docs.litellm.ai/docs/integrations/websearch_interception",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs; front matter last_updated 2026-10-21)",
+      "date_extracted": "2026-10-21",
+      "issue": "#1824",
+      "file": "source-notes/docs-litellm-websearch-interception.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-agent-skill": {
       "slug": "docs-promptfoo-agent-skill",
       "title": "Promptfoo: Agent Skills for Evals and Red Teaming — the Four-Skill Bundle, the Agent-Authored Config Failure Taxonomy, and the Evidence-Before-Scores Gate",

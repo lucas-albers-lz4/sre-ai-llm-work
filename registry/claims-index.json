@@ -15878,6 +15878,99 @@
         }
       ]
     },
+    "docs-litellm-websearch-interception": {
+      "path": "source-notes/docs-litellm-websearch-interception.md",
+      "title": "Web Search Integration — LiteLLM Documentation (server-side web-search interception callback)",
+      "source_url": "https://docs.litellm.ai/docs/integrations/websearch_interception",
+      "chapters": [
+        "05",
+        "02",
+        "06",
+        "03"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "One client request becomes a multi-step agentic loop — two LLM calls plus at least one third-party search-vendor request — and the interception page documents no iteration cap, timeout, retry, or budget guard for it",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The gateway replaces whatever search tool the request carries with its own `litellm_web_search` definition before the model sees it — the provider never receives the client's tool contract",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The canonical schema the model sees is three fields — `query` required, `objective` and `search_queries` optional — and the field descriptions are instructions to the model",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "For a client that sent an Anthropic-native `web_search_*` tool, the final response's `server_tool_use` block still shows only `query` — the response is narrower than the request",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "`objective` and `search_queries` are forwarded to Parallel AI only — every other search provider receives the single `query` string, with no signal in the response",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The optional fields are validated before forwarding — a blank `objective` is ignored, a non-array `search_queries` is ignored (not split), non-string entries are dropped, and only the first five are kept",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "A tool-level `litellm_params.objective` overrides the model's `objective` on every request",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "`enabled_providers` is a client-visible behavior switch — a provider that is not in the list means interception never runs and the caller receives the model's raw `tool_calls`",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Search-tool selection is order-dependent by default and can be nondeterministic — the first entry of `search_tools` wins when `search_tool_name` is unset, and same-named tools are picked at random with the router's routing strategies inapplicable",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Twelve search providers are supported, each with its own credential — and the page's provider table and the page's own config examples disagree on two of the environment-variable names",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Egress — the search query, and on Parallel the model-authored `objective` and `search_queries`, leave the gateway for a third-party search vendor selected by gateway config, not by the caller",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "The mechanism is a gateway callback with a pre-request hook, a post-response hook, and an agentic loop; the loop detects the tool call by sniffing the response shape",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "Streaming is supported but \"automatically converted\" — the client-visible stream is not the provider's stream, and the conversion's semantics are undocumented",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "The interception path documents no cost surface at all — but the sibling search page shows how search spend *can* be attributed: a per-search-tool `input_cost_per_query` that overrides the cost-map price, drives `x-litellm-response-cost` and the spend logs, and is billed once per query",
+          "kind": "claim"
+        },
+        {
+          "n": 15,
+          "heading": "The interception path has a fail-closed authorization control that the interception page never mentions — `object_permission.search_tools` plus `search_tool_deny_by_default`, denying with a 403 before any search provider is called",
+          "kind": "claim"
+        },
+        {
+          "n": 16,
+          "heading": "The three pages that document this feature disagree with each other on the search-provider inventory, and the search index's own feature table contradicts its own body on load balancing",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-agent-skill": {
       "path": "source-notes/docs-promptfoo-agent-skill.md",
       "title": "Promptfoo: Agent Skills for Evals and Red Teaming — the Four-Skill Bundle, the Agent-Authored Config Failure Taxonomy, and the Evidence-Before-Scores Gate",
