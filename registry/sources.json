@@ -39,6 +39,19 @@
       "confidence_overall": "anecdotal",
       "status": "current"
     },
+    "blog-cncf-agent-auth-lawyers-day-in-court": {
+      "slug": "blog-cncf-agent-auth-lawyers-day-in-court",
+      "title": "Agent Auth: A lawyer’s day in court",
+      "source_url": "https://www.cncf.io/blog/2026/06/23/agent-auth-a-lawyers-day-in-court",
+      "source_type": "blog-post",
+      "author": "Lin Sun",
+      "date_published": "2026-06-23",
+      "date_extracted": "2026-10-21",
+      "issue": "#1690",
+      "file": "source-notes/blog-cncf-agent-auth-lawyers-day-in-court.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-cncf-agent-doc-access-tool-mix": {
       "slug": "blog-cncf-agent-doc-access-tool-mix",
       "title": "Why your agent needs access to your documentation",

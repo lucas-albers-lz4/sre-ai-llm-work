@@ -253,6 +253,77 @@
         }
       ]
     },
+    "blog-cncf-agent-auth-lawyers-day-in-court": {
+      "path": "source-notes/blog-cncf-agent-auth-lawyers-day-in-court.md",
+      "title": "Agent Auth: A lawyer’s day in court",
+      "source_url": "https://www.cncf.io/blog/2026/06/23/agent-auth-a-lawyers-day-in-court",
+      "chapters": [
+        "06",
+        "03"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Agent workloads are \"microservices+\" — they need strictly more than a traditional microservice, in three named dimensions (authentication, policy, observability)",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The extra authentication requirement is specifically that one agent may act on behalf of many different users at once",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Policy enforcement is a first-class agent requirement because agent behavior is less predictable than a conventional service's",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Agent observability has to reach further than a traditional service's — into context, prompts, tool calls, and the contents of requests and responses",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Agent identity — knowing exactly *which* agent is making the request — is a precondition for trusting that agent",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Principal identity is a *separate* identity from agent identity — the system must know which user the agent is acting for, not just who the agent is",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The delegation artifact — an On-Behalf-Of (OBO) token or equivalent — carries four distinct facts: principal identity, agent identity, delegated permissions, and the scope of the delegation",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Possessing a valid delegation is necessary but not sufficient — the requested action must still pass a policy and scope check specific to that request",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The article states a five-item platform capability checklist — strong agent identities, principal identity carried across requests, delegation token issuance and validation, authorization policy and scope enforcement, and observability/audit trails",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The gateway and mesh should centralize identity propagation, delegation verification, policy enforcement, and auditing, rather than each agent implementing them",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The proposed stack is SPIFFE + cert-manager + Istio + agentgateway, with the platform handling identity, delegation, policy enforcement, and observability while agents keep business logic",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "The article's governing rule is that an agent is not the user — both operate under their own identity, acting for someone else under a specific delegation and a defined scope, and that relationship must be explicit, verifiable, and enforceable",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-cncf-agent-doc-access-tool-mix": {
       "path": "source-notes/blog-cncf-agent-doc-access-tool-mix.md",
       "title": "Why your agent needs access to your documentation",
