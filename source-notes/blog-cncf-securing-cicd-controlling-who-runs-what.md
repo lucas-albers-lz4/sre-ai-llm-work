@@ -85,8 +85,9 @@ issue: "#1821"
   the linked `cilium/ariane` repository README (see Concrete Artifacts): a
   GitHub App that watches PR comments for trigger phrases and runs workflows
   via `workflow_dispatch`.
-- **Confidence**: settled (first-party description of the project's own
-  tooling; the linked repository confirms the mechanism)
+- **Confidence**: emerging (first-party description of the project's own
+  tooling; the linked repository confirms the mechanism, but the team gate's
+  actual enforcement is the authors' characterization, not demonstrated)
 - **Quote**: "Ariane is a GitHub bot we wrote in-house to dispatch CI workflows
   from PR comments. When a maintainer types /test or /ci-eks on a
   pull request, Ariane checks that the commenter belongs to the
@@ -236,8 +237,9 @@ issue: "#1821"
 ### Claim 9: Precondition 3 — Docker BuildKit *does* execute the untrusted Dockerfile, and that is accepted because BuildKit runs isolated from the job: no Actions environment variables, no repo secrets, no access to the runner's Docker credential store, and no secrets in the build args
 - **Evidence**: Third bullet of the enumerated list; the post states the
   residual risk explicitly rather than denying that untrusted code runs.
-- **Confidence**: settled (a stated boundary of the builder's isolation; the
-  isolation claim itself is a first-party assertion about BuildKit)
+- **Confidence**: emerging (a stated boundary of the builder's isolation; the
+  isolation claim itself is a first-party assertion about BuildKit that the
+  post does not demonstrate)
 - **Quote**: "Docker BuildKit does execute the untrusted Dockerfile, and that’s
   the whole point of building a CI image from a PR. BuildKit runs
   in isolation: no GitHub Actions environment variables, no repo
@@ -245,7 +247,7 @@ issue: "#1821"
   build args we pass contain no secrets, just the runtime image
   reference and the operator variant name."
 - **Our assessment**: Buy it, with the caveat that "BuildKit runs in isolation"
-  is the load-bearing assertion and is not demonstrated here — it is a
+  is the assertion everything else rests on and is not demonstrated here — it is a
   property of the builder's sandbox, not a property of the workflow. The
   honest form of the claim is therefore *narrower* than *untrusted code never
   runs*: untrusted code runs in a context that has been deliberately emptied
@@ -333,9 +335,9 @@ issue: "#1821"
   maintainer team rather than the CI team) is the right calibration: the
   workflow that grants automatic approval is the one whose compromise would
   bypass every other control. Note the corpus already carries CODEOWNERS
-  twice — the part 2 note applies it to `vendor/` and the LiteLLM incident
-  notes apply it to dependency directories — but **CODEOWNERS on `.github/`
-  as the CI-review gate is a distinct use** and is new.
+  once — the part 2 note applies it to `vendor/` (Claim 9) — but
+  **CODEOWNERS on `.github/` as the CI-review gate is a distinct use** and
+  is new.
 
 ### Claim 14: The series is explicitly layered — this post is the
 access-control layer — and the post frames that layer with a year of
@@ -489,7 +491,8 @@ GITHUB_ENV injection. There’s no way to repoint the build to anything
 outside the Cilium namespace.
 - Only CI credentials are in scope. The Docker login uses QUAY_USERNAME_CI /
 QUAY_PASSWORD_CI, which can only push to the -ci development registry.
-Production credentials aren’t on the runner at all.```
+Production credentials aren’t on the runner at all.
+```
 
 ### CODEOWNERS as the CI review gate (verbatim from the post)
 
@@ -620,7 +623,8 @@ rerun:
     - conformance-e2e.yaml
     - integration-test.yaml
   exclude-workflows:
-    - flaky-test.yaml```
+    - flaky-test.yaml
+```
 
 ## Cross-References
 
@@ -904,7 +908,7 @@ rerun:
   self-report of the project's own configuration, consistent with the posture
   of the two sibling notes. The individual claims are concrete and checkable
   (config shown verbatim, named teams, named actions, linked public
-  repository), but they are not independently verified, and two load-bearing
+  repository), but they are not independently verified, and two central
   assertions — "BuildKit runs in isolation" and the actual enforcement of the
   Ariane team gate — are the authors' own characterizations rather than
   demonstrated facts. The pattern is also explicitly a set of *design
