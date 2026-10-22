@@ -16335,6 +16335,84 @@
         }
       ]
     },
+    "docs-promptfoo-aws-codecommit-codebuild": {
+      "path": "source-notes/docs-promptfoo-aws-codecommit-codebuild.md",
+      "title": "Promptfoo AWS CodeCommit Integration — CodeBuild Evals, the Hand-Rolled CodeCommit PR Comment, and a Custom Pass-Rate Gate That Cannot Fail",
+      "source_url": "https://www.promptfoo.dev/docs/integrations/aws-codecommit",
+      "chapters": [
+        "05",
+        "06",
+        "02",
+        "03"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The vendor states that CodeCommit pull requests are not a first-class target for `promptfoo code-scans run`, so the hosted-Action path has to be re-implemented by hand",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The DIY path degrades to one general PR comment capped at 20 findings, and the page states why inline review is not used",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The vendor's own summary-comment renderer maps an empty `comments` array to \"No findings\" without checking `success` or `skipReason` — the skip-vs-clean footgun, instantiated by the vendor",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The vendor-prescribed custom pass-rate gate goes **green** when the eval produced no graded results — reproduced, not inferred",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The gate's denominator counts only successes and failures — rows that are neither are invisible to it",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The custom-gate variant *replaces* the per-case gate rather than adding to it — `--fail-on-error` is dropped",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "CodeBuild's native secret-injection mechanism is `env.parameter-store`, and the page attributes leaked secrets to using plain environment variables instead",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Least-privilege IAM is two additive statements — `ssm:GetParameters` on a `parameter/promptfoo/*` prefix for eval builds, and two CodeCommit actions scoped to a single repository ARN for PR comments",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "`code-scans run` needs a Promptfoo API key on every non-GitHub-Action path — there is no keyless option here",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Both `--base` and `--compare` must be overridden, and the destination branch must be fetched first — the CLI's defaults are wrong for every CodeCommit PR",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The eval cache is deliberately placed *and* persisted across builds — so a green build can be entirely memoised from an earlier build's provider responses",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "The build artifacts *are* the report surface — and the JSON file the gate parses is also the only machine-readable record of the run",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "The non-Action CI path installs the scanner **unpinned**, with npm lifecycle scripts enabled, and installs `jq` unpinned at build time — the supply-chain posture is the opposite of the hardened GitHub Action",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-azure-vs-openai": {
       "path": "source-notes/docs-promptfoo-azure-vs-openai.md",
       "title": "OpenAI vs Azure: How to benchmark (promptfoo)",
