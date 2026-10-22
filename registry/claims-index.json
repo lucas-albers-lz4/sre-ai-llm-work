@@ -5035,6 +5035,91 @@
         }
       ]
     },
+    "docs-cncf-iam-whitepaper-reference-patterns": {
+      "path": "source-notes/docs-cncf-iam-whitepaper-reference-patterns.md",
+      "title": "Identity and Access Management Whitepaper",
+      "source_url": "https://www.cncf.io/wp-content/uploads/2026/06/Identity-and-Access-Management-Whitepaper.pdf",
+      "chapters": [
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The whitepaper explicitly excludes agent protocols (MCP, A2A) and asynchronous/long-running processing from its scope, while stating that its authentication and authorization principles are \"intended to be reusable for agent-based systems\" — so it must not be cited as agent-protocol guidance",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The paper's definition of \"identity\" explicitly includes automated agents as first-class subjects of authentication and authorization decisions — agent protocols are out of scope, but agents are in scope as subjects",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The paper's core contribution is a two-pattern selection axis — Basic (the Kubernetes cluster is one implicit trust zone, authentication and authorization applied at the perimeter) versus Advanced (zero-trust, every workload is its own trust boundary) — with a threat-model/mechanism comparison table",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The two identities are carried in two different artifacts — workload identity in the SPIFFE SVID presented over mTLS, user identity and authorization context in the OAuth access token — and the paper makes \"both\" the basis of the authorization decision (\"dual-subject authorization\")",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Authorization decisions must be delegated to a Policy Decision Point (NIST SP 800-162 P*P architecture) — and the PEP/PDP placement differs by pattern: PEP at the perimeter in Basic, PEP in every workload in Advanced",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Authorization must be enforced at three granularities — function level, object level, and object property level — and the paper cites OWASP API Top 10 as the reason",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The audit baseline is a three-part MUST — log every request, never log the access token (or PII), carry a unique identifier per request, and record the authorization decision applied to that request — and the PDP must log every decision together with its input",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The PDP must be unreachable from outside the cluster, and in the Advanced pattern the PDP must authenticate the PEP with an SVID — so the decision component is itself a zero-trust participant",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The PDP is expected to implement ABAC or ReBAC rather than RBAC, with role explosion named as the reason — and the two models are explicitly not mutually exclusive",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The PEP↔PDP interface is expected to be the standard one — AuthZEN (Authorization API 1.0) — and the PDP may cache both policies and decisions, with staleness named as the risk in sensitive environments",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Four privacy principles govern identity handling — data minimization (with `sub` as an opaque non-PII identifier), purpose limitation, right to erasure, and exposure limitation for tokens, logs, and policy inputs",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "Client authentication to the OpenID Provider is a pattern-dependent requirement — client ID and secret in Basic (with stronger methods explicitly permitted) and SPIFFE SVID in Advanced, where the SVID must be an X.509 certificate or a JWT",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "Token hygiene is specified as a set of MUSTs — shortest practical access-token lifetime, sender-constrained tokens (DPoP or OAuth 2.0 Mutual-TLS) mandatory in the Advanced pattern, authorization code flow with PKCE S256 only, and short-lived single-use authorization codes whose reuse triggers revocation of all tokens issued from that code",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "Workload identity has a bootstrap problem the paper names explicitly — before an SVID exists, mTLS is impossible, so the Workload Endpoint must be identified by platform attestation or a pre-shared join token — and SVIDs must be rotated automatically",
+          "kind": "claim"
+        },
+        {
+          "n": 15,
+          "heading": "The paper's own scope is one Kubernetes cluster and one trust domain — multi-cluster and cross-trust-domain federation are explicitly out of scope — and there must be one logical OIDC Provider per trust domain",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-datadog-llm-observability": {
       "path": "source-notes/docs-datadog-llm-observability.md",
       "title": "Datadog Agent Observability (LLM Observability) — Product Documentation",

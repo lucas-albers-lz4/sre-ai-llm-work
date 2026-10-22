@@ -962,6 +962,19 @@
       "confidence_overall": "settled",
       "status": "current"
     },
+    "docs-cncf-iam-whitepaper-reference-patterns": {
+      "slug": "docs-cncf-iam-whitepaper-reference-patterns",
+      "title": "Identity and Access Management Whitepaper",
+      "source_url": "https://www.cncf.io/wp-content/uploads/2026/06/Identity-and-Access-Management-Whitepaper.pdf",
+      "source_type": "docs",
+      "author": "CNCF TAG Security and Compliance",
+      "date_published": "2026-06-04",
+      "date_extracted": "2026-10-21",
+      "issue": "#1819",
+      "file": "source-notes/docs-cncf-iam-whitepaper-reference-patterns.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-datadog-llm-observability": {
       "slug": "docs-datadog-llm-observability",
       "title": "Datadog Agent Observability (LLM Observability) — Product Documentation",
