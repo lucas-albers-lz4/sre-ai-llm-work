@@ -2834,6 +2834,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-interactions": {
+      "slug": "docs-litellm-interactions",
+      "title": "/interactions — LiteLLM AI Gateway Documentation (unified Interactions endpoint with a `/responses` bridge)",
+      "source_url": "https://docs.litellm.ai/docs/interactions",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs; current as of 2026-10-22)",
+      "date_extracted": "2026-10-22",
+      "issue": "#1839",
+      "file": "source-notes/docs-litellm-interactions.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-json-mode-structured-outputs": {
       "slug": "docs-litellm-json-mode-structured-outputs",
       "title": "Structured Outputs (JSON Mode) — liteLLM",

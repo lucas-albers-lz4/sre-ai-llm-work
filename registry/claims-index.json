@@ -15560,6 +15560,62 @@
         }
       ]
     },
+    "docs-litellm-interactions": {
+      "path": "source-notes/docs-litellm-interactions.md",
+      "title": "/interactions — LiteLLM AI Gateway Documentation (unified Interactions endpoint with a `/responses` bridge)",
+      "source_url": "https://docs.litellm.ai/docs/interactions",
+      "chapters": [
+        "02",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "`/v1beta/interactions` is documented as a provider-agnostic unified endpoint — its \"Supported LLM providers\" is \"All LiteLLM supported CHAT COMPLETION providers,\" naming `openai`, `anthropic`, `bedrock`, `vertex_ai`, `gemini`, `azure`, `azure_ai` etc.",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The endpoint surface is `POST /v1beta/interactions` (create; `stream: true` for streaming) and `GET /v1beta/interactions/{interaction_id}` (retrieve), with `litellm.interactions.create` / `litellm.interactions.acreate` in the Python SDK",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The request parameters are exactly `model`, `input`, `stream`, `tools`, `system_instruction`, `generation_config`, and `previous_interaction_id` — with `model` and `input` the only required fields, and `previous_interaction_id` documented only as \"ID of previous interaction for context\"",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Google AI Studio is served natively; a two-row \"Supported Providers\" table sends \"Google AI Studio\" to the native quick-start and \"All other LiteLLM providers\" to the bridge usage — so every non-Google provider is documented as bridge-served",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "For \"OpenAI, Anthropic, and other providers that don't natively support the Interactions API,\" LiteLLM \"call[s]\" them \"via a bridge to LiteLLM's `/responses` endpoint\" — a gateway translation layer, not a native passthrough",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The response envelope is `id` / `object` (\"interaction\") / `model` / `status` (\"completed\") / `created` / `updated` / `role` (\"model\") / `outputs[]` (typed entries, e.g. `{\"type\": \"text\", \"text\": ...}`) / `usage` — an Interactions-shaped envelope, not the OpenAI Responses envelope",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The `usage` object in the response is `total_input_tokens` / `total_output_tokens` / `total_tokens` — a different field vocabulary from the OpenAI-style `prompt_tokens` / `completion_tokens`, and also different from the `/responses` `input_tokens` / `output_tokens`",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The Google GenAI SDK is pointed at the LiteLLM proxy via `genai.Client(api_key=..., http_options={\"base_url\": \"http://localhost:4000\"})`, then calls `client.interactions.create(...)` / `create_stream(...)` — a different redirection mechanism from the env-var approach documented for `/generateContent`",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The feature checklist claims Logging (\"Works across all integrations\"), Streaming, and Loadbalancing (qualified \"Between supported models\") — but the page documents no per-provider parity and does not state that these hold on the bridged path specifically",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-json-mode-structured-outputs": {
       "path": "source-notes/docs-litellm-json-mode-structured-outputs.md",
       "title": "Structured Outputs (JSON Mode) — liteLLM",
