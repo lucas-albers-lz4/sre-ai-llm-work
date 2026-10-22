@@ -1326,7 +1326,7 @@
         "filed_at": "2026-08-13T12:56:28.715514+00:00"
       }
     },
-    "last_scan": "2026-10-21T16:26:16.453499+00:00"
+    "last_scan": "2026-10-22T16:26:27.230319+00:00"
   },
   "opentelemetry": {
     "urls": {},
@@ -3153,16 +3153,22 @@
         "filed_at": "2026-10-21T16:26:48.688686+00:00"
       },
       "https://www.cncf.io/blog/2026/06/03/inspektor-gadget-results-from-the-first-security-audit": {
-        "status": "pending",
-        "screened_at": "2026-07-27T14:18:06.983809+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-27T14:18:06.983809+00:00",
+        "issue": 1836,
+        "filed_at": "2026-10-22T16:26:47.724320+00:00"
       },
       "https://www.cncf.io/blog/2026/06/02/mumbai-maha-mahotsav-kubecon-cloudnativecon-india-edition": {
-        "status": "pending",
-        "screened_at": "2026-07-28T13:49:23.771207+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-28T13:49:23.771207+00:00",
+        "issue": 1837,
+        "filed_at": "2026-10-22T16:26:49.751413+00:00"
       },
       "https://www.cncf.io/blog/2026/06/02/cloud-native-is-now-ai-native-engineering-production-ready-ai": {
-        "status": "pending",
-        "screened_at": "2026-07-28T13:49:23.771228+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-28T13:49:23.771228+00:00",
+        "issue": 1838,
+        "filed_at": "2026-10-22T16:26:52.017205+00:00"
       },
       "https://www.cncf.io/blog/2026/06/01/dynamic-configuration-for-cloud-native-swift-services": {
         "status": "pending",
@@ -4187,9 +4193,21 @@
       "https://www.cncf.io/blog/2025/10/21/applying-rbac-to-databases-on-kubernetes-practical-real-world-examples": {
         "status": "rejected",
         "screened_at": "2026-10-21T16:26:27.773893+00:00"
+      },
+      "https://www.cncf.io/blog/2026/10/22/filtering-and-reducing-ai-agent-telemetry-with-the-opentelemetry-collector": {
+        "status": "pending",
+        "screened_at": "2026-10-22T16:26:32.720271+00:00"
+      },
+      "https://www.cncf.io/blog/2025/10/20/adding-distributed-tracing-to-ai-gateway-my-lfx-mentorship-journey": {
+        "status": "pending",
+        "screened_at": "2026-10-22T16:26:32.720291+00:00"
+      },
+      "https://www.cncf.io/blog/2025/10/17/why-autonomous-infrastructure-is-the-future-from-intent-to-self-operating-systems": {
+        "status": "pending",
+        "screened_at": "2026-10-22T16:26:32.720293+00:00"
       }
     },
-    "last_scan": "2026-10-21T16:26:27.773895+00:00"
+    "last_scan": "2026-10-22T16:26:32.720295+00:00"
   },
   "datadog-llm-obs": {
     "urls": {
@@ -4198,7 +4216,7 @@
         "screened_at": "2026-07-12T23:52:56.905756+00:00"
       }
     },
-    "last_scan": "2026-10-21T16:26:29.477580+00:00"
+    "last_scan": "2026-10-22T16:26:34.200112+00:00"
   },
   "langfuse-docs": {
     "urls": {
@@ -4369,7 +4387,7 @@
         "filed_at": "2026-10-17T14:48:11.680384+00:00"
       }
     },
-    "last_scan": "2026-10-21T16:26:31.065743+00:00"
+    "last_scan": "2026-10-22T16:26:35.680209+00:00"
   },
   "litellm-docs": {
     "urls": {
@@ -6208,16 +6226,22 @@
         "filed_at": "2026-10-21T16:26:55.817498+00:00"
       },
       "https://docs.litellm.ai/docs/interactions": {
-        "status": "pending",
-        "screened_at": "2026-08-15T12:24:37.539500+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-15T12:24:37.539500+00:00",
+        "issue": 1839,
+        "filed_at": "2026-10-22T16:26:54.010058+00:00"
       },
       "https://docs.litellm.ai/docs/langchain": {
-        "status": "pending",
-        "screened_at": "2026-08-15T12:24:37.539521+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-15T12:24:37.539521+00:00",
+        "issue": 1840,
+        "filed_at": "2026-10-22T16:26:56.160732+00:00"
       },
       "https://docs.litellm.ai/docs/learn": {
-        "status": "pending",
-        "screened_at": "2026-08-15T12:24:37.539524+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-15T12:24:37.539524+00:00",
+        "issue": 1841,
+        "filed_at": "2026-10-22T16:26:58.413622+00:00"
       },
       "https://docs.litellm.ai/docs/learn/autorouter_cli": {
         "status": "pending",
@@ -7022,9 +7046,21 @@
       "https://docs.litellm.ai/docs/decisions/systemone_format": {
         "status": "pending",
         "screened_at": "2026-10-21T16:26:35.800424+00:00"
+      },
+      "https://docs.litellm.ai/docs/decisions/typesafe_images": {
+        "status": "rejected",
+        "screened_at": "2026-10-22T16:26:43.077599+00:00"
+      },
+      "https://docs.litellm.ai/docs/extraction": {
+        "status": "rejected",
+        "screened_at": "2026-10-22T16:26:43.077619+00:00"
+      },
+      "https://docs.litellm.ai/docs/projects/PDL": {
+        "status": "rejected",
+        "screened_at": "2026-10-22T16:26:43.077621+00:00"
       }
     },
-    "last_scan": "2026-10-21T16:26:35.800427+00:00"
+    "last_scan": "2026-10-22T16:26:43.077624+00:00"
   },
   "promptfoo-docs": {
     "urls": {
@@ -8869,16 +8905,22 @@
         "filed_at": "2026-10-21T16:27:02.419855+00:00"
       },
       "https://www.promptfoo.dev/docs/integrations/burp": {
-        "status": "pending",
-        "screened_at": "2026-08-15T12:24:43.117349+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-15T12:24:43.117349+00:00",
+        "issue": 1842,
+        "filed_at": "2026-10-22T16:27:00.687739+00:00"
       },
       "https://www.promptfoo.dev/docs/integrations/ci-cd": {
-        "status": "pending",
-        "screened_at": "2026-08-16T12:26:30.758782+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-16T12:26:30.758782+00:00",
+        "issue": 1843,
+        "filed_at": "2026-10-22T16:27:02.862858+00:00"
       },
       "https://www.promptfoo.dev/docs/integrations/circle-ci": {
-        "status": "pending",
-        "screened_at": "2026-08-16T12:26:30.758799+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-16T12:26:30.758799+00:00",
+        "issue": 1844,
+        "filed_at": "2026-10-22T16:27:05.026502+00:00"
       },
       "https://www.promptfoo.dev/docs/integrations/github-action": {
         "status": "pending",
@@ -9675,8 +9717,20 @@
       "https://www.promptfoo.dev/docs/red-team/plugins/religion": {
         "status": "pending",
         "screened_at": "2026-10-21T16:26:40.780417+00:00"
+      },
+      "https://www.promptfoo.dev/docs/red-team/plugins/shell-injection": {
+        "status": "pending",
+        "screened_at": "2026-10-22T16:26:46.186402+00:00"
+      },
+      "https://www.promptfoo.dev/docs/red-team/plugins/special-token-injection": {
+        "status": "pending",
+        "screened_at": "2026-10-22T16:26:46.186421+00:00"
+      },
+      "https://www.promptfoo.dev/docs/red-team/plugins/sql-injection": {
+        "status": "pending",
+        "screened_at": "2026-10-22T16:26:46.186423+00:00"
       }
     },
-    "last_scan": "2026-10-21T16:26:40.780419+00:00"
+    "last_scan": "2026-10-22T16:26:46.186425+00:00"
   }
 }
