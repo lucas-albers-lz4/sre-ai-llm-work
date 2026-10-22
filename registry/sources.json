@@ -117,6 +117,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "blog-cncf-inspektor-gadget-security-audit": {
+      "slug": "blog-cncf-inspektor-gadget-security-audit",
+      "title": "Inspektor Gadget: Results from the first security audit",
+      "source_url": "https://www.cncf.io/blog/2026/06/03/inspektor-gadget-results-from-the-first-security-audit",
+      "source_type": "blog-post",
+      "author": "Brian Benz, Francis Laniel, Maya Singh, Helen Woeste, and Pietro Tirenna",
+      "date_published": "2026-06-03",
+      "date_extracted": "2026-10-22",
+      "issue": "#1836",
+      "file": "source-notes/blog-cncf-inspektor-gadget-security-audit.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-cncf-jaeger-clickhouse-backend": {
       "slug": "blog-cncf-jaeger-clickhouse-backend",
       "title": "Building Jaeger’s ClickHouse backend: 8.6× compression on 10 million spans",

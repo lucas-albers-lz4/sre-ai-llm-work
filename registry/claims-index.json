@@ -661,6 +661,87 @@
         }
       ]
     },
+    "blog-cncf-inspektor-gadget-security-audit": {
+      "path": "source-notes/blog-cncf-inspektor-gadget-security-audit.md",
+      "title": "Inspektor Gadget: Results from the first security audit",
+      "source_url": "https://www.cncf.io/blog/2026/06/03/inspektor-gadget-results-from-the-first-security-audit",
+      "chapters": [
+        "02",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Inspektor Gadget is an eBPF-based toolkit for Kubernetes observability and Linux host inspection; its first independent audit was coordinated by OSTIF, funded by CNCF, and performed by Shielder, and every reported vulnerability now has a patch",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The value proposition is runtime eBPF instrumentation with no image rebuilds, sidecars, debuggers/strace, workload restarts, or custom kernel modules — applications keep running unchanged",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The audit methodology combined collaborative threat modeling, manual source review, dynamic testing in three deployment-shaped lab environments, static analysis (Semgrep, GoSec), and AI-assisted code review",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The audit found three vulnerabilities — two Medium and one Low, none Critical or High — and the auditors' overall conclusion was that the project's security posture is \"adequately mature\"",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "CVE-2026-24905 is a Medium-severity command injection in `ig image build` — Makefiles embedded user-controlled input without escaping — which matters most when CI/CD builds untrusted gadgets; fixed in v0.48.1",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "CVE-2026-25996 is a Low-severity terminal escape injection — ANSI escape sequences in rendered event columns were not sanitized, so a compromised container could write escape codes into an operator's terminal; fixed in v0.49.1",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The Medium-severity event-flooding DoS used the eBPF ring buffer's hard-coded 256 KB size — one malicious container floods it and the system **silently drops events from other containers**, letting an attacker hide activity behind noise; fixed in v0.50.1",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Hardening recommendation — enforce TLS by default on the daemon's TCP listener; today it logs a warning and continues in plaintext, so the recommendation is an explicit opt-out flag",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Hardening recommendation — reduce the DaemonSet's RBAC, specifically the `nodes/proxy` GET permission, which is a privilege-escalation path if the service account token is compromised",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Hardening recommendation — add a Kubernetes namespace blocklist so the agent does not trace sensitive namespaces such as `kube-system`, and restrict remote clients from enabling host-level tracing through the daemon",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Gadget-bypass testing found six scenarios where a compromised container performs a traced operation without generating events — including newer syscalls a gadget does not hook (`openat2` vs `openat`), `io_uring`, and statically linked libraries",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "The maintainers are documenting the inherent limitations so operators know what eBPF tracing can and cannot guarantee, and have already addressed several bypass gaps",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "Hardening recommendation — pin and verify external build dependencies in CI/CD; several were downloaded without hash or signature verification, and most fixes are already landed or in PRs",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "The actionable recommendation is to update to v0.50.1 or later, which contains fixes for all three vulnerabilities",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-cncf-jaeger-clickhouse-backend": {
       "path": "source-notes/blog-cncf-jaeger-clickhouse-backend.md",
       "title": "Building Jaeger’s ClickHouse backend: 8.6× compression on 10 million spans",
