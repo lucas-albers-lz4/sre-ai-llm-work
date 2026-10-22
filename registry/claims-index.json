@@ -778,6 +778,115 @@
         }
       ]
     },
+    "blog-cncf-linkerd-multicluster-federation": {
+      "path": "source-notes/blog-cncf-linkerd-multicluster-federation.md",
+      "title": "Federating clusters for zero-downtime Kubernetes",
+      "source_url": "https://www.cncf.io/blog/2026/07/27/federating-clusters-for-zero-downtime-kubernetes",
+      "chapters": [
+        "01",
+        "03",
+        "04",
+        "00",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The default multi-region failure mode is that identical copies of a service are not treated as one thing, so cluster loss degrades into a runbook (restore, repoint DNS) that was paid for in advance",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Linkerd's multicluster extension offers three modes that are not mutually exclusive — the mode is chosen per service via a label on the same set of links",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The network topology, not the application, decides which modes are available — hierarchical mirroring works on any network, flat and federated require real pod-to-pod connectivity",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "A federated service becomes one load-balanced endpoint spanning every cluster, and it absorbs the loss of a whole cluster with no application change",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Flat mirroring exposes a remote service under an explicit name (`<svc>-<cluster>`) with traffic going straight to the remote pods, so the client — not the platform — chooses the cluster",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Gateway mirroring is the reachability escape hatch — the endpoint is the remote cluster's gateway IP, not the remote pods",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Chaos test result — with one of three clusters scaled to zero, the federated service rebalanced 33/33/33 → 50/50 with zero errors and no configuration change",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The flat-mirrored service returned 503s after the cluster loss — described as correct behaviour, because the client had explicitly asked for a remote that is gone",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The gateway-mirrored service returned 502s after the same cluster loss, because the gateway that served it was in the cluster that died",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "A recovered cluster rejoins the federation under-weighted (~14% instead of an even third) unless its replica count is restored — capacity, not membership, determines the share",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "VPC peering without custom-route exchange on both sides leaves pod CIDRs unadvertised, and the symptom is \"DNS resolves fine, then connections just hang\"",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "Overlapping pod CIDRs across peered VPCs break routing silently — pods get responses from the wrong cluster, or connections time out with nothing useful in the logs",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "A GKE regional cluster multiplies `--num-nodes` by the zone count, so `--num-nodes 1` silently becomes three nodes per cluster",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "One service-mirror controller is required per consumed link — miss one and the Link CR is created, nothing mirrors, and `linkerd multicluster check` still looks green",
+          "kind": "claim"
+        },
+        {
+          "n": 15,
+          "heading": "A federated service's name suffix is fixed (`<svc>-federated`), and a single Link CR cannot be both gateway and flat — dual behaviour needs two named links and a matching controller each",
+          "kind": "claim"
+        },
+        {
+          "n": 16,
+          "heading": "Cross-cluster mTLS uses one shared trust anchor with per-cluster issuer certificates, so a compromised issuer can be rotated in isolation",
+          "kind": "claim"
+        },
+        {
+          "n": 17,
+          "heading": "The mode-selection decision framework: cluster-agnostic client → federated; client must pick a cluster → flat mirror; no flat network → gateway mirror; explicit traffic weights → flat mirror + TrafficSplit; singleton service → mirror",
+          "kind": "claim"
+        },
+        {
+          "n": 18,
+          "heading": "Automatic failover removes a real chunk of operational toil, and the two operational recommendations are to alert on a federated service's endpoint count dropping and to test failover by scaling a cluster to zero in staging",
+          "kind": "claim"
+        },
+        {
+          "n": 19,
+          "heading": "The author's own summary judgement is that the capability is mostly wiring, not complexity",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-cncf-network-boundary-ai-agents-nginx-otel": {
       "path": "source-notes/blog-cncf-network-boundary-ai-agents-nginx-otel.md",
       "title": "Network boundary for AI agents using NGINX and OpenTelemetry",

@@ -143,6 +143,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "blog-cncf-linkerd-multicluster-federation": {
+      "slug": "blog-cncf-linkerd-multicluster-federation",
+      "title": "Federating clusters for zero-downtime Kubernetes",
+      "source_url": "https://www.cncf.io/blog/2026/07/27/federating-clusters-for-zero-downtime-kubernetes",
+      "source_type": "blog-post",
+      "author": "Dominik Táskai",
+      "date_published": "2026-07-27",
+      "date_extracted": "2026-10-22",
+      "issue": "#1820",
+      "file": "source-notes/blog-cncf-linkerd-multicluster-federation.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-cncf-network-boundary-ai-agents-nginx-otel": {
       "slug": "blog-cncf-network-boundary-ai-agents-nginx-otel",
       "title": "Network boundary for AI agents using NGINX and OpenTelemetry",
