@@ -262,6 +262,39 @@ the injection at word 45,000 of a 50,000-word document
 deep-position injection test. The injection depth scales with context window
 size — the poison is in the document tail.
 
+### Multimodal targets need a modality probe
+
+Harmful content embedded in an image, audio, or video can bypass a filter that
+catches the same content as text, so a text-only red-team suite under-tests a
+vision or audio model [source: docs-promptfoo-multimodal-red-team, Claim 4]
+[emerging]. The channel is selected by `redteam.injectVar`: the plugin battery
+still decides *what* content is generated, and `injectVar` decides which prompt
+variable receives it [source: docs-promptfoo-multimodal-red-team, Claim 2]
+[emerging].
+
+The default is a silent trap. `injectVar` defaults to the last template
+variable, so with `{{image}} {{question}}` the default is `question` — every
+"multimodal" attack is delivered as text unless `injectVar` is set explicitly
+[source: docs-promptfoo-multimodal-red-team, Claim 2b] [emerging].
+
+```yaml
+redteam:
+  injectVar: image
+  strategies:
+    - image
+```
+*Image-strategy shape from [source: docs-promptfoo-multimodal-red-team,
+Concrete Artifacts].*
+
+Image handling is not portable across providers either: Amazon Bedrock Nova
+needs a `transformVars` step that strips a
+`data:binary/octet-stream;base64,` prefix that OpenAI and Anthropic generally
+accept [source: docs-promptfoo-multimodal-red-team, Claim 7] [emerging].
+
+**Rule**: For every deployed vision or audio model, add a modality probe and
+assert that `injectVar` names the media variable. A multimodal config that
+never injects into the media channel reports green while testing text.
+
 ### Function-calling authorization
 
 For tool-enabled models, test authorization at three levels: role-based
@@ -544,6 +577,24 @@ permissions, retrieval, memory, and logging — not just base models
 AI stack. The compliance scope is the whole system (tools, retrieval, memory,
 logging), not the model alone.
 
+### At-rest encryption often covers credentials, not request data
+
+"Is the gateway encrypted?" is not the same question as "is request data
+encrypted?" In the vendor's own linked encryption pages, only specific
+sensitive data is encrypted at rest; spend logs (request and response data),
+cached prompts and completions, audit logs, and org data are listed as not
+encrypted, and the environment plus any code added to it are the operator's
+responsibility [source: docs-litellm-data-security, Claim 9] [emerging].
+
+> Partially. Only specific sensitive data is encrypted at rest.
+
+[source: docs-litellm-data-security, Claim 9] [emerging]
+
+**Rule**: Enumerate the gateway's plaintext stores — spend logs,
+prompt/response caches, audit tables — and apply access control and redaction
+to each. "The credential vault is encrypted" says nothing about the request
+data sitting beside it.
+
 ### A guardrail is an egress boundary — configure what crosses it
 
 Attaching a guardrail puts a third-party service inside the request path, and
@@ -565,6 +616,27 @@ header names and identity fields the guardrail needs to make its decision, add
 only those, and leave the rest as `[present]`. A guardrail handed full request
 headers for a decision an allowlist would support has widened the perimeter for
 nothing.
+
+### An intercepted web search is a second egress path
+
+When a gateway intercepts a web-search tool call, the search query — and, on
+one provider, the model-authored `objective` and `search_queries` — leaves the
+gateway for a third-party search vendor chosen by gateway configuration, not by
+the caller [source: docs-litellm-websearch-interception, Claim 11] [emerging].
+The `objective` is a natural-language description of the goal behind the
+search, so the egress payload can be a paraphrase of user intent rather than
+the literal query [source: docs-litellm-websearch-interception, Claim 11]
+[emerging]. The gateway holds the search vendor's credential, making the vendor
+a second processor with its own contract, retention, and invoice.
+
+The control exists but is off by default. `object_permission.search_tools`
+plus `search_tool_deny_by_default` denies with a 403 before any search provider
+is called, while an empty or missing list "allows every search tool"
+[source: docs-litellm-websearch-interception, Claim 15] [emerging].
+
+**Rule**: Enumerate the search vendor as a second data processor in any
+data-governance review, and set the search-tool allowlist plus deny-by-default
+on every key and team that can reach an intercepted route.
 
 ## Trust rollout patterns
 
@@ -599,6 +671,95 @@ governed primitive with MCP authentication hardening
 MCP servers were consulted, what sub-agents were invoked — as structured,
 queryable audit records. This is the evidence an auditor or compliance
 questionnaire will ask for.
+
+## Agent identity is two identities, not one
+
+An agent request carries two identities — *which agent* is acting and *which
+user* it acts for — and a gateway key is not a principal: the key/team model
+reasons about the caller and collapses the two
+[source: blog-cncf-agent-auth-lawyers-day-in-court, Claim 2, Claim 6]
+[emerging]. The delegation artifact between them, an On-Behalf-Of (OBO) token
+or equivalent, carries four facts: the principal's identity, the agent's
+identity, the delegated permissions, and the scope of the delegation
+[source: blog-cncf-agent-auth-lawyers-day-in-court, Claim 7] [emerging]. RFC
+8693 encodes them as `sub` (principal), `act.sub` (agent), `scope`, and `aud`
+[source: blog-cncf-agent-auth-lawyers-day-in-court, Concrete Artifacts]
+[emerging].
+
+Possession is not authorization — "Having a valid delegation does not
+automatically grant unlimited access. The requested action must still comply
+with the applicable policies and scopes"
+[source: blog-cncf-agent-auth-lawyers-day-in-court, Claim 8] [emerging].
+
+The platform capability checklist is a coverage matrix for the gateway:
+
+```
+Establish strong agent identities
+Carry principal identities across requests
+Issue and validate delegation tokens
+Enforce authorization policies and scopes
+Provide observability and audit trails for agent actions
+```
+*Extracted from [source: blog-cncf-agent-auth-lawyers-day-in-court, Concrete Artifacts].*
+
+Two entries — carrying the principal across hops and issuing/validating
+delegation tokens — are the parts a gateway deployment most often lacks. The
+source names SPIFFE, cert-manager, Istio, and agentgateway as the substrate,
+but does not show them issuing a delegation from an end-user session
+[source: blog-cncf-agent-auth-lawyers-day-in-court, Claim 11] [emerging].
+
+The governing rule is one line: "An agent is not the user."
+[source: blog-cncf-agent-auth-lawyers-day-in-court, Claim 12] [emerging]
+
+**Rule**: Make the agent/principal split explicit at the enforcement point —
+authenticate the agent, carry the principal, validate the delegation, then
+authorize the specific action. A request that carries only a key has lost that
+distinction before it reaches the model.
+
+## Distributing model-provider secrets across clusters
+
+Shared model-provider API keys have the same shape as any shared third-party
+credential: many workloads, isolated clusters, one source of truth. The
+External Secrets Operator pattern decouples storage from consumption — one
+central provider, ESO in every cluster, a `ClusterSecretStore` pointing at the
+center, and one `ExternalSecret` per workload that materializes an ordinary
+Kubernetes `Secret` for the app
+[source: blog-cncf-secret-sprawl-external-secrets-operator, Claim 1]
+[emerging]. The sync identity should be a read-only machine-account token
+scoped to a single project — least privilege applied to the credential that
+reads all the others
+[source: blog-cncf-secret-sprawl-external-secrets-operator, Claim 5]
+[emerging].
+
+The field name is the trap. `refreshInterval` controls how often ESO re-reads
+the provider; it does not rotate anything. The source's own manifest annotates
+it incorrectly:
+
+```yaml
+spec:
+  refreshInterval: 15m   # Automatically rotate every 15 minutes
+```
+*As published in [source: blog-cncf-secret-sprawl-external-secrets-operator, Concrete Artifacts]; the comment is wrong.*
+
+Rotation happens upstream at the provider, and the cluster converges on the
+next successful refresh
+[source: blog-cncf-secret-sprawl-external-secrets-operator, Claim 3, Claim 4]
+[emerging]. `refreshInterval` is therefore a revocation-propagation ceiling,
+not a rotation cadence — a compromised-but-already-rotated value persists in
+the cluster until the next refresh overwrites it.
+
+Two design costs are unaddressed by the tutorial: the operator's own bootstrap
+token is stored as a plain `Opaque` Secret (a secret-zero dependency), and a
+cluster-wide `ClusterSecretStore` lets any namespace that can create an
+`ExternalSecret` pull from the central provider unless RBAC restricts that
+create verb
+[source: blog-cncf-secret-sprawl-external-secrets-operator, Claim 6, Claim 7]
+[emerging].
+
+**Rule**: Rotate upstream, and read `refreshInterval` as the worst-case delay
+before revocation reaches a cluster. Bootstrap the sync credential with a
+separate mechanism (workload identity, sealed secret), keep it read-only and
+project-scoped, and gate `ExternalSecret` creation in shared namespaces.
 
 ## Gateway credential routing: declare, don't infer
 
@@ -657,6 +818,75 @@ malicious code was pushed to main," but two poisoned releases reached PyPI
 Verify release artifacts against an immutable signing key before deployment.
 Repo integrity is not release integrity — the publishing pipeline is an
 independent attack surface.
+
+### Pinning composes — and has a blind spot
+
+Action pinning and dependency pinning are one control, not two: "A pinned
+workflow that fetches a compromised dependency is still a compromised
+workflow" [source: blog-cncf-securing-cicd-locking-down-dependencies, Claim 1]
+[settled]. A mature CNCF project pins every `uses:` to a full 40-character
+commit SHA with the tag kept as a comment, and pins in-workflow container
+images by `@sha256:` digest so the tools inside CI are content-addressed too
+[source: blog-cncf-securing-cicd-locking-down-dependencies, Claim 2]
+[emerging].
+
+```
+- uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+```
+*Extracted from [source: blog-cncf-securing-cicd-locking-down-dependencies,
+Concrete Artifacts].*
+
+The honest limit: a pinned action that references another action by tag
+resolves that nested dependency at runtime, invisible to the pinner. GitHub's
+workflow-level `dependencies:` lock (direct plus transitive) is the announced
+fix but not yet available [source:
+blog-cncf-securing-cicd-locking-down-dependencies, Claim 3] [emerging].
+
+SHA pinning only stays current if it is mechanical. Renovate maintains the
+pins, and a release-age cooldown delays adoption of brand-new releases — the
+window in which a compromised package is most likely to be noticed and yanked
+[source: blog-cncf-securing-cicd-locking-down-dependencies, Claim 4, Claim 5]
+[emerging]:
+
+```json
+{
+  "matchUpdateTypes": ["major", "minor", "patch"],
+  "minimumReleaseAge": "5 days"
+}
+```
+*Condensed from [source:
+blog-cncf-securing-cicd-locking-down-dependencies, Concrete Artifacts]. The
+same config auto-merges only an allowlist of trusted publisher namespaces
+(`actions/`, `docker/`, `cilium/`, `k8s.io/`, `sigs.k8s.io/`, …) after CI;
+everything else needs human review [source:
+blog-cncf-securing-cicd-locking-down-dependencies, Claim 6]. Workflow hygiene —
+explicit `permissions:` on every workflow, a pinned `ubuntu-24.04` runner
+rather than `ubuntu-latest` — is enforced by CodeQL and actionlint, not
+reviewer memory [source:
+blog-cncf-securing-cicd-locking-down-dependencies, Claim 11].*
+
+**Rule**: Treat action pinning and dependency pinning as one control. Pin
+`uses:` to a commit SHA and in-workflow images to a digest, automate the pins
+with a release-age cooldown, and state the transitive-by-tag blind spot rather
+than assuming the pin covers it.
+
+### Untrusted input in a `run:` block is shell injection
+
+GitHub Actions `${{ }}` is text substitution performed before bash parses the
+line, so a PR title or branch name interpolated into `run:` can inject `;`,
+`$(…)`, or backticks — "Bash has no idea where the value came from"
+[source: blog-cncf-securing-cicd-locking-down-dependencies, Claim 12]
+[settled]. The fix is env-var indirection: assign the expression to an `env:`
+value at the step level and reference it as a quoted shell variable inside
+`run:` [source: blog-cncf-securing-cicd-locking-down-dependencies, Claim 12]
+[settled]. Both actionlint and CodeQL flag the pattern, which matters because
+the substitution is silent in review [source:
+blog-cncf-securing-cicd-locking-down-dependencies, Claim 11, Claim 12]
+[emerging].
+
+**Rule**: Never interpolate `${{ }}` from PR-controlled input directly into
+`run:`. Pass it through `env:` and quote the shell variable, and enforce the
+rule with static analysis rather than review.
 
 ### A SHA pin says what you have; an attestation says who built it
 
@@ -845,5 +1075,10 @@ failure-litellm-supply-chain-compromise-march-2026,
 failure-litellm-supply-chain-incident-march-2026,
 blog-litellm-swap-openai-code-interpreter, docs-langfuse-agent-skill,
 docs-promptfoo-code-scan-cli, docs-promptfoo-code-scan-github-action,
-docs-litellm-generic-guardrail-api*
-*Last updated: 2026-09-19*
+docs-litellm-generic-guardrail-api,
+blog-cncf-agent-auth-lawyers-day-in-court,
+blog-cncf-secret-sprawl-external-secrets-operator,
+blog-cncf-securing-cicd-locking-down-dependencies,
+docs-litellm-websearch-interception, docs-promptfoo-multimodal-red-team,
+docs-litellm-data-security*
+*Last updated: 2026-10-22*

@@ -383,6 +383,34 @@ ship.
 **Rule**: Assert the exact wire payload per backend family, and test the
 non-default provider — not just the one the change was written for.
 
+### Embedding semantics are provider-scoped too
+
+The same gateway path carries two more provider switches that fail silently.
+Dual-mode embedding models need `input_type="passage"` when indexing and
+`"query"` when retrieving; misuse returns HTTP 200 with a worse vector —
+"Incorrect usage of `input_type` can lead to a significant drop in retrieval
+performance" [source: docs-litellm-supported-embeddings, Claim 1] [emerging].
+Only a retrieval eval (recall@k over a labeled query set) catches it; no error
+metric will.
+
+Result cardinality also diverges by backend. The same logical embedding request
+returns one vector per input on the Gemini API path but a single combined
+vector on Vertex AI, and on the Gemini path nesting the input list is a second
+cardinality switch [source: docs-litellm-supported-embeddings, Claim 2,
+Claim 3] [emerging]. A RAG indexer that zips inputs to embeddings by index
+silently mis-indexes when a model entry is re-pointed or fails over.
+
+```
+index:    input_type="passage"
+retrieve: input_type="query"
+```
+*Role-to-value mapping from [source: docs-litellm-supported-embeddings,
+Claim 1].*
+
+**Rule**: Pin `input_type` per role and assert `len(response.data)` against the
+input count on every backend. A 200 from an embeddings route is not evidence
+that the vector means what the index expects.
+
 ## Evaluation and measurement methodology
 
 ### Metrics without a unit are noise
@@ -439,6 +467,25 @@ assert:
 
 **Rule**: Calibrate your LLM-as-judge with explicit, falsifiable pass/fail
 rubrics. Report TPR/FPR per judge model, not just aggregate accuracy.
+
+Calibration needs a holdout, not just an agreement number. Split 30-50
+human-labeled examples into a golden set for tuning the rubric and a holdout
+set you never tune on; if holdout agreement is significantly lower than
+development agreement, the rubric is overfit
+[source: docs-promptfoo-llm-as-a-judge, Claim 1] [emerging]. Refine until
+agreement is >90% [source: docs-promptfoo-llm-as-a-judge, Claim 3]
+[anecdotal] — a vendor rule of thumb, with no derivation attached. Grader
+errors must be excluded from the agreement calculation with judged/unjudged
+counts reported separately, or a grader outage reads as a quality regression
+[source: docs-promptfoo-llm-as-a-judge, Claim 2] [emerging].
+
+Keep the holdout as a drift probe: pin the grader model, run the holdout weekly
+in CI, and alert when mean score shifts by more than 0.1, reviewing ten samples
+on drift [source: docs-promptfoo-llm-as-a-judge, Claim 4] [emerging].
+
+**Rule**: Calibrate on a golden set, validate on a holdout you never tuned on,
+then run that holdout weekly as a drift alarm. A judge trusted on a single
+agreement number has not been checked for overfitting.
 
 ### Read the assert's own defaults before trusting its verdict
 
@@ -690,11 +737,22 @@ assert:
 ```
 *Extracted from [source: docs-promptfoo-model-graded-context-faithfulness, Concrete Artifacts].*
 
+Two preconditions sit upstream of the config table. A run with zero tested
+coverage must not be read as success, and a missing or failed grader is an
+error state distinct from an assertion failing — mock graders only verify
+fixture wiring [source: docs-promptfoo-agent-skill, Claim 3] [emerging]. The
+shipped eval skill also names the CI egress surface: `--no-share` disables
+result sharing, but generation, grading, target calls, and target-validation
+diagnostics still send data to their configured services
+[source: docs-promptfoo-agent-skill, Claim 5] [emerging].
+
 **Rule**: Every score-producing assertion carries an explicit non-zero
 `threshold`, at both the per-assert and the test-case/`assert-set` level, and
 every suite carries a negative control — one deliberately-wrong case that must
-fail — to prove the gate discriminates. "Can this gate fail?" is a grep of the
-config, not a property of the last green run.
+fail — to prove the gate discriminates. Check coverage and grader health before
+reading the score, and remember that `--no-share` is not `--no-egress`.
+"Can this gate fail?" is a grep of the config, not a property of the last green
+run.
 
 ### The judge behind a model-graded assertion is unpinned by default
 
@@ -1121,6 +1179,33 @@ sub-second chat completions.
 chat-completion traffic. Agent sessions are stateful, long-lived, and their
 latency profile is driven by tool-call chains, not token generation speed.
 
+### Geo-distributed capacity: the control plane is the easy part
+
+A multi-cluster, cross-vendor fleet is now a realistic capacity shape: A100
+nodes in one region, MI300X in another, a CPU-only control plane in a third,
+operated as one system [source: blog-cncf-geo-distributed-ai-k0smos, Claim 4]
+[emerging]. The operators' own post-mortem of running it is the transferable
+part — the residual friction was GPU lifecycle management and cross-site
+networking, not the orchestration stack: cloud-specific kernels, conflicting
+pre-installed drivers, half-configured nodes, and latency-sensitive
+`torch.distributed` synchronization [source:
+blog-cncf-geo-distributed-ai-k0smos, Claim 12] [emerging].
+
+Two consequences for capacity planning. When the interconnect is a WAN, the
+training method's communication frequency is an infrastructure design
+parameter — the field study co-designed a low-communication training approach
+against a ~35ms link [source: blog-cncf-geo-distributed-ai-k0smos, Claim 5,
+Claim 7] [anecdotal]. And when capacity is driven by an external signal (here,
+energy-availability windows), membership churn becomes a normal state: nodes
+join and exit a declarative federation gracefully rather than being treated as
+an incident [source: blog-cncf-geo-distributed-ai-k0smos, Claim 9, Claim 10]
+[emerging].
+
+**Rule**: Budget GPU-ready node state as recurring per-site toil, not a
+one-time install, and treat cross-site RTT as an input to the training
+algorithm, not just to the network. If capacity arrives and departs on an
+external signal, design for membership churn from the start.
+
 ### Bound pass-through memory; skip work nobody consumes
 
 Proxy pass-through routes are where a gateway's memory profile is decided.
@@ -1205,6 +1290,18 @@ Claim 7].
 rate-limit 429s, and read the cap as a rolling-window rejection rather than a
 hard spend ceiling. Before trusting it, confirm the outbound trace-id flag is
 set — without it the cap is documentation, not enforcement.
+
+The same budget discipline applies to tool interception. A gateway-side
+web-search callback turns one client request into two LLM calls plus at least
+one third-party search request, can fan one call into several parallel
+queries, and the interception path documents no iteration cap, timeout, retry
+policy, or budget guard [source: docs-litellm-websearch-interception, Claim 1]
+[emerging]. A model that keeps emitting search tool calls drives both the
+vendor bill and the follow-up LLM spend, and nothing on the path stops it.
+
+**Rule**: Price a search-interception route as two model calls plus N vendor
+calls per request, and put an explicit per-session iteration or spend cap on
+it. A caller who sent one request did not authorize a multi-step loop.
 
 ### Streamed traffic is usage-blind by default
 
@@ -1462,5 +1559,7 @@ docs-langfuse-alerts, docs-langfuse-evaluate-production-traffic,
 docs-promptfoo-configuration-caching, docs-promptfoo-chat-threads,
 docs-promptfoo-dataset-generation, docs-litellm-generic-guardrail-api,
 docs-litellm-generic-prompt-management-api, docs-promptfoo-factuality,
-docs-promptfoo-g-eval*
-*Last updated: 2026-09-19*
+docs-promptfoo-g-eval, docs-litellm-supported-embeddings,
+docs-litellm-websearch-interception, docs-promptfoo-llm-as-a-judge,
+docs-promptfoo-agent-skill, blog-cncf-geo-distributed-ai-k0smos*
+*Last updated: 2026-10-22*
