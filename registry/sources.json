@@ -3081,6 +3081,19 @@
       "confidence_overall": "anecdotal",
       "status": "current"
     },
+    "docs-promptfoo-burp-integration": {
+      "slug": "docs-promptfoo-burp-integration",
+      "title": "Finding LLM Jailbreaks with Burp Suite — the `.burp` Payload Contract and the Intruder Handoff",
+      "source_url": "https://www.promptfoo.dev/docs/integrations/burp",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-10-23",
+      "date_extracted": "2026-10-23",
+      "issue": "#1842",
+      "file": "source-notes/docs-promptfoo-burp-integration.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-chat-threads": {
       "slug": "docs-promptfoo-chat-threads",
       "title": "Promptfoo Docs — Chat Conversations and Multi-Turn Threads",

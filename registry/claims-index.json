@@ -16663,6 +16663,62 @@
         }
       ]
     },
+    "docs-promptfoo-burp-integration": {
+      "path": "source-notes/docs-promptfoo-burp-integration.md",
+      "title": "Finding LLM Jailbreaks with Burp Suite — the `.burp` Payload Contract and the Intruder Handoff",
+      "source_url": "https://www.promptfoo.dev/docs/integrations/burp",
+      "chapters": [
+        "06",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The integration's deliverable is a *Burp Intruder configuration* — promptfoo generates application-level jailbreak probes, Burp replays them against the LLM endpoint, and the page frames the output as a test setup rather than a result",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "There are two documented export paths — a web-UI download and a CLI generation command — and they have different generation semantics: the UI exports \"all unique test inputs from your evaluation\", while the CLI *generates* a fresh red-team set",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The `.burp` file is URL-encoded specifically to support multi-line payloads, so the Burp consumer must enable URL-decoding in Payload processing or the target receives an encoded — not the intended — probe",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "`--burp-escape-json` is required when payloads are injected into JSON request bodies — it escapes special characters so the payload does not break JSON syntax",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The documented CLI surface is exactly `promptfoo redteam generate -o payloads.burp --burp-escape-json`, with the `.burp` extension selecting the output format — the page shows no other flag, config key, or format selector",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The Intruder import is a six-step manual procedure — intercept a request, send to Intruder, choose Sniper or Pitchfork, mark injection points, load the `.burp` file in Payloads, and enable URL-decoding",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The example red-team config uses the `harmful` plugin with three jailbreak strategies — `jailbreak`, `jailbreak:composite`, and `jailbreak-templates` — and the same command then exports the generated probes",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The handoff is one-way — promptfoo produces payloads, Burp executes them, and the page documents no way to import Burp results, attach a verdict, or return a finding to promptfoo",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The page publishes no `.burp` schema, no encoding specification, no Burp version or edition compatibility data, no worked transcript, and no metric — the prerequisites are only a Burp edition and a global promptfoo install",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-chat-threads": {
       "path": "source-notes/docs-promptfoo-chat-threads.md",
       "title": "Promptfoo Docs — Chat Conversations and Multi-Turn Threads",
