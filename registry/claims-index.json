@@ -859,6 +859,78 @@
         }
       ]
     },
+    "blog-cncf-kubernetes-health-checks-waking-services": {
+      "path": "source-notes/blog-cncf-kubernetes-health-checks-waking-services.md",
+      "title": "Your Kubernetes health checks are accidentally waking your services. Here’s the fix.",
+      "source_url": "https://www.cncf.io/blog/2026/07/29/your-kubernetes-health-checks-are-accidentally-waking-your-services-heres-the-fix",
+      "chapters": [
+        "02",
+        "05",
+        "01"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "A healthy scale-to-zero configuration can be defeated entirely by ordinary health-check traffic, because the resolver reasonably treats any request as a scale-up signal",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The conflict is structural — load balancers need proof a service is alive while autoscalers need proof it is dead",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Probe traffic comes from three independent sources — cloud load balancers, Kubernetes liveness/readiness probes replicated at ingress, and platform monitoring such as Istio, Prometheus Blackbox Exporter, or Datadog synthetics",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Organizations that configure scale-to-zero can realize none of the expected savings because their monitoring stack never lets the workload stay at zero",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The conventional \"separate the health check onto another service\" fix fails because teams do not control cloud-LB probe configuration, split routing drifts, and the health endpoint is the application endpoint",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "An always-on proxy solves interception but imposes a permanent latency and architectural cost",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The proposed gate answers matching probe requests directly at the resolver, with first-match-wins rules over method, path (Exact/PathPrefix/Regex), headers, and query parameters",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Unmatched requests retain normal scale-to-zero semantics, so the gate does not suppress real demand",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Probe matching is active only while the service is at zero replicas, so it adds no steady-state request-path hop",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The diagnostic signature of health-check-driven wake loops is scale-up events in logs with no corresponding user traffic",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "GPU pods are a primary beneficiary because cold-start fear plus health-check-triggered wakeups keeps expensive accelerators running",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "Before configuring probe matching, teams should audit four probe sources — cloud LB config, ingress annotations (NGINX/Traefik/Istio), uptime monitors (Prometheus Blackbox/Datadog synthetics), and service-mesh checks (Istio/Linkerd)",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-cncf-linkerd-multicluster-federation": {
       "path": "source-notes/blog-cncf-linkerd-multicluster-federation.md",
       "title": "Federating clusters for zero-downtime Kubernetes",

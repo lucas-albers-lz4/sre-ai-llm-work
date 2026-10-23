@@ -156,6 +156,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "blog-cncf-kubernetes-health-checks-waking-services": {
+      "slug": "blog-cncf-kubernetes-health-checks-waking-services",
+      "title": "Your Kubernetes health checks are accidentally waking your services. Here’s the fix.",
+      "source_url": "https://www.cncf.io/blog/2026/07/29/your-kubernetes-health-checks-are-accidentally-waking-your-services-heres-the-fix",
+      "source_type": "blog-post",
+      "author": "KubeElasti Maintainers",
+      "date_published": "2026-07-29",
+      "date_extracted": "2026-10-23",
+      "issue": "#1852",
+      "file": "source-notes/blog-cncf-kubernetes-health-checks-waking-services.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-cncf-linkerd-multicluster-federation": {
       "slug": "blog-cncf-linkerd-multicluster-federation",
       "title": "Federating clusters for zero-downtime Kubernetes",
