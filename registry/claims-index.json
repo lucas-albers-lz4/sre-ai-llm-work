@@ -16874,6 +16874,78 @@
         }
       ]
     },
+    "docs-promptfoo-circleci-integration": {
+      "path": "source-notes/docs-promptfoo-circleci-integration.md",
+      "title": "Promptfoo CircleCI Integration — Eval-Only Gate, Prompt-Path Trigger, and an Implicit Exit-Code Contract",
+      "source_url": "https://www.promptfoo.dev/docs/integrations/circle-ci/",
+      "chapters": [
+        "05",
+        "06",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The CircleCI integration is eval-only — the page never mentions red-team scanning or `code-scans`, so it does not describe a security gate",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The recipe installs promptfoo globally, unpinned, into a floating `cimg/node:lts` image — the same supply-chain posture the corpus flagged in the CodeCommit recipe and the opposite of the hardened GitHub Action",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The basic configuration runs `promptfoo eval` with `--share` unconditionally, so every CI eval publishes a shareable result URL in addition to storing the artifact",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The workflow's only path filter is `prompts/**/*`, so changes to `promptfooconfig.yaml`, assertions/tests, provider configuration, or application code do not trigger the eval job",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The CircleCI cache key's `checksum \"prompts/**/*\"` component is inert — CircleCI's `checksum` helper hashes a single file path, not a glob — so the effective key degenerates to the branch plus the global fallback and fingerprints neither the prompts nor the eval configuration",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The page's own custom failure check is unreachable in the default CircleCI flow when it would be true — `promptfoo eval` exits non-zero on a failed test, and CircleCI skips subsequent steps",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The page asserts that test failures fail the job but never documents the exit-code mechanism, the failure code, or the environment-variable overrides that can change or disable it",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "`store_artifacts` and `save_cache` run after the eval step, so a failing eval skips both — the JSON artifact is unavailable on exactly the runs that need debugging",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The recipe uses raw `output.json` as both the artifact and the gate input, not JUnit XML — even though JUnit is promptfoo's documented CI-gating format",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The basic recipe does set an explicit `PROMPTFOO_CACHE_PATH`, matching promptfoo's documented CI guidance for external frameworks",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The \"Parallel Evaluation\" example is not a runnable CircleCI job — it omits checkout, install, cache, artifacts, and output flags, and passes the split file list unquoted",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "The troubleshooting section addresses cache plumbing, credential typos, and timeouts, but not the gate's own failure modes — assertion failure vs provider error, empty results, or stale cache",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-classifier-grading": {
       "path": "source-notes/docs-promptfoo-classifier-grading.md",
       "title": "Promptfoo Configuration: Classifier Grading",

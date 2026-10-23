@@ -3133,6 +3133,19 @@
       "confidence_overall": "anecdotal",
       "status": "current"
     },
+    "docs-promptfoo-circleci-integration": {
+      "slug": "docs-promptfoo-circleci-integration",
+      "title": "Promptfoo CircleCI Integration — Eval-Only Gate, Prompt-Path Trigger, and an Implicit Exit-Code Contract",
+      "source_url": "https://www.promptfoo.dev/docs/integrations/circle-ci/",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-10-23",
+      "date_extracted": "2026-10-23",
+      "issue": "#1844",
+      "file": "source-notes/docs-promptfoo-circleci-integration.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-classifier-grading": {
       "slug": "docs-promptfoo-classifier-grading",
       "title": "Promptfoo Configuration: Classifier Grading",
