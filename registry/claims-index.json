@@ -18706,6 +18706,64 @@
         }
       ]
     },
+    "docs-promptfoo-evaluate-langgraph": {
+      "path": "source-notes/docs-promptfoo-evaluate-langgraph.md",
+      "title": "Promptfoo: Evaluate LangGraph — Typed Graph State Behind a file:// Provider and a Reused Red-Team Custom Target",
+      "source_url": "https://www.promptfoo.dev/docs/guides/evaluate-langgraph",
+      "chapters": [],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "promptfoo positions itself as running structured evaluations and red-team scans over a LangGraph agent, and the whole setup can be scaffolded from a single `--example` command",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The example pins a concrete version floor — `langgraph>=1.2.11,<2`, `langchain-openai>=1.6.2,<2`, `pydantic>=2.13.5,<3`, Python 3.10–3.12, and Node.js `>=22.22.0`",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The agent is a compiled `StateGraph` over a typed Pydantic `ResearchState` (`query`, `raw_info`, `summary`) with three linear nodes — `search_info` → `summarize_info` → `output_summary`",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The provider returns the graph's structured final state directly (`{\"output\": result}`), with no regex or JSON parsing step — the key delta from the CrewAI adapter",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The adapter contract is a module-level `call_api(prompt, options, context)` that reads `options[\"config\"][\"model\"]` (default `\"gpt-4o\"`) and `apiBaseUrl`, passes them into the graph runner, and returns exceptions as data via `{\"error\": str(e)}`",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The `is-json` `defaultTest` pins the three `ResearchState` fields as a global output contract, and a single case adds a `python` assertion that merely checks `'summary' in output`",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Despite the \"stateful\" framing, the eval observes only the final state — the provider exposes no intermediate node outputs, checkpoints, or traces, and the page defers state inspection to a \"next step\"",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The sample agent is deliberately mocked and the only reported metric is a one-case \"Pass rate: 100%\" — no failure data, evaluation set, or real search integration",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The red-team flow reuses the same local provider as a \"Custom Target\" (`file://./provider.py`), with `temperature: 0.5` and a 500 ms inter-request delay",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The red-team wizard requires application context (purpose, features, domain, restrictions) to focus attack generation, and the example declares that all outputs are mock data with no access to private information",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-evaluate-openai-agents-python": {
       "path": "source-notes/docs-promptfoo-evaluate-openai-agents-python.md",
       "title": "Promptfoo: Evaluate OpenAI Agents (Python SDK) — the TracingProcessor/OTLP Bridge, Sandbox-Agent and Skills Provider Surface, and the Cost-Accounting Gap",

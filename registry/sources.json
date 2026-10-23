@@ -3523,6 +3523,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-evaluate-langgraph": {
+      "slug": "docs-promptfoo-evaluate-langgraph",
+      "title": "Promptfoo: Evaluate LangGraph — Typed Graph State Behind a file:// Provider and a Reused Red-Team Custom Target",
+      "source_url": "https://www.promptfoo.dev/docs/guides/evaluate-langgraph",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-10-23",
+      "date_extracted": "2026-10-23",
+      "issue": "#1696",
+      "file": "source-notes/docs-promptfoo-evaluate-langgraph.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-evaluate-openai-agents-python": {
       "slug": "docs-promptfoo-evaluate-openai-agents-python",
       "title": "Promptfoo: Evaluate OpenAI Agents (Python SDK) — the TracingProcessor/OTLP Bridge, Sandbox-Agent and Skills Provider Surface, and the Cost-Accounting Gap",
