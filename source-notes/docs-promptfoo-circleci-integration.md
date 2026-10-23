@@ -1,5 +1,5 @@
 ---
-source_url: https://www.promptfoo.dev/docs/integrations/circle-ci
+source_url: https://www.promptfoo.dev/docs/integrations/circle-ci/
 source_type: docs
 title: "Promptfoo CircleCI Integration — Eval-Only Gate, Prompt-Path Trigger, and an Implicit Exit-Code Contract"
 author: "Promptfoo (vendor documentation)"
@@ -50,7 +50,7 @@ issue: "#1844"
   single configuration runs `promptfoo eval`; the sections cover caching,
   artifacts, a `jq` failure check, and parallelism. There is no `redteam`,
   `code-scans`, SARIF, or scan-comment content anywhere on the page.
-- **Confidence**: settled (the page's complete content is visible and scoped)
+- **Confidence**: settled (the section inventory in Source Context covers the whole page, and none of those sections mentions red-team scanning or `code-scans`)
 - **Quote**: "This guide shows how to integrate promptfoo's LLM evaluation into your CircleCI pipeline. This allows you to automatically test your prompts and models whenever changes are made to your repository."
 - **Our assessment**: Buy the scope statement, and treat the omission as the
   first guide-relevant fact. The corpus's GitHub-Action note is about a
@@ -114,28 +114,41 @@ issue: "#1844"
   test suite that only runs when test files change. The guide's CI-gating
   guidance should name the full change surface, not just the prompts.
 
-### Claim 5: The CircleCI cache key covers the branch and a checksum of `prompts/**/*` only — the page's "content hash" is not a fingerprint of the eval configuration or application code
+### Claim 5: The CircleCI cache key's `checksum "prompts/**/*"` component is inert — CircleCI's `checksum` helper hashes a single file path, not a glob — so the effective key degenerates to the branch plus the global fallback and fingerprints neither the prompts nor the eval configuration
 - **Evidence**: The `restore_cache.keys` and `save_cache.key` both use
   `promptfoo-cache-v1-{{ .Branch }}-{{ checksum "prompts/**/*" }}`, with
   fallbacks to the branch alone and to the global `promptfoo-cache-v1-` prefix.
-  The caching section says the cache "Is keyed by branch and content hash".
-- **Confidence**: settled for the key contents; emerging for the operational
-  consequence
+  CircleCI's configuration reference defines the helper as "A base64 encoded
+  SHA256 hash of the given filename's contents", with the file "referenced as
+  an absolute or relative path from the current working directory" — a single
+  file, with no glob support — and every example passes one lockfile. There is
+  no file literally named `prompts/**/*`, so the helper never hashes the prompt
+  files. The caching section nevertheless says the cache "Is keyed by branch
+  and content hash".
+- **Confidence**: settled for the key contents and for the helper's single-file
+  contract (CircleCI's own reference); emerging for the exact runtime result of
+  passing a glob — an unresolved/empty component and an interpolation error are
+  both plausible, and the page documents neither
 - **Quote**: "`- promptfoo-cache-v1-{{ .Branch }}-{{ checksum "prompts/**/*" }}`"
 - **Quote**: "Is keyed by branch and content hash"
-- **Our assessment**: Buy the narrow key, but do not overstate the staleness.
-  promptfoo's own cache is keyed by provider identifier, prompt/request content,
-  provider configuration, and context variables
-  (`docs-promptfoo-configuration-caching.md` Claim 2), so a provider/model
-  change inside `promptfooconfig.yaml` should miss the inner cache even when
-  CircleCI restores the directory. What the CircleCI key does **not** cover is
-  the eval definition (assertions/tests) or application code, and the
-  branch-only and global fallback keys let a new branch restore another
-  branch's cache directory. The safe reading: the CircleCI key is a
-  *directory-selection* policy, not an eval-configuration fingerprint. A team
-  that edits the RAG app but not the prompt files can still replay cached model
-  responses against the old behavior — assuming the job runs at all, which per
-  Claim 4 it will not.
+- **Our assessment**: Buy the narrow key, and read the checksum component as
+  broken rather than merely narrow: this is a glob passed where CircleCI
+  expects a file path, so the "content hash" the page advertises never tracks
+  prompt edits. Because the key is immutably written once and CircleCI then
+  reuses it, the effective key is branch-scoped, with the branch-only and
+  global `promptfoo-cache-v1-` fallbacks behind it letting a new branch restore
+  another branch's cache directory. Nothing in the CircleCI key covers the eval
+  definition (assertions/tests), provider configuration, or application code.
+  promptfoo's *inner* cache partly compensates — it is keyed by provider
+  identifier, prompt/request content, provider configuration, and context
+  variables (`docs-promptfoo-configuration-caching.md` Claim 2), so a
+  provider/model change inside `promptfooconfig.yaml` should miss the inner
+  cache even when CircleCI restores the directory. That inner keying does not
+  rescue the CircleCI-key design: the safe reading is that the CircleCI key is
+  a *directory-selection* policy with a dead fingerprint component, not an
+  eval-configuration fingerprint. A team that edits the RAG app but not the
+  prompt files can still replay cached model responses against the old
+  behavior — assuming the job runs at all, which per Claim 4 it will not.
 
 ### Claim 6: The page's own custom failure check is unreachable in the default CircleCI flow when it would be true — `promptfoo eval` exits non-zero on a failed test, and CircleCI skips subsequent steps
 - **Evidence**: The custom step is a `run` step that follows the eval step and
@@ -423,6 +436,11 @@ jobs:
 - Claims 6 and 8 rely on CircleCI's documented default of stopping a job when
   a step fails; that behavior is not stated on the source page, so those
   consequences are marked emerging rather than settled.
+- Claim 5's reading of `{{ checksum }}` comes from CircleCI's own
+  configuration reference (`circleci.com/docs/configuration-reference`, the
+  "String interpolation" section), not from the promptfoo page, which never
+  describes the helper. Verified 2026-10-23: the helper hashes one named file
+  and is given an absolute or relative path; no glob support is documented.
 - Related-candidates file (`miner-related-notes.md`) reviewed. Dismissed:
   - `docs-promptfoo-enterprise-findings-reports.md` — Enterprise findings UI,
     no CI or CircleCI content.
