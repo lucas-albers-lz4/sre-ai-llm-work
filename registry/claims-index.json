@@ -19690,6 +19690,48 @@
         }
       ]
     },
+    "docs-promptfoo-jenkins-integration": {
+      "path": "source-notes/docs-promptfoo-jenkins-integration.md",
+      "title": "Setting up Promptfoo with Jenkins",
+      "source_url": "https://www.promptfoo.dev/docs/integrations/jenkins",
+      "chapters": [
+        "05",
+        "06",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The basic pipeline fails only on a thrown exception; assertion failures are downgraded to UNSTABLE",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The eval command unconditionally uploads results via `--share`",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Provider credentials are bound via Jenkins `credentials()` as plain environment variables",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Installation is unpinned global npm install with self-managed filesystem cache",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The advanced pipeline narrows trigger scope and adds reporting/notifications",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "No JUnit/SARIF/security-gate artifacts or exit-code threshold configuration are documented",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-llm-as-a-judge": {
       "path": "source-notes/docs-promptfoo-llm-as-a-judge.md",
       "title": "LLM as a Judge Evaluation Guide",

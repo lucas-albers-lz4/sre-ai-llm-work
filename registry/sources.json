@@ -3770,6 +3770,18 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-jenkins-integration": {
+      "slug": "docs-promptfoo-jenkins-integration",
+      "title": "Setting up Promptfoo with Jenkins",
+      "source_url": "https://www.promptfoo.dev/docs/integrations/jenkins",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_extracted": "2026-10-24",
+      "issue": "#1873",
+      "file": "source-notes/docs-promptfoo-jenkins-integration.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-llm-as-a-judge": {
       "slug": "docs-promptfoo-llm-as-a-judge",
       "title": "LLM as a Judge Evaluation Guide",
