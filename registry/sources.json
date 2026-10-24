@@ -3562,6 +3562,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-evaluate-openai-assistants": {
+      "slug": "docs-promptfoo-evaluate-openai-assistants",
+      "title": "Promptfoo Guide: Evaluating OpenAI Assistants — Provider Sunset and API-Base-URL Retargeting",
+      "source_url": "https://www.promptfoo.dev/docs/guides/evaluate-openai-assistants",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-10-23",
+      "date_extracted": "2026-10-24",
+      "issue": "#1708",
+      "file": "source-notes/docs-promptfoo-evaluate-openai-assistants.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-evaluate-osworld-with-inspect": {
       "slug": "docs-promptfoo-evaluate-osworld-with-inspect",
       "title": "Promptfoo Guide: Evaluate OSWorld with Inspect — Stateful Desktop Grading, Error-vs-Failure Reconciliation, and the Harness-Observability Gap",

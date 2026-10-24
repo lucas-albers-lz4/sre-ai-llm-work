@@ -18909,6 +18909,26 @@
         }
       ]
     },
+    "docs-promptfoo-evaluate-openai-assistants": {
+      "path": "source-notes/docs-promptfoo-evaluate-openai-assistants.md",
+      "title": "Promptfoo Guide: Evaluating OpenAI Assistants — Provider Sunset and API-Base-URL Retargeting",
+      "source_url": "https://www.promptfoo.dev/docs/guides/evaluate-openai-assistants",
+      "chapters": [
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The native OpenAI Assistants API shut down on 2026-08-26, and the legacy examples no longer work against OpenAI's native API — an eval suite pinned to `openai:assistant:<asst_id>` is invalidated by vendor sunset on the vendor's schedule, not the operator's",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The documented escape hatch is to retarget to an Assistants-compatible endpoint via `OPENAI_API_BASE_URL` (global) or per-provider `config.apiBaseUrl`, while still using the same `openai:assistant:<id>` provider shape and allowing per-provider config overrides of `modelName`, `instructions`, and `tools` (`code_interpreter`, `file_search`)",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-evaluate-osworld-with-inspect": {
       "path": "source-notes/docs-promptfoo-evaluate-osworld-with-inspect.md",
       "title": "Promptfoo Guide: Evaluate OSWorld with Inspect — Stateful Desktop Grading, Error-vs-Failure Reconciliation, and the Harness-Observability Gap",
