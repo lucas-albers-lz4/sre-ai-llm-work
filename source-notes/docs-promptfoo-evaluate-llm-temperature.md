@@ -1,7 +1,7 @@
 ---
 source_url: https://www.promptfoo.dev/docs/guides/evaluate-llm-temperature
 source_type: docs
-title: "Promptfoo Guides: Choosing the right temperature for your LLM — repeat stability, Wilson intervals, and silent provider-constraint drift"
+title: "Promptfoo Guides: Choosing the right temperature for your LLM — repeat stability, Wilson intervals, and provider-constraint drift"
 author: "Promptfoo (vendor documentation)"
 date_published: 2026-10-23
 date_extracted: 2026-10-24
@@ -13,7 +13,7 @@ issue: "#1706"
 
 # Promptfoo Guides: Choosing the right temperature for your LLM
 
-> A guide to evaluating temperature in promptfoo that contributes concrete CI/measurement semantics (repeatStability JSON, Wilson 95% CIs with validity assumptions, per-repeat-index cache masking) and a silent provider-constraint drift warning (Claude Sonnet 5+/newer Opus/Fable drop `temperature`/`top_p`/`top_k` with a warning; `effort` controls reasoning depth not sampling).
+> A guide to evaluating temperature in promptfoo that contributes concrete CI/measurement semantics (repeatStability JSON, Wilson 95% CIs with validity assumptions, per-repeat-index cache masking) and a provider-constraint drift note (Claude Sonnet 5+/newer Opus/Fable do not support `temperature`/`top_p`/`top_k`; promptfoo drops them with a warning, so a temperature sweep may not be measuring what it thinks it is; `effort` controls reasoning depth not sampling).
 
 ## Source Context
 
@@ -46,7 +46,7 @@ issue: "#1706"
 - **Evidence**: Note in "Evaluating" section.
 - **Confidence**: settled (documented product behavior; model-generation-specific)
 - **Quote**: "Claude Sonnet 5 and newer Opus and Fable models do not support `temperature`, `top_p`, or `top_k`; Promptfoo omits these parameters with a warning. Their `effort` setting controls reasoning depth, not sampling randomness. These examples use Claude Sonnet 4.6, which accepts temperature settings when thinking is disabled."
-- **Our assessment**: Generalizes the silent-constraint drift risk. Configuration guide notes `effort` replaces `budget_tokens` on Claude 5; this page adds that sampling params are silently dropped with a warning — important for eval configs that sweep temperature across model families/generations.
+- **Our assessment**: Generalizes the provider-constraint drift risk. Configuration guide notes `effort` replaces `budget_tokens` on Claude 5; this page adds that promptfoo drops the unsupported sampling params and emits a warning — important for eval configs that sweep temperature across model families/generations. The drop is not silent at the tool level; what can go unnoticed is the eval-level consequence, since a sweep still runs (and reports numbers) while the temperature axis has no effect on these models.
 
 ### Claim 5: Temperature affects token selection by scaling logits before softmax (lower temperature sharpens distribution toward high scores, higher temperature flattens it) — explanatory framing for why sampling changes creativity/predictability
 - **Evidence**: "How does temperature work?" section explains logit scaling before softmax.
@@ -105,6 +105,7 @@ tests:
         - 'isolation'
         - 'environment'
 ```
+*Fidelity note:* reproduced verbatim from the source page, including its omission of the list dash — the source renders `tests:` followed by indented `vars:`/`assert:` keys, unlike the two preceding snippets which use `  - vars:`. As written this snippet is not valid promptfoo config (`tests` must be a list of test cases); add the dash (`  - vars:` / `    assert:`) to make it runnable.
 
 ### Commands
 ```bash
@@ -117,8 +118,9 @@ promptfoo eval --repeat 3
 
 - **Corroborates**:
   - `source-notes/docs-promptfoo-configuration-caching.md` (Claim 8) — per-repeat cache namespaces; this page adds emphasis on masking real variance and ties to temperature measurement. Also aligns with Claims 1,4,9 on cache controls.
-  - `source-notes/docs-promptfoo-configuration-guide.md` (Claim 8) — `effort` replaces `budget_tokens` on Claude 5/adaptive thinking models; this page extends to silent dropping of `temperature`/`top_p`/`top_k` with warning.
-  - `source-notes/docs-promptfoo-select-best.md` — mentions dropping temperature for thinking models; this page generalizes to a silent-constraint drift risk across newer Opus/Fable/Sonnet 5 families.
+  - `source-notes/docs-promptfoo-configuration-guide.md` (Claim 8) — `effort` replaces `budget_tokens` on Claude 5/adaptive thinking models; this page extends to dropping `temperature`/`top_p`/`top_k` with a warning.
+  - `source-notes/blog-litellm-claude-fable-5-day-0.md` (Claim 4) — direct corroboration of this page's Fable half: "fixed thinking budgets, temperature, top_p, and assistant message prefill are not supported by the model." That note adds the model-side detail this page does not give (the Anthropic API rejects explicit thinking budgets with a 400) and warns that migrating prompts may hit failures *or silent no-ops*; this page contributes promptfoo's own tool-level behavior (omit + warn).
+  - `source-notes/docs-litellm-anthropic-unified.md` (Claim 6) — peer evidence that sampling-parameter acceptance is model/route-dependent: the LiteLLM `/v1/messages` route documents `0 < temperature < 1` / `0 < top_p < 1` validation bounds before model constraints apply.
   - `source-notes/docs-promptfoo-test-agent-skills.md` (Claim 11), `source-notes/docs-promptfoo-evaluate-coding-agents.md` (Claim 10) — use of `--repeat`/`--no-cache` for variance/flake measurement.
   - `source-notes/docs-promptfoo-deterministic-metrics.md`, `source-notes/docs-promptfoo-assertions-metrics.md` — assertion patterns (`llm-rubric`, deterministic checks).
 
@@ -128,14 +130,15 @@ promptfoo eval --repeat 3
   - `source-notes/docs-promptfoo-configuration-caching.md` — adds `results.repeatStability` schema details (grouping, mixed pass/fail flag, pass-rate rules excluding errors/no-scored-results), Wilson 95% CI semantics with independence assumptions, and explicit "mask real variance" framing for per-repeat cache entries.
   - `source-notes/docs-promptfoo-configuration-guide.md` — adds concrete warning behavior for dropped sampling params on newer Claude models.
 
-- **Novel**: `results.repeatStability` export structure and rules; Wilson interval validity caveats (shared conversation history/external state break independence even with `--no-cache`); explicit variance-masking effect of per-repeat cache entries in temperature evaluation context; silent omission with warning of `temperature`/`top_p`/`top_k` on Claude Sonnet 5+/newer Opus/Fable with `effort` as reasoning-depth control.
+- **Novel**: `results.repeatStability` export structure and rules; Wilson interval validity caveats (shared conversation history/external state break independence even with `--no-cache`); explicit variance-masking effect of per-repeat cache entries in temperature evaluation context. On the constraint side the novelty is narrower: that Fable rejects `temperature`/`top_p` is already corpus-known (`blog-litellm-claude-fable-5-day-0.md` Claim 4), so what is new here is promptfoo's own omit-with-a-warning reporting and the eval-sweep consequence (a temperature axis silently stops varying while the run still produces numbers).
 
 ## Guide Impact
 
-- **Chapter 05 (LLM Ops Reliability)**: Add concrete measurement details for repeat-based evals. Specifically: document `results.repeatStability` grouping (test case + expanded vars + provider + prompt), mixed pass/fail flagging, pass-rate rules (exclude errors, no rate if unscored), Wilson 95% CI interpretation requirements (independence assumption; broken by shared history/external state even with `--no-cache`), and the variance-masking gotcha where per-repeat cache entries replay independently across reruns — requiring `--no-cache` when measuring model variance. Also add a note on provider-constraint drift: newer Claude models (Sonnet 5+, newer Opus/Fable) silently drop `temperature`/`top_p`/`top_k` with warnings and use `effort` for reasoning depth (not sampling) — eval sweeps must account for this.
+- **Chapter 05 (LLM Ops Reliability)**: Add concrete measurement details for repeat-based evals. Specifically: document `results.repeatStability` grouping (test case + expanded vars + provider + prompt), mixed pass/fail flagging, pass-rate rules (exclude errors, no rate if unscored), Wilson 95% CI interpretation requirements (independence assumption; broken by shared history/external state even with `--no-cache`), and the variance-masking gotcha where per-repeat cache entries replay independently across reruns — requiring `--no-cache` when measuring model variance. Also add a note on provider-constraint drift: newer Claude models (Sonnet 5+, newer Opus/Fable) do not support `temperature`/`top_p`/`top_k`; promptfoo drops them with a warning and `effort` controls reasoning depth (not sampling). The tool does warn, so the risk to call out is the downstream one: an eval sweep across model generations still runs and reports numbers while the temperature axis silently stops varying, so sweeps must assert that the parameter was actually applied.
 
 ## Extraction Notes
 
-- Read the full page via webfetch; followed triage guidance to focus on items 1-4 (repeatStability, Wilson intervals/assumptions, per-repeat cache masking, Claude Sonnet 5+ silent drops) and skipped tutorial framing (logit/softmax explanation treated as background).
-- Cross-referenced against existing promptfoo notes (caching, configuration-guide, select-best, test-agent-skills, evaluate-coding-agents). Verified `repeatStability` and Wilson CI details are not present in existing notes; per-repeat caching is present but this page adds explicit "mask real variance" framing.
+- Read the full page via webfetch; followed triage guidance to focus on items 1-4 (repeatStability, Wilson intervals/assumptions, per-repeat cache masking, Claude Sonnet 5+ drops-with-warning) and skipped tutorial framing (logit/softmax explanation treated as background).
+- Cross-referenced against existing promptfoo notes (caching, configuration-guide, test-agent-skills, evaluate-coding-agents) and the LiteLLM notes on model-level sampling constraints. Verified `repeatStability` and Wilson CI details are not present in existing notes; per-repeat caching is present but this page adds explicit "mask real variance" framing.
+- `source-notes/docs-promptfoo-select-best.md` was considered and dismissed as a corroboration: it does not claim temperature is dropped for thinking models. Its nearest content (Claim 6) is that an assertion-level provider config stops inheriting global judge settings such as `temperature` — an override mechanism, not a parameter drop, so citing it would mischaracterize it.
 - No contradictions found. No paywall/dead content issues.
