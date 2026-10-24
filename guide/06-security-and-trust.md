@@ -117,6 +117,47 @@ Anomaly detection should span dimensions that don't encode temporal
 expectations — span name, workflow type, and traffic topic clusters
 [source: docs-datadog-llm-observability, Claim 8] [emerging].
 
+## The monitoring plane is part of the attack surface
+
+An observability agent runs with node-level access and a service-account
+token; treat it as a privileged workload, not as trusted infrastructure.
+Inspektor Gadget's first independent audit (OSTIF/Shielder) found three
+vulnerabilities — two Medium, one Low, none Critical or High — and its
+hardening recommendations map the surface [source:
+blog-cncf-inspektor-gadget-security-audit, Claim 4] [settled]. "Audited" is
+neither "vulnerable" nor "safe": read the severity profile and the auditors'
+conclusion together.
+
+### Least privilege and collection scope, not just access control
+
+The audit's daemon findings are a checklist for any node-level agent:
+
+- **Reduce the service account's RBAC.** The `nodes/proxy` GET permission
+  "could be leveraged for privilege escalation if the service account token is
+  compromised" [source: blog-cncf-inspektor-gadget-security-audit, Claim 9]
+  [settled].
+- **Blocklist sensitive namespaces.** Do not trace `kube-system` and its peers
+  by default [source: blog-cncf-inspektor-gadget-security-audit, Claim 10]
+  [settled].
+- **Secure the listener by default.** A TCP listener that logs a warning and
+  continues in plaintext is not a security control; require an explicit opt-out
+  [source: blog-cncf-inspektor-gadget-security-audit, Claim 8] [settled].
+- **Bound remote collection.** Restrict remote clients from enabling host-level
+  tracing, or document the risk [source:
+  blog-cncf-inspektor-gadget-security-audit, Claim 10] [settled].
+- **Remediate by version.** Name the exact minimum fixed release (v0.50.1 for
+  all three findings) rather than "latest"
+  [source: blog-cncf-inspektor-gadget-security-audit, Claim 14] [settled].
+
+For an LLM fleet the analogous collection scope is the namespaces holding model
+weights, prompt stores, and gateway credentials: default-deny them rather than
+relying on operators to remember `[editorial]`.
+
+**Rule**: Apply least privilege to the monitoring plane itself — bound the
+agent's RBAC, blocklist sensitive namespaces, secure the listener by default,
+and track the exact fixed version. An agent with cluster-wide reach is a
+collection-scope decision, not a default.
+
 ## Red-teaming as a CI gate
 
 ### Continuous adversarial testing is mandatory
@@ -308,10 +349,36 @@ not have tool support."
 advertises one universal guardrail enforces tool policy on three endpoints;
 elsewhere it filters content but cannot see a tool call.
 
+The normative counterpart comes from the CNCF TAG Security IAM whitepaper:
+"MUST implement authorization at the function level, the object level, and the
+object property level," with OWASP API Top 10 named as the reason
+[source: docs-cncf-iam-whitepaper-reference-patterns, Claim 6] [settled]. The
+three levels are therefore both what you probe for and what you must enforce.
+Two requirements follow that the probe taxonomy does not express. The decision
+should be delegated to a Policy Decision Point — "MUST delegate authorization
+to PDP" — so the gateway is the enforcement point and not the policy engine
+[source: docs-cncf-iam-whitepaper-reference-patterns, Claim 5] [settled]. And in
+the zero-trust pattern the decision uses two subjects: workload identity from a
+SPIFFE SVID over mTLS, and user identity and authorization context in the
+access token — "This separation allows authorization decisions to be based on
+both the workload and the end user" [source:
+docs-cncf-iam-whitepaper-reference-patterns, Claim 4] [settled]. The
+object-property level is the one the gateway material here does not implement:
+validating `tool_calls` arguments is not the same as authorizing the object the
+tool touches `[editorial]`.
+
+The whitepaper is scoped to cloud-native workload IAM and explicitly excludes
+agent protocols — MCP and A2A — while saying its principles are "intended to be
+reusable for agent-based systems" [source:
+docs-cncf-iam-whitepaper-reference-patterns, Claim 1] [settled]. Cite it for
+the mechanism, not as agent-protocol guidance.
+
 **Rule**: Add gateway-side tool authorization as the runtime half of the
 `rbac`/`bfla`/`bola` checklist. Verify per endpoint that tool forwarding is in
 scope on the paths your agents actually use — a guardrail that intercepts an
-endpoint is not the same as one that can inspect its tools.
+endpoint is not the same as one that can inspect its tools. Enforce at all
+three levels — function, object, and object property — and, in a zero-trust
+deployment, decide against both the workload and the end user.
 
 ### An agent gateway's default is full access
 
@@ -354,6 +421,17 @@ via `params.message.metadata.skillId`, and LiteLLM "forwards the entire
 message envelope, including metadata, to the upstream agent unchanged" — with
 per-skill `securityRequirements` absent from the card the proxy serves
 [source: docs-litellm-a2a-agent-card, Claim 3, Claim 5] [emerging].
+
+The architectural answer to a fail-open default is an explicit, mandatory
+delegation: the gateway enforces a decision returned by a PDP, and in the
+zero-trust pattern the PDP authenticates the gateway with an SVID and is itself
+unreachable from outside the cluster [source:
+docs-cncf-iam-whitepaper-reference-patterns, Claim 5, Claim 8] [settled]. One
+caveat the same document states: its Basic pattern permits internal workloads
+to skip authorization entirely, so a perimeter-only deployment can be
+standards-compliant while leaving east-west agent traffic unguarded [source:
+docs-cncf-iam-whitepaper-reference-patterns, Claim 5] [settled]. The zero-trust
+pattern is the one that makes per-agent enforcement the default.
 
 **Rule**: Set agent permissions on every key and team the moment you enable an
 agent gateway — unconfigured is full access, not least privilege. Because the
@@ -468,9 +546,19 @@ For application builders, the evaluation artifacts specifically mean
 red-team results for tool misuse, prompt injection, and data leakage
 [source: blog-promptfoo-ai-regulation-2025, Claim 5] [emerging].
 
+A gateway-hosted eval surface shows why the artifact needs an export step. A
+LiteLLM eval run exposes a `report_url` and four counters, but deleting a run
+also deletes its results, and the page documents no retention window, export
+format, or authentication requirement for the URL [source:
+docs-litellm-evals-api, Claim 7, Claim 10] [settled]. A team that treats the
+run itself as the compliance evidence can delete the evidence when it cleans
+up.
+
 **Rule**: Your eval pipeline output IS your compliance evidence. Run evals
 that produce exportable, dated artifacts a procurement officer can read
-without engineering context.
+without engineering context — and export each report to durable,
+access-controlled storage before deleting the run, because the eval surface's
+retention is not your retention policy.
 
 ### Test the action path, not just the text output
 
@@ -595,10 +683,23 @@ Skills (reusable agent capabilities) are being elevated to a first-class,
 governed primitive with MCP authentication hardening
 [source: blog-litellm-april-townhall-updates, Claim 12, Claim 13] [emerging].
 
+A normative audit baseline makes the record checkable. The CNCF TAG requirement
+is four MUSTs: log every request; never log the access token or PII; carry a
+unique identifier per request, generating one if none exists; and record the
+authorization decision applied to the request [source:
+docs-cncf-iam-whitepaper-reference-patterns, Claim 7] [settled]. The PDP side
+mirrors it — "MUST log all authorization decisions along with their input" —
+and the privacy principles constrain the same record: the `sub` claim SHOULD be
+an opaque, non-PII identifier, and exposure limitation covers "tokens, logs,
+and policy inputs" [source: docs-cncf-iam-whitepaper-reference-patterns,
+Claim 11] [settled]. That last surface is the one an agent gateway creates:
+forwarding a request or its tool arguments to a policy engine moves
+identity-bearing data to a new destination.
+
 **Rule**: Log the full agent decision trail — which tools were called, which
 MCP servers were consulted, what sub-agents were invoked — as structured,
-queryable audit records. This is the evidence an auditor or compliance
-questionnaire will ask for.
+queryable audit records. Every record carries a per-request identifier and the
+applied authorization decision; the access token and PII never enter it.
 
 ## Gateway credential routing: declare, don't infer
 
@@ -726,6 +827,23 @@ Artifacts].*
 credentials. Pin every CI dependency to verified SHAs — including security
 scanners. Verify release artifacts with `cosign` against a pinned-commit key.
 
+### Vendor recipes inherit an unpinned install
+
+A vendor's own CI recipe can violate the pinning rule the same vendor's other
+surfaces satisfy. The GitHub Actions eval example pins `actions/setup-node` to
+a commit SHA but references `promptfoo/promptfoo-action@v1` and
+`actions/cache@v4` by mutable tag, and its red-team step resolves
+`npx promptfoo@latest` at run time [source: docs-promptfoo-github-action,
+Claim 7, Claim 8] [settled]. The CodeBuild recipe installs
+`npm install -g promptfoo` on a floating Node image, with lifecycle scripts
+enabled and no attestation, and installs `jq` from apt unpinned [source:
+docs-promptfoo-aws-codecommit-codebuild, Claim 13] [settled].
+
+**Rule**: When you copy a vendor CI recipe, replace its install line with your
+own pin — a resolved commit SHA where the action supports it, a release-pinned
+package with lifecycle scripts disabled, and a version constraint for every
+build-time tool. A recipe's own pin is not a supply-chain control.
+
 ### Job-level isolation is not step-level isolation
 
 Stage boundaries do not protect steps from each other within a stage. A step
@@ -822,6 +940,38 @@ elided to `<pinned-sha>`.*
 zero-finding result and a skipped scan must be distinguishable at every step
 that consumes scanner output — including the SARIF upload.
 
+The same discipline covers vendor recipes and handoffs. A vendor-authored
+CodeCommit renderer tests `(.comments | length) == 0` and prints `- No findings`
+without reading `success` or `skipReason`, so a scan that never ran is posted to
+the reviewer as clean [source: docs-promptfoo-aws-codecommit-codebuild,
+Claim 3] [settled]. A handoff has no completion signal at all: promptfoo's Burp
+export produces a payload file that a human imports into Intruder, and the page
+documents no path for a Burp result to return [source:
+docs-promptfoo-burp-integration, Claim 8] [settled]. A `.burp` export that was
+never run is indistinguishable from a run that found nothing unless the
+operator records the run and pins the payload file it consumed.
+
+The vendor's eval/report integration defaults to a report, not a gate. The
+GitHub Actions example posts a before/after comment and documents no threshold,
+required check, or non-zero exit [source: docs-promptfoo-github-action, Claim 1]
+[emerging]; its red-team step then swallows the CLI exit status with `|| true`
+and substitutes a file-existence check, so a failed scan and a clean scan both
+leave `output.json` present and the step green [source:
+docs-promptfoo-github-action, Claim 9] [settled]. Its trigger is path-filtered
+to `prompts/**`, so a change to the eval config, assertions, or application code
+skips the run entirely [source: docs-promptfoo-github-action, Claim 2]
+[settled]. The CodeCommit eval recipe shows the arithmetic version: a shell gate
+over `successes / (successes + failures)` goes green on a run that graded
+nothing, because the zero denominator makes `jq` write nothing, `bc` exits 0 on
+the syntax error, and the build passes with `Pass rate: %` [source:
+docs-promptfoo-aws-codecommit-codebuild, Claim 4] [settled].
+
+**Rule**: A CI gate is correct only when it triggers on every input to the
+eval, has an explicit failure contract rather than posting a report, fails on a
+zero denominator or a missing/malformed artifact, and persists the failure
+artifact with an always-run step. For a handoff to another tool, read the
+completion signal from the executing tool and pin the artifact it consumed.
+
 Fork PRs are untrusted by definition, so scanning is disabled for them by
 default; scanning one requires a maintainer `@promptfoo-scanner` comment or a
 deliberate `enable-fork-prs: true` in the workflow
@@ -845,5 +995,9 @@ failure-litellm-supply-chain-compromise-march-2026,
 failure-litellm-supply-chain-incident-march-2026,
 blog-litellm-swap-openai-code-interpreter, docs-langfuse-agent-skill,
 docs-promptfoo-code-scan-cli, docs-promptfoo-code-scan-github-action,
-docs-litellm-generic-guardrail-api*
-*Last updated: 2026-09-19*
+docs-litellm-generic-guardrail-api,
+blog-cncf-inspektor-gadget-security-audit,
+docs-cncf-iam-whitepaper-reference-patterns, docs-litellm-evals-api,
+docs-promptfoo-aws-codecommit-codebuild, docs-promptfoo-burp-integration,
+docs-promptfoo-github-action*
+*Last updated: 2026-10-24*
