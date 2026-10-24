@@ -15833,6 +15833,57 @@
         }
       ]
     },
+    "docs-litellm-load-test-advanced": {
+      "path": "source-notes/docs-litellm-load-test-advanced.md",
+      "title": "LiteLLM Proxy - 1K RPS Load test on locust",
+      "source_url": "https://docs.litellm.ai/docs/load_test_advanced",
+      "chapters": [
+        "02",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Per-deployment failure-attribution metrics let operators distinguish gateway saturation from provider rate-limit/quota failures",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "A deployment cooldown metric tracks when load balancing cools down a specific deployment",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "In a rate-limit capacity test, residual failures are expected provider quota exhaustion, not gateway breakage",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "For rate-limit tests, the page gives concrete expected numbers (20,000+ successful responses in 1 minute at ~1170 RPS) and a measured example",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Load-generator sizing for ~1K RPS is specified (Locust 4 processes, 2 vCPU/450MB/1 replica; proxy 4× t2.large 2vCPU/8GB)",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Prometheus callbacks are required to get metrics for load-test debugging and are Enterprise-only",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The page recommends using `openai/` provider for load testing and notes migration to aiohttp for higher throughput",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The locustfile.py used for testing sends repeated long prompts with random UUIDs to avoid cache hits and logs failures to error.txt",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-local-debugging": {
       "path": "source-notes/docs-litellm-local-debugging.md",
       "title": "Local Debugging | liteLLM",

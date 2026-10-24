@@ -2886,6 +2886,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-load-test-advanced": {
+      "slug": "docs-litellm-load-test-advanced",
+      "title": "LiteLLM Proxy - 1K RPS Load test on locust",
+      "source_url": "https://docs.litellm.ai/docs/load_test_advanced",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs, retrieved 2026-10-24)",
+      "date_extracted": "2026-10-24",
+      "issue": "#1871",
+      "file": "source-notes/docs-litellm-load-test-advanced.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-local-debugging": {
       "slug": "docs-litellm-local-debugging",
       "title": "Local Debugging | liteLLM",
