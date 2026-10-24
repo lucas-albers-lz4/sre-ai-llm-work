@@ -220,9 +220,127 @@ OpenAI and all other vLLM operations stayed green
 [source: failure-litellm-vllm-embeddings-encoding-format, Claim 3] [settled].
 In a large traffic mix that registers as a small dip, not an outage.
 
-**Rule**: Treat each provider/model × operation pair as its own population in
-error-rate dashboards and anomaly detection. A provider-subset failure only
-surfaces when that subset is monitored separately from the fleet rollup.
+Deployment-level attribution is the instrumentation that makes the breakdown
+possible. LiteLLM exposes `litellm_deployment_failure_responses` — with labels
+including `requested_model`, `api_base`, `exception_status`, and
+`exception_class` — and `litellm_deployment_cooled_down` per deployment, so a
+failure can be attributed to a specific backend and exception class rather than
+inferred from the fleet rollup
+[source: docs-litellm-load-test-advanced, Claim 1, Claim 2] [emerging]. The
+Prometheus callback that emits them is Enterprise-only
+[source: docs-litellm-load-test-advanced, Claim 6] [emerging].
+
+The same breakdown separates a capacity-limit rejection from a gateway fault.
+In the vendor's two-deployment rate-limit scenario, residual 429s are expected
+because each deployment's provider quota is exhausted, not because the gateway
+broke [source: docs-litellm-load-test-advanced, Claim 3] [emerging].
+
+**Rule**: Treat each provider/model × operation pair — and each deployment
+within it — as its own population in error-rate dashboards and anomaly
+detection. Attribute failures by deployment and exception class, and
+distinguish quota-exhaustion rejections from gateway faults before treating a
+sub-100% success rate as a regression.
+
+## The observability plane has its own failure modes
+
+Your telemetry pipeline, tracing agent, and health checks are production
+systems, not a neutral window onto one. They drop data, they wake workloads,
+and their own health checks can be green while the property they exist to
+verify is broken.
+
+### Instrument the drop path
+
+A fixed-size event buffer is a denial-of-visibility surface. In Inspektor
+Gadget's first independent audit, one malicious container could flood the
+hard-coded 256 KB eBPF ring buffer: "A malicious container could flood the eBPF
+ring buffer (hard-coded to 256 KB), causing the system to silently drop events
+from other containers" [source: blog-cncf-inspektor-gadget-security-audit,
+Claim 7] [settled]. The auditors' concern was the security consequence — "For
+teams using Inspektor Gadget as part of a security monitoring pipeline, this
+could allow an attacker to hide activity by generating noise"
+[source: blog-cncf-inspektor-gadget-security-audit, Claim 7] [settled].
+
+The dangerous property is not the overflow; it is the silence. A dropped event
+that is not emitted as a metric is indistinguishable from a quiet workload, so
+whoever can generate volume controls what the defender sees.
+
+**Rule**: Instrument buffer-full and dropped-event counters on every telemetry
+collection path and alert on them. Never let overflow degrade to silent
+sampling: policy-driven sampling is a decision, an involuntary drop under
+attacker-controlled load is not.
+
+### Tracing coverage is not complete visibility
+
+Kernel-level tracing covers the syscalls a given probe hooks, for the binaries
+and runtimes it can see — not every operation. The same audit demonstrated six
+container-bypass scenarios, including newer syscalls a gadget does not hook
+(`openat2` instead of `openat`), `io_uring`, and statically linked libraries
+[source: blog-cncf-inspektor-gadget-security-audit, Claim 11] [settled]. The
+maintainers' response was to document the coverage boundary rather than claim
+total visibility [source: blog-cncf-inspektor-gadget-security-audit, Claim 12]
+[emerging].
+
+**Rule**: Require any "we trace every syscall/request/tool call" claim to name
+its hook surface and known bypass classes. A detector with an undocumented
+coverage boundary will be over-weighted by the operator reading it.
+
+### Monitoring traffic is demand, not a probe
+
+Ambient health-check traffic is not free observability; it is input. Cloud load
+balancers, ingress-replicated Kubernetes probes, and platform monitors such as
+Istio or Datadog synthetics probe independently, and "None of them distinguish
+between a degraded service and a deliberately idle one"
+[source: blog-cncf-kubernetes-health-checks-waking-services, Claim 3]
+[emerging]. Behind a scale-to-zero resolver, each probe is a scale-up signal, so
+a workload never stays idle long enough to deliver the savings it was
+configured for [source: blog-cncf-kubernetes-health-checks-waking-services,
+Claim 1] [settled].
+
+The diagnostic is cheap: "The logs show scale-up events but no corresponding
+user traffic" [source: blog-cncf-kubernetes-health-checks-waking-services,
+Claim 10] [emerging] is a probe loop, not demand. Before adding probe-response
+rules, audit all four probe sources — cloud LB configuration, ingress
+annotations (NGINX/Traefik/Istio), uptime monitors (Prometheus Blackbox,
+Datadog synthetics), and service-mesh checks (Istio, Linkerd) — and match on
+headers or query parameters, not path alone, when synthetic and real traffic
+share an endpoint [source:
+blog-cncf-kubernetes-health-checks-waking-services, Claim 13] [emerging].
+
+**Rule**: Treat synthetic monitoring traffic as a demand-side actor. Correlate
+wake/activation events with user request rate, and make "a scale-up with no
+user traffic" a dashboard or alert on every autoscaled service.
+
+### Alert on the size of the safety net, not only the error rate
+
+A redundancy SLI fires before users feel anything, which is exactly the window
+an error-rate SLO cannot see. In a three-cluster chaos test, scaling one cluster
+to zero produced:
+
+```
+Before:  west=33% east=33% north=33%
+After:   west=50% north=50%              ← automatic rebalance, zero errors
+```
+
+The federated service rebalanced with no configuration change and no errors
+[source: blog-cncf-linkerd-multicluster-federation, Claim 7] [emerging]. The
+error rate stayed flat while the safety margin halved, which is why the
+source's production checklist says to "alert on a federated service's endpoint
+count dropping" [source: blog-cncf-linkerd-multicluster-federation, Claim 18]
+[emerging]. The same note records the inverse failure: a cluster that rejoins
+under-provisioned silently receives a proportional share — around 14% instead
+of an even third — so the service is up but degraded with no error signal
+[source: blog-cncf-linkerd-multicluster-federation, Claim 10] [emerging].
+
+A per-object health check does not catch this. A missing service-mirror
+controller leaves the Link CR created, nothing mirrored, and
+`linkerd multicluster check` green [source:
+blog-cncf-linkerd-multicluster-federation, Claim 14] [settled]; the
+endpoint-count SLI does, because it measures the endpoint set rather than the
+configuration object.
+
+**Rule**: For any replicated service, alert on the size of the serving endpoint
+set, not only on request errors. A healthy configuration object is not evidence
+that the redundancy exists.
 
 ## SLI measurement design
 
@@ -390,5 +508,7 @@ failure-litellm-vllm-embeddings-encoding-format,
 docs-google-sre-reliable-data-processing-minimal-toil,
 docs-google-sre-reaching-beyond-walls,
 docs-google-sre-slo-engineering-case-studies, docs-langfuse-cli,
-docs-litellm-a2a-agent-gateway*
-*Last updated: 2026-09-17*
+docs-litellm-a2a-agent-gateway, blog-cncf-inspektor-gadget-security-audit,
+blog-cncf-kubernetes-health-checks-waking-services,
+blog-cncf-linkerd-multicluster-federation, docs-litellm-load-test-advanced*
+*Last updated: 2026-10-24*
