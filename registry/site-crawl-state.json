@@ -1326,7 +1326,7 @@
         "filed_at": "2026-08-13T12:56:28.715514+00:00"
       }
     },
-    "last_scan": "2026-10-23T16:15:47.168864+00:00"
+    "last_scan": "2026-10-24T15:12:29.440107+00:00"
   },
   "opentelemetry": {
     "urls": {},
@@ -3189,16 +3189,22 @@
         "filed_at": "2026-10-23T16:16:13.559254+00:00"
       },
       "https://www.cncf.io/blog/2026/07/28/welcome-cohdi-to-the-cncf-evolving-kubernetes-into-composable-disaggregated-infrastructures": {
-        "status": "pending",
-        "screened_at": "2026-07-29T13:54:48.108185+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-29T13:54:48.108185+00:00",
+        "issue": 1866,
+        "filed_at": "2026-10-24T15:12:57.043892+00:00"
       },
       "https://www.cncf.io/blog/2026/07/28/how-japans-250-training-surge-is-shaping-global-ai-talent": {
-        "status": "pending",
-        "screened_at": "2026-07-30T13:44:52.088724+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-30T13:44:52.088724+00:00",
+        "issue": 1867,
+        "filed_at": "2026-10-24T15:12:59.628010+00:00"
       },
       "https://www.cncf.io/blog/2026/07/28/kubeflow-unveils-new-cloud-native-innovations-to-supercharge-ai": {
-        "status": "pending",
-        "screened_at": "2026-07-30T13:44:52.088741+00:00"
+        "status": "filed",
+        "screened_at": "2026-07-30T13:44:52.088741+00:00",
+        "issue": 1868,
+        "filed_at": "2026-10-24T15:13:01.629499+00:00"
       },
       "https://www.cncf.io/blog/2026/05/29/building-a-cloud-native-internal-developer-platform-with-kubernetes-gitops-and-supply-chain-security": {
         "status": "pending",
@@ -4223,9 +4229,21 @@
       "https://www.cncf.io/blog/2025/10/16/efficient-autoscaling-keeping-performance-reliability-and-cost-in-mind-with-open-source-projects": {
         "status": "pending",
         "screened_at": "2026-10-23T16:15:52.710228+00:00"
+      },
+      "https://www.cncf.io/blog/2025/10/16/kyverno-vs-kubernetes-policies-how-kyverno-complements-and-completes-kubernetes-policy-types": {
+        "status": "pending",
+        "screened_at": "2026-10-24T15:12:36.305025+00:00"
+      },
+      "https://www.cncf.io/blog/2025/10/15/automating-stateful-apps-with-kubernetes-operators": {
+        "status": "pending",
+        "screened_at": "2026-10-24T15:12:36.305045+00:00"
+      },
+      "https://www.cncf.io/blog/2025/10/14/the-tools-for-overcoming-the-top-10-devops-challenges": {
+        "status": "pending",
+        "screened_at": "2026-10-24T15:12:36.305049+00:00"
       }
     },
-    "last_scan": "2026-10-23T16:15:52.710231+00:00"
+    "last_scan": "2026-10-24T15:12:36.305052+00:00"
   },
   "datadog-llm-obs": {
     "urls": {
@@ -4234,7 +4252,7 @@
         "screened_at": "2026-07-12T23:52:56.905756+00:00"
       }
     },
-    "last_scan": "2026-10-23T16:15:54.279951+00:00"
+    "last_scan": "2026-10-24T15:12:38.016909+00:00"
   },
   "langfuse-docs": {
     "urls": {
@@ -4405,7 +4423,7 @@
         "filed_at": "2026-10-17T14:48:11.680384+00:00"
       }
     },
-    "last_scan": "2026-10-23T16:15:55.729776+00:00"
+    "last_scan": "2026-10-24T15:12:39.594667+00:00"
   },
   "litellm-docs": {
     "urls": {
@@ -6280,16 +6298,22 @@
         "filed_at": "2026-10-23T16:16:19.630038+00:00"
       },
       "https://docs.litellm.ai/docs/learn/sdk_quickstart": {
-        "status": "pending",
-        "screened_at": "2026-08-17T12:30:03.485748+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-17T12:30:03.485748+00:00",
+        "issue": 1869,
+        "filed_at": "2026-10-24T15:13:03.656431+00:00"
       },
       "https://docs.litellm.ai/docs/load_test": {
-        "status": "pending",
-        "screened_at": "2026-08-17T12:30:03.485768+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-17T12:30:03.485768+00:00",
+        "issue": 1870,
+        "filed_at": "2026-10-24T15:13:05.787903+00:00"
       },
       "https://docs.litellm.ai/docs/load_test_advanced": {
-        "status": "pending",
-        "screened_at": "2026-08-17T12:30:03.485771+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-17T12:30:03.485771+00:00",
+        "issue": 1871,
+        "filed_at": "2026-10-24T15:13:08.119743+00:00"
       },
       "https://docs.litellm.ai/docs/load_test_rpm": {
         "status": "pending",
@@ -7094,9 +7118,21 @@
       "https://docs.litellm.ai/docs/projects/PROMPTMETHEUS": {
         "status": "rejected",
         "screened_at": "2026-10-23T16:16:04.266807+00:00"
+      },
+      "https://docs.litellm.ai/docs/projects/Quivr": {
+        "status": "pending",
+        "screened_at": "2026-10-24T15:12:51.647465+00:00"
+      },
+      "https://docs.litellm.ai/docs/projects/Railtracks": {
+        "status": "pending",
+        "screened_at": "2026-10-24T15:12:51.647484+00:00"
+      },
+      "https://docs.litellm.ai/docs/projects/SalesGPT": {
+        "status": "pending",
+        "screened_at": "2026-10-24T15:12:51.647487+00:00"
       }
     },
-    "last_scan": "2026-10-23T16:16:04.266810+00:00"
+    "last_scan": "2026-10-24T15:12:51.647491+00:00"
   },
   "promptfoo-docs": {
     "urls": {
@@ -8977,16 +9013,22 @@
         "filed_at": "2026-10-23T16:16:25.950944+00:00"
       },
       "https://www.promptfoo.dev/docs/integrations/helicone": {
-        "status": "pending",
-        "screened_at": "2026-08-17T12:30:08.156094+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-17T12:30:08.156094+00:00",
+        "issue": 1872,
+        "filed_at": "2026-10-24T15:13:10.154617+00:00"
       },
       "https://www.promptfoo.dev/docs/integrations/jenkins": {
-        "status": "pending",
-        "screened_at": "2026-08-18T12:33:00.911279+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-18T12:33:00.911279+00:00",
+        "issue": 1873,
+        "filed_at": "2026-10-24T15:13:12.177690+00:00"
       },
       "https://www.promptfoo.dev/docs/integrations/jest": {
-        "status": "pending",
-        "screened_at": "2026-08-18T12:33:00.911299+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-18T12:33:00.911299+00:00",
+        "issue": 1874,
+        "filed_at": "2026-10-24T15:13:14.040733+00:00"
       },
       "https://www.promptfoo.dev/docs/integrations/langfuse": {
         "status": "pending",
@@ -9783,8 +9825,20 @@
       "https://www.promptfoo.dev/docs/red-team/plugins/teen-safety": {
         "status": "pending",
         "screened_at": "2026-10-23T16:16:07.735284+00:00"
+      },
+      "https://www.promptfoo.dev/docs/red-team/plugins/telecom": {
+        "status": "pending",
+        "screened_at": "2026-10-24T15:12:55.246009+00:00"
+      },
+      "https://www.promptfoo.dev/docs/red-team/plugins/tool-discovery": {
+        "status": "pending",
+        "screened_at": "2026-10-24T15:12:55.246025+00:00"
+      },
+      "https://www.promptfoo.dev/docs/red-team/plugins/toxic-chat": {
+        "status": "pending",
+        "screened_at": "2026-10-24T15:12:55.246028+00:00"
       }
     },
-    "last_scan": "2026-10-23T16:16:07.735287+00:00"
+    "last_scan": "2026-10-24T15:12:55.246030+00:00"
   }
 }
