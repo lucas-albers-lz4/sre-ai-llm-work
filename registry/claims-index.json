@@ -18836,6 +18836,41 @@
         }
       ]
     },
+    "docs-promptfoo-evaluate-llm-temperature": {
+      "path": "source-notes/docs-promptfoo-evaluate-llm-temperature.md",
+      "title": "Promptfoo Guides: Choosing the right temperature for your LLM — repeat stability, Wilson intervals, and provider-constraint drift",
+      "source_url": "https://www.promptfoo.dev/docs/guides/evaluate-llm-temperature",
+      "chapters": [
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "`results.repeatStability` is the JSON export summary grouped by test case, expanded variables, provider, and prompt; repeated groups with both pass and fail are flagged as \"mixed pass/fail\", pass rates exclude errors, and groups with no scored results have no pass rate",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "For groups with scored results and no cached target or grader responses, the summary includes a Wilson 95% confidence interval; interpreting it as a model pass-rate estimate assumes independent runs with the same success probability, an assumption broken by shared conversation history or shifting external state even under `--no-cache`",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "By default each repeat index has its own cache entry, so re-running the same eval can replay repeat 0, repeat 1, and repeat 2 independently; to get fresh generations on every run while sampling temperature add `--no-cache` (per-repeat cache namespaces mean replay can mask real variance)",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Claude Sonnet 5 and newer Opus and Fable models do not support `temperature`, `top_p`, or `top_k`; promptfoo omits these parameters with a warning, and `effort` controls reasoning depth rather than sampling randomness",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Temperature affects token selection by scaling logits before softmax (lower temperature sharpens distribution toward high scores, higher temperature flattens it) — explanatory framing for why sampling changes creativity/predictability",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-evaluate-openai-agents-python": {
       "path": "source-notes/docs-promptfoo-evaluate-openai-agents-python.md",
       "title": "Promptfoo: Evaluate OpenAI Agents (Python SDK) — the TracingProcessor/OTLP Bridge, Sandbox-Agent and Skills Provider Surface, and the Cost-Accounting Gap",

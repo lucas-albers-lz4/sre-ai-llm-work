@@ -3549,6 +3549,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-evaluate-llm-temperature": {
+      "slug": "docs-promptfoo-evaluate-llm-temperature",
+      "title": "Promptfoo Guides: Choosing the right temperature for your LLM — repeat stability, Wilson intervals, and provider-constraint drift",
+      "source_url": "https://www.promptfoo.dev/docs/guides/evaluate-llm-temperature",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-10-23",
+      "date_extracted": "2026-10-24",
+      "issue": "#1706",
+      "file": "source-notes/docs-promptfoo-evaluate-llm-temperature.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-evaluate-openai-agents-python": {
       "slug": "docs-promptfoo-evaluate-openai-agents-python",
       "title": "Promptfoo: Evaluate OpenAI Agents (Python SDK) — the TracingProcessor/OTLP Bridge, Sandbox-Agent and Skills Provider Surface, and the Cost-Accounting Gap",
