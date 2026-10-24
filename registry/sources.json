@@ -3640,6 +3640,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-github-action": {
+      "slug": "docs-promptfoo-github-action",
+      "title": "Promptfoo GitHub Actions Integration — Before/After Report, Prompt-Path-Only Trigger, and a Red-Team Snippet That Masks Run Failure",
+      "source_url": "https://www.promptfoo.dev/docs/integrations/github-action",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-10-23",
+      "date_extracted": "2026-10-24",
+      "issue": "#1857",
+      "file": "source-notes/docs-promptfoo-github-action.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-google-cloud-model-armor": {
       "slug": "docs-promptfoo-google-cloud-model-armor",
       "title": "Promptfoo Guide: Testing Google Cloud Model Armor — the Provider-Side Fail-Open, the Direct Sanitization API, and the Indeterminate-vs-Clean Contract",

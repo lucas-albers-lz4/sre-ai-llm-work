@@ -19154,6 +19154,83 @@
         }
       ]
     },
+    "docs-promptfoo-github-action": {
+      "path": "source-notes/docs-promptfoo-github-action.md",
+      "title": "Promptfoo GitHub Actions Integration — Before/After Report, Prompt-Path-Only Trigger, and a Red-Team Snippet That Masks Run Failure",
+      "source_url": "https://www.promptfoo.dev/docs/integrations/github-action",
+      "chapters": [
+        "05",
+        "06",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The integration's stated job is a before-vs-after comparison posted as a PR comment — a report, not a documented pass/fail gate",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The workflow trigger is path-filtered to `prompts/**` only, so edits to `promptfooconfig.yaml`, assertions/tests, provider config, or application code do not run the evaluation",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The action contract is three required inputs (`github-token`, `prompts`, `config`), two optional inputs (`openai-api-key`, `cache-path`), and `pull-requests: write` for the comment",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The action imposes a hard Node.js runner floor of `>=22.22.0`, with Node.js 24 LTS recommended, and the recipe pins `setup-node` by commit SHA",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Caching is presented as an optional cost lever, keyed only on the runner OS and a static `promptfoo-v1` suffix — no config, model, prompt, or lockfile fingerprint",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The recipe's cache path is `~/.cache/promptfoo`, which differs from promptfoo's documented default `~/.promptfoo/cache`; coherence depends on the `cache-path` input, which the page never explains",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Pinning is inconsistent — `setup-node` is pinned to a commit SHA, while `promptfoo/promptfoo-action@v1` and `actions/cache@v4` float on mutable tags",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The red-team example bypasses the action entirely — it runs `npx promptfoo@latest`, names the config and target by UUID, uses `-j 5`, and writes `output.json`",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The red-team step swallows the CLI exit status with `|| true` and substitutes a file-existence check, so a failed or partial scan is only distinguishable as \"output.json missing\"",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The red-team step captures wall-clock duration into `$GITHUB_ENV` and a separate Node step builds the PR summary, so the keep-alive is sequencing, not evidence collection",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The page documents no exit-code, pass-rate threshold, JUnit output, or required-check guidance — the only stated failures are the job failing on a missing `output.json` or on the action's internal behavior",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "The recipe is an `on: pull_request` workflow that passes a write-scoped token and PR-controlled prompt content into a third-party action, with no fork-PR or data-egress discussion",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "The page's caching tip offers two install paths — add `promptfoo` as a dependency and cache npm, or `npx promptfoo@latest` with workflow files as the cache key — without recommending a pinned version",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-google-cloud-model-armor": {
       "path": "source-notes/docs-promptfoo-google-cloud-model-armor.md",
       "title": "Promptfoo Guide: Testing Google Cloud Model Armor — the Provider-Side Fail-Open, the Direct Sanitization API, and the Indeterminate-vs-Clean Contract",
