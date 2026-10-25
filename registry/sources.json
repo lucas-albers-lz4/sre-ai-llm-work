@@ -221,6 +221,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "blog-cncf-platform-engineering-agentic-enterprise-three-entities": {
+      "slug": "blog-cncf-platform-engineering-agentic-enterprise-three-entities",
+      "title": "Platform engineering for the agentic enterprise: Managing applications, resources, and AI agents",
+      "source_url": "https://www.cncf.io/blog/2026/07/21/platform-engineering-for-the-agentic-enterprise-managing-applications-resources-and-ai-agents",
+      "source_type": "blog-post",
+      "author": "Lakmal Warusawithana",
+      "date_published": "2026-07-21",
+      "date_extracted": "2026-10-25",
+      "issue": "#1719",
+      "file": "source-notes/blog-cncf-platform-engineering-agentic-enterprise-three-entities.md",
+      "confidence_overall": "anecdotal",
+      "status": "current"
+    },
     "blog-cncf-policy-engine-offline-production-fidelity": {
       "slug": "blog-cncf-policy-engine-offline-production-fidelity",
       "title": "I made a policy engine think it was in production",

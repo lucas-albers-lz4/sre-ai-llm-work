@@ -1211,6 +1211,32 @@
         }
       ]
     },
+    "blog-cncf-platform-engineering-agentic-enterprise-three-entities": {
+      "path": "source-notes/blog-cncf-platform-engineering-agentic-enterprise-three-entities.md",
+      "title": "Platform engineering for the agentic enterprise: Managing applications, resources, and AI agents",
+      "source_url": "https://www.cncf.io/blog/2026/07/21/platform-engineering-for-the-agentic-enterprise-managing-applications-resources-and-ai-agents",
+      "chapters": [
+        "03",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "AI agents become first-class platform consumers alongside humans, and must be governed with the same identity, scoped permissions, and audit trail across different interfaces",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The platform must manage applications, resources, and AI agents as three first-class software entities; resources become the common foundation linking apps and agents",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Context is becoming a first-class platform capability — a shared model of deployment history, ownership, topology, dependencies, policies, operational history, and organizational knowledge that both humans and AI agents reason over",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-cncf-policy-engine-offline-production-fidelity": {
       "path": "source-notes/blog-cncf-policy-engine-offline-production-fidelity.md",
       "title": "I made a policy engine think it was in production",
