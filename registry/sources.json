@@ -182,6 +182,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "blog-cncf-multi-cluster-databases-kubernetes": {
+      "slug": "blog-cncf-multi-cluster-databases-kubernetes",
+      "title": "Multi-Cluster databases on Kubernetes: Architecture and deployment",
+      "source_url": "https://www.cncf.io/blog/2026/07/22/multi-cluster-databases-on-kubernetes-architecture-and-deployment",
+      "source_type": "blog-post",
+      "author": "Edith Puclla (CNCF Ambassador) and Ivan Groenewold",
+      "date_published": "2026-07-22",
+      "date_extracted": "2026-10-25",
+      "issue": "#1734",
+      "file": "source-notes/blog-cncf-multi-cluster-databases-kubernetes.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-cncf-network-boundary-ai-agents-nginx-otel": {
       "slug": "blog-cncf-network-boundary-ai-agents-nginx-otel",
       "title": "Network boundary for AI agents using NGINX and OpenTelemetry",

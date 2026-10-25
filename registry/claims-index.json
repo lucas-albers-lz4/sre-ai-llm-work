@@ -1040,6 +1040,63 @@
         }
       ]
     },
+    "blog-cncf-multi-cluster-databases-kubernetes": {
+      "path": "source-notes/blog-cncf-multi-cluster-databases-kubernetes.md",
+      "title": "Multi-Cluster databases on Kubernetes: Architecture and deployment",
+      "source_url": "https://www.cncf.io/blog/2026/07/22/multi-cluster-databases-on-kubernetes-architecture-and-deployment",
+      "chapters": [
+        "01",
+        "00",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "A single Kubernetes cluster has no built-in recovery for cluster-level failures, so a database that must survive a regional outage, corrupted control plane, or network partition has to span clusters",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "All nodes in every participating cluster belong to one MongoDB replica set, and that single membership is what enables cross-cluster voting and leader election",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Site roles split control-plane ownership — the Main Site operator owns TLS, credentials, and replica-set initialization, while Replica Sites run unmanaged and copy those secrets in",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "A MongoDB replica set needs a strict majority of voting members to elect a primary and accept writes, so a symmetric 2+2 split across two locations deadlocks on partition — both sides stop accepting writes even though every server is healthy",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The 2+2+1 pattern — a fifth voter in a third location — restores a 3-of-5 majority, so one side can keep or elect a primary when one location or link fails",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Automatic failover elects a new primary in a median \"does not typically exceed 12 seconds\" under default configuration, and applications should use retryable writes because the write gap can be longer across regions",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "A successful failover leaves the database degraded, not recovered — the surviving set runs at the exact minimum majority, and one further node loss drives it into read-only majority-loss mode",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "In the 2+2+1 example, failover happens without human or operator intervention, but the authors have not yet measured how the architecture behaves under real failure conditions",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Multi-cluster also enables live migration and no-downtime maintenance, but a clean cutover still requires application-level planning around connection strings and write consistency",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-cncf-network-boundary-ai-agents-nginx-otel": {
       "path": "source-notes/blog-cncf-network-boundary-ai-agents-nginx-otel.md",
       "title": "Network boundary for AI agents using NGINX and OpenTelemetry",
