@@ -19495,6 +19495,59 @@
         }
       ]
     },
+    "docs-promptfoo-gpt-mmlu-comparison": {
+      "path": "source-notes/docs-promptfoo-gpt-mmlu-comparison.md",
+      "title": "Promptfoo Guides: GPT Model Tiers — MMLU-Pro Benchmark Comparison",
+      "source_url": "https://www.promptfoo.dev/docs/guides/gpt-mmlu-comparison",
+      "chapters": [],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The vendor's stated rationale for MMLU-Pro is that current models are near saturation on classic MMLU and MMLU-Pro's up-to-10 answer options make tier ties less likely — an unquantified methodology assertion",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The comparison shape is three OpenAI tiers over one prompt template and one remote test source, with a single `defaultTest` assertion stack serving as the whole gate",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The format-compliance check and the correctness check are two distinct assertions — a literal `regex` for the answer sentence, then a `javascript` assertion that extracts the letter, uppercases it, and compares it to `context.vars.answer`",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Step 3 pairs the quality gate with an operational budget gate — `max_completion_tokens: 1200` per provider plus `- type: latency, threshold: 60000` on the same `defaultTest` — a quality-and-budget stack on one test case",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The sample-size ladder is a user-chosen `limit` (20 → 100 → 200) presented as \"scale your eval\", with no sample-size justification, no confidence interval, and no per-category results — so the tier verdict is a function of a knob the reader picks",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The test source is a live third-party HuggingFace dataset with `split`, `config`, and `limit` set but no revision pin — the tier comparison's inputs can change under the same config",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The page reports no results — its only outcome statement is hedged, its \"What to Look For\" bullets are expectations, and the screenshot is a static asset with no numbers — so it demonstrates the harness without producing evidence about GPT tiers",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The Step 3 chain-of-thought \"improvement\" is not an isolated variable — it changes the prompt, adds `max_completion_tokens`, adds a latency gate, and doubles the sample size from 20 to 100 at once",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The results screenshot is named for a `gpt-5` vs `gpt-5-mini` comparison while the page compares `gpt-5.4` tiers — evidence the page was adapted rather than freshly measured",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-guardrails-assertions": {
       "path": "source-notes/docs-promptfoo-guardrails-assertions.md",
       "title": "Promptfoo Configuration: Guardrails Assertion",

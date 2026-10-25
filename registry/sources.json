@@ -3731,6 +3731,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-gpt-mmlu-comparison": {
+      "slug": "docs-promptfoo-gpt-mmlu-comparison",
+      "title": "Promptfoo Guides: GPT Model Tiers — MMLU-Pro Benchmark Comparison",
+      "source_url": "https://www.promptfoo.dev/docs/guides/gpt-mmlu-comparison",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-10-25",
+      "date_extracted": "2026-10-25",
+      "issue": "#1740",
+      "file": "source-notes/docs-promptfoo-gpt-mmlu-comparison.md",
+      "confidence_overall": "anecdotal",
+      "status": "current"
+    },
     "docs-promptfoo-guardrails-assertions": {
       "slug": "docs-promptfoo-guardrails-assertions",
       "title": "Promptfoo Configuration: Guardrails Assertion",
