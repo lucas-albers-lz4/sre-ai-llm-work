@@ -15,7 +15,7 @@ constraints, DB migrations — creates distinct failure modes.
 LiteLLM protects its `main` branch by routing all change through an internal
 staging branch that must pass CircleCI tests against live LLM APIs before
 promotion. Merge collisions are resolved on staging, not `main`
-[source: blog-litellm-april-townhall-updates, Claim 4] [emerging].
+[source: blog-litellm-april-townhall-updates, Claim 4] [stale].
 
 ```
 Only an internal staging branch can push to main.
@@ -31,7 +31,7 @@ tests on a staging branch before promotion.
 
 LiteLLM uses four release tags that escalate the validation bar, anchoring
 "Stable" to a concrete definition
-[source: blog-litellm-april-townhall-updates, Claim 6] [emerging]:
+[source: blog-litellm-april-townhall-updates, Claim 6] [stale]:
 
 ```
 Dev              — Built off a PR for a customer-specific scenario
@@ -49,7 +49,7 @@ support can ship on RC images without blocking on the soak.
 LiteLLM moved all UI QA into the same Docker image users run after
 local-environment QA caused release-specific regressions, including MCP
 registration breakage in v1.82.3
-[source: blog-litellm-april-townhall-updates, Claim 5] [emerging].
+[source: blog-litellm-april-townhall-updates, Claim 5] [stale].
 
 **Rule**: Gate release QA on the built artifact (Docker image), not a local
 dev environment that diverges from the runtime.
@@ -58,7 +58,7 @@ dev environment that diverges from the runtime.
 
 LiteLLM's Prisma-backed Postgres migrations in production exhibited three
 failure classes
-[source: blog-litellm-april-townhall-updates, Claim 7] [emerging]:
+[source: blog-litellm-april-townhall-updates, Claim 7] [stale]:
 
 ```
 - Migration not applied
@@ -1274,7 +1274,7 @@ Claim 6] [emerging].
 
 This is a directional signal, not a deployable pattern — the cross-runtime
 agent API and fast-harness-serving layers are explicitly unsolved
-[source: blog-litellm-agents-are-the-new-llms, Claim 8] [emerging].
+[source: blog-litellm-agents-are-the-new-llms, Claim 8] [stale].
 
 Where a gateway does invoke agents today, its controls are per-*method*, not
 per-agent. In LiteLLM's A2A gateway only `message/send` and `message/stream`
@@ -1362,11 +1362,11 @@ LiteLLM's CI/CD v2 organizes around four supply-chain goals: limit per-stage
 package access, reduce sensitive env vars, avoid compromised packages, reduce
 release-tampering risk. It isolates CI/CD stages so a compromised step in one
 stage cannot inherit broad pipeline credentials
-[source: blog-litellm-april-townhall-updates, Claim 1, Claim 2] [emerging].
+[source: blog-litellm-april-townhall-updates, Claim 1, Claim 2] [stale].
 
 Independent verification of release artifacts reduces reliance on any single
 credential or release path
-[source: blog-litellm-april-townhall-updates, Claim 3] [emerging].
+[source: blog-litellm-april-townhall-updates, Claim 3] [stale].
 
 **Rule**: Isolate CI/CD stages by blast radius. A release should be
 verifiable independently of any single credential that touched the build.

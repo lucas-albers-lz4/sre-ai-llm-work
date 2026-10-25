@@ -6,7 +6,7 @@ author: "Michael D'Angelo (Promptfoo Co-founder & CTO)"
 date_published: 2025-12-15
 date_extracted: 2026-07-14
 last_checked: 2026-07-14
-status: current
+status: stale
 confidence_overall: emerging
 issue: "#201"
 ---

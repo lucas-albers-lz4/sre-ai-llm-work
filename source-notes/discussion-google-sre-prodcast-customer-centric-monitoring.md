@@ -6,7 +6,7 @@ author: "Sylvia Esparrachiari (SRE Uber Tech Lead, Google Application Modernizat
 date_published: 2022
 date_extracted: 2026-07-13
 last_checked: 2026-07-13
-status: current
+status: stale
 confidence_overall: settled
 issue: "#35"
 ---
