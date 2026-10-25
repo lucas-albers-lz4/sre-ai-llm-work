@@ -79,8 +79,10 @@ issue: "#1885"
 - **Quote**: "Techniques using mutating webhook manipulation to confuse validating webhooks have been disclosed, meaning verification can be silently bypassed."
 - **Our assessment**: Partially buy it. The mechanism is plausible and matches
   the known ordering of mutating-before-validating webhooks, but the source gives
-  no reference, so the guide should present it as a named risk class rather than
-  a proven exploit chain.
+  no reference, so this is an **unverified risk class in this source** — not a
+  demonstrated technique. The guide should name it as a risk class the runtime
+  layer would not automatically close, and should not repeat it as a proven
+  exploit chain.
 
 ### Claim 4: Fail-closed admission webhooks can create an availability deadlock — OPA Gatekeeper documents a case where they prevented node recovery after a cluster-wide node deletion
 - **Evidence**: Points at Gatekeeper's own "failing closed" documentation and
@@ -180,10 +182,12 @@ issue: "#1885"
 
 ### Claim 13: The plugin ships disabled by default and supports a three-phase rollout — observe with `warn` + `missingPolicy: allow`, tighten per namespace, then enforce — with a Prometheus counter and startup warnings as the phase signals
 - **Evidence**: Each phase names its config and its observable signal; the
-  startup-warning behavior is described concretely.
+  startup-warning behavior is described concretely, and the observe phase names
+  the exact metric used to count would-be blocks.
 - **Confidence**: emerging (first-party operational guidance)
 - **Quote**: "The plugin ships with verification = “disabled” by default, meaning it does nothing until explicitly configured."
 - **Quote**: "The plugin runs verification on every container but never blocks anything. Failed verifications get logged and counted."
+- **Quote**: "The nri_supply_chain_verification_total{result=”fail”} Prometheus metric counts how many containers would be blocked."
 - **Quote**: "The plugin will log warnings at startup if permissive defaults are still in place, like fetch_failure_policy set to warn or any missingPolicy set to allow. It actively tells you what to tighten."
 - **Our assessment**: Buy it. The "warn mode counts what would have been
   blocked" loop is the reusable rollout pattern: measure the blast radius of
@@ -433,11 +437,16 @@ without contacting a registry.
   an availability/security trade-off explicitly instead of inheriting a default.
   Recommend that LLM-infra teams document which policy they chose and why, and
   test registry-unreachable behavior before enabling enforcement.
-- **Chapter 02 — observability**: add `nri_supply_chain_verification_total{result="fail"}`
-  (and circuit-breaker trips / fetch error rates) as the supply-chain posture
-  signal, with the observe-phase use case: in `warn` mode this counter measures
-  how many containers enforcement would have blocked. This gives Ch02 a concrete
-  security SLI instead of only request-path metrics.
+- **Chapter 02 — observability**: add the post's
+  `nri_supply_chain_verification_total{result="fail"}` Prometheus counter
+  (named in the observe-phase paragraph, Claim 13 quote) as the supply-chain
+  posture signal, alongside the circuit-breaker amplification (Claim 15) and
+  the fetch-error counter (Claim 14). In `warn` mode it measures how many
+  containers enforcement would have blocked. This gives Ch02 a concrete
+  security SLI instead of only request-path metrics. Smith should copy the
+  metric name from Claim 13's quote, not re-typeset it; the exact exposed
+  metric set is defined by the plugin's docs, so any additional labels should
+  be checked against those before being written into the guide.
 - **Chapter 01 — incident response**: add the Gatekeeper fail-closed deadlock
   (fail-closed webhooks preventing node recovery after cluster-wide node
   deletion) to the recovery-path hazards. Recommendation: any fail-closed
@@ -461,6 +470,12 @@ without contacting a registry.
   mutating-webhook technique (Claim 3) is asserted without a citation.
 - All quotes were copied from the article text as fetched; where the source uses
   curly quotes/apostrophes they are preserved.
+- Re-verified against the fetched article after Assayer review: the metric
+  identifier `nri_supply_chain_verification_total{result=”fail”}` is stated
+  verbatim in the observe-phase paragraph, so Claim 13 now carries it as a
+  quote and the Chapter 02 guide-impact line is anchored to it (previously the
+  name appeared only in Guide Impact with no supporting claim, which read as an
+  invented identifier).
 - Candidate handling per MINER.md §4: the eight unrelated candidates are
   explicitly dismissed above; `blog-cncf-securing-cicd-credentials-verification`
   and `blog-cncf-cloud-native-agentic-ai-security-platform` are cited after
