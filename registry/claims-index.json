@@ -1433,6 +1433,114 @@
         }
       ]
     },
+    "blog-cncf-runtime-supply-chain-verification-nri": {
+      "path": "source-notes/blog-cncf-runtime-supply-chain-verification-nri.md",
+      "title": "Runtime Supply Chain Verification using the Node Resource Interface (NRI)",
+      "source_url": "https://www.cncf.io/blog/2026/07/30/runtime-supply-chain-verification-using-the-node-resource-interface-nri",
+      "chapters": [
+        "06",
+        "02",
+        "01",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Admission webhooks are a necessary but insufficient layer — they depend on explicit configuration and network reachability, so misconfigured selectors, webhook outages, static pods, and direct kubelet access can skip verification entirely",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Static pods can run even when their mirror pod fails admission, and a static pod with an invalid namespace is invisible to the API server — so admission verification never applies to them",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Mutating-webhook manipulation to confuse validating webhooks has been disclosed, so admission-layer verification can be silently bypassed rather than only misconfigured",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Fail-closed admission webhooks can create an availability deadlock — OPA Gatekeeper documents a case where they prevented node recovery after a cluster-wide node deletion",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "NRI is supported by CRI-O 1.28+ and containerd 1.7+ (default-on since containerd 2.0), and a plugin subscribed to `CreateContainer` is called synchronously before the container starts; an error rejects the container",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Verification happens at container creation rather than image pull, so pre-pulled and cached images are re-verified before they run",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The plugin verifies three attestation types answering distinct questions — SLSA provenance (how it was built), VEX (whether known CVEs are exploitable), and VSA (whether a trusted verifier already checked)",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "VEX is evaluated with most-restrictive-wins semantics and any `affected` status blocks the container in enforce mode; the implementation follows OpenVEX v0.2.0",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "A valid passing VSA from a trusted verifier short-circuits SLSA and VEX verification, which is the scale pattern — verify once in CI, attach the VSA, and let nodes validate the summary",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "All three attestation types are discovered through a single OCI Referrers API call per digest (with a cosign tag fallback), and signatures are verified with sigstore-go in keyless (Fulcio/OIDC) or key-based mode",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Resilience is built from per-digest+namespace caching with TTLs, NRI `Synchronize` cache pre-warming on startup, request deduplication, per-registry circuit breakers, a concurrency semaphore, and exponential backoff",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "Operational settings live in a TOML file while per-namespace security policy lives in JSON documents, deliberately so the two can have different owners and change cadences",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "The plugin ships disabled by default and supports a three-phase rollout — observe with `warn` + `missingPolicy: allow`, tighten per namespace, then enforce — with a Prometheus counter and startup warnings as the phase signals",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "`fetch_failure_policy` defaults to `warn`, which is explicitly fail-open — containers pass when the registry is unreachable — while `deny` trades availability for security by preventing new containers from starting",
+          "kind": "claim"
+        },
+        {
+          "n": 15,
+          "heading": "The per-registry circuit breaker amplifies the failure-policy choice — in `warn` mode it lets never-verified images bypass verification during cooldown, while in `deny` mode it prevents cascading registry timeouts from blocking the whole node",
+          "kind": "claim"
+        },
+        {
+          "n": 16,
+          "heading": "Missing-attestation policy is per type — an operator can require SLSA provenance with `missingPolicy: deny` while tolerating absent VEX documents with `missingPolicy: allow`",
+          "kind": "claim"
+        },
+        {
+          "n": 17,
+          "heading": "The threat model assumes node integrity — root can kill the plugin, replace policy files on disk, or disable NRI in the runtime config, so runtime verification does not defend against a fully compromised node",
+          "kind": "claim"
+        },
+        {
+          "n": 18,
+          "heading": "The plugin is not usable in air-gapped environments today, and attestation failures surface to operators as a generic CRI `CreateContainerError` because CRI has no precise attestation error type",
+          "kind": "claim"
+        },
+        {
+          "n": 19,
+          "heading": "The plugin deploys as a hardened DaemonSet (DNS+HTTPS egress NetworkPolicy, non-root, read-only rootfs, no capabilities, seccomp, system-node-critical priority), as a sandboxed systemd service, or as a pre-installed NRI plugin for immutable node images",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-cncf-secret-sprawl-external-secrets-operator": {
       "path": "source-notes/blog-cncf-secret-sprawl-external-secrets-operator.md",
       "title": "Solving secret sprawl in multi-account Kubernetes with External Secrets Operator",

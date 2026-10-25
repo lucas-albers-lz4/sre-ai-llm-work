@@ -273,6 +273,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "blog-cncf-runtime-supply-chain-verification-nri": {
+      "slug": "blog-cncf-runtime-supply-chain-verification-nri",
+      "title": "Runtime Supply Chain Verification using the Node Resource Interface (NRI)",
+      "source_url": "https://www.cncf.io/blog/2026/07/30/runtime-supply-chain-verification-using-the-node-resource-interface-nri",
+      "source_type": "blog-post",
+      "author": "Sascha Grunert",
+      "date_published": "2026-07-30",
+      "date_extracted": "2026-10-25",
+      "issue": "#1885",
+      "file": "source-notes/blog-cncf-runtime-supply-chain-verification-nri.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-cncf-secret-sprawl-external-secrets-operator": {
       "slug": "blog-cncf-secret-sprawl-external-secrets-operator",
       "title": "Solving secret sprawl in multi-account Kubernetes with External Secrets Operator",
