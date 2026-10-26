@@ -16152,6 +16152,77 @@
         }
       ]
     },
+    "docs-litellm-load-test-rpm": {
+      "path": "source-notes/docs-litellm-load-test-rpm.md",
+      "title": "Multi-Instance TPM/RPM (litellm.Router) — LiteLLM AI Gateway Documentation",
+      "source_url": "https://docs.litellm.ai/docs/load_test_rpm",
+      "chapters": [
+        "05",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The page's purpose is to check that configured TPM/RPM limits are respected across multiple Router instances, not just inside one process",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The test is designed as a 3:1 overload — 100 RPM per deployment, 200 RPM aggregate over two deployments, and 600 requested per interval, with only ~200 expected to succeed",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Cross-instance enforcement is configured through shared Redis — both Router objects and the proxy config receive the same Redis host, port, and password",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Both variants enable `enable_pre_call_checks`, presented as part of the rate-limit test configuration",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Both variants set `num_retries` to zero, removing retries from the measurement",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "`simple-shuffle` is recommended for the test, with \"best performance\" as the only justification",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The harness does not actually send 600 requests per minute — it fires 600 concurrent tasks, sleeps 10 seconds, and repeats 10 times, so the real offered rate depends on how long each batch takes",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The harness's success metric is \"returned a response without raising\" — every exception is collapsed to `None`, so a gateway 429, a backend 429, a timeout, and a connection error are indistinguishable",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The fake OpenAI server is itself limited to 100 requests per minute per deployment, which makes the expected ~200 successes attributable to the fake backends even if the gateway's RPM enforcement fails",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Despite the title, the page never exercises TPM — every configuration sets only `rpm`, and the request payload is a short UUID message",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The test has no pass/fail assertion — it prints `(request count, elapsed seconds, success count)` for a human to interpret",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "The proxy is documented as reusing the Router's enforcement path, so the same test is claimed to work for either surface",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-local-debugging": {
       "path": "source-notes/docs-litellm-local-debugging.md",
       "title": "Local Debugging | liteLLM",
