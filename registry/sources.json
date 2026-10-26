@@ -117,6 +117,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "blog-cncf-gpu-autoscaling-keda-external-scaler": {
+      "slug": "blog-cncf-gpu-autoscaling-keda-external-scaler",
+      "title": "GPU autoscaling on Kubernetes with KEDA: Building an external scaler",
+      "source_url": "https://www.cncf.io/blog/2026/05/27/gpu-autoscaling-on-kubernetes-with-keda-building-an-external-scaler",
+      "source_type": "blog-post",
+      "author": "Pavan Madduri",
+      "date_published": "2026-05-27",
+      "date_extracted": "2026-10-26",
+      "issue": "#1898",
+      "file": "source-notes/blog-cncf-gpu-autoscaling-keda-external-scaler.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-cncf-inspektor-gadget-security-audit": {
       "slug": "blog-cncf-inspektor-gadget-security-audit",
       "title": "Inspektor Gadget: Results from the first security audit",

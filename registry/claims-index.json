@@ -661,6 +661,84 @@
         }
       ]
     },
+    "blog-cncf-gpu-autoscaling-keda-external-scaler": {
+      "path": "source-notes/blog-cncf-gpu-autoscaling-keda-external-scaler.md",
+      "title": "GPU autoscaling on Kubernetes with KEDA: Building an external scaler",
+      "source_url": "https://www.cncf.io/blog/2026/05/27/gpu-autoscaling-on-kubernetes-with-keda-building-an-external-scaler",
+      "chapters": [
+        "05",
+        "02",
+        "04",
+        "00"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The default Kubernetes autoscaling path reasons about CPU and memory while the GPU actually doing the work stays invisible, which wastes accelerator capacity, raises inference latency, and adds unnecessary power draw",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "KEDA core is compiled with `CGO_ENABLED=0` while NVML requires CGO, so a GPU scaler cannot simply be added to KEDA core the way a Prometheus or Kafka scaler is",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "NVML calls are node-local, and because KEDA's operator runs as a single Deployment, a centralized operator-side scaler cannot read a GPU on another node",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The working architecture is a per-node DaemonSet that reads local GPU metrics via go-nvml, serves them over gRPC implementing KEDA's `ExternalScaler` interface, and lets the KEDA operator drive HPA decisions",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The per-node agent pattern is the same one Kubernetes uses for device plugins and the metrics server",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The scaler exposes five per-GPU metrics, and compute utilization, memory-controller utilization, and VRAM percentage are three distinct signals",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "For multi-GPU nodes the operator chooses an aggregation (`max`, `min`, `avg`, `sum`) or targets a specific GPU index",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The post ships four workload profiles — `vllm-inference` (memory 80% / activation 5%), `triton-inference` (utilization 75% / 10%), `training` (utilization 90% / 0%, no scale-to-zero), and `batch` (memory 70% / 1%)",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The `activationThreshold` is the scale-to-zero gate and is a separate, per-workload number from the steady-state `targetValue`",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The Helm chart targets nodes labelled `nvidia.com/gpu.present=true`, tolerates the `nvidia.com/gpu` taint, and falls back to host device mounts when the NVIDIA container runtime is absent",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "A `ScaledObject` with `minReplicaCount: 0` and the external trigger pointed at the scaler service scales a vLLM Deployment on GPU memory usage, including to zero when idle",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "A mock collector mode lets the full `IsActive → GetMetricSpec → GetMetrics` gRPC flow and 11 e2e tests run in CI with no GPU hardware",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "The author frames accelerator waste as a GreenOps problem, asserting that wasted GPU cycles translate directly into wasted energy and higher Scope 3 emissions",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-cncf-inspektor-gadget-security-audit": {
       "path": "source-notes/blog-cncf-inspektor-gadget-security-audit.md",
       "title": "Inspektor Gadget: Results from the first security audit",
