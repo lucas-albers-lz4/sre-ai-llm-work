@@ -3860,6 +3860,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-langfuse-integration": {
+      "slug": "docs-promptfoo-langfuse-integration",
+      "title": "Promptfoo × Langfuse Integration — SDK/Server Coupling, Env-Var Precedence, and SDK-Free Trace Retrieval",
+      "source_url": "https://www.promptfoo.dev/docs/integrations/langfuse",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-10-25",
+      "date_extracted": "2026-10-26",
+      "issue": "#1889",
+      "file": "source-notes/docs-promptfoo-langfuse-integration.md",
+      "confidence_overall": "settled",
+      "status": "current"
+    },
     "docs-promptfoo-llm-as-a-judge": {
       "slug": "docs-promptfoo-llm-as-a-judge",
       "title": "LLM as a Judge Evaluation Guide",

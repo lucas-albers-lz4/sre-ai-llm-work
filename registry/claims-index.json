@@ -20124,6 +20124,52 @@
         }
       ]
     },
+    "docs-promptfoo-langfuse-integration": {
+      "path": "source-notes/docs-promptfoo-langfuse-integration.md",
+      "title": "Promptfoo × Langfuse Integration — SDK/Server Coupling, Env-Var Precedence, and SDK-Free Trace Retrieval",
+      "source_url": "https://www.promptfoo.dev/docs/integrations/langfuse",
+      "chapters": [
+        "05",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Langfuse prompt resolution goes through an optional `@langfuse/client` package that promptfoo does not install by default, and promptfoo must run from the project where that package is resolvable",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "`@langfuse/client` v6 requires Langfuse Cloud or self-hosted Langfuse v4.59.0 or later; older self-hosted servers must stay on `@langfuse/client@^5.11.1`, which remains supported",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "`LANGFUSE_BASE_URL` is accepted as an alias for `LANGFUSE_HOST`, and when both are set `LANGFUSE_HOST` wins regardless of which one the integration page demonstrates",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "`--env-file` and the config's top-level `env` block take precedence over variables exported in the shell — the opposite of the usual shell-overrides-file assumption",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Eval-time trace retrieval uses Langfuse's public API directly through the external `langfuse` trace provider and does not require installing the Langfuse client SDK",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The `langfuse` trace provider queries Langfuse's v2 Observations API using the OTel trace ID propagated in `traceparent`, is scoped to Langfuse Cloud or self-hosted v4, and imports normalised spans/attributes plus parent-child, I/O, model, token, and cost data",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Real-time trace availability requires Langfuse Python SDK ≥ 4.7.0, JS SDK ≥ 5.4.0, or the `x-langfuse-ingestion-version: 4` header on an OTel exporter; older ingestion paths can delay visibility by up to ten minutes, which the tracing page states makes earlier versions unusable for eval-time trace fetching",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-llm-as-a-judge": {
       "path": "source-notes/docs-promptfoo-llm-as-a-judge.md",
       "title": "LLM as a Judge Evaluation Guide",
