@@ -792,6 +792,83 @@
         }
       ]
     },
+    "blog-cncf-keda-sqs-queue-depth-autoscaling": {
+      "path": "source-notes/blog-cncf-keda-sqs-queue-depth-autoscaling.md",
+      "title": "Scaling Kubernetes pods with KEDA based on Amazon SQS queue depth",
+      "source_url": "https://www.cncf.io/blog/2026/07/31/scaling-kubernetes-pods-with-keda-based-on-amazon-sqs-queue-depth",
+      "chapters": [
+        "05",
+        "02",
+        "04"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "For asynchronous queue workers, backlog — not CPU or memory utilization — is the scaling signal that reflects real demand",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "KEDA implements backlog autoscaling by polling SQS queue attributes and writing target metrics to a Kubernetes HPA, which then scales the worker Deployment",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "KEDA computes outstanding work as visible messages plus not-visible (in-flight) messages, plus delayed messages when enabled, and sets desired replicas to `ceil(outstanding / queueLength)`",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "With `queueLength: \"10\"`, 0 messages maps to 0 pods, 8 to 1, 25 to 3, and 95 to 10 — the value is an illustration, not a recommendation",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Counting in-flight (`ApproximateNumberOfMessagesNotVisible`) messages as backlog is a policy choice that can over-scale, and it must be decided against the SQS visibility timeout",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "`queueLength` is a per-pod throughput target that must be derived from measured throughput, not copied from an example",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "`activationQueueLength` and `queueLength` are separate thresholds — one controls activation from zero, the other the steady-state per-pod target",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "KEDA's `cooldownPeriod` and the HPA's `scaleDown.stabilizationWindowSeconds` are independent scale-down paths and must be tuned separately",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "`minReplicaCount: 0` enables scale-to-zero and `maxReplicaCount` bounds the autoscaler; the example uses 0 and 30",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Fallback replicas protect queue processing when the autoscaler cannot fetch metrics",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The troubleshooting table maps four symptoms to distinct causes — no scale-out, too many pods, never scaling to zero, and HPA present but no scaling",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "KEDA authenticates to SQS through AWS pod identity and a `TriggerAuthentication`, with least-privilege IAM and the queue URL sourced from the environment",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "The author claims the backlog-signal pattern generalizes beyond SQS/EKS/KEDA to other event-driven platforms",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-cncf-kepler-rearchitected-power-accuracy": {
       "path": "source-notes/blog-cncf-kepler-rearchitected-power-accuracy.md",
       "title": "Kepler, re-architected: Improved power accuracy and a community call to action!",

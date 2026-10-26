@@ -143,6 +143,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "blog-cncf-keda-sqs-queue-depth-autoscaling": {
+      "slug": "blog-cncf-keda-sqs-queue-depth-autoscaling",
+      "title": "Scaling Kubernetes pods with KEDA based on Amazon SQS queue depth",
+      "source_url": "https://www.cncf.io/blog/2026/07/31/scaling-kubernetes-pods-with-keda-based-on-amazon-sqs-queue-depth",
+      "source_type": "blog-post",
+      "author": "Albena Galabova",
+      "date_published": "2026-07-31",
+      "date_extracted": "2026-10-26",
+      "issue": "#1884",
+      "file": "source-notes/blog-cncf-keda-sqs-queue-depth-autoscaling.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-cncf-kepler-rearchitected-power-accuracy": {
       "slug": "blog-cncf-kepler-rearchitected-power-accuracy",
       "title": "Kepler, re-architected: Improved power accuracy and a community call to action!",
