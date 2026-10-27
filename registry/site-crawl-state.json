@@ -1326,7 +1326,7 @@
         "filed_at": "2026-08-13T12:56:28.715514+00:00"
       }
     },
-    "last_scan": "2026-10-26T18:06:38.256602+00:00"
+    "last_scan": "2026-10-27T17:11:32.705310+00:00"
   },
   "opentelemetry": {
     "urls": {},
@@ -3243,16 +3243,22 @@
         "filed_at": "2026-10-26T18:07:16.071581+00:00"
       },
       "https://www.cncf.io/blog/2026/05/26/how-jaeger-is-evolving-to-trace-ai-agents-with-opentelemetry": {
-        "status": "pending",
-        "screened_at": "2026-08-01T13:04:58.952022+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-01T13:04:58.952022+00:00",
+        "issue": 1914,
+        "filed_at": "2026-10-27T17:11:55.043799+00:00"
       },
       "https://www.cncf.io/blog/2026/05/25/why-kubernetes-policy-enforcement-happens-too-late-and-what-to-do-about-it": {
-        "status": "pending",
-        "screened_at": "2026-08-02T13:07:11.029481+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-02T13:07:11.029481+00:00",
+        "issue": 1915,
+        "filed_at": "2026-10-27T17:11:57.178609+00:00"
       },
       "https://www.cncf.io/blog/2026/05/25/zero-downtime-migration-from-ingress-nginx-to-envoy-gateway": {
-        "status": "pending",
-        "screened_at": "2026-08-02T13:07:11.029500+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-02T13:07:11.029500+00:00",
+        "issue": 1916,
+        "filed_at": "2026-10-27T17:11:59.702726+00:00"
       },
       "https://www.cncf.io/blog/2026/05/22/designing-end-to-end-ingress-request-tracing-for-multi-tenant-saas-platforms": {
         "status": "pending",
@@ -4277,9 +4283,21 @@
       "https://www.cncf.io/blog/2025/10/08/a-tpm-based-combined-remote-attestation-method-for-confidential-computing": {
         "status": "pending",
         "screened_at": "2026-10-26T18:06:53.175350+00:00"
+      },
+      "https://www.cncf.io/blog/2026/10/27/over-500-golden-kubestronauts-the-evolving-standard-for-cloud-native-mastery": {
+        "status": "rejected",
+        "screened_at": "2026-10-27T17:11:38.676670+00:00"
+      },
+      "https://www.cncf.io/blog/2025/10/07/karmada-v1-15-released-enhanced-resource-awareness-for-multi-template-workloads": {
+        "status": "rejected",
+        "screened_at": "2026-10-27T17:11:38.676687+00:00"
+      },
+      "https://www.cncf.io/blog/2025/10/07/auditing-user-activity-in-pods-and-nodes-with-the-security-profiles-operator": {
+        "status": "pending",
+        "screened_at": "2026-10-27T17:11:38.676690+00:00"
       }
     },
-    "last_scan": "2026-10-26T18:06:53.175351+00:00"
+    "last_scan": "2026-10-27T17:11:38.676693+00:00"
   },
   "datadog-llm-obs": {
     "urls": {
@@ -4288,7 +4306,7 @@
         "screened_at": "2026-07-12T23:52:56.905756+00:00"
       }
     },
-    "last_scan": "2026-10-26T18:06:54.715593+00:00"
+    "last_scan": "2026-10-27T17:11:40.409654+00:00"
   },
   "langfuse-docs": {
     "urls": {
@@ -4457,9 +4475,15 @@
         "screened_at": "2026-10-17T14:47:50.395824+00:00",
         "issue": 1767,
         "filed_at": "2026-10-17T14:48:11.680384+00:00"
+      },
+      "https://langfuse.com/docs/api-and-data-platform/features/halo": {
+        "status": "filed",
+        "screened_at": "2026-10-27T17:11:44.826014+00:00",
+        "issue": 1917,
+        "filed_at": "2026-10-27T17:12:01.888857+00:00"
       }
     },
-    "last_scan": "2026-10-26T18:06:56.220003+00:00"
+    "last_scan": "2026-10-27T17:11:44.826031+00:00"
   },
   "litellm-docs": {
     "urls": {
@@ -6388,16 +6412,22 @@
         "filed_at": "2026-10-26T18:07:22.102791+00:00"
       },
       "https://docs.litellm.ai/docs/mcp_control": {
-        "status": "pending",
-        "screened_at": "2026-08-20T12:34:58.123408+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-20T12:34:58.123408+00:00",
+        "issue": 1918,
+        "filed_at": "2026-10-27T17:12:03.859703+00:00"
       },
       "https://docs.litellm.ai/docs/mcp_cost": {
-        "status": "pending",
-        "screened_at": "2026-08-20T12:34:58.123426+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-20T12:34:58.123426+00:00",
+        "issue": 1919,
+        "filed_at": "2026-10-27T17:12:07.163274+00:00"
       },
       "https://docs.litellm.ai/docs/mcp_deployment": {
-        "status": "pending",
-        "screened_at": "2026-08-20T12:34:58.123428+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-20T12:34:58.123428+00:00",
+        "issue": 1920,
+        "filed_at": "2026-10-27T17:12:09.315184+00:00"
       },
       "https://docs.litellm.ai/docs/mcp_guardrail": {
         "status": "pending",
@@ -7202,9 +7232,21 @@
       "https://docs.litellm.ai/docs/provider_registration/add_model_pricing": {
         "status": "pending",
         "screened_at": "2026-10-26T18:07:02.061991+00:00"
+      },
+      "https://docs.litellm.ai/docs/providers": {
+        "status": "rejected",
+        "screened_at": "2026-10-27T17:11:49.718426+00:00"
+      },
+      "https://docs.litellm.ai/docs/providers/abliteration": {
+        "status": "pending",
+        "screened_at": "2026-10-27T17:11:49.718443+00:00"
+      },
+      "https://docs.litellm.ai/docs/providers/ai21": {
+        "status": "pending",
+        "screened_at": "2026-10-27T17:11:49.718445+00:00"
       }
     },
-    "last_scan": "2026-10-26T18:07:02.061994+00:00"
+    "last_scan": "2026-10-27T17:11:49.718447+00:00"
   },
   "promptfoo-docs": {
     "urls": {
@@ -9143,16 +9185,22 @@
         "filed_at": "2026-10-26T18:07:34.798893+00:00"
       },
       "https://www.promptfoo.dev/docs/integrations/python": {
-        "status": "pending",
-        "screened_at": "2026-08-21T12:34:03.736907+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-21T12:34:03.736907+00:00",
+        "issue": 1921,
+        "filed_at": "2026-10-27T17:12:11.497406+00:00"
       },
       "https://www.promptfoo.dev/docs/integrations/sharepoint": {
-        "status": "pending",
-        "screened_at": "2026-08-21T12:34:03.736924+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-21T12:34:03.736924+00:00",
+        "issue": 1922,
+        "filed_at": "2026-10-27T17:12:13.649587+00:00"
       },
       "https://www.promptfoo.dev/docs/integrations/sonarqube": {
-        "status": "pending",
-        "screened_at": "2026-08-21T12:34:03.736926+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-21T12:34:03.736926+00:00",
+        "issue": 1923,
+        "filed_at": "2026-10-27T17:12:15.609637+00:00"
       },
       "https://www.promptfoo.dev/docs/integrations/splunk": {
         "status": "pending",
@@ -9945,8 +9993,20 @@
       "https://www.promptfoo.dev/docs/red-team/plugins/xstest": {
         "status": "pending",
         "screened_at": "2026-10-26T18:07:05.674143+00:00"
+      },
+      "https://www.promptfoo.dev/docs/red-team/quickstart": {
+        "status": "pending",
+        "screened_at": "2026-10-27T17:11:53.011980+00:00"
+      },
+      "https://www.promptfoo.dev/docs/red-team/rag": {
+        "status": "pending",
+        "screened_at": "2026-10-27T17:11:53.011997+00:00"
+      },
+      "https://www.promptfoo.dev/docs/red-team/risk-scoring": {
+        "status": "pending",
+        "screened_at": "2026-10-27T17:11:53.012000+00:00"
       }
     },
-    "last_scan": "2026-10-26T18:07:05.674145+00:00"
+    "last_scan": "2026-10-27T17:11:53.012001+00:00"
   }
 }
