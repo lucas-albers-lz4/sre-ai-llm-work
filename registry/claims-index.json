@@ -20490,6 +20490,79 @@
         }
       ]
     },
+    "docs-promptfoo-mcp-server": {
+      "path": "source-notes/docs-promptfoo-mcp-server.md",
+      "title": "Promptfoo MCP Server: Eval and Red-Team Tooling Exposed to Agents — the Twelve-Tool Catalog, the STDIO/HTTP Trust Split, and the Documented Absence of Auth",
+      "source_url": "https://www.promptfoo.dev/docs/integrations/mcp-server",
+      "chapters": [],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Promptfoo ships its eval tooling as an MCP server whose stated purpose is exposing \"eval tools to AI agents,\" with two transports — STDIO for desktop clients and HTTP for web/remote integrations",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The exposed surface is twelve tools in four groups — four core eval tools, three generation/comparison tools, two red-team tools, and three config/test tools — including `run_assertion`, which the Prospector's triage list omitted",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The page never labels tools read-only vs mutating; the split must be inferred from the verb and description — and at least seven tools execute work that can spend provider tokens or change run state, while `share_evaluation` publishes externally",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "`share_evaluation` publishes eval results to publicly shareable URLs, and the page documents no review or approval step before an agent can invoke it",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "HTTP mode serves a JSON-RPC `/mcp` endpoint and a `/health` endpoint, and the page documents no authentication, host binding, TLS, or access-control mechanism for either",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The server \"respects all promptfoo environment variables,\" so provider API keys and config-directory settings are in scope of every agent-initiated tool call",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "`npx promptfoo@latest` is the documented default for both server launch and the checked-in client configs, making a floating version part of the agent's control path",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Slim installs omit the optional `@modelcontextprotocol/sdk`, so the server fails with a required-SDK error — the fix installs both packages locally and then runs `npx promptfoo ...` rather than `npx promptfoo@latest ...`",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Eval discovery is working-directory (or config-directory) scoped — \"Eval not found\" means the agent is in the wrong directory, and config errors mean the local `promptfooconfig.yaml` is missing or invalid",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The page's safe ordering is validate config → test provider → small subset → full run, with a parallel red-team sequence of basic plugins → review generated cases → run → analyze",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The HTTP surface is callable by any JSON-RPC-capable script, not just an MCP client — the page's own example is a raw `fetch` POST with `method: \"tools/call\"`",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "Registering the server with Cursor or Claude Desktop means writing a config whose `command`/`args` the client executes — `.cursor/mcp.json` or the platform-specific Claude Desktop config — followed by a full restart",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "Red-team execution (`redteam_generate`, `redteam_run`) is agent-callable, and the page offers no target authorization, scope, or blast-radius guidance beyond \"start basic\" and \"review generated test cases\"",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-model-graded-closedqa": {
       "path": "source-notes/docs-promptfoo-model-graded-closedqa.md",
       "title": "Promptfoo Configuration: Model-Graded — Model-Graded Closed QA",

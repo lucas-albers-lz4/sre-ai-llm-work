@@ -3938,6 +3938,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-mcp-server": {
+      "slug": "docs-promptfoo-mcp-server",
+      "title": "Promptfoo MCP Server: Eval and Red-Team Tooling Exposed to Agents — the Twelve-Tool Catalog, the STDIO/HTTP Trust Split, and the Documented Absence of Auth",
+      "source_url": "https://www.promptfoo.dev/docs/integrations/mcp-server",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-10-26",
+      "date_extracted": "2026-10-27",
+      "issue": "#1891",
+      "file": "source-notes/docs-promptfoo-mcp-server.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-model-graded-closedqa": {
       "slug": "docs-promptfoo-model-graded-closedqa",
       "title": "Promptfoo Configuration: Model-Graded — Model-Graded Closed QA",
