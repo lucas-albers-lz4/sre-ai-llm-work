@@ -1486,6 +1486,54 @@
         }
       ]
     },
+    "blog-cncf-pelotech-ingress-nginx-envoy-gateway": {
+      "path": "source-notes/blog-cncf-pelotech-ingress-nginx-envoy-gateway.md",
+      "title": "Zero-Downtime migration from ingress NGINX to Envoy Gateway",
+      "source_url": "https://www.cncf.io/blog/2026/05/25/zero-downtime-migration-from-ingress-nginx-to-envoy-gateway",
+      "chapters": [
+        "01",
+        "05",
+        "02",
+        "00"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Naive cutover dropped requests due to DNS TTL vs resource teardown",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Weighted DNS via ExternalDNS/Route 53 enables zero-downtime cutover by swapping weights",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Rollback is symmetric weight swap with no redeploy/recreate",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "ArgoCD prune disabled requires manual deletion of old Ingress",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Pre-Gateway API 1.5 forces hostname declaration at both Gateway and HTTPRoute (multi-namespace separation of concerns)",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Envoy Gateway selected on CNCF alignment, annotation parity, mTLS/request buffering",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Cheap validation via polling script (tee-logged status codes) provides reviewable evidence",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-cncf-platform-engineering-agentic-enterprise-three-entities": {
       "path": "source-notes/blog-cncf-platform-engineering-agentic-enterprise-three-entities.md",
       "title": "Platform engineering for the agentic enterprise: Managing applications, resources, and AI agents",

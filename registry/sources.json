@@ -273,6 +273,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "blog-cncf-pelotech-ingress-nginx-envoy-gateway": {
+      "slug": "blog-cncf-pelotech-ingress-nginx-envoy-gateway",
+      "title": "Zero-Downtime migration from ingress NGINX to Envoy Gateway",
+      "source_url": "https://www.cncf.io/blog/2026/05/25/zero-downtime-migration-from-ingress-nginx-to-envoy-gateway",
+      "source_type": "blog-post",
+      "author": "Andrew Katsikas, Pelotech",
+      "date_published": "2026-05-25",
+      "date_extracted": "2026-10-27",
+      "issue": "#1916",
+      "file": "source-notes/blog-cncf-pelotech-ingress-nginx-envoy-gateway.md",
+      "confidence_overall": "settled",
+      "status": "current"
+    },
     "blog-cncf-platform-engineering-agentic-enterprise-three-entities": {
       "slug": "blog-cncf-platform-engineering-agentic-enterprise-three-entities",
       "title": "Platform engineering for the agentic enterprise: Managing applications, resources, and AI agents",
