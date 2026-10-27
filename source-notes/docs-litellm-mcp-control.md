@@ -1,0 +1,204 @@
+---
+source_url: https://docs.litellm.ai/docs/mcp_control
+source_type: docs
+title: "MCP Control — LiteLLM Documentation"
+author: "LiteLLM (BerriAI) — official vendor documentation"
+date_published: unknown (living vendor docs)
+date_extracted: 2026-10-27
+last_checked: 2026-10-27
+status: current
+confidence_overall: emerging
+issue: "#1918"
+---
+
+# MCP Control (LiteLLM Docs)
+
+> LiteLLM's MCP permission model composes across six entity levels with asymmetric intersection (org is a ceiling, others intersect most-restrictively), has a fail-open default ("no level has a list = open by default"), provides a team-ceiling opt-in via `require_key_mcp_access_defined`, explicit deny via `no-mcp-servers`, per-entity tool/parameter controls, tool-list pinning to close tool poisoning, per-server and per-entity rate limits, and dashboard visibility controls.
+
+## Source Context
+
+- **Type**: docs (official vendor documentation — LiteLLM AI Gateway, "MCP Control" page under "Agent & MCP Gateway").
+- **Author credibility**: LiteLLM (BerriAI) first-party product documentation. Authoritative for the exposed surface (hierarchy, fields, flags, API behavior), but documents capability not measured reliability; claims stay at "the gateway documents this surface".
+- **Scope**: Covers MCP permission management by keys/teams/orgs/users/agents/internal users, inheritance vs intersection vs ceiling semantics, `require_key_mcp_access_defined`, `no-mcp-servers` sentinel, server/tool/parameter controls, tool pinning, access groups, public MCPs (`allow_all_keys`), per-server rate limiting (entity and global), dashboard view modes, and MCP registry publishing. Does not deep-dive OAuth/ID-JAG/OBO transport details beyond what is referenced.
+
+## Extracted Claims
+
+### Claim 1: Permissions compose across six levels with asymmetric intersection — org is a ceiling, all others intersect (most-restrictive wins)
+- **Evidence**: Permission hierarchy table listing Key, Team, End user, Agent, Internal user, Organization with composition rules and the note about org as ceiling.
+- **Confidence**: emerging
+- **Quote**: "Permissions can be set at six distinct levels. When more than one level applies to a request, LiteLLM **intersects** the lists (most-restrictive wins), except for the organization level, which acts as a **ceiling**."
+- **Our assessment**: This is the core composition rule. Critically, org does not participate in intersection like others — it only caps the final set. The ordering/which identity headers apply is specified elsewhere, but the asymmetry is central and easy to misread.
+
+### Claim 2: Default is open if no level defines a list
+- **Evidence**: Hierarchy section.
+- **Confidence**: emerging
+- **Quote**: "If no level has a list, the request can access **every** MCP server (open by default)."
+- **Our assessment**: Concrete fail-open default. With teams often acting as defaults in practice, this is a high-value security/reliability note that matches the "fail-open by default" pattern seen elsewhere in LiteLLM auth.
+
+### Claim 3: A key bound to an agent gets the agent's list intersected on every request; granting the server to the key alone is insufficient
+- **Evidence**: Hierarchy section describing agent binding via `agent_id` at key generation and `x-litellm-agent-id` requests.
+- **Confidence**: emerging
+- **Quote**: "A key bound to an agent (`agent_id` passed to `/key/generate`) gets the same treatment as a request carrying `x-litellm-agent-id`: the agent's list is intersected with the key's on every request the key makes. Granting a server to the key alone is not enough; the agent must also hold the grant (via the Admin UI agent edit form or `PATCH /v1/agents/{agent_id}`), otherwise requests scoped to that server are denied with an error naming the agent."
+- **Our assessment**: This is a strong "defense in depth" rule and also a common misconfiguration. The error names the agent, which is good for runbooks.
+
+### Claim 4: `require_key_mcp_access_defined: true` flips empty-key-list from "inherit team" to "grant nothing" (team becomes ceiling)
+- **Evidence**: `general_settings.require_key_mcp_access_defined` section.
+- **Confidence**: emerging
+- **Quote**: "By default a key with an empty or absent `mcp_servers` list inherits its team's list, so the team is effectively a default that every key falls back to. Set `require_key_mcp_access_defined: true` under `general_settings` to flip that relationship: the team becomes a ceiling rather than a default, and a key with an empty list is granted no MCP servers unless it grants some explicitly (either directly in `object_permission.mcp_servers` or via an [access group](#grouping-mcps-access-groups))."
+- **Our assessment**: Documents the migration cliff explicitly: flipping it on before keys carry grants drops MCP access. The page states this is "the recommended posture" but not default yet and points to a deprecation discussion — any guide advice must phrase it as currently non-default.
+
+### Claim 5: `no-mcp-servers` is an explicit deny that overrides team inheritance and additive access-group grants
+- **Evidence**: `no-mcp-servers` section.
+- **Confidence**: emerging
+- **Quote**: "To explicitly deny a key every MCP server, put the sentinel `no-mcp-servers` in its `mcp_servers` list. This mirrors the `no-default-models` sentinel used for model access. Unlike an empty list, which inherits the team's servers, `no-mcp-servers` overrides team inheritance and any additive access-group grants, so the key resolves to zero MCP servers no matter what its team allows."
+- **Our assessment**: Clear distinction from empty list. Important for break-glass/deny cases.
+
+### Claim 6: Internal user entitlements act as a narrowing ceiling across all other levels
+- **Evidence**: "Entitling a person rather than a credential" section.
+- **Confidence**: emerging
+- **Quote**: "The grant lives on the internal user's `object_permission` and uses the same fields as everywhere else, `mcp_servers`, `mcp_access_groups` and `mcp_tool_permissions`. It resolves as a ceiling on both axes: the servers the person reaches are intersected with what their key, team, agent and organization allow, and so are the tools they may run on each of those servers. Someone entitled to a server their key does not grant still cannot reach it. In resolution order the key and team come first, then the end user, then the agent, then the internal user, then the organization ceiling"
+- **Our assessment**: Person-centric entitlement that only narrows. Admin role does not waive it once entitlement exists. `GET /v2/user/info` returns linked `object_permission`; refusal is returned inside MCP result with `isError: true` naming the server/tool context.
+
+### Claim 7: Tool-level control is per-entity via `mcp_tool_permissions` intersected the same way as server lists
+- **Evidence**: Per-entity tool-level permissions section and examples (key/team/agent/internal user).
+- **Confidence**: emerging
+- **Quote**: "The same intersection model applies to the per-server tool-level dict `mcp_tool_permissions` (see [Per-entity Tool-Level Permissions](#per-entity-tool-level-permissions) below)."
+- **Our assessment**: Server ACLs alone are insufficient; tool lists are also intersected across levels. Parameter-level control (`mcp_tool_parameters`) exists as a separate layer.
+
+### Claim 8: Pinning freezes tool list/description/input schema and closes tool poisoning; snapshot taken after discovery guardrail scan
+- **Evidence**: "Pin a Server's Tool List" section.
+- **Confidence**: emerging
+- **Quote**: "`allowed_tools` trusts whatever the upstream says each tool does. Pinning freezes the tool list, the descriptions, and the input schemas too: the gateway serves only the pinned tools with their pinned descriptions and schemas, refuses calls to any other name, and alerts when the upstream drifts from the pin. That closes tool poisoning (OWASP LLM01): a server that quietly rewrites a description to carry instructions for the model, or adds a tool your clients never approved, changes nothing your clients see"
+- **Our assessment**: Strong control: snapshot taken after discovery guardrail scan (blocked descriptions never pinned, masked ones pinned masked). Pin requires admin + database. `pinned_tools` can be set in `config.yaml`. Unpin returns to live upstream catalog.
+
+### Claim 9: Public MCPs via `allow_all_keys` make a server available to every LiteLLM API key without per-key restrictions
+- **Evidence**: "Public MCP Servers (allow_all_keys)" section.
+- **Confidence**: emerging
+- **Quote**: "Mark specific servers as available to every LiteLLM API key when you don't need per-key restrictions."
+- **Our assessment**: Convenience feature; still subject to other controls as configured.
+
+### Claim 10: Per-server rate limits exist at entity level (`mcp_rpm_limit` on key/team/user) and global level (server `rpm`), with specific counting rules
+- **Evidence**: Rate limiting sections.
+- **Confidence**: emerging
+- **Quote**: "Cap how many requests a key or team can make to a specific MCP server per minute with `mcp_rpm_limit`. This is a `Dict[str, int]` keyed by MCP server name... Every MCP operation sent to that server counts: `tools/call`, `tools/list`, `prompts/list`, `prompts/get`, `resources/list`, `resources/templates/list` and `resources/read`, plus the REST tool listing at `/mcp-rest/tools/list`. Once the limit is exceeded within the window, further requests to that server are rejected until the window rolls over."
+- **Our assessment**: Detailed counting rules (pagination pages count per server, discovery charges each server once, rejections before limiter not counted, internal listings not counted). Server-wide `rpm` applies in addition and is shared across instances if Redis used. Key/team limits have precedence rules; legacy multi-instance flag disables enforcement.
+
+### Claim 11: Dashboard visibility controlled by `general_settings.user_mcp_management_mode` (restricted default vs view_all)
+- **Evidence**: Dashboard View Modes section.
+- **Confidence**: emerging
+- **Quote**: "Proxy admins can also control what non-admins see inside the MCP dashboard via `general_settings.user_mcp_management_mode`: `restricted` *(default)* – users only see servers that their team explicitly has access to. `view_all` – every dashboard user can see the full MCP server list."
+- **Our assessment**: Discoverability vs privilege separation; execution privileges still enforced.
+
+### Claim 12: MCP registry can be published at `/v1/mcp/registry.json` when `enable_mcp_registry: true` (advertises URLs only; permissions still enforced)
+- **Evidence**: Publish MCP Registry section.
+- **Confidence**: emerging
+- **Quote**: "If you want other systems... to automatically discover the MCP servers hosted on LiteLLM, you can expose a Model Context Protocol Registry endpoint... LiteLLM will serve the registry at `GET /v1/mcp/registry.json`. Each entry points to either `/mcp` (built-in server) or `/{mcp_server_name}/mcp` for your custom servers... The registry only advertises server URLs. Actual access control is still enforced by LiteLLM when the client connects to `/mcp` or `/{server}/mcp`, so publishing the registry does not bypass per-key permissions."
+- **Our assessment**: Discovery mechanism only; authZ still applies.
+
+## Concrete Artifacts
+
+### Permission hierarchy (from docs)
+```text
+Key → Team → End user → Agent → Internal user → Organization
+Intersect all except Organization acts as ceiling. If no level has a list → open by default.
+```
+
+### Require key to define access
+```yaml
+general_settings:
+  require_key_mcp_access_defined: true
+```
+
+### Deny all MCP servers
+```bash
+curl -X POST "http://localhost:4000/key/generate" \
+  -H "Authorization: Bearer sk-master-key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "object_permission": {
+      "mcp_servers": ["no-mcp-servers"]
+    }
+  }'
+```
+
+### Internal user entitlement example
+```bash
+curl -X POST "http://localhost:4000/user/update" \
+  -H "Authorization: Bearer sk-master-key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "user_id": "alice",
+    "object_permission": {
+      "mcp_servers": ["github_mcp"],
+      "mcp_tool_permissions": {"github_mcp": ["list_issues"]}
+    }
+  }'
+```
+
+### Tool pinning (API)
+```bash
+curl -s -X POST http://localhost:4000/v1/mcp/server/$SERVER_ID/pin \
+  -H "Authorization: Bearer $LITELLM_MASTER_KEY"
+```
+
+### Per-server/global rate limits (examples)
+```yaml
+mcp_servers:
+  github:
+    url: "https://api.githubcopilot.com/mcp"
+    rpm: 300
+```
+```bash
+curl -X POST "http://localhost:4000/key/generate" \
+  -H "Authorization: Bearer sk-master-key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "mcp_rpm_limit": {"github": 100, "slack": 200},
+    "object_permission": {"mcp_servers": ["github", "slack"]}
+  }'
+```
+
+### Dashboard view mode
+```yaml
+general_settings:
+  user_mcp_management_mode: view_all  # or restricted (default)
+```
+
+### MCP registry
+```yaml
+general_settings:
+  enable_mcp_registry: true
+```
+
+## Cross-References
+
+- **Corroborates**:
+  - `source-notes/docs-litellm-gateway-auth-reference.md` — Confirms MCP permission model is deeper than A2A (six levels vs two); notes internal user resolution exists on MCP side. Also aligns with route-dependent auth behavior noted elsewhere.
+  - `source-notes/docs-litellm-a2a-agent-permissions.md` — Shares intersection semantics for agent/group permissions; this page extends MCP hierarchy to include internal users and documents the full six-level composition with org-as-ceiling. A2A remains narrower per gateway-auth-reference.
+  - `source-notes/blog-litellm-july-stability-update.md` — Reinforces shift toward explicit/declarative control (aligns with "declare don't infer" theme); `require_key_mcp_access_defined` is the MCP-layer counterpart to fail-open defaults.
+- **Contradicts**: None obvious.
+- **Extends**:
+  - `source-notes/failure-litellm-mcp-stdio-command-injection.md` — This page provides the access-control half (entity/tool/parameter controls, pinning) that complements stdio command injection concerns; together they form a fuller MCP threat model (creation/injection vs access control).
+  - `source-notes/docs-litellm-security-settings.md`, `source-notes/docs-litellm-data-security.md` — General security posture; this page adds concrete MCP-specific ACLs, pinning (tool poisoning mitigation), and rate limiting.
+- **Novel**:
+  - Six-level MCP permission hierarchy with org-as-ceiling (explicitly documented asymmetry)
+  - `require_key_mcp_access_defined` migration-cliff behavior and non-default recommended posture
+  - `no-mcp-servers` sentinel semantics (overrides inheritance + access groups)
+  - Internal user entitlements as narrowing ceiling with admin-role caveat
+  - Tool pinning with post-guardrail-scan snapshot and drift alerting (OWASP LLM01 mitigation)
+  - Per-entity and global MCP rate limits with detailed counting rules
+  - MCP registry publishing (discovery only)
+  - Parameter-level MCP controls (`mcp_tool_parameters`) as distinct from server/tool lists
+
+## Guide Impact
+
+- **Chapter 05 (LLM Ops Reliability — gateway config, defaults)**: Add explicit note that MCP access is open by default if no permission level defines a list; document the recommended migration to `require_key_mcp_access_defined: true` (team becomes ceiling) with the migration cliff warning. Include `no-mcp-servers` as explicit deny.
+- **Chapter 06 (Security and Trust — MCP tool poisoning, least privilege)**: Add six-level permission model with org-as-ceiling and intersection rules; document internal user entitlements as person-centric narrowing control; call out tool pinning as mitigation for tool poisoning (snapshot after discovery guardrail scan, alerts on drift) distinct from `allowed_tools`/`disallowed_tools`; document parameter-level controls; note public MCPs (`allow_all_keys`) and registry discoverability vs enforced authZ.
+- **Chapter 03 (Architecture/Components — gateway controls)**: Document per-server/per-entity MCP rate limiting with counting semantics and Redis/shared behavior; dashboard visibility modes.
+
+## Extraction Notes
+
+- Read deeply from the live docs page (full content retrieved). Followed all major sections: hierarchy, inheritance flag, sentinel, tool controls, pinning, public MCPs, parameter controls, access groups, per-entity permissions, internal users, rate limiting (entity + global), dashboard modes, registry.
+- All quotes are verbatim from the source text.
+- No contradictions surfaced vs existing notes; this page is largely additive to MCP access control surface.
+- Internal user entitlements and pinning details are particularly important and appear to be newer surface relative to existing notes.
