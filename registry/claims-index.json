@@ -1086,6 +1086,69 @@
         }
       ]
     },
+    "blog-cncf-kubernetes-integration-tax-prometheus-cilium": {
+      "path": "source-notes/blog-cncf-kubernetes-integration-tax-prometheus-cilium.md",
+      "title": "The Kubernetes integration tax: Prometheus, Cilium and production reality",
+      "source_url": "https://www.cncf.io/blog/2026/05/28/the-kubernetes-integration-tax-prometheus-cilium-and-production-reality",
+      "chapters": [
+        "02",
+        "03",
+        "04",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The integration tax is the hidden cost of wiring multiple CNCF projects together — failures live in the gaps between projects, not in individual projects",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Prometheus and kubelet produce duplicate timestamps causing PrometheusDuplicateTimestamps alerts",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "cert-manager HTTP-01 challenges fail silently when ingress controllers enforce global HTTP→HTTPS redirects",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Missing ServiceMonitors for Cilium agent and operator pods leave Grafana panels blank while Hubble metrics appear healthy",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "A two-repo GitOps split (platform repo + per-environment config repo) prevents per-cluster ticket proliferation for integration fixes",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Generate monitoring with Jsonnet rather than hand-assembling YAML to make upgrades diffable and reproducible",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Embed NetworkPolicies in Helm charts rather than reverse-engineering them from Hubble flows post-deployment",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Automate disaster recovery prerequisites (Velero backup buckets) at cluster bootstrap",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Encrypt secrets with Sealed Secrets and commit them to Git for full auditability",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The integration tax compounds with every upgrade and new project - wiring debt grows over time",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-cncf-linkerd-multicluster-federation": {
       "path": "source-notes/blog-cncf-linkerd-multicluster-federation.md",
       "title": "Federating clusters for zero-downtime Kubernetes",

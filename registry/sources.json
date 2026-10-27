@@ -195,6 +195,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "blog-cncf-kubernetes-integration-tax-prometheus-cilium": {
+      "slug": "blog-cncf-kubernetes-integration-tax-prometheus-cilium",
+      "title": "The Kubernetes integration tax: Prometheus, Cilium and production reality",
+      "source_url": "https://www.cncf.io/blog/2026/05/28/the-kubernetes-integration-tax-prometheus-cilium-and-production-reality",
+      "source_type": "blog-post",
+      "author": "Rishi Mondal, SRE at Obmondo and CNCF KubeStellar Maintainer",
+      "date_published": "2026-05-28",
+      "date_extracted": "2026-10-27",
+      "issue": "#1897",
+      "file": "source-notes/blog-cncf-kubernetes-integration-tax-prometheus-cilium.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-cncf-linkerd-multicluster-federation": {
       "slug": "blog-cncf-linkerd-multicluster-federation",
       "title": "Federating clusters for zero-downtime Kubernetes",
