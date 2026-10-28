@@ -16458,6 +16458,57 @@
         }
       ]
     },
+    "docs-litellm-mcp-aws-sigv4": {
+      "path": "source-notes/docs-litellm-mcp-aws-sigv4.md",
+      "title": "MCP - AWS SigV4 Auth — LiteLLM Documentation",
+      "source_url": "https://docs.litellm.ai/docs/mcp_aws_sigv4",
+      "chapters": [
+        "05",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "MCP outbound auth uses `auth_type: \"aws_sigv4\"` to sign every outgoing MCP request per-request with AWS Signature Version 4 (no static header reuse), handled automatically by an `httpx.Auth` subclass (`MCPSigV4Auth`)",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Config requires `url` (AgentCore runtime ARN URL-encoded), `transport: \"http\"`, `auth_type: \"aws_sigv4\"`, and `aws_region_name` (required); `aws_service_name` defaults to `bedrock-agentcore`. Other fields optional with boto3 credential chain fallback.",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Credential sources follow boto3 chain with explicit overrides; `aws_access_key_id`/`aws_secret_access_key`/`aws_session_token` support `os.environ/VAR_NAME` and fall back to boto3 credential chain if omitted. When editing existing SigV4 server, leave credential fields blank to keep current values.",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "IAM role assumption via `aws_role_name` (ARN) triggers `sts:AssumeRole` using ambient/source credentials before signing; `aws_session_name` appears in CloudTrail and auto-generates if omitted. Can combine with explicit source keys.",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "SigV4-authenticated MCP servers skip the standard health check on proxy startup (expected behavior); tools remain usable and signing still works when invoked.",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "`botocore` is required for SigV4 auth; missing it produces `\"botocore not found\"` error. Install via `uv add botocore`.",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Common failures: 403 from region mismatch/expired creds/missing session token/wrong service name; AssumeRole AccessDenied from trust policy/IRSA annotation issues — check CloudTrail for AssumeRole call details.",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "AgentCore runtime ARN must be URL-encoded in the URL; example shows colon and slash encoding changes.",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-mcp-control": {
       "path": "source-notes/docs-litellm-mcp-control.md",
       "title": "MCP Control — LiteLLM Documentation",
