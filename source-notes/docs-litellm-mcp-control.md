@@ -5,7 +5,7 @@ title: "MCP Control — LiteLLM Documentation"
 author: "LiteLLM (BerriAI) — official vendor documentation"
 date_published: unknown (living vendor docs)
 date_extracted: 2026-10-27
-last_checked: 2026-10-27
+last_checked: 2026-10-28
 status: current
 confidence_overall: emerging
 issue: "#1918"
@@ -13,13 +13,14 @@ issue: "#1918"
 
 # MCP Control (LiteLLM Docs)
 
-> LiteLLM's MCP permission model composes across six entity levels with asymmetric intersection (org is a ceiling, others intersect most-restrictively), has a fail-open default ("no level has a list = open by default"), provides a team-ceiling opt-in via `require_key_mcp_access_defined`, explicit deny via `no-mcp-servers`, per-entity tool/parameter controls, tool-list pinning to close tool poisoning, per-server and per-entity rate limits, and dashboard visibility controls.
+> LiteLLM's MCP permission model composes across six entity levels with asymmetric intersection (org is a ceiling, others intersect most-restrictively), has a fail-open default ("no level has a list = open by default"), provides a team-ceiling opt-in via `require_key_mcp_access_defined`, explicit deny via `no-mcp-servers`, per-entity tool controls plus server-level parameter whitelists, tool-list pinning to close tool poisoning, per-server and per-entity rate limits, and dashboard visibility controls.
 
 ## Source Context
 
 - **Type**: docs (official vendor documentation — LiteLLM AI Gateway, "MCP Control" page under "Agent & MCP Gateway").
 - **Author credibility**: LiteLLM (BerriAI) first-party product documentation. Authoritative for the exposed surface (hierarchy, fields, flags, API behavior), but documents capability not measured reliability; claims stay at "the gateway documents this surface".
-- **Scope**: Covers MCP permission management by keys/teams/orgs/users/agents/internal users, inheritance vs intersection vs ceiling semantics, `require_key_mcp_access_defined`, `no-mcp-servers` sentinel, server/tool/parameter controls, tool pinning, access groups, public MCPs (`allow_all_keys`), per-server rate limiting (entity and global), dashboard view modes, and MCP registry publishing. Does not deep-dive OAuth/ID-JAG/OBO transport details beyond what is referenced.
+- **Confidence policy**: all 13 claims are graded `emerging` uniformly. The page states most behavior explicitly (e.g., Claim 2's open-by-default and Claim 5's `no-mcp-servers` override), so the grade is not a doubt that the page says what it says; it reflects first-party capability documentation with no measured reliability evidence and no independent verification of the documented behavior, on a page that can change between releases.
+- **Scope**: Covers MCP permission management by keys/teams/orgs/users/agents/internal users, inheritance vs intersection vs ceiling semantics, `require_key_mcp_access_defined`, `no-mcp-servers` sentinel, per-entity server/tool controls, server-level `allowed_params` parameter whitelists, tool pinning, access groups, public MCPs (`allow_all_keys`), per-server rate limiting (entity and global), dashboard view modes, and MCP registry publishing. Does not deep-dive OAuth/ID-JAG/OBO transport details beyond what is referenced.
 
 ## Extracted Claims
 
@@ -57,39 +58,45 @@ issue: "#1918"
 - **Evidence**: "Entitling a person rather than a credential" section.
 - **Confidence**: emerging
 - **Quote**: "The grant lives on the internal user's `object_permission` and uses the same fields as everywhere else, `mcp_servers`, `mcp_access_groups` and `mcp_tool_permissions`. It resolves as a ceiling on both axes: the servers the person reaches are intersected with what their key, team, agent and organization allow, and so are the tools they may run on each of those servers. Someone entitled to a server their key does not grant still cannot reach it. In resolution order the key and team come first, then the end user, then the agent, then the internal user, then the organization ceiling"
-- **Our assessment**: Person-centric entitlement that only narrows. Admin role does not waive it once entitlement exists. `GET /v2/user/info` returns linked `object_permission`; refusal is returned inside MCP result with `isError: true` naming the server/tool context.
+- **Our assessment**: Person-centric entitlement that only narrows. The quote above is contiguous; the following details are a paraphrase from later paragraphs of the same section ("Entitling a person rather than a credential"), not part of that quote: `GET /v2/user/info` returns the linked `object_permission` (verbatim: "Read the grant back with `GET /v2/user/info`, which now returns the linked `object_permission`"); the refusal is surfaced inside the MCP result (verbatim: "The refusal arrives inside the MCP result with `isError: true`"), so a client that hardcodes a tool name is still refused. An admin role is not a waiver once the human carries an entitlement: "the admin role widens what the credential reaches, and leaves the scope attached to the person in place." Only a proxy admin can set the entitlement.
 
 ### Claim 7: Tool-level control is per-entity via `mcp_tool_permissions` intersected the same way as server lists
 - **Evidence**: Per-entity tool-level permissions section and examples (key/team/agent/internal user).
 - **Confidence**: emerging
 - **Quote**: "The same intersection model applies to the per-server tool-level dict `mcp_tool_permissions` (see [Per-entity Tool-Level Permissions](#per-entity-tool-level-permissions) below)."
-- **Our assessment**: Server ACLs alone are insufficient; tool lists are also intersected across levels. Parameter-level control (`mcp_tool_parameters`) exists as a separate layer.
+- **Our assessment**: Server ACLs alone are insufficient; tool lists are also intersected across levels, and `mcp_tool_permissions` is explicitly distinct from server-registration-level `allowed_tools`/`disallowed_tools` (which bind every caller). Parameter-level filtering is a *separate, server-level* control (`allowed_params`), extracted as Claim 8 — the page documents no per-entity parameter layer.
 
-### Claim 8: Pinning freezes tool list/description/input schema and closes tool poisoning; snapshot taken after discovery guardrail scan
+### Claim 8: Parameter-level filtering is server-registration-level via `allowed_params` (per-tool whitelist, 403 otherwise)
+- **Evidence**: "Allow/Disallow MCP Tool Parameters" section — `allowed_params` config example, the five "How It Works" rules, an allowed-vs-rejected request example, and the error response.
+- **Confidence**: emerging
+- **Quote**: "`allowed_params` is a dictionary that maps tool names to lists of allowed parameter names. When configured, only the specified parameters will be accepted for that tool - any other parameters will be rejected with a 403 error."
+- **Our assessment**: This is a server-wide control (applies to every caller of the server), not a per-entity one — the per-entity layer stops at tool names (Claim 7). The page documents no per-entity parameter control and does not mention a `mcp_tool_parameters` field. It is a whitelist: tools with no `allowed_params` entry stay unrestricted, and a tool whose upstream signature gains a parameter later needs a config update or those calls start failing with `403`. Tool names may be specified with or without the server prefix (`"getpetbyid"` and `"my_api_mcp-findpetsbystatus"` both work). It composes with `allowed_tools`/`disallowed_tools` on the same server.
+
+### Claim 9: Pinning freezes tool list/description/input schema and closes tool poisoning; snapshot taken after discovery guardrail scan
 - **Evidence**: "Pin a Server's Tool List" section.
 - **Confidence**: emerging
 - **Quote**: "`allowed_tools` trusts whatever the upstream says each tool does. Pinning freezes the tool list, the descriptions, and the input schemas too: the gateway serves only the pinned tools with their pinned descriptions and schemas, refuses calls to any other name, and alerts when the upstream drifts from the pin. That closes tool poisoning (OWASP LLM01): a server that quietly rewrites a description to carry instructions for the model, or adds a tool your clients never approved, changes nothing your clients see"
 - **Our assessment**: Strong control: snapshot taken after discovery guardrail scan (blocked descriptions never pinned, masked ones pinned masked). Pin requires admin + database. `pinned_tools` can be set in `config.yaml`. Unpin returns to live upstream catalog.
 
-### Claim 9: Public MCPs via `allow_all_keys` make a server available to every LiteLLM API key without per-key restrictions
+### Claim 10: Public MCPs via `allow_all_keys` make a server available to every LiteLLM API key without per-key restrictions
 - **Evidence**: "Public MCP Servers (allow_all_keys)" section.
 - **Confidence**: emerging
 - **Quote**: "Mark specific servers as available to every LiteLLM API key when you don't need per-key restrictions."
 - **Our assessment**: Convenience feature; still subject to other controls as configured.
 
-### Claim 10: Per-server rate limits exist at entity level (`mcp_rpm_limit` on key/team/user) and global level (server `rpm`), with specific counting rules
+### Claim 11: Per-server rate limits exist at entity level (`mcp_rpm_limit` on key/team/user) and global level (server `rpm`), with specific counting rules
 - **Evidence**: Rate limiting sections.
 - **Confidence**: emerging
 - **Quote**: "Cap how many requests a key or team can make to a specific MCP server per minute with `mcp_rpm_limit`. This is a `Dict[str, int]` keyed by MCP server name... Every MCP operation sent to that server counts: `tools/call`, `tools/list`, `prompts/list`, `prompts/get`, `resources/list`, `resources/templates/list` and `resources/read`, plus the REST tool listing at `/mcp-rest/tools/list`. Once the limit is exceeded within the window, further requests to that server are rejected until the window rolls over."
 - **Our assessment**: Detailed counting rules (pagination pages count per server, discovery charges each server once, rejections before limiter not counted, internal listings not counted). Server-wide `rpm` applies in addition and is shared across instances if Redis used. Key/team limits have precedence rules; legacy multi-instance flag disables enforcement.
 
-### Claim 11: Dashboard visibility controlled by `general_settings.user_mcp_management_mode` (restricted default vs view_all)
+### Claim 12: Dashboard visibility controlled by `general_settings.user_mcp_management_mode` (restricted default vs view_all)
 - **Evidence**: Dashboard View Modes section.
 - **Confidence**: emerging
-- **Quote**: "Proxy admins can also control what non-admins see inside the MCP dashboard via `general_settings.user_mcp_management_mode`: `restricted` *(default)* – users only see servers that their team explicitly has access to. `view_all` – every dashboard user can see the full MCP server list."
+- **Quote**: "Proxy admins can also control what non-admins see inside the MCP dashboard via `general_settings.user_mcp_management_mode`:" — with the two modes as separate verbatim list items: "`restricted` *(default)* – users only see servers that their team explicitly has access to." and "`view_all` – every dashboard user can see the full MCP server list."
 - **Our assessment**: Discoverability vs privilege separation; execution privileges still enforced.
 
-### Claim 12: MCP registry can be published at `/v1/mcp/registry.json` when `enable_mcp_registry: true` (advertises URLs only; permissions still enforced)
+### Claim 13: MCP registry can be published at `/v1/mcp/registry.json` when `enable_mcp_registry: true` (advertises URLs only; permissions still enforced)
 - **Evidence**: Publish MCP Registry section.
 - **Confidence**: emerging
 - **Quote**: "If you want other systems... to automatically discover the MCP servers hosted on LiteLLM, you can expose a Model Context Protocol Registry endpoint... LiteLLM will serve the registry at `GET /v1/mcp/registry.json`. Each entry points to either `/mcp` (built-in server) or `/{mcp_server_name}/mcp` for your custom servers... The registry only advertises server URLs. Actual access control is still enforced by LiteLLM when the client connects to `/mcp` or `/{server}/mcp`, so publishing the registry does not bypass per-key permissions."
@@ -119,6 +126,37 @@ curl -X POST "http://localhost:4000/key/generate" \
       "mcp_servers": ["no-mcp-servers"]
     }
   }'
+```
+
+### Parameter whitelist per tool (`allowed_params`, from docs)
+```yaml
+mcp_servers:
+  deepwiki_mcp:
+    url: https://mcp.deepwiki.com/mcp
+    transport: "http"
+    auth_type: "none"
+    allowed_params:
+      # Tool name: list of allowed parameters
+      read_wiki_contents: ["status"]
+
+  my_api_mcp:
+    url: "https://my-api-server.com"
+    auth_type: "api_key"
+    auth_value: "my-key"
+    allowed_params:
+      # Using unprefixed tool name
+      getpetbyid: ["status"]
+      # Using prefixed tool name (both formats work)
+      my_api_mcp-findpetsbystatus: ["status", "limit"]
+      # Another tool with multiple allowed params
+      create_issue: ["title", "body", "labels"]
+```
+
+Rejection response for a disallowed parameter:
+```json
+{
+  "error": "Parameters ['limit'] are not allowed for tool read_wiki_contents. Allowed parameters: ['status']. Contact proxy admin to allow these parameters."
+}
 ```
 
 ### Internal user entitlement example
@@ -178,7 +216,7 @@ general_settings:
   - `source-notes/blog-litellm-july-stability-update.md` — Reinforces shift toward explicit/declarative control (aligns with "declare don't infer" theme); `require_key_mcp_access_defined` is the MCP-layer counterpart to fail-open defaults.
 - **Contradicts**: None obvious.
 - **Extends**:
-  - `source-notes/failure-litellm-mcp-stdio-command-injection.md` — This page provides the access-control half (entity/tool/parameter controls, pinning) that complements stdio command injection concerns; together they form a fuller MCP threat model (creation/injection vs access control).
+  - `source-notes/failure-litellm-mcp-stdio-command-injection.md` — This page provides the access-control half (per-entity server/tool controls, server-level parameter whitelists, pinning) that complements stdio command injection concerns; together they form a fuller MCP threat model (creation/injection vs access control).
   - `source-notes/docs-litellm-security-settings.md`, `source-notes/docs-litellm-data-security.md` — General security posture; this page adds concrete MCP-specific ACLs, pinning (tool poisoning mitigation), and rate limiting.
 - **Novel**:
   - Six-level MCP permission hierarchy with org-as-ceiling (explicitly documented asymmetry)
@@ -188,17 +226,18 @@ general_settings:
   - Tool pinning with post-guardrail-scan snapshot and drift alerting (OWASP LLM01 mitigation)
   - Per-entity and global MCP rate limits with detailed counting rules
   - MCP registry publishing (discovery only)
-  - Parameter-level MCP controls (`mcp_tool_parameters`) as distinct from server/tool lists
+  - Server-level `allowed_params` parameter whitelists (per tool, all callers) — distinct from `allowed_tools`/`disallowed_tools` and from per-entity `mcp_tool_permissions`; no per-entity parameter layer is documented
 
 ## Guide Impact
 
 - **Chapter 05 (LLM Ops Reliability — gateway config, defaults)**: Add explicit note that MCP access is open by default if no permission level defines a list; document the recommended migration to `require_key_mcp_access_defined: true` (team becomes ceiling) with the migration cliff warning. Include `no-mcp-servers` as explicit deny.
-- **Chapter 06 (Security and Trust — MCP tool poisoning, least privilege)**: Add six-level permission model with org-as-ceiling and intersection rules; document internal user entitlements as person-centric narrowing control; call out tool pinning as mitigation for tool poisoning (snapshot after discovery guardrail scan, alerts on drift) distinct from `allowed_tools`/`disallowed_tools`; document parameter-level controls; note public MCPs (`allow_all_keys`) and registry discoverability vs enforced authZ.
+- **Chapter 06 (Security and Trust — MCP tool poisoning, least privilege)**: Add six-level permission model with org-as-ceiling and intersection rules; document internal user entitlements as person-centric narrowing control; call out tool pinning as mitigation for tool poisoning (snapshot after discovery guardrail scan, alerts on drift) distinct from `allowed_tools`/`disallowed_tools`; document server-level `allowed_params` parameter whitelists (per tool, applied to every caller) and state that the page documents no per-entity parameter control; note public MCPs (`allow_all_keys`) and registry discoverability vs enforced authZ.
 - **Chapter 03 (Architecture/Components — gateway controls)**: Document per-server/per-entity MCP rate limiting with counting semantics and Redis/shared behavior; dashboard visibility modes.
 
 ## Extraction Notes
 
-- Read deeply from the live docs page (full content retrieved). Followed all major sections: hierarchy, inheritance flag, sentinel, tool controls, pinning, public MCPs, parameter controls, access groups, per-entity permissions, internal users, rate limiting (entity + global), dashboard modes, registry.
-- All quotes are verbatim from the source text.
+- Read deeply from the live docs page (full content retrieved). Followed all major sections: hierarchy, inheritance flag, sentinel, tool controls, pinning, public MCPs, tool-parameter controls (`allowed_params`), access groups, per-entity permissions, internal users, rate limiting (entity + global), dashboard modes, registry.
+- All quotes were re-verified character-for-character against the raw page source (`.md` endpoint) on 2026-10-28. Where a quote spans non-adjacent text it is marked with `...`; Claim 6's assessment details that fall outside its quote are explicitly labeled as paraphrase from later paragraphs of the same section.
+- Parameter control on this page is **server-registration-level** `allowed_params` only. The source does not mention any `mcp_tool_parameters` field or any per-entity parameter layer; the per-entity layer stops at tool names (`mcp_tool_permissions`).
 - No contradictions surfaced vs existing notes; this page is largely additive to MCP access control surface.
 - Internal user entitlements and pinning details are particularly important and appear to be newer surface relative to existing notes.
