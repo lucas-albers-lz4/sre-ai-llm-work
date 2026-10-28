@@ -16458,6 +16458,83 @@
         }
       ]
     },
+    "docs-litellm-mcp-control": {
+      "path": "source-notes/docs-litellm-mcp-control.md",
+      "title": "MCP Control — LiteLLM Documentation",
+      "source_url": "https://docs.litellm.ai/docs/mcp_control",
+      "chapters": [
+        "05",
+        "06",
+        "03"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Permissions compose across six levels with asymmetric intersection — org is a ceiling, all others intersect (most-restrictive wins)",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Default is open if no level defines a list",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "A key bound to an agent gets the agent's list intersected on every request; granting the server to the key alone is insufficient",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "`require_key_mcp_access_defined: true` flips empty-key-list from \"inherit team\" to \"grant nothing\" (team becomes ceiling)",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "`no-mcp-servers` is an explicit deny that overrides team inheritance and additive access-group grants",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Internal user entitlements act as a narrowing ceiling across all other levels",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Tool-level control is per-entity via `mcp_tool_permissions` intersected the same way as server lists",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Parameter-level filtering is server-registration-level via `allowed_params` (per-tool whitelist, 403 otherwise)",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Pinning freezes tool list/description/input schema and closes tool poisoning; snapshot taken after discovery guardrail scan",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Public MCPs via `allow_all_keys` make a server available to every LiteLLM API key without per-key restrictions",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Per-server rate limits exist at entity level (`mcp_rpm_limit` on key/team/user) and global level (server `rpm`), with specific counting rules",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "Dashboard visibility controlled by `general_settings.user_mcp_management_mode` (restricted default vs view_all)",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "MCP registry can be published at `/v1/mcp/registry.json` when `enable_mcp_registry: true` (advertises URLs only; permissions still enforced)",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-message-sanitization": {
       "path": "source-notes/docs-litellm-message-sanitization.md",
       "title": "Message Sanitization for Tool Calling for anthropic models | liteLLM",
