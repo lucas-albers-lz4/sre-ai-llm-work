@@ -16586,6 +16586,78 @@
         }
       ]
     },
+    "docs-litellm-mcp-guardrails": {
+      "path": "source-notes/docs-litellm-mcp-guardrails.md",
+      "title": "MCP Guardrails — LiteLLM Documentation (MCP tool-call and tool-description scanning)",
+      "source_url": "https://docs.litellm.ai/docs/mcp_guardrail",
+      "chapters": [
+        "06",
+        "05",
+        "03"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "LiteLLM positions guardrails as an in-path MCP control that can run before, during, or after an MCP call, covering both tool inputs and tool results",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The three MCP modes have distinct timing, and `post_mcp_call` deliberately runs on the tool result before the model sees it",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "`post_mcp_call` scans every text content block and every string value in `structuredContent`; block rejects the tool call, mask rewrites text in place, and an unrewritable masking hit becomes a block",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "MCP sub-calls do not inherit the parent request's `guardrails` selection; `default_on: true` is the documented way to make the guardrail apply",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "On `/mcp`, a blocked tool result is an MCP tool error that can arrive with HTTP 200; on `/v1/responses` the model receives a tool error and may continue, and the overall Responses request is not made HTTP 400 by the block",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "An unsupported guardrail mode logs an initialization error and skips that guardrail while the proxy continues to start",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "A `pre_mcp_call` guardrail also runs on tool discovery: it sees each tool's description plus every description inside its input schema before the gateway serves `tools/list`",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "A blocked tool is omitted from the listing and refused on `tools/call` even if the client already knows its name; a masked description is listed masked; the gateway emits a self-clearing `mcp_tool_description_blocked` alert",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "When a call lacks a tool definition from the caller's listing, LiteLLM retrieves the definition with that caller's upstream credentials and applies the discovery guardrail before execution, covering clients that never listed tools and calls handled by another proxy worker",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Pinning a server's tool list does not replace guardrails; guardrails still scan pinned text, and the call-enforcement behavior requires a version containing a specific fix",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Custom guardrails get a distinct discovery hook (`call_type: list_mcp_tools`) with `mcp_tool_description` / `mcp_input_schema` request data, and `apply_guardrail` receives description texts ahead of argument texts; raising blocks, rewriting masks",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "The page claims MCP guardrails work with all LiteLLM-supported guardrail providers, enumerating Presidio, Bedrock, Lakera, Aporia, Noma, PANW Prisma AIRS, and custom implementations, with PANW requiring a version containing a named integration fix",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-message-sanitization": {
       "path": "source-notes/docs-litellm-message-sanitization.md",
       "title": "Message Sanitization for Tool Calling for anthropic models | liteLLM",
