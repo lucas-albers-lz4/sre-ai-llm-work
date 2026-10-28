@@ -4081,6 +4081,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-portkey-integration": {
+      "slug": "docs-promptfoo-portkey-integration",
+      "title": "Promptfoo × Portkey Integration — Prompt-Only Retrieval, Two-Credential Splitting, and the Interactive-OAuth CI Trap",
+      "source_url": "https://www.promptfoo.dev/docs/integrations/portkey",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-10-26",
+      "date_extracted": "2026-10-28",
+      "issue": "#1905",
+      "file": "source-notes/docs-promptfoo-portkey-integration.md",
+      "confidence_overall": "settled",
+      "status": "current"
+    },
     "docs-promptfoo-prevent-llm-hallucinations": {
       "slug": "docs-promptfoo-prevent-llm-hallucinations",
       "title": "How to Measure and Prevent LLM Hallucinations",

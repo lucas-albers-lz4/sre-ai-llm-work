@@ -21170,6 +21170,72 @@
         }
       ]
     },
+    "docs-promptfoo-portkey-integration": {
+      "path": "source-notes/docs-promptfoo-portkey-integration.md",
+      "title": "Promptfoo × Portkey Integration — Prompt-Only Retrieval, Two-Credential Splitting, and the Interactive-OAuth CI Trap",
+      "source_url": "https://www.promptfoo.dev/docs/integrations/portkey",
+      "chapters": [
+        "05",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The integration exposes two separate surfaces — Portkey prompt management through `portkey://` and the Portkey AI gateway through the `portkey:` provider — and the page treats them as distinct configuration paths",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "`portkey://<prompt-id>` fetches and renders only the prompt — variables are injected from the test case, but promptfoo does **not** follow the temperature, model, or other parameters configured in Portkey; those must be set in the `providers` block",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "A Portkey request can carry two credentials in two different places — the Portkey key as `x-portkey-api-key` (`PORTKEY_API_KEY` / `portkeyApiKey`) and the upstream provider key as `Authorization: Bearer` (`OPENAI_API_KEY` / `apiKey`)",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The upstream provider key is forwarded only for direct passthrough (e.g. `portkeyProvider: openai` with no slug); when Portkey holds the provider credential via a model-catalog provider slug or a virtual key, promptfoo sends no provider key",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The `portkey:` provider exposes a fixed configuration inventory — `portkeyApiKey`, `portkeyVirtualKey`, `portkeyMetadata`, `portkeyConfig`, `portkeyProvider`, and `portkeyApiBaseUrl` — and the page's gateway example omits the YAML list marker that its own headers example includes",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Additional request headers are sent through `config.headers` and accept arbitrary header names/values",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "`PORTKEY_API_BASE_URL` configures only the OpenAI-compatible chat-completions endpoint (default `https://api.portkey.ai/v1`) and explicitly does **not** configure the MCP connection; the MCP Gateway URL must be set in `server.url`",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Portkey exposes each registered MCP server at `https://mcp.portkey.ai/<server-slug>/mcp`, where the slug comes from Portkey's MCP Registry",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Non-interactive CLI/CI MCP runs require a workspace user API key with `mcp invoke` permission in `x-portkey-api-key`; without an API key Portkey starts an interactive OAuth flow intended for browser clients",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Promptfoo can reach Portkey's MCP Gateway in two modes — use the `mcp` provider to test/red-team the server directly, or attach the same server block to a model provider's `mcp` config to test an LLM application that uses the server",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Each functional MCP test sends one JSON tool call shaped `{\"tool\": \"tool_name\", \"args\": {...}}`; a red-team run reuses the same `id: mcp` target with the `mcp` plugin and converts generated attacks into valid tool calls",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-prevent-llm-hallucinations": {
       "path": "source-notes/docs-promptfoo-prevent-llm-hallucinations.md",
       "title": "How to Measure and Prevent LLM Hallucinations",
