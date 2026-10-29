@@ -16658,6 +16658,94 @@
         }
       ]
     },
+    "docs-litellm-mcp-oauth-passthrough": {
+      "path": "source-notes/docs-litellm-mcp-oauth-passthrough.md",
+      "title": "MCP OAuth Passthrough — LiteLLM Documentation",
+      "source_url": "https://docs.litellm.ai/docs/mcp_oauth_passthrough",
+      "chapters": [
+        "06",
+        "05",
+        "03",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Two `auth_type` values differ on exactly one axis — whether LiteLLM still authenticates the caller at its own edge",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Both modes forward the token verbatim — no decoding, no audience or scope check, no exchange",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "An audience-locked token rejected by the upstream is the correct confused-deputy-safe outcome, not a LiteLLM bug",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Mode selection is keyed on who minted the token, with an explicit test that forbids widening `aud`",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "`true_passthrough` is the entire configuration — `url` plus `auth_type`, with no client credentials or token endpoints",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "`true_passthrough` makes the MCP route unauthenticated ingress and disables spend, per-key rate limits, and `user_id`-keyed guardrails",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The transparent path fails closed on resolution — it fires only when every target in scope is `true_passthrough`",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "`oauth_delegate` keeps admission in `x-litellm-api-key` and forwards only the separate upstream bearer",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "A lone `Authorization` credential is treated as the admission credential and never forwarded upstream — the leak defense",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Aggregate requests can carry only one `Authorization`, so per-server headers bind a token to one server and request-wide `Authorization` is withheld during listing fan-out",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Per-server passthrough headers normalize the alias (`[a-z0-9_]`) and forward the value verbatim, scheme included",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "The admin-UI \"Authorize & Fetch Tools\" flow keeps the token in the browser session only",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "Three forwarding limits are intentional — no per-server re-auth signal on the aggregate, no DPoP/mTLS relay, no connect-time revocation detection",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "`dcr_bridge` is valid only on the two passthrough modes, and the `oauth_delegate` bridge requires a working browser sign-in",
+          "kind": "claim"
+        },
+        {
+          "n": 15,
+          "heading": "The legacy `delegate_auth_to_upstream` flag is deprecated and no longer bypasses admission",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-mcp-oauth": {
       "path": "source-notes/docs-litellm-mcp-oauth.md",
       "title": "MCP OAuth — LiteLLM Documentation",
