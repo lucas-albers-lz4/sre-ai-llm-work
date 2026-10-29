@@ -291,6 +291,36 @@ corruption that would break a backfill is caught by a health check rather
 than by the next scheduled run [source:
 docs-google-sre-reliable-data-processing-minimal-toil, Claim 12] [settled].
 
+### Backlog and accelerator signals are leading indicators
+
+Freshness tells you work is late; backlog tells you it is accumulating. For
+asynchronous workers, "backlog is the true scaling signal – not infrastructure
+utilization" [source: blog-cncf-keda-sqs-queue-depth-autoscaling, Claim 1]
+[emerging]. Dashboard visible, in-flight, and delayed counts separately:
+counting in-flight messages as backlog is a policy choice that can over-scale,
+and the right choice depends on the visibility timeout relative to processing
+time [source: blog-cncf-keda-sqs-queue-depth-autoscaling, Claim 5] [emerging].
+A worker can be up and fully utilized while the queue grows, which a freshness
+SLO only notices after it is already breached.
+
+For self-hosted inference, name which GPU signal a policy uses, because the
+three diverge: `gpu_utilization` is SM (compute) utilization percentage,
+`memory_utilization` is memory controller utilization, and
+`memory_used_percent` is VRAM usage as a percentage
+[source: blog-cncf-gpu-autoscaling-keda-external-scaler, Claim 6] [settled].
+A server holding weights can consume most VRAM at low SM utilization, which is
+why the reference `vllm-inference` profile scales on memory occupancy rather
+than compute [source: blog-cncf-gpu-autoscaling-keda-external-scaler, Claim 6,
+Claim 8] [emerging]. On multi-GPU nodes, `max`, `min`, `avg`, and `sum` change
+the meaning of the target — choose the aggregation together with the target
+value rather than leaving a default
+[source: blog-cncf-gpu-autoscaling-keda-external-scaler, Claim 7] [settled].
+
+**Rule**: Alert on backlog depth and oldest-message age alongside freshness,
+split visible from in-flight and delayed counts, and make a GPU policy name
+one of the three GPU metrics plus its aggregation. Do not treat "GPU
+utilization" as a single number.
+
 ## AI-assisted observability
 
 ### AI as copilot, not driver
@@ -390,5 +420,6 @@ failure-litellm-vllm-embeddings-encoding-format,
 docs-google-sre-reliable-data-processing-minimal-toil,
 docs-google-sre-reaching-beyond-walls,
 docs-google-sre-slo-engineering-case-studies, docs-langfuse-cli,
-docs-litellm-a2a-agent-gateway*
-*Last updated: 2026-09-17*
+docs-litellm-a2a-agent-gateway, blog-cncf-keda-sqs-queue-depth-autoscaling,
+blog-cncf-gpu-autoscaling-keda-external-scaler*
+*Last updated: 2026-10-29*
