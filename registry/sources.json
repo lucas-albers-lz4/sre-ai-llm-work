@@ -143,6 +143,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "blog-cncf-jaeger-ai-agent-tracing-opentelemetry": {
+      "slug": "blog-cncf-jaeger-ai-agent-tracing-opentelemetry",
+      "title": "How Jaeger is evolving to trace AI agents with OpenTelemetry",
+      "source_url": "https://www.cncf.io/blog/2026/05/26/how-jaeger-is-evolving-to-trace-ai-agents-with-opentelemetry",
+      "source_type": "blog-post",
+      "author": "Jonah Kowall",
+      "date_published": "2026-05-26",
+      "date_extracted": "2026-10-29",
+      "issue": "#1914",
+      "file": "source-notes/blog-cncf-jaeger-ai-agent-tracing-opentelemetry.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-cncf-jaeger-clickhouse-backend": {
       "slug": "blog-cncf-jaeger-clickhouse-backend",
       "title": "Building Jaeger’s ClickHouse backend: 8.6× compression on 10 million spans",

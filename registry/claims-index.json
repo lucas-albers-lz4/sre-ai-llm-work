@@ -820,6 +820,84 @@
         }
       ]
     },
+    "blog-cncf-jaeger-ai-agent-tracing-opentelemetry": {
+      "path": "source-notes/blog-cncf-jaeger-ai-agent-tracing-opentelemetry.md",
+      "title": "How Jaeger is evolving to trace AI agents with OpenTelemetry",
+      "source_url": "https://www.cncf.io/blog/2026/05/26/how-jaeger-is-evolving-to-trace-ai-agents-with-opentelemetry",
+      "chapters": [
+        "02",
+        "03",
+        "06",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "AI-agent execution paths add tracing surfaces that conventional distributed tracing did not need",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Jaeger v2 replaced its collection layer with the OpenTelemetry Collector and ingests OTLP natively",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Jaeger is adopting three complementary open protocols — MCP, ACP, and AG-UI",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The ACP backend layer is deliberately a stateless translator between the frontend and external AI sidecars",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Natural-language constraints are translated into deterministic trace queries",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Restricting the AI to protocol translation and query generation is claimed to bound hallucination risk",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Cloud LLMs and local SLMs are interchangeable configuration choices, driven by reasoning depth versus data privacy",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The UI moves to a streaming assistant workspace that sends trace context to the backend gateway",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Jaeger will render emerging OTel GenAI semantic conventions for agentic systems and AI sandboxes, without vendor-specific formats",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The same Jaeger v2 binary runs locally and in production because it is built on the OpenTelemetry Collector",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "A local SLM in a private sandbox supports testing, then a cloud LLM replaces it for production analysis",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "RAG pipelines and autonomous agents need latency, tool-call, and token metrics, not just trace waterfalls",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "The AI-assistant capability is project direction and proof of concept, not a shipped, validated feature",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-cncf-jaeger-clickhouse-backend": {
       "path": "source-notes/blog-cncf-jaeger-clickhouse-backend.md",
       "title": "Building Jaeger’s ClickHouse backend: 8.6× compression on 10 million spans",
