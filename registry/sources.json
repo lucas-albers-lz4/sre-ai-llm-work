@@ -247,6 +247,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "blog-cncf-netease-games-llm-cold-starts-kubernetes": {
+      "slug": "blog-cncf-netease-games-llm-cold-starts-kubernetes",
+      "title": "How NetEase Games achieved 30-second LLM cold starts on Kubernetes",
+      "source_url": "https://www.cncf.io/blog/2026/05/21/how-netease-games-achieved-30-second-llm-cold-starts-on-kubernetes",
+      "source_type": "blog-post",
+      "author": "Haifeng Liao (Senior Infrastructure Engineer, NetEase Games) and Xiang Zhang",
+      "date_published": "2026-05-21",
+      "date_extracted": "2026-10-29",
+      "issue": "#1942",
+      "file": "source-notes/blog-cncf-netease-games-llm-cold-starts-kubernetes.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-cncf-network-boundary-ai-agents-nginx-otel": {
       "slug": "blog-cncf-network-boundary-ai-agents-nginx-otel",
       "title": "Network boundary for AI agents using NGINX and OpenTelemetry",

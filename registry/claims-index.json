@@ -1393,6 +1393,81 @@
         }
       ]
     },
+    "blog-cncf-netease-games-llm-cold-starts-kubernetes": {
+      "path": "source-notes/blog-cncf-netease-games-llm-cold-starts-kubernetes.md",
+      "title": "How NetEase Games achieved 30-second LLM cold starts on Kubernetes",
+      "source_url": "https://www.cncf.io/blog/2026/05/21/how-netease-games-achieved-30-second-llm-cold-starts-on-kubernetes",
+      "chapters": [
+        "04"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Autoscaling value is capped by the data path — elastic GPU compute is only useful if model data can move just as fast",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The real bottleneck was loading model data, not scheduling containers — 70B-class models pull hundreds of gigabytes of weights and can take tens of minutes from remote storage",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Three Day-2 problems were tightly coupled — scarce/heterogeneous GPUs, non-uniform traffic, and cold starts dominated by model loading",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The measured cold-start ladder was 42 minutes (cross-region direct storage) → 14 minutes (conventional Alluxio cache) → 3 minutes (Fluid prefetch) → ~1 minute, sometimes under 30 seconds, after production tuning",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Prefetch *before* pod startup is the mechanism that removes the cold-start penalty from the request path, with scheduled, event-driven, and proactive warm-up tied to predictable traffic windows",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Cross-namespace shared base models are a cache-memory and version-management control, not just a latency trick — warm a foundation model once and reference it from many services",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The operational unit should be the dataset and runtime, not a cache cluster — that abstraction was the main reason the team chose Fluid over deploying Alluxio directly",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The dataset abstraction is decoupled from the cache runtime, so the team can keep one operating model and swap Alluxio, JindoCache, or JuiceFS over time",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Cache elasticity (HPA/KEDA) and data-aware scheduling align compute placement with cached data",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "CSI-based and sidecar-based access with webhook-injected sidecars let the same model-loading path work across serverless and non-serverless environments",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The distributed cache absorbs startup bursts — when many inference pods launch together, backend storage no longer takes the full pressure",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "The cache is scaled down again after deployment, so the memory saving exists only during warm-up — a cost/latency trade-off the post does not quantify",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "The authors' own decision rule is narrow problem vs. operational problem — direct Alluxio is enough for a cache in front of remote storage; the orchestration layer matters only once you need prefetch, sharing, autoscaling, and tenant controls",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-cncf-network-boundary-ai-agents-nginx-otel": {
       "path": "source-notes/blog-cncf-network-boundary-ai-agents-nginx-otel.md",
       "title": "Network boundary for AI agents using NGINX and OpenTelemetry",
