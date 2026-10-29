@@ -10,7 +10,7 @@
     },
     "kaynor/agent-voir": {
       "first_seen": "2026-07-14T13:38:33.601648+00:00",
-      "last_scanned": "2026-10-28T17:45:43.092858+00:00",
+      "last_scanned": "2026-10-29T17:52:51.722412+00:00",
       "config_files": [
         "docs/voice-agents.md"
       ],
@@ -18,7 +18,7 @@
     },
     "manojmallick/guardian": {
       "first_seen": "2026-07-14T13:38:35.291515+00:00",
-      "last_scanned": "2026-10-28T17:45:43.093038+00:00",
+      "last_scanned": "2026-10-29T17:52:51.722479+00:00",
       "config_files": [
         "logs/CLAUDE.md"
       ],
@@ -26,7 +26,7 @@
     },
     "tang-vu/ContribAI": {
       "first_seen": "2026-07-14T13:38:36.750652+00:00",
-      "last_scanned": "2026-10-28T17:45:43.093081+00:00",
+      "last_scanned": "2026-10-29T17:52:51.722503+00:00",
       "config_files": [
         "RUNBOOK.md"
       ],
@@ -34,7 +34,7 @@
     },
     "youngde811/Lisa": {
       "first_seen": "2026-07-14T13:38:38.258897+00:00",
-      "last_scanned": "2026-10-28T17:45:43.093294+00:00",
+      "last_scanned": "2026-10-29T17:52:51.722647+00:00",
       "config_files": [
         "docs/runbook.md"
       ],
@@ -114,7 +114,7 @@
     },
     "ADanMan/AVI": {
       "first_seen": "2026-07-14T13:38:53.542067+00:00",
-      "last_scanned": "2026-10-28T17:45:43.093281+00:00",
+      "last_scanned": "2026-10-29T17:52:51.722638+00:00",
       "config_files": [
         "docs/runbook.md"
       ],
@@ -250,7 +250,7 @@
     },
     "mrlucas679/shelfwise": {
       "first_seen": "2026-07-21T13:23:21.085994+00:00",
-      "last_scanned": "2026-10-28T17:45:43.093353+00:00",
+      "last_scanned": "2026-10-29T17:52:51.722683+00:00",
       "config_files": [
         "DEMO_RUNBOOK.md"
       ],
@@ -322,7 +322,7 @@
     },
     "ArokyaMatthew/DrillMind": {
       "first_seen": "2026-07-26T03:53:02.980628+00:00",
-      "last_scanned": "2026-10-28T17:45:43.093214+00:00",
+      "last_scanned": "2026-10-29T17:52:51.722594+00:00",
       "config_files": [
         "RUNBOOK.md"
       ],
@@ -330,7 +330,7 @@
     },
     "KaiFelixBennett/RadeonForge": {
       "first_seen": "2026-07-26T03:53:04.646186+00:00",
-      "last_scanned": "2026-10-28T17:45:43.093265+00:00",
+      "last_scanned": "2026-10-29T17:52:51.722626+00:00",
       "config_files": [
         "RUNBOOK.md"
       ],
@@ -346,7 +346,7 @@
     },
     "konradxmalinowski/llm-security-scanner": {
       "first_seen": "2026-07-26T03:53:08.050622+00:00",
-      "last_scanned": "2026-10-28T17:45:43.093384+00:00",
+      "last_scanned": "2026-10-29T17:52:51.722704+00:00",
       "config_files": [
         "RUNBOOK.md"
       ],
@@ -354,7 +354,7 @@
     },
     "W4sP4nx2/HR-AI-Operations": {
       "first_seen": "2026-07-26T03:53:09.778980+00:00",
-      "last_scanned": "2026-10-28T17:45:43.093623+00:00",
+      "last_scanned": "2026-10-29T17:52:51.722851+00:00",
       "config_files": [
         "RUNBOOK.md"
       ],
@@ -370,7 +370,7 @@
     },
     "jmanhype/ace-playbook": {
       "first_seen": "2026-07-26T03:53:13.216920+00:00",
-      "last_scanned": "2026-10-28T17:45:43.093653+00:00",
+      "last_scanned": "2026-10-29T17:52:51.722870+00:00",
       "config_files": [
         "docs/RUNBOOK.md"
       ],
@@ -386,7 +386,7 @@
     },
     "Kelsus/kelsus-oss-ai-ref-arch": {
       "first_seen": "2026-07-26T03:53:16.496839+00:00",
-      "last_scanned": "2026-10-28T17:45:43.093693+00:00",
+      "last_scanned": "2026-10-29T17:52:51.722894+00:00",
       "config_files": [
         "docs/RUNBOOK.md"
       ],
@@ -402,7 +402,7 @@
     },
     "Preet-Pandit2/AI-Ethics-in-Autonomous-Robots": {
       "first_seen": "2026-07-28T13:47:42.012090+00:00",
-      "last_scanned": "2026-10-28T17:45:43.093771+00:00",
+      "last_scanned": "2026-10-29T17:52:51.722942+00:00",
       "config_files": [
         "docs/RUNBOOK.md"
       ],
@@ -426,7 +426,7 @@
     },
     "whatsforlunch99/openFund-AI": {
       "first_seen": "2026-07-28T13:47:46.065254+00:00",
-      "last_scanned": "2026-10-28T17:45:43.094021+00:00",
+      "last_scanned": "2026-10-29T17:52:51.723095+00:00",
       "config_files": [
         "docs/RUNBOOK.md"
       ],
@@ -434,7 +434,7 @@
     },
     "NOVADEDOG/energy-leaderboard-runner": {
       "first_seen": "2026-07-28T13:47:47.341747+00:00",
-      "last_scanned": "2026-10-28T17:45:43.094074+00:00",
+      "last_scanned": "2026-10-29T17:52:51.723130+00:00",
       "config_files": [
         "RUNBOOK.md"
       ],
@@ -442,7 +442,7 @@
     },
     "shahneil76/opskit": {
       "first_seen": "2026-08-05T13:50:24.481021+00:00",
-      "last_scanned": "2026-10-28T17:45:43.093021+00:00",
+      "last_scanned": "2026-10-29T17:52:51.722469+00:00",
       "config_files": [
         "CLAUDE.md"
       ],
@@ -450,7 +450,7 @@
     },
     "arumes31/hookwise": {
       "first_seen": "2026-08-08T12:32:54.948599+00:00",
-      "last_scanned": "2026-10-28T17:45:43.093511+00:00",
+      "last_scanned": "2026-10-29T17:52:51.722782+00:00",
       "config_files": [
         "docs/RUNBOOK.md"
       ],
@@ -482,7 +482,7 @@
     },
     "NXDigita/TalentForge-POC": {
       "first_seen": "2026-08-13T12:54:29.202624+00:00",
-      "last_scanned": "2026-10-28T17:45:43.093916+00:00",
+      "last_scanned": "2026-10-29T17:52:51.723032+00:00",
       "config_files": [
         "RUNBOOK.md"
       ],
@@ -490,7 +490,7 @@
     },
     "vicciz-ceo/LexGraph": {
       "first_seen": "2026-08-14T12:48:28.327015+00:00",
-      "last_scanned": "2026-10-28T17:45:43.094000+00:00",
+      "last_scanned": "2026-10-29T17:52:51.723082+00:00",
       "config_files": [
         "docs/RUNBOOK.md"
       ],
@@ -968,7 +968,7 @@
     },
     "SMNETSTUDIO/WeChat-AI": {
       "first_seen": "2026-09-04T15:33:53.534072+00:00",
-      "last_scanned": "2026-10-28T17:45:43.093118+00:00",
+      "last_scanned": "2026-10-29T17:52:51.722530+00:00",
       "config_files": [
         "docs/runbook.md"
       ],
@@ -1008,7 +1008,7 @@
     },
     "mxtbyrm/pocket-analyst": {
       "first_seen": "2026-09-23T15:53:36.998029+00:00",
-      "last_scanned": "2026-10-28T17:45:43.093467+00:00",
+      "last_scanned": "2026-10-29T17:52:51.722756+00:00",
       "config_files": [
         "RUNBOOK.md"
       ],
@@ -1016,7 +1016,7 @@
     },
     "kr8tiv-ai/Jarvis": {
       "first_seen": "2026-09-25T16:16:14.108932+00:00",
-      "last_scanned": "2026-10-28T17:45:43.093194+00:00",
+      "last_scanned": "2026-10-29T17:52:51.722579+00:00",
       "config_files": [
         "RUNBOOK.md"
       ],
@@ -1032,7 +1032,7 @@
     },
     "abrahamFerga/casewell": {
       "first_seen": "2026-10-14T16:17:53.947548+00:00",
-      "last_scanned": "2026-10-28T17:45:43.093831+00:00",
+      "last_scanned": "2026-10-29T17:52:51.722989+00:00",
       "config_files": [
         "RUNBOOK.md"
       ],
@@ -1048,7 +1048,7 @@
     },
     "AdilShamim8/Agentic-AI-Eval-Harness": {
       "first_seen": "2026-10-14T16:17:58.709818+00:00",
-      "last_scanned": "2026-10-28T17:45:43.094033+00:00",
+      "last_scanned": "2026-10-29T17:52:51.723103+00:00",
       "config_files": [
         "RUNBOOK.md"
       ],
@@ -1064,7 +1064,7 @@
     },
     "kryptophonik/SRE-Skills": {
       "first_seen": "2026-10-23T16:14:08.413732+00:00",
-      "last_scanned": "2026-10-28T17:45:43.092587+00:00",
+      "last_scanned": "2026-10-29T17:52:51.722230+00:00",
       "config_files": [
         "AGENTS.md"
       ],
@@ -1072,7 +1072,7 @@
     },
     "climatepolicyradar/knowledge-graph": {
       "first_seen": "2026-10-27T17:09:56.031979+00:00",
-      "last_scanned": "2026-10-28T17:45:43.093141+00:00",
+      "last_scanned": "2026-10-29T17:52:51.722544+00:00",
       "config_files": [
         "RUNBOOK.md"
       ],
@@ -1080,7 +1080,7 @@
     },
     "bensonz/stock-analysis": {
       "first_seen": "2026-10-27T17:09:58.290732+00:00",
-      "last_scanned": "2026-10-28T17:45:43.093419+00:00",
+      "last_scanned": "2026-10-29T17:52:51.722726+00:00",
       "config_files": [
         "docs/RUNBOOK.md"
       ],
@@ -1088,7 +1088,7 @@
     },
     "zed123214/kitagent": {
       "first_seen": "2026-10-27T17:10:00.318769+00:00",
-      "last_scanned": "2026-10-28T17:45:43.093736+00:00",
+      "last_scanned": "2026-10-29T17:52:51.722921+00:00",
       "config_files": [
         "RUNBOOK.md"
       ],
@@ -1096,12 +1096,12 @@
     },
     "AdilShamim8/Ask-the-Web-103": {
       "first_seen": "2026-10-27T17:10:02.489084+00:00",
-      "last_scanned": "2026-10-28T17:45:43.093848+00:00",
+      "last_scanned": "2026-10-29T17:52:51.723002+00:00",
       "config_files": [
         "docs/RUNBOOK.md"
       ],
       "stars": 10
     }
   },
-  "last_scan": "2026-10-28T17:45:43.094077+00:00"
+  "last_scan": "2026-10-29T17:52:51.723132+00:00"
 }
