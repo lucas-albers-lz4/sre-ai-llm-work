@@ -3055,6 +3055,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-mcp-oauth": {
+      "slug": "docs-litellm-mcp-oauth",
+      "title": "MCP OAuth — LiteLLM Documentation",
+      "source_url": "https://docs.litellm.ai/docs/mcp_oauth",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs)",
+      "date_extracted": "2026-10-29",
+      "issue": "#1932",
+      "file": "source-notes/docs-litellm-mcp-oauth.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-message-sanitization": {
       "slug": "docs-litellm-message-sanitization",
       "title": "Message Sanitization for Tool Calling for anthropic models | liteLLM",

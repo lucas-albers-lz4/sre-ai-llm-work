@@ -16658,6 +16658,93 @@
         }
       ]
     },
+    "docs-litellm-mcp-oauth": {
+      "path": "source-notes/docs-litellm-mcp-oauth.md",
+      "title": "MCP OAuth — LiteLLM Documentation",
+      "source_url": "https://docs.litellm.ai/docs/mcp_oauth",
+      "chapters": [
+        "06",
+        "05",
+        "03"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "LiteLLM has five MCP outbound OAuth patterns — interactive PKCE and M2M are both `auth_type: oauth2` discriminated by `oauth2_flow`, while OBO, transparent passthrough, and delegated upstream OAuth are their own `auth_type` values — and `oauth2_flow` is mandatory at startup for every `auth_type: oauth2` server",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Interactive-flow tokens are stored per user under the calling key's `user_id`, not per key or per server",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The proxy mediates every interactive PKCE step — resource discovery, authorization-server discovery, RFC 7591 dynamic client registration, authorization, token exchange, and MCP invocation — so the MCP client never talks to the upstream authorization server directly",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Static-client authorization uses two distinct callbacks — the proxy's `<proxy origin>/callback` registered with the upstream IdP, and the MCP client's own callback supplied as `redirect_uri` to `/{mcp_server_name}/authorize` (loopback callbacks need not be registered with the IdP)",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "For MCP OAuth endpoints, LiteLLM resolves its public origin in a fixed order — `PROXY_BASE_URL` verbatim, then `X-Forwarded-Proto/Host/Port` only when `use_x_forwarded_for` is true **and** the peer IP is inside `mcp_trusted_proxy_ranges`, then `request.base_url` — and enabling `use_x_forwarded_for` without the trust range makes the headers untrusted",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "On an ingressed deployment whose origin resolves to the internal pod address, the MCP page's Connect button fails with `400 Bad Request` and `{\"detail\":\"invalid_request\"}`, and the proxy logs the rejected value as `MCP OAuth: rejecting redirect_uri '<value>'` at warning level",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Redirect-URI validation differs by callback class — loopback accepts any port and path, trusted origins must be HTTPS with wildcard subdomains excluding the apex, and fragments, embedded credentials, backslashes in the host, and query strings on native schemes are rejected",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The same-origin check exists to stop an admin-phishing flow that bounces an upstream authorization code through an attacker-controlled host, and LiteLLM deliberately prefers an operator-declared `PROXY_BASE_URL` over inferring the origin from headers because the check itself is not relaxed",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The aggregate `/mcp` endpoint uses gateway-level dynamic client registration with one to four `redirect_uris` (max 256 characters each), and `/authorize` requires an exact match to a registered value or returns a top-level `invalid_request`",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Per-server static registration returns placeholder credentials — `client_id` equal to the server name, `client_secret` equal to `dummy` — and stores no client-specific callback allowlist, so authorization falls back to the per-server validation rules",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "`per_server_oauth_discovery: true` makes LiteLLM publish discovery documents for an upstream that publishes none, but is accepted only with `auth_type: oauth2`, `oauth2_flow: authorization_code`, and no `delegate_auth_to_upstream`",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "M2M auth uses the `client_credentials` grant with proxy-managed token fetch/cache/refresh, caching in memory for `expires_in - 60s`",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "`upstream_token_header` lets two credentials coexist on one request by moving the LiteLLM-minted token to a named header while leaving `static_headers` untouched, and an invalid header name fails startup / is rejected with 400 by the management API",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "`token_validation` asserts key-value rules against the post-exchange token response (e.g. a tenant claim) and `token_storage_ttl_seconds` overrides the per-user token-cache TTL",
+          "kind": "claim"
+        },
+        {
+          "n": 15,
+          "heading": "`x-litellm-mcp-debug: true` returns masked `x-mcp-debug-*` response headers, and `SAME_AS_LITELLM_KEY` on `x-mcp-debug-oauth2-token` is the signature that the LiteLLM API key is being forwarded upstream instead of an OAuth token",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-message-sanitization": {
       "path": "source-notes/docs-litellm-message-sanitization.md",
       "title": "Message Sanitization for Tool Calling for anthropic models | liteLLM",
