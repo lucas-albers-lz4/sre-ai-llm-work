@@ -3068,6 +3068,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-mcp-cost-tracking": {
+      "slug": "docs-litellm-mcp-cost-tracking",
+      "title": "MCP Cost Tracking — LiteLLM AI Gateway Documentation",
+      "source_url": "https://docs.litellm.ai/docs/mcp_cost",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs; front-matter last_updated 2026-10-29)",
+      "date_extracted": "2026-10-29",
+      "issue": "#1919",
+      "file": "source-notes/docs-litellm-mcp-cost-tracking.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-mcp-guardrails": {
       "slug": "docs-litellm-mcp-guardrails",
       "title": "MCP Guardrails — LiteLLM Documentation (MCP tool-call and tool-description scanning)",

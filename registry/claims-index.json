@@ -16739,6 +16739,68 @@
         }
       ]
     },
+    "docs-litellm-mcp-cost-tracking": {
+      "path": "source-notes/docs-litellm-mcp-cost-tracking.md",
+      "title": "MCP Cost Tracking — LiteLLM AI Gateway Documentation",
+      "source_url": "https://docs.litellm.ai/docs/mcp_cost",
+      "chapters": [
+        "05",
+        "02",
+        "03"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "LiteLLM documents exactly two ways to cost MCP tool calls — config-based fixed costs per tool/server, or a custom post-MCP hook for \"dynamic\" cost logic — and documents no measured/usage-based path",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The config path places prices at `mcp_servers.<name>.mcp_info.mcp_server_cost_info`, with `default_cost_per_query` for the whole server and a `tool_name_to_cost_per_query` map for per-tool overrides",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Precedence is per-tool override → server default → `0.0`; the page only implies it through comments, while the implementation and unit tests state it explicitly",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The custom hook is a `CustomLogger` subclass implementing `async_post_mcp_tool_call_hook`, registered under `litellm_settings.callbacks`, that sets `response_obj.hidden_params.response_cost` and returns the response object",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "A hook-set cost takes precedence over the configured price, and because the check is `is not None`, a hook that sets `0.0` silently disables the configured per-tool price",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "When neither a hook cost nor a matching config price exists, the MCP cost calculator returns `0.0` — the call succeeds and logs zero spend with no error, and the page documents no warning",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Config-based MCP pricing is an operator-declared per-query price, not a measurement of upstream tool cost — no documented linkage to token usage, provider invoice, or execution duration",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "A custom cost hook that raises is swallowed by the logging path — the request still succeeds and the cost silently falls back to config or zero",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "MCP tool-call spend lands in the same `LiteLLM_SpendLogs` table as completion spend, discriminated by `call_type` (`call_mcp_tool` / `list_mcp_tools`), and session aggregation exposes `mcp_tool_call_spend = SUM(spend)`",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The page's hook sample is illustrative rather than executable as a cost recipe — `custom_cost = 42.00` is a literal placeholder, and the sample reads `kwargs.get(\"name\")` / `kwargs.get(\"server_name\")` without documenting that the built-in calculator keys the tool off `mcp_tool_call_metadata[\"name\"]`",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-mcp-guardrails": {
       "path": "source-notes/docs-litellm-mcp-guardrails.md",
       "title": "MCP Guardrails — LiteLLM Documentation (MCP tool-call and tool-description scanning)",
