@@ -156,6 +156,44 @@ Agent capabilities split into two categories
 explicit human approval. Run writes in a sandbox; actions that escape the
 sandbox need a second permission check.
 
+Most MCP tool surfaces do not ship the read/write label that rule depends on.
+Promptfoo's eval server exposes twelve tools in four groups — browse and get
+results alongside `run_evaluation`, `compare_providers`, `redteam_run`, and
+`share_evaluation` — with no read-only, write, or permission column anywhere
+in the catalog [source: docs-promptfoo-mcp-server, Claim 2, Claim 3]
+[emerging]. The operator has to build the split: reads and validation,
+cost-incurring execution, and externally visible publication
+[source: docs-promptfoo-mcp-server, Claim 3] [emerging].
+
+```
+Core Evaluation Tools
+  list_evaluations        - Browse your evaluation runs with optional dataset filtering
+  get_evaluation_details  - Get comprehensive results, metrics, and test cases for a specific evaluation
+  run_evaluation          - Execute evaluations with custom parameters, test case filtering, and concurrency control
+  share_evaluation        - Generate publicly shareable URLs for evaluation results
+Redteam Security Tools
+  redteam_run             - Execute comprehensive security testing against AI applications with dynamic attack probes
+  redteam_generate        - Generate adversarial test cases for redteam security testing with configurable plugins and strategies
+```
+*Extracted from [source: docs-promptfoo-mcp-server, Concrete Artifacts]; the
+full twelve-tool catalog and its four group headings are in the source.*
+
+`share_evaluation` is the clearest case: an agent-invoked call can publish
+internal eval output — prompts, test cases, responses, failure evidence — to a
+public URL, and the page documents no approval step
+[source: docs-promptfoo-mcp-server, Claim 4] [emerging]. In HTTP mode the
+server serves `/mcp` and `/health` with no documented authentication while
+inheriting every provider credential from its environment
+[source: docs-promptfoo-mcp-server, Claim 5, Claim 6] [emerging], and any
+JSON-RPC client — not just an MCP client — can call `tools/call`
+[source: docs-promptfoo-mcp-server, Claim 11] [settled].
+
+**Rule**: Classify every exposed MCP tool as read, cost-incurring, or
+externally visible before granting a client access, and gate `share_evaluation`
+and `redteam_run` at minimum. An HTTP MCP server with inherited provider keys
+needs an auth layer and dedicated least-privilege credentials; bind it to
+localhost until you add one.
+
 ## Structured tool contracts over free-form interfaces
 
 A maximally-flexible agent-facing interface — a generic key/value "bag," an
@@ -447,5 +485,6 @@ blog-litellm-agents-are-the-new-llms, blog-promptfoo-ai-orchestrated-cyberattack
 blog-promptfoo-ai-regulation-2025, docs-google-sre-eliminating-toil,
 docs-google-sre-incident-response, docs-google-sre-simplicity,
 docs-langfuse-agent-skill, docs-langfuse-alerts, docs-langfuse-cli,
-docs-litellm-a2a-agent-gateway, docs-litellm-a2a-agent-permissions*
-*Last updated: 2026-09-17*
+docs-litellm-a2a-agent-gateway, docs-litellm-a2a-agent-permissions,
+docs-promptfoo-mcp-server*
+*Last updated: 2026-10-29*
