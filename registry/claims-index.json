@@ -16801,6 +16801,83 @@
         }
       ]
     },
+    "docs-litellm-mcp-deployment": {
+      "path": "source-notes/docs-litellm-mcp-deployment.md",
+      "title": "MCP Deployment Guide — LiteLLM Documentation (gateway topology and public-internet exposure)",
+      "source_url": "https://docs.litellm.ai/docs/mcp_deployment",
+      "chapters": [
+        "06",
+        "05",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "LiteLLM positions itself as one control plane for three resource types — LLMs, MCP servers, and A2A agents — sharing auth, rate limiting, and usage accounting",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Option A — the recommended topology — runs `/v1/chat/completions`, `/mcp`, and `/a2a` in one LiteLLM instance with one config and one key set",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Option B splits LLM routing and MCP serving into separate LiteLLM deployments so LLM provider credentials are not reachable through the internet-facing MCP process",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Exposing LiteLLM's port for MCP clients also makes `/v1/chat/completions` reachable externally; the page lists separate deployments, a network-layer firewall rule, and short-lived scoped keys as mitigations",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Registering an external MCP URL makes the gateway issue outbound requests on every tool call; for air-gapped networks the page says to register only in-perimeter servers and set `available_on_public_internet: false` on each",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "`available_on_public_internet` defaults to `true`, so an MCP server is visible to external callers unless the operator explicitly sets it to `false`",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The public-internet filter classifies the caller's IP (optionally from `X-Forwarded-For`) against `mcp_internal_ip_ranges`; internal callers see every server, external callers see only `available_on_public_internet: true` servers, and the filter is applied at every MCP access point",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "`mcp_internal_ip_ranges` overrides the default private ranges; when empty, LiteLLM uses `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, and `127.0.0.0/8`",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The IP filter is not an auth control — an internal MCP server with `delegate_auth_to_upstream: true` and interactive `oauth2` PKCE still permits anonymous callers to use the upstream OAuth `/authorize` path without a LiteLLM session",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "`mcp_disabled_capabilities` prunes prompts/resources gateway-wide — disabled capabilities disappear from `initialize` / `server/discover`, list calls return empty without contacting upstream, get/read calls return JSON-RPC `METHOD_NOT_FOUND`, and tools are unaffected",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "MCP server names may not contain hyphens — the proxy rejects keys such as `internal-db` at startup",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "The MCP registry is opt-in via `enable_mcp_registry: true` and exposes a discovery endpoint for Claude Desktop / Cursor — and the public-internet filter applies to the registry as one of the MCP access points",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "`available_on_public_internet` and the unauthenticated MCP Hub (`GET /public/mcp_hub`) are separate mechanisms — `available_on_public_internet` defaults to `true`, while the hub's strict whitelist is on by default and advertises only servers explicitly listed in `public_mcp_servers`",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-mcp-guardrails": {
       "path": "source-notes/docs-litellm-mcp-guardrails.md",
       "title": "MCP Guardrails — LiteLLM Documentation (MCP tool-call and tool-description scanning)",
