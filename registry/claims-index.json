@@ -1510,6 +1510,91 @@
         }
       ]
     },
+    "blog-cncf-opencost-inference-cost-tracking": {
+      "path": "source-notes/blog-cncf-opencost-inference-cost-tracking.md",
+      "title": "OpenCost 1.121.0: First-of-a-kind Kubernetes inference cost tracking",
+      "source_url": "https://www.cncf.io/blog/2026/08/05/opencost-1-121-0-first-of-a-kind-kubernetes-inference-cost-tracking",
+      "chapters": [
+        "04"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Platform teams can see infrastructure spend and token throughput but not the connection between them, so per-model and per-token cost is unknown and every AI infrastructure decision is a guess",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Cost is not price — a SaaS provider may price below or above its own cost — so when comparing self-hosting to SaaS, the enterprise's cost for SaaS inference is the provider's price",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "A loaded model that is idle still burns GPU budget because its weights occupy VRAM, and low-traffic models can spend ~95% of their time in this warm-but-idle state",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Allocation-based cost per model includes weights reservation, active-inference compute, and a share of shared gateway/KV-cache infrastructure; it reconciles with the infrastructure bill and answers \"what is this model costing us?\"",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Usage-based cost per model includes only active-inference infrastructure cost and credits KV-cache hits; the gap between usage and allocation cost is the cost of keeping the model warm and ready",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Usage-based cost per million tokens is stable regardless of load, while allocation-based cost per million tokens varies with utilization — and the allocation figure is the relevant one for build-vs-buy",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Utilization can be derived directly as usage-based cost per million tokens divided by allocation-based cost per million tokens, without a separate utilization metric",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The build-vs-buy trap is comparing usage-based self-host cost to an API price; at 25% utilization a $1.00/Mtok usage cost is really $4.00/Mtok allocation cost, so a $2.00/Mtok API is cheaper, and self-hosting becomes competitive only above ~50% utilization",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Raising utilization through smarter routing, model sharing, or traffic consolidation lowers allocation-based cost per token and can make self-hosting economical",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "OpenCost 1.121.0 publishes `llm_total_hourly_cost` (hourly cost per model) and `llm_cost_per_million_tokens` (blended, with input/output cost labels) to Prometheus and the OpenCost REST API, labeled by `model_name`, `model_version`, `namespace`, `cost_basis`, and `workload_type`",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Input and output token costs are reported separately because they map to prefill and decode, which is essential for accurate attribution in disaggregated serving; the per-token metrics also account for KV-cache-hit savings on input processing",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "A complete model cost includes llm-d components beyond the GPU — EPP scheduler, gateway proxy, tiered KV cache (up to 18 TB), and the Workload Variant Autoscaler — with shared components attributed via OpenCost `SharedLabels` and counted only in allocation-based cost",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "The four combinations of allocation and usage cost form a 2×2 diagnostic that maps each quadrant to an action — utilization problem, wrong model, well-sized, or model/hardware fit",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "The feature shipped in OpenCost 1.121.0 after a PoC on a 109-GPU cluster with 30 models, and vLLM users who do not run llm-d also benefit because the token counters come from vLLM",
+          "kind": "claim"
+        },
+        {
+          "n": 15,
+          "heading": "The metrics support FinOps workflows — chargeback/showback by namespace and team label, underutilized-model detection, and a future smart router that factors per-token cost into routing alongside latency and throughput",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-cncf-operating-opentelemetry-at-scale-opamp": {
       "path": "source-notes/blog-cncf-operating-opentelemetry-at-scale-opamp.md",
       "title": "Operating OpenTelemetry at scale with OpAMP",
