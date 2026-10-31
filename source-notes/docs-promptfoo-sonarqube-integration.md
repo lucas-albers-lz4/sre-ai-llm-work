@@ -3,7 +3,7 @@ source_url: https://www.promptfoo.dev/docs/integrations/sonarqube
 source_type: docs
 title: "Integrate Promptfoo with SonarQube"
 author: "Promptfoo"
-date_published:
+date_published: "unknown"
 date_extracted: "2026-10-31"
 last_checked: "2026-10-31"
 status: current
@@ -30,7 +30,7 @@ issue: "#1923"
 - **Our assessment**: Buy the integration shape — this is a traditional-security-tool handoff, not another bespoke dashboard, so findings land where developers already triage code issues. Do **not** buy "block pipelines" from this sentence alone: the blocking mechanism is downstream (SonarQube Quality Gate), and the basic recipe in Claim 6 never checks the gate. The page conflates "issues imported" with "pipeline blocked."
 
 ### Claim 2: The documented artifact handoff is exactly `promptfoo eval --output pf-sonar.json --output-format sonarqube`, consumed by `sonar-scanner -Dsonar.externalIssuesReportPaths=pf-sonar.json`
-- **Evidence**: The Basic CI/CD Integration workflow's "Run Promptfoo scan" and "SonarQube Scan" steps. The same two-command handoff is repeated in the Jenkins and advanced recipes.
+- **Evidence**: The Basic CI/CD Integration workflow's "Run Promptfoo scan" and "SonarQube Scan" steps. The same `sonar.externalIssuesReportPaths` handoff is used in the Jenkins and advanced recipes (the advanced recipe invokes `SonarSource/sonarqube-scan-action@master` with `args:` rather than a literal `sonar-scanner` command).
 - **Confidence**: settled as a documented product contract (flags and consumer flag are explicit); the report *contents* are undocumented
 - **Quote**: '-Dsonar.externalIssuesReportPaths=pf-sonar.json'
 - **Our assessment**: Buy the contract. The `sonarqube` formatter is a first-class output format, and `sonar.externalIssuesReportPaths` is SonarQube's documented generic-import consumer, so the bridge is a real one. But this note cannot confirm what the formatter emits — rule IDs, severities, file/line locations, and whether costs or prompts are included are all absent from the page. Treat the flag pair as stable and the payload as unverified.
@@ -71,11 +71,11 @@ issue: "#1923"
 - **Quote**: '          --share || echo "EVAL_FAILED=true" >> $GITHUB_OUTPUT'
 - **Our assessment**: This repeats the skipped-vs-clean ambiguity the guide already warns about for SARIF. Here it is worse: the failed run's exit status is discarded, and the SonarQube report is produced by a *new* eval under `always()`, so the imported findings may not correspond to the run that was supposed to gate. There is no `skipReason`, completion marker, or "scan failed" artifact documented for this path.
 
-### Claim 9: "Generate multiple report formats" does not convert one result set — it re-runs the entire eval three times (JSON, SonarQube, HTML), so the gated artifact and the imported report can diverge
-- **Evidence**: The step invokes `promptfoo eval` separately for `pf-results.json` (json), `pf-sonar.json` (sonarqube), and `pf-results.html` (html), each with `--no-cache`.
-- **Confidence**: settled (three full eval invocations are shown)
+### Claim 9: The advanced recipe never converts one result set — it runs three separate `promptfoo eval` invocations (JSON in "Run red team evaluation", then SonarQube and HTML re-runs in "Generate multiple report formats"), so the gated artifact and the imported report can diverge
+- **Evidence**: The "Run red team evaluation" step produces `pf-results.json` (json) with `--max-concurrency 5 --share` and **no** `--no-cache`. The `if: always()` "Generate multiple report formats" step then produces `pf-sonar.json` (sonarqube) and `pf-results.html` (html), both with `--no-cache`. Nothing in the excerpt converts an existing result file; each format comes from a fresh eval.
+- **Confidence**: settled (three full eval invocations are shown across the two steps)
 - **Quote**: '          # Generate SonarQube format'
-- **Our assessment**: Do not copy this as a report-generation pattern. Re-running a red-team eval is non-deterministic (models, sampling, time), triples cost/latency, and breaks the audit link between the artifact a human reviews and the artifact the gate imports. The correct shape is one eval producing multiple output files, or an explicit conversion path if promptfoo supports it — neither is shown here.
+- **Our assessment**: Do not copy this as a report-generation pattern. Re-running a red-team eval is non-deterministic (models, sampling, time), runs the eval three times over, and breaks the audit link between the artifact a human reviews and the artifact the gate imports. The correct shape is one eval producing multiple output files, or an explicit conversion path if promptfoo supports it — neither is shown here.
 
 ### Claim 10: Jenkins gets the most explicit blocking mechanism — `waitForQualityGate abortPipeline: true` with a one-hour timeout — confirming that blocking is a gate step, not an eval side effect
 - **Evidence**: The Jenkinsfile's "Quality Gate" stage wraps `waitForQualityGate abortPipeline: true` in `timeout(time: 1, unit: 'HOURS')`, after a `withSonarQubeEnv('SonarQube')` scan that passes `sonar.externalIssuesReportPaths=pf-sonar.json`.
