@@ -1092,6 +1092,79 @@
         }
       ]
     },
+    "blog-cncf-kubectl-debug-silent-evidence-gap": {
+      "path": "source-notes/blog-cncf-kubectl-debug-silent-evidence-gap.md",
+      "title": "What kubectl debug doesn’t tell you: The silent evidence gap",
+      "source_url": "https://www.cncf.io/blog/2026/05/18/what-kubectl-debug-doesnt-tell-you-the-silent-evidence-gap",
+      "chapters": [],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "`EphemeralContainerStatus` in Kubernetes v1.32 has no `lastState` and no `restartCount`, unlike `ContainerStatus`; the omission is an explicit API design decision, not a kubectl bug",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The evidence gap is reproducible in three commands on any Kubernetes 1.25+ cluster; immediately after exit, `{.status.ephemeralContainerStatuses[*]}` still shows the `exitCode` while `State.Terminated` is current",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The termination context is replaced by the next pod event — another container restart, a second debug session, or a reschedule — and there is no `lastState` fallback once that happens",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "After the session terminates, `kubectl logs <pod> -c <debug-container>` returns NotFound, so the debug container’s stdout is not recoverable from the pod",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "`--target` is a kubectl CLI feature only and is not stored as an API field, so \"which container was investigated\" is a distinct loss from the exit code",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Four investigation signals are lost on pod state change — exit code (only while `State.Terminated` is current), session duration (never available), target container (not an API field), and debug-container logs (inaccessible after termination)",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "SRE teams commonly encode findings in exit codes (e.g., 42 for connection-pool exhaustion, 1 for a missing config file), and those signals become unobservable after the pod state changes",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "A live incident handoff can fail because the first responder’s notes are the only record; the next engineer cannot re-derive session duration, target container, or logs and has to start from scratch",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "PCI-DSS 10.3 audit-logging and SOC 2 access-activity requirements cannot be satisfied for ephemeral sessions through the Kubernetes API alone, because neither the `--target` container nor session duration is recorded",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "There are three practical mitigations with real trade-offs — write findings to a shared volume/external system before exit, run `kubectl logs -f` in a parallel terminal, or watch the pod API and snapshot the `Terminated` block before another controller mutates the pod",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Ephemeral containers were designed to avoid restart semantics — the specification defines them as \"not restarted on failure\" — so restart tracking and last-state preservation are excluded by design, an exclusion that dates to the v1.16 alpha",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "The proposed fix is a minimal `lastState` on `EphemeralContainerStatus` storing only the most recent termination record, argued to be low-risk because ephemeral containers never restart; the natural owners are SIG Node or SIG Instrumentation, and no KEP is accepted",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "An author-affiliated example implementation (`opscart/k8s-causal-memory`, scenario `05-ephemeral-exit`) captures `container_name`, `target_container`, `exit_code`, `exit_class`, `duration_seconds`, and `node_name` at the moment of exit",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-cncf-kubernetes-health-checks-waking-services": {
       "path": "source-notes/blog-cncf-kubernetes-health-checks-waking-services.md",
       "title": "Your Kubernetes health checks are accidentally waking your services. Here’s the fix.",

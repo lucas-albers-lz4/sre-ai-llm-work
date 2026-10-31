@@ -195,6 +195,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "blog-cncf-kubectl-debug-silent-evidence-gap": {
+      "slug": "blog-cncf-kubectl-debug-silent-evidence-gap",
+      "title": "What kubectl debug doesn’t tell you: The silent evidence gap",
+      "source_url": "https://www.cncf.io/blog/2026/05/18/what-kubectl-debug-doesnt-tell-you-the-silent-evidence-gap",
+      "source_type": "blog-post",
+      "author": "Shamsher Khan, CNCF Community Member",
+      "date_published": "2026-05-18",
+      "date_extracted": "2026-10-31",
+      "issue": "#1964",
+      "file": "source-notes/blog-cncf-kubectl-debug-silent-evidence-gap.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-cncf-kubernetes-health-checks-waking-services": {
       "slug": "blog-cncf-kubernetes-health-checks-waking-services",
       "title": "Your Kubernetes health checks are accidentally waking your services. Here’s the fix.",
