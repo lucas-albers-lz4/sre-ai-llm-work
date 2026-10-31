@@ -4289,6 +4289,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-sonarqube-integration": {
+      "slug": "docs-promptfoo-sonarqube-integration",
+      "title": "Integrate Promptfoo with SonarQube",
+      "source_url": "https://www.promptfoo.dev/docs/integrations/sonarqube",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "unknown",
+      "date_extracted": "2026-10-31",
+      "issue": "#1923",
+      "file": "source-notes/docs-promptfoo-sonarqube-integration.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-test-agent-skills": {
       "slug": "docs-promptfoo-test-agent-skills",
       "title": "Promptfoo Guide: Test Agent Skills — Skill-Version A/B Testing, Routing-Boundary Checks, and the Per-Provider Evidence Ladder",

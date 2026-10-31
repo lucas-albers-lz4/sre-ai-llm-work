@@ -22284,6 +22284,82 @@
         }
       ]
     },
+    "docs-promptfoo-sonarqube-integration": {
+      "path": "source-notes/docs-promptfoo-sonarqube-integration.md",
+      "title": "Integrate Promptfoo with SonarQube",
+      "source_url": "https://www.promptfoo.dev/docs/integrations/sonarqube",
+      "chapters": [
+        "06",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The integration is positioned as making red-team findings participate in Quality Gates and block pipelines by importing them as ordinary SonarQube issues, using Generic Issue Import with no custom plugin",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The documented artifact handoff is exactly `promptfoo eval --output pf-sonar.json --output-format sonarqube`, consumed by `sonar-scanner -Dsonar.externalIssuesReportPaths=pf-sonar.json`",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The page never documents the `pf-sonar.json` schema or the finding-to-rule/severity mapping; the only severity shown is a hard-coded `CRITICAL` in an optional custom-rule example",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Quality Gate enforcement is documented as three conditions — built-in `Security Rating`, built-in `Security Hotspots Reviewed`, and a *custom* `\"Issues from promptfoo > 0\"` condition — but no procedure or API is given for creating that custom condition",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The page carries a product-tier mismatch — promptfoo side is Enterprise-gated, while the SonarQube prerequisite says Community Edition or higher and the prerequisites omit Promptfoo Enterprise",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The Basic GitHub Actions recipe has no Quality Gate check step — it runs the scan and stops — so on its own it cannot block a pipeline despite the page's opening promise",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The advanced GitHub Actions recipe does add a Quality Gate check, via `SonarSource/sonarqube-quality-gate-action@master` with a five-minute timeout",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The advanced recipe swallows eval failure — `EVAL_FAILED=true` is written to `$GITHUB_OUTPUT` but never read, and the report is regenerated under `if: always()` — so a failed or incomplete eval can still yield a fresh `pf-sonar.json`",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The advanced recipe never converts one result set — it runs three separate `promptfoo eval` invocations (JSON in \"Run red team evaluation\", then SonarQube and HTML re-runs in \"Generate multiple report formats\"), so the gated artifact and the imported report can diverge",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Jenkins gets the most explicit blocking mechanism — `waitForQualityGate abortPipeline: true` with a one-hour timeout — confirming that blocking is a gate step, not an eval side effect",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The custom-rule API example hard-codes one rule (`PF-Prompt-Injection`, `CRITICAL`, `VULNERABILITY`) and does not show how promptfoo findings are assigned to it or to any other rule",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "The \"works with any CI/CD system\" claim is demonstrated only with GitHub Actions and Jenkins, and the portable surface is just the two-command Handoff; everything about enforcement is SonarQube-side",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "The page publishes no efficacy, volume, latency, or false-positive data, and no sample `pf-sonar.json`, so it specifies wiring but cannot substantiate that the gate catches anything",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-test-agent-skills": {
       "path": "source-notes/docs-promptfoo-test-agent-skills.md",
       "title": "Promptfoo Guide: Test Agent Skills — Skill-Version A/B Testing, Routing-Boundary Checks, and the Per-Provider Evidence Ladder",
