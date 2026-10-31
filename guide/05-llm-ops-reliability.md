@@ -1053,6 +1053,99 @@ ComplexityRouter: routing decision cause=session_affinity_pin,                  
 routed model. A routing decision you cannot attribute is the same un-auditable
 cost lever as a model fallback you cannot detect.
 
+### Self-hosted inference cost: allocation-based, not usage-based
+
+A self-hosted model has two costs, and they answer different questions.
+*Usage-based* cost per million tokens counts only active-inference compute and
+is "stable regardless of how busy the model is"; *allocation-based* cost adds
+GPU memory reserved for weights, idle time, and a share of shared gateway and
+KV-cache infrastructure, and it reconciles to the infrastructure bill
+[source: blog-cncf-opencost-inference-cost-tracking, Claim 4, Claim 6]
+[emerging]. The gap between them is "the cost of keeping the model warm and
+ready" — a purchased latency guarantee, not automatically waste
+[source: blog-cncf-opencost-inference-cost-tracking, Claim 5] [emerging]. A
+loaded model with no requests burns the same GPU budget because its weights
+occupy VRAM [source: blog-cncf-opencost-inference-cost-tracking, Claim 3]
+[emerging].
+
+The build-vs-buy trap is comparing the usage figure to an API price. At 25%
+utilization a $1.00/Mtok usage cost is $4.00/Mtok allocation cost, so a
+$2.00/Mtok API is cheaper; the source puts the crossover near 50% utilization,
+a worked example to recompute with your own numbers
+[source: blog-cncf-opencost-inference-cost-tracking, Claim 8] [emerging].
+Utilization itself is derived as usage cost ÷ allocation cost — a cost-weighted
+figure, not `nvidia-smi` occupancy
+[source: blog-cncf-opencost-inference-cost-tracking, Claim 7] [settled].
+
+```text
+Usage-based:        $1.00 / million tokens   (compute only — misleading)
+Allocation-based:   $4.00 / million tokens   (real cost — use this)
+External API price: $2.00 / million tokens
+Utilization:        25%
+→ The API is cheaper at the current utilization.
+```
+*Worked example from [source: blog-cncf-opencost-inference-cost-tracking,
+Concrete Artifacts].*
+
+OpenCost 1.121.0 ships the measurement surface — `llm_total_hourly_cost` and
+`llm_cost_per_million_tokens`, labeled by `model_name`, `model_version`,
+`namespace`, `cost_basis`, and `workload_type`, with input and output costs
+split because prefill and decode have different hardware economics
+[source: blog-cncf-opencost-inference-cost-tracking, Claim 10, Claim 11]
+[settled]. `workload_type` is currently always "inference"; do not build on it
+[source: blog-cncf-opencost-inference-cost-tracking, Claim 10]. The four
+combinations of allocation and usage cost form a triage matrix: high
+allocation with low usage points to a utilization problem (share the model or
+consolidate traffic), high/high to the wrong model for the workload, low/high
+to model size, quantization, or hardware fit, and low/low to a well-sized
+deployment [source: blog-cncf-opencost-inference-cost-tracking, Claim 13]
+[emerging].
+
+**Rule**: Price self-hosting on allocation-based cost at the utilization you
+expect, never on active-compute cost, and require `cost_basis` to be explicit
+in every cost dashboard so a usage figure is never compared to an allocation
+figure or an API price by accident.
+
+### MCP tool calls are a third cost axis — declared, not measured
+
+Model tokens and A2A agents are not the only spend surfaces. LiteLLM documents
+exactly two ways to cost MCP tool calls: a fixed per-server/per-tool price in
+`config.yaml`, or a custom post-call hook that sets `response_cost`
+[source: docs-litellm-mcp-cost-tracking, Claim 1, Claim 2] [settled]. Both are
+operator-declared charges, not measurements of upstream tool cost
+[source: docs-litellm-mcp-cost-tracking, Claim 7] [emerging]. Tool spend lands
+in the same `LiteLLM_SpendLogs` table as completion spend, discriminated by
+`call_type = 'call_mcp_tool'` [source: docs-litellm-mcp-cost-tracking, Claim 9]
+[settled].
+
+```yaml
+mcp_servers:
+  zapier_server:
+    url: "https://actions.zapier.com/mcp/sk-xxxxx/sse"
+    mcp_info:
+      mcp_server_cost_info:
+        default_cost_per_query: 0.01        # server default
+        tool_name_to_cost_per_query:        # per-tool override wins
+          send_email: 0.05
+          create_document: 0.03
+```
+*Extracted from [source: docs-litellm-mcp-cost-tracking, Concrete Artifacts].*
+
+Three documented behaviors make "cost tracking is enabled" a false assurance.
+An unpriced tool — a renamed tool or server alias, or a missing cost block —
+logs `0.0` and succeeds with no error
+[source: docs-litellm-mcp-cost-tracking, Claim 6] [settled]. A hook that raises
+is swallowed by the logging path, so the call succeeds with the configured
+price or zero [source: docs-litellm-mcp-cost-tracking, Claim 8] [settled]. And
+because the override check is `is not None`, a hook that returns `0.0`
+silently disables a correctly configured per-tool price
+[source: docs-litellm-mcp-cost-tracking, Claim 5] [settled].
+
+**Rule**: Keep MCP prices in the same reviewed change as the `mcp_servers`
+registration, probe one known tool after rollout and alert when a configured
+price produces zero observed spend, and re-verify declared prices against
+upstream invoices when tool mix or provider pricing changes.
+
 ### Session-affine routing preserves provider-side prompt caches
 
 Reclassifying every request is cache-hostile in front of agent workloads: a
@@ -1120,6 +1213,52 @@ sub-second chat completions.
 **Rule**: Separate gateway capacity planning for agent-session traffic from
 chat-completion traffic. Agent sessions are stateful, long-lived, and their
 latency profile is driven by tool-call chains, not token generation speed.
+
+### Cold start is a data-path problem, not a scheduling problem
+
+For self-hosted inference, the autoscaler decides when a replica exists; it
+does not decide when that replica can serve. NetEase Games' rule is that
+"elastic compute is only useful if data can move just as fast" — 70B-class
+models pull "hundreds of gigabytes" of weights and can take "tens of minutes"
+from remote storage, erasing the value of a fast scale-up
+[source: blog-cncf-netease-games-llm-cold-starts-kubernetes, Claim 1, Claim 2]
+[emerging].
+
+Their measured ladder decomposes where the time goes: 42 minutes with
+cross-region direct storage, 14 with a conventional distributed cache, 3 with
+prefetch, then about 1 minute — sometimes under 30 seconds — after production
+tuning. That last figure is two services' best case, not an SLO
+[source: blog-cncf-netease-games-llm-cold-starts-kubernetes, Claim 4]
+[anecdotal]. The mechanisms to adopt are prefetch before pod startup, scheduled
+against known traffic windows, and a distributed cache that absorbs the launch
+burst instead of stampeding the origin
+[source: blog-cncf-netease-games-llm-cold-starts-kubernetes, Claim 5, Claim 11]
+[emerging].
+
+```text
+42 min   cross-region direct storage
+14 min   conventional distributed cache
+ 3 min   prefetch before startup
+ ~1 min  production tuning (sometimes <30 s)
+```
+*One team's representative workload [source:
+blog-cncf-netease-games-llm-cold-starts-kubernetes, Claim 4]. Do not treat
+<30 s as a capacity SLO.*
+
+Multi-tenant platforms should share base models across namespaces rather than
+cache the same weights per team — a memory and version-management control — but
+pair it with explicit version pinning, because the source does not address a
+shared-model bump or a team needing an older revision
+[source: blog-cncf-netease-games-llm-cold-starts-kubernetes, Claim 6]
+[emerging]. Adoption is staged: "If the requirement is simply to put a cache in
+front of remote storage, running Alluxio directly may be enough"; an
+orchestration layer pays once prefetch, sharing, elasticity, and tenant
+controls accumulate [source:
+blog-cncf-netease-games-llm-cold-starts-kubernetes, Claim 13] [emerging].
+
+**Rule**: Plan LLM serving capacity in two control planes — replica/GPU
+elasticity and data locality — and measure cold start as time from replica
+creation to weights-local, separately from container start.
 
 ### Bound pass-through memory; skip work nobody consumes
 
@@ -1462,5 +1601,7 @@ docs-langfuse-alerts, docs-langfuse-evaluate-production-traffic,
 docs-promptfoo-configuration-caching, docs-promptfoo-chat-threads,
 docs-promptfoo-dataset-generation, docs-litellm-generic-guardrail-api,
 docs-litellm-generic-prompt-management-api, docs-promptfoo-factuality,
-docs-promptfoo-g-eval*
-*Last updated: 2026-09-19*
+docs-promptfoo-g-eval, blog-cncf-opencost-inference-cost-tracking,
+docs-litellm-mcp-cost-tracking,
+blog-cncf-netease-games-llm-cold-starts-kubernetes*
+*Last updated: 2026-10-31*

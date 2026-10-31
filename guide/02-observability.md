@@ -312,6 +312,37 @@ doesn't really know").
 replace their understanding. A system that answers "what changed?" is a
 copilot; a system that asserts "this caused that" has overstepped.
 
+### Model as query compiler, backend as deterministic executor
+
+Jaeger's design for AI-assisted trace exploration constrains the model to
+translation. An Agent Client Protocol layer acts as "a stateless translator
+between the Jaeger frontend and external AI sidecars," and the backend parses
+natural-language constraints — the source's example is 500-level errors in a
+payment service with latency over two seconds — and turns them into
+deterministic trace queries
+[source: blog-cncf-jaeger-ai-agent-tracing-opentelemetry, Claim 4, Claim 5]
+[emerging]. The stated rationale is hallucination containment: "By restricting
+the AI to protocol translation and query generation, the architecture minimizes
+the risk of hallucinations associated with open-ended chatbots"
+[source: blog-cncf-jaeger-ai-agent-tracing-opentelemetry, Claim 6] [emerging].
+
+The output is checkable — a query either parses and returns the expected span
+set or it does not — which is what separates this from an open-ended chat
+answer [editorial]. The post is explicit that this is roadmap and proof of
+concept, not a shipped, validated feature [source:
+blog-cncf-jaeger-ai-agent-tracing-opentelemetry, Claim 13] [settled]; it
+publishes no query-accuracy measurement, so treat the translation as a design
+hypothesis [source: blog-cncf-jaeger-ai-agent-tracing-opentelemetry, Claim 5]
+[emerging]. It also commits the trace backend to rendering the OTel GenAI
+semantic conventions for agentic systems and AI sandboxes "without locking
+teams into vendor-specific formats"
+[source: blog-cncf-jaeger-ai-agent-tracing-opentelemetry, Claim 9] [emerging].
+
+**Rule**: Put the model where its output is verifiable — translating intent
+into a query, a structured tool call, or a config — and let a deterministic
+executor run it. Do not let the assistant reason open-endedly over the
+telemetry store and report the conclusion.
+
 ### If SREs lose hands-on exposure, they lose the safety margin
 
 If SREs do not have exposure to their systems, they drift away from knowing
@@ -390,5 +421,6 @@ failure-litellm-vllm-embeddings-encoding-format,
 docs-google-sre-reliable-data-processing-minimal-toil,
 docs-google-sre-reaching-beyond-walls,
 docs-google-sre-slo-engineering-case-studies, docs-langfuse-cli,
-docs-litellm-a2a-agent-gateway*
-*Last updated: 2026-09-17*
+docs-litellm-a2a-agent-gateway,
+blog-cncf-jaeger-ai-agent-tracing-opentelemetry*
+*Last updated: 2026-10-31*

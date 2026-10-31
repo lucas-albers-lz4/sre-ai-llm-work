@@ -600,6 +600,68 @@ MCP servers were consulted, what sub-agents were invoked — as structured,
 queryable audit records. This is the evidence an auditor or compliance
 questionnaire will ask for.
 
+## MCP gateway topology and exposure
+
+LiteLLM recommends running LLM routing, MCP tool calls, and A2A agent
+invocations in one gateway — "One service, one config, one set of API keys" —
+which co-locates provider credentials with the internet-facing tool surface
+[source: docs-litellm-mcp-deployment, Claim 2] [emerging]. Exposing that process
+for MCP clients also opens the sibling LLM API on the same listener: "If you
+expose LiteLLM's port to the internet (for Claude Desktop / ChatGPT),
+`/v1/chat/completions` is also reachable externally"
+[source: docs-litellm-mcp-deployment, Claim 4] [emerging].
+
+The split deployment separates the two: "LLM API keys stay behind the firewall.
+A compromise of the MCP gateway does not expose them"
+[source: docs-litellm-mcp-deployment, Claim 3] [emerging]. That is a
+credential-blast-radius boundary, not a claim that the exposed MCP gateway is
+individually secure [editorial].
+
+```text
+Internal AI clients             External AI clients
+        │                       (ChatGPT, Claude Desktop)
+        │                               │
+        ▼                               ▼
+┌────────────────────┐     ┌────────────────────────┐
+│  LLM Gateway       │     │  MCP Gateway           │
+│  (no public port)  │     │  (port 443 / public)   │
+│  /v1/chat/...      │     │  /mcp                  │
+└────────┬───────────┘     └──────────┬─────────────┘
+         │                            │
+    LLM providers              MCP servers
+    (OpenAI, Bedrock, …)       (internal + public)
+```
+*Extracted from [source: docs-litellm-mcp-deployment, Concrete Artifacts].*
+
+If you keep one gateway, the exposure flags are visibility filters, not the
+boundary. `available_on_public_internet` defaults to `true` — "a server is
+visible to external callers unless you explicitly set it to `false`" — and the
+filter classifies the caller's IP (optionally from `X-Forwarded-For`) against
+`mcp_internal_ip_ranges`
+[source: docs-litellm-mcp-deployment, Claim 6, Claim 7] [emerging]. The default
+internal ranges are RFC 1918 plus `127.0.0.0/8`, so a Tailscale/CGNAT caller in
+`100.64.0.0/10` is classified as external until you add that range
+[source: docs-litellm-mcp-deployment, Claim 8] [emerging]. Under interactive
+OAuth the flag is not an auth control at all: an internal server with
+`auth_type: oauth2` (interactive PKCE) and `delegate_auth_to_upstream: true`
+still lets anonymous callers use the upstream `/authorize` path without a
+LiteLLM session
+[source: docs-litellm-mcp-deployment, Claim 9] [emerging]. Registration is also
+an egress grant — the gateway "makes outbound requests to it on every tool
+call" — so an air-gapped deployment needs a network policy as well as the flag
+[source: docs-litellm-mcp-deployment, Claim 5] [emerging].
+
+For tool-only servers, prune the unused surface gateway-wide:
+`mcp_disabled_capabilities: ["prompts", "resources"]` removes those capabilities
+from discovery and listing, and returns `METHOD_NOT_FOUND` on get/read, without
+touching tools [source: docs-litellm-mcp-deployment, Claim 10] [emerging].
+
+**Rule**: Put the credential-holding LLM data plane and the internet-facing MCP
+surface on separate deployments whenever external MCP access is required. If
+you cannot split them, firewall the LLM route and scope keys — and treat
+`available_on_public_internet` and `mcp_internal_ip_ranges` as discovery
+controls, never as admission control.
+
 ## Gateway credential routing: declare, don't infer
 
 An MCP gateway that infers which credential to attach from whichever fields
@@ -626,10 +688,45 @@ single typed resolver [source: blog-litellm-july-stability-update, Claim 3]
 > mode without handling it fails the type checker, and an unhandled case raises
 > instead of quietly attaching no auth.
 
+The passthrough modes are the boundary case that keeps "declared" from
+silently becoming "authenticated." `true_passthrough` and `oauth_delegate` are
+both declared `auth_type` values, but they differ on whether LiteLLM
+authenticates the caller at its own edge: `true_passthrough` performs no
+LiteLLM admission, while `oauth_delegate` requires a LiteLLM key, SSO, or JWT
+[source: docs-litellm-mcp-oauth-passthrough, Claim 1] [emerging]. The
+transparent path still fails closed on *resolution*: "The transparent path fires
+only when every target resolves to `true_passthrough`" — so the selected mode
+determines the admission posture; declaration does not imply admission
+[source: docs-litellm-mcp-oauth-passthrough, Claim 7] [emerging].
+
+`true_passthrough` therefore forfeits the gateway's observation position: spend
+tracking, per-key rate limits, and guardrails keyed on
+`user_api_key_auth.user_id` do not run, and setting
+`available_on_public_internet` to `false` adds no authentication
+[source: docs-litellm-mcp-oauth-passthrough, Claim 6] [emerging]. Use
+`oauth_delegate` when the gateway must stay in the observation path: admission
+rides in `x-litellm-api-key`, and only a separate upstream bearer is forwarded
+[source: docs-litellm-mcp-oauth-passthrough, Claim 8] [emerging]. The leak
+defense is deterministic: when a caller sends only `Authorization` and no
+`x-litellm-api-key`, LiteLLM treats that credential as admission and never
+forwards it upstream, so a LiteLLM virtual key or IdP JWT cannot be replayed to
+a third-party MCP server
+[source: docs-litellm-mcp-oauth-passthrough, Claim 9] [emerging].
+
+An upstream 401 on an audience-locked token is the correct confused-deputy-safe
+outcome, not a defect to fix: "if you would have to ask your IdP to widen a
+token's audience so the upstream accepts it, stop and use token exchange"
+[source: docs-litellm-mcp-oauth-passthrough, Claim 3, Claim 4] [emerging].
+
 **Rule**: Make credential selection explicit and fail closed — a declared auth
 mode per MCP server, one typed resolver, an exhaustive match that fails at
 type-check time when a mode is added, and an unhandled case that raises rather
-than attaching a fallback credential. Ambiguity must resolve to "stop."
+than attaching a fallback credential. But do not equate "declared" with
+"authenticated at the gateway": `true_passthrough` is a deliberately anonymous
+mode that forfeits spend, rate-limit, and audit attribution. Use
+`oauth_delegate` when the gateway must observe traffic, keep admission and
+upstream credentials in separate headers, and never widen a token's audience
+to make an upstream accept it.
 
 ## Supply-chain security for LLM infrastructure
 
@@ -845,5 +942,6 @@ failure-litellm-supply-chain-compromise-march-2026,
 failure-litellm-supply-chain-incident-march-2026,
 blog-litellm-swap-openai-code-interpreter, docs-langfuse-agent-skill,
 docs-promptfoo-code-scan-cli, docs-promptfoo-code-scan-github-action,
-docs-litellm-generic-guardrail-api*
-*Last updated: 2026-09-19*
+docs-litellm-generic-guardrail-api, docs-litellm-mcp-deployment,
+docs-litellm-mcp-oauth-passthrough*
+*Last updated: 2026-10-31*
