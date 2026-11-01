@@ -247,6 +247,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "blog-cncf-kubestellar-ai-agents-81-pr-acceptance": {
+      "slug": "blog-cncf-kubestellar-ai-agents-81-pr-acceptance",
+      "title": "When AI agents become contributors: How KubeStellar reached 81% PR acceptance",
+      "source_url": "https://www.cncf.io/blog/2026/05/14/when-ai-agents-become-contributors-how-kubestellar-reached-81-pr-acceptance",
+      "source_type": "blog-post",
+      "author": "Andy Anderson, Chief Maintainer of KubeStellar Console",
+      "date_published": "2026-05-14",
+      "date_extracted": "2026-11-01",
+      "issue": "#1980",
+      "file": "source-notes/blog-cncf-kubestellar-ai-agents-81-pr-acceptance.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-cncf-linkerd-multicluster-federation": {
       "slug": "blog-cncf-linkerd-multicluster-federation",
       "title": "Federating clusters for zero-downtime Kubernetes",

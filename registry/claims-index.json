@@ -1381,6 +1381,90 @@
         }
       ]
     },
+    "blog-cncf-kubestellar-ai-agents-81-pr-acceptance": {
+      "path": "source-notes/blog-cncf-kubestellar-ai-agents-81-pr-acceptance.md",
+      "title": "When AI agents become contributors: How KubeStellar reached 81% PR acceptance",
+      "source_url": "https://www.cncf.io/blog/2026/05/14/when-ai-agents-become-contributors-how-kubestellar-reached-81-pr-acceptance",
+      "chapters": [
+        "03",
+        "05",
+        "04",
+        "02",
+        "00"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The initial agent productivity surge collapsed within two weeks into cascading breakage, overwritten architecture, and scope creep, leaving the author spending more time reverting than reviewing",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The leverage in an AI-assisted codebase lives in the loops the codebase wraps around the model, not in the model — and giving the agent more autonomy makes the failure mode worse",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Across 82 days the project reached ~81% PR acceptance, with 63 CI/CD workflows, 32 nightly suites, 91% coverage across 12 shards, ~30-minute bug-to-merge, and ~1-hour feature-request-to-PR — attributed to measurement, not a better model",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The author's \"AI Codebase Maturity Model\" has five rungs — Assisted, Instructed, Measured, Adaptive, Self-Sustaining — and he claims they cannot be reordered",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The cheapest, highest-return intervention was externalizing the maintainer's preferences into instruction files — a `CLAUDE.md`, a `.github/copilot-instructions.md`, and a rejection-criteria guide that covered ~90% of rejection reasons",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Tests are the trust layer for an autonomous workflow, because they are the only signal the agent has about whether it is improving or degrading the system",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "An ~85%-passing Playwright drag-and-drop test was tolerable for humans but catastrophic when test results gated autonomous merges — it blocked good PRs at random, let weak ones through, and took three days to trace to an animation-completion timing issue in CI",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Once per-category acceptance was logged, QA rotation weights self-adjusted from the data — accessibility at 62% acceptance was up-weighted to 0.93, while operator-category work at 8% (11 merges vs 129 closed) was down-weighted to zero and its CI cycles redirected",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The ordering rule is measurement first, automation second — \"Automation without measurement isn't maturity — it's failure at scale\"",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Operational loops close around the measurement core — triage of four repos every 15 minutes, PR build-status polling every 60 seconds, exponential backoff for stuck agents, and an hourly GA4 query that files GitHub issues for production error spikes before users report them",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "In the self-sustaining stage, the system's behavior was determined by its artifacts — instruction files, tests, workflow rules, and acceptance-rate history — enough that community issues were triaged, fixed, tested, and queued before the maintainer woke up",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "A user bug report about a cluster marked \"healthy\" while pods sat in ImagePullBackOff was answered by the system as a design decision, not a bug — infrastructure health vs. workload health were already encoded in tests, health-check logic, and docs",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "Asking \"Why didn't you catch this?\" instead of \"fix this\" yields root-cause analysis plus a durable test, instruction, or rule that blocks a whole class of failures, so questioning compounds while commanding does not",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "For engineering leaders, the model is a commodity — swapping it is a weekend, rebuilding the surrounding feedback system is a quarter — so the differentiator is the intelligence infrastructure, though the author concedes scale beyond a solo Sandbox project is untested",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-cncf-linkerd-multicluster-federation": {
       "path": "source-notes/blog-cncf-linkerd-multicluster-federation.md",
       "title": "Federating clusters for zero-downtime Kubernetes",
