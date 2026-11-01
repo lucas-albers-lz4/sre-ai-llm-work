@@ -299,6 +299,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "blog-cncf-observability-for-ai-agents": {
+      "slug": "blog-cncf-observability-for-ai-agents",
+      "title": "You can't debug what you can't see — Observability for AI Agents",
+      "source_url": "https://www.cncf.io/blog/2026/08/04/you-cant-debug-what-you-cant-see-observability-for-ai-agents",
+      "source_type": "blog-post",
+      "author": "Sabith K Soopy",
+      "date_published": "2026-08-04",
+      "date_extracted": "2026-11-01",
+      "issue": "#1943",
+      "file": "source-notes/blog-cncf-observability-for-ai-agents.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-cncf-opencost-inference-cost-tracking": {
       "slug": "blog-cncf-opencost-inference-cost-tracking",
       "title": "OpenCost 1.121.0: First-of-a-kind Kubernetes inference cost tracking",

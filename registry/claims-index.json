@@ -1664,6 +1664,90 @@
         }
       ]
     },
+    "blog-cncf-observability-for-ai-agents": {
+      "path": "source-notes/blog-cncf-observability-for-ai-agents.md",
+      "title": "You can't debug what you can't see — Observability for AI Agents",
+      "source_url": "https://www.cncf.io/blog/2026/08/04/you-cant-debug-what-you-cant-see-observability-for-ai-agents",
+      "chapters": [
+        "02",
+        "05",
+        "03",
+        "04",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Traditional APM cannot answer the questions agent operators actually need answered",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Every agent session should produce an agent trace capturing each model call, tool call, and sub-agent delegation with timing and cost attached",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Trace delivery must be non-blocking — buffer spans in memory, flush in batches, drain gracefully on shutdown, and lose telemetry rather than availability if the backend is unreachable",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Token cost is the unit economics of agents, and loops burn tokens geometrically",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Pre-flight circuit breakers — hard iteration caps, per-tool-call budgets, and loop detection that blocks identical consecutive calls — are the first line of defense, with alerting second",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Alert when a single session exceeds a multiple of the rolling average cost for that agent — this catches slower-burning anomalies that hard limits miss",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Every tool call, governance decision, and memory operation should be written to an append-only, structured, timestamped, searchable audit record",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "A doctor-style one-shot diagnostic command should check every agent dependency and report clear pass/fail",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Automated analysis of completed traces should flag anomalous sessions for human review, so humans review flags rather than every session",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Export only bounded metrics to Prometheus — tool success/failure by tool name, per-agent session cost, approval latency histograms, classification counts — as a complement to traces",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Never put unique identifiers such as session IDs in Prometheus labels; thousands of daily sessions will cause a cardinality explosion that crashes the metrics server",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "Cost is the primary canary — sudden cost spikes almost always indicate a bug, so alert on cost first and debug second",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "Traces are for debugging and metrics are for alerting — do not alert on traces (too detailed) or debug with metrics (too aggregated)",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "Audit-log PII redaction is non-negotiable because the audit trail will be queried during incident reviews",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-cncf-opencost-inference-cost-tracking": {
       "path": "source-notes/blog-cncf-opencost-inference-cost-tracking.md",
       "title": "OpenCost 1.121.0: First-of-a-kind Kubernetes inference cost tracking",
