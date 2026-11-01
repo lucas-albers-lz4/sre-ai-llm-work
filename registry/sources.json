@@ -4328,6 +4328,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-splunk-integration": {
+      "slug": "docs-promptfoo-splunk-integration",
+      "title": "Promptfoo × Splunk HEC — The Red-Team-to-SIEM Recipe and Its Silent Failure Modes",
+      "source_url": "https://www.promptfoo.dev/docs/integrations/splunk",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "2026-11-01",
+      "date_extracted": "2026-11-01",
+      "issue": "#1934",
+      "file": "source-notes/docs-promptfoo-splunk-integration.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-test-agent-skills": {
       "slug": "docs-promptfoo-test-agent-skills",
       "title": "Promptfoo Guide: Test Agent Skills — Skill-Version A/B Testing, Routing-Boundary Checks, and the Per-Provider Evidence Ladder",

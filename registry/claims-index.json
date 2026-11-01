@@ -22525,6 +22525,72 @@
         }
       ]
     },
+    "docs-promptfoo-splunk-integration": {
+      "path": "source-notes/docs-promptfoo-splunk-integration.md",
+      "title": "Promptfoo × Splunk HEC — The Red-Team-to-SIEM Recipe and Its Silent Failure Modes",
+      "source_url": "https://www.promptfoo.dev/docs/integrations/splunk",
+      "chapters": [
+        "05",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The integration's scope is deliberately failure-only — it ingests \"failed Promptfoo red team results\" into a SIEM, so successful probes never become SIEM events",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The documented pipeline is a four-stage batch job coupled by a local JSON file and the mutable `latest` pointer, not an event-driven integration",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The page recommends `PROMPTFOO_PASS_RATE_THRESHOLD=0` in CI specifically so the scan step does not fail the pipeline on findings — which means the pipeline's exit code stops being a security gate",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The transformer is fetched at job time from an unpinned, unversioned personal GitHub gist via `curl -L`, and the workflow also installs promptfoo globally without a version pin — a supply-chain hazard inside a security pipeline",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The documented event contract is a field mapping plus `source: promptfoo` / `sourcetype: promptfoo:redteam`, but the field *names* used by the SPL queries are defined only by the unpinned gist, not by the vendor page",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The SIEM becomes a store of offensive payloads and potentially application data; the page's access-control story is index/token scoping plus two opt-in strip flags, with no documented redaction of the attack prompt itself",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The OSS path carries only pass/fail and score; severity is an operator mapping the page never defines, so the page's own `severity IN (\"high\",\"critical\")` alert can be inert on open-source findings",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The documented HEC path has no retry, backoff, dead-letter, delivery confirmation, or idempotency key — and the fetched transformer aborts the remaining findings on the first non-OK POST",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Freshness is bounded by a daily cron (`0 8 * * *`) plus manual dispatch — there is no event-driven trigger from the scan, so a finding can sit outside the SIEM for up to a day",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The Enterprise alternative is a pointer to the webhook integration, not a delivery contract — it inherits the webhook page's documented absence of retry, ordering, and delivery guarantees",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The page is vendor documentation with no measurement, no observed HEC delivery, and a machine-maintained footer — a recipe, not practitioner validation or a failure report",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-test-agent-skills": {
       "path": "source-notes/docs-promptfoo-test-agent-skills.md",
       "title": "Promptfoo Guide: Test Agent Skills — Skill-Version A/B Testing, Routing-Boundary Checks, and the Per-Provider Evidence Ladder",
