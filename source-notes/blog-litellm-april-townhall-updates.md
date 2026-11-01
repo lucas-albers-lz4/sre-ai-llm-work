@@ -6,7 +6,7 @@ author: "Krrish Dholakia (CEO, LiteLLM), Ishaan Jaffer (CTO, LiteLLM)"
 date_published: 2026-04-10
 date_extracted: 2026-07-14
 last_checked: 2026-07-14
-status: current
+status: stale
 confidence_overall: emerging
 issue: "#198"
 ---
