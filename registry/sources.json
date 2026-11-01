@@ -91,6 +91,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "blog-cncf-cortex-security-audit-tenant-boundary": {
+      "slug": "blog-cncf-cortex-security-audit-tenant-boundary",
+      "title": "Cortex Security Audit Results — multi-tenant isolation and cluster operations (Quarkslab / OSTIF)",
+      "source_url": "https://www.cncf.io/blog/2026/08/03/cortex-completes-ostif-security-audit",
+      "source_type": "blog-post",
+      "author": "Daniel Blando (Cortex maintainer); audit by Quarkslab, coordinated by OSTIF",
+      "date_published": "2026-08-03",
+      "date_extracted": "2026-11-01",
+      "issue": "#1929",
+      "file": "source-notes/blog-cncf-cortex-security-audit-tenant-boundary.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-cncf-geo-distributed-ai-k0smos": {
       "slug": "blog-cncf-geo-distributed-ai-k0smos",
       "title": "Breaking free of a single datacenter: Practical geo-distributed AI operations with the k0smos platforms",
