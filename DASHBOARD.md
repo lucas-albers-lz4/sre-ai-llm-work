@@ -1,6 +1,6 @@
 # Guide Dashboard
 
-_Generated 2026-10-31 (UTC) by `scripts/generate_dashboard.py`._
+_Generated 2026-11-01 (UTC) by `scripts/generate_dashboard.py`._
 
 Content-derived metrics for the living guide. Refreshed daily by
 `.github/workflows/daily-scan.yml`. For workflow status (PRs, issues,
@@ -10,7 +10,7 @@ scanner queues) see the GitHub Project linked from README.md.
 |---|---|---|---|---|
 | `guide/00-principles.md` | 9/30 | 2025-12-15 (`blog-promptfoo-ai-regulation-2025`) | 33% | 227 (n/a) |
 | `guide/01-incident-response.md` | 3/30 | — | 0% | 231 (n/a) |
-| `guide/02-observability.md` | 9/30 | 2021-10-12 (`docs-google-sre-reliable-data-processing-minimal-toil`) | 33% | 394 (n/a) |
+| `guide/02-observability.md` | 9/30 | 2021-10-12 (`docs-google-sre-reliable-data-processing-minimal-toil`) | 44% | 394 (n/a) |
 | `guide/03-runbooks-and-agents.md` | 12/30 | 2025-11-10 (`blog-promptfoo-ai-orchestrated-cyberattacks`) | 33% | 451 (n/a) |
 | `guide/04-oncall-and-toil.md` | 7/30 | — | 0% | 324 (n/a) |
 | `guide/05-llm-ops-reliability.md` | 40/30 ⚠ | 2025-12-12 (`blog-promptfoo-asr-not-portable-metric`) | 12% | 1466 (n/a) |

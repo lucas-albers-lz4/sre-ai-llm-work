@@ -1326,7 +1326,7 @@
         "filed_at": "2026-08-13T12:56:28.715514+00:00"
       }
     },
-    "last_scan": "2026-10-31T16:39:59.115042+00:00"
+    "last_scan": "2026-11-01T17:30:59.987132+00:00"
   },
   "opentelemetry": {
     "urls": {},
@@ -3333,16 +3333,22 @@
         "filed_at": "2026-10-31T16:40:23.952947+00:00"
       },
       "https://www.cncf.io/blog/2026/05/14/when-ai-agents-become-contributors-how-kubestellar-reached-81-pr-acceptance": {
-        "status": "pending",
-        "screened_at": "2026-08-06T13:49:00.052869+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-06T13:49:00.052869+00:00",
+        "issue": 1980,
+        "filed_at": "2026-11-01T17:31:18.825204+00:00"
       },
       "https://www.cncf.io/blog/2026/08/07/does-kubernetes-dra-replace-hami": {
-        "status": "pending",
-        "screened_at": "2026-08-07T12:47:22.570606+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-07T12:47:22.570606+00:00",
+        "issue": 1981,
+        "filed_at": "2026-11-01T17:31:20.833602+00:00"
       },
       "https://www.cncf.io/blog/2026/08/07/shadow-ai-in-ci-cd-threat-modeling-the-path-from-developer-laptop-to-kubernetes": {
-        "status": "pending",
-        "screened_at": "2026-08-07T12:47:22.570623+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-07T12:47:22.570623+00:00",
+        "issue": 1982,
+        "filed_at": "2026-11-01T17:31:23.088016+00:00"
       },
       "https://www.cncf.io/blog/2026/05/13/building-a-cloud-native-platform-from-the-ground-up-with-kairos-k0rdent-and-bindy": {
         "status": "pending",
@@ -4367,9 +4373,21 @@
       "https://www.cncf.io/blog/2025/10/03/kubecon-cloudnativecon-north-america-2025-co-located-event-deep-dive-kubernetes-on-edge-day": {
         "status": "rejected",
         "screened_at": "2026-10-31T16:40:05.322724+00:00"
+      },
+      "https://www.cncf.io/blog/2025/10/01/fluentd-to-fluent-bit-a-migration-guide": {
+        "status": "pending",
+        "screened_at": "2026-11-01T17:31:06.016216+00:00"
+      },
+      "https://www.cncf.io/blog/2025/09/29/kubecon-cloudnativecon-north-america-2025-co-located-event-deep-dive-backstagecon": {
+        "status": "rejected",
+        "screened_at": "2026-11-01T17:31:06.016226+00:00"
+      },
+      "https://www.cncf.io/blog/2025/09/26/kubecon-cloudnativecon-north-america-2024-co-located-event-deep-dive-kubeflow-summit": {
+        "status": "rejected",
+        "screened_at": "2026-11-01T17:31:06.016228+00:00"
       }
     },
-    "last_scan": "2026-10-31T16:40:05.322727+00:00"
+    "last_scan": "2026-11-01T17:31:06.016230+00:00"
   },
   "datadog-llm-obs": {
     "urls": {
@@ -4378,7 +4396,7 @@
         "screened_at": "2026-07-12T23:52:56.905756+00:00"
       }
     },
-    "last_scan": "2026-10-31T16:40:07.126541+00:00"
+    "last_scan": "2026-11-01T17:31:07.842766+00:00"
   },
   "langfuse-docs": {
     "urls": {
@@ -4555,7 +4573,7 @@
         "filed_at": "2026-10-27T17:12:01.888857+00:00"
       }
     },
-    "last_scan": "2026-10-31T16:40:08.550868+00:00"
+    "last_scan": "2026-11-01T17:31:09.520095+00:00"
   },
   "litellm-docs": {
     "urls": {
@@ -6574,16 +6592,22 @@
         "filed_at": "2026-10-31T16:40:29.562899+00:00"
       },
       "https://docs.litellm.ai/docs/mcp_servers/slack": {
-        "status": "pending",
-        "screened_at": "2026-08-25T12:36:16.234071+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-25T12:36:16.234071+00:00",
+        "issue": 1983,
+        "filed_at": "2026-11-01T17:31:25.165819+00:00"
       },
       "https://docs.litellm.ai/docs/mcp_tool_search": {
-        "status": "pending",
-        "screened_at": "2026-08-25T12:36:16.234089+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-25T12:36:16.234089+00:00",
+        "issue": 1984,
+        "filed_at": "2026-11-01T17:31:27.230906+00:00"
       },
       "https://docs.litellm.ai/docs/mcp_toolsets": {
-        "status": "pending",
-        "screened_at": "2026-08-25T12:36:16.234093+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-25T12:36:16.234093+00:00",
+        "issue": 1985,
+        "filed_at": "2026-11-01T17:31:29.387331+00:00"
       },
       "https://docs.litellm.ai/docs/api_stability_policy": {
         "status": "pending",
@@ -7388,9 +7412,21 @@
       "https://docs.litellm.ai/docs/providers/anthropic_effort": {
         "status": "pending",
         "screened_at": "2026-10-31T16:40:14.495155+00:00"
+      },
+      "https://docs.litellm.ai/docs/enterprise/lts_pilot": {
+        "status": "pending",
+        "screened_at": "2026-11-01T17:31:13.541133+00:00"
+      },
+      "https://docs.litellm.ai/docs/providers/anthropic_preserved_thinking": {
+        "status": "rejected",
+        "screened_at": "2026-11-01T17:31:13.541139+00:00"
+      },
+      "https://docs.litellm.ai/docs/providers/anthropic_programmatic_tool_calling": {
+        "status": "rejected",
+        "screened_at": "2026-11-01T17:31:13.541141+00:00"
       }
     },
-    "last_scan": "2026-10-31T16:40:14.495158+00:00"
+    "last_scan": "2026-11-01T17:31:13.541142+00:00"
   },
   "promptfoo-docs": {
     "urls": {
@@ -9423,16 +9459,22 @@
         "filed_at": "2026-10-31T16:40:35.378317+00:00"
       },
       "https://www.promptfoo.dev/docs/providers/anthropic": {
-        "status": "pending",
-        "screened_at": "2026-08-26T12:39:21.301473+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-26T12:39:21.301473+00:00",
+        "issue": 1986,
+        "filed_at": "2026-11-01T17:31:31.253739+00:00"
       },
       "https://www.promptfoo.dev/docs/providers/atlascloud": {
-        "status": "pending",
-        "screened_at": "2026-08-26T12:39:21.301475+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-26T12:39:21.301475+00:00",
+        "issue": 1987,
+        "filed_at": "2026-11-01T17:31:33.254444+00:00"
       },
       "https://www.promptfoo.dev/docs/providers/aws-bedrock": {
-        "status": "pending",
-        "screened_at": "2026-08-27T21:34:26.444968+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-27T21:34:26.444968+00:00",
+        "issue": 1988,
+        "filed_at": "2026-11-01T17:31:35.086199+00:00"
       },
       "https://www.promptfoo.dev/docs/providers/azure": {
         "status": "pending",
@@ -10221,8 +10263,20 @@
       "https://www.promptfoo.dev/docs/red-team/strategies/custom": {
         "status": "pending",
         "screened_at": "2026-10-31T16:40:18.786402+00:00"
+      },
+      "https://www.promptfoo.dev/docs/red-team/strategies/goat": {
+        "status": "pending",
+        "screened_at": "2026-11-01T17:31:17.009303+00:00"
+      },
+      "https://www.promptfoo.dev/docs/red-team/strategies/goblin": {
+        "status": "pending",
+        "screened_at": "2026-11-01T17:31:17.009309+00:00"
+      },
+      "https://www.promptfoo.dev/docs/red-team/strategies/hex": {
+        "status": "pending",
+        "screened_at": "2026-11-01T17:31:17.009310+00:00"
       }
     },
-    "last_scan": "2026-10-31T16:40:18.786404+00:00"
+    "last_scan": "2026-11-01T17:31:17.009312+00:00"
   }
 }
