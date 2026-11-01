@@ -62,7 +62,7 @@ Honeycomb's instrumentation aligns with the same operation model
 (`gen_ai.operation.name`: chat, execute_tool, retrieval, embeddings,
 invoke_agent, invoke_workflow)
 [source: blog-honeycomb-instrumenting-ai-agents-opentelemetry, Concrete Artifacts]
-[emerging]. Two independently-authored vendor docs converge on the same
+[stale]. Two independently-authored vendor docs converge on the same
 operation taxonomy.
 
 **Rule**: Standardize on the OTel GenAI semantic-convention operation and
@@ -190,7 +190,7 @@ Datadog Patterns automatically clusters LLM production traffic into a topic
 hierarchy using self-hosted open-source embeddings + UMAP + HDBSCAN, without
 manual tagging. Each topic shows interaction volume, cost, tokens, errors,
 and latency [source: docs-datadog-llm-observability, Claim 6, Claim 7]
-[emerging].
+[stale].
 
 The pipeline: pull interactions → summarize with AI → embed with open-source
 model → cluster with UMAP + HDBSCAN → generate topic names → build hierarchy.

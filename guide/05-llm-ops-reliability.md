@@ -1111,7 +1111,7 @@ for hit rate, and keep cache-key scope isolation in place.
 LiteLLM explicitly calls out "investigate latency overhead for long-running
 Claude Code requests" as a reliability investment area, alongside a 10k+ RPS
 uptime target [source: blog-litellm-april-townhall-updates, Claim 9]
-[emerging].
+[stale].
 
 Long-running agent sessions (minutes to hours) stress gateway connection
 pools, timeout configurations, and cost tracking differently than
@@ -1270,7 +1270,7 @@ The AI gateway pattern is expanding: today's gateways route model calls
 (routing, fallbacks, logging, spend tracking, auth, billing); tomorrow's
 must govern agent sessions (lifecycle, scheduling, memory, observability
 across runtimes) [source: blog-litellm-agents-are-the-new-llms, Claim 5,
-Claim 6] [emerging].
+Claim 6] [stale].
 
 This is a directional signal, not a deployable pattern — the cross-runtime
 agent API and fast-harness-serving layers are explicitly unsolved

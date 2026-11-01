@@ -408,7 +408,7 @@ registry stand in for its control surface.
 Between raw models and deployed runtimes sits a distinct layer of agent
 frameworks/CLIs: Claude Code, Codex, OpenCode, Hermes, DeepAgents
 [source: blog-litellm-agents-are-the-new-llms, Claim 7, Concrete Artifacts]
-[emerging].
+[stale].
 
 These harnesses are where tool definitions, safety parameters, and
 permission models are configured — the same concerns a control plane would
