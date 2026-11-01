@@ -30,7 +30,7 @@ tool calls, retrievals, and handoffs where most failures live.
 ### The seven-kind span taxonomy
 
 Spans are categorized by the type of work they perform
-[source: docs-datadog-llm-observability, Claim 4] [emerging]:
+[source: docs-datadog-llm-observability, Claim 4] [stale]:
 
 | Kind | What it represents | Can be root? |
 |------|-------------------|--------------|
@@ -45,7 +45,7 @@ Spans are categorized by the type of work they perform
 A span carries: name, start time/duration, error info, inputs and outputs
 (prompts and completions), metadata (model params like `temperature`), and
 metrics (`input_tokens`, `output_tokens`)
-[source: docs-datadog-llm-observability, Claim 3] [emerging].
+[source: docs-datadog-llm-observability, Claim 3] [stale].
 
 **Rule**: Instrument every LLM call, tool call, and retrieval as a distinct
 span kind. The Tool and Retrieval spans are where agentic failures
@@ -56,7 +56,7 @@ failures debuggable.
 
 Datadog natively ingests OpenTelemetry GenAI semantic convention v1.37+
 spans without requiring the Datadog SDK
-[source: docs-datadog-llm-observability, Claim 12] [emerging].
+[source: docs-datadog-llm-observability, Claim 12] [stale].
 
 Honeycomb's instrumentation aligns with the same operation model
 (`gen_ai.operation.name`: chat, execute_tool, retrieval, embeddings,

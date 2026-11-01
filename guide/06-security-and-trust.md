@@ -444,7 +444,7 @@ AI regulation reaches product through a chain: executive order → OMB memo →
 procurement language → contract requirement → request for evidence. The
 practical trigger for most builders is a security questionnaire or RFP that
 demands artifacts that didn't exist six months ago
-[source: blog-promptfoo-ai-regulation-2025, Claim 1] [emerging].
+[source: blog-promptfoo-ai-regulation-2025, Claim 1] [stale].
 
 **Rule**: Treat AI compliance as an SRE concern — produce evaluation
 artifacts, model cards, and acceptable use policies as standing deliverables,
@@ -454,7 +454,7 @@ not ad-hoc responses to RFPs.
 
 OMB M-26-04 (December 2025) requires federal agencies purchasing LLMs to
 obtain four artifacts by March 2026
-[source: blog-promptfoo-ai-regulation-2025, Claim 2, Claim 4] [emerging]:
+[source: blog-promptfoo-ai-regulation-2025, Claim 2, Claim 4] [stale]:
 
 ```
 Artifact               Description
@@ -490,7 +490,7 @@ approval gate.
 ### 2026 compliance calendar
 
 Key dates from [source: blog-promptfoo-ai-regulation-2025, Claim 6, Claim 7,
-Concrete Artifacts] [emerging]:
+Concrete Artifacts] [stale]:
 
 ```
 Jan 1, 2026  — California AB 2013 (training data transparency) effective
@@ -527,7 +527,7 @@ retention window and the specific data that leaves your tenant.
 AI-generated content must include visible labels, provenance metadata, and
 platforms must verify labels before distribution. The rules include a
 six-month log-retention requirement in specific cases
-[source: blog-promptfoo-ai-regulation-2025, Claim 8] [emerging].
+[source: blog-promptfoo-ai-regulation-2025, Claim 8] [stale].
 
 **Rule**: If your AI system serves users in regulated jurisdictions, audit
 trails are not an ops nicety — they are a measurable, retained, auditable
