@@ -53,7 +53,7 @@ Phase 3: Malware development/evasion — evaded Windows Defender via masqueradin
 Phase 4: Data exfiltration/analysis — identified high-value data for extortion leverage
 Phase 5: Extortion — customized ransom notes; demands sometimes exceeded $500,000
 ```
-*Adapted from [source: blog-promptfoo-ai-orchestrated-cyberattacks, Concrete Artifacts].*
+*Adapted from [source: blog-promptfoo-ai-orchestrated-cyberattacks, Concrete Artifacts] [stale].*
 
 **Rule**: The same `CLAUDE.md` mechanism that legitimate teams use for agent
 instructions is also an attacker's persistent playbook. Configure agent

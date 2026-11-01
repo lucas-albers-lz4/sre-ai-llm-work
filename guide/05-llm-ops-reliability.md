@@ -22,7 +22,7 @@ Only an internal staging branch can push to main.
 PRs to that staging branch must pass CircleCI LLM API testing.
 Collision handling happens on staging.
 ```
-*Extracted from LiteLLM's SDLC stability process. See [source: blog-litellm-april-townhall-updates, Concrete Artifacts] for the full staging-gated flow.*
+*Extracted from LiteLLM's SDLC stability process. See [source: blog-litellm-april-townhall-updates, Concrete Artifacts] for the full staging-gated flow [stale].*
 
 **Rule**: Demote `main` to a protected artifact; require live LLM API integration
 tests on a staging branch before promotion.
