@@ -134,7 +134,7 @@ Window:         ~82 days of PR-acceptance measurement; ~4 months total build
 CI/CD workflows:              63
 Nightly test suites:          32
 Coverage:                     91% across 12 parallel shards
-PR acceptance:                ~81% over 82 days
+PR acceptance:                ~81% over 82 days (no denominator or population stated)
 Community bug -> merged fix:  ~30 minutes
 Feature request -> PR:        ~1 hour
 
@@ -164,15 +164,24 @@ Production:      hourly GA4 query; file GitHub issues for error spikes
                  before users report them
 ```
 
-### The five-loop ladder (author's framing)
+### The article's five numbered loops (section order, not the maturity-model rungs)
 
 ```
 1. Instructed       CLAUDE.md + .github/copilot-instructions.md + rejection-criteria guide
 2. Measured         tests as the trust layer; per-category acceptance logging
 3. Adaptive         measure -> automate; self-adjusting QA rotation weights
 4. Self-Sustaining  behavior determined by repo artifacts; overnight issue handling
-5. (Prompting)      "Why didn't you catch this?" -> root cause + new test/rule
+5. Ask "why," not "what"
+                    prompting habit: root-cause analysis + new test/rule
 ```
+
+Note: this is the article's walkthrough sequence, not a restatement of the
+maturity-model rungs. The author names his "AI Codebase Maturity Model" rungs
+as **Assisted, Instructed, Measured, Adaptive, and Self-Sustaining** (Claim 4),
+but "Assisted" is named only in that list and has no dedicated section — the
+walkthrough begins at Instructed — while the fifth numbered section is the
+"Ask 'why,' not 'what'" prompting habit (Claim 13), which is not one of the
+named rungs. The block above should not be cited as the maturity model.
 
 ## Cross-References
 
@@ -318,6 +327,14 @@ Production:      hourly GA4 query; file GitHub issues for error spikes
   and partially corroborated, but the evidence is one solo maintainer's self-reported
   project, with no independent validation, no defined acceptance denominator, and an
   explicit author caveat about scalability.
+- Internal-consistency note (not a cross-source contradiction): the article's
+  named maturity-model rungs (Assisted, Instructed, Measured, Adaptive,
+  Self-Sustaining) do not line up one-to-one with its five numbered sections
+  (instructed, measured, adaptive, self-sustaining, ask-"why"-not-"what").
+  "Assisted" is named but never described, and the fifth section is a prompting
+  habit rather than a named rung. The Concrete Artifacts block is labelled as
+  the section sequence, not the maturity model, so this source-side looseness is
+  not misread as a Miner restatement.
 - Internal-consistency note (not a cross-source contradiction): the article says
   "Four months on" but reports "Across 82 days" for PR acceptance; the 82-day window
   is narrower than the full project span, which is plausible but means the acceptance
