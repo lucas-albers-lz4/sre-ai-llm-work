@@ -3224,6 +3224,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-mcp-openapi": {
+      "slug": "docs-litellm-mcp-openapi",
+      "title": "MCP from OpenAPI Specs — LiteLLM Documentation (gateway-side OpenAPI/Swagger ingestion)",
+      "source_url": "https://docs.litellm.ai/docs/mcp_openapi",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs; front-matter last_updated 2026-10-31)",
+      "date_extracted": "2026-11-02",
+      "issue": "#1946",
+      "file": "source-notes/docs-litellm-mcp-openapi.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-message-sanitization": {
       "slug": "docs-litellm-message-sanitization",
       "title": "Message Sanitization for Tool Calling for anthropic models | liteLLM",

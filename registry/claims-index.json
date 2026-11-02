@@ -17687,6 +17687,67 @@
         }
       ]
     },
+    "docs-litellm-mcp-openapi": {
+      "path": "source-notes/docs-litellm-mcp-openapi.md",
+      "title": "MCP from OpenAPI Specs — LiteLLM Documentation (gateway-side OpenAPI/Swagger ingestion)",
+      "source_url": "https://docs.litellm.ai/docs/mcp_openapi",
+      "chapters": [
+        "06",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The gateway itself converts an OpenAPI/Swagger spec into an MCP server, requiring no custom MCP server code",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "A spec-backed MCP server is configured with a base `url` plus `spec_path`; authentication and per-server tool allow/deny lists are optional fields",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Supported specs are exactly OpenAPI 3.0.x, 3.1.x, and Swagger 2.0; each operation's `operationId` becomes the tool name and must be unique",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "When `spec_path` is an `http(s)` URL, the proxy fetches it with SSRF protection on by default and rejects the request if any resolved address is not globally routable",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The SSRF allowlist is expressed as URL-hostname entries, including port-pinned forms, with separate examples for private-DNS and loopback spec URLs",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The SSRF controls live under `litellm_settings`, not `general_settings`; validation defaults to `true`, and disabling it is a trust decision",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Tool names and descriptions default to the spec's `operationId` and description fields; UI overrides can rename/rewrite them, and a blank field keeps the spec's original",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Operator-written description overrides go through the same discovery guardrail scan as the spec's own text, so a guardrail can mask or hide an override too",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The name/description override maps are keyed on the original `operationId`, not the prefixed exposed tool name; LiteLLM strips the server prefix before lookup",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The UI registration path fetches the spec and loads all endpoints as tools; the API path supports create and update with the override maps",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-message-sanitization": {
       "path": "source-notes/docs-litellm-message-sanitization.md",
       "title": "Message Sanitization for Tool Calling for anthropic models | liteLLM",
