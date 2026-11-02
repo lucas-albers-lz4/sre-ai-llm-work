@@ -3211,6 +3211,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-mcp-obo-auth": {
+      "slug": "docs-litellm-mcp-obo-auth",
+      "title": "MCP OBO Auth — LiteLLM Documentation",
+      "source_url": "https://docs.litellm.ai/docs/mcp_obo_auth",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs)",
+      "date_extracted": "2026-11-02",
+      "issue": "#1945",
+      "file": "source-notes/docs-litellm-mcp-obo-auth.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-message-sanitization": {
       "slug": "docs-litellm-message-sanitization",
       "title": "Message Sanitization for Tool Calling for anthropic models | liteLLM",

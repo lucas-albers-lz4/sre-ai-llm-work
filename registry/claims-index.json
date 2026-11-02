@@ -17615,6 +17615,78 @@
         }
       ]
     },
+    "docs-litellm-mcp-obo-auth": {
+      "path": "source-notes/docs-litellm-mcp-obo-auth.md",
+      "title": "MCP OBO Auth — LiteLLM Documentation",
+      "source_url": "https://docs.litellm.ai/docs/mcp_obo_auth",
+      "chapters": [
+        "06",
+        "05",
+        "03"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "OBO exchanges the caller's incoming bearer at the identity provider and forwards only the exchanged, MCP-scoped token to the MCP server",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "`auth_type: oauth2_token_exchange` requires only `token_exchange_endpoint`, `client_id`, and `client_secret`; `audience` is recommended and `scopes`, `subject_token_type`, `upstream_token_header`, and `token_exchange_profile` are optional",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The default `rfc8693` exchange is a form-encoded POST with `grant_type=urn:ietf:params:oauth:grant-type:token-exchange`, the caller bearer as `subject_token`, plus `subject_token_type`, `client_id`, `client_secret`, `audience`, and space-joined `scope`",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "`token_exchange_profile: entra_obo` switches to RFC 7523 `jwt-bearer` — the caller token rides as `assertion`, `requested_token_use=on_behalf_of` turns it into delegation, and `audience`/`subject_token_type` are silently unused",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Under Entra OBO the caller's token must be issued for LiteLLM's app registration as its `aud`; a harness authenticated to another app must first request a token for LiteLLM's scope",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Inbound requests must carry the user token in `Authorization` while the LiteLLM key moves to `x-litellm-api-key` — the same split applies to Responses API MCP tool `headers`",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "`upstream_token_header` lets the exchanged token ride on a custom header while `static_headers` carries a separate shared credential, so two credentials coexist on one upstream request",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "A cross-origin upstream redirect drops the custom `upstream_token_header` rather than forwarding it, so a redirecting upstream loses the credential on the second hop",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Exchanged tokens are cached per `(subject token, MCP server ID)` until expiry, giving per-user isolation and reuse across requests",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "A request to an `oauth2_token_exchange` server with no user bearer is rejected with `401` and a `WWW-Authenticate` challenge, with no `client_credentials` fallback and no forwarding without an exchanged token",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "OBO and M2M cannot share one server entry — machine access needs a second entry with `auth_type: oauth2` and an explicit `oauth2_flow: client_credentials`, which the proxy requires at startup",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "The troubleshooting table maps four symptoms to specific causes — LiteLLM key in `Authorization`, a 400 from the exchange endpoint, a missing upstream `Authorization`, and an exchange per request",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-message-sanitization": {
       "path": "source-notes/docs-litellm-message-sanitization.md",
       "title": "Message Sanitization for Tool Calling for anthropic models | liteLLM",
