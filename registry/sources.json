@@ -4185,6 +4185,18 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-model-audit": {
+      "slug": "docs-promptfoo-model-audit",
+      "title": "Promptfoo ModelAudit — Model Scanning: Remote-Source Matrix, Scanner Selection Flags, and the Severity/Exit-Code Gate Contract",
+      "source_url": "https://www.promptfoo.dev/docs/model-audit",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_extracted": "2026-11-02",
+      "issue": "#1948",
+      "file": "source-notes/docs-promptfoo-model-audit.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-model-graded-closedqa": {
       "slug": "docs-promptfoo-model-graded-closedqa",
       "title": "Promptfoo Configuration: Model-Graded — Model-Graded Closed QA",

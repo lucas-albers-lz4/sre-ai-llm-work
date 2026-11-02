@@ -21901,6 +21901,72 @@
         }
       ]
     },
+    "docs-promptfoo-model-audit": {
+      "path": "source-notes/docs-promptfoo-model-audit.md",
+      "title": "Promptfoo ModelAudit — Model Scanning: Remote-Source Matrix, Scanner Selection Flags, and the Severity/Exit-Code Gate Contract",
+      "source_url": "https://www.promptfoo.dev/docs/model-audit",
+      "chapters": [
+        "06",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "ModelAudit is invoked as `promptfoo scan-model [OPTIONS] PATH...`, and the standalone `modelaudit scan` command behaves the same — the scanner is an installable local artifact, not a hosted scanning service",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "`scan-model` accepts remote model sources in place — Hugging Face (`https://huggingface.co/`, `https://hf.co/`, `hf://`), S3 (`s3://`), GCS (`gs://`), Cloudflare R2 (`r2://`), MLflow (`models:/`), JFrog Artifactory (`https://*.jfrog.io/`), and DVC-tracked `.dvc` files — so a gate can scan a registry/bucket path without a separate download step",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Scanner selection is explicit — `--list-scanners` prints scanner IDs, `--scanners` runs only a chosen set, and `--exclude-scanner` removes scanners from the default set — which is what lets a pipeline split a fast changed-file scan from a full scan",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The scanner exposes read-only and cache-control flags — `--no-cache`, `--no-write`, `--dry-run`, `--quiet`, `--progress`, `--timeout` (default 300s), and `--max-size` — sufficient to run it safely on an ephemeral or read-only CI runner",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Findings are graded CRITICAL / WARNING / INFO / DEBUG, with DEBUG shown only under `--verbose` and some findings carrying a per-finding \"Why\" explanation — a four-level severity vocabulary to map onto alert/block policy",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The page claims 30+ specialized file-format scanners spanning PyTorch, TF SavedModel/TFLite, TensorRT, Keras, ONNX, SafeTensors, GGUF/GGML, Flax/JAX, pickle/dill, joblib, NumPy, PMML, ZIP archives, OCI container manifests, and auto-detected binaries — this is the scope a model gate actually covers, and by omission the artifact types it does not",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Beyond pickle analysis, the security checks include XXE in PMML, zip bombs/decompression attacks, embedded PE/ELF/Mach-O executables, OCI/Docker container-layer scanning, weight-anomaly statistical backdoor detection, AGPL license compliance, embedded secrets, and network-egress indicators — several of which the blog note did not enumerate",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The page's own \"CI/CD Best Practice\" callout says exit 1 findings \"should be reviewed but don't necessarily block deployment\" and that only exit 2 represents actual scan failures — directly opposing its example script, which fails the build on any nonzero exit",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "A scan that matches no files is an operational error (exit 2), not a clean pass — an empty glob or wrong path cannot be read as a successful scan",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Deployment variants are pip extras (`modelaudit[tensorflow,h5,pytorch]`, `[all]`, `[cloud,mlflow]`, `[numpy1]`) and GHCR image tags (`latest`, `latest-full`, `latest-tensorflow`), with per-format runtime dependencies — choices that change CI image size, offline capability, and which formats a gate can actually parse",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The same scanner is exposed through a web UI at `/model-audit` (via `promptfoo view`, default `http://localhost:15500/model-audit`) with GUI configuration, live progress, severity-colour-coded results, scan history, and automatic installation detection",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-model-graded-closedqa": {
       "path": "source-notes/docs-promptfoo-model-graded-closedqa.md",
       "title": "Promptfoo Configuration: Model-Graded — Model-Graded Closed QA",
