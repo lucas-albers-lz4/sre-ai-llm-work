@@ -104,6 +104,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "blog-cncf-does-kubernetes-dra-replace-hami": {
+      "slug": "blog-cncf-does-kubernetes-dra-replace-hami",
+      "title": "Does Kubernetes DRA Replace HAMi?",
+      "source_url": "https://www.cncf.io/blog/2026/08/07/does-kubernetes-dra-replace-hami",
+      "source_type": "blog-post",
+      "author": "Mesut Oezdil",
+      "date_published": "2026-08-07",
+      "date_extracted": "2026-11-01",
+      "issue": "#1981",
+      "file": "source-notes/blog-cncf-does-kubernetes-dra-replace-hami.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-cncf-geo-distributed-ai-k0smos": {
       "slug": "blog-cncf-geo-distributed-ai-k0smos",
       "title": "Breaking free of a single datacenter: Practical geo-distributed AI operations with the k0smos platforms",

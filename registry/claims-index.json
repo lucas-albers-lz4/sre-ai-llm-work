@@ -597,6 +597,89 @@
         }
       ]
     },
+    "blog-cncf-does-kubernetes-dra-replace-hami": {
+      "path": "source-notes/blog-cncf-does-kubernetes-dra-replace-hami.md",
+      "title": "Does Kubernetes DRA Replace HAMi?",
+      "source_url": "https://www.cncf.io/blog/2026/08/07/does-kubernetes-dra-replace-hami",
+      "chapters": [
+        "05",
+        "02",
+        "03",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Core DRA graduated to GA in Kubernetes v1.34 and is locked on since v1.35; extensions graduate on their own schedule (prioritized device lists stable v1.36; consumable capacity and partitionable devices beta v1.36)",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "DRA (including consumable capacity) is only a scheduling-time promise tracker — it prevents over-commitment but does nothing about a container that exceeds its grant at runtime",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "HAMi-core enforces the granted limits at CUDA/NVML call granularity via `libvgpu.so` preloaded into the container, so an over-allocating pod hits OOM at its own boundary while its neighbour is unaffected",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Library-interposition enforcement is escapable — statically linked workloads, `CUDA_DISABLE_CONTROL`, and containers-in-containers bypass it — so it is unsuitable as an adversarial multi-tenant boundary",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Interposition trades isolation for granularity — 1 MiB memory and 1% compute steps versus MIG's fixed profiles — and is the better fit for cooperative teams sharing expensive cards",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "DRA mode and traditional device-plugin mode must never run in the same cluster simultaneously, because two independent bookkeepers would each believe they own the same VRAM",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "HAMi-DRA's mutating webhook rewrites legacy `nvidia.com/gpu|gpumem|gpucores` extended resources into native `ResourceClaim`s at admission, so existing manifests need no change and third-party schedulers need no HAMi-specific integration",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Delegating placement to upstream kube-scheduler is topology-blind — HAMi-DRA ships no scheduler, so it cannot prefer NVLink-connected GPU pairs and hands the scheduler \"a count and a capacity, not a topology constraint\"",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "DRA-mode adoption is gated by Kubernetes v1.34+ with `DRAConsumableCapacity` enabled, a CDI-capable containerd/CRI-O, NVIDIA driver 440+, and a DRA driver for the silicon; alpha/off-by-default on v1.34–v1.35 blocks managed clusters that do not expose control-plane flags, while beta/default-on in v1.36 removes the biggest blocker",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Under fractional allocation, in-container `nvidia-smi` reports the granted slice (e.g. 10,240 MiB), not the physical card, so card-total GPU capacity dashboards are wrong",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "HAMi's observability carries over to DRA mode via a DRA monitor enabled by default, exposing per-container device metrics over Prometheus on port 31995",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "HAMi's traditional pipeline existed because the device-plugin API could only count opaque integers; it used a mutating webhook, a scheduler extender, an annotation, and in-container enforcement, and DRA absorbs the encoding half while leaving enforcement unchanged",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "Mid-2026 decision tree — managed Kubernetes without feature-gate access on v1.34/v1.35 (or older) and mixed-vendor fleets stay on traditional mode; NVIDIA clusters on v1.34+ with control-plane access, and anyone on v1.36, should stand up DRA mode in staging first",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "Core DRA's baseline sharing model is multiple pods referencing one `ResourceClaim` (a shared allocation), not independently accounted slices; consumable capacity adds `allowMultipleAllocations` plus capacity requests to get per-claim accounting",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-cncf-geo-distributed-ai-k0smos": {
       "path": "source-notes/blog-cncf-geo-distributed-ai-k0smos.md",
       "title": "Breaking free of a single datacenter: Practical geo-distributed AI operations with the k0smos platforms",
