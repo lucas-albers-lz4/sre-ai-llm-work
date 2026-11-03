@@ -17748,6 +17748,79 @@
         }
       ]
     },
+    "docs-litellm-mcp-troubleshoot": {
+      "path": "source-notes/docs-litellm-mcp-troubleshoot.md",
+      "title": "MCP Troubleshooting Guide — LiteLLM Documentation (symptom-to-fix runbook for an MCP gateway)",
+      "source_url": "https://docs.litellm.ai/docs/mcp_troubleshoot",
+      "chapters": [
+        "02",
+        "03",
+        "05",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The HTTP status line localizes the fault — 401/403/404/405/406 are produced by LiteLLM before the upstream call, while a `200` reporting `\"status\": \"unreachable\"` or an empty tool list means the upstream MCP hop failed",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "An unreachable upstream surfaces as HTTP 200 with an empty tool list and per-server status, not as a gateway 502/503",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The aggregate `POST /mcp` absorbs per-server failures and can hide a broken server behind healthy ones, so triage must target the named `POST /<alias>/mcp`",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The two 404 bodies have different owners — an alias/config 404 names the missing server, while a plain `{\"detail\":\"Not Found\"}` is a URL/path problem",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The MCP endpoints speak streamable HTTP — `Accept: application/json, text/event-stream` is mandatory (406 otherwise), POST is required for JSON-RPC (405 otherwise), and `tools/list` works without an `initialize` handshake",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "A wrong `server_label` in `/v1/responses` or `/v1/chat/completions` returns 200 and silently answers without tools",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Calling an unprefixed or wrong tool name returns HTTP 200 and fails inside the tool result with `isError: true`",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The diagnostic curl must be run unfiltered against the named endpoint, preserving status line, headers, and body",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "`x-litellm-mcp-debug: true` returns masked `x-mcp-debug-*` headers that confirm the layer and outbound auth resolution, and are safe to attach to a support bundle",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "An ingress origin mismatch on the MCP OAuth Connect flow returns `400 {\"detail\":\"invalid_request\"}`, diagnosed via the `.well-known` issuer and fixed in order by `PROXY_BASE_URL` → trusted `X-Forwarded-*` plus `mcp_trusted_proxy_ranges` → ingress correction",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "HTTP 401/403/404 rows are distinguished by body and ownership — 403 means the credential authenticated but lacks MCP permission, and a 401 body's key-naming behavior changed in v1.107.0",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "The support bundle is a fixed nine-item evidence checklist with an explicit \"never share\" credential list",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-message-sanitization": {
       "path": "source-notes/docs-litellm-message-sanitization.md",
       "title": "Message Sanitization for Tool Calling for anthropic models | liteLLM",
