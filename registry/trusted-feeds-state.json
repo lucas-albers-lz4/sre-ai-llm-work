@@ -106,7 +106,7 @@
         "https://www.datadoghq.com/blog/engineering/what-product-designers-can-learn-from-explanatory-journalism/",
         "https://www.datadoghq.com/blog/engineering/workload-protection-ebpf-fim/"
       ],
-      "last_scan": "2026-11-02T21:13:53.066336+00:00"
+      "last_scan": "2026-11-03T18:55:54.908716+00:00"
     },
     "honeycomb": {
       "seen": [
@@ -149,6 +149,7 @@
         "https://www.honeycomb.io/blog/honeycomb-is-built-for-the-agent-era-pt1",
         "https://www.honeycomb.io/blog/honeycomb-metrics-generally-available",
         "https://www.honeycomb.io/blog/honeycomb-named-visionary-2026-gartner-magic-quadrant-observability-platforms",
+        "https://www.honeycomb.io/blog/honeycomb-team-agents-ai-sre-done-right",
         "https://www.honeycomb.io/blog/how-adaptive-tail-sampling-works",
         "https://www.honeycomb.io/blog/how-canvas-powers-ai-agent-development-feedback-loop",
         "https://www.honeycomb.io/blog/how-honeycomb-private-cloud-drinks-from-the-fire-hose",
@@ -196,7 +197,7 @@
         "https://www.honeycomb.io/blog/your-questions-about-ai-agents-production-feedback-answered",
         "https://www.honeycomb.io/blog/your-questions-about-ai-assisted-development-answered"
       ],
-      "last_scan": "2026-11-02T21:13:55.120500+00:00"
+      "last_scan": "2026-11-03T18:55:58.603078+00:00"
     },
     "grafana": {
       "seen": [
@@ -257,10 +258,11 @@
         "https://grafana.com/blog/tempo-3-0-release-all-the-latest-features/",
         "https://grafana.com/blog/tempo-3-1-release-all-the-latest-features/",
         "https://grafana.com/blog/the-grafana-ai-sdk-for-go-a-shared-foundation-for-building-ai-applications/",
+        "https://grafana.com/blog/trace-linkage-connect-the-dots-between-your-app-traces-and-database-queries/",
         "https://grafana.com/blog/visual-playback-of-the-user-journey-introducing-session-replay-in-grafana-cloud-frontend-observability/",
         "https://grafana.com/blog/what-if-your-agent-s-hallucinations-had-a-budget-how-to-start-using-slos-for-agent-behavior/"
       ],
-      "last_scan": "2026-11-02T21:13:58.422616+00:00"
+      "last_scan": "2026-11-03T18:56:01.370011+00:00"
     },
     "pagerduty": {
       "seen": [
@@ -275,6 +277,7 @@
         "https://www.pagerduty.com/eng/how-ai-tools-accelerated-six-month-framework-migration-to-nine-days/",
         "https://www.pagerduty.com/eng/how-we-rebuilt-post-incident-reviews-inside-pagerduty/",
         "https://www.pagerduty.com/eng/inside-pagerdutys-sre-agent-how-we-built-deep-incident-investigation/",
+        "https://www.pagerduty.com/eng/lessons-from-pd-labs-from-experimentation-to-a-production-ready-sre-agent/",
         "https://www.pagerduty.com/eng/navigating-the-shift-to-agentic-ai/",
         "https://www.pagerduty.com/eng/pagerduty-for-ai-how-the-sre-agent-triages-ai-incidents/",
         "https://www.pagerduty.com/eng/pagerdutys-approach-to-reliability/",
@@ -282,7 +285,7 @@
         "https://www.pagerduty.com/eng/swapping-a-product-engine-mid-flight/",
         "https://www.pagerduty.com/eng/watchtower-and-journey-gated-rollouts/"
       ],
-      "last_scan": "2026-11-02T21:14:00.552326+00:00"
+      "last_scan": "2026-11-03T18:56:04.109238+00:00"
     },
     "incident-io": {
       "seen": [
@@ -733,7 +736,7 @@
         "https://incident.io/blog/zapier-integration",
         "https://incident.io/blog/zendesk"
       ],
-      "last_scan": "2026-11-02T21:14:03.283155+00:00"
+      "last_scan": "2026-11-03T18:56:06.735715+00:00"
     },
     "netflix-tech": {
       "seen": [
@@ -782,7 +785,7 @@
         "https://netflixtechblog.com/toward-more-controllable-ai-video-editing-an-early-research-exploration-at-netflix-eb8160ed60a2?source=rss----2615bd06b42e---4",
         "https://netflixtechblog.com/trading-a-cloud-identity-for-your-own-workload-attestation-on-managed-compute-516d5a29b252?source=rss----2615bd06b42e---4"
       ],
-      "last_scan": "2026-11-02T21:14:07.745421+00:00"
+      "last_scan": "2026-11-03T18:56:11.218202+00:00"
     },
     "anthropic-eng": {
       "seen": [
@@ -837,7 +840,7 @@
         "https://www.anthropic.com/research/redesigning-source-control",
         "https://www.anthropic.com/research/writing-tools-for-agents"
       ],
-      "last_scan": "2026-11-02T21:14:09.800509+00:00"
+      "last_scan": "2026-11-03T18:56:13.286631+00:00"
     },
     "simon-willison": {
       "seen": [
@@ -931,6 +934,7 @@
         "https://simonwillison.net/2026/Oct/17/document-currentscript/",
         "https://simonwillison.net/2026/Oct/18/llm-tools-datasette/",
         "https://simonwillison.net/2026/Oct/2/rex-s-dino-store/",
+        "https://simonwillison.net/2026/Oct/21/panache/",
         "https://simonwillison.net/2026/Oct/3/default-hard-budget-caps/",
         "https://simonwillison.net/2026/Oct/6/hn-49982139/",
         "https://simonwillison.net/2026/Oct/6/hn-49983751/",
@@ -973,7 +977,7 @@
         "https://simonwillison.net/2026/Sep/7/jakub-pachocki/",
         "https://simonwillison.net/2026/Sep/9/terence-tao/"
       ],
-      "last_scan": "2026-11-02T21:14:12.497659+00:00"
+      "last_scan": "2026-11-03T18:56:16.016735+00:00"
     },
     "thenewstack": {
       "seen": [
@@ -1043,6 +1047,7 @@
         "https://thenewstack.io/deepseek-flash-haiku-test/",
         "https://thenewstack.io/dns-domain-management-automation/",
         "https://thenewstack.io/eclipse-sovereign-ai-foundation/",
+        "https://thenewstack.io/elastic-beanstalk-regulated-workloads/",
         "https://thenewstack.io/entire-trails-agentic-code-review/",
         "https://thenewstack.io/fable-5-1-watermark/",
         "https://thenewstack.io/fable-5-permanent-subscription-access/",
@@ -1109,7 +1114,7 @@
         "https://thenewstack.io/voice-ai-openai-anthropic/",
         "https://thenewstack.io/why-cpus-still-matter-in-the-age-of-ai-agents/"
       ],
-      "last_scan": "2026-11-02T21:14:15.303108+00:00"
+      "last_scan": "2026-11-03T18:56:18.704396+00:00"
     },
     "meta-eng": {
       "seen": [
@@ -1148,6 +1153,7 @@
         "https://engineering.fb.com/2026/10/27/security/privacylib/",
         "https://engineering.fb.com/2026/10/28/ml-applications/meta-andromeda-next-gen-ads-retrieval-gpu-co-design/",
         "https://engineering.fb.com/2026/10/29/security/catching-bugs-before-they-land-jittestings-human-on-the-loop-approach-at-full-scale/",
+        "https://engineering.fb.com/2026/11/03/ml-applications/f3-lightning-how-meta-accelerates-ads-ml-features-to-production/",
         "https://engineering.fb.com/?p=23963",
         "https://engineering.fb.com/?p=23982",
         "https://engineering.fb.com/?p=23988",
@@ -1160,7 +1166,7 @@
         "https://engineering.fb.com/?p=24221",
         "https://engineering.fb.com/?p=24251"
       ],
-      "last_scan": "2026-11-02T21:14:17.465570+00:00"
+      "last_scan": "2026-11-03T18:56:21.441758+00:00"
     },
     "sentry": {
       "seen": [
@@ -1205,6 +1211,7 @@
         "https://blog.sentry.io/observability-with-tracing-channels/",
         "https://blog.sentry.io/otel-spans-errors-sentry-trace/",
         "https://blog.sentry.io/perforce-integration-ga/",
+        "https://blog.sentry.io/performance-wins-traces-coding-agent/",
         "https://blog.sentry.io/product-analytics-you-already-have/",
         "https://blog.sentry.io/sample-ai-traces-at-100-percent-without-sampling-everything/",
         "https://blog.sentry.io/scaling-observability-for-multi-agent-ai-systems/",
@@ -1225,7 +1232,7 @@
         "https://blog.sentry.io/unreal-mcp-sentry/",
         "https://blog.sentry.io/when-you-need-a-metric/"
       ],
-      "last_scan": "2026-11-02T21:14:20.086085+00:00"
+      "last_scan": "2026-11-03T18:56:24.090570+00:00"
     },
     "slack-engineering": {
       "seen": [
@@ -1247,7 +1254,7 @@
         "https://slack.engineering/slack-ai-the-path-to-multi-cloud/",
         "https://slack.engineering/streamlining-security-investigations-with-agents/"
       ],
-      "last_scan": "2026-11-02T21:14:22.127816+00:00"
+      "last_scan": "2026-11-03T18:56:26.228641+00:00"
     },
     "litellm-blog": {
       "seen": [
@@ -1411,7 +1418,7 @@
         "https://docs.litellm.ai/blog/video_characters_api",
         "https://docs.litellm.ai/blog/vllm-embeddings-incident"
       ],
-      "last_scan": "2026-11-02T21:14:05.471063+00:00"
+      "last_scan": "2026-11-03T18:56:08.920457+00:00"
     },
     "promptfoo-blog": {
       "seen": [
@@ -1436,7 +1443,7 @@
         "https://www.promptfoo.dev/blog/top-llm-safety-bias-benchmarks/",
         "https://www.promptfoo.dev/blog/will-agents-hack-everything/"
       ],
-      "last_scan": "2026-11-02T21:14:24.798983+00:00"
+      "last_scan": "2026-11-03T18:56:28.741233+00:00"
     },
     "github-engineering": {
       "seen": [
@@ -1463,7 +1470,7 @@
         "https://github.blog/engineering/using-the-github-copilot-sdk-for-java/",
         "https://github.blog/security/supply-chain-security/tame-dependabot-group-your-updates-slow-the-cadence-keep-security-fast/"
       ],
-      "last_scan": "2026-11-02T21:14:27.386353+00:00"
+      "last_scan": "2026-11-03T18:56:31.364724+00:00"
     },
     "aws-architecture": {
       "seen": [
@@ -1515,6 +1522,7 @@
         "https://aws.amazon.com/blogs/architecture/how-mhk-built-a-hipaa-eligible-agentic-ai-solution-on-amazon-bedrock/",
         "https://aws.amazon.com/blogs/architecture/how-revinate-accelerated-api-adoption-with-amazon-api-gateway/",
         "https://aws.amazon.com/blogs/architecture/how-samsung-achieved-real-time-pricing-with-aws-lambda-response-streaming/",
+        "https://aws.amazon.com/blogs/architecture/how-to-run-a-dr-readiness-engagement/",
         "https://aws.amazon.com/blogs/architecture/how-uts-established-a-modern-curriculum-data-services-foundation-on-aws/",
         "https://aws.amazon.com/blogs/architecture/hybrid-cloud-orchestration-modernizing-on-premises-infrastructure-management-with-aws/",
         "https://aws.amazon.com/blogs/architecture/introducing-the-snowflake-and-aws-custom-lens-for-the-aws-well-architected-framework/",
@@ -1543,9 +1551,10 @@
         "https://aws.amazon.com/blogs/architecture/track-generative-ai-costs-with-amazon-bedrock-inference-profiles/",
         "https://aws.amazon.com/blogs/architecture/unlocking-the-future-of-video-data-march-networks-cloud-storage-on-aws/",
         "https://aws.amazon.com/blogs/architecture/validating-multi-region-dr-for-terraform-enterprise-with-aws-fis/",
+        "https://aws.amazon.com/blogs/architecture/validating-your-dr-commitment-from-controlled-test-to-real-world-readiness/",
         "https://aws.amazon.com/blogs/architecture/vessel-specific-voyage-optimization-with-machine-learning-manta-on-aws/"
       ],
-      "last_scan": "2026-11-02T21:14:30.244797+00:00"
+      "last_scan": "2026-11-03T18:56:34.826434+00:00"
     },
     "nvidia-developer": {
       "seen": [
@@ -1750,10 +1759,11 @@
         "https://developer.nvidia.com/blog/?p=123090",
         "https://developer.nvidia.com/blog/?p=123110",
         "https://developer.nvidia.com/blog/?p=123148",
+        "https://developer.nvidia.com/blog/?p=123253",
         "https://developer.nvidia.com/blog/?p=123334",
         "https://developer.nvidia.com/blog/?p=123387"
       ],
-      "last_scan": "2026-11-02T21:14:33.151493+00:00"
+      "last_scan": "2026-11-03T18:56:37.574504+00:00"
     },
     "docker": {
       "seen": [
@@ -1772,6 +1782,7 @@
         "https://www.docker.com/blog/coding-agent-horror-stories-the-cve-that-did-not-exist/",
         "https://www.docker.com/blog/docker-activestate-partnership/",
         "https://www.docker.com/blog/docker-ai-governance-audit-logs-now-where-your-security-team-already-works/",
+        "https://www.docker.com/blog/docker-blueprint-alliance-agent-baseline/",
         "https://www.docker.com/blog/docker-cloud-sandboxes-wearedevelopers-recap/",
         "https://www.docker.com/blog/docker-hub-security-advisory-cve-2026-105445/",
         "https://www.docker.com/blog/docker-joins-nvidia-open-secure-ai-alliance/",
@@ -1810,7 +1821,7 @@
         "https://www.docker.com/blog/why-ai-agents-need-isolation/",
         "https://www.docker.com/blog/your-laptop-is-the-new-production-environment/"
       ],
-      "last_scan": "2026-11-02T21:14:35.955515+00:00"
+      "last_scan": "2026-11-03T18:56:40.352652+00:00"
     },
     "together-ai": {
       "seen": [
@@ -1944,14 +1955,19 @@
         "https://www.together.ai/blog/what-llms-think",
         "https://www.together.ai/blog/yaqa"
       ],
-      "last_scan": "2026-11-02T21:14:38.145846+00:00"
+      "last_scan": "2026-11-03T18:56:42.777492+00:00"
     },
     "mongodb-engineering": {
       "seen": [
+        "https://www.mongodb.com/company/blog/culture/from-curiosity-impact-inside-intern-experience",
         "https://www.mongodb.com/company/blog/culture/inside-mongodb-dublin-the-heart-of-our-international-growth",
         "https://www.mongodb.com/company/blog/culture/mongodb-is-glassdoor-best-led-company-2025",
+        "https://www.mongodb.com/company/blog/culture/recruiting-tips/how-prepare-your-enterprise-account-executive-interview-mongodb",
         "https://www.mongodb.com/company/blog/engineering/carrying-complexity-delivering-agility",
+        "https://www.mongodb.com/company/blog/engineering/mongodb-8-0-improving-performance-avoiding-regressions",
+        "https://www.mongodb.com/company/blog/engineering/mongodb-8-0-raising-the-bar",
         "https://www.mongodb.com/company/blog/engineering/mongodb-predictive-auto-scaling-an-experiment",
+        "https://www.mongodb.com/company/blog/engineering/same-query-same-score-consistent-ranking-with-stabletfl-atlas-search",
         "https://www.mongodb.com/company/blog/engineering/token-count-based-batching-faster-cheaper-embedding-inference-for-queries",
         "https://www.mongodb.com/company/blog/engineering/towards-model-based-verification-key-value-storage-engine",
         "https://www.mongodb.com/company/blog/events/local-nyc-2025-defining-ideal-database-for-ai-era",
@@ -1963,44 +1979,104 @@
         "https://www.mongodb.com/company/blog/events/local-nyc-2025-defining-ideal-database-for-ai-era-it",
         "https://www.mongodb.com/company/blog/events/local-nyc-2025-defining-ideal-database-for-ai-era-kr",
         "https://www.mongodb.com/company/blog/events/mongodb-local-san-francisco-2026-ship-production-ai-faster",
+        "https://www.mongodb.com/company/blog/financial-crime-mitigation-with-mongodb-part-ii-comprehensive-analysis",
         "https://www.mongodb.com/company/blog/from-niche-nosql-enterprise-powerhouse-story-mongodbs-evolution",
+        "https://www.mongodb.com/company/blog/honor-global-operational-excellence-with-mongodb",
+        "https://www.mongodb.com/company/blog/innovating-with-mongodb-customer-successes-may-2025",
+        "https://www.mongodb.com/company/blog/innovation/17live-scales-global-ai-applications-service-innovation-mongodb-atlas-search",
         "https://www.mongodb.com/company/blog/innovation/agentic-supplier-management-with-atlas-voyage-ai-multi-modal-search",
+        "https://www.mongodb.com/company/blog/innovation/announcing-a-modernization-toolkit",
+        "https://www.mongodb.com/company/blog/innovation/beyond-cloud-building-an-offline-first-mobile-wallet-atlas-objectbox",
         "https://www.mongodb.com/company/blog/innovation/build-trust-in-agentic-ai-from-poc-to-production",
+        "https://www.mongodb.com/company/blog/innovation/building-a-dynamic-customer-profile-using-mongodb",
+        "https://www.mongodb.com/company/blog/innovation/building-financial-crime-mitigation-platform-with-mongodb-series-overview",
         "https://www.mongodb.com/company/blog/innovation/cars24-improves-search-for-300-million-users-with-atlas",
+        "https://www.mongodb.com/company/blog/innovation/data-sovereignty-by-design-five-practical-evaluation-lenses-for-it-leaders",
         "https://www.mongodb.com/company/blog/innovation/edge-ai-made-easy-mongodb-and-objectbox-data-synchronization",
+        "https://www.mongodb.com/company/blog/innovation/enhancing-energy-management-with-power-of-agentic-ai",
+        "https://www.mongodb.com/company/blog/innovation/enterprise-advanced-ai-ready-operational-insights-manufacturing",
+        "https://www.mongodb.com/company/blog/innovation/financial-crime-mitigation-part-iii-behavioral-risk-modeling-for-event-driven-fraud-detection",
+        "https://www.mongodb.com/company/blog/innovation/financial-crime-mitigation-part-iv-agentic-ai-for-case-management",
+        "https://www.mongodb.com/company/blog/innovation/fraud-hides-in-patterns-vectors-see-them",
+        "https://www.mongodb.com/company/blog/innovation/from-2d-drawings-3d-models-designing-ai-reconstruction-pipeline",
+        "https://www.mongodb.com/company/blog/innovation/hidden-security-gap-in-smart-grid-telemetry-and-how-to-fix-it",
+        "https://www.mongodb.com/company/blog/innovation/how-indian-organizations-regulated-industries-are-scaling",
+        "https://www.mongodb.com/company/blog/innovation/how-palo-alto-networks-built-zero-downtime-multi-region-sase-portal-with-atlas",
+        "https://www.mongodb.com/company/blog/innovation/how-real-time-rewards-drive-2-5x-higher-customer-spend",
         "https://www.mongodb.com/company/blog/innovation/innovating-customer-successes-october-2025",
+        "https://www.mongodb.com/company/blog/innovation/innovating-mongodb-customer-successes-july-2025",
         "https://www.mongodb.com/company/blog/innovation/innovating-with-mongodb-customer-successes-february-2026",
+        "https://www.mongodb.com/company/blog/innovation/leading-indian-organizations-are-driving-indias-ai-future",
+        "https://www.mongodb.com/company/blog/innovation/merchant-identity-gap-hidden-payment-data-problem",
         "https://www.mongodb.com/company/blog/innovation/mongodb-community-edition-to-atlas-migration-masterclass-bharatpe",
         "https://www.mongodb.com/company/blog/innovation/new-research-reveals-overcoming-legacy-tech-issues-key-ai-success",
+        "https://www.mongodb.com/company/blog/innovation/powering-open-banking-consent-with-agentic-ai",
         "https://www.mongodb.com/company/blog/innovation/production-ready-agents-need-production-ready-data-platform",
+        "https://www.mongodb.com/company/blog/innovation/resilient-edge-ai-keeping-connected-vehicles-smart-offline",
+        "https://www.mongodb.com/company/blog/innovation/shared-view-that-makes-insurance-ai-fast-safe",
         "https://www.mongodb.com/company/blog/innovation/simplify-ai-driven-data-connectivity-mcp-toolbox",
         "https://www.mongodb.com/company/blog/innovation/smarter-ai-search-powered-by-atlas-pureinsights",
+        "https://www.mongodb.com/company/blog/innovation/stop-rubber-stamping-ai-contestable-framework-regulated-industries",
+        "https://www.mongodb.com/company/blog/innovation/supporting-dpdpa-compliant-ecosystem-in-india",
         "https://www.mongodb.com/company/blog/mongodb-2025-in-review-2026-predictions",
         "https://www.mongodb.com/company/blog/news/10-years-mongodb-atlas-built-for-whats-next",
+        "https://www.mongodb.com/company/blog/news/atlas-10-years-celebrating-customers-behind-platform",
+        "https://www.mongodb.com/company/blog/news/benchmark-shows-atlas-manages-thousands-of-payments-per-second-zero-data-loss",
         "https://www.mongodb.com/company/blog/news/celebrating-excellence-mongodb-global-partner-awards-2025",
         "https://www.mongodb.com/company/blog/news/celebrating-excellence-mongodb-global-partner-awards-2025-cn",
         "https://www.mongodb.com/company/blog/news/celebrating-excellence-mongodb-global-partner-awards-2025-es",
         "https://www.mongodb.com/company/blog/news/celebrating-excellence-mongodb-global-partner-awards-2025-fr",
         "https://www.mongodb.com/company/blog/news/celebrating-excellence-mongodb-global-partner-awards-2025-kr",
         "https://www.mongodb.com/company/blog/news/charting-new-course-saas-security-why-mongodb-helped-build-sscf",
+        "https://www.mongodb.com/company/blog/news/introducing-a-more-connected-flexible-path-to-certifications",
         "https://www.mongodb.com/company/blog/news/mongodb-announces-leadership-transition",
+        "https://www.mongodb.com/company/blog/news/your-database-just-became-your-ai-control-point",
         "https://www.mongodb.com/company/blog/product-release-announcements/ai-changing-what-customers-need-from-database-mongodb-8-3-built-for-it",
+        "https://www.mongodb.com/company/blog/product-release-announcements/ai-demand-constant-unpredictable-extreme-mongodb-is-built-for-it",
+        "https://www.mongodb.com/company/blog/product-release-announcements/amp-ai-driven-approach-modernization",
+        "https://www.mongodb.com/company/blog/product-release-announcements/analyze-atlas-data-openai-chatgpt-work",
+        "https://www.mongodb.com/company/blog/product-release-announcements/close-database-blind-spot-with-atlas-observability",
+        "https://www.mongodb.com/company/blog/product-release-announcements/closing-gap-between-agentic-promise-impact-industry-leading-retrieval",
+        "https://www.mongodb.com/company/blog/product-release-announcements/enhancing-atlas-online-archive-data-expiration-scheduled-archiving",
+        "https://www.mongodb.com/company/blog/product-release-announcements/europe-data-residency-for-atlas-embedding-reranking",
+        "https://www.mongodb.com/company/blog/product-release-announcements/everything-announced-mongodb-local-nyc-2026",
+        "https://www.mongodb.com/company/blog/product-release-announcements/going-from-zero-to-one-enterprise-ready-mongodb-llms",
+        "https://www.mongodb.com/company/blog/product-release-announcements/how-atlas-agent-engine-powers-mongodbs-internal-ai-strategy",
+        "https://www.mongodb.com/company/blog/product-release-announcements/introducing-atlas-app-connections-secure-one-click-access-for-ai-tools",
+        "https://www.mongodb.com/company/blog/product-release-announcements/introducing-atlas-gen2-on-aws-m30-dedicated-clusters",
         "https://www.mongodb.com/company/blog/product-release-announcements/introducing-mongodb-agent-skills",
         "https://www.mongodb.com/company/blog/product-release-announcements/introducing-mongodb-atlas-log-integration",
+        "https://www.mongodb.com/company/blog/product-release-announcements/introducing-rerank-3-and-native-rerank",
+        "https://www.mongodb.com/company/blog/product-release-announcements/introducing-the-embedding-and-reranking-api-on-mongodb-atlas",
+        "https://www.mongodb.com/company/blog/product-release-announcements/mongodb-9-0-this-is-what-a-database-should-be",
+        "https://www.mongodb.com/company/blog/product-release-announcements/mongodb-for-agentic-era-built-for-developers-ai-agents",
         "https://www.mongodb.com/company/blog/product-release-announcements/mongodb-sql-interface-now-available-enterprise-advanced",
         "https://www.mongodb.com/company/blog/technical/10-skills-was-missing-as-mongodb-user",
+        "https://www.mongodb.com/company/blog/technical/agent-memory-inside-harness",
+        "https://www.mongodb.com/company/blog/technical/agent-observability-monitoring-decisions-not-requests",
+        "https://www.mongodb.com/company/blog/technical/agent-orchestration-tool-use-machinery-underneath",
         "https://www.mongodb.com/company/blog/technical/build-ai-agents-worth-keeping-canvas-framework",
+        "https://www.mongodb.com/company/blog/technical/build-fraud-review-agent-atlas-claude-managed-agents",
         "https://www.mongodb.com/company/blog/technical/building-a-movie-recommendation-engine-with-hugging-face-and-voyage-ai",
+        "https://www.mongodb.com/company/blog/technical/building-ecommerce-ai-agents-on-mongodb-with-crewai",
+        "https://www.mongodb.com/company/blog/technical/catch-mongodb-anti-patterns-on-every-pr-with-claude-routines",
+        "https://www.mongodb.com/company/blog/technical/cheapest-token-you-never-send-agentic-ai-search-on-mongodb-voyage-ai",
+        "https://www.mongodb.com/company/blog/technical/context-engineering-for-agentic-applications-on-aws-bedrock-agentcore-atlas",
         "https://www.mongodb.com/company/blog/technical/cost-of-not-knowing-mongodb-part-3-appv6r0-appv6r4",
         "https://www.mongodb.com/company/blog/technical/endian-communication-systems-information-exchange-in-bytes",
         "https://www.mongodb.com/company/blog/technical/enhance-your-in-ide-data-browsing-experience-with-mongodb",
         "https://www.mongodb.com/company/blog/technical/fighting-tool-sprawl-case-for-ai-tool-registries",
+        "https://www.mongodb.com/company/blog/technical/how-we-used-ai-bring-mongodb-to-dynamodb",
         "https://www.mongodb.com/company/blog/technical/modernizing-core-insurance-systems-breaking-batch-bottleneck",
+        "https://www.mongodb.com/company/blog/technical/mongodb-atlas-joins-google-cloud-foundation-fabric-fast-secure-private-data-infrastructure-minutes",
         "https://www.mongodb.com/company/blog/technical/top-considerations-when-choosing-hybrid-search-solution",
-        "https://www.mongodb.com/company/blog/technical/vision-rag-enabling-search-on-any-documents"
+        "https://www.mongodb.com/company/blog/technical/vfs-langchain-deep-agents-searchable-filesystem-agents",
+        "https://www.mongodb.com/company/blog/technical/vision-rag-enabling-search-on-any-documents",
+        "https://www.mongodb.com/company/research/distributed-systems-research-group/lets-not-waste-time-on-excessive-benchmarking",
+        "https://www.mongodb.com/company/research/how-to-test-mongodb-drivers-conform-to-a-dozen-specs"
       ],
-      "last_scan": "2026-11-02T21:14:40.605078+00:00"
+      "last_scan": "2026-11-03T18:56:46.052691+00:00"
     }
   },
-  "last_scan": "2026-11-02T21:14:40.605096+00:00"
+  "last_scan": "2026-11-03T18:56:46.052789+00:00"
 }
