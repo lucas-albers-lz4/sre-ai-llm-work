@@ -18677,6 +18677,84 @@
         }
       ]
     },
+    "docs-promptfoo-bedrock-agents": {
+      "path": "source-notes/docs-promptfoo-bedrock-agents.md",
+      "title": "Promptfoo Providers: AWS Bedrock Agents — the Silent InvokeAgent Config Omission and the Two Trace Planes",
+      "source_url": "https://www.promptfoo.dev/docs/providers/bedrock-agents",
+      "chapters": [
+        "05",
+        "06",
+        "02",
+        "03"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The `bedrock-agent` provider evaluates a *deployed* Bedrock Agent through AWS `InvokeAgent`, addressed as `bedrock-agent:<agentId>` and requiring an active agent alias — not a raw foundation model",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Safety- and behavior-relevant provider keys are accepted \"for compatibility\" but silently omitted from the runtime request — `inferenceConfig`, `guardrailConfiguration`, `promptOverrideConfiguration`, `actionGroups`, and `inputDataConfig` do not reach `InvokeAgent`",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Setting `guardrailConfiguration` in promptfoo does not apply a guardrail — the `InvokeAgent` API does not accept the field; the guardrail must be attached to the deployed agent",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Promptfoo cannot tell from configuration whether a guardrail ran — the only evidence is the agent trace, so a green eval does not prove guardrail enforcement",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Per-request inference and action-group definitions are also not accepted by `InvokeAgent` — existing keys are retained for compatibility but omitted at runtime",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The provider exposes two separate trace planes — Bedrock-native agent trace (`context.providerResponse.metadata.trace`, enabled by `enableTrace: true`) and promptfoo's OpenTelemetry `context.trace` — and assertions must target the right one",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Action-group invocation is verified against the Bedrock-native trace with a JavaScript assertion on `actionGroupTrace.actionGroupName`, not from provider config or the OTEL trace",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Knowledge-base config is the exception to the blanket omission — associations must be on the deployed agent, but entries carrying `retrievalConfiguration` *do* override retrieval settings for the request, while legacy `knowledgeBaseId`-only entries are omitted from session overrides",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Knowledge-base metadata filters must use AWS `RetrievalFilter`'s `andAll`/`orAll` operator shape — flat metadata maps are rejected locally, so a filter that looks valid in a generic promptfoo config fails before reaching the agent",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Multi-turn eval is encoded by reusing a `sessionId` across test cases with `sessionState` attributes, `endSession: false` keeps the session alive, and memory type must match the deployed agent",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Responses are cached by default with no per-provider flag, so a stateful agent eval can serve a stale response unless caching is disabled globally",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "The provider publishes a narrow AWS error taxonomy — `ResourceNotFoundException`, `AccessDeniedException`, `ValidationException`, `ThrottlingException` — with no retry/backoff or per-error eval-failure semantics",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "The page contradicts itself on inference control — the \"Performance Optimization\" recipe prescribes `inferenceConfig.maximumLength` to limit response size even though \"Inference Control\" says the field is omitted from `InvokeAgent`",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-burp-integration": {
       "path": "source-notes/docs-promptfoo-burp-integration.md",
       "title": "Finding LLM Jailbreaks with Burp Suite — the `.burp` Payload Contract and the Intruder Handoff",

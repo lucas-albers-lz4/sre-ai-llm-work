@@ -3445,6 +3445,19 @@
       "confidence_overall": "anecdotal",
       "status": "current"
     },
+    "docs-promptfoo-bedrock-agents": {
+      "slug": "docs-promptfoo-bedrock-agents",
+      "title": "Promptfoo Providers: AWS Bedrock Agents — the Silent InvokeAgent Config Omission and the Two Trace Planes",
+      "source_url": "https://www.promptfoo.dev/docs/providers/bedrock-agents",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "unknown (living vendor docs; last updated 2026-11-03)",
+      "date_extracted": "2026-11-03",
+      "issue": "#2004",
+      "file": "source-notes/docs-promptfoo-bedrock-agents.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-burp-integration": {
       "slug": "docs-promptfoo-burp-integration",
       "title": "Finding LLM Jailbreaks with Burp Suite — the `.burp` Payload Contract and the Intruder Handoff",
