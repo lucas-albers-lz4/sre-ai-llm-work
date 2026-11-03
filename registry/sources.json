@@ -4211,6 +4211,18 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-model-audit-ci-cd": {
+      "slug": "docs-promptfoo-model-audit-ci-cd",
+      "title": "Promptfoo ModelAudit — CI/CD Integration: Tri-State Exit Codes, Multi-CI Model-File Gates, and the SARIF/Scheduled-Audit Wiring",
+      "source_url": "https://www.promptfoo.dev/docs/model-audit/ci-cd",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_extracted": "2026-11-03",
+      "issue": "#1949",
+      "file": "source-notes/docs-promptfoo-model-audit-ci-cd.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-model-audit": {
       "slug": "docs-promptfoo-model-audit",
       "title": "Promptfoo ModelAudit — Model Scanning: Remote-Source Matrix, Scanner Selection Flags, and the Severity/Exit-Code Gate Contract",

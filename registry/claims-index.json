@@ -22052,6 +22052,83 @@
         }
       ]
     },
+    "docs-promptfoo-model-audit-ci-cd": {
+      "path": "source-notes/docs-promptfoo-model-audit-ci-cd.md",
+      "title": "Promptfoo ModelAudit — CI/CD Integration: Tri-State Exit Codes, Multi-CI Model-File Gates, and the SARIF/Scheduled-Audit Wiring",
+      "source_url": "https://www.promptfoo.dev/docs/model-audit/ci-cd",
+      "chapters": [
+        "06",
+        "05",
+        "03"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The CI gate contract is tri-state — `0` clean, `1` findings (warnings or critical), `2` operational/inconclusive — and the page states only exit 2 is an actual scan failure",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The reference GitHub Actions PR workflow scans only model files changed in the pull request, diffing the base SHA against the PR SHA and filtering by an extension regex before running one `scan-model` per file",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The changed-file extension filter is much broader than model weights — it includes config formats (`json`, `yaml`, `yml`, `xml`, `toml`, `config`, `jinja`, `j2`, `template`) and archives (`zip`, `tar`, `7z`), so a config-only PR can trigger model scans",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The PR workflow's gate is a `jq` predicate over all result JSON — fail on `has_errors`, any failed check, or critical/error findings — followed by a warning-count branch that exits 0",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The SARIF workflow separates evidence production from failure — scan with `--format sarif --no-write` and `continue-on-error: true`, upload with `if: always()`, then fail in a separate step keyed on the scan step's outcome",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The scheduled workflow runs weekly (`0 2 * * 0`), uses `--strict --sbom`, tolerates a failing scan with `continue-on-error`, then opens a GitHub issue on non-clean results instead of failing a PR",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The production gate triggers on pushes touching `models/production/**` and runs `--strict`, which fails on warnings or critical issues",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "GitLab CI aggregates per-file exit status by taking the maximum (`scan_status`), so an operational error on one file outranks findings on another, and retains results with `when: always` for 30 days",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The Jenkins recipe is the only non-GitHub example with an explicit build failure — it captures the `jq` status with `returnStatus`, calls `error(...)` on critical/failed checks, and archives `scan_*.json` with `allowEmptyArchive`",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The CircleCI recipe is artifact-only, not a gate — it scans changed models, appends JSON to `scan_results.json`, and stores artifacts, with no severity check or failure step",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Every example installs Promptfoo/ModelAudit unpinned (`npm install -g promptfoo`, `pip install modelaudit` or `[all]`) and floats third-party actions on mutable tags — the opposite of the hardened code-scan action",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "The best-practice scan strategy is tiered — changed files on PRs, comprehensive scans on merge, weekly/daily full audits, and a `--strict` production gate — with cache, parallel `xargs`, timeout, retry, and Slack notification patterns",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "The troubleshooting section exposes `--verbose`, `--max-size`, and `--dry-run` as first-line controls — and `--max-size` silently bounds coverage, so a \"clean\" capped scan is not a safety statement",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-model-audit": {
       "path": "source-notes/docs-promptfoo-model-audit.md",
       "title": "Promptfoo ModelAudit — Model Scanning: Remote-Source Matrix, Scanner Selection Flags, and the Severity/Exit-Code Gate Contract",
