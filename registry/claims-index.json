@@ -385,6 +385,84 @@
         }
       ]
     },
+    "blog-cncf-benchmarking-agent-retrieval-kubernetes": {
+      "path": "source-notes/blog-cncf-benchmarking-agent-retrieval-kubernetes.md",
+      "title": "Benchmarking AI agent retrieval strategies on Kubernetes bug fixes",
+      "source_url": "https://www.cncf.io/blog/2026/05/08/benchmarking-ai-agent-retrieval-strategies-on-kubernetes-bug-fixes",
+      "chapters": [
+        "03",
+        "05",
+        "02",
+        "00"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The author's initial assumption — that finding the right code is the hard part — did not hold; agents that surfaced the right files still produced fixes that were locally plausible but globally incorrect",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The benchmark varied exactly one independent variable — how the agent could see code — while holding the model, timeout, output format, and session isolation constant, and gave the agent only the issue description (no PR body or diff leakage)",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The three configurations were RAG-only (KAITO/Qdrant hybrid BM25 + embedding retrieval over an indexed copy, no local files or web), hybrid (same index plus a full local clone, RAG-first then local reads), and local-only (full clone, grep/find/cat, no RAG or web)",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "RAG and hybrid agents had to be *prompted* to query RAG before fixing, because early experiments showed hybrid agents would skip retrieval entirely when the issue named specific filenames",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "RAG-only was consistently fastest (1m16s average), while hybrid was slowest (2m25s) and local-only matched hybrid (2m24s) for different reasons; retrieval reduces exploration overhead but also reduces structural exploration depth",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Call count, not token volume, is the primary driver of both cost and latency, because the stateless API replays the full conversation on every call; sessions under ~5 calls were consistently cheaper regardless of retrieval arm",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Agents fix the problem in front of them, not the system around it — on #134540 every arm swallowed an error at the source instead of preserving the `%w` contract and updating the caller",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The dominant failure mode is incomplete scope, not incorrect fixes — agents stop at the first plausible fix and miss the second sort implementation (#138191), `proxier.go` and integration paths (#138000), or stop early because a partial fix already exists (#134540)",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The five-dimension 0-4 rubric — Files, Location, Mechanism, Tests, Completeness — grades against the real PR diff as a *proxy* ground truth, and the author explicitly states the proxy is imperfect",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Retrieval changes discovery, not reasoning — mandatory RAG helped #138211 find the policy-evaluation layer, but once the code was found the agent still reasoned locally",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Agents prefer adding new abstractions over reusing existing ones — on #138191 all arms introduced a new `Attempt` field instead of reusing `RestartCount`, and they add new tests rather than updating existing assertions",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "Issue quality is the strongest lever — well-specified issues (#136013, #138269) collapsed the differences between retrieval strategies, while vague issues diverged widely",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "Skills/playbooks may help, but in a large evolving repo they become another system to maintain and do not remove the scope-discovery bottleneck",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-cncf-cloud-native-agentic-ai-security-platform": {
       "path": "source-notes/blog-cncf-cloud-native-agentic-ai-security-platform.md",
       "title": "Why cloud native belongs at the heart of agentic AI: Lessons from building a multi-agent security platform on Kubernetes",

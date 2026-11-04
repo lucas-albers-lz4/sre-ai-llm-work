@@ -65,6 +65,19 @@
       "confidence_overall": "anecdotal",
       "status": "current"
     },
+    "blog-cncf-benchmarking-agent-retrieval-kubernetes": {
+      "slug": "blog-cncf-benchmarking-agent-retrieval-kubernetes",
+      "title": "Benchmarking AI agent retrieval strategies on Kubernetes bug fixes",
+      "source_url": "https://www.cncf.io/blog/2026/05/08/benchmarking-ai-agent-retrieval-strategies-on-kubernetes-bug-fixes",
+      "source_type": "blog-post",
+      "author": "Brandon Foley",
+      "date_published": "2026-05-08",
+      "date_extracted": "2026-11-03",
+      "issue": "#2010",
+      "file": "source-notes/blog-cncf-benchmarking-agent-retrieval-kubernetes.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-cncf-cloud-native-agentic-ai-security-platform": {
       "slug": "blog-cncf-cloud-native-agentic-ai-security-platform",
       "title": "Why cloud native belongs at the heart of agentic AI: Lessons from building a multi-agent security platform on Kubernetes",
