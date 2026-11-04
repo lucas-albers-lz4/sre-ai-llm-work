@@ -3276,6 +3276,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-mcp-zero-trust": {
+      "slug": "docs-litellm-mcp-zero-trust",
+      "title": "MCP Zero Trust Auth (JWT Signer) — LiteLLM Documentation",
+      "source_url": "https://docs.litellm.ai/docs/mcp_zero_trust",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs; page last_updated 2026-11-03)",
+      "date_extracted": "2026-11-04",
+      "issue": "#2015",
+      "file": "source-notes/docs-litellm-mcp-zero-trust.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-message-sanitization": {
       "slug": "docs-litellm-message-sanitization",
       "title": "Message Sanitization for Tool Calling for anthropic models | liteLLM",

@@ -17987,6 +17987,83 @@
         }
       ]
     },
+    "docs-litellm-mcp-zero-trust": {
+      "path": "source-notes/docs-litellm-mcp-zero-trust.md",
+      "title": "MCP Zero Trust Auth (JWT Signer) — LiteLLM Documentation",
+      "source_url": "https://docs.litellm.ai/docs/mcp_zero_trust",
+      "chapters": [
+        "06",
+        "05",
+        "03"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "MCP servers have no built-in proof that a request traversed LiteLLM; `MCPJWTSigner` closes that gap by signing every outbound tool call with a short-lived RS256 JWT that the server verifies against LiteLLM's public key",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The signer is configured as a `pre_mcp_call` guardrail with `default_on: true`, and its basic defaults are `audience: \"mcp\"`, `ttl_seconds: 300`, and an `issuer` that defaults to the request base URL",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The signing keypair is in-memory by default and rotates on every restart unless `MCP_JWT_SIGNING_KEY` is set (env var or `file://` path); FastMCP's `JWTVerifier` copes via JWKS key-ID matching",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "LiteLLM publishes OIDC discovery so MCP servers can locate the JWKS without manual configuration — `/.well-known/openid-configuration` advertises `jwks_uri`, and `/.well-known/jwks.json` serves the RSA keys",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "By default the outbound `sub` is LiteLLM's internal `user_id`; \"verify+re-sign\" validates the incoming IdP token and rebuilds the outbound JWT from real identity claims via `access_token_discovery_uri`, `verify_issuer`, `verify_audience`, and an ordered `end_user_claim_sources` list",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Opaque incoming tokens are supported by adding an RFC 7662 `token_introspection_endpoint`; LiteLLM POSTs the token there and uses the returned claims",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "With no identity configured, the default `sub` chain degrades to a shared literal — `user_id` → API-key hash → `\"litellm-proxy\"` — and `act.sub` is `team_id` → `org_id` → `\"litellm-proxy\"`",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "`required_claims` is a fail-closed gate that returns HTTP 403 before the MCP server sees the request, while `optional_claims` forwards claims only when present",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Claim mutation runs in a fixed order — `add_claims` → `set_claims` → `remove_claims` — where `set_claims` overrides `add_claims` and `remove_claims` beats both",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Scope generation is least-privilege per request by default (`mcp:tools/call` plus `mcp:tools/{name}:call`, or `mcp:tools/list` for listing), and `allowed_scopes` replaces generation entirely",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "AWS Bedrock AgentCore Gateway needs two JWTs with different audiences and TTLs — a resource token in `Authorization` (`aud=mcp-resource`, 300s) and a channel token in `x-mcp-channel-token` (`aud=bedrock-agentcore-gateway`, 60s) — both signed by the same LiteLLM key",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "`debug_headers: true` adds an `x-litellm-mcp-debug` response header echoing `kid`, `sub`, `iss`, `exp`, and `scope`, and the page says to disable it in production because it leaks claim metadata",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "OpenAPI-backed MCP servers configured via `spec_path` do not support JWT injection — LiteLLM logs a warning and skips the header, so the request still reaches the backend unsigned",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-message-sanitization": {
       "path": "source-notes/docs-litellm-message-sanitization.md",
       "title": "Message Sanitization for Tool Calling for anthropic models | liteLLM",
