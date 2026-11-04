@@ -106,7 +106,7 @@
         "https://www.datadoghq.com/blog/engineering/what-product-designers-can-learn-from-explanatory-journalism/",
         "https://www.datadoghq.com/blog/engineering/workload-protection-ebpf-fim/"
       ],
-      "last_scan": "2026-11-03T18:55:54.908716+00:00"
+      "last_scan": "2026-11-04T19:12:09.746451+00:00"
     },
     "honeycomb": {
       "seen": [
@@ -137,6 +137,7 @@
         "https://www.honeycomb.io/blog/fast-ai-feedback-loops-honeycomb-opentelemetry",
         "https://www.honeycomb.io/blog/fin-cto-building-great-engineering-organizations-ai-era",
         "https://www.honeycomb.io/blog/from-customer-to-bee-observability-champion-journey",
+        "https://www.honeycomb.io/blog/good-agents-need-good-managers-innovation-week",
         "https://www.honeycomb.io/blog/grafana-alternatives",
         "https://www.honeycomb.io/blog/graviton5-honeycomb-per-service-results-m8g-m9g-migration",
         "https://www.honeycomb.io/blog/honeycomb-academy-learn-use-honeycomb-mcp",
@@ -197,7 +198,7 @@
         "https://www.honeycomb.io/blog/your-questions-about-ai-agents-production-feedback-answered",
         "https://www.honeycomb.io/blog/your-questions-about-ai-assisted-development-answered"
       ],
-      "last_scan": "2026-11-03T18:55:58.603078+00:00"
+      "last_scan": "2026-11-04T19:12:13.434764+00:00"
     },
     "grafana": {
       "seen": [
@@ -209,6 +210,7 @@
         "https://grafana.com/blog/automatically-discover-and-remediate-root-causes-with-grafana-assistant-investigations/",
         "https://grafana.com/blog/better-context-smarter-testing-how-to-give-your-ai-coding-agent-direct-access-to-k6-docs/",
         "https://grafana.com/blog/beyond-performance-monitoring-understand-the-user-experience-with-grafana-cloud-frontend-observability/",
+        "https://grafana.com/blog/bridging-alloy-and-opentelemetry-the-otel-engine-is-now-in-public-preview/",
         "https://grafana.com/blog/building-an-end-to-end-reliability-testing-strategy-with-grafana-cloud/",
         "https://grafana.com/blog/business-intelligence-plugins-for-grafana-a-support-update/",
         "https://grafana.com/blog/cost-attribution-in-grafana-cloud-manage-spend-across-observability-and-testing-workflows/",
@@ -262,7 +264,7 @@
         "https://grafana.com/blog/visual-playback-of-the-user-journey-introducing-session-replay-in-grafana-cloud-frontend-observability/",
         "https://grafana.com/blog/what-if-your-agent-s-hallucinations-had-a-budget-how-to-start-using-slos-for-agent-behavior/"
       ],
-      "last_scan": "2026-11-03T18:56:01.370011+00:00"
+      "last_scan": "2026-11-04T19:12:16.122515+00:00"
     },
     "pagerduty": {
       "seen": [
@@ -285,7 +287,7 @@
         "https://www.pagerduty.com/eng/swapping-a-product-engine-mid-flight/",
         "https://www.pagerduty.com/eng/watchtower-and-journey-gated-rollouts/"
       ],
-      "last_scan": "2026-11-03T18:56:04.109238+00:00"
+      "last_scan": "2026-11-04T19:12:18.395391+00:00"
     },
     "incident-io": {
       "seen": [
@@ -736,7 +738,7 @@
         "https://incident.io/blog/zapier-integration",
         "https://incident.io/blog/zendesk"
       ],
-      "last_scan": "2026-11-03T18:56:06.735715+00:00"
+      "last_scan": "2026-11-04T19:12:20.858586+00:00"
     },
     "netflix-tech": {
       "seen": [
@@ -785,7 +787,7 @@
         "https://netflixtechblog.com/toward-more-controllable-ai-video-editing-an-early-research-exploration-at-netflix-eb8160ed60a2?source=rss----2615bd06b42e---4",
         "https://netflixtechblog.com/trading-a-cloud-identity-for-your-own-workload-attestation-on-managed-compute-516d5a29b252?source=rss----2615bd06b42e---4"
       ],
-      "last_scan": "2026-11-03T18:56:11.218202+00:00"
+      "last_scan": "2026-11-04T19:12:25.604785+00:00"
     },
     "anthropic-eng": {
       "seen": [
@@ -840,7 +842,7 @@
         "https://www.anthropic.com/research/redesigning-source-control",
         "https://www.anthropic.com/research/writing-tools-for-agents"
       ],
-      "last_scan": "2026-11-03T18:56:13.286631+00:00"
+      "last_scan": "2026-11-04T19:12:27.673660+00:00"
     },
     "simon-willison": {
       "seen": [
@@ -935,6 +937,7 @@
         "https://simonwillison.net/2026/Oct/18/llm-tools-datasette/",
         "https://simonwillison.net/2026/Oct/2/rex-s-dino-store/",
         "https://simonwillison.net/2026/Oct/21/panache/",
+        "https://simonwillison.net/2026/Oct/22/de-staat-freedom/",
         "https://simonwillison.net/2026/Oct/3/default-hard-budget-caps/",
         "https://simonwillison.net/2026/Oct/6/hn-49982139/",
         "https://simonwillison.net/2026/Oct/6/hn-49983751/",
@@ -977,7 +980,7 @@
         "https://simonwillison.net/2026/Sep/7/jakub-pachocki/",
         "https://simonwillison.net/2026/Sep/9/terence-tao/"
       ],
-      "last_scan": "2026-11-03T18:56:16.016735+00:00"
+      "last_scan": "2026-11-04T19:12:30.685415+00:00"
     },
     "thenewstack": {
       "seen": [
@@ -1093,6 +1096,7 @@
         "https://thenewstack.io/openai-voluntary-slowdown-safety/",
         "https://thenewstack.io/openais-chatgpt-desktop-linux/",
         "https://thenewstack.io/openssh-breaks-compression-usernames/",
+        "https://thenewstack.io/p99-conf-database-tradeoffs/",
         "https://thenewstack.io/perplexity-hybrid-compute-mac/",
         "https://thenewstack.io/perplexity-portable-computer-windows/",
         "https://thenewstack.io/pilot-protocol-agent-economy/",
@@ -1114,7 +1118,7 @@
         "https://thenewstack.io/voice-ai-openai-anthropic/",
         "https://thenewstack.io/why-cpus-still-matter-in-the-age-of-ai-agents/"
       ],
-      "last_scan": "2026-11-03T18:56:18.704396+00:00"
+      "last_scan": "2026-11-04T19:12:33.487331+00:00"
     },
     "meta-eng": {
       "seen": [
@@ -1166,7 +1170,7 @@
         "https://engineering.fb.com/?p=24221",
         "https://engineering.fb.com/?p=24251"
       ],
-      "last_scan": "2026-11-03T18:56:21.441758+00:00"
+      "last_scan": "2026-11-04T19:12:35.686038+00:00"
     },
     "sentry": {
       "seen": [
@@ -1232,7 +1236,7 @@
         "https://blog.sentry.io/unreal-mcp-sentry/",
         "https://blog.sentry.io/when-you-need-a-metric/"
       ],
-      "last_scan": "2026-11-03T18:56:24.090570+00:00"
+      "last_scan": "2026-11-04T19:12:37.882105+00:00"
     },
     "slack-engineering": {
       "seen": [
@@ -1254,7 +1258,7 @@
         "https://slack.engineering/slack-ai-the-path-to-multi-cloud/",
         "https://slack.engineering/streamlining-security-investigations-with-agents/"
       ],
-      "last_scan": "2026-11-03T18:56:26.228641+00:00"
+      "last_scan": "2026-11-04T19:12:40.023062+00:00"
     },
     "litellm-blog": {
       "seen": [
@@ -1418,7 +1422,7 @@
         "https://docs.litellm.ai/blog/video_characters_api",
         "https://docs.litellm.ai/blog/vllm-embeddings-incident"
       ],
-      "last_scan": "2026-11-03T18:56:08.920457+00:00"
+      "last_scan": "2026-11-04T19:12:23.157821+00:00"
     },
     "promptfoo-blog": {
       "seen": [
@@ -1443,7 +1447,7 @@
         "https://www.promptfoo.dev/blog/top-llm-safety-bias-benchmarks/",
         "https://www.promptfoo.dev/blog/will-agents-hack-everything/"
       ],
-      "last_scan": "2026-11-03T18:56:28.741233+00:00"
+      "last_scan": "2026-11-04T19:12:42.916555+00:00"
     },
     "github-engineering": {
       "seen": [
@@ -1470,7 +1474,7 @@
         "https://github.blog/engineering/using-the-github-copilot-sdk-for-java/",
         "https://github.blog/security/supply-chain-security/tame-dependabot-group-your-updates-slow-the-cadence-keep-security-fast/"
       ],
-      "last_scan": "2026-11-03T18:56:31.364724+00:00"
+      "last_scan": "2026-11-04T19:12:45.725998+00:00"
     },
     "aws-architecture": {
       "seen": [
@@ -1554,7 +1558,7 @@
         "https://aws.amazon.com/blogs/architecture/validating-your-dr-commitment-from-controlled-test-to-real-world-readiness/",
         "https://aws.amazon.com/blogs/architecture/vessel-specific-voyage-optimization-with-machine-learning-manta-on-aws/"
       ],
-      "last_scan": "2026-11-03T18:56:34.826434+00:00"
+      "last_scan": "2026-11-04T19:12:47.889610+00:00"
     },
     "nvidia-developer": {
       "seen": [
@@ -1761,9 +1765,10 @@
         "https://developer.nvidia.com/blog/?p=123148",
         "https://developer.nvidia.com/blog/?p=123253",
         "https://developer.nvidia.com/blog/?p=123334",
-        "https://developer.nvidia.com/blog/?p=123387"
+        "https://developer.nvidia.com/blog/?p=123387",
+        "https://developer.nvidia.com/blog/?p=123415"
       ],
-      "last_scan": "2026-11-03T18:56:37.574504+00:00"
+      "last_scan": "2026-11-04T19:12:50.798527+00:00"
     },
     "docker": {
       "seen": [
@@ -1821,7 +1826,7 @@
         "https://www.docker.com/blog/why-ai-agents-need-isolation/",
         "https://www.docker.com/blog/your-laptop-is-the-new-production-environment/"
       ],
-      "last_scan": "2026-11-03T18:56:40.352652+00:00"
+      "last_scan": "2026-11-04T19:12:52.983097+00:00"
     },
     "together-ai": {
       "seen": [
@@ -1916,6 +1921,7 @@
         "https://www.together.ai/blog/parallelkernelbench",
         "https://www.together.ai/blog/parcae",
         "https://www.together.ai/blog/plan-divide-conquer",
+        "https://www.together.ai/blog/polymorphic-inference",
         "https://www.together.ai/blog/provisioned-throughput",
         "https://www.together.ai/blog/qwen-3-coder",
         "https://www.together.ai/blog/research-pov-yes-agi-can-happen",
@@ -1955,7 +1961,7 @@
         "https://www.together.ai/blog/what-llms-think",
         "https://www.together.ai/blog/yaqa"
       ],
-      "last_scan": "2026-11-03T18:56:42.777492+00:00"
+      "last_scan": "2026-11-04T19:12:55.847013+00:00"
     },
     "mongodb-engineering": {
       "seen": [
@@ -2051,6 +2057,8 @@
         "https://www.mongodb.com/company/blog/product-release-announcements/mongodb-9-0-this-is-what-a-database-should-be",
         "https://www.mongodb.com/company/blog/product-release-announcements/mongodb-for-agentic-era-built-for-developers-ai-agents",
         "https://www.mongodb.com/company/blog/product-release-announcements/mongodb-sql-interface-now-available-enterprise-advanced",
+        "https://www.mongodb.com/company/blog/product-release-announcements/queryable-encryption-prefix-suffix-substring-queries-are-now-ga",
+        "https://www.mongodb.com/company/blog/product-release-announcements/tag-youre-it-using-mongodb-labels-drive-datadog-business-logic",
         "https://www.mongodb.com/company/blog/technical/10-skills-was-missing-as-mongodb-user",
         "https://www.mongodb.com/company/blog/technical/agent-memory-inside-harness",
         "https://www.mongodb.com/company/blog/technical/agent-observability-monitoring-decisions-not-requests",
@@ -2075,8 +2083,8 @@
         "https://www.mongodb.com/company/research/distributed-systems-research-group/lets-not-waste-time-on-excessive-benchmarking",
         "https://www.mongodb.com/company/research/how-to-test-mongodb-drivers-conform-to-a-dozen-specs"
       ],
-      "last_scan": "2026-11-03T18:56:46.052691+00:00"
+      "last_scan": "2026-11-04T19:12:59.062350+00:00"
     }
   },
-  "last_scan": "2026-11-03T18:56:46.052789+00:00"
+  "last_scan": "2026-11-04T19:12:59.062451+00:00"
 }
