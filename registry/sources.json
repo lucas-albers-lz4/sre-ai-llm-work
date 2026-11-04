@@ -4262,6 +4262,18 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-model-audit-scanners": {
+      "slug": "docs-promptfoo-model-audit-scanners",
+      "title": "Promptfoo ModelAudit — Scanners: Per-Format Artifact Checks, Resource-Exhaustion Controls, and the Skops CVE Gate",
+      "source_url": "https://www.promptfoo.dev/docs/model-audit/scanners",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_extracted": "2026-11-04",
+      "issue": "#1950",
+      "file": "source-notes/docs-promptfoo-model-audit-scanners.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-model-audit": {
       "slug": "docs-promptfoo-model-audit",
       "title": "Promptfoo ModelAudit — Model Scanning: Remote-Source Matrix, Scanner Selection Flags, and the Severity/Exit-Code Gate Contract",

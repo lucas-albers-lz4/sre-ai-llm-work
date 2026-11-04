@@ -22372,6 +22372,102 @@
         }
       ]
     },
+    "docs-promptfoo-model-audit-scanners": {
+      "path": "source-notes/docs-promptfoo-model-audit-scanners.md",
+      "title": "Promptfoo ModelAudit — Scanners: Per-Format Artifact Checks, Resource-Exhaustion Controls, and the Skops CVE Gate",
+      "source_url": "https://www.promptfoo.dev/docs/model-audit/scanners",
+      "chapters": [
+        "06",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Scanner selection is an enumerated, version-dependent control surface — `--list-scanners` shows the IDs supported by the *installed* version, then `--scanners` / `--exclude-scanner` narrow or subtract from that set",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The pickle scanner covers the executable-at-load formats (`.pkl`, `.pickle`, `.dill`, `.pt`, `.pth`, `.ckpt`, and pickle-bearing `.bin`) and flags dangerous modules, functions, opcodes, embedded executables, network indicators, credentials, and JIT/script patterns",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "TensorFlow SavedModel and TFLite scanners target in-graph execution surfaces — `PyFunc`, filesystem/system operations, custom ops, the Flex delegate, executable metadata, and buffer tampering",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "TensorRT engine files are treated as potentially executable containers — the scanner looks for embedded shared libraries (`.so`), plugin references, script-execution patterns, and suspicious paths",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Keras models carry Python through Lambda layers in both formats — H5 stores unsafe Lambda layers, and the Keras 3 `.keras` ZIP stores them as base64-encoded functions that execute during inference",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "ONNX and OpenVINO scanners target external-data references and custom operators — path traversal via external data files, custom-op code, malformed XML, and plugin references",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Container/archive-style model formats inherit pickle risk through embedded pickles — PyTorch ZIP, ExecuTorch, PaddlePaddle, and XGBoost binary models are unpacked and scanned for embedded pickled data and bundled code",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "GGUF/GGML scanning includes explicit resource limits and decompression-bomb checks alongside header, metadata, and tensor-integrity validation — i.e. DoS defence, not only RCE defence",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The joblib scanner is explicitly a compression-bomb defence — it detects suspicious compression ratios, enforces maximum decompressed size, distinguishes ZIP from compressed pickle, and scans the embedded pickle",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The skops scanner hard-gates on version — it detects CVE-2025-54412, CVE-2025-54413, and CVE-2025-54886 and flags vulnerable skops versions `< 0.12.0`, because the vulnerabilities are RCE via malicious sklearn estimators, `ColumnTransformer`, and callable estimator arguments",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Flax/JAX and JAX checkpoint scanners treat custom restore functions and experimental callbacks as execution surfaces — Orbax metadata can carry arbitrary restore functions run at load time",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "NumPy scanning separates two risks — object arrays can carry arbitrary Python objects (code), while dimensions/size limits are DoS controls",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "The archive and container scanners (ZIP, TAR, 7-Zip, OCI layers) are traversal/bomb/nesting controls — they reject `..` and absolute paths, flag compression ratios over 100x, cap nested-archive recursion depth, and recursively re-scan extracted model files",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "Configuration, template, text, and metadata scanners extend the gate to non-weight files — manifest checks for network/filesystem/execution/credential patterns, Jinja2 checks for SSTI including CVE-2024-34359, and metadata/text checks for hidden payloads and embedded secrets",
+          "kind": "claim"
+        },
+        {
+          "n": 15,
+          "heading": "The weight-distribution scanner is the only behavioural/statistical check, and its LLM path is disabled by default — thresholds are Z-score 3.0, cosine similarity 0.7, magnitude 3.0, `llm_vocab_threshold` 10,000, and `enable_llm_checks: false`",
+          "kind": "claim"
+        },
+        {
+          "n": 16,
+          "heading": "Auto format detection routes scanners by magic bytes and content rather than file extension, because a `.bin` can be pickle, SafeTensors, ONNX, PyTorch ZIP, or raw tensors",
+          "kind": "claim"
+        },
+        {
+          "n": 17,
+          "heading": "Cross-cutting scanners cover license/SBOM, network egress, secrets, and JIT/script execution — positions that are governance or exfiltration indicators rather than deserialization RCE",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-model-audit": {
       "path": "source-notes/docs-promptfoo-model-audit.md",
       "title": "Promptfoo ModelAudit — Model Scanning: Remote-Source Matrix, Scanner Selection Flags, and the Severity/Exit-Code Gate Contract",
