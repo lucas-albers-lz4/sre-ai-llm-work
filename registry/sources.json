@@ -2340,6 +2340,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-langfuse-skill-management": {
+      "slug": "docs-langfuse-skill-management",
+      "title": "Skill Management — Langfuse",
+      "source_url": "https://langfuse.com/docs/skill-management/overview",
+      "source_type": "docs",
+      "author": "Langfuse",
+      "date_published": "2026-11-03 (changelog image date; page itself undated)",
+      "date_extracted": "2026-11-04",
+      "issue": "#2014",
+      "file": "source-notes/docs-langfuse-skill-management.md",
+      "confidence_overall": "settled",
+      "status": "current"
+    },
     "docs-litellm-a2a-agent-card": {
       "slug": "docs-litellm-a2a-agent-card",
       "title": "A2A Agent Card — LiteLLM Documentation",

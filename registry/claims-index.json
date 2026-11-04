@@ -13424,6 +13424,94 @@
         }
       ]
     },
+    "docs-langfuse-skill-management": {
+      "path": "source-notes/docs-langfuse-skill-management.md",
+      "title": "Skill Management — Langfuse",
+      "source_url": "https://langfuse.com/docs/skill-management/overview",
+      "chapters": [
+        "05",
+        "02",
+        "03",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "A Langfuse skill is a multi-file instruction set — a required root `SKILL.md` plus optional supporting files — that is stored and versioned as one artifact",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Every version is a complete snapshot of the whole skill; changing any one file creates a new version of the entire file set",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Labels are mutable pointers that promote or roll back a version without changing application code; publishing a new version does not move `production`",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Label resolution is fail-closed — no label serves `production`, a missing label returns 404 rather than falling back, and label+version together is a 400",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Publishing works from UI, CLI folder push, and API file upload; the API payload is the complete desired file set, so omitted files are deleted from the new version while older versions remain unchanged",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Langfuse is the registry, not the runtime — the agent framework makes skills available to the model and controls file loading and script execution, and installation alone does not make the model use a skill",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The packaging envelope is hard and specific — 200 files, 1,000,000 UTF-8 bytes, relative POSIX paths ≤512 chars, text-only extensions, name 1–64 chars, description 1–1024 chars, ≤50 tags, ZIP ≤3 MiB, content fetch 1–50 hashes / ≤10 MB",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Langfuse accepts supported text files only, while the open Agent Skills format allows additional file types including binary assets — a concrete compatibility gap",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Publishing or installing does not trace skill usage automatically; operators must report available skills and instrument file-loading tools as separate steps",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Available-skill metadata is reported by the agent, not injected by Langfuse; the available list must also be attached to the skill-loading tool observation so Langfuse can resolve the loaded version",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Skill-load detection is a documented tool-name/input contract — `loadSkill`/`skill`/`Skill`, `skill_read`, or `readFile`/`Read` — and only counts on a successful, non-null tool result whose input matches an available skill",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "CLI installs land in `.agents/skills/<skill_name>/` and carry a `langfuse-skills.lock`; `install` restores locked versions, `update` follows saved labels, and exact version pins stay fixed",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "Label moves propagate differently by consumer — API clients pick up the change on the next manifest request (refresh app caches), while CLI installations keep old files until `langfuse skills update`, and version pins never move",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "Fetching supports manifests and content hashes, so agents can resolve a version, fetch only needed files, and cache by hash instead of downloading the whole skill on every request",
+          "kind": "claim"
+        },
+        {
+          "n": 15,
+          "heading": "Skill Management is a Feature Preview capability, enabled through account-menu preview toggles (V4 Preview first, then Skill Management) before the Skills UI is visible",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-a2a-agent-card": {
       "path": "source-notes/docs-litellm-a2a-agent-card.md",
       "title": "A2A Agent Card — LiteLLM Documentation",
