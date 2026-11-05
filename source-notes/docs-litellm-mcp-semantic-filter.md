@@ -432,12 +432,16 @@ curl --location 'http://localhost:4000/v1/chat/completions' \
   (Claim 11). Add the retrieval-specific risk: a permitted tool can be hidden
   from the model when it ranks outside `top_k` or below the similarity
   threshold, and the docs claim no measured reliability benefit (Claim 8).
-- **Chapter 02 (Architecture — proxy request path)**: Add the startup and
-  per-request embedding dependencies shown in the sequence diagram: a startup
-  batch embed of all tool descriptions (bounded by the embedding model's input
-  limit) and a query-embedding provider call on each filtered request. This
-  makes the feature a provider-dependency and a cold-start concern, not a pure
-  in-process router lookup.
+- **Chapter 05 (LLM Ops Reliability), §"A guardrail in the request path is an
+  availability dependency"**: Add the semantic filter as a second instance of
+  the same pattern — a request-path component that is really a provider call.
+  The startup batch embed of all tool descriptions (bounded by the embedding
+  model's input limit) and the per-request query-embedding provider call shown
+  in the sequence diagram make this a provider-dependency and a cold-start
+  concern, not a pure in-process router lookup. The guardrail section's rule —
+  give the request-path dependency its own error-rate signal and verify its
+  failure semantics — transfers directly, with the caveat from Claim 7 that
+  this component's documented failure semantics are stale.
 
 ## Extraction Notes
 
