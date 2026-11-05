@@ -14100,6 +14100,68 @@
         }
       ]
     },
+    "docs-litellm-anthropic-native-passthrough": {
+      "path": "source-notes/docs-litellm-anthropic-native-passthrough.md",
+      "title": "Native /v1/messages Passthrough for OpenAI-Compatible Providers — LiteLLM Documentation",
+      "source_url": "https://docs.litellm.ai/docs/anthropic_unified/native_passthrough",
+      "chapters": [
+        "05",
+        "06",
+        "02"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Adding `/v1/messages` to a deployment's `model_info.supported_endpoints` opts that deployment into native Anthropic passthrough (v1.92.0+), and the `/v1/messages` and `/v1/responses` opt-ins are independent flags",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Without the opt-in, LiteLLM translates `/v1/messages` into the target provider's API — `openai/` through the Responses API, everything else through `/v1/chat/completions` — and the translation drops `cache_control`, maps `thinking`, and approximates or loses other Anthropic-only details",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "By default, **every** `cache_control` in the forwarded body is reduced to `{\"type\": \"ephemeral\"}` — at the request level and inside system blocks, tools, message content blocks, and `tool_result` content — stripping Anthropic-only extensions such as `ttl`",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "`cache_control_ttl: true` in `model_info` preserves `ttl` on the passthrough path, but only when the upstream honors it; providers with built-in Anthropic Messages support keep forwarding `cache_control` as sent regardless",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The URL join rule strips a trailing `/v1` from `api_base` before appending `/v1/messages`, so `/v1`-suffixed and bare host bases resolve to the same endpoint",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "On the forwarded request, LiteLLM adds `Authorization: Bearer <api_key>` **unless the caller already supplied `Authorization` or `x-api-key`**, defaults `anthropic-version` to `2023-06-01`, and forwards `anthropic-beta` from both the caller and the gateway",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The opt-in only changes behavior for providers LiteLLM would otherwise translate (`openai/`, `custom_openai/`, and other OpenAI-compatible providers); `anthropic/`, `bedrock/`, `vertex_ai/`, and similar providers already forward natively and ignore the flag",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "On the native path the response comes back in the provider's own Anthropic shape, including its own `usage` fields `cache_creation_input_tokens` and `cache_read_input_tokens`",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The page documents **no metric, log line, error, or warning** for the default `cache_control` reduction — whether the downgrade is observable at runtime is an open question",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "`/v1/chat/completions` calls to the same deployment are unaffected by the opt-in either way, and streaming/response parsing on the passthrough path work as they do for a native Anthropic deployment",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-anthropic-unified-structured-output": {
       "path": "source-notes/docs-litellm-anthropic-unified-structured-output.md",
       "title": "Structured Output /v1/messages — liteLLM",
