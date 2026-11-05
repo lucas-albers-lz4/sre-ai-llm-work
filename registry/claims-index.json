@@ -18058,6 +18058,77 @@
         }
       ]
     },
+    "docs-litellm-mcp-semantic-filter": {
+      "path": "source-notes/docs-litellm-mcp-semantic-filter.md",
+      "title": "MCP Semantic Tool Filter — LiteLLM Documentation",
+      "source_url": "https://docs.litellm.ai/docs/mcp_semantic_filter",
+      "chapters": [
+        "05",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The feature reframes MCP tool selection as retrieval — index tool descriptions at startup, embed the query per request, return top-K",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The filter is configured globally under `litellm_settings.mcp_semantic_tool_filter` and is disabled by default",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The documented defaults are `embedding_model: \"text-embedding-3-small\"`, `top_k: 10`, and `similarity_threshold: 0.3` — while the page's own example sets `top_k: 5`",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The filter runs automatically on both the Responses API and Chat Completions whenever MCP tools are supplied",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Every response carries a before→after count header and a clipped CSV of selected tool names",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The page claims production optimization — one-time router build, \"under 50ms\" matching, and no latency impact without MCP tools",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The page says filtering failures fail open by returning all tools — contradicted by the merged fail-closed fix for embedding context-window overflow",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The page claims filtering \"increases reliability by reducing tool confusion\" with no supporting measurement",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The scalability claim is bounded by the embedding model's input limit, which the vendor's own fix treats as a hard failure mode",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Selection is per-request and query-dependent, so the served tool set is not a stable allowlist",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The page never states whether the semantic filter runs before or after MCP permission filtering",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "The page presents the filter as a context-efficiency optimization and gives no guidance on when NOT to enable it",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-mcp-troubleshoot": {
       "path": "source-notes/docs-litellm-mcp-troubleshoot.md",
       "title": "MCP Troubleshooting Guide — LiteLLM Documentation (symptom-to-fix runbook for an MCP gateway)",

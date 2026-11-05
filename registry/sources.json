@@ -3289,6 +3289,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-mcp-semantic-filter": {
+      "slug": "docs-litellm-mcp-semantic-filter",
+      "title": "MCP Semantic Tool Filter — LiteLLM Documentation",
+      "source_url": "https://docs.litellm.ai/docs/mcp_semantic_filter",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs; .md metadata last_updated 2026-11-04)",
+      "date_extracted": "2026-11-05",
+      "issue": "#1958",
+      "file": "source-notes/docs-litellm-mcp-semantic-filter.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-mcp-troubleshoot": {
       "slug": "docs-litellm-mcp-troubleshoot",
       "title": "MCP Troubleshooting Guide — LiteLLM Documentation (symptom-to-fix runbook for an MCP gateway)",
