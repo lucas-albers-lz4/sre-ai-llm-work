@@ -1326,7 +1326,7 @@
         "filed_at": "2026-08-13T12:56:28.715514+00:00"
       }
     },
-    "last_scan": "2026-11-04T19:13:38.265381+00:00"
+    "last_scan": "2026-11-05T19:20:13.183646+00:00"
   },
   "opentelemetry": {
     "urls": {},
@@ -3405,16 +3405,22 @@
         "filed_at": "2026-11-04T19:14:06.907181+00:00"
       },
       "https://www.cncf.io/blog/2026/04/29/the-state-of-ai-in-cncf-projects-a-first-look-at-the-data": {
-        "status": "pending",
-        "screened_at": "2026-08-10T12:55:16.800129+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-10T12:55:16.800129+00:00",
+        "issue": 2041,
+        "filed_at": "2026-11-05T19:20:33.002922+00:00"
       },
       "https://www.cncf.io/blog/2026/08/11/a-practical-guide-to-solving-when-zerozerotwo-in-mesh-observability": {
-        "status": "pending",
-        "screened_at": "2026-08-11T12:48:07.510359+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-11T12:48:07.510359+00:00",
+        "issue": 2042,
+        "filed_at": "2026-11-05T19:20:34.988418+00:00"
       },
       "https://www.cncf.io/blog/2026/08/10/learning-cloud-native-engineering-beyond-tutorials-through-lfx": {
-        "status": "pending",
-        "screened_at": "2026-08-11T12:48:07.510378+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-11T12:48:07.510378+00:00",
+        "issue": 2043,
+        "filed_at": "2026-11-05T19:20:37.005227+00:00"
       },
       "https://www.cncf.io/blog/2026/04/27/kubernetes-for-platform-teams-leveraging-k0s-and-k0rdent": {
         "status": "pending",
@@ -4439,9 +4445,21 @@
       "https://www.cncf.io/blog/2025/09/12/top-kubernetes-k8s-troubleshooting-techniques-part-1": {
         "status": "pending",
         "screened_at": "2026-11-04T19:13:45.355388+00:00"
+      },
+      "https://www.cncf.io/blog/2026/11/05/kpt-v1-0-0-is-released": {
+        "status": "rejected",
+        "screened_at": "2026-11-05T19:20:18.802458+00:00"
+      },
+      "https://www.cncf.io/blog/2025/09/08/combatting-sophisticated-cybersecurity-threats-with-ai": {
+        "status": "pending",
+        "screened_at": "2026-11-05T19:20:18.802474+00:00"
+      },
+      "https://www.cncf.io/blog/2025/09/04/the-debug-trap-why-smart-engineers-waste-hours-on-trivial-problems": {
+        "status": "pending",
+        "screened_at": "2026-11-05T19:20:18.802477+00:00"
       }
     },
-    "last_scan": "2026-11-04T19:13:45.355390+00:00"
+    "last_scan": "2026-11-05T19:20:18.802479+00:00"
   },
   "datadog-llm-obs": {
     "urls": {
@@ -4450,7 +4468,7 @@
         "screened_at": "2026-07-12T23:52:56.905756+00:00"
       }
     },
-    "last_scan": "2026-11-04T19:13:46.944964+00:00"
+    "last_scan": "2026-11-05T19:20:20.167435+00:00"
   },
   "langfuse-docs": {
     "urls": {
@@ -4659,9 +4677,23 @@
         "screened_at": "2026-11-04T19:13:50.818164+00:00",
         "issue": 2030,
         "filed_at": "2026-11-04T19:14:12.629413+00:00"
+      },
+      "https://langfuse.com/docs/gateway/features/tracing": {
+        "status": "filed",
+        "screened_at": "2026-11-05T19:20:24.279432+00:00",
+        "issue": 2044,
+        "filed_at": "2026-11-05T19:20:39.045170+00:00"
+      },
+      "https://langfuse.com/docs/gateway/get-started/admin-setup": {
+        "status": "rejected",
+        "screened_at": "2026-11-05T19:20:24.279449+00:00"
+      },
+      "https://langfuse.com/docs/gateway/get-started/first-request": {
+        "status": "rejected",
+        "screened_at": "2026-11-05T19:20:24.279452+00:00"
       }
     },
-    "last_scan": "2026-11-04T19:13:50.818166+00:00"
+    "last_scan": "2026-11-05T19:20:24.279455+00:00"
   },
   "litellm-docs": {
     "urls": {
@@ -6752,16 +6784,22 @@
         "filed_at": "2026-11-04T19:14:18.780572+00:00"
       },
       "https://docs.litellm.ai/docs/observability/agentops_integration": {
-        "status": "pending",
-        "screened_at": "2026-08-28T21:40:19.880575+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-28T21:40:19.880575+00:00",
+        "issue": 2045,
+        "filed_at": "2026-11-05T19:20:41.102736+00:00"
       },
       "https://docs.litellm.ai/docs/observability/argilla": {
-        "status": "pending",
-        "screened_at": "2026-08-28T21:40:19.880595+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-28T21:40:19.880595+00:00",
+        "issue": 2046,
+        "filed_at": "2026-11-05T19:20:43.892028+00:00"
       },
       "https://docs.litellm.ai/docs/observability/arize_integration": {
-        "status": "pending",
-        "screened_at": "2026-08-28T21:40:19.880598+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-28T21:40:19.880598+00:00",
+        "issue": 2047,
+        "filed_at": "2026-11-05T19:20:45.724390+00:00"
       },
       "https://docs.litellm.ai/docs/observability/athina_integration": {
         "status": "pending",
@@ -7566,9 +7604,21 @@
       "https://docs.litellm.ai/docs/providers/azure_ai_img": {
         "status": "pending",
         "screened_at": "2026-11-04T19:13:56.721648+00:00"
+      },
+      "https://docs.litellm.ai/docs/providers/azure_ai_img_edit": {
+        "status": "rejected",
+        "screened_at": "2026-11-05T19:20:28.330742+00:00"
+      },
+      "https://docs.litellm.ai/docs/providers/azure_ai_speech": {
+        "status": "rejected",
+        "screened_at": "2026-11-05T19:20:28.330758+00:00"
+      },
+      "https://docs.litellm.ai/docs/providers/azure_ai_vector_stores": {
+        "status": "rejected",
+        "screened_at": "2026-11-05T19:20:28.330760+00:00"
       }
     },
-    "last_scan": "2026-11-04T19:13:56.721649+00:00"
+    "last_scan": "2026-11-05T19:20:28.330763+00:00"
   },
   "promptfoo-docs": {
     "urls": {
@@ -9673,16 +9723,22 @@
         "filed_at": "2026-11-04T19:14:25.175674+00:00"
       },
       "https://www.promptfoo.dev/docs/providers/cometapi": {
-        "status": "pending",
-        "screened_at": "2026-08-29T16:02:43.193789+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-29T16:02:43.193789+00:00",
+        "issue": 2048,
+        "filed_at": "2026-11-05T19:20:47.850417+00:00"
       },
       "https://www.promptfoo.dev/docs/providers/custom-api": {
-        "status": "pending",
-        "screened_at": "2026-08-29T16:02:43.193792+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-29T16:02:43.193792+00:00",
+        "issue": 2049,
+        "filed_at": "2026-11-05T19:20:50.156794+00:00"
       },
       "https://www.promptfoo.dev/docs/providers/custom-script": {
-        "status": "pending",
-        "screened_at": "2026-08-30T15:51:28.334017+00:00"
+        "status": "filed",
+        "screened_at": "2026-08-30T15:51:28.334017+00:00",
+        "issue": 2050,
+        "filed_at": "2026-11-05T19:20:52.036054+00:00"
       },
       "https://www.promptfoo.dev/docs/providers/databricks": {
         "status": "pending",
@@ -10471,8 +10527,20 @@
       "https://www.promptfoo.dev/docs/red-team/strategies/likert": {
         "status": "pending",
         "screened_at": "2026-11-04T19:13:59.940868+00:00"
+      },
+      "https://www.promptfoo.dev/docs/red-team/strategies/math-prompt": {
+        "status": "pending",
+        "screened_at": "2026-11-05T19:20:31.303842+00:00"
+      },
+      "https://www.promptfoo.dev/docs/red-team/strategies/meta": {
+        "status": "pending",
+        "screened_at": "2026-11-05T19:20:31.303859+00:00"
+      },
+      "https://www.promptfoo.dev/docs/red-team/strategies/mischievous-user": {
+        "status": "pending",
+        "screened_at": "2026-11-05T19:20:31.303862+00:00"
       }
     },
-    "last_scan": "2026-11-04T19:13:59.940870+00:00"
+    "last_scan": "2026-11-05T19:20:31.303865+00:00"
   }
 }
