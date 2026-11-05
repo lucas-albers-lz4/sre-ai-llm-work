@@ -3276,6 +3276,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-mcp-rest-api": {
+      "slug": "docs-litellm-mcp-rest-api",
+      "title": "MCP REST API — LiteLLM Documentation (direct HTTP tool-invocation contract)",
+      "source_url": "https://docs.litellm.ai/docs/mcp_rest_api",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs; .md metadata last_updated 2026-11-03)",
+      "date_extracted": "2026-11-05",
+      "issue": "#1957",
+      "file": "source-notes/docs-litellm-mcp-rest-api.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-mcp-troubleshoot": {
       "slug": "docs-litellm-mcp-troubleshoot",
       "title": "MCP Troubleshooting Guide — LiteLLM Documentation (symptom-to-fix runbook for an MCP gateway)",

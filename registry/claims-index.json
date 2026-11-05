@@ -17976,6 +17976,88 @@
         }
       ]
     },
+    "docs-litellm-mcp-rest-api": {
+      "path": "source-notes/docs-litellm-mcp-rest-api.md",
+      "title": "MCP REST API — LiteLLM Documentation (direct HTTP tool-invocation contract)",
+      "source_url": "https://docs.litellm.ai/docs/mcp_rest_api",
+      "chapters": [
+        "03",
+        "05",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The direct-invocation surface is exactly three REST endpoints and is deliberately separate from the JSON-RPC MCP transport at `/mcp` and `/{server_name}/mcp`",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Every REST request authenticates with a LiteLLM API key, shown in two accepted forms — `Authorization: Bearer` and `x-litellm-api-key`",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Tool names follow one of two patterns — a globally prefixed name, or an unprefixed name paired with `server_id`",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The prefix grammar is `{server_prefix}{separator}{upstream_tool_name}`, with `-` as the default separator",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Both prefix knobs are proxy-level configuration — `MCP_TOOL_PREFIX_SEPARATOR` overrides the separator, and `LITELLM_USE_SHORT_MCP_TOOL_PREFIX=true` replaces the server-name prefix with a 3-character id",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The proxy forwards the **unprefixed** upstream tool name, so a name that validates at the gateway is not necessarily the name the upstream server receives",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "`server_id` accepts a UUID, `server_name`, or alias interchangeably, and `GET /v1/mcp/server` is the discovery call that returns those identifiers",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "`GET /mcp-rest/tools/list` serves all servers or one server; the single-server listing is \"recommended for discovery\" and returns **unprefixed** upstream names",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The call body requires `server_id` and `name`; `arguments` is recommended and defaults to `{}` when omitted, but `null` is explicitly forbidden",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "`arguments: null` returns HTTP **500**, turning a client-side request-shape error into a server-side one",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Missing `server_id` is `400 missing_parameter`; a tool that belongs to a different server than `server_id` is `403 tool_server_mismatch` with a structured `detail.error` body",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "A `404 server_not_found` (unknown name/UUID) and a `403 access_denied` (server exists but the key cannot access it) are deliberately distinguishable on the same endpoint",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "Using the wrong separator (`_` instead of `-`) yields tool-not-found or wrong routing, and placeholder ids from customer examples (`serverid1`, `serverid2`) are not valid unless those servers were actually created",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "Optional JSON-RPC fields (`jsonrpc`, `method`, `id`) are ignored by the REST handler, so clients may include them for compatibility but they do not change REST behavior",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-mcp-troubleshoot": {
       "path": "source-notes/docs-litellm-mcp-troubleshoot.md",
       "title": "MCP Troubleshooting Guide — LiteLLM Documentation (symptom-to-fix runbook for an MCP gateway)",
