@@ -1062,6 +1062,72 @@
         }
       ]
     },
+    "blog-cncf-istio-envoy-trace-propagation": {
+      "path": "source-notes/blog-cncf-istio-envoy-trace-propagation.md",
+      "title": "A practical guide to solving when zero+zero=two in mesh observability",
+      "source_url": "https://www.cncf.io/blog/2026/08/11/a-practical-guide-to-solving-when-zerozerotwo-in-mesh-observability",
+      "chapters": [
+        "02",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "A service mesh plus Kiali gives request-rate, latency, error-rate, and topology visibility with no application changes, but it still cannot explain why one specific request failed — that gap needs tracing",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Installing Istio sidecars on an already-OTel-instrumented app does not simply add spans — it fragments traces, producing two versions of the same service and two unrelated trace trees for one request",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The root cause is context propagation: Envoy's built-in OTel tracer starts a new root span per request and never reads the incoming W3C `traceparent`, while the app SDK keeps forwarding its own `traceparent` independently",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Enabling the `otel-tracing` extension provider is not sufficient; switching Envoy to its Zipkin tracer, pointed at the Collector's Zipkin receiver on `:9411`, is what makes Envoy extract B3 context and create child spans under the existing trace",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The app side must also emit B3 in addition to W3C `tracecontext` and `baggage`; the mesh-side tracer change alone does not join the traces",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The Collector must be treated as the convergence and normalization point where OTLP app telemetry and Zipkin/B3 mesh telemetry meet — not merely as an exporter target",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "In the demo, the fix consolidates a request from trace clusters of ~14 or 2 spans into 51–75 spans in a single trace",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "The application trace and the mesh trace are both useful and neither is sufficient — app spans carry business logic, RPCs, and database spans; mesh spans carry proxy hops, network latency, and retries",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Format mismatch between independently correct components silently breaks trace continuity; a normalization layer is the general fix, and the pattern extends beyond tracing to semantic-convention drift, sampling, cardinality, span metrics, and redaction",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The Envoy OTel tracer behavior is version-sensitive and upstream change \"takes time\"; the post supplies no Envoy/Istio version pin, so the workaround is a versioned observation rather than an invariant",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The evidence is demo-scale, not production-validated — the repro is the OpenTelemetry Demo on Istio, with before/after span counts but no production environment, latency, throughput, or cost measurement",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-cncf-jaeger-ai-agent-tracing-opentelemetry": {
       "path": "source-notes/blog-cncf-jaeger-ai-agent-tracing-opentelemetry.md",
       "title": "How Jaeger is evolving to trace AI agents with OpenTelemetry",
