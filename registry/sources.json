@@ -2249,6 +2249,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-langfuse-gateway-tracing": {
+      "slug": "docs-langfuse-gateway-tracing",
+      "title": "Tracing with the Langfuse AI Gateway (beta)",
+      "source_url": "https://langfuse.com/docs/gateway/features/tracing",
+      "source_type": "docs",
+      "author": "Langfuse",
+      "date_published": "n.d. (living documentation; gateway in public beta, current as of 2026-11-06)",
+      "date_extracted": "2026-11-06",
+      "issue": "#2044",
+      "file": "source-notes/docs-langfuse-gateway-tracing.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-langfuse-glossary": {
       "slug": "docs-langfuse-glossary",
       "title": "Glossary — Langfuse",

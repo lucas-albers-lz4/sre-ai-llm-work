@@ -12953,6 +12953,88 @@
         }
       ]
     },
+    "docs-langfuse-gateway-tracing": {
+      "path": "source-notes/docs-langfuse-gateway-tracing.md",
+      "title": "Tracing with the Langfuse AI Gateway (beta)",
+      "source_url": "https://langfuse.com/docs/gateway/features/tracing",
+      "chapters": [
+        "02",
+        "05",
+        "06"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The AI Gateway records every routed model call as a Langfuse generation, but the feature is in public beta and may change",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Ingestion mode is an organization-wide retention decision with three settings — `FULL`, `USAGE` (default), and `NONE` — not a per-request log level",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "`USAGE` mode still records model/cost/perf/audit fields — model, token usage (including cached and reasoning tokens), cost, latency, TTFT, error and warning levels, sessions, trace user, and key/connection metadata — just no input or output",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Only `FULL` ingestion enables the production quality loop — LLM-as-a-Judge on live traffic, annotation queues, and prompt→dataset construction",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Traces are enriched by optional `langfuse-*` headers for user, session, environment, tags, metadata, and trace name, with explicit headers taking precedence over inferred values",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Context-header budget is hard and silent — all context headers (including `traceparent` and `baggage`) are ignored when they total more than 8 KiB, each value is capped at 1 KiB, and invalid values are dropped without failing the request",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "`langfuse-environment` is silently normalized to `default` when it violates the environment format, while the request still succeeds",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Static `langfuse-session-id` or `langfuse-trace-name` values are a config footgun — a static session merges every session into one and a static trace name renames every trace",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The gateway honors W3C `traceparent` — nesting its generation under the calling span and keeping `tracestate` — and reads W3C `baggage` keys that mirror the `langfuse-*` headers, with headers winning on conflict",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Do not double-instrument a call through both the gateway and a provider SDK integration — the call is recorded twice",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Every gateway response carries `langfuse-request-id` (UUIDv7) — including auth failures, gateway errors, and streams — and generation calls also carry `langfuse-trace-id` / `langfuse-observation-id`, even on 502/504 provider failures",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "Recording is best-effort — a returned trace ID may have no stored trace — so trace completeness should not be treated as an audit guarantee or SLO",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "The gateway stores its request ID and the client's request ID under distinct metadata keys, never lets the client `x-request-id` replace the gateway ID, does not forward the client ID upstream, and relays the provider's request ID unchanged",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "For supported coding agents the gateway infers session and agent context from the agent's own headers/body, prefixing sessions with the agent name and storing the provider request ID under `langfuse.gateway.upstream.request.id`",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-langfuse-glossary": {
       "path": "source-notes/docs-langfuse-glossary.md",
       "title": "Glossary — Langfuse",
