@@ -3328,6 +3328,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-mcp-server-submissions": {
+      "slug": "docs-litellm-mcp-server-submissions",
+      "title": "MCP Server Submissions — LiteLLM Documentation (pending_review intake and approval gate)",
+      "source_url": "https://docs.litellm.ai/docs/mcp_server_submissions",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs; .md metadata last_updated 2026-11-06)",
+      "date_extracted": "2026-11-06",
+      "issue": "#1959",
+      "file": "source-notes/docs-litellm-mcp-server-submissions.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-mcp-troubleshoot": {
       "slug": "docs-litellm-mcp-troubleshoot",
       "title": "MCP Troubleshooting Guide — LiteLLM Documentation (symptom-to-fix runbook for an MCP gateway)",

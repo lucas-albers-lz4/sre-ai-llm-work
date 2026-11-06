@@ -18277,6 +18277,67 @@
         }
       ]
     },
+    "docs-litellm-mcp-server-submissions": {
+      "path": "source-notes/docs-litellm-mcp-server-submissions.md",
+      "title": "MCP Server Submissions — LiteLLM Documentation (pending_review intake and approval gate)",
+      "source_url": "https://docs.litellm.ai/docs/mcp_server_submissions",
+      "chapters": [
+        "06",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "New MCP servers can be submitted by team members but are held in `pending_review` and are not loaded into the registry until an admin approves them",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The workflow requires `store_model_in_db: true` but has no separate feature flag",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Submission is restricted to a team-scoped API key; admin keys are rejected at the submit endpoint and bypass the workflow through `POST /v1/mcp/server`",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The submit endpoint is `POST /v1/mcp/server/register`; its response returns a `server_id`, `pending_review` status, submitter identity, and submission timestamp, but the submitted server is not yet reachable by clients",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The UI review surface is a \"Submitted MCPs\" tab with counters and per-submission cards; approval is a confirmation dialog that immediately loads the server into the registry, and rejection accepts optional free-text review notes",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "API review requires an admin or `proxy_admin_viewer` role, and exposes list, approve, and reject endpoints under `/v1/mcp/server`",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The list-submissions response omits `url`, `transport`, and `description`, all of which appear in the submit response and the UI cards",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Approval moves a server to `active` and loads it into the runtime registry immediately; `pending_review`, `active`, and `rejected` are the only documented status values",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Approval is reversible and rejection doubles as immediate revocation — the approve endpoint accepts `rejected` servers too, and rejecting a previously active server evicts it from the runtime registry",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The page documents no timeout, expiry, notification, or review SLA for `pending_review` submissions — a submission waits until an admin acts",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-mcp-troubleshoot": {
       "path": "source-notes/docs-litellm-mcp-troubleshoot.md",
       "title": "MCP Troubleshooting Guide — LiteLLM Documentation (symptom-to-fix runbook for an MCP gateway)",
