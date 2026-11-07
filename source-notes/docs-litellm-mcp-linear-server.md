@@ -374,9 +374,10 @@ cited or explicitly dismissed):
 - `source-notes/docs-litellm-mcp-deployment.md` — **cited** (Extends; see below):
   gateway topology and the egress grant of registering an external MCP URL; this
   page is a concrete vendor-hosted upstream.
-- `source-notes/docs-litellm-mcp-zero-trust.md` — **cited** (adjacent; see below):
-  outbound JWT call attestation. Different layer from this page's per-user vs
-  shared identity choice, but the same per-user attribution goal.
+- `source-notes/docs-litellm-mcp-zero-trust.md` — **cited** (Adjacent; see
+  Primary cross-references below): outbound JWT call attestation (Claims 5, 7).
+  Different layer from this page's per-user vs shared identity choice, but the
+  same per-user attribution goal.
 - `source-notes/docs-litellm-completion-web-search.md` — **dismissed**:
   provider-native web-search support matrix; unrelated.
 - `source-notes/docs-litellm-completion-input-params.md` — **dismissed**:
@@ -456,6 +457,18 @@ cited or explicitly dismissed):
     this page is a concrete vendor-hosted upstream (`mcp.linear.app`) whose
     transport (Streamable HTTP, with deprecated `/sse`) is controlled by the
     provider (Claim 13).
+- **Adjacent — per-user identity at a different layer**:
+  - `source-notes/docs-litellm-mcp-zero-trust.md` **Claim 5** — the outbound
+    JWT's `sub` defaults to LiteLLM's internal `user_id` unless "verify+re-sign"
+    rebuilds it from real IdP claims; **Claim 7** — with no identity configured,
+    the `sub` chain degrades to the shared literal `"litellm-proxy"`, so backends
+    authorizing on `sub` treat all callers identically. That note covers what
+    identity the MCP *server* is told the caller has, via a signed JWT; this page
+    covers which *upstream* credential acts against Linear (Claims 5–6: per-user
+    OAuth via DCR vs one shared M2M identity). Neither substitutes for the other:
+    an operator can preserve per-user OAuth to Linear while still collapsing the
+    JWT `sub` to `litellm-proxy`, or the reverse, so "per-user attribution" must
+    be checked at both hops. Not a corroboration — different layer, same goal.
 - **Novel** (first appearances in the corpus):
   1. A per-server integration page for a vendor-hosted remote MCP server, rather
      than a gateway-mechanics page.
