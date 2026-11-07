@@ -19055,6 +19055,84 @@
         }
       ]
     },
+    "docs-promptfoo-a2a-provider": {
+      "path": "source-notes/docs-promptfoo-a2a-provider.md",
+      "title": "Promptfoo A2A Provider — Task-Shaped Agent Evaluation, the HTTP+JSON-Only Binding, and the 5-Minute Polling Stall",
+      "source_url": "https://www.promptfoo.dev/docs/providers/a2a",
+      "chapters": [],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "The `a2a` provider treats an A2A agent as a promptfoo provider — each test prompt becomes an A2A message, and the eval consumes the final extracted text rather than the task lifecycle",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Only the A2A HTTP+JSON REST binding is supported — JSON-RPC, gRPC, and push-notification webhooks are explicitly unsupported, so an agent that advertises only those bindings is silently unreachable through this provider",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Agent Card discovery selects the first supported interface with `protocolBinding: HTTP+JSON` and inherits its URL, tenant, protocol version, and streaming capability unless the config overrides them",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Agent Card metadata is injected into red-team generation context — the target agent's own self-description (name, description, capabilities, skills) becomes input to the attack generator",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "`mode: auto` chooses streaming only when the Agent Card advertises streaming support; with only a bare `url` it falls back to `message:send` because there is no capability metadata",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The send-and-poll path defaults to polling every 1000 ms with a 300000 ms timeout, and a non-terminal task is polled until completion, failure, cancellation, rejection, or an input/auth requirement",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Poll attempts and intermediate task states are not documented as result metadata — the only documented way to surface task id/state/mode into eval output is `transformResponse`",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "OAuth discovery from the A2A server URL requires the token endpoint to share the server's origin and rejects redirects, so an agent fronted by a separate IdP is only configurable by setting `tokenUrl` explicitly",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "When a bare `headers.Authorization` and `auth` both produce an `Authorization` header, `auth` wins — an ordering rule that can mask a hand-set header",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "`auth` applies to both Agent Card discovery requests and A2A operation requests, so the credential is presented to the well-known card endpoint as well as the operation endpoint",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "Streaming is consumed into a single final `ProviderResponse`; stream events include `message`, `task`, `statusUpdate`, and `artifactUpdate`, but token-by-token UI streaming is not exposed",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "`transformResponse` is the documented escape hatch for reshaping A2A results — it receives `(json, text, context)` and may return a primitive (sets `output`) or a full `ProviderResponse` carrying `metadata`, `guardrails`, or `sessionId`",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "The provider returns provider errors for non-2xx responses, invalid JSON, malformed SSE, failed/canceled/rejected tasks, tasks requiring input/auth, and polling timeout — but the timeout is the only documented client-side cancellation bound",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "By default the provider sends a `ROLE_USER` message with one text part containing the prompt, adds a stable `messageId`, and maps `sessionId` to the A2A `contextId` when available",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-agent-skill": {
       "path": "source-notes/docs-promptfoo-agent-skill.md",
       "title": "Promptfoo: Agent Skills for Evals and Red Teaming — the Four-Skill Bundle, the Agent-Authored Config Failure Taxonomy, and the Evidence-Before-Scores Gate",
