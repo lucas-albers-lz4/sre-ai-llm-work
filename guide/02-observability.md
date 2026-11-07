@@ -118,6 +118,60 @@ correlation-header forwarding and end-user propagation before trusting
 agent-level trace grouping or spend attribution. A successful response is not
 evidence that the headers came back.
 
+### Trace continuity breaks at infrastructure boundaries
+
+The re-send rule is not specific to agent servers. A mesh sidecar or an LLM
+gateway inserted between two correctly instrumented components can fork one
+request into two unrelated trace trees, with no error on either side
+[source: blog-cncf-istio-envoy-trace-propagation, Claim 2, Claim 3] [emerging].
+In the OpenTelemetry Demo, adding Istio to an app that already emitted complete
+traces produced a `checkout` trace from the app SDK and a second
+`checkout.otel-demo` trace from the Envoy sidecar — "two unrelated trace trees
+for the same request." The mechanism is a propagation mismatch: Envoy's built-in
+OTel tracer "starts a brand-new root span for every request. It never reads the
+incoming W3C `traceparent` header," while the app SDK keeps forwarding its own
+[source: blog-cncf-istio-envoy-trace-propagation, Claim 3] [emerging].
+
+The fix is two-sided; either half alone is insufficient
+[source: blog-cncf-istio-envoy-trace-propagation, Claim 4, Claim 5] [emerging].
+Enabling the `otel-tracing` provider only exports Envoy spans. Switching Envoy
+to its Zipkin tracer, pointed at the Collector's `:9411` receiver, is what makes
+it extract B3 context and create child spans under the existing trace, and the
+app must keep W3C propagation while also emitting `b3multi`
+[source: blog-cncf-istio-envoy-trace-propagation, Claim 4, Claim 5, Concrete Artifacts] [emerging]:
+
+```yaml
+# Mesh side — Envoy's Zipkin tracer joins the app's trace via the Collector
+enableTracing: true
+    defaultConfig:
+      tracing:
+        zipkin:
+          address: otel-collector.otel-demo.svc.cluster.local:9411
+
+# App side — keep W3C, also emit B3 for Envoy
+default:
+  envOverrides:
+    - name: OTEL_PROPAGATORS
+      value: "tracecontext,baggage,b3multi"
+```
+*Extracted from [source: blog-cncf-istio-envoy-trace-propagation, Concrete Artifacts]. Treat it as an Istio/Envoy-specific, version-sensitive workaround: the source pins no Envoy version and warns the behavior can change upstream [source: blog-cncf-istio-envoy-trace-propagation, Claim 10] [emerging].*
+
+The Collector's role generalizes: it is the convergence point that accepts OTLP
+from applications and Zipkin/B3 from the mesh and normalizes both into one
+backend, rather than merely being an exporter target
+[source: blog-cncf-istio-envoy-trace-propagation, Claim 6] [emerging]. LLM
+gateways have the same failure shape. Langfuse's AI Gateway nests its generation
+under the caller's span when sent a W3C `traceparent` and keeps `tracestate`,
+but it silently ignores all context headers — including `traceparent` and
+`baggage` — once they total more than 8 KiB, and drops invalid values without
+failing the request [source: docs-langfuse-gateway-tracing, Claim 6, Claim 9]
+[emerging]. The request still returns 200 with no trace linkage.
+
+**Rule**: Verify propagation at every infrastructure boundary — mesh sidecar, LLM
+gateway, agent server — and alert on trace-ID continuity rather than request
+success. Treat the mesh-side tracer swap as a versioned workaround and normalize
+mismatched formats in the Collector rather than changing every producer.
+
 ## Observability as a spectrum
 
 ### From monitoring to on-demand analysis
@@ -390,5 +444,6 @@ failure-litellm-vllm-embeddings-encoding-format,
 docs-google-sre-reliable-data-processing-minimal-toil,
 docs-google-sre-reaching-beyond-walls,
 docs-google-sre-slo-engineering-case-studies, docs-langfuse-cli,
-docs-litellm-a2a-agent-gateway*
-*Last updated: 2026-09-17*
+docs-litellm-a2a-agent-gateway, blog-cncf-istio-envoy-trace-propagation,
+docs-langfuse-gateway-tracing*
+*Last updated: 2026-11-07*
