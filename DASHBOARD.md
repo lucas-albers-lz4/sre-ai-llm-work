@@ -1,6 +1,6 @@
 # Guide Dashboard
 
-_Generated 2026-11-06 (UTC) by `scripts/generate_dashboard.py`._
+_Generated 2026-11-07 (UTC) by `scripts/generate_dashboard.py`._
 
 Content-derived metrics for the living guide. Refreshed daily by
 `.github/workflows/daily-scan.yml`. For workflow status (PRs, issues,
@@ -11,9 +11,9 @@ scanner queues) see the GitHub Project linked from README.md.
 | `guide/00-principles.md` | 9/30 | 2025-12-15 (`blog-promptfoo-ai-regulation-2025`) | 44% | 227 (n/a) |
 | `guide/01-incident-response.md` | 3/30 | — | 33% | 231 (n/a) |
 | `guide/02-observability.md` | 9/30 | 2021-10-12 (`docs-google-sre-reliable-data-processing-minimal-toil`) | 44% | 394 (n/a) |
-| `guide/03-runbooks-and-agents.md` | 12/30 | 2025-11-10 (`blog-promptfoo-ai-orchestrated-cyberattacks`) | 33% | 451 (n/a) |
-| `guide/04-oncall-and-toil.md` | 7/30 | — | 0% | 324 (n/a) |
-| `guide/05-llm-ops-reliability.md` | 40/30 ⚠ | 2025-12-12 (`blog-promptfoo-asr-not-portable-metric`) | 15% | 1466 (n/a) |
+| `guide/03-runbooks-and-agents.md` | 12/30 | 2025-11-10 (`blog-promptfoo-ai-orchestrated-cyberattacks`) | 41% | 451 (n/a) |
+| `guide/04-oncall-and-toil.md` | 7/30 | — | 14% | 324 (n/a) |
+| `guide/05-llm-ops-reliability.md` | 40/30 ⚠ | 2025-12-12 (`blog-promptfoo-asr-not-portable-metric`) | 20% | 1466 (n/a) |
 | `guide/06-security-and-trust.md` | 23/30 | 2025-05-22 (`blog-promptfoo-red-team-claude`) | 56% | 849 (n/a) |
 
 **Source cap**: 30 per chapter (see `hitchhiker.config.json`). 
