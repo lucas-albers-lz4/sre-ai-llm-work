@@ -22892,6 +22892,92 @@
         }
       ]
     },
+    "docs-promptfoo-model-audit-usage": {
+      "path": "source-notes/docs-promptfoo-model-audit-usage.md",
+      "title": "Promptfoo ModelAudit — Advanced Usage: The Env-Var Remote-Auth Contract, Finding Accounting, and the SARIF/SBOM Output Surface",
+      "source_url": "https://www.promptfoo.dev/docs/model-audit/usage",
+      "chapters": [
+        "06",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Remote authentication is now environment-variables-only — every remote source has a documented env-var contract, including private-model access, and the page says this is the sole supported channel",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The old credential CLI flags were removed, not deprecated — using them errors — and the stated rationale is preventing exposure in shell history and process lists",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "When Promptfoo Cloud is connected, model-audit results are shared automatically by default, with `--share` / `--no-share` and a global `PROMPTFOO_DISABLE_SHARING` switch",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "ModelAudit has no configuration-file support — scan policy lives in CLI flags, and `--blacklist` is a repeated *name* pattern, not a vulnerability policy",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The JSON output has a two-array finding contract — `issues` are findings, `checks` are performed checks and may repeat a finding as a failed check, so counting both double-counts",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The result's top-level `success` / `has_errors` are execution-status signals, not finding verdicts — the vendor's own example carries a `critical` issue while both are clean, so a gate keyed on `success` would pass a critical finding",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The JSON schema fixes the severity vocabulary to lowercase `debug | info | warning | critical`, defaulting to `warning`, and allows extra fields on issues and checks",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "SARIF output is 2.1.0 with a documented severity mapping — CRITICAL→error, WARNING→warning, INFO→note, DEBUG→none — and rules/results/artifacts/tool/invocation sections",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "SARIF is positioned as the interop layer for GitHub Advanced Security, Azure DevOps, VS Code, SonarQube/SonarCloud, Fortify, Checkmarx, CodeQL, and Snyk",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The GitHub Actions example is a path-triggered push scan that uploads SARIF with `if: always()` and a separate artifact, but omits `permissions: security-events: write` and installs both tools unpinned",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The GitLab recipe is a two-layer gate — it tolerates scanner exit 0/1, fails only on exit >1, then asserts via `jq` that no `critical` issue exists",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "The pre-commit hook invokes `promptfoo scan-model` on changed files with `pass_filenames: true` and a broad extension regex — with no `--no-write`, timeout, or size cap",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "The programmatic entrypoint is `scan_model_directory_or_file`, returning a dict with `issues`, and accepting `blacklist_patterns`, `max_file_size` (bytes), and `timeout` (seconds)",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "`--sbom <path>` emits a CycloneDX SBOM with components, license metadata, risk scoring from findings, and model/dataset classification",
+          "kind": "claim"
+        },
+        {
+          "n": 15,
+          "heading": "Custom scanners subclass `BaseScanner` and must be registered in `modelaudit/scanners/__init__.py`; they cannot be registered at runtime, and the page recommends contributing them upstream for production",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-model-audit": {
       "path": "source-notes/docs-promptfoo-model-audit.md",
       "title": "Promptfoo ModelAudit — Model Scanning: Remote-Source Matrix, Scanner Selection Flags, and the Severity/Exit-Code Gate Contract",

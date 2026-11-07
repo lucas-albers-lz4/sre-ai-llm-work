@@ -4352,6 +4352,18 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-model-audit-usage": {
+      "slug": "docs-promptfoo-model-audit-usage",
+      "title": "Promptfoo ModelAudit — Advanced Usage: The Env-Var Remote-Auth Contract, Finding Accounting, and the SARIF/SBOM Output Surface",
+      "source_url": "https://www.promptfoo.dev/docs/model-audit/usage",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_extracted": "2026-11-06",
+      "issue": "#1960",
+      "file": "source-notes/docs-promptfoo-model-audit-usage.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-model-audit": {
       "slug": "docs-promptfoo-model-audit",
       "title": "Promptfoo ModelAudit — Model Scanning: Remote-Source Matrix, Scanner Selection Flags, and the Severity/Exit-Code Gate Contract",
