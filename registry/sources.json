@@ -247,6 +247,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "blog-cncf-kgateway-rust-dynamic-module": {
+      "slug": "blog-cncf-kgateway-rust-dynamic-module",
+      "title": "Extending AI gateways with Rust: Custom transformations in kgateway",
+      "source_url": "https://www.cncf.io/blog/2026/05/15/extending-ai-gateways-with-rust-custom-transformations-in-kgateway",
+      "source_type": "blog-post",
+      "author": "Michael Uzukwu, kgateway Contributor",
+      "date_published": "2026-05-15",
+      "date_extracted": "2026-11-07",
+      "issue": "#1966",
+      "file": "source-notes/blog-cncf-kgateway-rust-dynamic-module.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-cncf-kubectl-debug-silent-evidence-gap": {
       "slug": "blog-cncf-kubectl-debug-silent-evidence-gap",
       "title": "What kubectl debug doesn’t tell you: The silent evidence gap",

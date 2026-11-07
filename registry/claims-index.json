@@ -1400,6 +1400,78 @@
         }
       ]
     },
+    "blog-cncf-kgateway-rust-dynamic-module": {
+      "path": "source-notes/blog-cncf-kgateway-rust-dynamic-module.md",
+      "title": "Extending AI gateways with Rust: Custom transformations in kgateway",
+      "source_url": "https://www.cncf.io/blog/2026/05/15/extending-ai-gateways-with-rust-custom-transformations-in-kgateway",
+      "chapters": [
+        "05",
+        "06",
+        "00"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "A custom Envoy dynamic module is the extension path when the gateway's built-in policies and templating do not cover a required behavior; kgateway's built-in `rustformation` filter can be replaced outright",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Extending through a custom module couples three independently versioned surfaces — the kgateway control plane, the Envoy data plane, and the Rust module/SDK/toolchain — and kgateway v2.3 introduced breaking changes to the Rust dynamic-module system",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "The author's own conclusion is that the SDK must match Envoy exactly and the Rust toolchain must satisfy the module's dependencies, so \"one version mismatch and everything breaks\"",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The article's prerequisites contradict themselves on the minimum Rust version — the install list says Rust 1.85+ while the body says the module \"requires Rust 1.88 or later\", and the Dockerfile resolves the conflict to `rust:1.88`",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "The kgateway controller reverts direct edits to the Envoy data-plane image; the supported extension-injection path is a `GatewayParameters` object referenced from the Gateway's `spec.infrastructure.parametersRef`",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "For a kind-loaded local image, the working `GatewayParameters` shape is `registry: \"\"`, the local repository/tag, and `pullPolicy: IfNotPresent`, paired with `kind load docker-image`",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "The `filter_config` extension config uses a protobuf wrapper that is documented but easy to miss, and the author spent hours diagnosing the resulting error",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "An `HTTPRoute` `URLRewrite` filter can remap the OpenAI-standard client path (`/v1/chat/completions`) to the backend's native path (`/llm/chat/completions`), preserving client API parity",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "A mock LLM (`httpbun`) deployed in-cluster lets the full gateway path — including the custom module — be exercised with no provider keys and zero spend",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "The article presents the `X-Custom-Transformed: true` response header as proof the Rust module executed, but the same header is also set by the `TrafficPolicy`, so the check is non-discriminating",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The post's troubleshooting table maps concrete, reproducible failure modes for the lab",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "The closing section says \"agentgateway supports all of these\" even though the entire article is about kgateway — an apparent attribution artifact",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-cncf-kubectl-debug-silent-evidence-gap": {
       "path": "source-notes/blog-cncf-kubectl-debug-silent-evidence-gap.md",
       "title": "What kubectl debug doesn’t tell you: The silent evidence gap",
