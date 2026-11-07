@@ -520,6 +520,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "blog-cncf-shadow-ai-ci-cd-threat-modeling": {
+      "slug": "blog-cncf-shadow-ai-ci-cd-threat-modeling",
+      "title": "Shadow AI in CI/CD: Threat-modeling the path from developer laptop to Kubernetes",
+      "source_url": "https://www.cncf.io/blog/2026/08/07/shadow-ai-in-ci-cd-threat-modeling-the-path-from-developer-laptop-to-kubernetes",
+      "source_type": "blog-post",
+      "author": "Matteo Bisi",
+      "date_published": "2026-08-07",
+      "date_extracted": "2026-11-07",
+      "issue": "#1982",
+      "file": "source-notes/blog-cncf-shadow-ai-ci-cd-threat-modeling.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "blog-cncf-telemetry-that-matters-observability-pipelines": {
       "slug": "blog-cncf-telemetry-that-matters-observability-pipelines",
       "title": "Telemetry that matters: Designing sustainable, high-impact observability pipelines",

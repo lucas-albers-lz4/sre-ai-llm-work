@@ -2895,6 +2895,89 @@
         }
       ]
     },
+    "blog-cncf-shadow-ai-ci-cd-threat-modeling": {
+      "path": "source-notes/blog-cncf-shadow-ai-ci-cd-threat-modeling.md",
+      "title": "Shadow AI in CI/CD: Threat-modeling the path from developer laptop to Kubernetes",
+      "source_url": "https://www.cncf.io/blog/2026/08/07/shadow-ai-in-ci-cd-threat-modeling-the-path-from-developer-laptop-to-kubernetes",
+      "chapters": [
+        "06",
+        "03",
+        "05",
+        "00"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Shadow AI is an access problem, not merely a chatbot-policy problem — an ungoverned agent becomes a new non-human identity with permissions, a blast radius, and a place in the threat model",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Risk rises sharply when AI moves from giving advice to taking action — an agent with a Git token, cloud credentials, or a Kubernetes ServiceAccount can mutate resources at machine speed, and Kubernetes does not distinguish a harmful action by an attacker from the same action by an over-privileged automation identity",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Shadow AI can be injected at six distinct delivery stages — developer laptop, source control, CI pipeline, artifact registry, CD platform, Kubernetes runtime — each with a typical use and a stage-specific primary risk, and a convenience decision early in the path becomes a production exposure at the end",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Prompt injection is the through-line risk because agents routinely read untrusted content — issue descriptions, READMEs, dependency changelogs, build logs — so prompt filtering alone is never enough and defense in depth is the real answer",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "An AI inventory is the precondition for every other control — each entry records business and technical owner, purpose/users, permitted data classification, connected systems and permissions, model/provider, production status, last review, and revocation path",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Every agent should have a unique identity and must never borrow a developer's personal credentials or a shared admin account; least-privilege defaults are separate credentials per environment, short-lived tokens, read-only where possible, namespace-scoped Kubernetes permissions, explicit allowlists, and immediate revocation",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Match the control to the blast radius — a capability ladder from code explanation through autonomous production changes maps each AI capability to an escalating required control level",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "A restart-only remediation agent needs a namespaced Role on `apps`/`deployments` granting only `get`, `list`, and `patch` — because a rollout restart is a patch, `create` and `delete` are never needed",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "In Kubernetes-native CI, an admission policy is a hard gate an agent cannot talk its way past — a Kyverno or OPA/Gatekeeper rule rejecting unsigned images holds regardless of what a compromised pipeline job tries to push",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "In a GitOps delivery model the pull request is the approval gate — the agent proposes a manifest change, a human approves the merge, and Argo CD or Flux reconciles only what is already merged; no path to production should skip the gate",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "The 2026 agent-governance tooling layer is immature — no graduated project owns prompt inspection, agent discovery, and tool-call policy end to end — while the pipeline and runtime layers are well served; the named candidates are kagent (CNCF Sandbox, May 2025), Envoy AI Gateway v1.0 (June 2026), agentgateway (Linux Foundation), and agentregistry (submitted to CNCF Sandbox March 2026, still under review)",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "Open source is not the same as foundation-governed, and licenses carry obligations — several entries are single-vendor open-core projects, and TruffleHog, Zitadel, and Teleport's community edition are AGPL-3.0 with network-service source-disclosure obligations",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "Scanning MCP servers for tool poisoning and prompt-injection payloads has no foundation-governed answer — the maintained options are vendor-developed, so it is an evaluation exercise; the pragmatic stance is a policy enforcement point in front of model/tool endpoints plus identity and admission controls that constrain what an agent can do even when its reasoning cannot be fully inspected",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "An autonomous agent that runs commands should run in a disposable, VM-isolated workspace with its own kernel and filesystem, where the host's SSH keys, cloud credential files, and repository checkouts are absent — if it is manipulated, the environment is discarded",
+          "kind": "claim"
+        }
+      ]
+    },
     "blog-cncf-telemetry-that-matters-observability-pipelines": {
       "path": "source-notes/blog-cncf-telemetry-that-matters-observability-pipelines.md",
       "title": "Telemetry that matters: Designing sustainable, high-impact observability pipelines",
