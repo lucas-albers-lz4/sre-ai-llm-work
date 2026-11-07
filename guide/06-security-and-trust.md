@@ -536,16 +536,25 @@ a control.
 ### A gateway tool name is an alias, not the upstream name
 
 Tool identity is layered, and every allowlist or audit must say which layer it
-applies to. LiteLLM prefixes model-visible tool names with the server name —
-`create_issue` is exposed as `linear_mcp-create_issue`
-[source: docs-litellm-mcp-linear-server, Claim 11] [emerging] — which makes
-multi-server deny entries unambiguous but means the name the model sees is not
-the name the upstream server receives. A name that validates at the gateway is
-not evidence of what the upstream was called.
+applies to. LiteLLM's default rendering is prefixed — the grammar is
+`{server_prefix}{separator}{upstream_tool_name}` with `-` as the default
+separator, so `create_issue` is exposed to models as `linear_mcp-create_issue`
+[source: docs-litellm-mcp-linear-server, Claim 11] [source:
+docs-litellm-mcp-rest-api, Claim 4] [emerging]. That rendering is
+configurable, not invariant: `MCP_TOOL_PREFIX_SEPARATOR` overrides the
+separator, `LITELLM_USE_SHORT_MCP_TOOL_PREFIX=true` substitutes a 3-character
+id for the server-name prefix, and a second valid request shape pairs an
+unprefixed name with `server_id`
+[source: docs-litellm-mcp-rest-api, Claim 3, Claim 5] [emerging]. Whichever
+form is in play, the proxy forwards the unprefixed upstream name, so a name
+that validates at the gateway is not evidence of what the upstream server
+received [source: docs-litellm-mcp-rest-api, Claim 6] [emerging].
 
 **Rule**: State the layer every tool control applies to — model-visible prefix,
 gateway alias, or upstream name — and confirm names against the live `tools/list`
-rather than a docs table.
+rather than a docs table. An allow/deny entry copied from a docs example is
+stale when the proxy's separator or short-prefix setting differs from the one
+the example assumed.
 
 ## Compliance as an engineering forcing function
 
@@ -1096,7 +1105,8 @@ failure-litellm-supply-chain-incident-march-2026,
 blog-litellm-swap-openai-code-interpreter, docs-langfuse-agent-skill,
 docs-promptfoo-code-scan-cli, docs-promptfoo-code-scan-github-action,
 docs-litellm-generic-guardrail-api, docs-litellm-mcp-linear-server,
-docs-litellm-mcp-semantic-filter, docs-litellm-mcp-server-submissions,
+docs-litellm-mcp-rest-api, docs-litellm-mcp-semantic-filter,
+docs-litellm-mcp-server-submissions,
 docs-promptfoo-a2a-provider, docs-promptfoo-model-audit-usage,
 docs-langfuse-gateway-tracing*
 *Last updated: 2026-11-07*
