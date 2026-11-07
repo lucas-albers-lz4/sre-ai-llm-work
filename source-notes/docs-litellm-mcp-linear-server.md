@@ -41,17 +41,23 @@ issue: "#1969"
   depth elsewhere (OAuth flow, `object_permission`, `mcp_rpm_limit`); this note
   extracts only the integration-specific delta and treats the rest as
   corroboration.
-- **Sub-pages followed**: none. The page defers its mechanics to the sibling
-  MCP OAuth, MCP Control, Tool naming, and troubleshooting pages, all of which
-  already have source notes in the corpus and are cited below rather than
-  re-mined.
+- **Sub-pages followed**: none (only the canonical page was fetched). The page
+  defers its mechanics to the sibling MCP OAuth, MCP Control, Tool naming
+  (`/docs/mcp_rest_api#tool-naming`), and troubleshooting
+  (`/docs/mcp_troubleshoot`) pages; the corresponding notes in this corpus —
+  `docs-litellm-mcp-oauth.md`, `docs-litellm-mcp-control.md`,
+  `docs-litellm-mcp-rest-api.md`, and `docs-litellm-mcp-troubleshoot.md` — are
+  cross-referenced below rather than re-mined.
 
 ## Extracted Claims
 
 ### Claim 1: Linear hosts the MCP server centrally over Streamable HTTP, and the gateway adds centralized auth, per-key/team access control, per-tool-call cost tracking, and one audit trail
-- **Evidence**: The page intro ("Linear hosts and manages the server centrally…")
-  and the "Key features" bullets. The gateway-side additions are stated as the
-  reason to front the hosted server rather than connect directly.
+- **Evidence**: The page intro — the "Linear hosts and manages the server
+  centrally…" sentence and the immediately following sentence listing the
+  gateway-side additions ("cost tracking per tool call" among them; the "Key
+  features" bullets themselves do not mention cost tracking) — plus the "Key
+  features" bullets. The gateway-side additions are stated as the reason to
+  front the hosted server rather than connect directly.
 - **Confidence**: emerging (vendor capability documentation; no measured
   consolidation benefit)
 - **Quote**: "Linear hosts and manages the server centrally, so there is nothing to deploy or run yourself."
@@ -62,6 +68,10 @@ issue: "#1969"
   position — spend/audit/permission resolve at LiteLLM while the upstream owns
   the tools. That is the same "gateway as control plane" premise as
   `docs-litellm-mcp-deployment.md` Claim 1, applied to a single hosted server.
+  One qualification from `docs-litellm-mcp-cost-tracking.md` Claim 1: the
+  "cost tracking per tool call" LiteLLM adds is an operator-declared per-tool
+  price (or a custom hook's computed number), not a measurement of Linear's
+  upstream spend — the guide must not present this as observed cost.
 
 ### Claim 2: The dedicated read-only endpoint `https://mcp.linear.app/mcp/readonly` is the cleanest way to grant reads only and the default choice; the weaker alternatives are declining the write scope at consent or excluding write tools in config
 - **Evidence**: The "Key features" bullet ("A dedicated read-only endpoint…"),
@@ -198,18 +208,29 @@ issue: "#1969"
 
 ### Claim 11: LiteLLM prefixes tool names with the server name, so `create_issue` is exposed to models as `linear_mcp-create_issue`
 - **Evidence**: The "Tools provided" closing paragraph and its link to the Tool
-  naming reference. The `disallowed_tools` example uses unprefixed names, while
-  the control page notes both prefixed and unprefixed forms are accepted.
+  naming reference (`/docs/mcp_rest_api#tool-naming`). The `disallowed_tools`
+  example uses unprefixed names, while the control page notes both prefixed and
+  unprefixed forms are accepted. `docs-litellm-mcp-rest-api.md` Claims 3–5 give
+  the authoritative grammar and the proxy-level knobs.
 - **Confidence**: emerging (explicit documented behavior)
 - **Quote**: "LiteLLM prefixes tool names with the server name, so `create_issue` is exposed to models as `linear_mcp-create_issue`"
 - **Our assessment**: The prefix is the namespace that makes multi-server
   allow/deny lists unambiguous, but it also means the model-visible name differs
-  from the upstream name (different from the promptfoo naming style). The
-  `disallowed_tools` example on this page uses unprefixed names; per
-  `docs-litellm-mcp-control.md` Claim 8 both forms work for `allowed_params`, so
-  the safest rule is to confirm the accepted form against the live list rather
-  than assume one. This is a small but real source of "the deny list didn't
-  match" bugs (Claim 3).
+  from the upstream name (different from the promptfoo naming style). Note that
+  `linear_mcp-create_issue` is the **default** rendering, not a universal name:
+  per `docs-litellm-mcp-rest-api.md` Claim 4 the grammar is
+  `{server_prefix}{separator}{upstream_tool_name}` with `-` as the default
+  separator, and its Claim 5 records that `MCP_TOOL_PREFIX_SEPARATOR` and
+  `LITELLM_USE_SHORT_MCP_TOOL_PREFIX=true` are proxy-level settings — a proxy
+  configured with either exposes a different visible name (e.g. a 3-character
+  prefix). Its Claim 3's two-pattern distinction also means the prefixed form is
+  only one of two valid request shapes. The `disallowed_tools` example on this page
+  uses unprefixed names; per `docs-litellm-mcp-control.md` Claim 8 both forms
+  work for `allowed_params`, so the safest rule is to confirm the accepted form
+  against the live `tools/list` rather than assume one. This is a small but real
+  source of "the deny list didn't match" bugs (Claim 3) — and a wider one than
+  a single stale name, since a separator or short-prefix change can invalidate
+  every prefixed entry at once.
 
 ### Claim 12: Upstream writes are confined to issues, projects, and comments; documents, cycles, teams, statuses, and labels are read-only at the upstream, so the read-only problem is about the write-capable subset
 - **Evidence**: The sentence immediately after the "Tools provided" table.
@@ -396,6 +417,23 @@ cited or explicitly dismissed):
   - `source-notes/docs-litellm-mcp-control.md` **Claim 7** — server-registration
     `allowed_tools`/`disallowed_tools` bind every caller; this page adds the
     fail-silent stale-entry behavior (Claim 3).
+  - `source-notes/docs-litellm-mcp-cost-tracking.md` **Claim 1** — LiteLLM
+    documents exactly two MCP cost paths (a configured fixed price per tool or
+    server, or a custom post-call hook) and records no measured/usage-based
+    path; this qualifies this page's Claim 1 "cost tracking per tool call" as
+    declared spend, not observed upstream cost.
+  - `source-notes/docs-litellm-mcp-rest-api.md` **Claims 3–5** — the tool-name
+    patterns (globally prefixed vs unprefixed + `server_id`), the
+    `{server_prefix}{separator}{upstream_tool_name}` grammar with `-` as the
+    default separator, and the proxy-level `MCP_TOOL_PREFIX_SEPARATOR` /
+    `LITELLM_USE_SHORT_MCP_TOOL_PREFIX` knobs. Those establish that this page's
+    `linear_mcp-create_issue` (Claim 11) is the default form rather than a
+    universal name.
+  - `source-notes/docs-litellm-mcp-troubleshoot.md` **Claim 9** —
+    `x-litellm-mcp-debug: true` returns masked `x-mcp-debug-*` headers, including
+    `x-mcp-debug-auth-resolution` with the `m2m-client-credentials` value; this
+    is the same debug discriminator this page's Claim 9 cites, with the masking
+    property documented in more depth.
 - **Contradicts**: None filed. There is a *control-choice* contrast, not a claim
   conflict: this page's `disallowed_tools` deny list fails silently when a name
   goes stale (Claim 3), while the control page's tool *pinning* "alerts when the
@@ -492,7 +530,10 @@ cited or explicitly dismissed):
 - `miner-related-notes.md` was read before writing Cross-References; all ten
   candidate paths are cited or dismissed above. Additional cross-references
   (`docs-litellm-mcp-oauth.md`, `docs-litellm-mcp-oauth-passthrough.md`,
-  `docs-litellm-mcp-control.md`) came from the Prospector triage and a
+  `docs-litellm-mcp-control.md`, `docs-litellm-mcp-cost-tracking.md`,
+  `docs-litellm-mcp-rest-api.md`, `docs-litellm-mcp-troubleshoot.md`) came from
+  the Prospector triage, the page's own links (Tool naming, MCP Permission
+  Management, Debugging OAuth, MCP Troubleshooting Guide), and a
   `source-notes/` search. Every cited `Claim N` was re-read in its note per MINER
   §4b before writing; claim numbers and quoted fragments were confirmed.
 - **Contradiction decision (no issue filed).** The only near-tension is the
