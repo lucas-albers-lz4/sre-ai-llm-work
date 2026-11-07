@@ -3263,6 +3263,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-mcp-linear-server": {
+      "slug": "docs-litellm-mcp-linear-server",
+      "title": "Linear MCP server — LiteLLM Documentation (hosted remote MCP through the gateway: read-only endpoint, identity attribution, and fail-silent deny-list drift)",
+      "source_url": "https://docs.litellm.ai/docs/mcp_servers/linear",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs)",
+      "date_extracted": "2026-11-07",
+      "issue": "#1969",
+      "file": "source-notes/docs-litellm-mcp-linear-server.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-mcp-oauth-passthrough": {
       "slug": "docs-litellm-mcp-oauth-passthrough",
       "title": "MCP OAuth Passthrough — LiteLLM Documentation",

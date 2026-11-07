@@ -17888,6 +17888,87 @@
         }
       ]
     },
+    "docs-litellm-mcp-linear-server": {
+      "path": "source-notes/docs-litellm-mcp-linear-server.md",
+      "title": "Linear MCP server — LiteLLM Documentation (hosted remote MCP through the gateway: read-only endpoint, identity attribution, and fail-silent deny-list drift)",
+      "source_url": "https://docs.litellm.ai/docs/mcp_servers/linear",
+      "chapters": [
+        "05",
+        "03"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Linear hosts the MCP server centrally over Streamable HTTP, and the gateway adds centralized auth, per-key/team access control, per-tool-call cost tracking, and one audit trail",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The dedicated read-only endpoint `https://mcp.linear.app/mcp/readonly` is the cleanest way to grant reads only and the default choice; the weaker alternatives are declining the write scope at consent or excluding write tools in config",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "A server-level `disallowed_tools` entry that no longer matches a real tool fails silently and leaves that tool callable",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Linear publishes tool definitions at runtime through `tools/list`, so tool names and fields can change without notice; the live MCP Tools tab, not the docs table, is the source of truth",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Leaving `client_id`, `client_secret`, and `token_url` unset preserves per-user OAuth identity via Linear's dynamic client registration; setting them silently switches every caller to one machine-to-machine identity",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "The API-key/bearer path is an explicit shared identity — every caller is attributed to the key's owner — so it should be reserved for read-only context sources and unattended backend agents",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "`oauth2_flow: authorization_code` is required for the interactive per-user flow; the proxy refuses to start on an `auth_type: oauth2` server that omits it",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "An authorized session is bound to one Linear workspace; reconnecting alone does not switch it, so a second workspace needs a separate MCP server entry",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Interactive OAuth needs the `Authorization` header free for the upstream token — the LiteLLM key must ride in `x-litellm-api-key` or the OAuth flow never runs and the LiteLLM key is forwarded to Linear",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "When LiteLLM runs behind a TLS-terminating ingress, `PROXY_BASE_URL` must be the user-visible origin or the OAuth callback validation fails with `400 Bad Request` / `{\"detail\":\"invalid_request\"}`",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "LiteLLM prefixes tool names with the server name, so `create_issue` is exposed to models as `linear_mcp-create_issue`",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "Upstream writes are confined to issues, projects, and comments; documents, cycles, teams, statuses, and labels are read-only at the upstream, so the read-only problem is about the write-capable subset",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "Linear's `/sse` endpoint survives only as a deprecated fallback for clients without Streamable HTTP, so a provider-hosted server can move its transport out from under the gateway",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "Per-key/per-team grants and per-server rate limits apply to this hosted server through `object_permission` and `mcp_rpm_limit`, with no new semantics",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-mcp-oauth-passthrough": {
       "path": "source-notes/docs-litellm-mcp-oauth-passthrough.md",
       "title": "MCP OAuth Passthrough — LiteLLM Documentation",
