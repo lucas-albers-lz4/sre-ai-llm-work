@@ -18574,6 +18574,43 @@
         }
       ]
     },
+    "docs-litellm-mcp-slack-server": {
+      "path": "source-notes/docs-litellm-mcp-slack-server.md",
+      "title": "Slack MCP server — LiteLLM Documentation (hosted remote MCP through the gateway: upstream app provisioning, per-user identity without DCR, and the per-app toggle fail-silent)",
+      "source_url": "https://docs.litellm.ai/docs/mcp_servers/slack",
+      "chapters": [
+        "03",
+        "06",
+        "05"
+      ],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Slack's hosted MCP endpoint sits behind a per-app toggle; when it is off, OAuth still succeeds and the tool list comes back empty or 403, which mimics a gateway permission failure",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Adding user-token scopes does not take effect until the app is installed or reinstalled to the workspace",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Explicit client credentials do not imply machine-to-machine identity — Slack requires an operator-created app with `client_id`/`client_secret` (no dynamic client registration) yet stays per-user because `oauth2_flow: authorization_code` selects the interactive flow; `m2m-client-credentials` is the debug-header signal of a shared-identity config",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Tool surface is scope-driven, not endpoint-driven — the same Slack server gives a read-only or a full read/write surface depending on the user-token scopes granted at consent",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Slack applies per-tool rate limits matching the equivalent Web API method's tier, and those limits stack on top of LiteLLM's `mcp_rpm_limit`",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-mcp-troubleshoot": {
       "path": "source-notes/docs-litellm-mcp-troubleshoot.md",
       "title": "MCP Troubleshooting Guide — LiteLLM Documentation (symptom-to-fix runbook for an MCP gateway)",

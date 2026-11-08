@@ -3380,6 +3380,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-mcp-slack-server": {
+      "slug": "docs-litellm-mcp-slack-server",
+      "title": "Slack MCP server — LiteLLM Documentation (hosted remote MCP through the gateway: upstream app provisioning, per-user identity without DCR, and the per-app toggle fail-silent)",
+      "source_url": "https://docs.litellm.ai/docs/mcp_servers/slack",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs)",
+      "date_extracted": "2026-11-08",
+      "issue": "#1983",
+      "file": "source-notes/docs-litellm-mcp-slack-server.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-mcp-troubleshoot": {
       "slug": "docs-litellm-mcp-troubleshoot",
       "title": "MCP Troubleshooting Guide — LiteLLM Documentation (symptom-to-fix runbook for an MCP gateway)",
