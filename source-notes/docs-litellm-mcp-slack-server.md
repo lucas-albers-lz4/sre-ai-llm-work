@@ -84,11 +84,10 @@ issue: "#1983"
   gateway cannot observe, so it belongs in the runbook as an upstream check, not
   a gateway control.
 
-### Claim 3: Explicit client credentials do not imply machine-to-machine identity — Slack requires an operator-created app with `client_id`/`client_secret` (no dynamic client registration) yet stays per-user because `token_url` is absent; `m2m-client-credentials` means a `token_url` is set
+### Claim 3: Explicit client credentials do not imply machine-to-machine identity — Slack requires an operator-created app with `client_id`/`client_secret` (no dynamic client registration) yet stays per-user because `oauth2_flow: authorization_code` selects the interactive flow; `m2m-client-credentials` is the debug-header signal of a shared-identity config
 - **Evidence**: The Authentication section, the info callout before Step 1, the
-  Step 3 `config.yaml` (client credentials + `oauth2_flow: authorization_code`,
-  no `token_url`), the "Key features" per-user bullet, and the closing debug-header
-  sentence.
+  Step 3 `config.yaml` (client credentials + `oauth2_flow: authorization_code`),
+  the "Key features" per-user bullet, and the closing debug-header sentence.
 - **Confidence**: emerging (explicit documented behavior; no measured
   attribution audit)
 - **Quote**: "Slack does not support dynamic client registration, so you create a Slack app and give LiteLLM its client credentials."
@@ -96,15 +95,23 @@ issue: "#1983"
 - **Quote**: "Per-user auth, so every tool call runs as the signed-in person and only sees what they can already see in Slack"
 - **Quote**: "`m2m-client-credentials` means a `token_url` is set and every caller shares one identity."
 - **Our assessment**: This is the sharpest finding on the page and it refines a
-  rule the corpus stated too broadly. `docs-litellm-mcp-oauth.md` Claim 15 and
-  `docs-litellm-mcp-linear-server.md` Claim 5 both present *any* of
-  `client_id`/`client_secret`/`token_url` as switching the server to a shared
-  M2M identity. Slack is a counterexample to the first two clauses: it cannot use
-  DCR, so client credentials are mandatory, and per-user identity survives
-  because no `token_url` is configured and the interactive code flow is selected.
-  The operationally correct discriminator is `token_url` present ⇒ shared
-  identity; client credentials alone ⇒ still per-user interactive. The
-  `m2m-client-credentials` debug header is the confirming signal. This is filed
+  rule the corpus stated too broadly. `docs-litellm-mcp-linear-server.md` Claim 5
+  presents *any* of `client_id`/`client_secret`/`token_url` as switching the
+  server to a shared M2M identity. Slack is a counterexample to the
+  `client_id`/`client_secret` clauses: it cannot use DCR, so client credentials
+  are mandatory, and per-user identity survives because
+  `oauth2_flow: authorization_code` selects the interactive flow. The
+  operationally correct discriminator is the **flow**, not the presence of a
+  token endpoint: `oauth2_flow: client_credentials` (no interactive flow) ⇒
+  shared M2M identity; static client credentials with
+  `oauth2_flow: authorization_code` ⇒ per-user, whether or not a `token_url` is
+  configured. A `token_url` is normal for an authorization-code flow that
+  exchanges its own code — `docs-litellm-mcp-oauth.md`'s "Static OAuth client
+  config.yaml" artifact shows exactly that: a per-user `authorization_code`
+  server with `client_id`, `client_secret`, and `token_url` all set. The page's
+  `m2m-client-credentials` debug-header sentence ("a `token_url` is set") is
+  therefore a confirming signal of a shared-identity config, not a logical
+  discriminator to invert; the header name itself names the grant. This is filed
   as contradiction **#2079** (recommended verdict: accepted-B / scope
   refinement) rather than resolved unilaterally here. The app-visibility
   constraint (internal or directory-published only) is also a provisioning
@@ -289,9 +296,11 @@ cited or explicitly dismissed):
     data-model reason this page's Claim 3 can keep per-user identity even with
     static client credentials.
   - `source-notes/docs-litellm-mcp-oauth.md` **Claim 15** — `SAME_AS_LITELLM_KEY`
-    and `m2m-client-credentials` diagnostics; this page restates both, and its
-    sharper wording of `m2m-client-credentials` ("a `token_url` is set") is the
-    basis for the scope refinement in Claim 3 / #2079.
+    and `m2m-client-credentials` diagnostics; this page restates both. Its
+    `m2m-client-credentials` sentence ("a `token_url` is set") is the confirming
+    signal for shared identity in Claim 3 / #2079, but is not a discriminator on
+    its own: an `authorization_code` flow can also use a `token_url` (see that
+    note's "Static OAuth client config.yaml" artifact).
   - `source-notes/docs-litellm-mcp-troubleshoot.md` **Claim 1** — the status
     line localizes the fault and an empty tool list means the upstream hop
     failed; this page's Claim 1 supplies a concrete upstream cause (the Slack app
@@ -309,12 +318,20 @@ cited or explicitly dismissed):
   - `source-notes/docs-litellm-mcp-linear-server.md` **Claim 4** — tools are
     published at runtime via `tools/list` and the live MCP Tools tab is the
     source of truth; this page states the same for Slack.
-- **Contradicts**: `source-notes/docs-litellm-mcp-oauth.md` **Claim 15** and
-  `source-notes/docs-litellm-mcp-linear-server.md` **Claim 5** — both present
-  any of `client_id`/`client_secret`/`token_url` as switching to a shared M2M
-  identity, while this page shows client credentials without `token_url` stay
-  per-user. Filed as contradiction issue **#2079** (recommended verdict:
-  accepted-B / scope refinement). Do not pick a verdict here.
+- **Contradicts**: `source-notes/docs-litellm-mcp-linear-server.md` **Claim 5** —
+  its quote "Do not set `client_id`, `client_secret`, or `token_url` on the OAuth
+  server. Those switch it to a machine-to-machine identity shared by every
+  caller" over-groups the three fields: Slack requires
+  `client_id`/`client_secret` (no DCR) and yet stays per-user because
+  `oauth2_flow: authorization_code` selects the interactive flow.
+  `source-notes/docs-litellm-mcp-oauth.md` **Claim 15** is *ambiguous* on the
+  same question, not a clean contradiction: its quote lists all three fields
+  together ("The server has `client_id`/`client_secret`/`token_url` configured")
+  without stating the flow, so it does not establish whether a `token_url`
+  under `authorization_code` collapses identity (that note's static-client
+  artifact shows it does not). Filed as contradiction issue **#2079**
+  (recommended verdict: accepted-B / scope refinement). Do not pick a verdict
+  here.
 - **Extends**:
   - `source-notes/docs-litellm-mcp-deployment.md` **Claim 5** — a vendor-hosted
     upstream is a dependency outside the operator's control; this page adds a
@@ -331,9 +348,10 @@ cited or explicitly dismissed):
      visibility: OAuth succeeds, tool list empty or 403 (Claim 1).
   2. A reinstall-to-apply-scopes rule: added user-token scopes are inert until
      the app is installed/reinstalled (Claim 2).
-  3. The client-credentials-without-`token_url` counterexample that makes
-     `token_url` the M2M discriminator even when an upstream requires static
-     client credentials (Claim 3).
+  3. A static-client-credentials counterexample showing that the auth flow, not
+     the client credentials or a token endpoint, decides identity:
+     `oauth2_flow: authorization_code` keeps per-user identity even when
+     `client_id`/`client_secret` are mandatory (Claim 3).
   4. An upstream with no read-only endpoint, so consent scopes are the primary
      least-privilege control (Claim 4).
   5. Upstream per-tool rate tiers stacking under `mcp_rpm_limit` (Claim 5).
@@ -354,13 +372,16 @@ cited or explicitly dismissed):
   `docs-litellm-mcp-troubleshoot.md` Claim 1's status-line partition currently
   sends operators toward.
 - **Chapter 06 (Security and Trust — credential routing / per-user identity)**:
-  Correct the M2M rule to the `token_url` discriminator from Claim 3 (and
-  contradiction #2079): client credentials alone do not collapse per-user
-  identity when no `token_url` is set and `oauth2_flow: authorization_code` is
-  selected. Add the counterexample explicitly, because the current
-  "remove the client credentials" advice would break Slack (and any upstream
-  without DCR). Keep the audit-attribution warning, but scope it to the
-  `token_url`/M2M case.
+  Correct the M2M rule to the **flow** discriminator from Claim 3 (and
+  contradiction #2079): `oauth2_flow: client_credentials` (no interactive flow)
+  collapses every caller to one shared machine-to-machine identity, whereas
+  static client credentials under `oauth2_flow: authorization_code` stay
+  per-user whether or not a `token_url` is set. Add the counterexample
+  explicitly, because the current "remove the client credentials" advice would
+  break Slack (and any upstream without DCR). Keep the audit-attribution
+  warning, but scope it to client-credentials-flow / shared-identity configs;
+  do not treat a `token_url` alone as evidence of M2M, since authorization-code
+  upstreams routinely exchange their own code at a token endpoint.
 - **Chapter 06 (Security and Trust — least privilege / upstream privilege
   boundary)**: Add that whether least privilege is an endpoint swap or a
   consent-scope grant is an *upstream* property (Claim 4). Slack offers no
@@ -408,13 +429,14 @@ cited or explicitly dismissed):
   `docs-litellm-mcp-deployment.md` Claim 5; `docs-litellm-mcp-zero-trust.md`
   Claims 5, 7. Claim numbers and quoted fragments were confirmed against those
   notes.
-- **Contradiction filed**: the Claim 3 `token_url` discriminator opposes the
-  broader "any client credentials ⇒ M2M" rule in
-  `docs-litellm-mcp-oauth.md` Claim 15 and
-  `docs-litellm-mcp-linear-server.md` Claim 5. Per MINER §4a this was filed as
-  contradiction issue **#2079** before opening this PR (checked
-  `CONTRADICTIONS.md` and open `contradiction` issues first; neither covered it).
-  This note records both sides and does not assign a verdict.
+- **Contradiction filed**: the Claim 3 flow-based discriminator opposes
+  `docs-litellm-mcp-linear-server.md` Claim 5's rule that setting `client_id`,
+  `client_secret`, or `token_url` switches the server to a shared M2M identity;
+  `docs-litellm-mcp-oauth.md` Claim 15 discusses the same three fields together
+  but is ambiguous about the flow, so it is not a clean contradiction. Per MINER
+  §4a this was filed as contradiction issue **#2079** before opening this PR
+  (checked `CONTRADICTIONS.md` and open `contradiction` issues first; neither
+  covered it). This note records both sides and does not assign a verdict.
 - The page is a living vendor document with no measured reliability, incident
   data, or independent verification, so every claim is `emerging` and
   `confidence_overall` is `emerging`. The operational framing in `Our
