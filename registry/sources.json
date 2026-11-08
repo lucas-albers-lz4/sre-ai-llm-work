@@ -3614,6 +3614,19 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-promptfoo-anthropic-provider": {
+      "slug": "docs-promptfoo-anthropic-provider",
+      "title": "Promptfoo Providers: Anthropic — Model Lifecycle, Per-Model Parameter Suppression, and the Claude Code OAuth Credential Path",
+      "source_url": "https://www.promptfoo.dev/docs/providers/anthropic",
+      "source_type": "docs",
+      "author": "Promptfoo",
+      "date_published": "unknown (page last updated 2026-11-08)",
+      "date_extracted": "2026-11-08",
+      "issue": "#1986",
+      "file": "source-notes/docs-promptfoo-anthropic-provider.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-promptfoo-assertions-metrics": {
       "slug": "docs-promptfoo-assertions-metrics",
       "title": "Promptfoo Configuration: Assertions and Metrics",

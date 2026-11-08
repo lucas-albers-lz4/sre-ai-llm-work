@@ -19645,6 +19645,94 @@
         }
       ]
     },
+    "docs-promptfoo-anthropic-provider": {
+      "path": "source-notes/docs-promptfoo-anthropic-provider.md",
+      "title": "Promptfoo Providers: Anthropic — Model Lifecycle, Per-Model Parameter Suppression, and the Claude Code OAuth Credential Path",
+      "source_url": "https://www.promptfoo.dev/docs/providers/anthropic",
+      "chapters": [],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "Retired Anthropic model IDs return `404 not_found_error` on a direct `anthropic:messages:` call, and promptfoo retains their pricing only for historical cost attribution",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Three retired IDs are also withdrawn from Bedrock and are rejected *locally* with `Unknown Amazon Bedrock model` rather than by an upstream 404",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Anthropic publishes no `-latest` aliases; only the bare family alias resolves, and 4.6+ IDs are already unversioned",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "The same Claude model has a different ID shape on each platform, and Bedrock even varies the prefix by model (`global.` vs `anthropic.`)",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "A limited-access model returns the same `not_found_error` as a retired model, so entitlement and retirement are indistinguishable on the wire",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "A classifier refusal is a *successful* Messages response with `stop_reason: refusal`, and promptfoo only produces the top-level `guardrails` signal when `stop_details` is present",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Refusal billing is category-dependent — pre-output refusals are free unless the category is `bio`, `frontier_llm`, or `reasoning_extraction`",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "A `pause_turn` response is resumed up to 5 times with the code-execution container preserved and usage/cost summed; exhaustion returns partial output, warns, and is not cached",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Sampling parameters are silently omitted per model, including promptfoo's built-in `temperature: 0` default, with only a one-time warning",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Forced tool use and disabled thinking are model-gated, and promptfoo rewrites or drops them rather than surfacing an error",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "`effort` defaults drift between models (Opus 5.5 `medium`, other effort-capable models `high`), so comparisons that do not set it explicitly measure reasoning depth, not model quality",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "Claude 4.6 and later reject assistant-message prefill, while 4.5 models still accept it",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "`apiKeyRequired: false` makes the harness reuse a local Claude Code OAuth credential, with a fixed discovery order, Bearer + beta headers, an injected identity system block, and subscription billing",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "Cost overrides are asymmetric-rate-hostile — legacy `cost` applies to both input and output, so fast-mode/asymmetric rates need `inputCost`/`outputCost`; cache writes cost 1.25×/2× and U.S. inference adds 10%",
+          "kind": "claim"
+        },
+        {
+          "n": 15,
+          "heading": "MCP mode disables the disk response cache, and provider labels / custom headers are the documented tenant-isolation carve-outs",
+          "kind": "claim"
+        },
+        {
+          "n": 16,
+          "heading": "The web fetch tool is an egress boundary — trusted environments only, no model-constructed URLs, and `allowed_domains`/`blocked_domains` are mutually exclusive",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-promptfoo-assertions-metrics": {
       "path": "source-notes/docs-promptfoo-assertions-metrics.md",
       "title": "Promptfoo Configuration: Assertions and Metrics",
