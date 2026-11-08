@@ -3393,6 +3393,32 @@
       "confidence_overall": "emerging",
       "status": "current"
     },
+    "docs-litellm-mcp-tool-search": {
+      "slug": "docs-litellm-mcp-tool-search",
+      "title": "MCP Tool Search — LiteLLM Documentation (four virtual tools, keyword vs semantic ranking, and the embedding-dependency failure modes)",
+      "source_url": "https://docs.litellm.ai/docs/mcp_tool_search",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs)",
+      "date_extracted": "2026-11-08",
+      "issue": "#1984",
+      "file": "source-notes/docs-litellm-mcp-tool-search.md",
+      "confidence_overall": "settled",
+      "status": "current"
+    },
+    "docs-litellm-mcp-toolsets": {
+      "slug": "docs-litellm-mcp-toolsets",
+      "title": "MCP Toolsets — LiteLLM Documentation (named cross-server tool selections: stale saved tools, server-side routing, and the management API)",
+      "source_url": "https://docs.litellm.ai/docs/mcp_toolsets",
+      "source_type": "docs",
+      "author": "LiteLLM (BerriAI) — official vendor documentation",
+      "date_published": "unknown (living vendor docs)",
+      "date_extracted": "2026-11-08",
+      "issue": "#1985",
+      "file": "source-notes/docs-litellm-mcp-toolsets.md",
+      "confidence_overall": "emerging",
+      "status": "current"
+    },
     "docs-litellm-mcp-troubleshoot": {
       "slug": "docs-litellm-mcp-troubleshoot",
       "title": "MCP Troubleshooting Guide — LiteLLM Documentation (symptom-to-fix runbook for an MCP gateway)",

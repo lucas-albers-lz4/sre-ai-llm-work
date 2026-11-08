@@ -18611,6 +18611,152 @@
         }
       ]
     },
+    "docs-litellm-mcp-tool-search": {
+      "path": "source-notes/docs-litellm-mcp-tool-search.md",
+      "title": "MCP Tool Search — LiteLLM Documentation (four virtual tools, keyword vs semantic ranking, and the embedding-dependency failure modes)",
+      "source_url": "https://docs.litellm.ai/docs/mcp_tool_search",
+      "chapters": [],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "With `mcp_tool_search_enabled` on a key, both `/mcp/` and `/mcp-rest/tools/list` return exactly four virtual tools regardless of catalog size; keys without the flag keep full-catalog behavior and are rejected if they call the virtual names",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "Keyword ranking is the default and has no embedding dependency; it scores tools by substring token overlap on name + description, so literal synonyms that share no token are missed",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Semantic ranking is selected by pointing `litellm_settings.mcp_tool_search.embedding_model` at a `model_list` entry, and adds cosine-similarity scoring, `similarity_threshold`, and a per-result `score` field",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "Semantic search fails closed on embedding errors — an embedding failure returns `isError: true` (`embedding the search query failed`) and does **not** fall back to keyword ranking",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "On builds before PR #43554 (v1.107.0-dev.2), one tool whose embedded text exceeds the model's input limit breaks **every** semantic search; newer builds drop that tool and skip re-embedding it for an hour",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Config validation is fail-open at boot — an invalid `mcp_tool_search` block (e.g. `top_k: 0`) lets the proxy start but fails every search, and `embedding_model` with an empty `model_list` also makes every search error",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "`core_tools` pins named tools to the front of every search without a score, does not consume `top_k`, and never grants access to a tool the caller cannot already reach",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "`top_k` is a narrowing-only cap — the call argument and the proxy setting take the smaller value — and core tools do not count against it",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "Tool-search embeddings are cached in memory per process (up to 5000 vectors, LRU-evicted), each semantic search bills an `/embeddings` call to the calling key, and the cache is therefore per-pod rather than shared",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Tool-search settings can be changed at runtime via the Admin UI or `GET`/`PATCH` settings endpoints, are stored in the database, and propagate to every pod within about 10 seconds without a restart",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "`default_key_generate_params.object_permission` merges into `/key/generate` requests that omit the field; a partial `object_permission` keeps its explicit fields and only fills unset ones, and the merge runs after caller-scope validation",
+          "kind": "claim"
+        },
+        {
+          "n": 12,
+          "heading": "`/mcp/proxy` is a separate always-available streamable-http surface exposing three meta-tools (`search_tools`, `get_tool_schema`, `call_tool`), keyed by opaque 32-character `tool_id`s, independent of `mcp_tool_search_enabled`, and tools-only",
+          "kind": "claim"
+        },
+        {
+          "n": 13,
+          "heading": "The page asserts tool search does not widen the access surface, and the documented dispatch path supports it — search walks the filtered catalog and calls re-run allowed-server resolution, IP filtering, and `execute_mcp_tool`",
+          "kind": "claim"
+        },
+        {
+          "n": 14,
+          "heading": "Version floors: tool search since v1.92.0; semantic ranking, `similarity_threshold`, `core_tools`, and `/mcp/proxy` since v1.102.0",
+          "kind": "claim"
+        },
+        {
+          "n": 15,
+          "heading": "Tool search and the semantic filter are different layers: tool search is an MCP-layer per-key opt-in that hands discovery to the LLM, while the semantic filter rewrites tool lists on `/v1/responses` and `/v1/chat/completions`; they coexist but tool search keys still expose only the four virtual tools",
+          "kind": "claim"
+        }
+      ]
+    },
+    "docs-litellm-mcp-toolsets": {
+      "path": "source-notes/docs-litellm-mcp-toolsets.md",
+      "title": "MCP Toolsets — LiteLLM Documentation (named cross-server tool selections: stale saved tools, server-side routing, and the management API)",
+      "source_url": "https://docs.litellm.ai/docs/mcp_toolsets",
+      "chapters": [],
+      "claims": [
+        {
+          "n": 1,
+          "heading": "A toolset is a named collection of specific tools drawn from one or more MCP servers; the vendor's rationale is a smaller tool surface (6 tools instead of 13+) for fewer tokens, faster responses, and less hallucination",
+          "kind": "claim"
+        },
+        {
+          "n": 2,
+          "heading": "The toolset is the model-visible tool surface — the model \"will only see the tools you included in it\", with access to \"exactly the tools in your toolset and nothing else\"",
+          "kind": "claim"
+        },
+        {
+          "n": 3,
+          "heading": "Saved tools remain selected when they are unavailable; the editor labels them `server not found`, `server unreachable`, or `tool not found`, and those labels do not remove them — explicit removal is required",
+          "kind": "claim"
+        },
+        {
+          "n": 4,
+          "heading": "A toolset is addressed by name through `server_url: \"litellm_proxy/mcp/<toolset-name>\"` in the model's `tools` list; LiteLLM resolves it server-side, so no public URL is needed",
+          "kind": "claim"
+        },
+        {
+          "n": 5,
+          "heading": "Toolsets are manageable over REST as list/create/delete: `GET /v1/mcp/toolset`, `POST /v1/mcp/toolset` with `toolset_name`, `description`, and `tools[] {server_id, tool_name}`, and `DELETE /v1/mcp/toolset/{toolset_id}`",
+          "kind": "claim"
+        },
+        {
+          "n": 6,
+          "heading": "Toolsets are assignable to keys and teams \"the same way you assign MCP servers today\", but the page never states whether that is a distinct toolset field or the existing `mcp_servers` grant list",
+          "kind": "claim"
+        },
+        {
+          "n": 7,
+          "heading": "Search/selection state is not the same as the saved selection — hidden tools stay selected, and \"Clear all\" removes the entire selection including hidden tools",
+          "kind": "claim"
+        },
+        {
+          "n": 8,
+          "heading": "Bulk-selection actions apply only to tools that have loaded, so a partial server load silently changes what \"Select all matching\" and a server checkbox select",
+          "kind": "claim"
+        },
+        {
+          "n": 9,
+          "heading": "The toolsets page's API examples set `require_approval: \"never\"`; the linked config reference states that this \"enables execution of model-selected tools\"",
+          "kind": "claim"
+        },
+        {
+          "n": 10,
+          "heading": "Direct MCP clients reach a toolset at `/toolset/{toolset_name}/mcp` over streamable-HTTP JSON-RPC, authenticated with `x-litellm-api-key`, and see exactly the tools in that toolset",
+          "kind": "claim"
+        },
+        {
+          "n": 11,
+          "heading": "`litellm_proxy/mcp/<name>` selectors are literal sentinels, never network URLs, and a 404 on `/{server_name}/mcp` means the server name, toolset, or access group does not exist — so toolsets share the server-name lookup namespace",
+          "kind": "claim"
+        }
+      ]
+    },
     "docs-litellm-mcp-troubleshoot": {
       "path": "source-notes/docs-litellm-mcp-troubleshoot.md",
       "title": "MCP Troubleshooting Guide — LiteLLM Documentation (symptom-to-fix runbook for an MCP gateway)",
