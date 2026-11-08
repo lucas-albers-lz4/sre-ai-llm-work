@@ -6,7 +6,7 @@ author: "Narayan Desai (Uber Tech Lead, Google Cloud Platform data-analytics rel
 date_published: 2022-03-31
 date_extracted: 2026-07-13
 last_checked: 2026-07-13
-status: current
+status: stale
 confidence_overall: emerging
 issue: "#37"
 ---

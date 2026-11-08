@@ -6,7 +6,7 @@ author: "incident.io (uncredited author; first-person narrative by an incident.i
 date_published: 2026-04-23
 date_extracted: 2026-07-12
 last_checked: 2026-07-12
-status: current
+status: stale
 confidence_overall: anecdotal
 issue: "#3"
 ---

@@ -6,7 +6,7 @@ author: Adrienne Walcer (Google SRE, program lead for Incident Management); host
 date_published: 2022 (estimated; SRE Prodcast Season 1, Episode 8 — page has no structured publish date)
 date_extracted: 2026-07-13
 last_checked: 2026-07-13
-status: current
+status: stale
 confidence_overall: settled
 issue: "#41"
 ---

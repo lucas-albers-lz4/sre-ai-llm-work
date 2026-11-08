@@ -6,7 +6,7 @@ author: "Sabrina Farmer (VP of Engineering, Google SRE); interviewed by MP Engli
 date_published: unknown
 date_extracted: 2026-07-14
 last_checked: 2026-07-14
-status: current
+status: stale
 confidence_overall: settled
 issue: "#57"
 ---

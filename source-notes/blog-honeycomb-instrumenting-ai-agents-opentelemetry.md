@@ -6,7 +6,7 @@ author: Dan Juengst (Honeycomb)
 date_published: 2026-06-29
 date_extracted: 2026-07-12
 last_checked: 2026-07-12
-status: current
+status: stale
 confidence_overall: emerging
 issue: "#2"
 ---
