@@ -361,6 +361,114 @@ ACL tags live in the dashboard and the database, give them an audit path
 outside code review, and never treat hiding a skill from the served card as
 authorization.
 
+### MCP access is a six-level intersection — and open by default
+
+MCP permissions compose across six levels — key, team, end user, agent,
+internal user, and organization. Every level intersects (most-restrictive
+wins) except the organization, which only caps the result
+[source: docs-litellm-mcp-control, Claim 1] [emerging]:
+
+> Permissions can be set at six distinct levels. When more than one level
+> applies to a request, LiteLLM **intersects** the lists (most-restrictive
+> wins), except for the organization level, which acts as a **ceiling**.
+
+The unconfigured state is fail-open: "If no level has a list, the request can
+access **every** MCP server (open by default)"
+[source: docs-litellm-mcp-control, Claim 2] [emerging]. Two settings change
+what an empty list means. `require_key_mcp_access_defined: true` turns the
+team from a default into a ceiling, so a key with an empty list gets no MCP
+servers at all — the documented migration cliff
+[source: docs-litellm-mcp-control, Claim 4] [emerging]. The sentinel
+`no-mcp-servers` is an explicit deny that overrides both team inheritance and
+access-group grants [source: docs-litellm-mcp-control, Claim 5] [emerging].
+
+Tool lists intersect the same way via `mcp_tool_permissions`, but parameter
+filtering is a different layer: `allowed_params` is configured on the server
+registration and applies to every caller, with no documented per-entity
+parameter control [source: docs-litellm-mcp-control, Claim 7, Claim 8]
+[emerging]:
+
+```yaml
+general_settings:
+  require_key_mcp_access_defined: true
+mcp_servers:
+  my_api_mcp:
+    url: "https://my-api-server.com"
+    auth_type: "api_key"
+    auth_value: "my-key"
+    allowed_params:
+      getpetbyid: ["status"]
+```
+*Extracted from [source: docs-litellm-mcp-control, Concrete Artifacts].*
+
+`allowed_tools` does not close tool poisoning, because it trusts upstream
+descriptions. Pinning freezes the list, descriptions, and input schemas and
+alerts on drift [source: docs-litellm-mcp-control, Claim 9] [emerging]:
+
+> `allowed_tools` trusts whatever the upstream says each tool does. Pinning
+> freezes the tool list, the descriptions, and the input schemas too: the
+> gateway serves only the pinned tools with their pinned descriptions and
+> schemas, refuses calls to any other name, and alerts when the upstream
+> drifts from the pin.
+
+**Rule**: Treat MCP permission as open-by-default until every level that
+applies carries a list, and pin the tool catalog in addition to allowlisting
+tool names. An allowlist that trusts upstream descriptions does not stop a
+rewritten description.
+
+### Scan the MCP tool path at three points
+
+MCP guardrails are not limited to the model's prompt and response: LiteLLM
+defines `pre_mcp_call`, `during_mcp_call`, and `post_mcp_call` over the tool
+path. The response-side phase is documented as: "Run **after** the MCP server
+returns, on the **tool result**, before the model sees it"
+[source: docs-litellm-mcp-guardrails, Claim 1, Claim 2] [settled]. Response
+scanning is precise: every text block and every string value in
+`structuredContent` is scanned; a block rejects the call, a mask rewrites in
+place, and an unrewritable masking hit is treated as a block
+[source: docs-litellm-mcp-guardrails, Claim 3] [settled].
+
+The configuration footgun is inheritance: "MCP sub-calls do not inherit the
+parent request's `guardrails` selection, so set `default_on: true` on the
+guardrail" [source: docs-litellm-mcp-guardrails, Claim 4] [settled].
+
+```yaml
+guardrails:
+  - guardrail_name: "mcp-input-validation"
+    litellm_params:
+      guardrail: presidio
+      mode: "pre_mcp_call"
+      pii_entities_config:
+        CREDIT_CARD: "BLOCK"
+        EMAIL_ADDRESS: "MASK"
+      default_on: true
+```
+*Extracted from [source: docs-litellm-mcp-guardrails, Concrete Artifacts].*
+
+The same `pre_mcp_call` guardrail runs at discovery too, on each tool's
+description and every description inside its input schema before `tools/list`
+is served [source: docs-litellm-mcp-guardrails, Claim 7] [settled]. A blocked
+tool is omitted from the listing and refused on `tools/call` even when the
+client already knows its name, and the gateway emits a self-clearing
+`mcp_tool_description_blocked` alert
+[source: docs-litellm-mcp-guardrails, Claim 8] [settled]. Pinning does not
+replace this — guardrails still scan pinned text
+[source: docs-litellm-mcp-guardrails, Claim 10] [settled].
+
+Two monitoring consequences. A blocked MCP result can arrive as
+`result.isError: true` under HTTP 200, and on `/v1/responses` the model may
+continue after the tool error — so neither a 200 nor a completed request
+proves no block occurred [source: docs-litellm-mcp-guardrails, Claim 5]
+[settled]. An unsupported `mode` logs an error and skips that guardrail while
+the proxy keeps starting [source: docs-litellm-mcp-guardrails, Claim 6]
+[settled].
+
+**Rule**: Cover all three points — arguments, returned content, and tool
+descriptions — and set `default_on: true`, or MCP sub-calls bypass the
+guardrail. Alert on MCP tool errors and `mcp_tool_description_blocked`, not
+HTTP status alone, and verify at startup that every configured guardrail
+registered.
+
 ### Run a no-jailbreak baseline before running jailbreaks
 
 Before running jailbreaks, run the prompt set with no attack strategy. If
@@ -631,6 +739,62 @@ mode per MCP server, one typed resolver, an exhaustive match that fails at
 type-check time when a mode is added, and an unhandled case that raises rather
 than attaching a fallback credential. Ambiguity must resolve to "stop."
 
+### MCP OAuth: who holds the token decides the accounting
+
+LiteLLM exposes five outbound OAuth patterns, and the one to get right is
+`true_passthrough` versus `oauth_delegate`. Both forward an upstream token, but
+`true_passthrough` "Forwards the client's `Authorization` verbatim, no LiteLLM
+admission," while `oauth_delegate` performs "LiteLLM admission plus a separate
+forwarded upstream bearer, keeps spend and rate limits"
+[source: docs-litellm-mcp-oauth, Claim 1] [emerging]. A passthrough server
+therefore cannot preserve gateway spend or rate accounting.
+
+Same-origin validation of `redirect_uri` exists for a specific attack: an
+admin-phishing flow that bounces an upstream authorization code through an
+attacker-controlled host [source: docs-litellm-mcp-oauth, Claim 8] [emerging]:
+
+> The check exists to stop an attacker from phishing a logged-in admin into a
+> link that bounces an authorization code, for an upstream OAuth-protected MCP
+> server such as GitHub or Slack, through an attacker-controlled host.
+
+The public origin resolves as `PROXY_BASE_URL`, then `X-Forwarded-*` only when
+`use_x_forwarded_for` is true **and** the peer is inside
+`mcp_trusted_proxy_ranges`, then `request.base_url`. Enabling the flag without
+the trust range makes the headers untrusted
+[source: docs-litellm-mcp-oauth, Claim 5] [emerging]. The allowlist footguns
+are concrete: `*.tools.example.com` does not match the apex
+`tools.example.com`, and native-scheme callbacks match exactly, including a
+trailing slash [source: docs-litellm-mcp-oauth, Claim 7] [emerging].
+
+`token_validation` is a post-exchange tenant gate, not a request filter: it
+checks key-value rules against the token response and fails the exchange with
+`token_validation_failed` [source: docs-litellm-mcp-oauth, Claim 14] [emerging].
+Per-server static registration returns `client_id` as the server name and
+`client_secret` as `dummy`, and stores no client-specific callback allowlist
+[source: docs-litellm-mcp-oauth, Claim 10] [emerging].
+
+**Rule**: Choose `oauth_delegate` over `true_passthrough` where gateway spend
+or rate attribution matters, declare `PROXY_BASE_URL` explicitly behind an
+ingress, and use `token_validation` to reject a valid token from the wrong
+tenant. Do not treat the placeholder `client_secret` from static registration
+as a credential.
+
+Portkey's gateway is a second worked instance of declared credential egress. A
+request can carry two credentials in different places — the Portkey key as
+`x-portkey-api-key` and the upstream provider key as `Authorization: Bearer` —
+and the provider key is forwarded only for direct passthrough: "A provider key
+is only sent for direct passthrough, such as `portkeyProvider: openai` with no
+slug" [source: docs-promptfoo-portkey-integration, Claim 3, Claim 4] [settled].
+There is no documented forward/no-forward flag; which secret leaves the process
+is decided by the config's shape, so an edit that adds a catalog slug silently
+changes the egress surface [source: docs-promptfoo-portkey-integration, Claim 4]
+[settled].
+
+**Rule**: For a gateway that splits provider and gateway credentials, choose
+passthrough versus catalog/virtual key deliberately and verify which secret
+leaves the runner. "We set the gateway key" says nothing about whether an
+upstream provider key is also being forwarded.
+
 ## Supply-chain security for LLM infrastructure
 
 ### Pin everything; verify releases
@@ -687,6 +851,65 @@ releases resolved `promptfoo@latest` at runtime
 **Rule**: For a security tool in CI, pin the resolved commit SHA *and* verify
 its provenance attestation. Treat pre-hardening versions of the tool as
 unpinned, whatever the tag says.
+
+### Verify at container creation, not only at admission
+
+Admission is necessary but not sufficient: "Misconfigured namespace selectors
+can silently skip verification. An admission webhook outage forces a choice
+between cluster lockup and silent bypass. Static pods and direct kubelet API
+access bypass admission webhooks entirely"
+[source: blog-cncf-runtime-supply-chain-verification-nri, Claim 1] [settled].
+Static pods are the concrete case — they run even when their mirror pod fails
+admission, and an invalid namespace makes them invisible to the API
+[source: blog-cncf-runtime-supply-chain-verification-nri, Claim 2] [settled].
+
+The runtime layer is a synchronous NRI `CreateContainer` hook: "When a plugin
+subscribes to CreateContainer, the runtime calls it synchronously before the
+container starts. If the plugin returns an error, the container is rejected"
+[source: blog-cncf-runtime-supply-chain-verification-nri, Claim 5] [settled].
+This also re-verifies pre-pulled and cached images, which a pull-time scan
+misses [source: blog-cncf-runtime-supply-chain-verification-nri, Claim 6]
+[settled].
+
+The plugin answers three separate questions — SLSA provenance (how it was
+built), VEX (whether known CVEs are exploitable), and VSA (whether a trusted
+verifier already checked). A valid passing VSA short-circuits the other checks,
+which is the scale pattern: verify once in CI, attach the VSA, and let nodes
+validate the summary [source: blog-cncf-runtime-supply-chain-verification-nri,
+Claim 7, Claim 9] [emerging].
+
+The availability choice must be explicit. `fetch_failure_policy` defaults to
+`warn`, which "is explicitly fail-open" — containers pass when the registry is
+unreachable — while `deny` "trades availability for security: registry outages
+prevent new containers from starting"
+[source: blog-cncf-runtime-supply-chain-verification-nri, Claim 14] [settled].
+The threat model still assumes node integrity: root can kill the plugin,
+replace policy files, or disable NRI
+[source: blog-cncf-runtime-supply-chain-verification-nri, Claim 17] [settled].
+The plugin requires registry connectivity, so air-gapped environments are not
+yet supported [source: blog-cncf-runtime-supply-chain-verification-nri,
+Claim 18] [settled].
+
+```text
+verification = "enforce"
+fetch_timeout = "30s"
+fetch_failure_policy = "warn"
+cache_ttl = "24h"
+policy_dir = "/etc/nri-supply-chain/policies"
+```
+*Extracted from [source:
+blog-cncf-runtime-supply-chain-verification-nri, Concrete Artifacts].*
+
+Roll it out in three phases — `warn` with `missingPolicy: allow`, tighten per
+namespace, then enforce — and gate enforcement on the observe-phase counter
+`nri_supply_chain_verification_total{result=”fail”}`, which counts containers
+that would have been blocked
+[source: blog-cncf-runtime-supply-chain-verification-nri, Claim 13] [emerging].
+
+**Rule**: Do not treat admission verification as the execution-time control.
+Add a synchronous runtime check where the container is created, choose
+fail-open versus fail-closed explicitly and test registry-unreachable behavior,
+and gate enforcement on measured would-be blocks rather than a date.
 
 ### Three CI/CD anti-patterns that enabled a supply-chain compromise
 
@@ -845,5 +1068,8 @@ failure-litellm-supply-chain-compromise-march-2026,
 failure-litellm-supply-chain-incident-march-2026,
 blog-litellm-swap-openai-code-interpreter, docs-langfuse-agent-skill,
 docs-promptfoo-code-scan-cli, docs-promptfoo-code-scan-github-action,
-docs-litellm-generic-guardrail-api*
-*Last updated: 2026-09-19*
+docs-litellm-generic-guardrail-api, docs-litellm-mcp-control,
+docs-litellm-mcp-guardrails, docs-litellm-mcp-oauth,
+blog-cncf-runtime-supply-chain-verification-nri,
+docs-promptfoo-portkey-integration*
+*Last updated: 2026-10-29*

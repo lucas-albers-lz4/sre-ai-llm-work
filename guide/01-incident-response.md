@@ -102,6 +102,26 @@ criteria, comms templates — before the incident. For AI responders, reuse the
 same drill catalog: postmortem-derived outages and a broken test environment
 are the natural eval harnesses for an incident agent.
 
+### A successful failover is not a recovered system
+
+For a consensus-backed store, surviving a failover consumes the headroom you
+need for the next failure. A symmetric 2+2 split across two sites is the
+counterexample: "neither side can reach a majority if the network between them
+is severed, and both sides stop accepting writes, even if every server is
+healthy" [source: blog-cncf-multi-cluster-databases-kubernetes, Claim 4]
+[settled]. A 2+2+1 placement with a fifth voter in a third location restores a
+3-of-5 majority, so one side keeps or elects a primary
+[source: blog-cncf-multi-cluster-databases-kubernetes, Claim 5] [settled] —
+but the surviving set then runs at the exact minimum majority, and one further
+node loss in either remaining site drives it into read-only majority-loss mode
+[source: blog-cncf-multi-cluster-databases-kubernetes, Claim 7] [settled]. This
+applies to agent-session stores, router learning state, and vector caches only
+when they are actually consensus-backed [editorial].
+
+**Rule**: Record remaining quorum and redundancy headroom in the incident
+status after any failover, not just "new primary elected." A stateful store can
+be one further node loss from read-only while every dashboard is green.
+
 ## Postmortems
 
 ### The mandatory contents
@@ -227,5 +247,6 @@ Still unsourced targets for this chapter:
 
 ---
 *Sources for this chapter: docs-google-sre-prodcast-01-09-postmortems,
-docs-google-sre-incident-response, docs-google-sre-postmortem-analysis*
-*Last updated: 2026-08-13*
+docs-google-sre-incident-response, docs-google-sre-postmortem-analysis,
+blog-cncf-multi-cluster-databases-kubernetes*
+*Last updated: 2026-10-29*
