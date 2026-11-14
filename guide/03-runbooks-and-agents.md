@@ -293,10 +293,23 @@ Each mitigation carries preconditions (what must be true before it's
 applicable) and a blast-radius estimate
 [source: docs-google-sre-prodcast-04-09-ai-agents, Claim 12] [settled].
 
+"Fail-over" is the entry whose precondition is easiest to assume and hardest to
+verify. In a three-cluster chaos test, a federated service rebalanced
+33/33/33 → 50/50 with no configuration change, while the explicitly-named
+mirrored services returned 503 and 502 — the client had asked for a specific
+remote, and that remote was gone
+[source: blog-cncf-linkerd-multicluster-federation, Claim 7, Claim 8,
+Claim 9] [emerging]. Whether failover is a zero-touch platform action or a
+client-side obligation was decided by the service's label at deploy time, not
+at incident time [source: blog-cncf-linkerd-multicluster-federation, Claim 2]
+[settled].
+
 **Rule**: Build a named, version-controlled catalog of allowed mitigations
 before letting an agent recommend actions. An agent should never invent a
 mitigation — it should select from the catalog and cite which precondition
-triggered the match.
+triggered the match. For "fail over," that precondition includes the traffic
+topology: a mirrored or explicitly-named remote has no automatic failover to
+invoke.
 
 ### Proactive change review
 
@@ -447,5 +460,6 @@ blog-litellm-agents-are-the-new-llms, blog-promptfoo-ai-orchestrated-cyberattack
 blog-promptfoo-ai-regulation-2025, docs-google-sre-eliminating-toil,
 docs-google-sre-incident-response, docs-google-sre-simplicity,
 docs-langfuse-agent-skill, docs-langfuse-alerts, docs-langfuse-cli,
-docs-litellm-a2a-agent-gateway, docs-litellm-a2a-agent-permissions*
-*Last updated: 2026-09-17*
+docs-litellm-a2a-agent-gateway, docs-litellm-a2a-agent-permissions,
+blog-cncf-linkerd-multicluster-federation*
+*Last updated: 2026-10-24*
