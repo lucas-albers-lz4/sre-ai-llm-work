@@ -1,0 +1,27 @@
+name: Guide-update PR review queue
+
+on:
+  schedule:
+    - cron: '17 14 * * 1' # Weekly Monday review reminder
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: read
+
+concurrency:
+  group: guide-update-review-queue
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Build and publish review queue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          STALE_DAYS: '14'
+        run: python3 .github/scripts/guide-review-queue.py
