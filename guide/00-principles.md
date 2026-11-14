@@ -175,6 +175,47 @@ invariably found to have evolved from a simple system that worked"
 toolchain's simplification. The team that introduces complexity won't remove
 it — they never pay its cost.
 
+## Extend the platform only when policy cannot express the behavior
+
+A custom gateway extension is justified when the declarative policy surface
+cannot express a required behavior — the kgateway lab replaces the built-in
+`rustformation` templating module with a custom Envoy dynamic module on exactly
+that boundary, not because Rust is preferred
+[source: blog-cncf-kgateway-rust-dynamic-module, Claim 1] [emerging]. The price
+is an owned compiled artifact and an ABI coupling the policy path does not
+carry: the module is built against a pinned Envoy base image and a pinned Rust
+builder, and kgateway v2.3 introduced breaking changes to the Rust
+dynamic-module system [source: blog-cncf-kgateway-rust-dynamic-module, Claim 2,
+Claim 3] [emerging].
+
+```dockerfile
+# Stage 1: Build the Rust module
+FROM rust:1.88 AS builder
+WORKDIR /build
+
+RUN apt-get update && apt-get install -y clang
+
+COPY rust/ ./rust/
+WORKDIR /build/rust/rustformations
+RUN cargo build --release
+
+# Stage 2: Final Envoy image
+FROM envoyproxy/envoy:v1.36.4
+
+COPY --from=builder /build/rust/rustformations/target/release/librust_module.so /usr/local/lib/
+ENV ENVOY_DYNAMIC_MODULES_SEARCH_PATH=/usr/local/lib
+COPY envoy.yaml /etc/envoy/envoy.yaml
+
+CMD ["envoy", "-c", "/etc/envoy/envoy.yaml"]
+```
+*Extracted from [source: blog-cncf-kgateway-rust-dynamic-module, Concrete
+Artifacts].*
+
+**Rule**: Treat a custom gateway extension as the extension of last resort.
+When you take it, pin and record the control plane, data plane, extension SDK,
+and toolchain as one quadruple, and verify the rebuilt base image as a
+supply-chain input.
+
 ## Align incentives with an explicit safety pledge
 
 Google's canonical dev/SRE alignment mechanism is an explicit pledge: "We
@@ -220,8 +261,9 @@ modes is overclaiming.
 ---
 *Sources for this chapter: docs-google-sre-prodcast-02-07-sabrina-farmer,
 docs-google-sre-prodcast-04-09-ai-agents, blog-promptfoo-ai-regulation-2025,
+blog-cncf-kgateway-rust-dynamic-module,
 docs-google-sre-prodcast-03-04-observability-spectrum,
 docs-google-sre-canarying-releases, docs-google-sre-postmortem-analysis,
 docs-google-sre-reaching-beyond-walls, docs-google-sre-engagement-model,
 docs-google-sre-simplicity, docs-google-sre-slo-engineering-case-studies*
-*Last updated: 2026-08-15*
+*Last updated: 2026-11-07*

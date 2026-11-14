@@ -313,6 +313,29 @@ elsewhere it filters content but cannot see a tool call.
 scope on the paths your agents actually use — a guardrail that intercepts an
 endpoint is not the same as one that can inspect its tools.
 
+### The eval target's own Agent Card is attack input
+
+When an eval harness drives an A2A agent, the target's self-description is fed
+back into the attack generator. promptfoo "also extracts useful Agent Card
+metadata such as the agent name, description, capabilities, and skills," which
+gives the attack generator "more target-specific context"
+[source: docs-promptfoo-a2a-provider, Claim 4] [emerging]. In the untrusted-agent
+case the card is attacker-influenced text, so a compromised or merely adversarial
+card can steer probe selection — toward expensive probes, away from the skills
+that are actually vulnerable, or into prompt-injection text carried straight into
+the generator.
+
+The credential blast radius is wider than the operation endpoint. The provider's
+`auth` config applies to "both Agent Card discovery requests and A2A operation
+requests" [source: docs-promptfoo-a2a-provider, Claim 10] [emerging], so a token
+configured for operations is also sent to `/.well-known/agent-card.json`, which
+may be a different host.
+
+**Rule**: Treat a remote Agent Card as untrusted data, not instructions, when it
+feeds a generator. Snapshot and diff the card between runs, include the card host
+in the credential's blast radius, and never treat advertised skills as a complete
+coverage list.
+
 ### An agent gateway's default is full access
 
 Per-agent authorization in LiteLLM's A2A gateway resolves against two levels,
@@ -436,6 +459,103 @@ the model id, label set, and threshold together, and re-verify hosting and
 maintenance state on the same cadence you re-check package pins. A gate whose
 detector was archived upstream keeps reporting green until someone looks.
 
+## Governing the MCP tool surface
+
+### Narrow the capability at the endpoint, not the deny list
+
+A gateway-side deny list is a weaker read-only grant than an upstream endpoint
+that never exposes the write tools. Linear's hosted MCP server ships a dedicated
+read-only endpoint, which its docs call "the cleanest way to grant reads only,
+and the one to reach for by default" — the alternatives are declining the write
+scope at consent time or excluding the write tools in config
+[source: docs-litellm-mcp-linear-server, Claim 2] [emerging]. Prefer the
+capability-narrowed endpoint first, the consent scope second, and the config
+exclusion last.
+
+The ordering exists because a deny list fails open. A server-level
+`disallowed_tools` entry that no longer matches a real tool "fails silently and
+leaves that tool callable," and Linear publishes its tool definitions at runtime
+through `tools/list`, so names can change without notice
+[source: docs-litellm-mcp-linear-server, Claim 3, Claim 4] [emerging]. A renamed
+write tool silently re-enters the exposed surface, and nothing records that the
+deny entry stopped matching.
+
+```yaml
+# Strong: write tools never exist on the exposed endpoint
+mcp_servers:
+  linear_readonly:
+    url: "https://mcp.linear.app/mcp/readonly"
+    transport: "http"
+    auth_type: bearer_token
+    auth_value: os.environ/LINEAR_API_KEY
+
+# Weaker: write tools exist and depend on a list that can go stale
+mcp_servers:
+  linear_mcp:
+    url: "https://mcp.linear.app/mcp"
+    transport: "http"
+    disallowed_tools: ["create_issue", "update_issue", "create_project",
+                       "update_project", "create_comment"]
+```
+*Extracted from [source: docs-litellm-mcp-linear-server, Concrete Artifacts].*
+
+Per-key and per-team grants still apply unchanged: `object_permission` and
+`mcp_rpm_limit` are the same controls for a vendor-hosted server as for an
+in-house one [source: docs-litellm-mcp-linear-server, Claim 14] [emerging].
+
+**Rule**: Grant MCP least privilege with a read-only upstream endpoint, not a
+gateway deny list. If a deny list is unavoidable, verify names against the live
+`tools/list` on every rollout and alert when a pinned tool disappears.
+
+### Semantic tool filtering is not an authorization control
+
+An embedding-based tool filter narrows which *permitted* tools the model sees on
+a given request; it does not change what a key may call
+[source: docs-litellm-mcp-semantic-filter, Claim 10] [emerging]. Selection is
+query-dependent, so two phrasings of the same intent can surface different tool
+sets, and the docs never state whether retrieval runs before or after the MCP
+permission intersection [source: docs-litellm-mcp-semantic-filter, Claim 11]
+[emerging]. Treat it as a context-efficiency feature with a retrieval-quality
+eval, never as a security boundary.
+
+**Debated: does the semantic filter fail open or closed?**
+
+The docs page claims filtering "fails gracefully - returns all tools if
+filtering fails," but a merged vendor fix (#32715) makes embedding
+context-window overflow fail closed with HTTP 400 instead
+[source: docs-litellm-mcp-semantic-filter, Claim 7] [emerging]. Neither source
+enumerates the non-overflow failure classes.
+
+**Our take** [editorial]: Do not rely on either behavior. The
+`x-litellm-semantic-filter: N->N` header is not proof filtering succeeded — the
+pre-fix bug reported exactly that on overflow — and the tool-name CSV is clipped
+at 150 characters [source: docs-litellm-mcp-semantic-filter, Claim 5] [emerging].
+Verify the failure mode against your pinned version before treating filtering as
+a control.
+
+### A gateway tool name is an alias, not the upstream name
+
+Tool identity is layered, and every allowlist or audit must say which layer it
+applies to. LiteLLM's default rendering is prefixed — the grammar is
+`{server_prefix}{separator}{upstream_tool_name}` with `-` as the default
+separator, so `create_issue` is exposed to models as `linear_mcp-create_issue`
+[source: docs-litellm-mcp-linear-server, Claim 11] [source:
+docs-litellm-mcp-rest-api, Claim 4] [emerging]. That rendering is
+configurable, not invariant: `MCP_TOOL_PREFIX_SEPARATOR` overrides the
+separator, `LITELLM_USE_SHORT_MCP_TOOL_PREFIX=true` substitutes a 3-character
+id for the server-name prefix, and a second valid request shape pairs an
+unprefixed name with `server_id`
+[source: docs-litellm-mcp-rest-api, Claim 3, Claim 5] [emerging]. Whichever
+form is in play, the proxy forwards the unprefixed upstream name, so a name
+that validates at the gateway is not evidence of what the upstream server
+received [source: docs-litellm-mcp-rest-api, Claim 6] [emerging].
+
+**Rule**: State the layer every tool control applies to — model-visible prefix,
+gateway alias, or upstream name — and confirm names against the live `tools/list`
+rather than a docs table. An allow/deny entry copied from a docs example is
+stale when the proxy's separator or short-prefix setting differs from the one
+the example assumed.
+
 ## Compliance as an engineering forcing function
 
 ### The procurement stack
@@ -522,6 +642,33 @@ routine config change.
 sharing, obtain sign-off from a security/compliance owner. Document the
 retention window and the specific data that leaves your tenant.
 
+### Gateway ingestion mode is a retention decision
+
+An LLM gateway can make prompt retention an organization-wide policy rather than
+a per-request flag. Langfuse's AI Gateway has three modes — `FULL`, `USAGE`
+(default), and `NONE` (self-hosted only) — set for the whole organization
+[source: docs-langfuse-gateway-tracing, Claim 2] [emerging]:
+
+| Mode | Recorded | Use when |
+| --- | --- | --- |
+| `FULL` | Everything `USAGE` records, plus the full input and streamed output | Debug, evaluate, or build datasets from real prompts |
+| `USAGE` (default) | Model/cost/perf/audit fields, without input or output | Cost and audit trail, but prompts and responses must not be stored |
+| `NONE` (self-hosted only) | Nothing; the gateway only routes | Hand out gateway keys instead of provider keys, without traces |
+
+*Extracted from [source: docs-langfuse-gateway-tracing, Concrete Artifacts].*
+
+The tradeoff is bidirectional: `USAGE` protects prompt content but forecloses the
+quality loop, and `FULL` is the documented precondition for LLM-as-a-Judge on
+live traffic, annotation queues, and dataset construction
+[source: docs-langfuse-gateway-tracing, Claim 3, Claim 4] [emerging]. `USAGE` is
+not a no-data mode either — it still records gateway key and provider connection
+metadata [source: docs-langfuse-gateway-tracing, Claim 3] [emerging].
+
+**Rule**: Choose the gateway's ingestion mode as an explicit, org-wide
+privacy/quality tradeoff before incidents — `USAGE` for cost and audit without
+prompt storage, `FULL` only with named sign-off for the quality loop — and
+review the metadata `USAGE` still retains.
+
 ### China's GB 45438-2025: labeling, provenance, and log retention
 
 AI-generated content must include visible labels, provenance metadata, and
@@ -584,6 +731,49 @@ requires explicit human approval, and writes that escape the sandbox require
 a second check. This pattern is becoming a cross-tool norm — Claude Code
 implements the same safety parameter structure.
 
+### MCP server intake approval
+
+A maker-checker intake gate is the trust-rollout pattern for self-service MCP
+registration: a team-scoped key submits a server to
+`POST /v1/mcp/server/register`, the server is persisted as `pending_review` and
+deliberately not loaded into the runtime registry, and an admin or
+`proxy_admin_viewer` must approve it before clients can reach it
+[source: docs-litellm-mcp-server-submissions, Claim 1, Claim 3, Claim 6] [emerging].
+Approval flips it to `active` and loads it immediately, while rejecting a
+previously active server evicts it from the registry — so reject doubles as a
+fast revocation path [source: docs-litellm-mcp-server-submissions, Claim 8,
+Claim 9] [emerging].
+
+```
+team-scoped key → submit → pending_review (NOT loaded)
+                              ↓ admin / proxy_admin_viewer
+              approve → active (loaded)      reject → rejected (evicted if active)
+```
+
+Two limits decide whether this is a real control. Admin keys bypass the workflow
+entirely — "Admin keys are rejected at this endpoint; admins should use
+`POST /v1/mcp/server` directly" — so it gates non-admin self-service, not
+privileged actions
+[source: docs-litellm-mcp-server-submissions, Claim 3] [emerging]. And the page
+documents no timeout, notification, escalation, or review SLA for
+`pending_review`, so a growing queue is a silent operational failure unless an
+external alert watches the submission counters
+[source: docs-litellm-mcp-server-submissions, Claim 10] [emerging].
+
+```bash
+curl -X POST http://localhost:4000/v1/mcp/server/register \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $TEAM_API_KEY" \
+  -d '{"server_name":"github_mcp","url":"https://api.githubcopilot.com/mcp",
+       "transport":"sse","description":"GitHub MCP for code search and PR management"}'
+```
+*Extracted from [source: docs-litellm-mcp-server-submissions, Concrete Artifacts].*
+
+**Rule**: Add an intake approval gate for self-service MCP registration and alert
+on `pending_review` age, but do not call it four-eyes review: admins bypass it,
+and approval makes a server registered — not granted — so the request-time
+permission model and tool pinning still apply behind it.
+
 ### Agent auditability is becoming a compliance expectation
 
 Organizations are expected to treat agent auditability — how decisions were
@@ -630,6 +820,34 @@ single typed resolver [source: blog-litellm-july-stability-update, Claim 3]
 mode per MCP server, one typed resolver, an exhaustive match that fails at
 type-check time when a mode is added, and an unhandled case that raises rather
 than attaching a fallback credential. Ambiguity must resolve to "stop."
+
+The same rule decides *whose* identity an MCP server uses. For a per-user hosted
+server, leaving `client_id`, `client_secret`, and `token_url` unset preserves
+per-user OAuth identity via dynamic client registration; setting them switches
+every caller to one shared machine-to-machine identity
+[source: docs-litellm-mcp-linear-server, Claim 5] [emerging]. The API-key/bearer
+path is the same explicit shared identity and should be reserved for read-only
+context sources and unattended backend agents
+[source: docs-litellm-mcp-linear-server, Claim 6] [emerging]:
+
+```yaml
+mcp_servers:
+  linear_mcp:
+    url: "https://mcp.linear.app/mcp"
+    transport: "http"
+    auth_type: oauth2
+    oauth2_flow: authorization_code
+    # no client_id / client_secret / token_url: per-user OAuth via DCR
+```
+*Extracted from [source: docs-litellm-mcp-linear-server, Concrete Artifacts].*
+
+The failure is invisible in the audit trail: the gateway still works, but every
+write is attributed to one service account instead of the person who asked
+[source: docs-litellm-mcp-linear-server, Claim 5] [emerging].
+
+**Rule**: For user-facing or write-capable MCP servers, omit the client
+credentials and let dynamic registration carry per-user identity; use a shared
+API key only for read-only, unattended use.
 
 ## Supply-chain security for LLM infrastructure
 
@@ -830,6 +1048,47 @@ deliberate `enable-fork-prs: true` in the workflow
 **Rule**: Default-deny security scanning on fork PRs, and make the override an
 explicit maintainer action rather than an ambient workflow setting.
 
+### Scan model artifacts with a severity-keyed gate
+
+Model files are a second artifact class for the same gate, and their JSON
+contract has two traps. `issues` are findings while `checks` records performed
+checks that "may include a failed check for the same finding, so do not count
+both arrays as separate findings" [source: docs-promptfoo-model-audit-usage,
+Claim 5] [emerging]. And the top-level `success` / `has_errors` fields are
+execution signals, not verdicts: the vendor's own example carries a `critical`
+issue while `success` is `true` and `has_errors` is `false`
+[source: docs-promptfoo-model-audit-usage, Claim 6, Concrete Artifacts]
+[emerging]. A gate keyed on `success` passes a critical finding.
+
+```json
+{ "has_errors": false, "success": true, "failed_checks": 1,
+  "issues": [{ "severity": "critical",
+               "message": "Found REDUCE opcode invoking dangerous global: posix.system" }] }
+```
+*Condensed from [source: docs-promptfoo-model-audit-usage, Concrete Artifacts].*
+
+The two-layer gate separates the tool's exit status from the policy verdict:
+tolerate scanner exit 0/1, fail on exit >1, then assert on the severity array
+[source: docs-promptfoo-model-audit-usage, Claim 11] [emerging]:
+
+```bash
+scan_status=0
+promptfoo scan-model models/ --format json --output scan-results.json || scan_status=$?
+if [ "$scan_status" -gt 1 ]; then exit "$scan_status"; fi
+jq -e '[.issues[]? | select(.severity == "critical")] | length == 0' scan-results.json
+```
+*Extracted from [source: docs-promptfoo-model-audit-usage, Concrete Artifacts].*
+
+Treat cloud result sharing as a data-egress default: "When connected to
+promptfoo Cloud, model audit results are automatically shared by default"
+[source: docs-promptfoo-model-audit-usage, Claim 3] [emerging]. A pipeline
+holding private-model access should set `--no-share` or
+`PROMPTFOO_DISABLE_SHARING=true` deliberately.
+
+**Rule**: Gate model-artifact scans on the lowercase severity array or the
+process exit code, never on `success`; count `issues` only; and turn off result
+sharing for private artifacts unless egress is an explicit decision.
+
 ---
 *Sources for this chapter: blog-promptfoo-ai-orchestrated-cyberattacks,
 blog-promptfoo-ai-regulation-2025, blog-promptfoo-asr-not-portable-metric,
@@ -845,5 +1104,9 @@ failure-litellm-supply-chain-compromise-march-2026,
 failure-litellm-supply-chain-incident-march-2026,
 blog-litellm-swap-openai-code-interpreter, docs-langfuse-agent-skill,
 docs-promptfoo-code-scan-cli, docs-promptfoo-code-scan-github-action,
-docs-litellm-generic-guardrail-api*
-*Last updated: 2026-09-19*
+docs-litellm-generic-guardrail-api, docs-litellm-mcp-linear-server,
+docs-litellm-mcp-rest-api, docs-litellm-mcp-semantic-filter,
+docs-litellm-mcp-server-submissions,
+docs-promptfoo-a2a-provider, docs-promptfoo-model-audit-usage,
+docs-langfuse-gateway-tracing*
+*Last updated: 2026-11-07*
